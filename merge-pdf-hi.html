@@ -1,7 +1,7 @@
 <!--
 File: merge-pdf-hi.html
-Title: PDF जोड़ो (Merge) — थम्बनेल • पेज‑रेंज • A4 नॉर्मलाइज़ • पेज नंबरिंग
-Description: iLovePDF‑style client‑side merger in Hindi (Bollywood tone). Drag & drop, reorder, per‑file page ranges, live thumbnails, optional A4 normalization, page numbering & margins. 100% browser using pdf-lib + pdf.js.
+Title: PDF जोड़ो (Merge) — थम्बनेल • पेज‑रेंज • A4 नॉर्मलाइज़ • पेज नंबरिंग (Neo Theme)
+Note: Visually upgraded theme with purple + teal base, plus yellow & red accents.
 How to use: Save as merge-pdf-hi.html and open in a modern browser.
 -->
 <!DOCTYPE html>
@@ -18,64 +18,108 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
-    :root{ --bg:#0b1020; --card:#121935; --muted:#8ea0c9; --text:#e9eefb; --accent:#7c5cff; --accent2:#23d3ac; --danger:#ff5c7c; --line:rgba(255,255,255,.12); }
+    :root{
+      /* Base */
+      --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
+      --text:#e9eefb; --muted:#9db0de;
+      /* Existing accents */
+      --accent:#7c5cff;   /* purple */
+      --accent2:#23d3ac;  /* teal */
+      /* New accents requested */
+      --sun:#ffd54f;      /* warm yellow */
+      --sun-2:#ffec80;    /* softer yellow */
+      --rose:#ff4d6d;     /* bright red/pink */
+      --rose-2:#ff7a8f;   /* soft red */
+    }
     *{box-sizing:border-box}
     html,body{height:100%}
-    body{ margin:0; background:
-      radial-gradient(1200px 800px at 80% -10%, rgba(124,92,255,.25), transparent),
-      radial-gradient(900px 600px at 10% 110%, rgba(35,211,172,.18), transparent), var(--bg);
-      color:var(--text); font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, Arial; line-height:1.5 }
-    header{ display:flex; align-items:center; justify-content:space-between; padding:14px 18px; position:sticky; top:0; backdrop-filter:blur(6px); background:rgba(11,16,32,.6); border-bottom:1px solid var(--line) }
+    body{
+      margin:0; color:var(--text);
+      font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      line-height:1.5;
+      /* Upgraded hero background with purple→red→yellow glow */
+      background:
+        radial-gradient(1200px 800px at 85% -10%, rgba(124,92,255,.25), transparent 60%),
+        radial-gradient(1000px 700px at 10% 110%, rgba(35,211,172,.18), transparent 60%),
+        radial-gradient(800px 600px at -10% 20%, rgba(255,77,109,.20), transparent 60%),
+        radial-gradient(900px 650px at 50% 120%, rgba(255,213,79,.16), transparent 60%),
+        var(--bg);
+    }
+    a{color:var(--sun)}
+
+    /* Header */
+    header{ display:flex; align-items:center; justify-content:space-between; padding:14px 18px; position:sticky; top:0; z-index:40;
+      backdrop-filter:blur(6px); background:linear-gradient(180deg, rgba(11,16,32,.78), rgba(11,16,32,.45)); border-bottom:1px solid var(--line) }
     .brand{ display:flex; gap:10px; align-items:center; font-weight:800 }
-    .brand svg{ width:28px; height:28px }
+    .brand svg{ width:28px; height:28px; color:var(--sun) }
+    .brand span{letter-spacing:.2px}
+    .badge-live{display:inline-flex; align-items:center; gap:8px; font-size:12px; padding:6px 10px; border-radius:999px;
+      background:linear-gradient(180deg, rgba(255,213,79,.15), rgba(255,213,79,.08));
+      color:#ffe28f; border:1px solid rgba(255,213,79,.35)}
+
+    /* Containers */
     .container{ max-width:1200px; margin:20px auto; padding:0 16px }
-    .card{ background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden }
+    .card{ background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:20px; box-shadow:0 22px 80px rgba(0,0,0,.38); overflow:hidden }
     .hero{ padding:22px 22px 0 }
-    h1{ margin:0 0 6px; font-size:28px; font-weight:800 }
+    h1{ margin:0 0 6px; font-size:28px; font-weight:800; background:linear-gradient(90deg, #fff, #ffe28f 40%, #ff8fa3 80%); -webkit-background-clip:text; background-clip:text; color:transparent }
     .sub{ margin:0; color:var(--muted) }
 
-    .uploader{ border:1.5px dashed rgba(255,255,255,.18); border-radius:16px; padding:18px; margin:16px 22px; text-align:center }
-    .uploader.dragover{ border-color:var(--accent) }
+    /* Uploader */
+    .uploader{ border:1.5px dashed rgba(255,255,255,.18); border-radius:16px; padding:18px; margin:16px 22px; text-align:center; transition:border-color .25s }
+    .uploader.dragover{ border-color:var(--sun) }
     .uploader input[type=file]{ display:none }
+
+    /* Buttons */
     .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center }
-    .btn{ appearance:none; border:none; border-radius:12px; padding:12px 14px; font-weight:700; cursor:pointer; color:#0b1020; background:var(--accent); box-shadow:0 8px 24px rgba(124,92,255,.35) }
-    .btn.secondary{ background:#1f2752; color:var(--text) }
+    .btn{ appearance:none; border:none; border-radius:14px; padding:12px 14px; font-weight:800; cursor:pointer; color:#0b1020; min-height:40px; transition:transform .12s ease, box-shadow .2s }
+    .btn:active{ transform:translateY(1px) }
+    .btn.primary{ background:linear-gradient(90deg, var(--accent), var(--rose)); color:#0d0814; box-shadow:0 10px 28px rgba(124,92,255,.35) }
+    .btn.secondary{ background:#1f2752; color:var(--text); box-shadow:none }
     .btn.ghost{ background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.18) }
-    .btn.danger{ background:var(--danger); color:#fff }
+    .btn.sun{ background:linear-gradient(90deg, var(--sun), var(--sun-2)); color:#2a2100; box-shadow:0 10px 28px rgba(255,213,79,.3) }
+    .btn.danger{ background:linear-gradient(90deg, var(--rose), var(--rose-2)); color:#fff; box-shadow:0 10px 28px rgba(255,77,109,.32) }
     .btn.slim{ padding:8px 10px; border-radius:10px }
     .tiny{ font-size:12px; color:var(--muted) }
 
+    /* Grid */
     .grid{ display:grid; gap:14px; padding:0 22px 16px }
     .two{ grid-template-columns: 380px 1fr }
     @media (max-width:980px){ .two{ grid-template-columns:1fr } }
 
     /* Left list */
+    .panel{ background:var(--panel); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:12px }
+    .panel h4{ margin:0 0 10px; font-size:14px; color:#ffe28f }
     .list{ display:grid; gap:10px }
-    .item{ display:grid; grid-template-columns: 64px 1fr auto; gap:10px; align-items:center; padding:10px; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px }
+    .item{ display:grid; grid-template-columns: 64px 1fr auto; gap:10px; align-items:center; padding:10px; background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.10); border-radius:12px; position:relative }
+    .item::after{ content:""; position:absolute; inset:0; border-radius:12px; pointer-events:none; box-shadow:inset 0 0 0 1px rgba(255,213,79,.08) }
     .thumb{ width:64px; height:90px; background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px; display:grid; place-items:center; overflow:hidden }
     .thumb canvas{ width:100%; height:100%; display:block }
-    .name{ font-weight:700 }
+    .name{ font-weight:800 }
     .meta{ color:var(--muted); font-size:12px }
     .range{ display:flex; gap:6px; align-items:center; flex-wrap:wrap }
-    .range input{ width:160px; padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.14); background:#121935; color:var(--text) }
+    .range input{ width:160px; padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.16); background:#121935; color:var(--text) }
     .controls{ display:flex; gap:6px; align-items:center }
-    .iconbtn{ background:#19204a; border:1px solid rgba(255,255,255,.12); color:var(--text); width:34px; height:34px; border-radius:8px; display:grid; place-items:center; cursor:pointer }
+    .iconbtn{ background:linear-gradient(180deg,#182154,#121a3f); border:1px solid rgba(255,255,255,.14); color:var(--text); width:36px; height:36px; border-radius:9px; display:grid; place-items:center; cursor:pointer; transition: transform .12s }
+    .iconbtn:hover{ transform: translateY(-1px) }
 
     /* Right controls & viewer */
-    .panel{ background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px }
-    .panel h4{ margin:0 0 10px; font-size:14px }
-    input[type=text], input[type=number], input[type=color], select{ background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.14); border-radius:8px; padding:8px 10px; width:100% }
+    input[type=text], input[type=number], input[type=color], select{ background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.16); border-radius:8px; padding:8px 10px; width:100% }
 
-    .viewer{ position:relative; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; overflow:auto; min-height:200px }
+    .viewer{ position:relative; background:var(--panel); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:12px; overflow:auto; min-height:220px }
     #preview{ display:grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap:10px }
-    .pv{ background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:6px; display:grid; gap:6px }
+    .pv{ background:#0b1020; border:1px solid rgba(255,255,255,.10); border-radius:10px; padding:6px; display:grid; gap:6px; box-shadow:0 14px 36px rgba(0,0,0,.28) }
     .pv canvas{ width:100%; height:auto; display:block; border-radius:6px }
-    .pv .cap{ font-size:12px; color:var(--muted); text-align:center }
+    .pv .cap{ font-size:12px; color:#ffcbd4; text-align:center }
 
-    .progress{ height:10px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12) }
-    .bar{ height:100%; width:0; background:linear-gradient(90deg, var(--accent), var(--accent2)); transition:width .2s }
+    /* Progress */
+    .progress{ height:12px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12) }
+    .bar{ height:100%; width:0; background:linear-gradient(90deg, var(--rose), var(--accent), var(--sun)); transition:width .25s }
 
-    .actions{ display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02) }
+    /* Actions */
+    .actions{ display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid rgba(255,255,255,.06); background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)) }
+
+    /* Tiny ribbon tags */
+    .ribbon{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:800; border:1px solid rgba(255,77,109,.35); color:#ffd5dc; background:linear-gradient(180deg, rgba(255,77,109,.18), rgba(255,77,109,.10)) }
   </style>
 
   <!-- libs -->
@@ -87,22 +131,23 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
   <header>
     <div class="brand">
       <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <span>PDF जोड़ो — <span style="color:var(--accent2)">हिंदी</span> टूल</span>
+      <span>PDF जोड़ो — <span style="color:var(--sun)">हिंदी</span> टूल</span>
     </div>
-    <div class="tiny">100% ब्राउज़र में • कोई अपलोड नहीं</div>
+    <div class="badge-live">100% ब्राउज़र में • कोई अपलोड नहीं</div>
   </header>
 
   <main class="container">
     <section class="card" aria-labelledby="title">
       <div class="hero">
         <h1 id="title">कई PDFs को जोड़कर एक बनाओ</h1>
-        <p class="sub">थम्बनेल देख‑देख के ऑर्डर सेट करो, हर फाइल के लिए पेज‑रेंज डालो, चाहो तो A4 में नॉर्मलाइज़ करो और नीचे पेज नंबर भी लगा दो।</p>
+        <p class="sub">थम्बनेल देख‑देख के ऑर्डर सेट करो, हर फाइल के लिए पेज‑रेंज भरो, चाहो तो A4 में नॉर्मलाइज़ करो और नीचे पेज नंबर भी लगा दो।</p>
+        <div class="ribbon" style="margin:10px 0 0">🔥 बोल्ड रंग — पर्पल + रेड + येलो मैजिक</div>
       </div>
 
       <div class="uploader" id="drop" tabindex="0">
         <p style="margin:0 0 10px">फाइलें यहाँ <strong>Drag & Drop</strong> करो या</p>
         <div class="row">
-          <label class="btn" for="file">फ़ाइलें चुनो</label>
+          <label class="btn sun" for="file">फ़ाइलें चुनो</label>
           <button class="btn secondary" id="demoBtn" type="button">डेमो फाइलें</button>
         </div>
         <input id="file" type="file" accept="application/pdf" multiple />
@@ -157,14 +202,14 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
           <button class="btn ghost" id="clearBtn" type="button" disabled>रीसेट</button>
         </div>
         <div class="row" style="justify-content:flex-end">
-          <button class="btn" id="mergeBtn" type="button" disabled>मर्ज करो</button>
-          <button class="btn secondary" id="downloadBtn" type="button" disabled>डाउनलोड</button>
+          <button class="btn primary" id="mergeBtn" type="button" disabled>मर्ज करो</button>
+          <button class="btn sun" id="downloadBtn" type="button" disabled>डाउनलोड</button>
         </div>
       </div>
     </section>
 
     <section class="card" style="padding:0 22px 22px">
-      <h3 style="margin:16px 0 10px">कैसे इस्तेमाल करें?</h3>
+      <h3 style="margin:16px 0 10px; color:#ffb3bf">कैसे इस्तेमाल करें?</h3>
       <ol style="margin:0 0 0 18px">
         <li>ऊपर Drag & Drop से PDFs डालो (या “फ़ाइलें चुनो”).</li>
         <li>हर फाइल के थम्बनेल के पास पेज‑रेंज भरो (जैसे <code>all</code> या <code>1-3,5</code>). 
@@ -291,7 +336,7 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
     countEl.textContent = S.files.length ? `${S.files.length} फाइलें जोड़ी गईं` : 'कोई फ़ाइल नहीं जोड़ी गई।';
   }
 
-  function mkIconBtn(title, path, danger=false){ const b=document.createElement('button'); b.className='iconbtn'; b.title=title; if(danger) b.style.borderColor='rgba(255,92,124,.5)'; b.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="${path}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`; return b; }
+  function mkIconBtn(title, path, danger=false){ const b=document.createElement('button'); b.className='iconbtn'; b.title=title; if(danger){ b.style.borderColor='rgba(255,77,109,.55)'; b.style.background='linear-gradient(180deg, rgba(255,77,109,.25), #171b39)'; } b.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="${path}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`; return b; }
 
   function updateButtons(){ const has=S.files.length>0; mergeBtn.disabled=!has; clearBtn.disabled=!has; downloadBtn.disabled=true; setBar(0); statusEl.textContent='तैयार…'; pvWrap.innerHTML=''; }
   clearBtn.addEventListener('click', ()=>{ S.files.length=0; renderList(); updateButtons(); });
