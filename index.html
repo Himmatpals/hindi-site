@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>हिंदी PDF टूल्स — जोड़ो, बाँटो, छोटा करो, इमेज↔PDF, AI और भी</title>
   <meta name="description" content="हिंदी में आसान PDF टूल्स: PDF जोड़ो, बाँटो, छोटा करो, इमेज ↔ PDF, PDF से इमेज, वॉटरमार्क, लॉक/अनलॉक, AI सारांश — सब कुछ 100% ब्राउज़र में।" />
-  <meta name="theme-color" content="#7c5cff" />
+  <meta name="theme-color" content="#ffd95c" />
 
   <!-- PWA (optional) -->
   <link rel="manifest" href="/site.webmanifest">
@@ -16,7 +16,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#7c5cff">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#ff5c7c">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -28,14 +28,10 @@
       /* Base */
       --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.10);
       --text:#e9eefb; --muted:#9fb0de; --ink:#0b1020;
-      /* Brand (original) */
+      /* Brand */
       --accent:#7c5cff; --accent2:#23d3ac;
-      /* Neo accents */
-      --sun:#ffd95c;      /* yellow */
-      --sun-2:#ffefb3;
-      --rose:#ff5c7c;     /* red/rose */
-      --rose-2:#ff98ab;
-      --danger:#ff5c7c;
+      /* Sun & Rose */
+      --sun:#ffd95c; --sun-2:#ffefb3; --rose:#ff5c7c; --rose-2:#ff98ab;
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -127,6 +123,15 @@
     .infostrip{max-width:1180px; margin:10px auto; padding:0 16px}
     .strip{display:flex; align-items:center; justify-content:space-between; gap:12px; border:1px dashed rgba(255,217,92,.45); padding:10px 12px; border-radius:12px; background:linear-gradient(90deg, rgba(255,217,92,.08), rgba(255,92,124,.08))}
 
+    /* Privacy panel */
+    .privacy{max-width:1180px; margin:12px auto 0; padding:0 16px}
+    .privacy-card{position:relative; overflow:hidden; border:1px solid rgba(255,217,92,.4); border-radius:18px; padding:16px; background:linear-gradient(180deg, rgba(255,217,92,.10), rgba(255,92,124,.10)); box-shadow:0 12px 44px rgba(0,0,0,.35)}
+    .privacy-card h2{margin:0 0 8px; font-size:20px}
+    .privacy-card p{margin:0; color:#f6f7ff}
+    .privacy-points{display:grid; gap:8px; margin-top:10px}
+    .privacy-points li{list-style:none; display:flex; gap:8px; align-items:flex-start; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); padding:10px; border-radius:12px}
+    .privacy-actions{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
+
     /* Testimonials */
     .carousel{display:grid; gap:12px}
     blockquote{margin:0; padding:14px; background:#0e1738; border:1px solid var(--line); border-radius:14px}
@@ -145,11 +150,25 @@
     .float-chip{background:#fff; color:#0b1020; border:1px solid #e5e7eb; border-radius:999px; padding:6px 10px; font-weight:800}
     @media (max-width:520px){ .float-cta{min-width:auto; max-width:85vw} .float-badges{right:14px} }
 
+    /* Modal */
+    .modal{position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.6); z-index:90}
+    .modal.open{display:grid}
+    .sheet{max-width:720px; width:92vw; background:#0f1630; border:1px solid rgba(255,217,92,.35); border-radius:16px; padding:16px}
+    .sheet h3{margin:0 0 8px}
+    .sheet p{margin:0 0 8px; color:#dbe7ff}
+    .close{margin-left:auto}
+
     /* Respect reduced motion */
     @media (prefers-reduced-motion:reduce){ .hero::after, .card{animation:none} }
   </style>
 </head>
 <body>
+  <noscript>
+    <div style="max-width:980px;margin:8px auto;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,217,92,.6);background:#251e00;color:#fff">
+      ⚠️ जावास्क्रिप्ट बंद है। ये टूल्स 100% आपके ब्राउज़र में चलते हैं — कृपया JS ऑन करें।
+    </div>
+  </noscript>
+
   <!-- Top Marquee Ribbon -->
   <div class="ribbon" role="region" aria-label="सुरक्षित ब्राउज़र प्रोसेसिंग">
     <div class="marquee">
@@ -193,7 +212,7 @@
       <div class="hero-actions">
         <a class="btn btn-ghost" href="#tools">टूल्स देखो</a>
         <a class="btn btn-primary" href="merge-pdf-hi.html">सबसे पहले: PDF जोड़ो</a>
-        <a class="btn btn-alt" href="#ai">AI फीचर्स</a>
+        <a class="btn btn-alt" href="#privacy">प्राइवेसी वादा</a>
       </div>
       <div class="chipbar">
         <span class="chip">100% ब्राउज़र</span>
@@ -218,6 +237,24 @@
     <div>प्राइवेसी: आपकी फाइलें <strong>कहीं अपलोड नहीं</strong> होतीं — सब कुछ आपके डिवाइस पर होता है।</div>
     <div class="badge">फ्री & तेज़</div>
   </div></div>
+
+  <!-- Strong Privacy Section -->
+  <section id="privacy" class="privacy" aria-labelledby="pv">
+    <article class="privacy-card" role="region" aria-label="प्राइवेसी वादा">
+      <h2 id="pv">🔒 प्राइवेसी वादा — आपकी फाइलें आपकी ही रहती हैं</h2>
+      <p><strong>महत्वपूर्ण:</strong> ये साइट <em>सर्वर पर आपकी फाइलें अपलोड नहीं</em> करती। प्रोसेसिंग <em>पूरी तरह आपके ब्राउज़र/डिवाइस पर</em> होती है। इसलिए आपकी फाइलें <em>आपके पास सुरक्षित</em> रहती हैं — <strong>कोई और उन्हें देख नहीं सकता</strong>।</p>
+      <ul class="privacy-points">
+        <li>✅ 100% ऑन‑डिवाइस प्रोसेसिंग (client‑side)</li>
+        <li>✅ इंटरनेट ऑफलाइन होने पर भी ज़्यादातर टूल्स चलेंगे</li>
+        <li>✅ टैब बंद करते ही टेम्प फाइलें मेमोरी से हट जाती हैं</li>
+        <li>✅ थर्ड‑पार्टी अपलोड/ट्रैकिंग नहीं</li>
+      </ul>
+      <div class="privacy-actions">
+        <button class="btn btn-alt" id="readPolicy" type="button">डिटेल्ड पॉलिसी पढ़ें</button>
+        <a class="btn btn-primary" href="merge-pdf-hi.html">अभी शुरू करें</a>
+      </div>
+    </article>
+  </section>
 
   <!-- Tools Grid -->
   <main id="tools" class="container">
@@ -275,6 +312,26 @@
   </div>
   <button class="float-cta" id="quickStart" type="button">⚡ जल्दी शुरू करो — “PDF जोड़ो”</button>
 
+  <!-- Modal: Privacy Policy -->
+  <div id="policyModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="polHead" aria-describedby="polBody">
+    <div class="sheet">
+      <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px">
+        <h3 id="polHead" style="margin:0">डिटेल्ड प्राइवेसी पॉलिसी</h3>
+        <button class="btn btn-ghost close" id="closePolicy" aria-label="बंद करें">✕</button>
+      </div>
+      <div id="polBody">
+        <p>हमारे सभी PDF/इमेज टूल्स <strong>client‑side</strong> टेक्नोलॉजी (जैसे <em>WebAssembly, Canvas, pdf-lib, pdf.js</em>) का इस्तेमाल करते हैं। इसका मतलब:</p>
+        <ul>
+          <li>• आपकी फाइलों का <strong>डेटा ब्राउज़र की मेमोरी</strong> में रहता है; किसी सर्वर पर नहीं भेजा जाता।</li>
+          <li>• टैब बंद/रीलोड होने पर <strong>टेम्प डेटा साफ़</strong> हो जाता है।</li>
+          <li>• हम <strong>ट्रैकिंग/एनालिटिक्स</strong> को मिनिमम रखते हैं — कोई कंटेंट अपलोडिंग नहीं।</li>
+          <li>• अगर आप चाहें तो <em>ऑफ़लाइन</em> मोड में भी टूल्स चलेंगे (जब जरूरी लाइब्रेरीज़ कैश हो जाएँ)।</li>
+        </ul>
+        <p>अगर आपको फिर भी कोई सुरक्षा सवाल हो, तो हमें लिखें — हम खुशी से समझाएँगे।</p>
+      </div>
+    </div>
+  </div>
+
   <script>
     // ===== Tool list =====
     const tools = [
@@ -327,7 +384,6 @@
         const okText = !q || hay.includes(q);
         const okTag  = tag==="all" || tg===tag;
         card.style.display = (okText && okTag) ? "flex" : "none";
-        // Add sun-rose highlight ring for visible cards
         if (okText && okTag){ card.style.borderColor = 'rgba(255,217,92,.22)'; }
       });
     }
@@ -370,6 +426,12 @@
     // Footer helpers
     document.getElementById('yr').textContent = new Date().getFullYear();
     document.getElementById('fb').addEventListener('click', (e)=>{ e.preventDefault(); window.location.href = 'mailto:feedback@yourdomain.in?subject=Feedback%20for%20Hindi%20PDF%20Tools'; });
+
+    // Privacy modal
+    const policyModal = document.getElementById('policyModal');
+    document.getElementById('readPolicy').addEventListener('click', ()=> policyModal.classList.add('open'));
+    document.getElementById('closePolicy').addEventListener('click', ()=> policyModal.classList.remove('open'));
+    policyModal.addEventListener('click', (e)=>{ if(e.target===policyModal) policyModal.classList.remove('open'); });
 
     // Init
     render("", "all");
