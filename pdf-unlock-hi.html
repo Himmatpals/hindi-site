@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>PDF अनलॉक (Password) — सुरक्षित, 100% ब्राउज़र</title>
+  <meta name="description" content="पासवर्ड पता है? PDF को अनलॉक करके नई, अनएन्क्रिप्टेड PDF सेव करो। 100% ब्राउज़र में, कोई अपलोड नहीं।"/>
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
+      --text:#e9eefb; --muted:#9fb0de; --accent:#ffd95c; --accent2:#ff4d4d; --ok:#23d3ac; --warn:#ffd95c; --danger:#ff4d4d;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text);
+      font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(1200px 800px at 80% -10%, rgba(255,217,92,.18), transparent),
+        radial-gradient(900px 600px at 10% 110%, rgba(255,77,77,.16), transparent),
+        var(--bg);
+    }
+    header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;position:sticky;top:0;background:rgba(11,16,32,.66);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:800}
+    .brand svg{width:28px;height:28px;color:var(--accent)}
+    .badge{font-size:12px;border:1px solid var(--line);padding:4px 10px;border-radius:999px;color:#ffeaa1}
+    .container{max-width:1180px;margin:18px auto;padding:0 16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));border:1px solid var(--line);border-radius:18px;box-shadow:0 20px 70px rgba(0,0,0,.35);overflow:hidden}
+    .hero{padding:22px 22px 8px}
+    h1{margin:0 0 6px;font-size:28px;font-weight:800}
+    .sub{margin:0;color:#f7f0c8}
+
+    .uploader{border:1.5px dashed rgba(255,255,255,.2);border-radius:16px;padding:18px;margin:16px 22px;text-align:center}
+    .uploader.dragover{border-color:var(--accent)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+    .btn{appearance:none;border:none;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer;min-height:44px;transition:transform .15s, box-shadow .15s}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{background:var(--accent);color:#1f1600;box-shadow:0 8px 24px rgba(255,217,92,.35)}
+    .btn.secondary{background:#1f2752;color:var(--text)}
+    .btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.18)}
+    .btn.danger{background:var(--danger);color:#fff}
+    .btn.ok{background:var(--ok);color:#08271f}
+    .tiny{font-size:12px;color:var(--muted)}
+
+    .grid{display:grid;gap:14px;padding:0 22px 18px}
+    .two{grid-template-columns:420px 1fr}
+    @media (max-width:980px){.two{grid-template-columns:1fr}}
+
+    .panel{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px}
+    .panel h4{margin:0 0 10px;font-size:14px}
+    label{font-size:14px}
+    input[type=text],input[type=password],input[type=number],select{background:#121935;color:var(--text);border:1px solid rgba(255,255,255,.14);border-radius:10px;padding:10px 12px;width:100%}
+    .kv{display:grid;grid-template-columns:140px 1fr;gap:8px;align-items:center}
+    .kv .right{display:grid;gap:8px}
+
+    .fileitem{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;padding:10px;background:#0f1630;border:1px solid rgba(255,255,255,.08);border-radius:12px}
+    .thumb{width:64px;height:90px;background:#0b1020;border:1px solid rgba(255,255,255,.08);border-radius:8px;display:grid;place-items:center;overflow:hidden}
+    .thumb canvas{width:100%;height:100%;display:block}
+    .name{font-weight:800}
+    .meta{color:#ffb8b8;font-size:12px}
+    .good{color:#b7ffd9;font-size:12px}
+
+    .viewer{position:relative;background:#0f1630;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;overflow:auto;min-height:220px}
+    #preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+    .pv{background:#0b1020;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:6px;display:grid;gap:6px}
+    .pv canvas{width:100%;height:auto;display:block;border-radius:6px}
+    .pv .cap{font-size:12px;color:var(--muted);text-align:center}
+
+    .progress{height:10px;background:#0c1330;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.12)}
+    .bar{height:100%;width:0;background:linear-gradient(90deg, var(--accent), var(--accent2));transition:width .2s}
+
+    .actions{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 22px 18px;border-top:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02)}
+    .warn{color:var(--warn)}
+  </style>
+
+  <!-- libs -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+
+  <!-- pdfcpu-wasm (decrypt engine). NOTE: If this fails to load due to network/ad-block, UI will warn. -->
+  <script defer src="https://cdn.jsdelivr.net/gh/pdfcpu/pdfcpu.js/dist/pdfcpu.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>PDF अनलॉक — <span style="color:var(--accent)">हिंदी</span> टूल</span>
+    </div>
+    <span class="badge">100% ब्राउज़र में • कोई अपलोड नहीं</span>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="title">
+      <div class="hero">
+        <h1 id="title">पासवर्ड देकर PDF अनलॉक करो</h1>
+        <p class="sub">पासवर्ड पता है? एन्क्रिप्शन हटाओ और नई, अनएन्क्रिप्टेड PDF डाउनलोड करो — सब आपके ब्राउज़र में।</p>
+      </div>
+
+      <div class="uploader" id="drop" tabindex="0">
+        <p style="margin:0 0 8px">फाइल यहाँ <strong>Drag & Drop</strong> करो, या नीचे से चुनो</p>
+        <div class="row">
+          <label class="btn primary" for="file">PDF चुनो</label>
+          <input id="file" type="file" accept="application/pdf" hidden/>
+          <button class="btn ghost" id="resetBtn" type="button" disabled>रीसेट</button>
+        </div>
+        <p class="tiny" style="margin-top:8px">नोट: यह टूल केवल वही PDF अनलॉक कर सकता है जिसका पासवर्ड आपको मालूम है। पासवर्ड रिकवर/बायपास नहीं होता।</p>
+      </div>
+
+      <section class="grid two">
+        <!-- Left: File + Password -->
+        <div class="panel">
+          <h4>फ़ाइल + पासवर्ड</h4>
+          <div id="fileList"></div>
+          <div style="margin-top:10px" class="kv">
+            <div>पासवर्ड</div>
+            <div class="right">
+              <input id="pwd" type="password" placeholder="User/Owner password…"/>
+              <div class="tiny warn">चेतावनी: पासवर्ड भूल गए तो रिकवरी संभव नहीं—हम बायपास नहीं करते।</div>
+            </div>
+          </div>
+
+          <div style="margin-top:10px">
+            <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
+            <div class="tiny" id="status" style="margin-top:8px">तैयार…</div>
+            <div class="tiny" id="engine" style="margin-top:4px;color:#ffd95c">डिक्रिप्शन इंजन: <span id="engState">लोड हो रहा…</span></div>
+          </div>
+        </div>
+
+        <!-- Right: Preview -->
+        <div class="panel">
+          <h4>अनलॉक की हुई PDF — प्रीव्यू</h4>
+          <div class="viewer">
+            <div id="preview"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="actions">
+        <div class="row" style="justify-content:flex-start">
+          <span class="tiny">प्राइवेसी: कोई अपलोड नहीं — सब कुछ आपके डिवाइस पर होता है।</span>
+        </div>
+        <div class="row" style="justify-content:flex-end">
+          <button class="btn secondary" id="unlockBtn" type="button" disabled>अनलॉक करो</button>
+          <button class="btn ok" id="downloadBtn" type="button" disabled>डाउनलोड</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="padding:0 22px 22px">
+      <h3 style="margin:16px 0 10px">कैसे इस्तेमाल करें?</h3>
+      <ol style="margin:0 0 0 18px">
+        <li>ऊपर PDF चुनो (या ड्रैग-ड्रॉप)।</li>
+        <li>पासवर्ड भरो (User या Owner — जो भी हो)।</li>
+        <li>“अनलॉक करो” दबाओ → प्रोग्रेस देखो → “डाउनलोड” से नई PDF सेव करो।</li>
+      </ol>
+      <p class="tiny" style="margin-top:8px">टिप: अगर “डिक्रिप्शन इंजन उपलब्ध नहीं” दिखे तो अपने नेटवर्क/एड-ब्लॉकर की वजह से WebAssembly लोड नहीं हो पाया—दोबारा ट्राय करें।</p>
+    </section>
+  </main>
+
+  <script>
+  // ===== Setup pdf.js
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+  if (pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+
+  // ===== State
+  const S = { file: null, bytes: null, unlocked: null };
+
+  // ===== DOM
+  const fileEl = document.getElementById('file');
+  const dropEl = document.getElementById('drop');
+  const listEl = document.getElementById('fileList');
+  const pwdEl = document.getElementById('pwd');
+  const unlockBtn = document.getElementById('unlockBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const statusEl = document.getElementById('status');
+  const barEl = document.getElementById('bar');
+  const engState = document.getElementById('engState');
+  const pvWrap = document.getElementById('preview');
+
+  // ===== Engine detection (pdfcpu-wasm)
+  let engineReady = false;
+  function checkEngine(){
+    // pdfcpu.min.js exposes global "pdfcpu" when ready.
+    if (window.pdfcpu && typeof window.pdfcpu.decrypt === 'function') {
+      engState.textContent = 'उपलब्ध';
+      engState.style.color = '#b7ffd9';
+      engineReady = true;
+    } else if (window.pdfcpu && typeof window.pdfcpu.init === 'function') {
+      // Some builds expose init() + run(); we wrap a helper below.
+      engState.textContent = 'उपलब्ध (init)';
+      engState.style.color = '#b7ffd9';
+      engineReady = true;
+    } else {
+      engState.textContent = 'उपलब्ध नहीं';
+      engState.style.color = '#ffd95c';
+      engineReady = false;
+    }
+    updateButtons();
+  }
+  // Try again after scripts load
+  window.addEventListener('load', () => setTimeout(checkEngine, 400));
+
+  // ===== Utils
+  const fmtBytes = b => {
+    if (b < 1024) return b + ' B';
+    const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1);
+    return b.toFixed(1)+' '+u[i];
+  };
+  function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
+  function clearPreview(){ pvWrap.innerHTML = ''; }
+  function setStatus(t){ statusEl.textContent = t; }
+
+  // ===== File Input / DnD
+  fileEl.addEventListener('change', async (e)=>{ await pickFiles(e.target.files); fileEl.value=''; });
+  ['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
+  ['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
+  dropEl.addEventListener('drop', async e=>{
+    const files = [...e.dataTransfer.files].filter(f=>f.type==='application/pdf');
+    await pickFiles(files);
+  });
+
+  async function pickFiles(files){
+    if (!files || !files.length) return;
+    const f = files[0];
+    S.file = f;
+    S.bytes = new Uint8Array(await f.arrayBuffer());
+    S.unlocked = null;
+    renderFile();
+    clearPreview();
+    setBar(0);
+    setStatus('फ़ाइल लोड हो गई — पासवर्ड भरें और अनलॉक करें।');
+    updateButtons();
+  }
+
+  function renderFile(){
+    listEl.innerHTML = '';
+    if (!S.file){
+      listEl.innerHTML = '<div class="tiny">कोई फ़ाइल नहीं चुनी गई।</div>';
+      return;
+    }
+    const row = document.createElement('div'); row.className='fileitem';
+    const th = document.createElement('div'); th.className='thumb'; th.textContent='PDF';
+    const col = document.createElement('div');
+    const name = document.createElement('div'); name.className='name'; name.textContent = S.file.name;
+    const meta = document.createElement('div'); meta.className='meta'; meta.textContent = fmtBytes(S.file.size) + ' • एन्क्रिप्टेड हो सकती है';
+    col.append(name, meta);
+    const act = document.createElement('div'); act.innerHTML = '<span class="good">चुनी गई</span>';
+    row.append(th,col,act);
+    listEl.appendChild(row);
+  }
+
+  resetBtn.addEventListener('click', ()=>{
+    S.file = null; S.bytes = null; S.unlocked = null;
+    fileEl.value = ''; pwdEl.value='';
+    listEl.innerHTML=''; clearPreview();
+    setBar(0); setStatus('तैयार…');
+    updateButtons();
+  });
+
+  function updateButtons(){
+    const ok = !!S.bytes && !!pwdEl.value && engineReady;
+    unlockBtn.disabled = !ok;
+    resetBtn.disabled = !S.bytes;
+    downloadBtn.disabled = !S.unlocked;
+  }
+  pwdEl.addEventListener('input', updateButtons);
+
+  // ===== Decrypt via pdfcpu-wasm (two common exports covered)
+  async function decryptWithPdfcpu(bytes, password){
+    // Variant A: pdfcpu.decrypt(bytes,password) -> Uint8Array
+    if (window.pdfcpu && typeof window.pdfcpu.decrypt === 'function'){
+      return await window.pdfcpu.decrypt(bytes, password);
+    }
+    // Variant B: pdfcpu.init() + pdfcpu.run({cmd:'decrypt', userpw:..., ownerpw:...}, bytes)
+    if (window.pdfcpu && typeof window.pdfcpu.init === 'function' && typeof window.pdfcpu.run === 'function'){
+      await window.pdfcpu.init(); // one-time init
+      const res = await window.pdfcpu.run({ cmd:'decrypt', userpw: password, ownerpw: password }, bytes);
+      // many builds return {ok:true, data:Uint8Array}
+      if (res && res.data) return res.data;
+    }
+    throw new Error('डिक्रिप्शन इंजन उपलब्ध नहीं या सपोर्टेड नहीं।');
+  }
+
+  unlockBtn.addEventListener('click', async ()=>{
+    if (!S.bytes) return;
+    if (!engineReady){ setStatus('डिक्रिप्शन इंजन उपलब्ध नहीं।'); return; }
+    const pass = (pwdEl.value||'').trim();
+    if (!pass){ setStatus('पासवर्ड दें।'); return; }
+
+    try{
+      setStatus('अनलॉक किया जा रहा है…'); setBar(10);
+      const outBytes = await decryptWithPdfcpu(S.bytes, pass);
+      if (!outBytes || !(outBytes instanceof Uint8Array)) throw new Error('आउटपुट नहीं मिला।');
+      setBar(70);
+      S.unlocked = outBytes;
+      setStatus('अनलॉक हो गया — प्रीव्यू बना रहे हैं…');
+      await renderPreview(outBytes);
+      setBar(100);
+      setStatus('तैयार — डाउनलोड कर लो!');
+      updateButtons();
+    }catch(err){
+      console.error(err);
+      setStatus('अनलॉक नहीं हो पाया: ' + (err?.message || err));
+      S.unlocked = null; updateButtons();
+    }
+  });
+
+  downloadBtn.addEventListener('click', ()=>{
+    if (!S.unlocked) return;
+    const a = document.createElement('a');
+    const stamp = new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
+    a.href = URL.createObjectURL(new Blob([S.unlocked], {type:'application/pdf'}));
+    a.download = `Unlocked-${stamp}.pdf`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  async function renderPreview(bytes){
+    clearPreview();
+    try{
+      const pdf = await pdfjsLib.getDocument({data:bytes}).promise;
+      const n = pdf.numPages; const show = Math.min(6, n);
+      for (let i=1;i<=show;i++){
+        const page = await pdf.getPage(i);
+        const vp = page.getViewport({ scale: 0.6 });
+        const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
+        await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
+        const box = document.createElement('div'); box.className='pv';
+        box.appendChild(c);
+        const cap = document.createElement('div'); cap.className='cap'; cap.textContent = 'पेज ' + i;
+        box.appendChild(cap);
+        pvWrap.appendChild(box);
+      }
+    }catch(e){
+      console.error(e);
+      pvWrap.innerHTML = '<div class="tiny">प्रीव्यू नहीं बन पाया (शायद फ़ाइल करप्ट/स्पेशल एन्कोडिंग में है)।</div>';
+    }
+  }
+
+  // Initial buttons state
+  updateButtons();
+  </script>
+</body>
+</html>
