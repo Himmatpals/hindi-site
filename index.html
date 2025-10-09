@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>हिंदी PDF टूल्स — Merge, Split, Compress, Image↔PDF, और भी बहुत कुछ</title>
+  <meta name="description" content="हिंदी में आसान PDF टूल्स: PDF जोड़ो, बाँटो, छोटा करो, इमेज से PDF, PDF से इमेज, PDF लॉक/अनलॉक, वॉटरमार्क, पेज घुमाओ — सब कुछ 100% ब्राउज़र में।" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020; --card:#121935; --muted:#8ea0c9; --text:#e9eefb;
+      --accent:#7c5cff; --accent-2:#23d3ac; --ink:#0b1020; --line:rgba(255,255,255,.08);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:
+        radial-gradient(1200px 800px at 80% -10%, rgba(124,92,255,.25), transparent),
+        radial-gradient(900px 600px at 10% 110%, rgba(35,211,172,.18), transparent),
+        var(--bg);
+      color:var(--text); font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      line-height:1.55;
+    }
+    a{color:inherit; text-decoration:none}
+    header{
+      position:sticky; top:0; z-index:10; backdrop-filter:blur(6px);
+      background:rgba(11,16,32,.6); border-bottom:1px solid var(--line);
+    }
+    .nav{max-width:1160px; margin:0 auto; padding:14px 18px; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800}
+    .brand svg{width:28px;height:28px}
+    .pill{border:1px solid var(--line); border-radius:999px; padding:4px 10px; font-size:12px; color:var(--muted)}
+    .container{max-width:1160px; margin:24px auto; padding:0 16px}
+    .hero{display:grid; gap:6px; margin:6px 0 18px}
+    h1{margin:0; font-size:30px}
+    .sub{margin:0; color:var(--muted)}
+
+    .toolbar{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; margin:18px 0 10px;
+    }
+    .search{
+      flex:1 1 280px; display:flex; align-items:center; gap:8px;
+      background:#101736; border:1px solid var(--line); border-radius:12px; padding:10px 12px;
+    }
+    .search input{
+      flex:1; background:transparent; border:none; outline:none; color:var(--text)
+    }
+    .tag{border:1px solid var(--line); padding:6px 10px; border-radius:999px; font-size:13px; cursor:pointer; color:#dbe5ff}
+    .tag.active{background:#1b2350}
+    .grid{
+      display:grid; gap:14px;
+      grid-template-columns: repeat(3, 1fr);
+    }
+    @media (max-width:980px){ .grid{grid-template-columns: repeat(2, 1fr);} }
+    @media (max-width:640px){ .grid{grid-template-columns: 1fr;} }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--line); border-radius:16px; padding:14px;
+      display:flex; flex-direction:column; gap:10px; min-height:170px;
+      transition:transform .08s ease, box-shadow .18s ease;
+    }
+    .card:hover{ transform:translateY(-2px); box-shadow:0 10px 40px rgba(0,0,0,.35) }
+    .card h3{margin:0; font-size:18px}
+    .card p{margin:0; color:#cfd8ff; font-size:14px}
+    .actions{margin-top:auto; display:flex; align-items:center; gap:8px; flex-wrap:wrap}
+    .btn{appearance:none; border:none; border-radius:12px; padding:10px 14px; font-weight:700; cursor:pointer; color:var(--ink);
+         background:var(--accent); box-shadow:0 8px 24px rgba(124,92,255,.35)}
+    .btn.secondary{background:#1f2752; color:var(--text); box-shadow:none}
+    .badge{font-size:11px; border:1px solid var(--line); padding:2px 8px; border-radius:999px; color:#c0ccff}
+    footer{border-top:1px solid var(--line); margin-top:26px}
+    .foot{max-width:1160px; margin:0 auto; padding:16px; color:var(--muted); font-size:13px; display:flex; justify-content:space-between; flex-wrap:wrap; gap:10px}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="nav">
+      <div class="brand">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <span>हिंदी PDF टूल्स</span>
+      </div>
+      <span class="pill">100% ब्राउज़र में • कोई अपलोड नहीं</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <h1>PDF के सारे काम, अब <span style="color:var(--accent-2)">हिंदी</span> में!</h1>
+      <p class="sub">फाइलें जोड़ो, बाँटो, छोटा करो, इमेज ↔ PDF, लॉक/अनलॉक — सब कुछ आसान, फास्ट, और सुरक्षित।</p>
+    </section>
+
+    <div class="toolbar">
+      <div class="search">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <input id="search" placeholder="टूल खोजें: जोड़ो, बाँटो, छोटा करो, इमेज, लॉक…">
+      </div>
+      <button class="tag active" data-tag="all">सभी</button>
+      <button class="tag" data-tag="pdf">PDF</button>
+      <button class="tag" data-tag="image">इमेज</button>
+      <button class="tag" data-tag="ai">AI</button>
+      <button class="tag" data-tag="office">ऑफिस</button>
+    </div>
+
+    <!-- GRID OF TOOL CARDS -->
+    <section class="grid" id="toolGrid">
+      <!-- Cards injected by JS from the tools[] list -->
+    </section>
+
+    <footer>
+      <div class="foot">
+        <div>© <span id="yr"></span> हिंदी PDF टूल्स — “सब ब्राउज़र में, सब सुरक्षित।”</div>
+        <div>गोपनीयता: आपकी फाइलें कहीं अपलोड नहीं होतीं। सुझाव? <a href="#" onclick="alert('feedback@yourdomain.in पर ईमेल करें'); return false;">फ़ीडबैक भेजें</a></div>
+      </div>
+    </footer>
+  </main>
+  <script>
+    // ===== Tool List (slug, title, hint, tag, badge?) =====
+    const tools = [
+      { slug: "merge-pdf-hi.html",   title: "PDF जोड़ो (Merge PDF)",      hint: "कई PDFs को जोड़कर एक बना दो। थम्बनेल, पेज रेंज, A4 नॉर्मलाइज़, पेज नंबर।", tag:"pdf", badge:"नया" },
+      { slug: "split-pdf-hi.html",   title: "PDF बाँटो (Split PDF)",      hint: "रेंज से, हर X पेज पर, या बुकमार्क्स से अलग-अलग PDFs बनाओ।", tag:"pdf" },
+      { slug: "compress-pdf-hi.html",title: "PDF छोटा करो (Compress)",    hint: "क्वालिटी स्लाइडर के साथ फाइल साइज घटाओ — शेयर/अपलोड के लिए परफेक्ट।", tag:"pdf" },
+      { slug: "image-to-pdf-hi.html",title: "इमेज से PDF",               hint: "JPG/PNG को A4/A5 में फिट करके एक PDF बना दो। ऑर्डर सेट करो।", tag:"image" },
+      { slug: "pdf-to-image-hi.html",title: "PDF से इमेज",               hint: "हर पेज को JPG/PNG के रूप में सेव करो (ZIP डाउनलोड)।", tag:"image" },
+      { slug: "pdf-rotate-hi.html",  title: "PDF घुमाओ (Rotate/Organize)",hint: "थम्बनेल व्यू में पेज घुमाओ, हटाओ, रीऑर्डर करो।", tag:"pdf" },
+      { slug: "pdf-watermark-hi.html",title:"वॉटरमार्क लगाओ",            hint: "टेक्स्ट/इमेज वॉटरमार्क — पोज़िशन, साइज, ट्रांसपेरेंसी सेट करो।", tag:"pdf" },
+      { slug: "pdf-lock-hi.html",    title: "PDF लॉक करो (Password)",     hint: "PDF पर पासवर्ड लगाओ। (नोट: खोया पासवर्ड रिकवर नहीं कर सकेंगे)", tag:"pdf" },
+      { slug: "pdf-unlock-hi.html",  title: "PDF अनलॉक",                 hint: "पासवर्ड पता है? तो अनलॉक करके नई PDF सेव करो।", tag:"pdf" },
+      { slug: "pdf-to-word-hi.html", title: "PDF से Word बनाओ",           hint: "एडिटेबल DOCX में बदलो। स्कैन फाइलों के लिए OCR का उपयोग।", tag:"office" },
+      { slug: "word-to-pdf-hi.html", title: "Word से PDF बनाओ",           hint: "DOCX को सही फॉन्ट/मार्जिन के साथ PDF में बदलो।", tag:"office" },
+      { slug: "pdf-signer-hi.html",  title: "PDF साइन करो",               hint: "ड्रा/टेक्स्ट सिग्नेचर जोड़ो, तारीख/नाम ऑटो-फिल।", tag:"office" },
+      { slug: "invoice-generator-hi.html", title:"इनवॉइस बनाओ (PDF)",    hint: "बिल बनाओ, लोगो लगाओ, टैक्स/टोटल ऑटो-कैल्कुलेट। PDF डाउनलोड।", tag:"office" },
+      { slug: "resume-builder-hi.html", title:"बायोडाटा बनाओ",            hint: "फ़ॉर्म भरो और प्रीमियम टेम्पलेट में PDF रिज़्यूमे पाओ।", tag:"office" },
+      // AI zone (placeholders if not built yet)
+      { slug: "ai-summary-hi.html",  title: "AI सारांश बनाओ",             hint: "लंबा PDF? AI से 1-पेज का शॉर्ट सारांश तैयार।", tag:"ai", badge:"बीटा" },
+      { slug: "ai-chat-hi.html",     title: "PDF से चैट करो (AI)",         hint: "PDF अपलोड करो और उससे सवाल पूछो — जवाब AI देगा।", tag:"ai", badge:"बीटा" },
+    ];
+
+    // ===== Render Cards =====
+    const grid = document.getElementById('toolGrid');
+    const search = document.getElementById('search');
+    const tags = [...document.querySelectorAll('.tag')];
+
+    function cardHtml(t){
+      return `
+        <article class="card" data-tag="${t.tag}" data-title="${t.title.toLowerCase()} ${t.hint.toLowerCase()}">
+          <div class="row" style="justify-content:space-between; align-items:flex-start">
+            <h3>${t.title}</h3>
+            ${t.badge ? `<span class="badge">${t.badge}</span>` : ``}
+          </div>
+          <p>${t.hint}</p>
+          <div class="actions">
+            <a class="btn" href="${t.slug}">खोलो</a>
+            <a class="btn secondary" href="${t.slug}#howto">कैसे इस्तेमाल करें?</a>
+          </div>
+        </article>
+      `;
+    }
+
+    function render(filterTxt = "", tag = "all"){
+      const q = filterTxt.trim().toLowerCase();
+      grid.innerHTML = tools.map(cardHtml).join("");
+      // filter
+      [...grid.children].forEach(card=>{
+        const hay = card.getAttribute('data-title');
+        const tg  = card.getAttribute('data-tag');
+        const okText = !q || hay.includes(q);
+        const okTag  = tag==="all" || tg===tag;
+        card.style.display = (okText && okTag) ? "flex" : "none";
+      });
+    }
+
+    search.addEventListener('input', ()=>render(search.value, document.querySelector('.tag.active')?.dataset.tag || 'all'));
+    tags.forEach(btn=>{
+      btn.addEventListener('click', ()=>{
+        tags.forEach(b=>b.classList.remove('active'));
+        btn.classList.add('active');
+        render(search.value, btn.dataset.tag);
+      });
+    });
+
+    // Init
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    render("", "all");
+  </script>
+</body>
+</html>
