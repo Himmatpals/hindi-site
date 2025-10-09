@@ -1,0 +1,526 @@
+<!--
+File: pdf-signer-hi.html
+Title: PDF साइन करो — ड्रॉ/टेक्स्ट/इमेज सिग्नेचर • तारीख/नाम ऑटो‑फिल • मल्टी‑प्लेस • फ्लैटन
+Desc: 100% ब्राउज़र में PDF साइनिंग टूल (Hindi). Draw/Type/Upload Signature, add Date/Name/Initials, click‑to‑place on any page, resize/rotate, multiple placements, live preview, final flattened PDF export. Uses pdf.js + pdf-lib.
+How to: Save as pdf-signer-hi.html and open in a modern browser.
+-->
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF साइन करो — ड्रा/टेक्स्ट/इमेज • तारीख/नाम ऑटो‑फिल</title>
+  <meta name="description" content="ड्रा/टेक्स्ट/इमेज सिग्नेचर, तारीख/नाम ऑटो‑फिल, मल्टी‑प्लेस, रीसाइज़/रोटेट और फ्लैटेन एक्सपोर्ट — सब कुछ 100% ब्राउज़र में।"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@500;700;900&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
+      --text:#eef2ff; --muted:#9fb0de; --accent:#ffd21f; /* yellow */
+      --accent2:#ff3b3b; /* red */
+      --ink:#0b1020; --ok:#22d3a3; --danger:#ff5c7c;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text);
+      font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(1200px 800px at 80% -10%, rgba(255,209,47,.18), transparent),
+        radial-gradient(900px 600px at 10% 110%, rgba(255,59,59,.16), transparent), var(--bg);
+    }
+    a{color:inherit; text-decoration:none}
+    header{position:sticky; top:0; z-index:60; display:flex; align-items:center; justify-content:space-between; gap:12px; padding:12px 16px; background:rgba(11,16,32,.82); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:900}
+    .brand svg{width:28px;height:28px; color:var(--accent)}
+    .tiny{color:var(--muted); font-size:12px}
+
+    .container{max-width:1200px; margin:16px auto; padding:0 16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden}
+    .hero{padding:18px 18px 6px}
+    h1{margin:0 0 6px; font-size:28px; font-weight:900}
+    .sub{margin:0; color:var(--muted)}
+
+    .grid{display:grid; gap:14px; padding:0 18px 18px}
+    .two{grid-template-columns:360px 1fr}
+    @media (max-width:980px){.two{grid-template-columns:1fr}}
+
+    .panel{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px}
+    .panel h4{margin:0 0 10px; font-size:14px}
+
+    /* Left: File + Tools */
+    .uploader{border:1.5px dashed rgba(255,255,255,.18); border-radius:14px; padding:14px; text-align:center}
+    .uploader.dragover{border-color:var(--accent)}
+    .uploader input[type=file]{display:none}
+    .btn{appearance:none; border:none; border-radius:12px; padding:10px 12px; font-weight:900; cursor:pointer; min-height:40px; transition:transform .14s}
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{background:var(--accent); color:#3a2b00; box-shadow:0 8px 24px rgba(255,210,31,.35)}
+    .btn-ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.18)}
+    .btn-red{background:var(--accent2); color:#2a0909; box-shadow:0 8px 24px rgba(255,59,59,.35)}
+    .row{display:flex; gap:8px; flex-wrap:wrap; align-items:center}
+    .tiny.badge{border:1px solid var(--line); padding:2px 8px; border-radius:999px}
+
+    .tabs{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .tab{border:1px solid var(--line); background:#121b38; color:#e8edff; padding:8px 10px; border-radius:10px; cursor:pointer; font-weight:800}
+    .tab.active{background:#1b223f; border-color:#ffe28a}
+
+    .toolbox{display:grid; gap:10px}
+    input[type=text], input[type=number], input[type=color], select, textarea{background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.14); border-radius:10px; padding:8px 10px; width:100%}
+
+    .drawpad{background:#0b1020; border:1px solid rgba(255,255,255,.12); border-radius:12px; display:grid; place-items:center; padding:8px}
+    #sigCanvas{width:100%; height:200px; background:#0b1020; border-radius:8px}
+
+    /* Right: Pages */
+    .viewer{display:grid; grid-template-columns: 240px 1fr; gap:12px}
+    @media (max-width:980px){.viewer{grid-template-columns:1fr}}
+    .thumbs{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:10px; max-height:65vh; overflow:auto}
+    .titem{border:1px solid rgba(255,255,255,.12); border-radius:10px; padding:8px; background:#0f1736; display:grid; gap:6px; cursor:pointer}
+    .titem.active{outline:2px solid #ffe28a}
+    .titem canvas{width:100%; height:auto; display:block; border-radius:6px}
+    .stage{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:10px}
+    .stage canvas{max-width:100%; width:100%; height:auto; background:#0b1020; border:1px solid rgba(255,255,255,.12); border-radius:8px}
+
+    .progress{height:10px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12)}
+    .bar{height:100%; width:0; background:linear-gradient(90deg, var(--accent), var(--accent2)); transition:width .2s}
+
+    .actions{display:flex; justify-content:space-between; align-items:center; gap:10px; padding:12px 18px; border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02)}
+  </style>
+
+  <!-- libs -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M7.5 12h9M9 8.5h6M9 15.5h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>PDF साइन करो — <span style="color:var(--accent)">Draw / Text / Image</span></span>
+    </div>
+    <div class="tiny">100% ब्राउज़र में • कोई अपलोड नहीं • फ्लैटन एक्सपोर्ट</div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="title">
+      <div class="hero">
+        <h1 id="title">ड्रा/टेक्स्ट/इमेज सिग्नेचर, तारीख/नाम ऑटो‑फिल</h1>
+        <p class="sub">थम्बनेल से पेज चुनो, कैनवस पर क्लिक करके सिग्नेचर/टेक्स्ट रखो, साइज/रोटेट करो, और फ्लैटेन PDF डाउनलोड करो।</p>
+      </div>
+
+      <div class="grid two">
+        <!-- Left: Uploader + Tools -->
+        <div class="panel">
+          <h4>PDF अपलोड</h4>
+          <div id="drop" class="uploader" tabindex="0">
+            <p style="margin:0 0 8px">यहाँ <strong>Drag & Drop</strong> करो या</p>
+            <div class="row" style="justify-content:center">
+              <label class="btn btn-primary" for="file">PDF चुनो</label>
+              <button id="demoBtn" class="btn btn-ghost" type="button">डेमो PDF</button>
+            </div>
+            <input id="file" type="file" accept="application/pdf" />
+            <p class="tiny" style="margin-top:6px">टिप: स्कैन PDFs भी चलेंगी।</p>
+          </div>
+
+          <h4 style="margin-top:12px">सिग्नेचर मोड</h4>
+          <div class="tabs" role="tablist">
+            <button class="tab active" data-tab="draw" role="tab">✍️ ड्रॉ</button>
+            <button class="tab" data-tab="text" role="tab">🔤 टेक्स्ट</button>
+            <button class="tab" data-tab="image" role="tab">🖼️ इमेज</button>
+            <button class="tab" data-tab="auto" role="tab">🗓️ ऑटो‑फिल</button>
+          </div>
+
+          <div class="toolbox" id="toolbox">
+            <!-- Draw -->
+            <div data-pane="draw">
+              <div class="row" style="justify-content:space-between">
+                <label class="tiny">रंग <input type="color" id="penColor" value="#111111" style="width:110px"></label>
+                <label class="tiny">मोटाई <input type="number" id="penSize" value="2" min="1" max="12" style="width:80px"></label>
+                <button id="clearPad" class="btn btn-ghost tiny">क्लियर</button>
+              </div>
+              <div class="drawpad"><canvas id="sigCanvas"></canvas></div>
+              <div class="row" style="justify-content:flex-end">
+                <button id="saveSigImg" class="btn btn-ghost">PNG सेव</button>
+              </div>
+            </div>
+
+            <!-- Text -->
+            <div data-pane="text" hidden>
+              <label>टेक्स्ट <input id="txtValue" placeholder="जैसे: आपका नाम" value="हस्ताक्षर"></label>
+              <div class="row" style="justify-content:space-between">
+                <label class="tiny">फ़ॉन्ट
+                  <select id="txtFont" style="width:140px">
+                    <option value="Poppins">Poppins</option>
+                    <option value="Noto Sans Devanagari" selected>Noto Sans Devanagari</option>
+                    <option value="serif">Serif</option>
+                    <option value="monospace">Monospace</option>
+                  </select>
+                </label>
+                <label class="tiny">साइज़ <input id="txtSize" type="number" value="16" min="8" max="64" style="width:80px"></label>
+                <label class="tiny">रंग <input id="txtColor" type="color" value="#111111" style="width:110px"></label>
+                <label class="tiny">बोल्ड <input id="txtBold" type="checkbox"></label>
+              </div>
+            </div>
+
+            <!-- Image -->
+            <div data-pane="image" hidden>
+              <div class="uploader" style="padding:10px">
+                <label class="btn btn-primary" for="sigImg">सिग्नेचर इमेज चुनो (PNG)</label>
+                <input id="sigImg" type="file" accept="image/png, image/jpeg"/>
+                <p class="tiny">बेहतर: ट्रांसपेरेंट PNG।</p>
+              </div>
+              <div id="sigImgPreview" class="tiny" style="text-align:center; opacity:.9">कोई इमेज नहीं चुनी।</div>
+            </div>
+
+            <!-- Auto Fill -->
+            <div data-pane="auto" hidden>
+              <div class="row" style="justify-content:space-between">
+                <label class="tiny">आपका नाम <input id="autoName" placeholder="पूरा नाम"></label>
+                <label class="tiny">इनिशियल्स <input id="autoInit" placeholder="जैसे: AK"></label>
+              </div>
+              <div class="row" style="justify-content:space-between">
+                <label class="tiny">तारीख़ फ़ॉर्मैट
+                  <select id="dateFmt">
+                    <option value="DD/MM/YYYY">DD/MM/YYYY</option>
+                    <option value="YYYY-MM-DD">YYYY-MM-DD</option>
+                    <option value="Do MMM YYYY">Do MMM YYYY</option>
+                  </select>
+                </label>
+                <label class="tiny">टेक्स्ट साइज़ <input id="autoSize" type="number" value="14" min="8" max="48" style="width:80px"></label>
+                <label class="tiny">रंग <input id="autoColor" type="color" value="#111111" style="width:110px"></label>
+              </div>
+              <div class="row">
+                <button class="btn btn-ghost" data-autofield="name">नाम रखो</button>
+                <button class="btn btn-ghost" data-autofield="date">तारीख़ रखो (आज)</button>
+                <button class="btn btn-ghost" data-autofield="init">इनिशियल्स</button>
+              </div>
+            </div>
+          </div>
+
+          <h4 style="margin-top:12px">प्लेसमेंट / ट्रांसफ़ॉर्म</h4>
+          <div class="row" style="justify-content:space-between">
+            <label class="tiny">चुने आइटम की चौड़ाई (px) <input id="itemW" type="number" min="20" value="180" style="width:100px"></label>
+            <label class="tiny">रोटेट (°) <input id="itemR" type="number" min="-180" max="180" value="0" style="width:90px"></label>
+          </div>
+          <div class="row">
+            <button id="undoBtn" class="btn btn-ghost">↶ Undo</button>
+            <button id="clearPageBtn" class="btn btn-red">पेज से हटाओ</button>
+          </div>
+
+          <div style="margin-top:10px">
+            <div class="progress" aria-label="प्रोग्रेस"><div id="bar" class="bar"></div></div>
+            <div id="status" class="tiny" style="margin-top:6px">तैयार…</div>
+          </div>
+        </div>
+
+        <!-- Right: Thumbs + Stage -->
+        <div class="panel">
+          <h4>पेज चुनो, फिर दाईं ओर क्लिक करके आइटम रखो</h4>
+          <div class="viewer">
+            <div id="thumbs" class="thumbs" aria-live="polite"></div>
+            <div class="stage">
+              <canvas id="stage"></canvas>
+              <div class="tiny" style="margin-top:6px">टिप: स्टेज पर क्लिक = प्लेसमेंट • शिफ्ट+क्लिक = डुप्लीकेट • व्हील = स्क्रॉल</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div class="row">
+          <button id="resetBtn" class="btn btn-ghost" disabled>रीसेट</button>
+        </div>
+        <div class="row">
+          <button id="flattenBtn" class="btn btn-primary" disabled>फ्लैटन कर के PDF बनाओ</button>
+          <button id="downloadBtn" class="btn btn-ghost" disabled>डाउनलोड</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="padding:0 18px 18px">
+      <h3 style="margin:14px 0 10px">कैसे इस्तेमाल करें?</h3>
+      <ol style="margin:0 0 0 18px">
+        <li>ऊपर PDF अपलोड करो (या “डेमो PDF”).</li>
+        <li>“सिग्नेचर मोड” से <strong>ड्रा</strong>, <strong>टेक्स्ट</strong> या <strong>इमेज</strong> चुनो —
+          फिर दाईं ओर पेज पर क्लिक करके प्लेस करो।</li>
+        <li>आइटम की <em>चौड़ाई</em> / <em>रोटेट</em> सेट करो। Undo/क्लियर से एडिट करो।</li>
+        <li>तैयार होने पर “फ्लैटन कर के PDF बनाओ” → “डाउनलोड”.</li>
+      </ol>
+      <p class="tiny" style="margin-top:6px">प्राइवेसी: कोई अपलोड नहीं — सब कुछ आपके ब्राउज़र में।</p>
+    </section>
+  </main>
+
+  <script>
+  /* ===== Setup ===== */
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+  if (pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+
+  /* ===== State ===== */
+  const S = {
+    pdfBytes:null, pdfDoc:null, pageCount:0, pages:[], // pdf.js pages for preview
+    activePage:0,
+    stageScale:1,
+    placements: new Map(), // pageIndex -> [ {type:'draw'|'text'|'image'|'auto', data, w, r, x, y} ]
+    sigImage:null, // from draw or uploaded
+    outBytes:null
+  };
+
+  /* ===== DOM ===== */
+  const fileEl = document.getElementById('file');
+  const dropEl = document.getElementById('drop');
+  const demoBtn = document.getElementById('demoBtn');
+  const thumbsEl = document.getElementById('thumbs');
+  const stageCanvas = document.getElementById('stage');
+  const stageCtx = stageCanvas.getContext('2d');
+  const barEl = document.getElementById('bar');
+  const statusEl = document.getElementById('status');
+
+  const tabs = [...document.querySelectorAll('.tab')];
+  const panes = [...document.querySelectorAll('[data-pane]')];
+  let mode = 'draw';
+  tabs.forEach(t=>t.addEventListener('click',()=>{ tabs.forEach(b=>b.classList.remove('active')); t.classList.add('active'); mode=t.dataset.tab; panes.forEach(p=>p.hidden = p.getAttribute('data-pane')!==mode); }));
+
+  const penColor = document.getElementById('penColor');
+  const penSize  = document.getElementById('penSize');
+  const sigCanvas = document.getElementById('sigCanvas');
+  const sigCtx = sigCanvas.getContext('2d');
+  const clearPad = document.getElementById('clearPad');
+  const saveSigImg = document.getElementById('saveSigImg');
+
+  const txtValue = document.getElementById('txtValue');
+  const txtFont  = document.getElementById('txtFont');
+  const txtSize  = document.getElementById('txtSize');
+  const txtColor = document.getElementById('txtColor');
+  const txtBold  = document.getElementById('txtBold');
+
+  const sigImg = document.getElementById('sigImg');
+  const sigImgPreview = document.getElementById('sigImgPreview');
+
+  const autoName = document.getElementById('autoName');
+  const autoInit = document.getElementById('autoInit');
+  const dateFmt  = document.getElementById('dateFmt');
+  const autoSize = document.getElementById('autoSize');
+  const autoColor= document.getElementById('autoColor');
+
+  const itemW = document.getElementById('itemW');
+  const itemR = document.getElementById('itemR');
+  const undoBtn = document.getElementById('undoBtn');
+  const clearPageBtn = document.getElementById('clearPageBtn');
+
+  const resetBtn = document.getElementById('resetBtn');
+  const flattenBtn = document.getElementById('flattenBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+
+  /* ===== Utils ===== */
+  function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
+  function fmtDate(fmt){
+    const d = new Date();
+    const dd = String(d.getDate()).padStart(2,'0');
+    const mm = String(d.getMonth()+1).padStart(2,'0');
+    const yyyy = d.getFullYear();
+    if (fmt==='YYYY-MM-DD') return `${yyyy}-${mm}-${dd}`;
+    if (fmt==='Do MMM YYYY'){
+      const ord = n=>{const s=['th','st','nd','rd'], v=n%100; return s[(v-20)%10]||s[v]||s[0]};
+      const m=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+      return `${d.getDate()}${ord(d.getDate())} ${m} ${yyyy}`;
+    }
+    return `${dd}/${mm}/${yyyy}`;
+  }
+  function ensureArr(map,key){ if(!map.has(key)) map.set(key, []); return map.get(key); }
+
+  /* ===== Drag‑n‑drop ===== */
+  ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev,e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
+  ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev,e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
+  dropEl.addEventListener('drop', async e=>{ const f=[...e.dataTransfer.files].find(f=>f.type==='application/pdf'); if(f) await loadPdf(await f.arrayBuffer()); });
+  fileEl.addEventListener('change', async e=>{ const f=e.target.files[0]; if(f) await loadPdf(await f.arrayBuffer()); fileEl.value=''; });
+
+  demoBtn.addEventListener('click', async ()=>{
+    const { PDFDocument, StandardFonts } = PDFLib;
+    const doc = await PDFDocument.create();
+    const font = await doc.embedFont(StandardFonts.Helvetica);
+    for(let p=1;p<=2;p++){ const page = doc.addPage([595,842]); page.drawText(`डेमो PDF — पेज ${p}`, {x:180,y:420,size:24,font}); }
+    const bytes = await doc.save();
+    await loadPdf(bytes);
+  });
+
+  /* ===== Load PDF & Render ===== */
+  async function loadPdf(bytes){
+    S.pdfBytes = new Uint8Array(bytes); S.placements.clear(); S.outBytes=null; setBar(0);
+    statusEl.textContent='PDF लोड हो रहा…';
+    const pdf = await pdfjsLib.getDocument({data:S.pdfBytes}).promise; S.pageCount = pdf.numPages; S.pages = []; thumbsEl.innerHTML='';
+    for(let i=1;i<=S.pageCount;i++){
+      const pg = await pdf.getPage(i); S.pages.push(pg);
+      const vp = pg.getViewport({scale:0.2});
+      const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height=Math.floor(vp.height);
+      await pg.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
+      const item = document.createElement('div'); item.className='titem'; if(i===1) item.classList.add('active');
+      const cap = document.createElement('div'); cap.className='tiny'; cap.style.textAlign='center'; cap.textContent='पेज '+i;
+      item.appendChild(c); item.appendChild(cap); item.addEventListener('click',()=>{ [...thumbsEl.children].forEach(n=>n.classList.remove('active')); item.classList.add('active'); openPage(i-1); });
+      thumbsEl.appendChild(item);
+      setBar(i/S.pageCount*25);
+    }
+    openPage(0);
+    resetBtn.disabled = true; flattenBtn.disabled = false; downloadBtn.disabled = true;
+    statusEl.textContent='तैयार — पेज चुनो और साइन रखो।';
+  }
+
+  async function openPage(index){
+    S.activePage = index; const page = S.pages[index]; const vp = page.getViewport({scale:1.3});
+    stageCanvas.width = Math.floor(vp.width); stageCanvas.height = Math.floor(vp.height);
+    await page.render({canvasContext:stageCtx, viewport:vp}).promise;
+    drawPlacementsOnStage();
+  }
+
+  function drawPlacementsOnStage(){
+    // repaint page image
+    const page = S.pages[S.activePage]; const vp = page.getViewport({scale:1.3});
+    stageCtx.clearRect(0,0,stageCanvas.width, stageCanvas.height);
+    page.render({canvasContext:stageCtx, viewport:vp}).promise.then(()=>{
+      const items = S.placements.get(S.activePage)||[];
+      items.forEach(it=>{
+        stageCtx.save();
+        stageCtx.translate(it.x, it.y);
+        stageCtx.rotate((it.r||0) * Math.PI/180);
+        if(it.type==='draw' || it.type==='image'){
+          const img = new Image(); img.src = it.data; // data URL
+          img.onload = ()=>{ stageCtx.drawImage(img, -it.w/2, -it.h/2, it.w, it.h); };
+        }else{ // text/auto
+          stageCtx.fillStyle = it.color||'#111';
+          stageCtx.font = `${it.bold?'700':'500'} ${Math.round(it.size||16)}px ${it.font||'Noto Sans Devanagari'}`;
+          stageCtx.textAlign = 'center'; stageCtx.textBaseline = 'middle';
+          stageCtx.fillText(it.text || '', 0, 0);
+        }
+        stageCtx.restore();
+      });
+    });
+  }
+
+  /* ===== Signature sources ===== */
+  // Resize draw pad
+  function fitSigCanvas(){ const rect = sigCanvas.getBoundingClientRect(); sigCanvas.width = rect.width; sigCanvas.height = 200; drawPadBg(); }
+  function drawPadBg(){ sigCtx.fillStyle = '#0b1020'; sigCtx.fillRect(0,0,sigCanvas.width, sigCanvas.height); sigCtx.strokeStyle = '#1a234a'; sigCtx.strokeRect(0,0,sigCanvas.width, sigCanvas.height); }
+  let drawing=false, last=null;
+  function line(a,b){ sigCtx.strokeStyle = penColor.value; sigCtx.lineWidth = Number(penSize.value)||2; sigCtx.lineCap='round'; sigCtx.lineJoin='round'; sigCtx.beginPath(); sigCtx.moveTo(a.x,a.y); sigCtx.lineTo(b.x,b.y); sigCtx.stroke(); }
+  sigCanvas.addEventListener('pointerdown', e=>{ drawing=true; last={x:e.offsetX, y:e.offsetY}; });
+  sigCanvas.addEventListener('pointermove', e=>{ if(!drawing) return; const now={x:e.offsetX, y:e.offsetY}; line(last, now); last=now; });
+  window.addEventListener('pointerup', ()=> drawing=false);
+  clearPad.addEventListener('click', ()=>{ drawPadBg(); });
+  saveSigImg.addEventListener('click', ()=>{ const url = sigCanvas.toDataURL('image/png'); const a=document.createElement('a'); a.href=url; a.download='signature.png'; a.click(); });
+  new ResizeObserver(fitSigCanvas).observe(sigCanvas);
+  setTimeout(fitSigCanvas, 50);
+
+  // Upload signature image
+  sigImg.addEventListener('change', async e=>{
+    const f=e.target.files[0]; if(!f) return; const url = URL.createObjectURL(f);
+    sigImgPreview.innerHTML = `<img src="${url}" alt="sig" style="max-width:100%; border-radius:8px; border:1px solid rgba(255,255,255,.12)">`;
+    S.sigImage = await fileToDataURL(f);
+  });
+
+  function fileToDataURL(file){ return new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(file); }); }
+
+  /* ===== Place on page (click) ===== */
+  stageCanvas.addEventListener('click', e=>{
+    if(!S.pages.length) return;
+    const rect = stageCanvas.getBoundingClientRect();
+    const x = e.clientX - rect.left; const y = e.clientY - rect.top;
+    const it = makeItemForMode(); if(!it) return;
+    it.x = x; it.y = y; it.w = Number(itemW.value)||180; it.h = inferHeight(it);
+    it.r = Number(itemR.value)||0;
+    ensureArr(S.placements, S.activePage).push(it);
+    drawPlacementsOnStage(); resetBtn.disabled = true; // keeps file state; per-page edits allowed
+  });
+
+  function inferHeight(it){ if(it.type==='text' || it.type==='auto') return (it.size||16)*1.2; return Math.round((it.w||180) * 0.35); }
+
+  function makeItemForMode(){
+    if(mode==='draw'){
+      const data = sigCanvas.toDataURL('image/png');
+      return {type:'draw', data};
+    }
+    if(mode==='image'){
+      if(!S.sigImage){ alert('पहले सिग्नेचर इमेज चुनो/सेव करो।'); return null; }
+      return {type:'image', data:S.sigImage};
+    }
+    if(mode==='text'){
+      const text = (txtValue.value||'हस्ताक्षर'); const size = Number(txtSize.value)||16; const color=txtColor.value; const font = txtFont.value; const bold = txtBold.checked;
+      return {type:'text', text, size, color, font, bold};
+    }
+    if(mode==='auto'){
+      // This mode uses buttons to set field type; default to name
+      return {type:'auto', text:(autoName.value||'नाम'), size:Number(autoSize.value)||14, color:autoColor.value, font:'Noto Sans Devanagari', bold:false};
+    }
+  }
+
+  // Auto-fill quick buttons -> temporary mode injection
+  document.querySelectorAll('[data-autofield]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const kind = btn.getAttribute('data-autofield');
+      mode = 'auto'; tabs.forEach(t=>t.classList.remove('active')); document.querySelector('[data-tab="auto"]').classList.add('active'); panes.forEach(p=>p.hidden = p.getAttribute('data-pane')!=='auto');
+      if(kind==='date'){ txtValue.value = fmtDate(dateFmt.value); }
+      if(kind==='name'){ txtValue.value = autoName.value || 'नाम'; }
+      if(kind==='init'){ txtValue.value = autoInit.value || 'AK'; }
+      // place text mode with auto values by clicking on page
+      statusEl.textContent = 'स्टेज पर क्लिक करें — ऑटो‑टेक्स्ट प्लेस होगा।';
+    });
+  });
+
+  /* ===== Undo / Clear (page) ===== */
+  undoBtn.addEventListener('click', ()=>{
+    const arr = S.placements.get(S.activePage)||[]; if(arr.length){ arr.pop(); drawPlacementsOnStage(); }
+  });
+  clearPageBtn.addEventListener('click', ()=>{ S.placements.set(S.activePage, []); drawPlacementsOnStage(); });
+
+  /* ===== Flatten & Download ===== */
+  flattenBtn.addEventListener('click', flattenNow);
+  downloadBtn.addEventListener('click', ()=>{
+    if(!S.outBytes) return; const a=document.createElement('a'); const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
+    a.href = URL.createObjectURL(new Blob([S.outBytes],{type:'application/pdf'})); a.download = `Signed-${stamp}.pdf`; a.click(); URL.revokeObjectURL(a.href);
+  });
+
+  async function flattenNow(){
+    if(!S.pdfBytes) return;
+    setBar(26); statusEl.textContent='फ्लैटन हो रहा…';
+    const { PDFDocument, StandardFonts, rgb } = PDFLib;
+    const out = await PDFDocument.load(S.pdfBytes);
+
+    // fonts
+    const helv = await out.embedFont(StandardFonts.Helvetica);
+
+    for(let p=0;p<out.getPageCount();p++){
+      const page = out.getPage(p); const { width:W, height:H } = page.getSize();
+      const items = S.placements.get(p)||[]; if(!items.length) continue;
+      for(const it of items){
+        const x = it.x; const y = stageCanvas.height - it.y; // convert to PDF bottom-left origin later after scaling
+        const width = it.w; const height = it.h || inferHeight(it);
+        const rot = it.r||0;
+        if(it.type==='draw' || it.type==='image'){
+          const pngBytes = dataURLtoUint8(it.data);
+          try{
+            const img = it.data.startsWith('data:image/jpeg') ? await out.embedJpg(pngBytes) : await out.embedPng(pngBytes);
+            const scale = width / img.width; const h = img.height * scale;
+            page.drawImage(img, { x: x - width/2, y: (H - (stageCanvas.height - (y))) - h/2, width, height:h, rotate: PDFLib.degrees(rot) });
+          }catch(e){ console.error('image embed fail', e); }
+        } else { // text & auto
+          const text = (it.text || ''); const size = it.size||16; const colorHex = it.color||'#111111';
+          const c = hexToRgb(colorHex);
+          page.drawText(text, {
+            x: x - (text.length*size*0.25), y: (H - (stageCanvas.height - (y))) - size/2,
+            size, font: helv, color: rgb(c.r/255, c.g/255, c.b/255), rotate: PDFLib.degrees(rot)
+          });
+        }
+      }
+      setBar(26 + (p/out.getPageCount())*60);
+    }
+
+    S.outBytes = await out.save({ updateFieldAppearances:false });
+    downloadBtn.disabled = false; setBar(100); statusEl.textContent='तैयार — डाउनलोड करें!';
+  }
+
+  function dataURLtoUint8(data){ const b = atob(data.split(',')[1]); const u = new Uint8Array(b.length); for(let i=0;i<b.length;i++) u[i]=b.charCodeAt(i); return u; }
+  function hexToRgb(hex){ const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex); return m?{r:parseInt(m[1],16), g:parseInt(m[2],16), b:parseInt(m[3],16)}:{r:0,g:0,b:0}; }
+  </script>
+</body>
+</html>
