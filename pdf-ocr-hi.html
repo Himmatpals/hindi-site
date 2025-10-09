@@ -1,0 +1,346 @@
+<!--
+File: pdf-ocr-hi.html
+Description: Client‑side Hindi/English OCR for PDFs using pdf.js + Tesseract.js. Creates a NEW searchable PDF by adding an invisible text layer over raster page images. Also exports plain text. 100% in browser.
+How to use: Save as a single HTML file and open. Requires internet to fetch Tesseract lang data (eng/hin) from CDN.
+-->
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF OCR (Hindi/English) — सर्चेबल बनाओ</title>
+  <meta name="description" content="स्कैन की हुई PDF को सर्चेबल बनाओ — हिंदी/अंग्रेज़ी OCR, पेज‑रेंज, प्रोग्रेस, और टेक्स्ट डाउनलोड।" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{ --bg:#0b1020; --card:#121935; --muted:#8ea0c9; --text:#e9eefb; --accent:#7c5cff; --accent-2:#23d3ac; --danger:#ff5c7c; --line: rgba(255,255,255,.10); }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{ margin:0; background:
+      radial-gradient(1200px 800px at 80% -10%, rgba(124,92,255,.25), transparent),
+      radial-gradient(900px 600px at 10% 110%, rgba(35,211,172,.18), transparent), var(--bg);
+      color:var(--text); font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, Arial; line-height:1.5; }
+    header{ display:flex; align-items:center; justify-content:space-between; padding:16px 20px; position:sticky; top:0; backdrop-filter:blur(6px); background:rgba(11,16,32,.6); border-bottom:1px solid var(--line) }
+    .brand{ display:flex; align-items:center; gap:10px; font-weight:800 }
+    .brand svg{ width:28px; height:28px }
+    .container{ max-width:1200px; margin:28px auto; padding:0 16px }
+    .card{ background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden }
+    .hero{ padding:26px 22px 0 }
+    h1{ margin:0 0 8px; font-size:28px; font-weight:800 }
+    .sub{ margin:0; color:var(--muted) }
+
+    .uploader{ border:1.5px dashed rgba(255,255,255,.18); border-radius:16px; padding:22px; margin:18px 22px; text-align:center; transition:.25s border-color }
+    .uploader.dragover{ border-color:var(--accent) }
+    .uploader input[type=file]{ display:none }
+    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center }
+    .btn{ appearance:none; border:none; border-radius:12px; padding:12px 14px; font-weight:700; cursor:pointer; color:#0b1020; background:var(--accent); box-shadow:0 8px 24px rgba(124,92,255,.35) }
+    .btn.secondary{ background:#1f2752; color:var(--text); box-shadow:none }
+    .btn.ghost{ background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.18) }
+    .btn.danger{ background:var(--danger); color:#fff }
+    .btn.slim{ padding:8px 10px; border-radius:10px }
+
+    .grid{ display:grid; gap:14px; padding:0 22px 16px }
+    .two{ grid-template-columns:360px 1fr }
+    @media (max-width:980px){ .two{ grid-template-columns:1fr } }
+
+    .panel{ background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px }
+    .panel h4{ margin:0 0 8px; font-size:14px }
+    .tiny{ font-size:12px; color:var(--muted) }
+    input[type=text], input[type=number], input[type=color], select{ background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.14); border-radius:8px; padding:8px 10px; width:100% }
+
+    .progress{ height:10px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12) }
+    .bar{ height:100%; width:0; background:linear-gradient(90deg, var(--accent), var(--accent-2)); transition:width .2s }
+
+    .viewer{ position:relative; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; overflow:auto }
+    #pdfCanvas{ display:block; max-width:100%; height:auto; border:1px solid rgba(255,255,255,.06); background:#0b1020; border-radius:8px }
+
+    .actions{ display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02) }
+  </style>
+  <!-- libs -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/tesseract.js@4/dist/tesseract.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand" aria-label="Brand">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>PDF OCR — <span style="color:var(--accent-2)">हिंदी/English</span> टूल</span>
+    </div>
+    <div class="tiny">100% ब्राउज़र में • कोई अपलोड नहीं • Uses CDN lang data</div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="title">
+      <div class="hero">
+        <h1 id="title">स्कैन PDF को सर्चेबल बनाओ (Hindi + English)</h1>
+        <p class="sub">सीधा‑सा जादू: OCR चलाओ, invisible टेक्स्ट लेयर जोड़ो, और PDF में खोज पाओ। 
+          मल्टी‑पेज सपोर्ट, पेज‑रेंज, प्रोग्रेस‑बार और टेक्स्ट‑एक्सपोर्ट।</p>
+      </div>
+
+      <div class="uploader" id="drop" aria-label="फाइल जोड़ो" tabindex="0">
+        <p style="margin:0 0 10px">PDF यहाँ <strong>Drag & Drop</strong> करो या</p>
+        <div class="row">
+          <label class="btn" for="file">PDF चुनो</label>
+          <button class="btn secondary" id="demoBtn" type="button">डेमो फाइल</button>
+        </div>
+        <input id="file" type="file" accept="application/pdf" />
+        <p class="tiny" style="margin-top:10px">बेहतर रिज़ल्ट के लिए साफ‑सुथरा स्कैन और 300 DPI जैसे सेटिंग चुनो।</p>
+      </div>
+
+      <section class="grid two">
+        <!-- Left controls -->
+        <div class="panel">
+          <h4>सेटिंग्स</h4>
+          <div class="field">
+            <label>भाषा (Lang)</label>
+            <select id="langSel">
+              <option value="eng">English</option>
+              <option value="hin">हिंदी (Hindi)</option>
+              <option value="eng+hin" selected>English + हिंदी</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>पेज रेंज (उदा: <code>all</code> या <code>1-3,5</code>)</label>
+            <input id="range" type="text" value="all" placeholder="all या 1-3,5"/>
+          </div>
+          <div class="field">
+            <label>Render scale (गुणवत्ता/स्पीड) — 1.0–2.0</label>
+            <input id="scale" type="number" min="0.8" max="3" step="0.1" value="1.6"/>
+          </div>
+          <div class="field">
+            <label>टेक्स्ट लेयर अपारदर्शिता (0 = पूरी तरह अदृश्य)</label>
+            <input id="opacity" type="number" min="0" max="0.2" step="0.01" value="0"/>
+          </div>
+          <div class="row" style="justify-content:flex-start;margin-top:6px">
+            <button id="startBtn" class="btn" type="button" disabled>Start OCR</button>
+            <button id="cancelBtn" class="btn ghost" type="button" disabled>Cancel</button>
+          </div>
+          <div style="margin-top:10px">
+            <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
+            <div class="tiny" id="status" style="margin-top:8px">तैयार…</div>
+          </div>
+
+          <div class="panel" style="margin-top:12px">
+            <h4>Export</h4>
+            <div class="row" style="justify-content:flex-start">
+              <button id="dlPdf" class="btn slim" type="button" disabled>Download Searchable PDF</button>
+              <button id="dlTxt" class="btn slim ghost" type="button" disabled>Download .txt</button>
+            </div>
+            <div class="tiny">नोट: आउटपुट में वही विजुअल रहता है; ऊपर अदृश्य टेक्स्ट लेयर जोड़ दी जाती है।
+              प्रिंट में भी खोज योग्य रहता है।</div>
+          </div>
+        </div>
+
+        <!-- Right viewer -->
+        <div class="panel">
+          <div class="viewer">
+            <canvas id="pdfCanvas"></canvas>
+          </div>
+          <div class="row" style="justify-content:space-between;margin-top:8px">
+            <div class="row" style="justify-content:flex-start">
+              <button id="prev" class="btn slim ghost" type="button">‹ Prev</button>
+              <span class="tiny" id="pageInfo" style="padding:6px 10px;border:1px solid rgba(255,255,255,.18);border-radius:999px">—</span>
+              <button id="next" class="btn slim ghost" type="button">Next ›</button>
+            </div>
+            <div class="row" style="justify-content:flex-end">
+              <label class="tiny">Zoom
+                <input id="zoom" type="range" min="50" max="200" value="100"> <span id="zoomVal">100%</span>
+              </label>
+            </div>
+          </div>
+          <div class="tiny" id="docMeta" style="margin-top:6px">कोई फ़ाइल नहीं लोड हुई।</div>
+        </div>
+      </section>
+
+      <div class="actions">
+        <div class="row" style="justify-content:flex-start">
+          <button class="btn ghost" id="clearBtn" type="button" disabled>रीसेट</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="padding:0 22px 22px">
+      <h3 style="margin:16px 0 10px">टिप्स</h3>
+      <ul style="margin:0 0 0 18px">
+        <li>कम रोशनी/तुड़ा‑मुड़ा स्कैन हो तो scale 1.8–2.0 रखो — accuracy बेहतर होगी।</li>
+        <li>Hindi + English दोनों चुनोगे तो स्लो होगा पर bilingual डॉक्युमेंट्स में बेस्ट रिज़ल्ट देगा।</li>
+        <li>बहुत मोटे PDFs को रेंज में तोड़कर चलाना तेज़ है (उदा: 1-20, फिर 21-40)।</li>
+      </ul>
+      <p class="tiny" style="margin-top:8px">गोपनीयता: सब आपके ब्राउज़र में — OCR के लिए कोई अपलोड नहीं।
+        Lang डेटा CDN से लोड होता है (open‑source traineddata).</p>
+    </section>
+  </main>
+
+  <script>
+  // ====== Lib setup ======
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+  if (pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+
+  // ====== State ======
+  const S = { file:null, name:'', size:0, bytes:null, pdf:null, pageCount:0, page:1, scaleCSS:1, renderScale:1.6,
+              ocrLang:'eng+hin', cancel:false, textByPage:[], searchableBytes:null };
+
+  // ====== DOM ======
+  const fileEl = document.getElementById('file');
+  const dropEl = document.getElementById('drop');
+  const demoBtn = document.getElementById('demoBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const startBtn = document.getElementById('startBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const dlPdf = document.getElementById('dlPdf');
+  const dlTxt = document.getElementById('dlTxt');
+
+  const langSel = document.getElementById('langSel');
+  const rangeEl = document.getElementById('range');
+  const scaleEl = document.getElementById('scale');
+  const opacityEl = document.getElementById('opacity');
+
+  const pdfCanvas = document.getElementById('pdfCanvas');
+  const zoom = document.getElementById('zoom');
+  const zoomVal = document.getElementById('zoomVal');
+  const pageInfo = document.getElementById('pageInfo');
+  const prevBtn = document.getElementById('prev');
+  const nextBtn = document.getElementById('next');
+  const docMeta = document.getElementById('docMeta');
+  const barEl = document.getElementById('bar');
+  const statusEl = document.getElementById('status');
+
+  // ====== Utils ======
+  const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+  function parseRange(str, max){ if(!str || str.toLowerCase()==='all') return Array.from({length:max}, (_,i)=>i+1); const out = new Set(); const parts = str.split(',').map(s=>s.trim()).filter(Boolean); for(const p of parts){ const m = p.match(/^(\d+)(?:\s*[-–]\s*(\d+))?$/); if(!m) throw new Error('format'); let a=parseInt(m[1],10), b=m[2]?parseInt(m[2],10):a; if(a<1||b<1||a>max||b>max) throw new Error('range'); if(a>b) [a,b]=[b,a]; for(let i=a;i<=b;i++) out.add(i); } if(!out.size) throw new Error('empty'); return [...out].sort((x,y)=>x-y); }
+
+  // ====== Load file ======
+  fileEl.addEventListener('change', async e=>{ if(e.target.files[0]){ await loadFile(e.target.files[0]); fileEl.value=''; }});
+  ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
+  ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
+  dropEl.addEventListener('drop', async e=>{ const f=[...e.dataTransfer.files].find(f=>f.type==='application/pdf'); if(f) await loadFile(f); });
+
+  demoBtn.addEventListener('click', async ()=>{
+    const { PDFDocument, StandardFonts } = PDFLib;
+    const doc = await PDFDocument.create();
+    const font = await doc.embedFont(StandardFonts.Helvetica);
+    const p = doc.addPage([595,842]);
+    p.drawText('डेमो स्कैन जैसा पेज — Demo page', { x: 120, y: 420, size: 24, font });
+    const bytes = await doc.save();
+    const blob = new Blob([bytes], {type:'application/pdf'});
+    await loadFile(new File([blob], 'Demo-OCR.pdf', {type:'application/pdf'}));
+  });
+
+  async function loadFile(file){
+    S.file=file; S.name=file.name; S.size=file.size; S.bytes = new Uint8Array(await file.arrayBuffer());
+    const pdf = await pdfjsLib.getDocument({data:S.bytes}).promise; S.pdf=pdf; S.pageCount=pdf.numPages; S.page=1; S.scaleCSS=1; S.searchableBytes=null; S.textByPage=[];
+    clearBtn.disabled=false; startBtn.disabled=false; dlPdf.disabled=true; dlTxt.disabled=true; cancelBtn.disabled=true;
+    statusEl.textContent='तैयार…'; setBar(0);
+    docMeta.textContent = `${file.name} • ${fmtBytes(file.size)} • ${pdf.numPages} पेज`;
+    await renderPage();
+  }
+
+  // ====== Viewer ======
+  zoom.addEventListener('input', ()=>{ S.scaleCSS = parseInt(zoom.value,10)/100; zoomVal.textContent = Math.round(S.scaleCSS*100)+'%'; resizeCanvasCSS(); });
+  prevBtn.addEventListener('click', async ()=>{ if(!S.pdf) return; S.page = clamp(S.page-1,1,S.pageCount); await renderPage(); });
+  nextBtn.addEventListener('click', async ()=>{ if(!S.pdf) return; S.page = clamp(S.page+1,1,S.pageCount); await renderPage(); });
+
+  async function renderPage(){
+    if(!S.pdf) return;
+    const page = await S.pdf.getPage(S.page);
+    const viewport = page.getViewport({scale: 1.5});
+    const ctx = pdfCanvas.getContext('2d');
+    pdfCanvas.width = Math.floor(viewport.width); pdfCanvas.height = Math.floor(viewport.height);
+    await page.render({canvasContext: ctx, viewport}).promise;
+    resizeCanvasCSS();
+    pageInfo.textContent = `पेज ${S.page}/${S.pageCount}`;
+  }
+  function resizeCanvasCSS(){ pdfCanvas.style.width = Math.floor(pdfCanvas.width * S.scaleCSS) + 'px'; pdfCanvas.style.height = Math.floor(pdfCanvas.height * S.scaleCSS) + 'px'; }
+
+  // ====== OCR ======
+  startBtn.addEventListener('click', startOCR);
+  cancelBtn.addEventListener('click', ()=>{ S.cancel=true; statusEl.textContent='रोक दिया गया।'; cancelBtn.disabled=true; });
+
+  function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
+
+  async function startOCR(){
+    if(!S.pdf) return;
+    S.cancel=false; dlPdf.disabled=true; dlTxt.disabled=true; cancelBtn.disabled=false; startBtn.disabled=true; statusEl.textContent='लैंग्वेज लोड हो रही है…'; setBar(1);
+
+    // Prepare Tesseract worker
+    const worker = await Tesseract.createWorker({
+      logger: m => { if(m.status==='recognizing text' && m.progress!=null){ statusEl.textContent = `OCR: ${Math.round(m.progress*100)}%`; } }
+    });
+    const langs = (langSel.value||'eng+hin');
+    // Traineddata from CDN
+    await worker.load();
+    await worker.loadLanguage(langs);
+    await worker.initialize(langs);
+
+    try{
+      const pages = S.pageCount; const renderScale = parseFloat(scaleEl.value)||1.6; S.renderScale = renderScale; const useOpacity = Math.max(0, Math.min(0.2, parseFloat(opacityEl.value)||0));
+      const pick = parseRange(rangeEl.value, pages);
+      const texts = []; // accumulate plain text pages
+
+      // Create output PDF
+      const { PDFDocument, StandardFonts } = PDFLib;
+      const out = await PDFDocument.create();
+      const font = await out.embedFont(StandardFonts.Helvetica);
+
+      let done=0;
+      for(const pn of pick){
+        if (S.cancel) break;
+        // Render page to bitmap
+        const page = await S.pdf.getPage(pn);
+        const vp = page.getViewport({ scale: renderScale });
+        const tmp = document.createElement('canvas');
+        tmp.width = Math.floor(vp.width); tmp.height = Math.floor(vp.height);
+        const ctx = tmp.getContext('2d', { willReadFrequently:true });
+        await page.render({ canvasContext: ctx, viewport: vp }).promise;
+
+        // OCR on bitmap
+        statusEl.textContent = `पेज ${pn} — OCR…`;
+        const { data: { words, text } } = await worker.recognize(tmp);
+        texts[pn-1] = text || '';
+
+        // Add image as page background
+        const bytes = await new Promise(res=> tmp.toBlob(b=>{ const fr=new FileReader(); fr.onload=()=>res(new Uint8Array(fr.result)); fr.readAsArrayBuffer(b); }, 'image/jpeg', 0.9));
+        const [pageOut] = await out.addPage([tmp.width, tmp.height]).doc.copyPages(out, []); // ensure context created
+        const pg = out.addPage([tmp.width, tmp.height]); out.removePage(out.getPageCount()-2);
+        const jpg = await out.embedJpg(bytes);
+        pg.drawImage(jpg, { x:0, y:0, width: tmp.width, height: tmp.height });
+
+        // Invisible text overlay (per‑word)
+        const W = tmp.width, H = tmp.height;
+        for (const w of words||[]){
+          const bb = w.bbox; if(!bb) continue; // { x0,y0,x1,y1 }
+          const x = bb.x0, y = H - bb.y1, width = (bb.x1 - bb.x0), height = (bb.y1 - bb.y0);
+          const size = Math.max(6, height*0.9);
+          const content = (w.text||'').trim(); if(!content) continue;
+          try{
+            pg.drawText(content, { x, y: y + height*0.1, size, font, color: PDFLib.rgb(0,0,0), opacity: useOpacity });
+          }catch{}
+        }
+
+        done++; setBar((done/pick.length)*100);
+      }
+
+      const outBytes = await out.save();
+      S.searchableBytes = outBytes; S.textByPage = texts; dlPdf.disabled = !S.cancel; dlTxt.disabled = false;
+      statusEl.textContent = S.cancel ? 'रोक दिया गया — जितना हुआ उतना सेव।' : 'हो गया! डाउनलोड कर सकते हैं।';
+      dlPdf.disabled = false; startBtn.disabled=false; cancelBtn.disabled=true;
+    }catch(err){ console.error(err); statusEl.textContent = 'एरर: '+(err?.message||err); startBtn.disabled=false; cancelBtn.disabled=true; }
+    finally{ try{ await worker.terminate(); }catch{} }
+  }
+
+  // ====== Downloads ======
+  dlPdf.addEventListener('click', ()=>{ if(!S.searchableBytes) return; const a=document.createElement('a'); const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19); a.href=URL.createObjectURL(new Blob([S.searchableBytes],{type:'application/pdf'})); a.download = (S.name||'out').replace(/\.pdf$/i,'') + `-ocr-${stamp}.pdf`; a.click(); URL.revokeObjectURL(a.href); });
+  dlTxt.addEventListener('click', ()=>{ const txt=(S.textByPage||[]).filter(Boolean).join('\n\n'); const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([txt||''],{type:'text/plain'})); a.download=(S.name||'out').replace(/\.pdf$/i,'')+'-ocr.txt'; a.click(); URL.revokeObjectURL(a.href); });
+
+  // ====== Clear ======
+  clearBtn.addEventListener('click', ()=>{ S.file=null; S.pdf=null; S.pageCount=0; S.page=1; S.bytes=null; S.textByPage=[]; S.searchableBytes=null; pdfCanvas.width=pdfCanvas.height=0; docMeta.textContent='कोई फ़ाइल नहीं लोड हुई।'; startBtn.disabled=true; dlPdf.disabled=true; dlTxt.disabled=true; setBar(0); statusEl.textContent='तैयार…'; });
+
+  // ====== Init ======
+  (function init(){ zoomVal.textContent='100%'; })();
+  </script>
+</body>
+</html>
