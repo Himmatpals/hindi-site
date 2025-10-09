@@ -1,0 +1,519 @@
+<!--
+File: pdf-to-word-hi.html
+Title: PDF → Word (DOCX) — Fast Text + OCR | हिंदी
+Description: Client-side PDF to DOCX converter in Hindi (Bollywood tone). Two modes:
+  (1) Fast Text: Extract text with pdf.js (for digital PDFs).
+  (2) OCR: Render pages + Tesseract.js OCR (for scanned PDFs).
+Features: Page-range, language select, DPI for OCR, include images, header/footer,
+  page numbers, per-page or single DOCX, ZIP export, live preview, progress.
+No uploads — 100% in your browser. Uses pdf.js + Tesseract.js + docx + JSZip.
+How to use: Save as pdf-to-word-hi.html and open in a modern browser.
+-->
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF → Word (DOCX) — हिंदी | Fast Text + OCR</title>
+  <meta name="description" content="PDF को एडिटेबल DOCX में बदलो: Fast Text (digital PDF) या OCR (scanned PDF). पेज-रेंज, भाषा, इमेज-एम्बेड, हेडर/फूटर, ZIP — सबकुछ, 100% ब्राउज़र में।"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
+      --text:#e9eefb; --muted:#9fb0de; --gold:#ffd95c; --red:#ff5c7c; --violet:#7c5cff; --good:#23d3ac;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text);
+      font-family:"Noto Sans Devanagari", Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(1100px 760px at 85% -10%, rgba(255,217,92,.15), transparent),
+        radial-gradient(900px 620px at 12% 110%, rgba(255,92,124,.14), transparent),
+        var(--bg);
+    }
+    header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 18px; position:sticky; top:0; z-index:40; backdrop-filter:blur(6px); background:rgba(11,16,32,.7); border-bottom:1px solid var(--line)}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:900}
+    .brand svg{width:28px; height:28px}
+    .badges{display:flex; gap:8px; flex-wrap:wrap}
+    .pill{border:1px solid var(--line); background:#0d1632; color:#ffdca1; border-radius:999px; padding:6px 10px; font-weight:800; font-size:12px}
+
+    .container{max-width:1200px; margin:18px auto; padding:0 16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden}
+    .hero{padding:22px 22px 0}
+    h1{margin:0 0 6px; font-size:28px; font-weight:900}
+    .sub{margin:0; color:var(--muted)}
+
+    .uploader{border:1.5px dashed rgba(255,255,255,.18); border-radius:16px; padding:18px; margin:16px 22px; text-align:center}
+    .uploader.dragover{border-color:var(--red)}
+    .uploader input[type=file]{display:none}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center}
+    .btn{appearance:none; border:none; border-radius:12px; padding:12px 14px; font-weight:800; cursor:pointer; min-height:42px; transition:transform .08s}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.gold{background:var(--gold); color:#3a2c00; box-shadow:0 10px 28px rgba(255,217,92,.3)}
+    .btn.red{background:var(--red); color:#2b0c14; box-shadow:0 10px 28px rgba(255,92,124,.3)}
+    .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.2)}
+    .btn.violet{background:var(--violet); color:#100a2b; box-shadow:0 10px 28px rgba(124,92,255,.3)}
+    .tiny{font-size:12px; color:var(--muted)}
+
+    .grid{display:grid; gap:14px; padding:0 22px 18px}
+    .two{grid-template-columns:420px 1fr}
+    @media (max-width:980px){.two{grid-template-columns:1fr}}
+
+    /* Left list + options */
+    .panel{background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px}
+    .panel h4{margin:0 0 10px; font-size:14px}
+    .list{display:grid; gap:10px}
+    .item{display:grid; grid-template-columns:64px 1fr auto; gap:10px; align-items:center; padding:10px; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px}
+    .thumb{width:64px; height:90px; background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px; display:grid; place-items:center; overflow:hidden}
+    .thumb canvas{width:100%; height:100%; display:block}
+    .name{font-weight:700}
+    .meta{color:var(--muted); font-size:12px}
+
+    .kv{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+    .kv>label{display:flex; flex-direction:column; gap:6px; font-size:12px; color:#bfd0ff}
+    input[type=text], input[type=number], input[type=color], select, textarea{
+      background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.14); border-radius:8px; padding:8px 10px; width:100%
+    }
+    textarea{min-height:80px; resize:vertical}
+    .switch{display:flex; gap:8px; align-items:center}
+
+    /* Right preview */
+    .viewer{position:relative; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; overflow:auto; min-height:240px}
+    #preview{display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:10px}
+    .pv{background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:6px; display:grid; gap:6px}
+    .pv canvas{width:100%; height:auto; display:block; border-radius:6px}
+    .pv .cap{font-size:12px; color:var(--muted); text-align:center}
+
+    .progress{height:10px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12)}
+    .bar{height:100%; width:0; background:linear-gradient(90deg, var(--red), var(--gold)); transition:width .2s}
+
+    .actions{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02)}
+  </style>
+
+  <!-- libs -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+  <script defer src="https://unpkg.com/tesseract.js@5.0.3/dist/tesseract.min.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>PDF → Word (DOCX)</span>
+    </div>
+    <div class="badges">
+      <span class="pill">100% ब्राउज़र</span>
+      <span class="pill">कोई अपलोड नहीं</span>
+      <span class="pill">Fast Text + OCR</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="title">
+      <div class="hero">
+        <h1 id="title">एडिटेबल DOCX में बदलो — Digital PDFs या Scans, दोनों</h1>
+        <p class="sub">Fast Text (pdf.js) या OCR (Tesseract) मोड चुनो। पेज-रेंज, भाषा, DPI, इमेज-एम्बेड, हेडर/फूटर, पेज नंबर—सब कंट्रोल।</p>
+      </div>
+
+      <div class="uploader" id="drop" tabindex="0">
+        <p style="margin:0 0 10px">PDF यहाँ <strong>Drag & Drop</strong> करो या</p>
+        <div class="row">
+          <label class="btn gold" for="file">PDF चुनो</label>
+          <button class="btn ghost" id="demoBtn" type="button">डेमो PDF</button>
+        </div>
+        <input id="file" type="file" accept="application/pdf" />
+        <p class="tiny" style="margin-top:8px">टिप: डिजिटल PDFs के लिए पहले “Fast Text” ट्राय करो। स्कैन/फोटो वाले PDFs के लिए “OCR” बेहतर।</p>
+      </div>
+
+      <section class="grid two">
+        <!-- Left: file + options -->
+        <div class="panel">
+          <h4>फाइल</h4>
+          <div id="list" class="list" aria-live="polite"></div>
+          <div class="tiny" id="countLine">कोई PDF लोड नहीं हुआ।</div>
+
+          <h4 style="margin-top:14px">कन्वर्शन मोड</h4>
+          <div class="kv">
+            <label>मोड
+              <select id="mode">
+                <option value="fast">Fast Text (digital PDFs)</option>
+                <option value="ocr">OCR (scanned PDFs)</option>
+              </select>
+            </label>
+            <label>रेंज
+              <input id="range" placeholder="all या 1-3,5">
+            </label>
+            <label>OCR भाषा
+              <select id="lang">
+                <option value="eng">English (eng)</option>
+                <option value="hin" selected>Hindi (hin)</option>
+                <option value="eng+hin">eng+hin (मिश्रित)</option>
+              </select>
+            </label>
+            <label>OCR DPI
+              <input id="dpi" type="number" value="180" min="120" max="400">
+            </label>
+          </div>
+
+          <h4 style="margin-top:10px">आउटपुट DOCX सेटिंग्स</h4>
+          <div class="kv">
+            <label>हैडर टेक्स्ट
+              <input id="headerText" placeholder="उपर हैडर (optional)">
+            </label>
+            <label>फूटर टेक्स्ट
+              <input id="footerText" placeholder="नीचे फूटर (optional)">
+            </label>
+            <label class="switch" style="grid-column:1 / -1">
+              <input id="pageNumbers" type="checkbox"> पेज नंबर जोड़ो
+            </label>
+            <label class="switch" style="grid-column:1 / -1">
+              <input id="embedImages" type="checkbox" checked> स्रोत पेज इमेज भी एम्बेड करें (OCR टेक्स्ट के साथ)
+            </label>
+            <label>इमेज चौड़ाई (px)
+              <input id="imgWidth" type="number" value="700" min="300" max="1300">
+            </label>
+            <label>लाइन स्पेसिंग (em)
+              <input id="lineH" type="number" value="1.3" step="0.1" min="1.0" max="2.0">
+            </label>
+            <label>प्रत्येक पेज अलग DOCX?
+              <select id="perPage">
+                <option value="no" selected>नहीं — एक ही DOCX</option>
+                <option value="zip">हाँ — हर पेज एक DOCX (ZIP)</option>
+              </select>
+            </label>
+            <label>बेस-नेम (फ़ाइल नाम)
+              <input id="basename" value="output">
+            </label>
+          </div>
+
+          <div style="margin-top:10px">
+            <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
+            <div class="tiny" id="status" style="margin-top:8px">तैयार…</div>
+          </div>
+        </div>
+
+        <!-- Right: preview -->
+        <div class="panel">
+          <h4>प्रीव्यू</h4>
+          <div class="viewer">
+            <div id="preview"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="actions">
+        <div class="row" style="justify-content:flex-start">
+          <button class="btn ghost" id="clearBtn" type="button" disabled>रीसेट</button>
+        </div>
+        <div class="row" style="justify-content:flex-end">
+          <button class="btn red" id="convertBtn" type="button" disabled>कन्वर्ट करो</button>
+          <button class="btn violet" id="downloadBtn" type="button" disabled>DOCX/ZIP डाउनलोड</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="padding:0 22px 22px" id="howto">
+      <h3 style="margin:16px 0 10px">कैसे इस्तेमाल करें?</h3>
+      <ol style="margin:0 0 0 18px">
+        <li>ऊपर PDF ड्रैग-ड्रॉप करो (या “PDF चुनो”).</li>
+        <li>अगर PDF डिजिटल है (selectable text) → <strong>Fast Text</strong> मोड चुनो। स्कैन/फोटो के लिए <strong>OCR</strong> मोड चुनो (भाषा: <code>hin</code> या <code>eng+hin</code>).</li>
+        <li>चाहो तो रेंज, DPI (OCR), इमेज एम्बेड, हैडर/फूटर, पेज नंबर सेट करो।</li>
+        <li>“कन्वर्ट करो” → प्रोग्रेस/थम्बनेल देखो → “DOCX/ZIP डाउनलोड”.</li>
+      </ol>
+      <p class="tiny" style="margin-top:8px">गोपनीयता: कोई अपलोड नहीं — सब कुछ आपके ब्राउज़र में। OCR के लिए भाषा पैक Tesseract CDN से लोड होते हैं (इंटरनेट चाहिए)।</p>
+    </section>
+  </main>
+
+  <script>
+  /* ===== Setup ===== */
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+  if (pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+  const { Document, Packer, Paragraph, HeadingLevel, TextRun, AlignmentType, ImageRun, Footer, Header, PageNumber, PageNumberFormat, convertMillimetersToTwip } = docx;
+
+  /* ===== State ===== */
+  const S = { pdfBytes:null, name:null, pageCount:0, bytesSize:0, pagesPreview:[], outBlob:null, zipBlob:null };
+
+  /* ===== DOM ===== */
+  const listEl = document.getElementById('list');
+  const fileEl = document.getElementById('file');
+  const dropEl = document.getElementById('drop');
+  const demoBtn = document.getElementById('demoBtn');
+  const convertBtn = document.getElementById('convertBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const barEl = document.getElementById('bar');
+  const statusEl = document.getElementById('status');
+  const countEl = document.getElementById('countLine');
+  const pvWrap = document.getElementById('preview');
+
+  const modeEl = document.getElementById('mode');
+  const rangeEl = document.getElementById('range');
+  const langEl = document.getElementById('lang');
+  const dpiEl  = document.getElementById('dpi');
+
+  const headerText = document.getElementById('headerText');
+  const footerText = document.getElementById('footerText');
+  const pageNumbers = document.getElementById('pageNumbers');
+  const embedImages = document.getElementById('embedImages');
+  const imgWidthEl  = document.getElementById('imgWidth');
+  const lineHEl     = document.getElementById('lineH');
+  const perPageEl   = document.getElementById('perPage');
+  const basenameEl  = document.getElementById('basename');
+
+  /* ===== Utils ===== */
+  const sleep = ms => new Promise(r=>setTimeout(r,ms));
+  function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
+  function fmtBytes(b){ if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; }
+  function pad(n, w){ const s=String(n); return s.length>=w ? s : '0'.repeat(w-s.length)+s; }
+  function parseRange(str, max){ if(!str || str.toLowerCase()==='all') return Array.from({length:max}, (_,i)=>i+1); const out = new Set(); const parts = str.split(',').map(s=>s.trim()).filter(Boolean); for(const p of parts){ const m = p.match(/^(\\d+)(?:\\s*[-–]\\s*(\\d+))?$/); if(!m) throw new Error('format'); let a=parseInt(m[1],10), b=m[2]?parseInt(m[2],10):a; if(a<1||b<1||a>max||b>max) throw new Error('range'); if(a>b) [a,b]=[b,a]; for(let i=a;i<=b;i++) out.add(i); } if(!out.size) throw new Error('empty'); return [...out].sort((x,y)=>x-y); }
+
+  function updateButtons(){ const has=!!S.pdfBytes; convertBtn.disabled=!has; clearBtn.disabled=!has; downloadBtn.disabled = !(S.outBlob || S.zipBlob); setBar(0); statusEl.textContent='तैयार…'; }
+  clearBtn.addEventListener('click', ()=>{ S.pdfBytes=null; S.pageCount=0; S.pagesPreview.length=0; S.outBlob=null; S.zipBlob=null; listEl.innerHTML=''; pvWrap.innerHTML=''; countEl.textContent='कोई PDF लोड नहीं हुआ।'; updateButtons(); });
+
+  /* ===== File add + basic thumb ===== */
+  fileEl.addEventListener('change', async e=>{ await loadPDF(e.target.files?.[0]); fileEl.value=''; });
+  ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
+  ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
+  dropEl.addEventListener('drop', async e=>{ const f=e.dataTransfer.files?.[0]; if (f && f.type==='application/pdf') await loadPDF(f); });
+
+  // Demo
+  demoBtn.addEventListener('click', async ()=>{
+    const { PDFDocument, StandardFonts } = PDFLib;
+    const doc = await PDFDocument.create();
+    const font = await doc.embedFont(StandardFonts.Helvetica);
+    for(let p=1;p<=3;p++){ const page = doc.addPage([595, 842]); page.drawText(`डेमो — PDF → DOCX (पेज ${p})`, { x: 120, y: 480, size: 24, font }); page.drawText('Sample Hindi + English text — नमस्ते दुनिया!', { x: 120, y: 440, size: 14, font }); }
+    const bytes = await doc.save();
+    await loadPDF(new File([new Blob([bytes],{type:'application/pdf'})], 'Demo.pdf', {type:'application/pdf'}));
+  });
+
+  async function loadPDF(file){
+    if (!file) return;
+    S.name = file.name.replace(/\\.pdf$/i,'');
+    S.pdfBytes = new Uint8Array(await file.arrayBuffer());
+    S.bytesSize = file.size;
+    const pdf = await pdfjsLib.getDocument({data:S.pdfBytes}).promise;
+    S.pageCount = pdf.numPages;
+
+    // Row
+    listEl.innerHTML = '';
+    const row = document.createElement('div'); row.className='item';
+    const th = document.createElement('div'); th.className='thumb'; th.textContent='…';
+    const col = document.createElement('div');
+    const name = document.createElement('div'); name.className='name'; name.textContent=file.name;
+    const meta = document.createElement('div'); meta.className='meta'; meta.textContent=`${fmtBytes(file.size)} • ${S.pageCount} पेज`;
+    col.append(name, meta); row.append(th, col, document.createElement('div')); listEl.appendChild(row);
+    countEl.textContent = `${S.pageCount} पेज तैयार`;
+
+    // First page thumb
+    try{
+      const page = await pdf.getPage(1);
+      const vp = page.getViewport({scale: 0.35});
+      const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
+      await page.render({canvasContext: c.getContext('2d'), viewport: vp}).promise;
+      th.textContent=''; th.appendChild(c);
+    }catch(e){ console.error(e); }
+
+    pvWrap.innerHTML=''; S.outBlob=null; S.zipBlob=null;
+    updateButtons();
+  }
+
+  /* ===== Conversion ===== */
+  convertBtn.addEventListener('click', convert);
+
+  downloadBtn.addEventListener('click', ()=>{
+    if (S.zipBlob){
+      const a=document.createElement('a'); const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
+      a.href=URL.createObjectURL(S.zipBlob); a.download=`${(S.name||'PDF')}-docx-${stamp}.zip`; a.click(); URL.revokeObjectURL(a.href);
+    } else if (S.outBlob){
+      const a=document.createElement('a'); const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
+      a.href=URL.createObjectURL(S.outBlob); a.download=`${(S.name||'PDF')}.docx`; a.click(); URL.revokeObjectURL(a.href);
+    }
+  });
+
+  async function convert(){
+    if (!S.pdfBytes) return;
+    try{
+      setBar(1); statusEl.textContent='पेज लोड…';
+      const pdf = await pdfjsLib.getDocument({data:S.pdfBytes}).promise;
+      const total = S.pageCount;
+      const selPages = parseRange((rangeEl.value||'all').trim(), total);
+      const mode = modeEl.value; // 'fast' | 'ocr'
+      const dpi = Math.min(400, Math.max(120, parseInt(dpiEl.value,10)||180));
+      const lang = (langEl.value||'hin');
+      const perPage = perPageEl.value; // 'no' | 'zip'
+      const basename = (basenameEl.value||'output').replace(/[^a-zA-Z0-9_-]/g,'_');
+      const wantImages = !!embedImages.checked;
+      const imgTargetW = Math.max(300, Math.min(1300, parseInt(imgWidthEl.value,10)||700));
+      const lineH = Math.max(1.0, Math.min(2.0, parseFloat(lineHEl.value)||1.3));
+
+      pvWrap.innerHTML='';
+
+      // If OCR mode, preload worker & language
+      let ocrWorker = null;
+      if (mode === 'ocr'){
+        statusEl.textContent = 'OCR इंजन तैयार हो रहा… (नेट चाहिए)';
+        setBar(2);
+        ocrWorker = await Tesseract.createWorker(lang, 1, { legacyCore: false });
+      }
+
+      // If per-page zip
+      let zip = null; if (perPage === 'zip'){ zip = new JSZip(); }
+
+      // Build documents
+      const docs = []; // buffers if per-page, else section content
+      const sectionChildren = []; // for single doc
+      let pageIdx = 0;
+
+      for (let i=0; i<selPages.length; i++){
+        const pageNum = selPages[i];
+        statusEl.textContent = `पेज ${pageNum} प्रोसेस…`;
+
+        const page = await pdf.getPage(pageNum);
+        const scale = (mode==='ocr') ? (dpi/72) : 1.6; // Fast text preview scale
+        const vp = page.getViewport({scale});
+        const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
+        const ctx = c.getContext('2d', { willReadFrequently:true });
+        await page.render({ canvasContext: ctx, viewport: vp }).promise;
+
+        // preview thumb
+        const tbox=document.createElement('div'); tbox.className='pv';
+        const tc=document.createElement('canvas'); const tctx=tc.getContext('2d');
+        const tScale = Math.min(280/c.width, 320/c.height);
+        tc.width = Math.floor(c.width*tScale); tc.height = Math.floor(c.height*tScale);
+        tctx.drawImage(c, 0, 0, tc.width, tc.height);
+        const cap=document.createElement('div'); cap.className='cap'; cap.textContent='पेज '+pageNum;
+        tbox.appendChild(tc); tbox.appendChild(cap); pvWrap.appendChild(tbox);
+
+        // Extract text
+        let pageText = '';
+        if (mode === 'fast'){
+          // pdf.js textContent
+          const txt = await page.getTextContent({ normalizeWhitespace:true, disableCombineTextItems:false });
+          pageText = txt.items.map(it => it.str).join(' ').replace(/\s+\n/g,'\n').replace(/\s{2,}/g,' ');
+          if (!pageText.trim()){
+            // fallback tiny OCR for empty digital text?
+            pageText = '';
+          }
+        } else {
+          // OCR
+          const { data } = await ocrWorker.recognize(c, { rotateAuto:true });
+          pageText = (data && data.text) ? data.text : '';
+        }
+
+        // Page image (if wanted)
+        let imgRun = null;
+        if (wantImages){
+          const blob = await new Promise(res => c.toBlob(res, 'image/jpeg', 0.9));
+          const ab = await blob.arrayBuffer();
+          // scale to target width in DOCX units (px => twip via DPI 96)
+          imgRun = new ImageRun({
+            data: new Uint8Array(ab),
+            transformation: { width: imgTargetW, height: Math.round(imgTargetW * (c.height/c.width)) }
+          });
+        }
+
+        // Build page content for docx
+        const paras = [];
+        // Heading per page
+        paras.push(new Paragraph({ text: `Page ${pageNum}`, heading: HeadingLevel.HEADING_2, spacing:{ after: convertMillimetersToTwip(1) } }));
+        if (imgRun){ paras.push(new Paragraph(imgRun)); }
+
+        const lines = pageText ? pageText.split(/\r?\n/) : [];
+        if (lines.length){
+          for (const ln of lines){
+            const safe = ln.replace(/\s+$/,'');
+            const p = new Paragraph({
+              children: [ new TextRun({ text: safe }) ],
+              spacing: { after: 120, line: lineH * 240 }
+            });
+            paras.push(p);
+          }
+        } else {
+          paras.push(new Paragraph({ children:[new TextRun({ text:'(No text found on this page)' })], spacing:{ after:120 } }));
+        }
+
+        if (perPage === 'zip'){
+          const doc = new Document({
+            sections:[{
+              properties:{ page:{ margin:{ top:720, right:720, bottom:720, left:720 } } },
+              headers: headerText.value ? { default: new Header({ children:[ new Paragraph({ alignment: AlignmentType.CENTER, children:[ new TextRun({ text: headerText.value }) ] }) ] }) } : {},
+              footers: {
+                default: new Footer({ children:[
+                  new Paragraph({
+                    alignment: AlignmentType.CENTER,
+                    children:[
+                      ...(footerText.value ? [new TextRun({ text: footerText.value + ' — ' })] : []),
+                      ...(pageNumbers.checked ? [ new TextRun({ text:'Page ' }), PageNumber.CURRENT() ] : [])
+                    ]
+                  })
+                ]})
+              },
+              children: paras
+            }]
+          });
+          const b = await Packer.toBlob(doc);
+          docs.push({name:`${basename}-${pad(pageIdx+1, 3)}.docx`, blob:b});
+        } else {
+          // single doc: aggregate
+          sectionChildren.push(...paras);
+        }
+
+        pageIdx++;
+        setBar(5 + ((i+1)/selPages.length)*85);
+        if (i%2===0) await sleep(0);
+      }
+
+      // finalize
+      if (perPage === 'zip'){
+        statusEl.textContent = 'ZIP पैक हो रहा…';
+        const zip = new JSZip();
+        for (const d of docs){ zip.file(d.name, d.blob); }
+        S.zipBlob = await zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{level:6} });
+        S.outBlob = null;
+      } else {
+        const doc = new Document({
+          sections:[{
+            properties:{ page:{ margin:{ top:720, right:720, bottom:720, left:720 } } },
+            headers: headerText.value ? { default: new Header({ children:[ new Paragraph({ alignment: AlignmentType.CENTER, children:[ new TextRun({ text: headerText.value }) ] }) ] }) } : {},
+            footers: {
+              default: new Footer({ children:[
+                new Paragraph({
+                  alignment: AlignmentType.CENTER,
+                  children:[
+                    ...(footerText.value ? [new TextRun({ text: footerText.value + ' — ' })] : []),
+                    ...(pageNumbers.checked ? [ new TextRun({ text:'Page ' }), PageNumber.CURRENT(), new TextRun({ text:' of ' }), PageNumber.TOTAL_PAGES() ] : [])
+                  ]
+                })
+              ]})
+            },
+            children: sectionChildren
+          }]
+        });
+        S.outBlob = await Packer.toBlob(doc);
+        S.zipBlob = null;
+      }
+
+      setBar(100);
+      statusEl.textContent = 'तैयार — डाउनलोड कर लो!';
+      downloadBtn.disabled = false;
+
+      // cleanup OCR
+      try{ if (mode==='ocr' && ocrWorker){ await ocrWorker.terminate(); } }catch{}
+    }catch(err){
+      console.error(err);
+      alert('कन्वर्ज़न नहीं हो पाया: '+(err?.message||err));
+      statusEl.textContent='एरर।';
+    }
+  }
+  </script>
+</body>
+</html>
