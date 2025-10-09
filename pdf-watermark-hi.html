@@ -1,0 +1,562 @@
+<!--
+File: pdf-watermark-hi.html
+Description: Client‑side Hindi (Bollywood‑style) PDF Watermark tool — Text & Image. No server upload.
+Tech: pdf.js (preview) + pdf-lib (apply watermark). Controls: text/image mode, font, size, color, opacity, angle, tile/repeat, position grid, margins, page ranges. 100% in browser.
+How to use: Save as a single HTML file and open in a modern browser.
+-->
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF वॉटरमार्क — टेक्स्ट/इमेज, रेंज, टाइल</title>
+  <meta name="description" content="PDF पर वॉटरमार्क लगाओ — Text या Image, opacity, angle, position, tile/repeat, पेज‑रेंज। 100% ब्राउज़र में, कोई अपलोड नहीं।" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root{ --bg:#0b1020; --card:#121935; --muted:#8ea0c9; --text:#e9eefb; --accent:#7c5cff; --accent-2:#23d3ac; --danger:#ff5c7c; --line: rgba(255,255,255,.10); }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{ margin:0; background:
+      radial-gradient(1200px 800px at 80% -10%, rgba(124,92,255,.25), transparent),
+      radial-gradient(900px 600px at 10% 110%, rgba(35,211,172,.18), transparent), var(--bg);
+      color:var(--text); font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, Arial; line-height:1.5; }
+    header{display:flex; align-items:center; justify-content:space-between; padding:16px 20px; position:sticky; top:0; backdrop-filter:blur(6px); background:rgba(11,16,32,.6); border-bottom:1px solid var(--line)}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800}
+    .brand svg{width:28px;height:28px}
+    .container{max-width:1100px; margin:28px auto; padding:0 16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden}
+    .hero{padding:26px 22px 0}
+    h1{margin:0 0 8px; font-size:28px; font-weight:800}
+    .sub{margin:0; color:var(--muted)}
+
+    .uploader{border:1.5px dashed rgba(255,255,255,.18); border-radius:16px; padding:22px; margin:18px 22px; text-align:center; transition:.25s border-color}
+    .uploader.dragover{border-color:var(--accent)}
+    .uploader input[type=file]{display:none}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center}
+    .btn{appearance:none; border:none; border-radius:12px; padding:12px 14px; font-weight:700; cursor:pointer; color:#0b1020; background:var(--accent); box-shadow:0 8px 24px rgba(124,92,255,.35)}
+    .btn.secondary{background:#1f2752; color:var(--text); box-shadow:none}
+    .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.18)}
+    .btn.danger{background:var(--danger); color:#fff}
+
+    .grid{display:grid; gap:14px; padding:0 22px 16px}
+    .two{grid-template-columns:1fr 1fr}
+    @media (max-width:980px){ .two{grid-template-columns:1fr} }
+
+    .field{background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px}
+    .field h4{margin:0 0 8px; font-size:14px}
+    .field .muted{font-size:12px}
+    input[type=number], input[type=text], input[type=color], select{background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.14); border-radius:8px; padding:8px 10px; width:100%}
+    input[type=range]{width:100%}
+
+    .preview{display:grid; grid-template-columns:1fr 1fr; gap:12px; padding:0 22px 16px}
+    @media (max-width:980px){ .preview{grid-template-columns:1fr} }
+    .pv{background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:10px}
+    .pv h4{margin:0 0 8px}
+    .pv canvas{width:100%; height:auto; background:#0b1020; display:block; border:1px solid rgba(255,255,255,.06); border-radius:8px}
+    .meta{color:var(--muted); font-size:13px}
+
+    .actions{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02)}
+    .left,.right{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+
+    .progress{height:8px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12)}
+    .bar{height:100%; width:0; background:linear-gradient(90deg, var(--accent), var(--accent-2)); transition:width .2s}
+
+    .tiny{font-size:12px; color:var(--muted)}
+    .howto{padding:0 22px 24px}
+    .howto h3{margin:10px 0}
+    .howto ol{margin:0 0 0 18px}
+
+    .posgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+    .posgrid button{background:#101a3a; color:var(--text); border:1px solid rgba(255,255,255,.14); border-radius:10px; padding:10px; cursor:pointer}
+    .posgrid button.active{outline:2px solid var(--accent-2)}
+
+    .tilegrid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+    .tilegrid input{width:100%}
+  </style>
+  <!-- libs -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand" aria-label="Brand">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>PDF वॉटरमार्क — <span style="color:var(--accent-2)">हिंदी</span> टूल</span>
+    </div>
+    <div class="tiny">100% ब्राउज़र में • कोई अपलोड नहीं</div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="title">
+      <div class="hero">
+        <h1 id="title">Text & Image वॉटरमार्क — पोज़िशन, Opacity, Tile</h1>
+        <p class="sub">Confidential Stamp चाहिए? Draft लिखना है? Logo वॉटरमार्क? सब कुछ यहीं — PDF पर सीधा, अपनी सेटिंग के साथ।</p>
+      </div>
+
+      <div class="uploader" id="drop" aria-label="फाइल जोड़ो" tabindex="0">
+        <p style="margin:0 0 10px">PDF यहाँ <strong>Drag & Drop</strong> करो या</p>
+        <div class="row">
+          <label class="btn" for="file">PDF चुनो</label>
+          <button class="btn secondary" id="demoBtn" type="button">डेमो फाइल डालो</button>
+        </div>
+        <input id="file" type="file" accept="application/pdf" />
+      </div>
+
+      <section class="grid two" aria-label="सेटिंग्स">
+        <div class="field">
+          <h4>मोड</h4>
+          <select id="mode">
+            <option value="text" selected>Text watermark</option>
+            <option value="image">Image watermark</option>
+          </select>
+          <div class="muted">Text लिखो या Logo/PNG डालो।</div>
+        </div>
+        <div class="field" id="textBox">
+          <h4>टेक्स्ट</h4>
+          <input id="wmText" type="text" placeholder="उदा: CONFIDENTIAL / DRAFT / गोपनीय"/>
+          <div class="grid two" style="margin-top:8px">
+            <div>
+              <label class="tiny">Font size</label>
+              <input id="fontSize" type="number" min="6" max="400" value="64"/>
+            </div>
+            <div>
+              <label class="tiny">Weight</label>
+              <select id="fontWeight"><option value="regular">Regular</option><option value="bold" selected>Bold</option></select>
+            </div>
+          </div>
+          <div class="grid two" style="margin-top:8px">
+            <div>
+              <label class="tiny">रंग</label>
+              <input id="color" type="color" value="#ff0000" />
+            </div>
+            <div>
+              <label class="tiny">Opacity</label>
+              <input id="opacity" type="range" min="0" max="1" step="0.01" value="0.18"/>
+            </div>
+          </div>
+        </div>
+        <div class="field" id="imgBox" hidden>
+          <h4>इमेज (PNG/SVG/JPG)</h4>
+          <div class="row">
+            <label class="btn ghost" for="img">इमेज चुनो</label>
+            <input id="img" type="file" accept="image/png, image/jpeg, image/svg+xml" />
+            <span class="tiny" id="imgMeta">—</span>
+          </div>
+          <div class="grid two" style="margin-top:8px">
+            <div>
+              <label class="tiny">Max width (px)</label>
+              <input id="imgW" type="number" min="16" max="2000" value="420"/>
+            </div>
+            <div>
+              <label class="tiny">Opacity</label>
+              <input id="imgOpacity" type="range" min="0" max="1" step="0.01" value="0.22"/>
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <h4>एंगल (Rotation)</h4>
+          <input id="angle" type="range" min="-90" max="90" step="1" value="-30"/>
+          <div class="muted">उतना झुका दो जितना cinematic लगे।</div>
+        </div>
+        <div class="field">
+          <h4>पोज़िशन</h4>
+          <div class="posgrid" id="posGrid">
+            <button data-pos="tl">↖︎ Top‑Left</button>
+            <button data-pos="tc">↑ Top‑Center</button>
+            <button data-pos="tr">↗︎ Top‑Right</button>
+            <button data-pos="ml">← Middle‑Left</button>
+            <button data-pos="mc" class="active">• Center</button>
+            <button data-pos="mr">→ Middle‑Right</button>
+            <button data-pos="bl">↙︎ Bottom‑Left</button>
+            <button data-pos="bc">↓ Bottom‑Center</button>
+            <button data-pos="br">↘︎ Bottom‑Right</button>
+          </div>
+          <div class="grid two" style="margin-top:8px">
+            <div>
+              <label class="tiny">Margin X (px)</label>
+              <input id="marginX" type="number" value="24" />
+            </div>
+            <div>
+              <label class="tiny">Margin Y (px)</label>
+              <input id="marginY" type="number" value="24" />
+            </div>
+          </div>
+        </div>
+
+        <div class="field">
+          <h4>टाइल / रिपीट</h4>
+          <label class="tiny"><input id="tile" type="checkbox"> Repeat as tile</label>
+          <div id="tileBox" class="tilegrid" style="margin-top:8px" hidden>
+            <div>
+              <label class="tiny">Gap X (px)</label>
+              <input id="gapX" type="number" value="180"/>
+            </div>
+            <div>
+              <label class="tiny">Gap Y (px)</label>
+              <input id="gapY" type="number" value="160"/>
+            </div>
+          </div>
+          <div class="muted">Logo mesh इफेक्ट के लिए ऑन करो।</div>
+        </div>
+
+        <div class="field">
+          <h4>पेज रेंज</h4>
+          <input id="ranges" type="text" placeholder="all या 1-3,5,10-12"/>
+          <div class="muted">खाली/"all" ⇒ सभी पेज।</div>
+        </div>
+      </section>
+
+      <div class="preview">
+        <div class="pv">
+          <h4>प्रीव्यू: पहला पेज</h4>
+          <canvas id="srcCanvas"></canvas>
+          <div class="meta" id="srcMeta">—</div>
+        </div>
+        <div class="pv">
+          <h4>वॉटरमार्क प्रीव्यू (अनुमानित)</h4>
+          <canvas id="wmCanvas"></canvas>
+          <div class="meta">नोट: रेंडरिंग ब्राउज़र प्रीव्यू है; फाइनल PDF थोड़ा अलग लग सकता है।</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <div class="left tiny" id="countLine">कोई फ़ाइल नहीं लोड हुई।</div>
+        <div class="right">
+          <button class="btn ghost" id="clearBtn" type="button" disabled>रीसेट</button>
+          <button class="btn" id="applyBtn" type="button" disabled>Apply & Download</button>
+        </div>
+      </div>
+
+      <div style="padding:0 22px 18px; display:none" id="progressWrap">
+        <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
+        <div class="tiny" id="status" style="margin-top:8px">तैयार हो रहे हैं…</div>
+      </div>
+    </section>
+
+    <section class="card howto" id="howto">
+      <h3>कैसे इस्तेमाल करें?</h3>
+      <ol>
+        <li>ऊपर PDF ड्रॉप/चुनो।</li>
+        <li>Text/Logo मोड चुनो; सेटिंग्स (रंग/opacity/एंगल/पोज़िशन) एडजस्ट करो।</li>
+        <li>टाइल ऑन करोगे तो mesh‑style वॉटरमार्क बनेगा।</li>
+        <li>पेज रेंज दोगे तो वही पेज प्रभावित होंगे।</li>
+        <li>Apply & Download दबाओ — नई PDF तैयार।</li>
+      </ol>
+      <p class="tiny">अभी "Under/Behind content" को सुरक्षित ढंग से हर PDF में लगाना सम्भव नहीं; हम ओवरले के रूप में लगाते हैं — कम opacity से subtle रखें।</p>
+    </section>
+
+    <p class="tiny" style="margin-top:12px">गोपनीयता: आपकी फाइलें कहीं अपलोड नहीं होतीं — सब कुछ आपके ब्राउज़र में होता है।</p>
+  </main>
+
+  <script>
+  // ====== Lib setup ======
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+  if (pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+
+  // ====== State ======
+  const S = { file:null, name:'', size:0, pdf:null, pageCount:0, srcBytes:null, imgBytes:null, pos:'mc' };
+  const fileEl = document.getElementById('file');
+  const dropEl = document.getElementById('drop');
+  const demoBtn = document.getElementById('demoBtn');
+  const countEl = document.getElementById('countLine');
+  const applyBtn = document.getElementById('applyBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const progressWrap = document.getElementById('progressWrap');
+  const barEl = document.getElementById('bar');
+  const statusEl = document.getElementById('status');
+
+  const srcCanvas = document.getElementById('srcCanvas');
+  const wmCanvas = document.getElementById('wmCanvas');
+  const srcMeta = document.getElementById('srcMeta');
+
+  const modeSel = document.getElementById('mode');
+  const textBox = document.getElementById('textBox');
+  const imgBox = document.getElementById('imgBox');
+
+  const wmText = document.getElementById('wmText');
+  const fontSize = document.getElementById('fontSize');
+  const fontWeight = document.getElementById('fontWeight');
+  const colorEl = document.getElementById('color');
+  const opacityEl = document.getElementById('opacity');
+
+  const imgEl = document.getElementById('img');
+  const imgMeta = document.getElementById('imgMeta');
+  const imgW = document.getElementById('imgW');
+  const imgOpacity = document.getElementById('imgOpacity');
+
+  const angleEl = document.getElementById('angle');
+  const posGrid = document.getElementById('posGrid');
+  const marginX = document.getElementById('marginX');
+  const marginY = document.getElementById('marginY');
+
+  const tileChk = document.getElementById('tile');
+  const tileBox = document.getElementById('tileBox');
+  const gapX = document.getElementById('gapX');
+  const gapY = document.getElementById('gapY');
+
+  const rangesEl = document.getElementById('ranges');
+
+  const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
+
+  // Mode toggle
+  modeSel.addEventListener('change', ()=>{
+    const m = modeSel.value;
+    textBox.hidden = m!=='text';
+    imgBox.hidden = m!=='image';
+    refreshPreview();
+  });
+
+  tileChk.addEventListener('change', ()=>{ tileBox.hidden = !tileChk.checked; refreshPreview(); });
+  [wmText,fontSize,fontWeight,colorEl,opacityEl,imgW,imgOpacity,angleEl,marginX,marginY,gapX,gapY,rangesEl].forEach(el=> el.addEventListener('input', refreshPreview));
+  posGrid.querySelectorAll('button').forEach(b=> b.addEventListener('click', ()=>{ posGrid.querySelectorAll('button').forEach(n=>n.classList.remove('active')); b.classList.add('active'); S.pos=b.dataset.pos; refreshPreview(); }));
+
+  imgEl.addEventListener('change', async (e)=>{
+    const f = e.target.files[0]; if (!f) return; S.imgBytes = new Uint8Array(await f.arrayBuffer()); imgMeta.textContent = `${f.name} • ${fmtBytes(f.size)}`; refreshPreview(); });
+
+  // File add
+  fileEl.addEventListener('change', async (e)=>{ if(e.target.files[0]){ await loadFile(e.target.files[0]); fileEl.value=''; }});
+  ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
+  ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
+  dropEl.addEventListener('drop', async (e)=>{ const f=[...e.dataTransfer.files].find(f=>f.type==='application/pdf'); if(f) await loadFile(f); });
+
+  // Demo PDF
+  demoBtn.addEventListener('click', async ()=>{
+    const { PDFDocument, StandardFonts } = PDFLib;
+    const doc = await PDFDocument.create();
+    const font = await doc.embedFont(StandardFonts.Helvetica);
+    for (let i=1;i<=6;i++){
+      const p = doc.addPage([595,842]);
+      p.drawText(`Demo Page ${i}`, { x: 220, y: 420, size: 28, font });
+    }
+    const bytes = await doc.save();
+    const blob = new Blob([bytes], {type:'application/pdf'});
+    const file = new File([blob], 'Demo-Watermark.pdf', {type:'application/pdf'});
+    await loadFile(file);
+  });
+
+  async function loadFile(file){
+    resetUI();
+    S.file=file; S.name=file.name; S.size=file.size; S.srcBytes = new Uint8Array(await file.arrayBuffer());
+    countEl.textContent = `${file.name} • ${fmtBytes(file.size)}`;
+    applyBtn.disabled=false; clearBtn.disabled=false;
+
+    try{
+      const pdf = await pdfjsLib.getDocument({data:S.srcBytes}).promise;
+      S.pdf=pdf; S.pageCount=pdf.numPages;
+      const page1 = await pdf.getPage(1);
+      await renderToCanvas(page1, srcCanvas, 144);
+      srcMeta.textContent = `पेज: 1/${pdf.numPages}`;
+      await refreshPreview();
+    }catch(err){ console.error(err); alert('फाइल नहीं खुली। शायद करप्ट या पासवर्ड‑प्रोटेक्टेड है।'); }
+  }
+
+  function resetUI(){ srcCanvas.width=srcCanvas.height=0; wmCanvas.width=wmCanvas.height=0; srcMeta.textContent='—'; applyBtn.disabled=true; clearBtn.disabled=true; }
+
+  async function renderToCanvas(page, canvas, dpi){
+    const scale = dpi/72; const viewport = page.getViewport({scale});
+    const ctx = canvas.getContext('2d', { willReadFrequently:true });
+    canvas.width = Math.floor(viewport.width); canvas.height = Math.floor(viewport.height);
+    await page.render({canvasContext: ctx, viewport}).promise;
+  }
+
+  async function refreshPreview(){
+    if (!S.pdf){ return; }
+    // Copy srcCanvas onto wmCanvas then draw simulated watermark on top
+    wmCanvas.width = srcCanvas.width; wmCanvas.height = srcCanvas.height;
+    const ctx = wmCanvas.getContext('2d');
+    ctx.clearRect(0,0,wmCanvas.width, wmCanvas.height);
+    ctx.drawImage(srcCanvas, 0, 0);
+
+    const angle = parseFloat(angleEl.value||'0') * Math.PI/180;
+    const pos = S.pos; const mx=parseFloat(marginX.value||0), my=parseFloat(marginY.value||0);
+
+    const drawText = (x,y, text, size, color, alpha)=>{
+      ctx.save();
+      ctx.globalAlpha = alpha;
+      ctx.translate(x,y); ctx.rotate(angle);
+      ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+      ctx.font = `${fontWeight.value==='bold'? '800':'600'} ${parseInt(size,10)}px Poppins, Noto Sans Devanagari, sans-serif`;
+      ctx.fillStyle = color;
+      ctx.fillText(text, 0, 0);
+      ctx.restore();
+    };
+
+    const drawImagePreview = async (x,y, maxW, alpha)=>{
+      if (!S.imgBytes) return;
+      const blob = new Blob([S.imgBytes]);
+      const url = URL.createObjectURL(blob);
+      const img = new Image();
+      await new Promise(res=>{ img.onload=()=>res(); img.src=url; });
+      const scale = Math.min(1, maxW / img.width);
+      const w = img.width * scale, h = img.height * scale;
+      ctx.save(); ctx.globalAlpha=alpha; ctx.translate(x,y); ctx.rotate(angle); ctx.drawImage(img, -w/2, -h/2, w, h); ctx.restore();
+      URL.revokeObjectURL(url);
+    };
+
+    const tile = tileChk.checked;
+    const gX = parseInt(gapX.value||0,10), gY = parseInt(gapY.value||0,10);
+
+    const W = wmCanvas.width, H = wmCanvas.height;
+    let cx = W/2, cy = H/2;
+    const gridPos = {
+      tl:[mx, H-my], tc:[W/2, H-my], tr:[W-mx, H-my],
+      ml:[mx, H/2],  mc:[W/2, H/2],  mr:[W-mx, H/2],
+      bl:[mx, my],   bc:[W/2, my],   br:[W-mx, my]
+    };
+    [cx,cy] = gridPos[pos] || [W/2, H/2];
+
+    if (!tile){
+      if (modeSel.value==='text') drawText(cx,cy, (wmText.value||'CONFIDENTIAL'), parseInt(fontSize.value,10), colorEl.value, parseFloat(opacityEl.value));
+      else await drawImagePreview(cx,cy, parseInt(imgW.value,10), parseFloat(imgOpacity.value));
+    } else {
+      const stepX = Math.max(60, gX); const stepY = Math.max(60, gY);
+      const cols = Math.ceil(W/stepX)+2; const rows = Math.ceil(H/stepY)+2;
+      for (let r= -1; r<rows; r++){
+        for (let c= -1; c<cols; c++){
+          const x = c*stepX + (cx % stepX); const y = r*stepY + (cy % stepY);
+          if (modeSel.value==='text') drawText(x,y, (wmText.value||'CONFIDENTIAL'), parseInt(fontSize.value,10), colorEl.value, parseFloat(opacityEl.value));
+          else await drawImagePreview(x,y, parseInt(imgW.value,10), parseFloat(imgOpacity.value));
+        }
+      }
+    }
+  }
+
+  // Range parser (1-3,5,10-12 or all)
+  function parseRange(str, max){
+    if(!str || str.trim().toLowerCase()==='all') return Array.from({length:max}, (_,i)=>i);
+    const out=new Set();
+    for(const part of str.split(',').map(s=>s.trim()).filter(Boolean)){
+      const m=part.match(/^(\d+)(?:\s*[-–]\s*(\d+))?$/); if(!m) throw new Error('format');
+      let a=parseInt(m[1],10), b=m[2]?parseInt(m[2],10):a;
+      if(a<1||b<1||a>max||b>max) throw new Error('range');
+      if(a>b) [a,b]=[b,a];
+      for(let i=a;i<=b;i++) out.add(i-1);
+    }
+    if(!out.size) throw new Error('empty');
+    return [...out].sort((x,y)=>x-y);
+  }
+
+  clearBtn.addEventListener('click', ()=>{ S.file=null; S.pdf=null; S.pageCount=0; srcCanvas.width=srcCanvas.height=0; wmCanvas.width=wmCanvas.height=0; srcMeta.textContent='—'; countEl.textContent='कोई फ़ाइल नहीं लोड हुई।'; applyBtn.disabled=true; clearBtn.disabled=true; });
+
+  applyBtn.addEventListener('click', applyWatermark);
+
+  async function applyWatermark(){
+    if(!S.srcBytes) return;
+    progressWrap.style.display='block'; barEl.style.width='0%'; statusEl.textContent='वॉटरमार्क लगा रहे…';
+    const { PDFDocument, StandardFonts, rgb, degrees } = PDFLib;
+
+    try{
+      const src = await PDFDocument.load(S.srcBytes);
+      const out = await PDFDocument.create();
+      const pages = src.getPageCount();
+      const idxs = parseRange((rangesEl.value||'all'), pages);
+
+      // Fonts & image
+      const helv = await out.embedFont(fontWeight.value==='bold'? StandardFonts.HelveticaBold : StandardFonts.Helvetica);
+      let embImg = null; let embSvg = null; let isSvg = false;
+      if (modeSel.value==='image' && S.imgBytes){
+        const sig = String.fromCharCode(...S.imgBytes.slice(0,10));
+        isSvg = sig.includes('<svg');
+        if (isSvg){ embSvg = await out.embedSvg(S.imgBytes); }
+        else {
+          try{ embImg = await out.embedPng(S.imgBytes); }
+          catch{ embImg = await out.embedJpg(S.imgBytes); }
+        }
+      }
+
+      // Copy + draw
+      for (let pi=0; pi<pages; pi++){
+        const [pg] = await out.copyPages(src, [pi]);
+        out.addPage(pg);
+        if (!idxs.includes(pi)) continue; // skip pages not in range
+
+        const { width:W, height:H } = pg.getSize();
+        const angle = parseFloat(angleEl.value||'0');
+        const a = degrees(angle);
+        const pos = S.pos; const mx=parseFloat(marginX.value||0), my=parseFloat(marginY.value||0);
+        const gridPos = {
+          tl:[mx, H-my], tc:[W/2, H-my], tr:[W-mx, H-my],
+          ml:[mx, H/2],  mc:[W/2, H/2],  mr:[W-mx, H/2],
+          bl:[mx, my],   bc:[W/2, my],   br:[W-mx, my]
+        };
+        let [cx,cy] = gridPos[pos] || [W/2, H/2];
+
+        const tile = tileChk.checked;
+        const gapx = Math.max(60, parseInt(gapX.value||0,10));
+        const gapy = Math.max(60, parseInt(gapY.value||0,10));
+
+        if (modeSel.value==='text'){
+          const text = wmText.value || 'CONFIDENTIAL';
+          const size = parseInt(fontSize.value||'64',10);
+          const alpha = Math.max(0, Math.min(1, parseFloat(opacityEl.value||'0.2')));
+          const col = hexToRgb(colorEl.value||'#ff0000');
+
+          if (!tile){ drawText(pg, text, helv, size, col, alpha, cx, cy, a); }
+          else {
+            const cols = Math.ceil(W/gapx)+2; const rows = Math.ceil(H/gapy)+2;
+            for (let r=-1; r<rows; r++){
+              for (let c=-1; c<cols; c++){
+                const x = c*gapx + (cx % gapx); const y = r*gapy + (cy % gapy);
+                drawText(pg, text, helv, size, col, alpha, x, y, a);
+              }
+            }
+          }
+        } else if (embImg || embSvg){
+          const alpha = Math.max(0, Math.min(1, parseFloat(imgOpacity.value||'0.22')));
+          const maxW = parseInt(imgW.value||'420',10);
+          if (!tile){ await drawImage(pg, embImg||embSvg, isSvg, maxW, alpha, cx, cy, a); }
+          else {
+            const cols = Math.ceil(W/gapx)+2; const rows = Math.ceil(H/gapy)+2;
+            for (let r=-1; r<rows; r++){
+              for (let c=-1; c<cols; c++){
+                const x = c*gapx + (cx % gapx); const y = r*gapy + (cy % gapy);
+                await drawImage(pg, embImg||embSvg, isSvg, maxW, alpha, x, y, a);
+              }
+            }
+          }
+        }
+        barEl.style.width = Math.round(((pi+1)/pages)*100)+'%';
+      }
+
+      statusEl.textContent = 'सेव कर रहे हैं…';
+      const bytes = await out.save({ updateFieldAppearances:false });
+      const blob = new Blob([bytes], {type:'application/pdf'});
+      const a = document.createElement('a');
+      const stamp = new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
+      const base = S.name.replace(/\.pdf$/i,'');
+      a.href = URL.createObjectURL(blob); a.download = `${base}-watermarked-${stamp}.pdf`; a.click();
+      URL.revokeObjectURL(a.href);
+      statusEl.textContent = 'Done ✅';
+    }catch(err){ console.error(err); alert('एरर: '+(err?.message||err)); statusEl.textContent='एरर आया।'; }
+  }
+
+  function hexToRgb(hex){
+    const m = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex||'#ff0000');
+    const r = parseInt(m[1],16)/255, g=parseInt(m[2],16)/255, b=parseInt(m[3],16)/255;
+    return {r,g,b};
+  }
+
+  function drawText(pg, text, font, size, col, alpha, cx, cy, a){
+    const { rgb } = PDFLib;
+    const opts = { x: cx, y: cy, size, font, color: rgb(col.r, col.g, col.b), rotate: a, opacity: alpha, xSkew:0, ySkew:0 }; // center via alignment trick
+    // pdf-lib doesn't have textAlign; compute text width and shift by half
+    const w = font.widthOfTextAtSize(text, size);
+    const h = font.heightAtSize(size);
+    pg.drawText(text, { ...opts, x: cx - w/2, y: cy - h/2 });
+  }
+
+  async function drawImage(pg, emb, isSvg, maxW, alpha, cx, cy, a){
+    const { degrees } = PDFLib;
+    let w,h;
+    if (isSvg){ const b = emb.scale(1); w=b.width; h=b.height; const scale = Math.min(1, maxW / w); w*=scale; h*=scale; pg.drawSvgPath(emb.content, { x: cx - w/2, y: cy - h/2, width:w, height:h, opacity:alpha, rotate:a }); }
+    else { w = emb.width; h = emb.height; const scale = Math.min(1, maxW / w); w*=scale; h*=scale; pg.drawImage(emb, { x: cx - w/2, y: cy - h/2, width:w, height:h, opacity:alpha, rotate:a }); }
+  }
+  </script>
+</body>
+</html>
