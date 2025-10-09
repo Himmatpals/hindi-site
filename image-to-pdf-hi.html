@@ -1,0 +1,548 @@
+<!--
+File: image-to-pdf-hi.html
+Title: इमेज से PDF — A4/A5/Letter • N‑Up • मार्जिन • बैकग्राउंड • कैप्शन • क्वालिटी
+Description: 100% ब्राउज़र‑आधारित JPG/PNG/WebP → PDF कन्वर्टर (Hindi UI). Drag & drop, री‑ऑर्डर, EXIF auto‑orient, N‑up (1/2/4 प्रति पेज), Fit/Fill, मार्जिन, बैकग्राउंड, कैप्शंस, पेज नंबरिंग, क्वालिटी री‑एन्कोड, लाइव प्रीव्यू. Uses pdf-lib + pdf.js + exif-js.
+How to use: Save as image-to-pdf-hi.html and open in a modern browser.
+-->
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>इमेज से PDF — तेज़, सुरक्षित</title>
+  <meta name="description" content="JPG/PNG/WebP को A4/A5/Letter में फिट करके PDF बनाओ — N‑up, मार्जिन, बैकग्राउंड, कैप्शन, क्वालिटी, प्रीव्यू — सब कुछ आपके ब्राउज़र में।"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
+      --text:#e9eefb; --muted:#9fb0de; --accent:#ffd95c; --accent2:#ff4d4d; --ok:#23d3ac;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text);
+      font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(1200px 800px at 80% -10%, rgba(255,217,92,.18), transparent),
+        radial-gradient(900px 600px at 10% 110%, rgba(255,77,77,.16), transparent),
+        var(--bg);
+    }
+    header{display:flex;align-items:center;justify-content:space-between;padding:14px 18px;position:sticky;top:0;background:rgba(11,16,32,.66);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+    .brand{display:flex;gap:10px;align-items:center;font-weight:800}
+    .brand svg{width:28px;height:28px;color:var(--accent)}
+    .container{max-width:1200px;margin:20px auto;padding:0 16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.025));border:1px solid var(--line);border-radius:18px;box-shadow:0 20px 70px rgba(0,0,0,.35);overflow:hidden}
+    .hero{padding:22px 22px 0}
+    h1{margin:0 0 6px;font-size:28px;font-weight:800}
+    .sub{margin:0;color:#f7f0c8}
+
+    .uploader{border:1.5px dashed rgba(255,255,255,.2);border-radius:16px;padding:18px;margin:16px 22px;text-align:center}
+    .uploader.dragover{border-color:var(--accent)}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
+    .btn{appearance:none;border:none;border-radius:12px;padding:12px 14px;font-weight:800;cursor:pointer;min-height:44px;transition:transform .15s, box-shadow .15s}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{background:var(--accent);color:#1f1600;box-shadow:0 8px 24px rgba(255,217,92,.35)}
+    .btn.secondary{background:#1f2752;color:var(--text)}
+    .btn.ghost{background:transparent;color:var(--text);border:1px solid rgba(255,255,255,.18)}
+    .btn.ok{background:var(--ok);color:#06261e}
+    .tiny{font-size:12px;color:var(--muted)}
+
+    .grid{display:grid;gap:14px;padding:0 22px 18px}
+    .two{grid-template-columns:420px 1fr}
+    @media (max-width:980px){.two{grid-template-columns:1fr}}
+
+    /* Left list */
+    .list{display:grid;gap:10px}
+    .item{display:grid;grid-template-columns:64px 1fr auto;gap:10px;align-items:center;padding:10px;background:#0f1630;border:1px solid rgba(255,255,255,.08);border-radius:12px}
+    .thumb{width:64px;height:64px;background:#0b1020;border:1px solid rgba(255,255,255,.08);border-radius:8px;display:grid;place-items:center;overflow:hidden}
+    .thumb img{width:100%;height:100%;object-fit:cover;display:block}
+    .name{font-weight:800}
+    .meta{color:#ffc2c2;font-size:12px}
+    .controls{display:flex;gap:6px;align-items:center}
+    .iconbtn{background:#19204a;border:1px solid rgba(255,255,255,.12);color:var(--text);width:34px;height:34px;border-radius:8px;display:grid;place-items:center;cursor:pointer}
+
+    /* Right panels */
+    .panel{background:var(--panel);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px}
+    .panel h4{margin:0 0 10px;font-size:14px}
+    input[type=text],input[type=number],input[type=color],select{background:#121935;color:var(--text);border:1px solid rgba(255,255,255,.14);border-radius:8px;padding:8px 10px;width:100%}
+    input[type=range]{width:100%}
+    label{font-size:13px}
+
+    .viewer{position:relative;background:#0f1630;border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:12px;overflow:auto;min-height:220px}
+    #preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+    .pv{background:#0b1020;border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:6px;display:grid;gap:6px}
+    .pv canvas{width:100%;height:auto;display:block;border-radius:6px}
+    .pv .cap{font-size:12px;color:var(--muted);text-align:center}
+
+    .progress{height:10px;background:#0c1330;border-radius:999px;overflow:hidden;border:1px solid rgba(255,255,255,.12)}
+    .bar{height:100%;width:0;background:linear-gradient(90deg, var(--accent), var(--accent2));transition:width .2s}
+
+    .actions{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 22px 18px;border-top:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.02)}
+  </style>
+
+  <!-- libs -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/exif-js/2.3.0/exif.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>इमेज → PDF — <span style="color:var(--accent)">हिंदी</span> टूल</span>
+    </div>
+    <div class="tiny">100% ब्राउज़र में • कोई अपलोड नहीं</div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="title">
+      <div class="hero">
+        <h1 id="title">JPG/PNG/WebP को PDF में बदलो</h1>
+        <p class="sub">A4/A5/Letter साइज, N‑up (1/2/4), Fit/Fill, मार्जिन, बैकग्राउंड, कैप्शन, क्वालिटी — सब कुछ एक क्लिक में।</p>
+      </div>
+
+      <div class="uploader" id="drop" tabindex="0">
+        <p style="margin:0 0 10px">फाइलें यहाँ <strong>Drag & Drop</strong> करो या</p>
+        <div class="row">
+          <label class="btn primary" for="file">इमेज चुनो</label>
+          <button class="btn secondary" id="demoBtn" type="button">डेमो इमेज</button>
+          <button class="btn ghost" id="resetBtn" type="button" disabled>रीसेट</button>
+        </div>
+        <input id="file" type="file" accept="image/*" multiple hidden/>
+        <p class="tiny" style="margin-top:8px">टिप: एक साथ 100 तक इमेज बेहतर काम करती हैं। HEIC/RAW समर्थित नहीं।</p>
+      </div>
+
+      <section class="grid two">
+        <!-- Left: file list -->
+        <div class="panel">
+          <h4>इमेजेस</h4>
+          <div id="list" class="list" aria-live="polite"></div>
+          <div class="tiny" id="countLine">कोई इमेज नहीं जोड़ी गई।</div>
+        </div>
+
+        <!-- Right: options + previews -->
+        <div class="panel">
+          <h4>आउटपुट सेटिंग्स</h4>
+          <div class="row" style="justify-content:space-between">
+            <label style="display:flex;gap:8px;align-items:center">पेज साइज
+              <select id="pageSize" style="min-width:140px">
+                <option value="A4" selected>A4 (210×297mm)</option>
+                <option value="A5">A5 (148×210mm)</option>
+                <option value="LETTER">Letter (8.5×11in)</option>
+                <option value="CUSTOM">कस्टम…</option>
+              </select>
+            </label>
+            <label style="display:flex;gap:8px;align-items:center">ओरिएंटेशन
+              <select id="orient"><option value="auto" selected>Auto</option><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select>
+            </label>
+          </div>
+          <div class="row" id="customSizeRow" style="display:none;justify-content:flex-start">
+            <label style="display:flex;gap:6px;align-items:center">Width (mm) <input id="wmm" type="number" value="210" min="20" max="600" style="width:100px"></label>
+            <label style="display:flex;gap:6px;align-items:center">Height (mm) <input id="hmm" type="number" value="297" min="20" max="800" style="width:100px"></label>
+          </div>
+
+          <div class="row" style="justify-content:flex-start">
+            <label style="display:flex;gap:6px;align-items:center">मार्जिन (mm) <input id="margin" type="number" value="10" min="0" max="50" style="width:90px"></label>
+            <label style="display:flex;gap:6px;align-items:center">N‑up
+              <select id="nup" style="width:110px"><option value="1" selected>1 / पेज</option><option value="2">2 / पेज</option><option value="4">4 / पेज</option></select>
+            </label>
+            <label style="display:flex;gap:6px;align-items:center">Scale
+              <select id="scaleMode"><option value="fit" selected>Fit</option><option value="fill">Fill (crop)</option><option value="stretch">Stretch</option></select>
+            </label>
+          </div>
+
+          <div class="row" style="justify-content:space-between">
+            <label style="display:flex;gap:6px;align-items:center">बैकग्राउंड <input id="bg" type="color" value="#ffffff" style="width:120px"></label>
+            <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="caption"> कैप्शन (फ़ाइल नाम)
+            </label>
+            <label style="display:flex;gap:6px;align-items:center">क्वालिटी (JPEG) <input id="quality" type="range" min="40" max="100" value="85"> <span class="tiny" id="qv">85%</span></label>
+          </div>
+
+          <div class="row" style="justify-content:flex-start">
+            <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="autoOrient" checked> EXIF Auto‑Orient</label>
+            <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="addNumbers"> पेज नंबरिंग</label>
+          </div>
+          <div class="row" style="justify-content:flex-start">
+            <label style="display:flex;gap:6px;align-items:center">फ़ॉन्ट साइज़ (कैप्शन/नंबर) <input id="fontSize" type="number" value="10" min="6" max="24" style="width:90px"></label>
+          </div>
+
+          <div style="margin-top:10px">
+            <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
+            <div class="tiny" id="status" style="margin-top:8px">तैयार…</div>
+          </div>
+
+          <div class="viewer" style="margin-top:12px">
+            <div id="preview"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="actions">
+        <div class="row" style="justify-content:flex-start">
+          <span class="tiny">प्राइवेसी: कोई अपलोड नहीं — सब कुछ आपके डिवाइस पर होता है।</span>
+        </div>
+        <div class="row" style="justify-content:flex-end">
+          <button class="btn secondary" id="buildBtn" type="button" disabled>PDF बनाओ</button>
+          <button class="btn ok" id="downloadBtn" type="button" disabled>डाउनलोड</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="padding:0 22px 22px">
+      <h3 style="margin:16px 0 10px">कैसे इस्तेमाल करें?</h3>
+      <ol style="margin:0 0 0 18px">
+        <li>ऊपर इमेजेस ड्रैग‑ड्रॉप या “इमेज चुनो” से जोड़ो।</li>
+        <li>लिस्ट में री‑ऑर्डर/रोटेट/हटाओ; दाएँ साइड में साइज, N‑up, मार्जिन, बैकग्राउंड, कैप्शन और क्वालिटी सेट करो।</li>
+        <li>“PDF बनाओ” दबाओ → प्रीव्यू देखो → “डाउनलोड”।</li>
+      </ol>
+      <p class="tiny" style="margin-top:8px">टिप: बड़े एल्बम के लिए क्वालिटी 70–85% रखें — फाइल साइज बहुत घटेगी।</p>
+    </section>
+  </main>
+
+  <script>
+  /* ===== Setup ===== */
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+  if (pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+
+  /* ===== State ===== */
+  const S = { items: [] }; // {id, file, name, size, imgEl, thumbURL, rot:0, bytesJPEG:Uint8Array}
+
+  /* ===== DOM ===== */
+  const listEl = document.getElementById('list');
+  const fileEl = document.getElementById('file');
+  const dropEl = document.getElementById('drop');
+  const demoBtn = document.getElementById('demoBtn');
+  const buildBtn = document.getElementById('buildBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const resetBtn = document.getElementById('resetBtn');
+  const barEl = document.getElementById('bar');
+  const statusEl = document.getElementById('status');
+  const countEl = document.getElementById('countLine');
+  const pvWrap = document.getElementById('preview');
+
+  const pageSizeSel = document.getElementById('pageSize');
+  const orientSel = document.getElementById('orient');
+  const customSizeRow = document.getElementById('customSizeRow');
+  const wmm = document.getElementById('wmm');
+  const hmm = document.getElementById('hmm');
+
+  const marginInput = document.getElementById('margin');
+  const nupSel = document.getElementById('nup');
+  const scaleModeSel = document.getElementById('scaleMode');
+  const bgInput = document.getElementById('bg');
+  const captionChk = document.getElementById('caption');
+  const qualityRange = document.getElementById('quality');
+  const qv = document.getElementById('qv');
+  const autoOrientChk = document.getElementById('autoOrient');
+  const addNumbersChk = document.getElementById('addNumbers');
+  const fontSizeInput = document.getElementById('fontSize');
+
+  /* ===== Utils ===== */
+  const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
+  const sleep = ms => new Promise(r=>setTimeout(r,ms));
+  function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
+  function setStatus(t){ statusEl.textContent = t; }
+  function mm2pt(mm){ return mm * 72 / 25.4; }
+
+  function pageDims(){
+    let w, h;
+    const v = pageSizeSel.value;
+    if (v==='A4'){ w = mm2pt(210); h = mm2pt(297); }
+    else if (v==='A5'){ w = mm2pt(148); h = mm2pt(210); }
+    else if (v==='LETTER'){ w = 612; h = 792; }
+    else { w = mm2pt(parseFloat(wmm.value)||210); h = mm2pt(parseFloat(hmm.value)||297); }
+    const o = orientSel.value;
+    if (o==='portrait') return {w, h};
+    if (o==='landscape') return {w:h, h:w};
+    return {w, h}; // auto resolved later per page if needed
+  }
+
+  /* ===== File add + thumbnails ===== */
+  fileEl.addEventListener('change', async e=>{ await addFiles([...e.target.files]); fileEl.value=''; });
+  ['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
+  ['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
+  dropEl.addEventListener('drop', async e=>{ const files=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/')); await addFiles(files); });
+
+  demoBtn.addEventListener('click', async ()=>{
+    // create 6 colorful demo squares
+    for (let i=1;i<=6;i++){
+      const c=document.createElement('canvas'); c.width=1200; c.height=800; const g=c.getContext('2d');
+      g.fillStyle = `hsl(${(i*55)%360} 80% 55%)`; g.fillRect(0,0,c.width,c.height);
+      g.fillStyle = '#111'; g.globalAlpha=0.15; for(let x=0;x<c.width;x+=40){ g.fillRect(x,0,20,c.height);} g.globalAlpha=1;
+      g.fillStyle = '#fff'; g.font='bold 72px Poppins, sans-serif'; g.textAlign='center'; g.textBaseline='middle'; g.fillText(`डेमो ${i}`, c.width/2, c.height/2);
+      const blob = await new Promise(r=>c.toBlob(r,'image/jpeg',0.9));
+      const file = new File([blob], `Demo-${i}.jpg`, {type:'image/jpeg'});
+      await addFiles([file]);
+    }
+  });
+
+  async function addFiles(files){
+    const existing = new Set(S.items.map(x=>x.name+'_'+x.size));
+    const pick = files.filter(f=>f.type.startsWith('image/') && !existing.has(f.name+'_'+f.size));
+    if (!pick.length) return;
+
+    for (const f of pick){
+      const id = crypto.randomUUID();
+      const ent = { id, file:f, name:f.name, size:f.size, imgEl:null, thumbURL:null, rot:0, bytesJPEG:null };
+      S.items.push(ent);
+      renderList(); updateButtons();
+      try{
+        const url = URL.createObjectURL(f);
+        const img = await loadImage(url, autoOrientChk.checked);
+        ent.imgEl = img; ent.thumbURL = await makeThumb(img);
+        URL.revokeObjectURL(url);
+        renderList();
+      }catch(e){ console.error(e); }
+    }
+  }
+
+  function loadImage(url, autoOrient){
+    return new Promise((resolve, reject)=>{
+      const img = new Image(); img.onload = ()=>{
+        if (!autoOrient) return resolve(img);
+        // Read EXIF orientation
+        EXIF.getData(img, function(){
+          const o = EXIF.getTag(this,'Orientation') || 1;
+          if (o===1) return resolve(img);
+          const fixed = applyOrientation(img, o); // returns HTMLImageElement
+          resolve(fixed);
+        });
+      }; img.onerror = reject; img.src = url; img.crossOrigin='anonymous';
+    });
+  }
+
+  function applyOrientation(img, o){
+    const c=document.createElement('canvas'), g=c.getContext('2d');
+    const w=img.naturalWidth, h=img.naturalHeight; let cw=w, ch=h;
+    if ([5,6,7,8].includes(o)){ cw=h; ch=w; }
+    c.width=cw; c.height=ch;
+    g.save();
+    // Based on EXIF orientation spec
+    switch(o){
+      case 2: g.translate(cw,0); g.scale(-1,1); break;           // flip X
+      case 3: g.translate(cw,ch); g.rotate(Math.PI); break;      // 180
+      case 4: g.translate(0,ch); g.scale(1,-1); break;           // flip Y
+      case 5: g.translate(0,cw); g.rotate(-Math.PI/2); g.scale(1,-1); break; // -90 + flip Y
+      case 6: g.translate(cw,0); g.rotate(Math.PI/2); break;     // 90
+      case 7: g.translate(cw,0); g.rotate(Math.PI/2); g.scale(-1,1); break; // 90 + flip X
+      case 8: g.translate(0,ch); g.rotate(-Math.PI/2); break;    // -90
+      default: break;
+    }
+    g.drawImage(img,0,0);
+    g.restore();
+    const out = new Image(); out.src = c.toDataURL('image/jpeg', 0.95);
+    return out;
+  }
+
+  async function makeThumb(img){
+    const max=256; let w=img.naturalWidth, h=img.naturalHeight; const r=Math.max(w,h)/max; if(r>1){ w=Math.round(w/r); h=Math.round(h/r); }
+    const c=document.createElement('canvas'); c.width=w; c.height=h; const g=c.getContext('2d'); g.drawImage(img,0,0,w,h);
+    return c.toDataURL('image/jpeg',0.8);
+  }
+
+  function renderList(){
+    listEl.innerHTML = '';
+    S.items.forEach((f, idx)=>{
+      const row = document.createElement('div'); row.className='item'; row.draggable=true; row.dataset.id=f.id;
+      row.addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain', f.id); });
+      row.addEventListener('dragover', e=>{ e.preventDefault(); });
+      row.addEventListener('drop', e=>{ e.preventDefault(); const fromId=e.dataTransfer.getData('text/plain'); if(!fromId||fromId===f.id) return; const fromIndex=S.items.findIndex(x=>x.id===fromId); const toIndex=idx; const [m]=S.items.splice(fromIndex,1); S.items.splice(toIndex,0,m); renderList(); });
+
+      const th = document.createElement('div'); th.className='thumb'; th.innerHTML = f.thumbURL? `<img alt="thumb" src="${f.thumbURL}">` : '…';
+      const col = document.createElement('div');
+      const name = document.createElement('div'); name.className='name'; name.textContent=f.name;
+      const meta = document.createElement('div'); meta.className='meta'; meta.textContent=`${fmtBytes(f.size)}${f.imgEl? ' • '+f.imgEl.naturalWidth+'×'+f.imgEl.naturalHeight : ''}`;
+      col.append(name, meta);
+
+      const ctrls = document.createElement('div'); ctrls.className='controls';
+      const up = mkIconBtn('ऊपर', `M12 8l-4 4h8l-4-4z`); up.addEventListener('click', ()=>{ if(idx>0){ const [m]=S.items.splice(idx,1); S.items.splice(idx-1,0,m); renderList(); }});
+      const down = mkIconBtn('नीचे', `M12 16l4-4H8l4 4z`); down.addEventListener('click', ()=>{ if(idx<S.items.length-1){ const [m]=S.items.splice(idx,1); S.items.splice(idx+1,0,m); renderList(); }});
+      const rot = mkIconBtn('रोटेट 90°', `M12 5v4m0 6v4m-7-7h4m6 0h4`); rot.addEventListener('click', ()=>{ f.rot=(f.rot+90)%360; renderList(); });
+      const del = mkIconBtn('हटाओ', `M6 7h12M10 7v10m4-10v10M9 7l1-2h4l1 2`, true); del.addEventListener('click', ()=>{ S.items.splice(idx,1); renderList(); updateButtons(); });
+      ctrls.append(up, down, rot, del);
+
+      row.append(th, col, ctrls);
+      listEl.appendChild(row);
+    });
+
+    countEl.textContent = S.items.length ? `${S.items.length} इमेज जोड़ी गईं` : 'कोई इमेज नहीं जोड़ी गई।';
+  }
+
+  function mkIconBtn(title, path, danger=false){ const b=document.createElement('button'); b.className='iconbtn'; b.title=title; if(danger) b.style.borderColor='rgba(255,77,77,.5)'; b.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="${path}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`; return b; }
+
+  function updateButtons(){ const has=S.items.length>0; buildBtn.disabled=!has; resetBtn.disabled=!has; downloadBtn.disabled=true; setBar(0); setStatus('तैयार…'); pvWrap.innerHTML=''; }
+  resetBtn.addEventListener('click', ()=>{ S.items.length=0; renderList(); updateButtons(); });
+
+  // UI bits
+  pageSizeSel.addEventListener('change', ()=>{ customSizeRow.style.display = pageSizeSel.value==='CUSTOM' ? 'flex' : 'none'; });
+  qualityRange.addEventListener('input', ()=>{ qv.textContent = qualityRange.value + '%'; });
+
+  /* ===== Build PDF ===== */
+  buildBtn.addEventListener('click', buildPDF);
+  downloadBtn.addEventListener('click', ()=>{ if (!S._outBytes) return; const a=document.createElement('a'); const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19); a.href=URL.createObjectURL(new Blob([S._outBytes],{type:'application/pdf'})); a.download=`Images-${stamp}.pdf`; a.click(); URL.revokeObjectURL(a.href); });
+
+  async function buildPDF(){
+    if (!S.items.length) return;
+    try{
+      const { PDFDocument, StandardFonts, rgb } = PDFLib;
+      const out = await PDFDocument.create();
+      const font = await out.embedFont(StandardFonts.Helvetica);
+
+      const q = Math.min(1, Math.max(0.4, (parseInt(qualityRange.value,10)||85)/100));
+      const nup = parseInt(nupSel.value,10);
+      const { w:baseW, h:baseH } = pageDims();
+      const margin = mm2pt(parseFloat(marginInput.value)||0);
+      const bgHex = bgInput.value || '#ffffff';
+
+      // Pre-encode images (to JPEG w/ selected quality) and store as Uint8Array
+      setStatus('इमेज तैयार की जा रही हैं…'); setBar(1);
+      const prepared = [];
+      for (let i=0;i<S.items.length;i++){
+        const it = S.items[i];
+        if (!it.imgEl){ continue; }
+        const data = await rasterToJPEG(it.imgEl, it.rot, q); // Uint8Array
+        prepared.push({ name: it.name, jpeg: data });
+        if (i%2===0) await sleep(0);
+        setBar(5 + (i/S.items.length)*25);
+      }
+
+      // N‑up layout helper
+      function slotsForPage(n){
+        if (n===1) return [{x:0,y:0,w:1,h:1}];
+        if (n===2) return [{x:0,y:0,w:1,h:0.5},{x:0,y:0.5,w:1,h:0.5}];
+        return [ // 4
+          {x:0,y:0,w:0.5,h:0.5}, {x:0.5,y:0,w:0.5,h:0.5},
+          {x:0,y:0.5,w:0.5,h:0.5}, {x:0.5,y:0.5,w:0.5,h:0.5}
+        ];
+      }
+      const slots = slotsForPage(nup);
+
+      // Iterate and place images
+      setStatus('PDF पेज बनाए जा रहे हैं…');
+      let page=null, pageIndex=0, slotIndex=0, placed=0;
+      while (placed < prepared.length){
+        // Auto orientation if selected
+        let W=baseW, H=baseH;
+        if (orientSel.value==='auto' && nup===1){ // for single-up, choose based on current image aspect
+          const peek = prepared[placed];
+          const dim = await probeJpegDims(peek.jpeg);
+          const imgLandscape = dim.w >= dim.h;
+          const pageLandscape = W>H;
+          if (imgLandscape !== pageLandscape){ [W,H] = [H,W]; }
+        }
+        page = out.addPage([W,H]);
+
+        // Paint background
+        const bgCol = hexToRgb(bgHex);
+        page.drawRectangle({ x:0, y:0, width:W, height:H, color: rgb(bgCol.r/255,bgCol.g/255,bgCol.b/255) });
+
+        // Place nup images
+        for (slotIndex=0; slotIndex<slots.length && placed<prepared.length; slotIndex++){
+          const s = slots[slotIndex];
+          const box = { x: margin + s.x*(W-2*margin), y: margin + s.y*(H-2*margin), w: s.w*(W-2*margin), h: s.h*(H-2*margin) };
+
+          const cur = prepared[placed++];
+          const img = await out.embedJpg(cur.jpeg);
+          const iw = img.width, ih = img.height;
+
+          // Fit/Fill/Stretch
+          let tw = box.w, th = box.h; // target draw size
+          if (scaleModeSel.value==='fit'){
+            const r = Math.min(box.w/iw, box.h/ih); tw = iw*r; th = ih*r;
+          }else if (scaleModeSel.value==='fill'){
+            const r = Math.max(box.w/iw, box.h/ih); tw = iw*r; th = ih*r;
+          } // stretch uses box fully
+          const dx = box.x + (box.w - tw)/2;
+          const dy = box.y + (box.h - th)/2;
+          page.drawImage(img, { x:dx, y:dy, width:tw, height:th });
+
+          // Caption
+          if (captionChk.checked){
+            const fs = Math.max(6, Math.min(24, parseInt(fontSizeInput.value,10)||10));
+            const pad = 6;
+            const text = cur.name.replace(/\.[^.]+$/, '');
+            page.drawText(text, { x: box.x + pad, y: box.y + 2, size: fs, font, color: rgb(0,0,0) });
+          }
+        }
+
+        // Page number
+        if (addNumbersChk.checked){
+          const fs = Math.max(6, Math.min(24, parseInt(fontSizeInput.value,10)||10));
+          const txt = String(++pageIndex);
+          page.drawText(txt, { x: W- (8 + fs*txt.length*0.6), y: 8, size: fs, font, color: rgb(0,0,0) });
+        }
+
+        setBar(30 + (placed/prepared.length)*60);
+      }
+
+      const outBytes = await out.save({ updateFieldAppearances:false });
+      S._outBytes = outBytes; downloadBtn.disabled = false; setBar(100); setStatus('तैयार — डाउनलोड कर लो!');
+      await renderPreview(outBytes);
+
+    }catch(err){ console.error(err); alert('PDF नहीं बन पाया: '+(err?.message||err)); setStatus('एरर।'); }
+  }
+
+  function hexToRgb(hex){
+    const m = hex.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i); if(!m) return {r:255,g:255,b:255};
+    return { r: parseInt(m[1],16), g: parseInt(m[2],16), b: parseInt(m[3],16) };
+  }
+
+  async function rasterToJPEG(imgEl, rotDeg, quality){
+    const c=document.createElement('canvas'), g=c.getContext('2d');
+    let w=imgEl.naturalWidth, h=imgEl.naturalHeight;
+    let angle = (rotDeg||0) * Math.PI/180;
+    if (rotDeg===90 || rotDeg===270){ c.width = h; c.height = w; }
+    else { c.width = w; c.height = h; }
+    g.save();
+    if (rotDeg){
+      if (rotDeg===90){ g.translate(c.width,0); }
+      if (rotDeg===180){ g.translate(c.width,c.height); }
+      if (rotDeg===270){ g.translate(0,c.height); }
+      g.rotate(angle);
+    }
+    g.drawImage(imgEl,0,0);
+    g.restore();
+    const blob = await new Promise(r=>c.toBlob(r,'image/jpeg',quality));
+    const buf = await blob.arrayBuffer();
+    return new Uint8Array(buf);
+  }
+
+  async function probeJpegDims(u8){
+    // Quick decode via Image() data URL to get width/height
+    const blob = new Blob([u8], {type:'image/jpeg'}); const url = URL.createObjectURL(blob);
+    const img = await new Promise((res,rej)=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src=url; });
+    const dims = { w: img.naturalWidth, h: img.naturalHeight }; URL.revokeObjectURL(url); return dims;
+  }
+
+  async function renderPreview(bytes){
+    pvWrap.innerHTML='';
+    try{
+      const pdf = await pdfjsLib.getDocument({data:bytes}).promise; const n=pdf.numPages; const show=Math.min(6,n);
+      for (let i=1;i<=show;i++){
+        const page = await pdf.getPage(i);
+        const vp = page.getViewport({scale:0.6});
+        const c = document.createElement('canvas'); c.width=Math.floor(vp.width); c.height=Math.floor(vp.height);
+        await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
+        const box=document.createElement('div'); box.className='pv';
+        box.appendChild(c); const cap=document.createElement('div'); cap.className='cap'; cap.textContent='पेज '+i; box.appendChild(cap);
+        pvWrap.appendChild(box);
+      }
+    }catch(e){ console.error(e); }
+  }
+
+  function updateCustomRow(){ customSizeRow.style.display = pageSizeSel.value==='CUSTOM' ? 'flex' : 'none'; }
+  updateCustomRow();
+
+  function updateButtonsInit(){ const has=S.items.length>0; buildBtn.disabled=!has; resetBtn.disabled=!has; }
+
+  function init(){ updateButtons(); }
+  init();
+  </script>
+</body>
+</html>
