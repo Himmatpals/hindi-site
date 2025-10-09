@@ -1,0 +1,538 @@
+<!--
+File: merge-pdf-hi.html
+Version: v2 (Thumbnails, Rename, A4 Normalize, Page Numbers, Cancel, Sort, Settings)
+How to use: Save this + Part 2/2 into a single file "merge-pdf-hi.html". Open in browser.
+-->
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF जोड़ो (Merge PDF) — फटाफट, थम्बनेल, नंबरिंग</title>
+  <meta name="description" content="PDF फाइलों को जोड़ो/मर्ज करो — बिना अपलोड, हिंदी UI, थम्बनेल प्रीव्यू, पेज रेंज, A4 नॉर्मलाइज़, पेज नंबरिंग, और फ्री डाउनलोड।" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b1020; --card:#121935; --muted:#8ea0c9; --text:#e9eefb; --accent:#7c5cff; --accent-2:#23d3ac; --danger:#ff5c7c; --ink:#0b1020;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:
+        radial-gradient(1200px 800px at 80% -10%, rgba(124,92,255,.25), transparent),
+        radial-gradient(900px 600px at 10% 110%, rgba(35,211,172,.18), transparent),
+        var(--bg);
+      color:var(--text); font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      line-height:1.5;
+    }
+    header{
+      display:flex; align-items:center; justify-content:space-between; padding:16px 20px; position:sticky; top:0;
+      backdrop-filter:blur(6px); background:rgba(11,16,32,.6); border-bottom:1px solid rgba(255,255,255,.06);
+      z-index:5;
+    }
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800; letter-spacing:.3px}
+    .brand svg{width:28px;height:28px}
+    .brand span{font-size:18px}
+    .container{max-width:1060px; margin:28px auto; padding:0 16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02)); border:1px solid rgba(255,255,255,.08); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden}
+    .hero{padding:28px 22px 0}
+    h1{margin:0 0 8px; font-size:28px; font-weight:800}
+    .sub{margin:0; color:var(--muted)}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+
+    /* Uploader */
+    .uploader{border:1.5px dashed rgba(255,255,255,.18); border-radius:16px; padding:22px; margin:18px 22px; text-align:center; transition:.25s border-color}
+    .uploader.dragover{border-color:var(--accent)}
+    .uploader input[type=file]{display:none}
+    .btn{appearance:none; border:none; border-radius:12px; padding:12px 16px; font-weight:700; cursor:pointer; color:var(--ink);
+         background:var(--accent); transition:transform .08s ease, box-shadow .2s; box-shadow:0 8px 24px rgba(124,92,255,.35)}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.secondary{background:#1f2752; color:var(--text); box-shadow:none}
+    .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.18)}
+    .btn.danger{background:var(--danger); color:white}
+    .btn.slim{padding:8px 12px; font-weight:600}
+    .pill{border:1px solid rgba(255,255,255,.18); border-radius:999px; padding:2px 10px; font-size:12px; color:var(--muted)}
+
+    /* List */
+    .list{padding:0 22px 10px}
+    .item{
+      display:grid; grid-template-columns: 56px 1fr auto; gap:12px; align-items:center;
+      margin:10px 0; padding:10px 12px; background:#0f1630; border:1px solid rgba(255,255,255,.06); border-radius:12px
+    }
+    .thumb{width:56px;height:74px; border-radius:8px; overflow:hidden; display:grid; place-items:center; background:#0b132e; border:1px solid rgba(255,255,255,.06)}
+    .thumb canvas{width:100%; height:auto; display:block}
+    .name{font-weight:700}
+    .meta{color:var(--muted); font-size:12px}
+    .controls{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+    .iconbtn{background:#19204a; border:1px solid rgba(255,255,255,.12); color:var(--text); width:34px; height:34px; border-radius:8px; display:grid; place-items:center; cursor:pointer}
+    .iconbtn:disabled{opacity:.45; cursor:not-allowed}
+    .range{display:flex; gap:6px; align-items:center; flex-wrap:wrap}
+    .range input{width:180px; padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.14); background:#121935; color:var(--text)}
+    .rename{width:220px; padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.14); background:#121935; color:var(--text)}
+    .help{font-size:12px; color:var(--muted)}
+
+    /* Footer actions */
+    .actions{
+      display:flex; justify-content:space-between; align-items:center; gap:12px; padding:12px 22px 16px;
+      border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02); flex-wrap:wrap
+    }
+    .left, .right{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+
+    /* Options row */
+    .options{display:flex; gap:14px; align-items:center; flex-wrap:wrap; padding:0 22px 14px}
+    .opt{display:flex; gap:8px; align-items:center}
+    .opt input[type=checkbox]{width:18px;height:18px}
+    .opt label{font-size:14px;color:#dbe5ff}
+    .outname{min-width:240px; padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.14); background:#121935; color:var(--text)}
+
+    /* Progress */
+    .progress{height:8px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12)}
+    .bar{height:100%; width:0; background:linear-gradient(90deg, var(--accent), var(--accent-2)); transition:width .2s}
+    .tiny{font-size:12px; color:var(--muted)}
+
+    @media (max-width:760px){
+      h1{font-size:24px}
+      .range input{width:140px}
+      .rename{width:180px}
+    }
+  </style>
+
+  <!-- pdf-lib for merging/drawing -->
+  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <!-- pdf.js (thumbnails) -->
+  <script defer src="https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js"></script>
+  <script>
+    // pdf.js worker
+    window['pdfjs-dist/build/pdf'].GlobalWorkerOptions.workerSrc =
+      'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+  </script>
+</head>
+<body>
+  <header>
+    <div class="brand" aria-label="Brand">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>PDF जोड़ो — <span style="color:var(--accent-2)">हिंदी</span> टूल</span>
+    </div>
+    <div class="pill" role="note">100% ब्राउज़र में • कोई अपलोड नहीं</div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="title">
+      <div class="hero">
+        <h1 id="title">PDF फाइलें जोड़ो (Merge PDF)</h1>
+        <p class="sub">Arre वाह! आसान सा टूल — थम्बनेल देखो, नाम बदलो, ऑर्डर सेट करो, पेज रेंज चुनो, और 1 क्लिक में डाउनलोड करो।</p>
+      </div>
+
+      <div class="uploader" id="drop" aria-label="फाइलें जोड़ने का सेक्शन" tabindex="0">
+        <p style="margin:0 0 10px">फाइलें यहाँ <strong>खींचो और छोड़ो</strong> (Drag & Drop) या</p>
+        <div class="row">
+          <label class="btn" for="file">फ़ाइलें चुनो</label>
+          <button class="btn secondary slim" id="demoBtn" type="button">डेमो फाइल</button>
+          <button class="btn ghost slim" id="reverseBtn" type="button" disabled>Reverse Order</button>
+          <button class="btn ghost slim" id="sortNameBtn" type="button" disabled>Sort by Name</button>
+          <button class="btn ghost slim" id="sortSizeBtn" type="button" disabled>Sort by Size</button>
+        </div>
+        <input id="file" type="file" accept="application/pdf" multiple />
+        <p class="help" style="margin-top:10px">टिप: 120MB कुल साइज़ तक बेहतर परफॉर्मेंस। स्कैन PDFs भी चलेंगी (OCR इस टूल में नहीं है).</p>
+      </div>
+
+      <div class="list" id="list" aria-live="polite"></div>
+
+      <div class="options">
+        <div class="opt"><input type="checkbox" id="optA4"><label for="optA4">Normalize to A4 (सब पेज को A4 में फिट करो)</label></div>
+        <div class="opt"><input type="checkbox" id="optNumbers"><label for="optNumbers">Add Page Numbers (नीचे सेंटर में)</label></div>
+        <input class="outname" id="outName" placeholder="आउटपुट फाइल का नाम (जैसे: Merged-Hindi).pdf">
+      </div>
+
+      <div class="actions">
+        <div class="left tiny" id="countLine">कोई फ़ाइल नहीं जोड़ी गई।</div>
+        <div class="right">
+          <button class="btn ghost slim" id="clearBtn" type="button" disabled>रीसेट</button>
+          <button class="btn danger slim" id="cancelBtn" type="button" disabled>Cancel Merge</button>
+          <button class="btn" id="mergeBtn" type="button" disabled>मर्ज करो</button>
+        </div>
+      </div>
+
+      <div style="padding:0 22px 18px; display:none" id="progressWrap">
+        <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
+        <div class="tiny" id="status" style="margin-top:8px">तैयार हो रहे हैं…</div>
+      </div>
+    </section>
+
+    <p class="tiny" style="margin-top:12px">गोपनीयता: आपकी फाइलें कहीं अपलोड नहीं होतीं — सब कुछ आपके ब्राउज़र में होता है।</p>
+  </main>
+
+  <script>
+  // ======= State ========
+  const state = {
+    files: [],      // {id, file, name, size, pageCount, range, thumbUrl}
+    cancel: false,
+    settings: { a4: false, numbers: false, out: "" }
+  };
+
+  // Elements
+  const listEl = document.getElementById('list');
+  const fileEl = document.getElementById('file');
+  const dropEl = document.getElementById('drop');
+  const countEl = document.getElementById('countLine');
+  const mergeBtn = document.getElementById('mergeBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const cancelBtn = document.getElementById('cancelBtn');
+  const reverseBtn = document.getElementById('reverseBtn');
+  const sortNameBtn = document.getElementById('sortNameBtn');
+  const sortSizeBtn = document.getElementById('sortSizeBtn');
+  const demoBtn = document.getElementById('demoBtn');
+  const progressWrap = document.getElementById('progressWrap');
+  const barEl = document.getElementById('bar');
+  const statusEl = document.getElementById('status');
+  const optA4 = document.getElementById('optA4');
+  const optNumbers = document.getElementById('optNumbers');
+  const outName = document.getElementById('outName');
+
+  // Restore settings
+  try {
+    const saved = JSON.parse(localStorage.getItem('mergeSettings')||'{}');
+    if(typeof saved.a4==='boolean') optA4.checked = saved.a4;
+    if(typeof saved.numbers==='boolean') optNumbers.checked = saved.numbers;
+    if(saved.out) outName.value = saved.out;
+  }catch{}
+
+  const PDFJS = window['pdfjs-dist/build/pdf'];
+  const fmtBytes = b => {
+    if (b < 1024) return b + ' B';
+    const units = ['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<units.length-1);
+    return b.toFixed(1)+' '+units[i];
+  };
+
+  function saveSettings() {
+    localStorage.setItem('mergeSettings', JSON.stringify({
+      a4: optA4.checked, numbers: optNumbers.checked, out: outName.value.trim()
+    }));
+  }
+
+  optA4.addEventListener('change', saveSettings);
+  optNumbers.addEventListener('change', saveSettings);
+  outName.addEventListener('input', saveSettings);
+
+  // Handle files add
+  fileEl.addEventListener('change', async (e) => {
+    await addFiles([...e.target.files]);
+    fileEl.value = '';
+  });
+
+  // Drag & drop
+  ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
+  ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
+  dropEl.addEventListener('drop', async (e)=>{
+    const files = [...e.dataTransfer.files].filter(f=>f.type==='application/pdf');
+    await addFiles(files);
+  });
+
+  // Keyboard re-order: select an .item then Ctrl+Arrow
+  document.addEventListener('keydown', (e)=>{
+    if(!(e.ctrlKey || e.metaKey)) return;
+    if(!['ArrowUp','ArrowDown'].includes(e.key)) return;
+    const active = document.activeElement;
+    if(!active || !active.classList?.contains('item')) return;
+    const id = active.dataset.id;
+    const idx = state.files.findIndex(x=>x.id===id);
+    if(idx<0) return;
+    if(e.key==='ArrowUp' && idx>0){ const [m]=state.files.splice(idx,1); state.files.splice(idx-1,0,m); render(); }
+    if(e.key==='ArrowDown' && idx<state.files.length-1){ const [m]=state.files.splice(idx,1); state.files.splice(idx+1,0,m); render(); }
+  });
+
+  reverseBtn.addEventListener('click', ()=>{ state.files.reverse(); render(); });
+  sortNameBtn.addEventListener('click', ()=>{ state.files.sort((a,b)=>a.name.localeCompare(b.name)); render(); });
+  sortSizeBtn.addEventListener('click', ()=>{ state.files.sort((a,b)=>a.size-b.size); render(); });
+
+  // Demo small PDFs (generated on the fly)
+  demoBtn.addEventListener('click', async ()=>{
+    const { PDFDocument, StandardFonts } = PDFLib;
+    for (let i=1;i<=2;i++){
+      const doc = await PDFDocument.create();
+      const page = doc.addPage([420, 300]);
+      const font = await doc.embedFont(StandardFonts.Helvetica);
+      page.drawText(`डेमो PDF ${i}`, { x: 150, y: 150, size: 24, font });
+      const bytes = await doc.save();
+      const blob = new Blob([bytes], {type:'application/pdf'});
+      const file = new File([blob], `Demo-${i}.pdf`, {type:'application/pdf'});
+      await addFiles([file]);
+    }
+  });
+
+  async function renderThumb(file, targetEl){
+    try{
+      const url = URL.createObjectURL(file);
+      const pdf = await PDFJS.getDocument({ url }).promise;
+      const page = await pdf.getPage(1);
+      const vp = page.getViewport({ scale: 0.3 });
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = vp.width; canvas.height = vp.height;
+      await page.render({ canvasContext: ctx, viewport: vp }).promise;
+      targetEl.innerHTML = ''; targetEl.appendChild(canvas);
+      URL.revokeObjectURL(url);
+    }catch(err){
+      // silently ignore thumbnail failure
+    }
+  }
+
+  async function addFiles(files){
+    const existing = new Set(state.files.map(x=>x.name+'_'+x.size));
+    const pick = files.filter(f=>f.type==='application/pdf' && !existing.has(f.name+'_'+f.size));
+    if (!pick.length) return;
+
+    // Soft total size guard ~120MB
+    const total = pick.reduce((a,f)=>a+f.size, 0) + state.files.reduce((a,f)=>a+f.size,0);
+    if (total > 120*1024*1024){
+      alert('कुल फाइल साइज़ 120MB से ज्यादा है। कुछ फाइलें हटाकर ट्राई करें।');
+      return;
+    }
+
+    for (const f of pick){
+      const id = crypto.randomUUID();
+      const ent = { id, file:f, name:f.name, size:f.size, pageCount:null, range:'all' };
+      state.files.push(ent);
+      render();
+      // Read page count + thumbnail lazily
+      try{
+        const ab = await f.arrayBuffer();
+        const src = await PDFLib.PDFDocument.load(ab);
+        ent.pageCount = src.getPageCount();
+        render();
+      }catch(err){
+        ent.pageCount = null;
+        alert(`फाइल नहीं खुली: ${f.name}`);
+        render();
+      }
+    }
+    updateButtons();
+  }
+
+  function updateButtons(){
+    const has = state.files.length>0;
+    mergeBtn.disabled = !has;
+    clearBtn.disabled = !has;
+    reverseBtn.disabled = !has;
+    sortNameBtn.disabled = !has;
+    sortSizeBtn.disabled = !has;
+    cancelBtn.disabled = true;
+    countEl.textContent = has ? `${state.files.length} फाइलें जोड़ी गईं` : 'कोई फ़ाइल नहीं जोड़ी गई।';
+  }
+
+  function render(){
+    listEl.innerHTML = '';
+    state.files.forEach((f, idx)=>{
+      const row = document.createElement('div');
+      row.className='item'; row.draggable=true; row.dataset.id = f.id; row.tabIndex=0;
+
+      // drag re-order
+      row.addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain', f.id); });
+      row.addEventListener('dragover', e=>{ e.preventDefault(); });
+      row.addEventListener('drop', e=>{
+        e.preventDefault();
+        const fromId = e.dataTransfer.getData('text/plain');
+        if(!fromId || fromId===f.id) return;
+        const fromIndex = state.files.findIndex(x=>x.id===fromId);
+        const toIndex = idx;
+        const [moved] = state.files.splice(fromIndex,1);
+        state.files.splice(toIndex,0,moved);
+        render();
+      });
+
+      // Thumbnail
+      const thumb = document.createElement('div'); thumb.className='thumb';
+      thumb.innerHTML = '<span class="tiny">लोड हो रहा…</span>';
+      renderThumb(f.file, thumb);
+
+      // Center column
+      const col = document.createElement('div');
+      const nameWrap = document.createElement('div'); nameWrap.className='row';
+      const nameInp = document.createElement('input'); nameInp.className='rename'; nameInp.value = f.name;
+      nameInp.addEventListener('input', ()=>{ f.name = nameInp.value; });
+      const meta = document.createElement('div'); meta.className='meta';
+      meta.textContent = `${fmtBytes(f.size)} • ${f.pageCount? f.pageCount+' पेज' : 'पेज गिन रहे…'}`;
+      nameWrap.appendChild(nameInp);
+      col.appendChild(nameWrap); col.appendChild(meta);
+
+      // Controls
+      const ctrls = document.createElement('div'); ctrls.className='controls';
+      const rangeWrap = document.createElement('div'); rangeWrap.className='range';
+      const label = document.createElement('label'); label.textContent='पेज रेंज:'; label.style.fontSize='13px'; label.htmlFor = 'r_'+f.id;
+      const input = document.createElement('input'); input.id='r_'+f.id; input.placeholder = f.pageCount? `1-${f.pageCount} या 1-3,5` : 'all'; input.value = f.range;
+      input.addEventListener('input', ()=>{ f.range = input.value.trim()||'all'; });
+      rangeWrap.append(label, input);
+
+      const up = mkIconBtn('ऊपर', `M12 8l-4 4h8l-4-4z`); up.addEventListener('click', ()=>{ if(idx>0){ const [m]=state.files.splice(idx,1); state.files.splice(idx-1,0,m); render(); }});
+      const down = mkIconBtn('नीचे', `M12 16l4-4H8l4 4z`); down.addEventListener('click', ()=>{ if(idx<state.files.length-1){ const [m]=state.files.splice(idx,1); state.files.splice(idx+1,0,m); render(); }});
+      const del = mkIconBtn('हटाओ', `M6 7h12M10 7v10m4-10v10M9 7l1-2h4l1 2`, true);
+      del.addEventListener('click', ()=>{ state.files.splice(idx,1); render(); updateButtons(); });
+
+      ctrls.append(rangeWrap, up, down, del);
+
+      row.append(thumb, col, ctrls);
+      listEl.appendChild(row);
+    });
+  }
+
+  function mkIconBtn(title, path, danger=false){
+    const b = document.createElement('button'); b.className='iconbtn'; b.title=title; if(danger) b.style.borderColor='rgba(255,92,124,.5)';
+    b.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="${path}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    return b;
+  }
+
+  clearBtn.addEventListener('click', ()=>{ state.files.length=0; render(); updateButtons(); });
+
+  // Merge handler → continues in Part 2/2
+  </script>
+<script>
+  function parseRange(str, max){
+    // Accept "all" / blank → all pages
+    if(!str || str.toLowerCase()==='all') return Array.from({length:max}, (_,i)=>i);
+    const out = new Set();
+    const parts = str.split(',').map(s=>s.trim()).filter(Boolean);
+    for(const p of parts){
+      const m = p.match(/^(\d+)(?:\s*[-–]\s*(\d+))?$/);
+      if(!m) throw new Error('format');
+      let a = parseInt(m[1],10), b = m[2]? parseInt(m[2],10):a;
+      if(a<1 || b<1 || a>max || b>max) throw new Error('range');
+      if(a>b) [a,b] = [b,a];
+      for(let i=a;i<=b;i++) out.add(i-1);
+    }
+    if(!out.size) throw new Error('empty');
+    return [...out].sort((x,y)=>x-y);
+  }
+
+  cancelBtn.addEventListener('click', ()=>{ state.cancel = true; statusEl.textContent = 'रोक दिया।'; });
+
+  async function merge(){
+    const { PDFDocument, StandardFonts } = PDFLib;
+
+    // Save settings
+    saveSettings();
+
+    progressWrap.style.display='block';
+    barEl.style.width='0%'; statusEl.textContent='मर्ज की तैयारी…';
+    cancelBtn.disabled = false; state.cancel = false;
+
+    try{
+      const normalize = optA4.checked;
+      const addNums = optNumbers.checked;
+
+      // A4 portrait points (72 dpi): 595 x 842
+      const A4 = { w: 595.28, h: 841.89 };
+
+      let out;
+      let fontNums = null;
+
+      if(!normalize){
+        // Fast mode: copy pages as-is
+        out = await PDFDocument.create();
+      }else{
+        // Normalize mode: draw each page into a fresh A4 page
+        out = await PDFDocument.create();
+        fontNums = await out.embedFont(StandardFonts.Helvetica);
+      }
+
+      // Progress
+      let totalPages = 0;
+      const fileCount = state.files.length;
+
+      // Pre-count total pages for progress granularity (best-effort)
+      for(const f of state.files){
+        const ab = await f.file.arrayBuffer();
+        const src = await PDFDocument.load(ab);
+        const max = src.getPageCount();
+        let idxs;
+        try{ idxs = parseRange((f.range||'all').trim(), max); }
+        catch{ idxs = Array.from({length:max}, (_,i)=>i); }
+        totalPages += idxs.length;
+      }
+
+      let processedPages = 0;
+
+      for(const f of state.files){
+        if(state.cancel) throw new Error('रद्द किया गया');
+
+        statusEl.textContent = `जोड़ रहे: ${f.name}`;
+        const ab = await f.file.arrayBuffer();
+        const src = await PDFDocument.load(ab);
+        const max = src.getPageCount();
+        let idxs;
+
+        try{
+          idxs = parseRange((f.range||'all').trim(), max);
+          const input = document.getElementById('r_'+f.id);
+          input && (input.style.borderColor='rgba(255,255,255,.14)');
+        }catch(e){
+          const input = document.getElementById('r_'+f.id);
+          if(input) input.style.borderColor='salmon';
+          throw new Error(`पेज रेंज ग़लत है: ${f.name}`);
+        }
+
+        if(!normalize){
+          const copied = await out.copyPages(src, idxs);
+          copied.forEach(p=>out.addPage(p));
+          processedPages += idxs.length;
+          barEl.style.width = Math.round( (processedPages/Math.max(1,totalPages))*100 ) + '%';
+        }else{
+          // Draw each page onto A4 canvas
+          for(const pIndex of idxs){
+            if(state.cancel) throw new Error('रद्द किया गया');
+            const [copied] = await out.copyPages(src, [pIndex]);
+            const orig = copied.getSize();
+            const ratio = Math.min(A4.w / orig.width, A4.h / orig.height);
+            const newW = orig.width * ratio;
+            const newH = orig.height * ratio;
+            const page = out.addPage([A4.w, A4.h]);
+            page.drawPage(copied, { x:(A4.w - newW)/2, y:(A4.h - newH)/2, width:newW, height:newH });
+
+            processedPages++;
+            barEl.style.width = Math.round( (processedPages/Math.max(1,totalPages))*100 ) + '%';
+          }
+        }
+      }
+
+      // Add page numbers (if requested)
+      if(optNumbers.checked){
+        statusEl.textContent = 'पेज नंबर लगा रहे हैं…';
+        const pages = out.getPages();
+        const font = (await out.embedFont(PDFLib.StandardFonts.Helvetica));
+        const size = 10;
+        pages.forEach((p, i)=>{
+          const text = `${i+1}/${pages.length}`;
+          const w = font.widthOfTextAtSize(text, size);
+          p.drawText(text, { x:(p.getWidth()-w)/2, y:18, size, font, color: PDFLib.rgb(1,1,1) });
+        });
+      }
+
+      statusEl.textContent = 'सेव कर रहे हैं…';
+      const bytes = await out.save({ updateFieldAppearances: false });
+      const blob = new Blob([bytes], {type:'application/pdf'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const base = (outName.value.trim() || 'Merged-Hindi');
+      const safe = base.endsWith('.pdf') ? base : base + '.pdf';
+      a.href = url; a.download = safe;
+      a.click();
+      URL.revokeObjectURL(url);
+      statusEl.textContent = 'हो गया! आपकी फाइल डाउनलोड हो गई।';
+    }catch(err){
+      console.error(err);
+      if(String(err?.message||err).includes('रद्द')) {
+        alert('मर्ज कैंसल कर दिया गया।');
+      } else {
+        alert('मर्ज नहीं हो पाया: '+ (err?.message||err));
+      }
+      statusEl.textContent = 'एरर आया। फिर से कोशिश करें।';
+    }finally{
+      cancelBtn.disabled = true;
+    }
+  }
+
+  mergeBtn.addEventListener('click', merge);
+</script>
+</body>
+</html>
