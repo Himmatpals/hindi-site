@@ -1,0 +1,538 @@
+<!--
+File: word-to-pdf-hi.html
+Title: Word → PDF (DOCX) — हिंदी | सुंदर PDF, सही फ़ॉन्ट/मार्जिन
+Description: Client-side DOCX → PDF converter in Hindi (Bollywood tone).
+  Uses mammoth.js to parse DOCX → HTML (keeps text+images), then html2pdf.js (html2canvas+jsPDF)
+  to generate high-quality PDF with page size, margins, orientation, fonts, header/footer, page numbers,
+  watermark, background, image quality and live preview.
+Privacy: 100% browser — no upload to server.
+How: Save as word-to-pdf-hi.html and open in modern browser (Chromium/Firefox recommended).
+-->
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Word → PDF (DOCX) — हिंदी | सही फ़ॉन्ट/मार्जिन</title>
+  <meta name="description" content="DOCX को खूबसूरत PDF में बदलो — A4/A5/Letter, मार्जिन, हेडर/फूटर, पेज नंबर, वॉटरमार्क, बैकग्राउंड, इमेज क्वालिटी — सब 100% ब्राउज़र में।"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Devanagari + UI font -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
+      --text:#e9eefb; --muted:#9fb0de; --gold:#ffd95c; --red:#ff5c7c; --violet:#7c5cff; --good:#23d3ac; --ink:#0b1020;
+      --accent:#ffd400; --accent2:#ff4d4f;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text);
+      font-family:"Noto Sans Devanagari", Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(1100px 760px at 85% -10%, rgba(255,212,0,.18), transparent),
+        radial-gradient(900px 620px at 12% 110%, rgba(255,77,79,.16), transparent),
+        var(--bg);
+      line-height:1.5;
+    }
+    header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 18px; position:sticky; top:0; z-index:40; backdrop-filter:blur(6px); background:rgba(11,16,32,.7); border-bottom:1px solid var(--line)}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:900}
+    .brand svg{width:28px; height:28px}
+    .badges{display:flex; gap:8px; flex-wrap:wrap}
+    .pill{border:1px solid var(--line); background:#0d1632; color:#ffe083; border-radius:999px; padding:6px 10px; font-weight:800; font-size:12px}
+
+    .container{max-width:1220px; margin:18px auto; padding:0 16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden}
+    .hero{padding:22px 22px 0}
+    h1{margin:0 0 6px; font-size:28px; font-weight:900}
+    .sub{margin:0; color:var(--muted)}
+
+    .uploader{border:1.5px dashed rgba(255,255,255,.18); border-radius:16px; padding:18px; margin:16px 22px; text-align:center}
+    .uploader.dragover{border-color:var(--accent2)}
+    .uploader input[type=file]{display:none}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center}
+    .btn{appearance:none; border:none; border-radius:12px; padding:12px 14px; font-weight:800; cursor:pointer; min-height:42px; transition:transform .08s, box-shadow .18s}
+    .btn:hover{transform:translateY(-1px)}
+    .btn.yellow{background:var(--accent); color:#402d00; box-shadow:0 10px 28px rgba(255,212,0,.28)}
+    .btn.red{background:var(--accent2); color:#2b0c14; box-shadow:0 10px 28px rgba(255,77,79,.30)}
+    .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.2)}
+    .btn.violet{background:var(--violet); color:#100a2b; box-shadow:0 10px 28px rgba(124,92,255,.3)}
+    .tiny{font-size:12px; color:var(--muted)}
+
+    .grid{display:grid; gap:14px; padding:0 22px 18px}
+    .two{grid-template-columns:420px 1fr}
+    @media (max-width:980px){.two{grid-template-columns:1fr}}
+
+    .panel{background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px}
+    .panel h4{margin:0 0 10px; font-size:14px}
+    .list{display:grid; gap:10px}
+    .item{display:grid; grid-template-columns:64px 1fr auto; gap:10px; align-items:center; padding:10px; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px}
+    .thumb{width:64px; height:64px; background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px; display:grid; place-items:center; overflow:hidden}
+    .name{font-weight:700}
+    .meta{color:var(--muted); font-size:12px}
+
+    .kv{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+    .kv>label{display:flex; flex-direction:column; gap:6px; font-size:12px; color:#bfd0ff}
+    input[type=text], input[type=number], input[type=color], select, textarea{
+      background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.14); border-radius:8px; padding:8px 10px; width:100%
+    }
+    textarea{min-height:70px; resize:vertical}
+    .switch{display:flex; gap:8px; align-items:center}
+
+    .viewer{position:relative; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; overflow:auto; min-height:260px}
+    #previewWrap{background:var(--pageBG, #ffffff); color:#111; border-radius:10px; padding:0; margin:0 auto; max-width:900px}
+    #docHtml{padding:24px}
+    #docHtml img{max-width:100%; height:auto}
+
+    .progress{height:10px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12)}
+    .bar{height:100%; width:0; background:linear-gradient(90deg, var(--accent2), var(--accent)); transition:width .2s}
+
+    .actions{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02)}
+
+    /* Printable-esque layout inside preview */
+    .doc-surface{
+      font-family:"Noto Sans Devanagari", Poppins, Arial, sans-serif;
+      line-height:var(--lh,1.5);
+      font-size:var(--fs,16px);
+      color:#0c0f1a;
+    }
+    .doc-header,.doc-footer{
+      color:#334155; font-size:12px; padding:6px 10px; border-bottom:1px dashed #e5e7eb70; display:flex; justify-content:space-between; align-items:center
+    }
+    .doc-footer{ border-top:1px dashed #e5e7eb70; border-bottom:none; }
+    .watermark{
+      position:fixed; inset:0; display:grid; place-items:center; pointer-events:none; opacity:var(--wmOpacity,.12);
+      font-weight:800; color:#1f2937; transform:rotate(-24deg); font-size:64px; letter-spacing:2px
+    }
+  </style>
+
+  <!-- libs -->
+  <script defer src="https://unpkg.com/mammoth@1.6.0/mammoth.browser.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>Word → PDF (DOCX)</span>
+    </div>
+    <div class="badges">
+      <span class="pill">100% ब्राउज़र</span>
+      <span class="pill">कोई अपलोड नहीं</span>
+      <span class="pill">सुंदर PDF आउटपुट</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="title">
+      <div class="hero">
+        <h1 id="title">DOCX को सुंदर PDF में बदलो — सही फ़ॉन्ट/मार्जिन के साथ</h1>
+        <p class="sub">A4/A5/Letter, मार्जिन (mm), ओरिएंटेशन, हिंदी फ़ॉन्ट, हेडर/फूटर, पेज नंबर, वॉटरमार्क, बैकग्राउंड, इमेज क्वालिटी — सब आपके कंट्रोल में।</p>
+      </div>
+
+      <div class="uploader" id="drop" tabindex="0" aria-label="DOCX अपलोड">
+        <p style="margin:0 0 10px">यहाँ <strong>Drag & Drop</strong> करो या</p>
+        <div class="row">
+          <label class="btn yellow" for="file">DOCX चुनो</label>
+          <button class="btn ghost" id="demoBtn" type="button">डेमो DOCX</button>
+        </div>
+        <input id="file" type="file" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+        <p class="tiny" style="margin-top:8px">टिप: जटिल टेबल/हेडर-फूटर 1:1 नहीं भी आ सकते। सामान्य टेक्स्ट/इमेज/लिस्ट शानदार निकलते हैं।</p>
+      </div>
+
+      <section class="grid two">
+        <!-- Left: file + options -->
+        <div class="panel">
+          <h4>फाइल</h4>
+          <div id="list" class="list" aria-live="polite"></div>
+          <div class="tiny" id="countLine">कोई DOCX लोड नहीं हुआ।</div>
+
+          <h4 style="margin-top:14px">PDF सेटिंग्स</h4>
+          <div class="kv">
+            <label>पेज साइज़
+              <select id="pageSize">
+                <option value="a4" selected>A4 (210×297mm)</option>
+                <option value="a5">A5 (148×210mm)</option>
+                <option value="letter">US Letter (8.5×11")</option>
+              </select>
+            </label>
+            <label>ओरिएंटेशन
+              <select id="orientation">
+                <option value="portrait" selected>Portrait</option>
+                <option value="landscape">Landscape</option>
+              </select>
+            </label>
+            <label>मार्जिन (ऊपर, mm)
+              <input id="mTop" type="number" value="15" min="5" max="40">
+            </label>
+            <label>मार्जिन (नीचे, mm)
+              <input id="mBot" type="number" value="15" min="5" max="40">
+            </label>
+            <label>मार्जिन (बाएँ, mm)
+              <input id="mLeft" type="number" value="15" min="5" max="40">
+            </label>
+            <label>मार्जिन (दाएँ, mm)
+              <input id="mRight" type="number" value="15" min="5" max="40">
+            </label>
+            <label>फ़ॉन्ट
+              <select id="fontFamily">
+                <option value="'Noto Sans Devanagari', Poppins, Arial">Noto Sans Devanagari</option>
+                <option value="Poppins, Arial">Poppins</option>
+                <option value="Arial, sans-serif">Arial</option>
+              </select>
+            </label>
+            <label>फ़ॉन्ट साइज (px)
+              <input id="fontSize" type="number" value="16" min="12" max="24">
+            </label>
+            <label>लाइन-स्पेसिंग (em)
+              <input id="lineHeight" type="number" value="1.5" step="0.1" min="1.0" max="2.0">
+            </label>
+            <label>बैकग्राउंड कलर
+              <input id="bgColor" type="color" value="#ffffff">
+            </label>
+            <label>इमेज क्वालिटी (0.5–1.0)
+              <input id="imgQuality" type="number" value="0.92" min="0.5" max="1.0" step="0.01">
+            </label>
+          </div>
+
+          <h4 style="margin-top:12px">हेडर/फूटर, नंबर, वॉटरमार्क</h4>
+          <div class="kv">
+            <label>हेडर-लेफ्ट
+              <input id="hdrL" placeholder="ऊपर बाएँ">
+            </label>
+            <label>हेडर-राइट
+              <input id="hdrR" placeholder="ऊपर दाएँ">
+            </label>
+            <label>फूटर-लेफ्ट
+              <input id="ftrL" placeholder="नीचे बाएँ">
+            </label>
+            <label>फूटर-राइट
+              <input id="ftrR" placeholder="नीचे दाएँ (जैसे तारीख)">
+            </label>
+            <label>पेज नंबर पोज़िशन
+              <select id="pageNumPos">
+                <option value="off">Off</option>
+                <option value="br" selected>Bottom-Right</option>
+                <option value="bl">Bottom-Left</option>
+                <option value="bc">Bottom-Center</option>
+                <option value="tr">Top-Right</option>
+                <option value="tl">Top-Left</option>
+                <option value="tc">Top-Center</option>
+              </select>
+            </label>
+            <label>वॉटरमार्क टेक्स्ट
+              <input id="wmText" placeholder="जैसे CONFIDENTIAL / DRAFT">
+            </label>
+            <label>वॉटरमार्क अपेसिटी
+              <input id="wmOpacity" type="number" value="0.12" step="0.02" min="0.04" max="0.4">
+            </label>
+          </div>
+
+          <div style="margin-top:10px">
+            <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
+            <div class="tiny" id="status" style="margin-top:8px">तैयार…</div>
+          </div>
+        </div>
+
+        <!-- Right: Preview -->
+        <div class="panel">
+          <h4>प्रीव्यू</h4>
+          <div class="viewer">
+            <div id="previewWrap" class="doc-surface" style="--fs:16px; --lh:1.5;">
+              <div id="wm" class="watermark" hidden>WATERMARK</div>
+              <div class="doc-header">
+                <div id="hdrLView"></div>
+                <div id="hdrRView"></div>
+              </div>
+              <div id="docHtml">DOCX लोड करें — कंटेंट यहाँ दिखेगा…</div>
+              <div class="doc-footer">
+                <div id="ftrLView"></div>
+                <div id="ftrRView"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="actions">
+        <div class="row" style="justify-content:flex-start">
+          <button class="btn ghost" id="clearBtn" type="button" disabled>रीसेट</button>
+        </div>
+        <div class="row" style="justify-content:flex-end">
+          <button class="btn red" id="generateBtn" type="button" disabled>PDF बनाओ</button>
+          <button class="btn violet" id="downloadBtn" type="button" disabled>PDF डाउनलोड</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="padding:0 22px 22px" id="howto">
+      <h3 style="margin:16px 0 10px">कैसे इस्तेमाल करें?</h3>
+      <ol style="margin:0 0 0 18px">
+        <li>ऊपर DOCX ड्रैग-ड्रॉप करो (या “DOCX चुनो”).</li>
+        <li>पेज साइज़/ओरिएंटेशन/मार्जिन, फ़ॉन्ट, लाइन-स्पेसिंग, बैकग्राउंड, हेडर/फूटर, पेज नंबर और वॉटरमार्क सेट करो — प्रीव्यू लाइव बदलेगा।</li>
+        <li>“PDF बनाओ” → प्रोसेस/बार देखो → “PDF डाउनलोड”.</li>
+      </ol>
+      <p class="tiny" style="margin-top:8px">
+        नोट: Mammoth.js टेक्स्ट/इमेज को बेहतरीन निकालता है; बहुत जटिल टेबल/सेक्शन-ब्रेक 1:1 न भी हों।  
+        सब कुछ आपके ब्राउज़र में; कोई अपलोड नहीं।
+      </p>
+    </section>
+  </main>
+
+  <script>
+  /* ===== State ===== */
+  const S = { name:null, docxBytes:null, pdfBlob:null };
+
+  /* ===== DOM ===== */
+  const fileEl = document.getElementById('file');
+  const dropEl = document.getElementById('drop');
+  const demoBtn = document.getElementById('demoBtn');
+  const listEl = document.getElementById('list');
+  const countEl = document.getElementById('countLine');
+
+  const pageSizeEl = document.getElementById('pageSize');
+  const orientationEl = document.getElementById('orientation');
+  const mTopEl = document.getElementById('mTop');
+  const mBotEl = document.getElementById('mBot');
+  const mLeftEl = document.getElementById('mLeft');
+  const mRightEl = document.getElementById('mRight');
+  const fontFamilyEl = document.getElementById('fontFamily');
+  const fontSizeEl = document.getElementById('fontSize');
+  const lineHeightEl = document.getElementById('lineHeight');
+  const bgColorEl = document.getElementById('bgColor');
+  const imgQualityEl = document.getElementById('imgQuality');
+
+  const hdrL = document.getElementById('hdrL');
+  const hdrR = document.getElementById('hdrR');
+  const ftrL = document.getElementById('ftrL');
+  const ftrR = document.getElementById('ftrR');
+  const pageNumPos = document.getElementById('pageNumPos');
+  const wmText = document.getElementById('wmText');
+  const wmOpacity = document.getElementById('wmOpacity');
+
+  const hdrLView = document.getElementById('hdrLView');
+  const hdrRView = document.getElementById('hdrRView');
+  const ftrLView = document.getElementById('ftrLView');
+  const ftrRView = document.getElementById('ftrRView');
+  const wmView = document.getElementById('wm');
+
+  const previewWrap = document.getElementById('previewWrap');
+  const docHtml = document.getElementById('docHtml');
+
+  const barEl = document.getElementById('bar');
+  const statusEl = document.getElementById('status');
+  const generateBtn = document.getElementById('generateBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const clearBtn = document.getElementById('clearBtn');
+
+  function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
+
+  function updateUI(){
+    const has = !!S.docxBytes;
+    generateBtn.disabled = !has;
+    clearBtn.disabled = !has;
+    downloadBtn.disabled = !S.pdfBlob;
+    previewWrap.style.setProperty('--fs', (parseInt(fontSizeEl.value,10)||16) + 'px');
+    previewWrap.style.setProperty('--lh', (parseFloat(lineHeightEl.value)||1.5) );
+    previewWrap.style.setProperty('--pageBG', bgColorEl.value||'#ffffff');
+
+    hdrLView.textContent = hdrL.value||'';
+    hdrRView.textContent = hdrR.value||'';
+    ftrLView.textContent = ftrL.value||'';
+    ftrRView.textContent = ftrR.value||'';
+
+    wmView.textContent = (wmText.value||'').trim() || 'WATERMARK';
+    const op = Math.max(0.04, Math.min(0.4, parseFloat(wmOpacity.value)||0.12));
+    wmView.style.setProperty('--wmOpacity', op);
+    wmView.hidden = !wmText.value.trim();
+    previewWrap.style.fontFamily = fontFamilyEl.value || "'Noto Sans Devanagari', Poppins, Arial";
+  }
+
+  [fontFamilyEl, fontSizeEl, lineHeightEl, bgColorEl, hdrL, hdrR, ftrL, ftrR, wmText, wmOpacity].forEach(el=>{
+    el.addEventListener('input', updateUI);
+  });
+
+  /* ===== File handling ===== */
+  fileEl.addEventListener('change', async e=>{ const f=e.target.files?.[0]; if (f) await loadDocx(f); fileEl.value=''; });
+  ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
+  ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
+  dropEl.addEventListener('drop', async e=>{ const f=e.dataTransfer.files?.[0]; if (f && /\.docx$/i.test(f.name)) await loadDocx(f); });
+
+  // Demo file (generated via Mammoth not possible — so provide embedded simple DOCX via base64? Simpler: build a tiny example via Blob of HTML then show. We'll fake minimal content.)
+  demoBtn.addEventListener('click', async ()=>{
+    const sample = `
+      <h2 style="margin:0 0 8px">डेमो दस्तावेज़</h2>
+      <p>ये एक छोटा सा सैंपल कंटेंट है — Hindi + English mixed. Lists:</p>
+      <ul><li>Point A</li><li>Point B</li><li>Point C</li></ul>
+      <p><strong>Bold</strong>, <em>Italic</em>, <u>Underline</u>. Image below:</p>
+      <img src="https://via.placeholder.com/900x400.png?text=Demo+Image" alt="demo">
+      <p>अब “PDF बनाओ” दबाओ और मैजिक देखो ✨</p>`;
+    S.name = 'Demo-Word';
+    S.docxBytes = new Uint8Array([1]); // sentinel
+    renderRow({ name: S.name+'.docx', size: 0 });
+    docHtml.innerHTML = sample;
+    countEl.textContent = 'प्रीव्यू तैयार';
+    S.pdfBlob = null; updateUI(); statusEl.textContent='तैयार…'; setBar(0);
+  });
+
+  function renderRow(file){
+    listEl.innerHTML = '';
+    const row = document.createElement('div'); row.className='item';
+    const th = document.createElement('div'); th.className='thumb'; th.textContent='DOCX';
+    const col = document.createElement('div');
+    const name = document.createElement('div'); name.className='name'; name.textContent=file.name;
+    const meta = document.createElement('div'); meta.className='meta'; meta.textContent = file.size ? ((file.size/1024).toFixed(1)+' KB') : 'डेमो';
+    col.append(name, meta); row.append(th, col, document.createElement('div')); listEl.appendChild(row);
+  }
+
+  async function loadDocx(file){
+    S.name = file.name.replace(/\.docx$/i,'');
+    S.docxBytes = new Uint8Array(await file.arrayBuffer());
+    renderRow(file);
+
+    statusEl.textContent = 'DOCX पढ़ रहे…';
+    setBar(5);
+
+    try{
+      const res = await window.mammoth.convertToHtml({ arrayBuffer: S.docxBytes.buffer }, {
+        convertImage: mammoth.images.inline(async element => {
+          const data = await element.read('base64');
+          return { src: 'data:'+element.contentType+';base64,'+data };
+        })
+      });
+      docHtml.innerHTML = res.value || '<p>(खाली)</p>';
+      countEl.textContent = 'प्रीव्यू तैयार';
+      S.pdfBlob = null; updateUI();
+      statusEl.textContent='तैयार…'; setBar(0);
+    }catch(err){
+      console.error(err);
+      alert('फ़ाइल नहीं खुली: '+(err?.message||err));
+      statusEl.textContent='एरर।';
+    }
+  }
+
+  clearBtn.addEventListener('click', ()=>{
+    S.name=null; S.docxBytes=null; S.pdfBlob=null;
+    listEl.innerHTML=''; docHtml.innerHTML='DOCX लोड करें — कंटेंट यहाँ दिखेगा…';
+    countEl.textContent='कोई DOCX लोड नहीं हुआ।';
+    updateUI(); setBar(0); statusEl.textContent='तैयार…';
+  });
+
+  /* ===== PDF generation ===== */
+  generateBtn.addEventListener('click', generatePDF);
+  downloadBtn.addEventListener('click', ()=>{
+    if (!S.pdfBlob) return;
+    const a=document.createElement('a');
+    const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
+    a.href=URL.createObjectURL(S.pdfBlob);
+    a.download=`${(S.name||'Word')}-${stamp}.pdf`;
+    a.click(); URL.revokeObjectURL(a.href);
+  });
+
+  function mmToPx(mm){ return Math.round(mm * 96 / 25.4); }
+
+  function pageConfig(){
+    const size = pageSizeEl.value; const orient = orientationEl.value;
+    let widthMM=210, heightMM=297; // A4 default
+    if (size==='a5'){ widthMM=148; heightMM=210; }
+    if (size==='letter'){ widthMM=216; heightMM=279; } // approximate mm (8.5x11)
+    if (orient==='landscape'){ [widthMM, heightMM] = [heightMM, widthMM]; }
+    return {
+      widthPx: mmToPx(widthMM),
+      heightPx: mmToPx(heightMM),
+      margin: {
+        top:  mmToPx(parseFloat(mTopEl.value)||15),
+        bottom:mmToPx(parseFloat(mBotEl.value)||15),
+        left:  mmToPx(parseFloat(mLeftEl.value)||15),
+        right: mmToPx(parseFloat(mRightEl.value)||15),
+      }
+    };
+  }
+
+  async function generatePDF(){
+    if (!S.docxBytes){ return; }
+    try{
+      statusEl.textContent='PDF तैयार हो रहा…'; setBar(8); S.pdfBlob=null; downloadBtn.disabled=true;
+
+      // Apply live styles for preview (already applied via updateUI)
+      const cfg = pageConfig();
+      // Set a max width close to printable area for nicer wrap
+      previewWrap.style.maxWidth = (cfg.widthPx - cfg.margin.left - cfg.margin.right) + 'px';
+
+      // Use html2pdf (html2canvas + jsPDF)
+      const opt = {
+        margin:       [cfg.margin.top/96*25.4, cfg.margin.left/96*25.4, cfg.margin.bottom/96*25.4, cfg.margin.right/96*25.4], // in mm
+        filename:     (S.name||'Word')+'.pdf',
+        image:        { type: 'jpeg', quality: Math.max(0.5, Math.min(1.0, parseFloat(imgQualityEl.value)||0.92)) },
+        html2canvas:  { scale: 2, useCORS: true, backgroundColor: bgColorEl.value || '#ffffff' },
+        jsPDF:        { unit: 'mm', format: pageSizeEl.value==='letter' ? 'letter' : pageSizeEl.value, orientation: orientationEl.value }
+      };
+
+      // Build via toPdf -> get pdf -> add page numbers/header/footer overlay
+      const worker = html2pdf().set(opt).from(previewWrap).toPdf();
+      // Progress (fake): html2pdf doesn't expose steps — so animate bar gently
+      let fake=8; const timer=setInterval(()=>{ fake=Math.min(92, fake+2); setBar(fake); }, 180);
+
+      const pdf = await worker.get('pdf');
+      const total = pdf.internal.getNumberOfPages();
+
+      // Draw page numbers + header/footer on each page
+      const pos = pageNumPos.value;
+      const headerL = hdrL.value||''; const headerR = hdrR.value||'';
+      const footerL = ftrL.value||''; const footerR = ftrR.value||'';
+
+      pdf.setFont('helvetica','normal');
+      pdf.setFontSize(9);
+      const pageW = pdf.internal.pageSize.getWidth();
+      const pageH = pdf.internal.pageSize.getHeight();
+      const pad = 6;
+
+      for (let i=1;i<=total;i++){
+        pdf.setPage(i);
+        // header
+        if (headerL || headerR){
+          if (headerL) pdf.text(headerL, pad, pad+3);
+          if (headerR) pdf.text(headerR, pageW - pad, pad+3, { align:'right' });
+        }
+        // footer
+        if (footerL || footerR){
+          if (footerL) pdf.text(footerL, pad, pageH - pad);
+          if (footerR) pdf.text(footerR, pageW - pad, pageH - pad, { align:'right' });
+        }
+        // page number
+        if (pos !== 'off'){
+          const label = `${i} / ${total}`;
+          let x=pad, y=pageH-pad;
+          if (pos==='br'){ x=pageW-pad; y=pageH-pad; pdf.text(label, x, y, {align:'right'}); }
+          if (pos==='bl'){ x=pad; y=pageH-pad; pdf.text(label, x, y); }
+          if (pos==='bc'){ x=pageW/2; y=pageH-pad; pdf.text(label, x, y, {align:'center'}); }
+          if (pos==='tr'){ x=pageW-pad; y=pad+3; pdf.text(label, x, y, {align:'right'}); }
+          if (pos==='tl'){ x=pad; y=pad+3; pdf.text(label, x, y); }
+          if (pos==='tc'){ x=pageW/2; y=pad+3; pdf.text(label, x, y, {align:'center'}); }
+        }
+      }
+
+      clearInterval(timer);
+      setBar(96);
+
+      const blob = pdf.output('blob');
+      S.pdfBlob = blob;
+      downloadBtn.disabled = false;
+      statusEl.textContent='तैयार — PDF डाउनलोड करो!';
+      setBar(100);
+    }catch(err){
+      console.error(err);
+      alert('PDF नहीं बन पाया: '+(err?.message||err));
+      statusEl.textContent='एरर।';
+    }
+  }
+
+  // Init
+  updateUI();
+  </script>
+</body>
+</html>
