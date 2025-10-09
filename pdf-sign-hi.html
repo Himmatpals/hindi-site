@@ -1,0 +1,515 @@
+<!--
+File: pdf-sign-hi.html
+Description: Client‑side Hindi (Bollywood‑style) PDF e‑Signature tool — draw/typed/upload signatures, stamp date/initials, multi‑placement, drag/resize, undo/redo, export. 100% in browser using pdf.js (preview) + pdf-lib (export). Local signature vault via localStorage.
+How to use: Save as a single HTML file and open in a modern browser.
+-->
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF साइन करो — Draw / Type / Upload</title>
+  <meta name="description" content="PDF पर सिग्नेचर लगाओ — ड्रॉ करो, टाइप करो या इमेज अपलोड करो। मल्टी‑प्लेसमेंट, ड्रैग/रीसाइज़, दिनांक/इनिशियल स्टैम्प, Undo/Redo, और सुरक्षित डाउनलोड।" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- UI + Typed signature fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@400;600;800&family=Great+Vibes&display=swap" rel="stylesheet">
+  <style>
+    :root{ --bg:#0b1020; --card:#121935; --muted:#8ea0c9; --text:#e9eefb; --accent:#7c5cff; --accent-2:#23d3ac; --danger:#ff5c7c; --line: rgba(255,255,255,.10); }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; background:
+        radial-gradient(1200px 800px at 80% -10%, rgba(124,92,255,.25), transparent),
+        radial-gradient(900px 600px at 10% 110%, rgba(35,211,172,.18), transparent),
+        var(--bg);
+      color:var(--text); font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, Arial; line-height:1.5;
+    }
+    header{display:flex; align-items:center; justify-content:space-between; padding:16px 20px; position:sticky; top:0; backdrop-filter:blur(6px); background:rgba(11,16,32,.6); border-bottom:1px solid var(--line)}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:800}
+    .brand svg{width:28px;height:28px}
+    .container{max-width:1200px; margin:28px auto; padding:0 16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden}
+    .hero{padding:26px 22px 0}
+    h1{margin:0 0 8px; font-size:28px; font-weight:800}
+    .sub{margin:0; color:var(--muted)}
+
+    .uploader{border:1.5px dashed rgba(255,255,255,.18); border-radius:16px; padding:22px; margin:18px 22px; text-align:center; transition:.25s border-color}
+    .uploader.dragover{border-color:var(--accent)}
+    .uploader input[type=file]{display:none}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center}
+    .btn{appearance:none; border:none; border-radius:12px; padding:12px 14px; font-weight:700; cursor:pointer; color:#0b1020; background:var(--accent); box-shadow:0 8px 24px rgba(124,92,255,.35)}
+    .btn.secondary{background:#1f2752; color:var(--text); box-shadow:none}
+    .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.18)}
+    .btn.danger{background:var(--danger); color:#fff}
+    .btn.slim{padding:8px 10px; border-radius:10px}
+
+    .grid{display:grid; gap:14px; padding:0 22px 16px}
+    .two{grid-template-columns:340px 1fr}
+    @media (max-width:980px){ .two{grid-template-columns:1fr} }
+
+    .panel{background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px}
+    .panel h4{margin:0 0 8px; font-size:14px}
+    .tiny{font-size:12px; color:var(--muted)}
+
+    /* Tabs */
+    .tabs{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:8px}
+    .tab{background:#101a3a; color:var(--text); border:1px solid rgba(255,255,255,.14); padding:8px 12px; border-radius:10px; cursor:pointer}
+    .tab.active{outline:2px solid var(--accent-2)}
+
+    /* Signature draw box */
+    .sigdraw{background:#0e142e; border:1px dashed rgba(255,255,255,.18); border-radius:12px; padding:8px; display:grid; gap:8px}
+    #drawCanvas{width:100%; height:160px; background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px}
+
+    .field{display:grid; gap:6px; margin-top:8px}
+    input[type=text], input[type=number], input[type=color], select{background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.14); border-radius:8px; padding:8px 10px; width:100%}
+    input[type=range]{width:100%}
+
+    /* Preview area */
+    .viewer{position:relative; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; overflow:auto}
+    #pageWrap{position:relative; display:inline-block}
+    #pdfCanvas{display:block; max-width:100%; height:auto; border:1px solid rgba(255,255,255,.06); background:#0b1020; border-radius:8px}
+    /* Overlay signatures */
+    .sig{position:absolute; border:1px dashed rgba(255,255,255,.20); border-radius:8px; cursor:move; background:transparent}
+    .sig .handle{position:absolute; right:-8px; bottom:-8px; width:18px; height:18px; background:#19204a; border:1px solid rgba(255,255,255,.25); border-radius:4px; display:grid; place-items:center; cursor:nwse-resize; color:#fff; font-size:12px}
+    .sig .x{position:absolute; left:-8px; top:-8px; width:18px; height:18px; background:#8b1d3f; border:1px solid rgba(255,255,255,.25); border-radius:4px; display:grid; place-items:center; cursor:pointer; color:#fff; font-size:12px}
+
+    .toolbar{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+    .counter{padding:6px 10px; background:#101a3a; border:1px solid rgba(255,255,255,.18); border-radius:999px}
+
+    .actions{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02)}
+  </style>
+  <!-- libs -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand" aria-label="Brand">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>PDF साइन — <span style="color:var(--accent-2)">हिंदी</span> टूल</span>
+    </div>
+    <div class="tiny">100% ब्राउज़र में • कोई अपलोड नहीं</div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="title">
+      <div class="hero">
+        <h1 id="title">Draw, Type या Upload — कई जगह सिग्नेचर लगाओ</h1>
+        <p class="sub">थोड़ा बॉलीवुड‑टच: Smooth पेन्सिल, स्क्रिप्ट‑फॉन्ट, और ड्रैग‑एंड‑ड्रॉप। Undo/Redo भी है — ग़लती हो जाए तो टेंशन नहीं।</p>
+      </div>
+
+      <div class="uploader" id="drop" aria-label="फाइल जोड़ो" tabindex="0">
+        <p style="margin:0 0 10px">PDF यहाँ <strong>Drag & Drop</strong> करो या</p>
+        <div class="row">
+          <label class="btn" for="file">PDF चुनो</label>
+          <button class="btn secondary" id="demoBtn" type="button">डेमो फाइल डालो</button>
+        </div>
+        <input id="file" type="file" accept="application/pdf" />
+      </div>
+
+      <section class="grid two">
+        <!-- Left: signature controls -->
+        <div class="panel">
+          <h4>सिग्नेचर बनाओ/चुनो</h4>
+          <div class="tabs" id="tabs">
+            <button class="tab active" data-tab="drawTab">Draw</button>
+            <button class="tab" data-tab="typeTab">Type</button>
+            <button class="tab" data-tab="uploadTab">Upload</button>
+          </div>
+
+          <div id="drawTab" class="tabpane">
+            <div class="sigdraw">
+              <canvas id="drawCanvas"></canvas>
+              <div class="toolbar">
+                <label class="tiny">रंग <input id="penColor" type="color" value="#111111"></label>
+                <label class="tiny">मोटाई <input id="penSize" type="range" min="1" max="12" step="0.5" value="2.5"></label>
+                <button id="clearDraw" class="btn slim ghost" type="button">क्लियर</button>
+                <button id="saveSig" class="btn slim" type="button">Vault में सेव</button>
+              </div>
+              <div class="tiny">हाथ से साइन ड्रॉ करो। सेव करके बाद में reuse कर सकते हो।</div>
+            </div>
+          </div>
+
+          <div id="typeTab" class="tabpane" hidden>
+            <div class="field">
+              <label>टाइप्ड सिग्नेचर</label>
+              <input id="typedText" type="text" placeholder="उदा: R. Kumar"/>
+              <div class="row" style="justify-content:flex-start">
+                <label class="tiny">फॉन्ट
+                  <select id="typedFont">
+                    <option value="Great Vibes">Great Vibes (script)</option>
+                    <option value="Poppins">Poppins</option>
+                    <option value="Noto Sans Devanagari">देवनागरी (Noto)</option>
+                  </select>
+                </label>
+                <label class="tiny">Size <input id="typedSize" type="number" min="12" max="220" value="64"></label>
+                <label class="tiny">रंग <input id="typedColor" type="color" value="#111111"></label>
+              </div>
+              <button id="saveTyped" class="btn slim" type="button">Vault में सेव</button>
+              <div class="tiny">नोट: टाइप्ड सिग्नेचर export में इमेज की तरह embed होता है ताकि exact लुक रहे।</div>
+            </div>
+          </div>
+
+          <div id="uploadTab" class="tabpane" hidden>
+            <div class="field">
+              <label class="tiny">PNG/JPG अपलोड करें (transparent बैकग्राउंड बेहतर)</label>
+              <input id="sigUpload" type="file" accept="image/png,image/jpeg" />
+              <div class="tiny" id="uploadMeta">—</div>
+              <button id="saveUpload" class="btn slim" type="button" disabled>Vault में सेव</button>
+            </div>
+          </div>
+
+          <div class="panel" style="margin-top:12px">
+            <h4>Signature Vault</h4>
+            <div class="tiny">सेव किए हुए सिग्नेचर यहाँ मिलेंगे। किसी पर क्लिक करो और पेज पर प्लेस करो।</div>
+            <div id="vault" class="row" style="justify-content:flex-start; gap:8px; margin-top:8px"></div>
+          </div>
+
+          <div class="panel" style="margin-top:12px">
+            <h4>स्टैम्प</h4>
+            <div class="row" style="justify-content:flex-start">
+              <button id="addDate" class="btn slim ghost" type="button">आज की तारीख़</button>
+              <button id="addInitials" class="btn slim ghost" type="button">इनिशियल्स</button>
+            </div>
+            <div class="tiny">ये भी सिग्नेचर जैसे ही draggable/resizeable ऑब्जेक्ट बनते हैं।</div>
+          </div>
+        </div>
+
+        <!-- Right: PDF viewer -->
+        <div class="panel">
+          <div class="toolbar" style="margin-bottom:8px; justify-content:space-between">
+            <div class="row" style="justify-content:flex-start">
+              <button id="prevPage" class="btn slim ghost" type="button">‹ Prev</button>
+              <span class="counter" id="pageInfo">—</span>
+              <button id="nextPage" class="btn slim ghost" type="button">Next ›</button>
+              <label class="tiny">Zoom <input id="zoom" type="range" min="50" max="200" value="100"> <span id="zoomVal">100%</span></label>
+            </div>
+            <div class="row" style="justify-content:flex-end">
+              <button id="undo" class="btn slim ghost" type="button" disabled>↶ Undo</button>
+              <button id="redo" class="btn slim ghost" type="button" disabled>↷ Redo</button>
+              <button id="place" class="btn slim" type="button" disabled>Place on page</button>
+            </div>
+          </div>
+
+          <div class="viewer">
+            <div id="pageWrap">
+              <canvas id="pdfCanvas"></canvas>
+              <!-- overlay signatures injected here as .sig -->
+            </div>
+          </div>
+          <div class="tiny" id="docMeta" style="margin-top:6px">कोई फ़ाइल नहीं लोड हुई।</div>
+        </div>
+      </section>
+
+      <div class="actions">
+        <div class="row" style="justify-content:flex-start">
+          <button class="btn ghost" id="clearBtn" type="button" disabled>रीसेट</button>
+        </div>
+        <div class="row" style="justify-content:flex-end">
+          <button class="btn" id="exportBtn" type="button" disabled>Apply & Download</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="padding:0 22px 22px">
+      <h3 style="margin:16px 0 10px">कैसे इस्तेमाल करें?</h3>
+      <ol style="margin:0 0 0 18px">
+        <li>PDF चुनो। पेज नेविगेट करो।</li>
+        <li>बाएँ से सिग्नेचर बनाओ (draw/type/upload) या Vault से चुनो।</li>
+        <li><em>Place on page</em> दबाओ और पेज पर क्लिक करके प्लेस करो; ड्रैग करो, कोने से रीसाइज़ करो।</li>
+        <li>Redo/Undo से मन बदलो।</li>
+        <li>Apply & Download — सब पेजों पर जहाँ जहाँ लगाए, वहीँ embed हो जाएगा।</li>
+      </ol>
+      <p class="tiny">नोट: यह टूल विजुअल सिग्नेचर जोड़ता है; PKI/डिजिटल क्रिप्टोग्राफिक सिग्नेचर (PAdES) नहीं। जरूरत हो तो अलग से बताएँ — एडवांस्ड वर्ज़न बनाया जा सकता है।</p>
+    </section>
+
+    <p class="tiny" style="margin-top:12px">गोपनीयता: आपकी फाइलें कहीं अपलोड नहीं होतीं — सब कुछ आपके ब्राउज़र में होता है।</p>
+  </main>
+
+  <script>
+  // ====== Lib setup ======
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+  if (pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
+
+  // ====== State ======
+  const S = {
+    file:null, name:'', size:0, srcBytes:null,
+    pdf:null, pageCount:0, page:1, scale:1,
+    placements:[], // {id, page, type:'img'|'typed'|'draw'|'stamp', data:{...}, xN,yN,wN,hN, opacity}
+    current:null, // active signature payload usable for placement
+    undoStack:[], redoStack:[]
+  };
+
+  // DOM
+  const fileEl = document.getElementById('file');
+  const dropEl = document.getElementById('drop');
+  const demoBtn = document.getElementById('demoBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const exportBtn = document.getElementById('exportBtn');
+  const placeBtn = document.getElementById('place');
+  const undoBtn = document.getElementById('undo');
+  const redoBtn = document.getElementById('redo');
+
+  const pdfCanvas = document.getElementById('pdfCanvas');
+  const pageWrap = document.getElementById('pageWrap');
+  const zoom = document.getElementById('zoom');
+  const zoomVal = document.getElementById('zoomVal');
+  const pageInfo = document.getElementById('pageInfo');
+  const prevPage = document.getElementById('prevPage');
+  const nextPage = document.getElementById('nextPage');
+  const docMeta = document.getElementById('docMeta');
+
+  const tabsEl = document.getElementById('tabs');
+  const drawTab = document.getElementById('drawTab');
+  const typeTab = document.getElementById('typeTab');
+  const uploadTab = document.getElementById('uploadTab');
+
+  // Draw controls
+  const drawCanvas = document.getElementById('drawCanvas');
+  const penColor = document.getElementById('penColor');
+  const penSize = document.getElementById('penSize');
+  const clearDraw = document.getElementById('clearDraw');
+  const saveSig = document.getElementById('saveSig');
+
+  // Typed controls
+  const typedText = document.getElementById('typedText');
+  const typedFont = document.getElementById('typedFont');
+  const typedSize = document.getElementById('typedSize');
+  const typedColor = document.getElementById('typedColor');
+  const saveTyped = document.getElementById('saveTyped');
+
+  // Upload controls
+  const sigUpload = document.getElementById('sigUpload');
+  const uploadMeta = document.getElementById('uploadMeta');
+  const saveUpload = document.getElementById('saveUpload');
+
+  const vault = document.getElementById('vault');
+
+  // ====== Utils ======
+  const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
+  const rid = () => Math.random().toString(36).slice(2,9);
+  const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+
+  // ====== Tabs ======
+  tabsEl.addEventListener('click', (e)=>{
+    const b=e.target.closest('.tab'); if(!b) return;
+    tabsEl.querySelectorAll('.tab').forEach(n=>n.classList.remove('active'));
+    b.classList.add('active');
+    drawTab.hidden = b.dataset.tab!=='drawTab';
+    typeTab.hidden = b.dataset.tab!=='typeTab';
+    uploadTab.hidden = b.dataset.tab!=='uploadTab';
+  });
+
+  // ====== File load ======
+  fileEl.addEventListener('change', async (e)=>{ if(e.target.files[0]){ await loadFile(e.target.files[0]); fileEl.value=''; }});
+  ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
+  ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
+  dropEl.addEventListener('drop', async (e)=>{ const f=[...e.dataTransfer.files].find(f=>f.type==='application/pdf'); if(f) await loadFile(f); });
+
+  demoBtn.addEventListener('click', async ()=>{
+    const { PDFDocument, StandardFonts } = PDFLib;
+    const doc = await PDFDocument.create();
+    const font = await doc.embedFont(StandardFonts.Helvetica);
+    for (let i=1;i<=3;i++){ const p = doc.addPage([595,842]); p.drawText(`Demo Page ${i}`, { x: 220, y: 420, size: 28, font }); }
+    const bytes = await doc.save();
+    const blob = new Blob([bytes], {type:'application/pdf'});
+    await loadFile(new File([blob], 'Demo-Sign.pdf', {type:'application/pdf'}));
+  });
+
+  async function loadFile(file){
+    S.file=file; S.name=file.name; S.size=file.size; S.srcBytes = new Uint8Array(await file.arrayBuffer());
+    S.page=1; S.scale=1; S.placements=[]; S.undoStack=[]; S.redoStack=[];
+    exportBtn.disabled=false; clearBtn.disabled=false; placeBtn.disabled=false;
+
+    const pdf = await pdfjsLib.getDocument({data:S.srcBytes}).promise; S.pdf=pdf; S.pageCount=pdf.numPages;
+    docMeta.textContent = `${file.name} • ${fmtBytes(file.size)} • ${pdf.numPages} पेज`;
+    await renderPage();
+  }
+
+  clearBtn.addEventListener('click', ()=>{ S.file=null; S.pdf=null; S.pageCount=0; S.placements=[]; S.undoStack=[]; S.redoStack=[]; pdfCanvas.width=pdfCanvas.height=0; pageWrap.querySelectorAll('.sig').forEach(n=>n.remove()); docMeta.textContent='कोई फ़ाइल नहीं लोड हुई।'; exportBtn.disabled=true; clearBtn.disabled=true; placeBtn.disabled=true; pageInfo.textContent='—'; });
+
+  // ====== PDF render & zoom/page ======
+  prevPage.addEventListener('click', async ()=>{ if(!S.pdf) return; S.page = clamp(S.page-1,1,S.pageCount); await renderPage(); });
+  nextPage.addEventListener('click', async ()=>{ if(!S.pdf) return; S.page = clamp(S.page+1,1,S.pageCount); await renderPage(); });
+  zoom.addEventListener('input', ()=>{ S.scale = parseInt(zoom.value,10)/100; zoomVal.textContent = Math.round(S.scale*100)+'%'; resizeCanvasCSS(); redrawOverlays(); });
+
+  async function renderPage(){
+    if(!S.pdf) return;
+    const page = await S.pdf.getPage(S.page);
+    const vp = page.getViewport({scale:1});
+    const scale = 1.5; // base render scale for clarity
+    const viewport = page.getViewport({scale: scale});
+    const ctx = pdfCanvas.getContext('2d', { willReadFrequently:true });
+    pdfCanvas.width = Math.floor(viewport.width); pdfCanvas.height = Math.floor(viewport.height);
+    await page.render({canvasContext: ctx, viewport}).promise;
+    resizeCanvasCSS();
+    pageInfo.textContent = `पेज ${S.page}/${S.pageCount}`;
+    redrawOverlays();
+  }
+
+  function resizeCanvasCSS(){ pdfCanvas.style.width = Math.floor(pdfCanvas.width * S.scale) + 'px'; pdfCanvas.style.height = Math.floor(pdfCanvas.height * S.scale) + 'px'; pageWrap.style.width = pdfCanvas.style.width; pageWrap.style.height = pdfCanvas.style.height; }
+
+  // ====== Overlay placements (normalized coords 0..1) ======
+  function redrawOverlays(){
+    // remove existing overlay nodes for current page
+    pageWrap.querySelectorAll('.sig').forEach(n=>n.remove());
+    const W = pdfCanvas.width, H = pdfCanvas.height; const s=S.scale;
+    for (const p of S.placements.filter(x=>x.page===S.page)){
+      const left = p.xN*W*s, top = (1-p.yN)*H*s - (p.hN*H*s);
+      const w = p.wN*W*s, h = p.hN*H*s;
+      const node = document.createElement('div'); node.className='sig'; node.style.left=left+'px'; node.style.top=top+'px'; node.style.width=w+'px'; node.style.height=h+'px'; node.dataset.id=p.id;
+      const xbtn = document.createElement('div'); xbtn.className='x'; xbtn.textContent='×'; xbtn.title='Remove'; xbtn.addEventListener('click', ()=> removePlacement(p.id));
+      const hdl = document.createElement('div'); hdl.className='handle'; hdl.textContent='↔';
+      node.append(xbtn, hdl);
+      // content preview
+      if (p.type==='img' || p.type==='draw' || p.type==='typed'){
+        const img = new Image(); img.style.width='100%'; img.style.height='100%'; img.style.objectFit='contain'; img.style.opacity=p.opacity??1; img.src=p.data.url; node.appendChild(img);
+      } else if (p.type==='stamp'){
+        const d=document.createElement('div'); d.style.width='100%'; d.style.height='100%'; d.style.display='grid'; d.style.placeItems='center'; d.style.fontWeight='800'; d.style.letterSpacing='1px'; d.style.opacity=p.opacity??1; d.style.border='2px dashed rgba(255,255,255,.35)'; d.style.borderRadius='8px'; d.textContent=p.data.text; node.appendChild(d);
+      }
+      makeDraggable(node, p);
+      pageWrap.appendChild(node);
+    }
+  }
+
+  function makeDraggable(node, model){
+    let sx=0, sy=0, sw=0, sh=0, dragging=false, resizing=false;
+    const W = ()=>pdfCanvas.width, H=()=>pdfCanvas.height, s=()=>S.scale;
+    const hdl = node.querySelector('.handle');
+
+    node.addEventListener('mousedown', (e)=>{ if (e.target===hdl){ resizing=true; } else if (e.target.classList.contains('x')){ return; } else { dragging=true; } start(e); });
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', end);
+
+    function start(e){ e.preventDefault(); sx=e.clientX; sy=e.clientY; sw=node.offsetWidth; sh=node.offsetHeight; node.classList.add('dragging'); }
+    function move(e){ if(!dragging && !resizing) return; const dx=e.clientX-sx, dy=e.clientY-sy; if(dragging){ node.style.left = (node.offsetLeft+dx)+"px"; node.style.top = (node.offsetTop+dy)+"px"; } else { node.style.width=(sw+dx)+"px"; node.style.height=(sh+dy)+"px"; } sx=e.clientX; sy=e.clientY; }
+    function end(){ if(!dragging && !resizing) return; node.classList.remove('dragging'); const left=node.offsetLeft, top=node.offsetTop, w=node.offsetWidth, h=node.offsetHeight; const xN = left/(W()*s()); const yN = 1 - (top+h)/(H()*s()); const wN = w/(W()*s()); const hN = h/(H()*s()); pushUndo(); model.xN=xN; model.yN=yN; model.wN=wN; model.hN=hN; dragging=false; resizing=false; }
+  }
+
+  function removePlacement(id){ pushUndo(); S.placements = S.placements.filter(p=>p.id!==id); redrawOverlays(); }
+
+  // ====== Place current signature ======
+  placeBtn.addEventListener('click', ()=>{ if(!S.current){ alert('पहले सिग्नेचर बनाओ या Vault से चुनो।'); return; } pageWrap.style.outline='2px dashed #23d3ac'; pageWrap.style.cursor='crosshair'; oneClickPlace().then(()=>{ pageWrap.style.outline=''; pageWrap.style.cursor='default'; }); });
+
+  function oneClickPlace(){
+    return new Promise(res=>{
+      const onClick=(e)=>{
+        pageWrap.removeEventListener('click', onClick);
+        const rect = pageWrap.getBoundingClientRect();
+        const x = e.clientX - rect.left; const y = e.clientY - rect.top; // css pixels
+        const Wc = pdfCanvas.width*S.scale; const Hc = pdfCanvas.height*S.scale;
+        const xN = clamp(x/Wc,0,1); const yN = clamp(1 - y/Hc,0,1);
+        const aspect = S.current.h/S.current.w; // natural
+        const baseWpx = Math.min(240, Wc*0.4); const baseHpx = baseWpx*aspect;
+        const wN = clamp(baseWpx/(pdfCanvas.width*S.scale), 0.05, 0.9);
+        const hN = wN*aspect*(pdfCanvas.width/pdfCanvas.width); // same ratio
+        const item = { id:rid(), page:S.page, type:S.current.type, data:S.current, xN, yN, wN, hN, opacity:S.current.opacity??1 };
+        pushUndo(); S.placements.push(item); redrawOverlays(); res();
+      };
+      setTimeout(()=> pageWrap.addEventListener('click', onClick), 0);
+    });
+  }
+
+  // ====== Undo/Redo ======
+  function pushUndo(){ S.undoStack.push(JSON.stringify(S.placements)); S.redoStack.length=0; syncUndoRedo(); }
+  function syncUndoRedo(){ undoBtn.disabled = !S.undoStack.length; redoBtn.disabled = !S.redoStack.length; }
+  undoBtn.addEventListener('click', ()=>{ if(!S.undoStack.length) return; S.redoStack.push(JSON.stringify(S.placements)); const prev = JSON.parse(S.undoStack.pop()); S.placements = prev; redrawOverlays(); syncUndoRedo(); });
+  redoBtn.addEventListener('click', ()=>{ if(!S.redoStack.length) return; S.undoStack.push(JSON.stringify(S.placements)); const next = JSON.parse(S.redoStack.pop()); S.placements = next; redrawOverlays(); syncUndoRedo(); });
+
+  // ====== Draw signature capture ======
+  let drawing=false, lastX=0, lastY=0;
+  function resizeDrawCanvas(){ const dpr = Math.max(1, window.devicePixelRatio||1); drawCanvas.width = drawCanvas.clientWidth * dpr; drawCanvas.height = drawCanvas.clientHeight * dpr; const ctx = drawCanvas.getContext('2d'); ctx.scale(dpr,dpr); ctx.lineCap='round'; ctx.lineJoin='round'; }
+  window.addEventListener('resize', resizeDrawCanvas); resizeDrawCanvas();
+  drawCanvas.addEventListener('pointerdown', (e)=>{ drawing=true; const r=drawCanvas.getBoundingClientRect(); lastX=e.clientX-r.left; lastY=e.clientY-r.top; });
+  drawCanvas.addEventListener('pointermove', (e)=>{ if(!drawing) return; const r=drawCanvas.getBoundingClientRect(); const x=e.clientX-r.left, y=e.clientY-r.top; const ctx = drawCanvas.getContext('2d'); ctx.strokeStyle=penColor.value; ctx.lineWidth=parseFloat(penSize.value); ctx.beginPath(); ctx.moveTo(lastX,lastY); ctx.lineTo(x,y); ctx.stroke(); lastX=x; lastY=y; });
+  window.addEventListener('pointerup', ()=> drawing=false);
+  clearDraw.addEventListener('click', ()=>{ const ctx=drawCanvas.getContext('2d'); ctx.clearRect(0,0,drawCanvas.width,drawCanvas.height); });
+
+  saveSig.addEventListener('click', ()=>{
+    // Trim transparent borders
+    const dataURL = trimCanvasToPNG(drawCanvas);
+    saveToVault({ type:'draw', url:dataURL, w: getImageSize(dataURL).w, h: getImageSize(dataURL).h, opacity:1 });
+  });
+
+  // ====== Typed signature capture (render to offscreen canvas to preserve font) ======
+  saveTyped.addEventListener('click', ()=>{
+    const text=(typedText.value||'').trim(); if(!text){ alert('टेक्स्ट लिखो।'); return; }
+    const off = document.createElement('canvas'); const ctx = off.getContext('2d');
+    const size=parseInt(typedSize.value,10); const pad=16; ctx.font = `${size}px ${typedFont.value}, Poppins, Noto Sans Devanagari, sans-serif`;
+    const w = Math.ceil(ctx.measureText(text).width) + pad*2; const h = Math.ceil(size*1.35) + pad*2; off.width=w; off.height=h; ctx.font = `${size}px ${typedFont.value}, Poppins, Noto Sans Devanagari, sans-serif`; ctx.fillStyle=typedColor.value; ctx.textBaseline='middle'; ctx.textAlign='center'; ctx.fillText(text, w/2, h/2);
+    const url = off.toDataURL('image/png');
+    saveToVault({ type:'typed', url, w, h, opacity:1 });
+  });
+
+  // ====== Upload signature ======
+  sigUpload.addEventListener('change', async (e)=>{ const f=e.target.files[0]; if(!f) return; const url=URL.createObjectURL(f); const img=new Image(); img.onload=()=>{ uploadMeta.textContent=`${f.name} • ${fmtBytes(f.size)} • ${img.width}×${img.height}`; saveUpload.disabled=false; URL.revokeObjectURL(url); }; img.src=url; S._uploadBlob = f; });
+  saveUpload.addEventListener('click', async ()=>{ if(!S._uploadBlob) return; const url = await blobToDataURL(S._uploadBlob); const {w,h} = getImageSize(url); saveToVault({ type:'img', url, w, h, opacity:1 }); S._uploadBlob=null; saveUpload.disabled=true; uploadMeta.textContent='—'; sigUpload.value=''; });
+
+  function blobToDataURL(blob){ return new Promise(res=>{ const r=new FileReader(); r.onload=()=>res(r.result); r.readAsDataURL(blob); }); }
+
+  // ====== Vault ======
+  function loadVault(){ try{ const arr=JSON.parse(localStorage.getItem('sig_vault_v1')||'[]'); return Array.isArray(arr)?arr:[]; }catch{return []} }
+  function saveVault(arr){ try{ localStorage.setItem('sig_vault_v1', JSON.stringify(arr)); }catch{} }
+  function saveToVault(item){ const arr=loadVault(); const named = Object.assign({ id:rid(), name: prompt('सिग्नेचर का नाम? (उदा: "Raj Drawn" )', '')||('sig-'+arr.length+1) }, item); arr.push(named); saveVault(arr); renderVault(); alert('Vault में सेव हो गया। अब "Place on page" करके क्लिक करो।'); }
+  function renderVault(){ vault.innerHTML=''; const arr=loadVault(); if(!arr.length){ const d=document.createElement('div'); d.className='tiny'; d.textContent='अभी vault खाली है। ऊपर से सेव करो।'; vault.appendChild(d); return; } arr.forEach(it=>{ const b=document.createElement('button'); b.className='btn slim ghost'; b.textContent=it.name; b.title='क्लिक करके एक्टिव बनाओ'; b.addEventListener('click', ()=>{ S.current = { type:it.type, url:it.url, w:it.w, h:it.h, opacity:it.opacity??1 }; placeBtn.disabled=false; }); vault.appendChild(b); }); }
+  renderVault();
+
+  // ====== Stamps ======
+  document.getElementById('addDate').addEventListener('click', ()=>{ const d=new Date(); const txt=d.toLocaleDateString(); S.current={ type:'stamp', text:txt, url: textPNG(txt), w:220, h:64, opacity:1 }; placeBtn.disabled=false; });
+  document.getElementById('addInitials').addEventListener('click', ()=>{ const ini = prompt('इनिशियल्स लिखें (उदा: RK)'); if(!ini) return; S.current={ type:'stamp', text:ini, url: textPNG(ini), w:200, h:64, opacity:1 }; placeBtn.disabled=false; });
+  function textPNG(text){ const c=document.createElement('canvas'); const ctx=c.getContext('2d'); const size=42, pad=12; ctx.font=`800 ${size}px Poppins, Noto Sans Devanagari`; const w=Math.ceil(ctx.measureText(text).width)+pad*2, h=size+pad*2; c.width=w; c.height=h; ctx.font=`800 ${size}px Poppins, Noto Sans Devanagari`; ctx.fillStyle='#111'; ctx.textBaseline='middle'; ctx.textAlign='center'; ctx.fillText(text,w/2,h/2); return c.toDataURL('image/png'); }
+
+  // ====== Export ======
+  exportBtn.addEventListener('click', exportPdf);
+  async function exportPdf(){ if(!S.srcBytes) return; const { PDFDocument } = PDFLib; try{ const src = await PDFDocument.load(S.srcBytes); const out = await PDFDocument.create(); const pages=src.getPageCount();
+      // Pre‑embed images (dedupe by dataURL)
+      const cache = new Map(); async function getImg(url){ if(cache.has(url)) return cache.get(url); const bytes = dataURLToBytes(url); let emb; try{ emb = await out.embedPng(bytes);}catch{ emb = await out.embedJpg(bytes);} cache.set(url, emb); return emb; }
+      for (let pi=0; pi<pages; pi++){
+        const [pg] = await out.copyPages(src, [pi]); out.addPage(pg);
+        const P = S.placements.filter(x=>x.page===pi+1);
+        if (!P.length) continue;
+        const { width:W, height:H } = pg.getSize();
+        for (const p of P){
+          const w = p.wN*W, h=p.hN*H; const x = p.xN*W; const y = p.yN*H; // pdf-lib origin bottom-left
+          if (p.type==='stamp' || p.type==='img' || p.type==='draw' || p.type==='typed'){
+            const emb = await getImg(p.data.url);
+            pg.drawImage(emb, { x, y, width:w, height:h, opacity:p.opacity??1 });
+          }
+        }
+      }
+      const bytes = await out.save({ updateFieldAppearances:false });
+      const blob = new Blob([bytes], {type:'application/pdf'});
+      const a = document.createElement('a'); const stamp = new Date().toISOString().replace(/[:T]/g,'-').slice(0,19); const base = S.name.replace(/\.pdf$/i,''); a.href = URL.createObjectURL(blob); a.download = `${base}-signed-${stamp}.pdf`; a.click(); URL.revokeObjectURL(a.href);
+    }catch(err){ console.error(err); alert('Export fail: '+(err?.message||err)); }
+  }
+
+  function dataURLToBytes(url){ const [,b64] = url.split(','); const bin = atob(b64); const len=bin.length; const u8=new Uint8Array(len); for(let i=0;i<len;i++) u8[i]=bin.charCodeAt(i); return u8; }
+  function getImageSize(url){ const img = new Image(); return { w: 600, h: 200 }; }
+
+  // Accurate measure after image load (optional); we fallback to default size for vault items.
+
+  // ====== Helpers ======
+  function trimCanvasToPNG(src){
+    // Create a trimmed PNG from the drawCanvas by detecting non‑transparent pixels
+    const tmp=document.createElement('canvas'); const ctx=tmp.getContext('2d');
+    tmp.width=src.width; tmp.height=src.height; ctx.drawImage(src,0,0);
+    const {data,width,height}=ctx.getImageData(0,0,tmp.width,tmp.height);
+    let minX=width, minY=height, maxX=0, maxY=0, found=false;
+    for(let y=0;y<height;y++){
+      for(let x=0;x<width;x++){
+        const i=(y*width+x)*4; if(data[i+3]>10){ found=true; if(x<minX)minX=x; if(y<minY)minY=y; if(x>maxX)maxX=x; if(y>maxY)maxY=y; }
+      }
+    }
+    if(!found){ return src.toDataURL('image/png'); }
+    const w=maxX-minX+8, h=maxY-minY+8; const pad=4; const out=document.createElement('canvas'); out.width=w; out.height=h; const octx=out.getContext('2d'); octx.drawImage(src, minX-pad, minY-pad, w, h, 0, 0, w, h); return out.toDataURL('image/png');
+  }
+
+  // ====== Init ======
+  (function init(){ resizeDrawCanvas(); zoomVal.textContent = '100%'; })();
+  </script>
+</body>
+</html>
