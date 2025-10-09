@@ -1,0 +1,360 @@
+<!--
+File: pdf-to-image-hi.html
+Title: PDF से इमेज (JPG/PNG + ZIP) — हाई क्वालिटी, फुल कंट्रोल
+Description: Client‑side PDF → Image exporter in Hindi. Page‑range, DPI, PNG/JPG, JPEG quality, transparent PNG, background color, filename padding, live thumbnails, progress, ZIP download. Uses pdf.js + JSZip (+ optional demo PDF via pdf-lib). 100% browser.
+How to use: Save as pdf-to-image-hi.html and open in a modern browser.
+-->
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF से इमेज — JPG/PNG (ZIP) | हिंदी</title>
+  <meta name="description" content="हर पेज को JPG/PNG में सेव करो — DPI, क्वालिटी, ट्रांसपेरेंसी, रेंज, फ़ाइल नाम — सब कंट्रोल एक ही जगह, 100% ब्राउज़र में।"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
+      --text:#e9eefb; --muted:#9fb0de; --accent:#ffd95c; /* gold */
+      --accent2:#ff5c7c; /* red */ --brand:#7c5cff; --good:#23d3ac;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text);
+      font-family:"Noto Sans Devanagari", Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      background:
+        radial-gradient(1200px 800px at 90% -10%, rgba(255,217,92,.18), transparent),
+        radial-gradient(900px 600px at 10% 110%, rgba(255,92,124,.16), transparent),
+        var(--bg);
+    }
+    header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 18px; position:sticky; top:0; z-index:40; backdrop-filter:blur(6px); background:rgba(11,16,32,.7); border-bottom:1px solid var(--line)}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:900}
+    .brand svg{width:28px; height:28px}
+    .badges{display:flex; gap:8px; flex-wrap:wrap}
+    .pill{border:1px solid var(--line); background:#0d1632; color:#ffdca1; border-radius:999px; padding:6px 10px; font-weight:800; font-size:12px}
+
+    .container{max-width:1200px; margin:18px auto; padding:0 16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden}
+    .hero{padding:22px 22px 0}
+    h1{margin:0 0 6px; font-size:28px; font-weight:900}
+    .sub{margin:0; color:var(--muted)}
+
+    .uploader{border:1.5px dashed rgba(255,255,255,.18); border-radius:16px; padding:18px; margin:16px 22px; text-align:center}
+    .uploader.dragover{border-color:var(--accent2)}
+    .uploader input[type=file]{display:none}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center}
+    .btn{appearance:none; border:none; border-radius:12px; padding:12px 14px; font-weight:800; cursor:pointer; min-height:42px}
+    .btn.gold{background:var(--accent); color:#3a2c00; box-shadow:0 10px 28px rgba(255,217,92,.3)}
+    .btn.red{background:var(--accent2); color:#2b0c14; box-shadow:0 10px 28px rgba(255,92,124,.3)}
+    .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.2)}
+    .tiny{font-size:12px; color:var(--muted)}
+
+    .grid{display:grid; gap:14px; padding:0 22px 18px}
+    .two{grid-template-columns:380px 1fr}
+    @media (max-width:980px){.two{grid-template-columns:1fr}}
+
+    /* Left list */
+    .list{display:grid; gap:10px}
+    .item{display:grid; grid-template-columns:64px 1fr auto; gap:10px; align-items:center; padding:10px; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px}
+    .thumb{width:64px; height:90px; background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px; display:grid; place-items:center; overflow:hidden}
+    .thumb canvas{width:100%; height:100%; display:block}
+    .name{font-weight:700}
+    .meta{color:var(--muted); font-size:12px}
+    .controls{display:flex; gap:6px; align-items:center}
+
+    /* Right panel */
+    .panel{background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px}
+    .panel h4{margin:0 0 10px; font-size:14px}
+    input[type=text], input[type=number], input[type=color], select{background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.14); border-radius:8px; padding:8px 10px; width:100%}
+    input[type=range]{width:100%}
+
+    .viewer{position:relative; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; overflow:auto; min-height:200px}
+    #preview{display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:10px}
+    .pv{background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:6px; display:grid; gap:6px}
+    .pv canvas{width:100%; height:auto; display:block; border-radius:6px}
+    .pv .cap{font-size:12px; color:var(--muted); text-align:center}
+
+    .progress{height:10px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12)}
+    .bar{height:100%; width:0; background:linear-gradient(90deg, var(--accent2), var(--accent)); transition:width .2s}
+
+    .actions{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02)}
+  </style>
+
+  <!-- libs -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>PDF → इमेज <span style="color:var(--accent)">ZIP</span></span>
+    </div>
+    <div class="badges">
+      <span class="pill">100% ब्राउज़र</span>
+      <span class="pill">कोई अपलोड नहीं</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="title">
+      <div class="hero">
+        <h1 id="title">हर पेज को JPG/PNG के रूप में सेव करो</h1>
+        <p class="sub">DPI, क्वालिटी, बैकग्राउंड/ट्रांसपेरेंसी, पेज‑रेंज, फ़ाइल नाम — सब कंट्रोल के साथ।</p>
+      </div>
+
+      <div class="uploader" id="drop" tabindex="0">
+        <p style="margin:0 0 10px">PDF यहाँ <strong>Drag & Drop</strong> करो या</p>
+        <div class="row">
+          <label class="btn gold" for="file">PDF चुनो</label>
+          <button class="btn ghost" id="demoBtn" type="button">डेमो PDF</button>
+        </div>
+        <input id="file" type="file" accept="application/pdf" />
+        <p class="tiny" style="margin-top:8px">टिप: बड़े PDF के लिए DPI 150–300 अच्छा रहता है। सब कुछ आपके ब्राउज़र में।</p>
+      </div>
+
+      <section class="grid two">
+        <!-- Left: file + pages list -->
+        <div class="panel">
+          <h4>फाइल</h4>
+          <div id="list" class="list" aria-live="polite"></div>
+          <div class="tiny" id="countLine">कोई PDF लोड नहीं हुआ।</div>
+        </div>
+
+        <!-- Right: options + previews -->
+        <div class="panel">
+          <h4>आउटपुट सेटिंग्स</h4>
+          <div class="row" style="justify-content:space-between">
+            <label style="display:flex;gap:8px;align-items:center">फॉर्मैट
+              <select id="fmt" style="width:140px">
+                <option value="jpeg">JPG (फोटो)</option>
+                <option value="png">PNG (ट्रांसपेरेंट)</option>
+              </select>
+            </label>
+            <label style="display:flex;gap:8px;align-items:center">DPI
+              <input id="dpi" type="number" value="150" step="1" min="72" max="600" style="width:90px">
+            </label>
+            <label style="display:flex;gap:8px;align-items:center">रेंज
+              <input id="range" placeholder="all या 1-3,5" style="width:140px">
+            </label>
+          </div>
+
+          <div class="row" style="justify-content:space-between">
+            <label style="display:flex;gap:8px;align-items:center">JPEG क्वालिटी
+              <input id="q" type="range" min="0.5" max="1" step="0.01" value="0.92" style="width:180px">
+            </label>
+            <label style="display:flex;gap:8px;align-items:center">PNG ट्रांसपेरेंट
+              <input id="transparent" type="checkbox" checked>
+            </label>
+            <label style="display:flex;gap:8px;align-items:center">बैकग्राउंड
+              <input id="bg" type="color" value="#ffffff" style="width:60px">
+            </label>
+          </div>
+
+          <div class="row" style="justify-content:flex-start">
+            <label style="display:flex;gap:6px;align-items:center">बेस‑नेम
+              <input id="basename" type="text" value="page" style="width:160px">
+            </label>
+            <label style="display:flex;gap:6px;align-items:center">स्टार्ट‑नंबर
+              <input id="start" type="number" value="1" min="0" style="width:90px">
+            </label>
+            <label style="display:flex;gap:6px;align-items:center">पैड
+              <input id="pad" type="number" value="3" min="1" max="6" style="width:90px" title="डिजिट पैडिंग, जैसे 001, 002…">
+            </label>
+          </div>
+
+          <div style="margin-top:10px">
+            <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
+            <div class="tiny" id="status" style="margin-top:8px">तैयार…</div>
+          </div>
+
+          <div class="viewer" style="margin-top:12px">
+            <div id="preview"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="actions">
+        <div class="row" style="justify-content:flex-start">
+          <button class="btn ghost" id="clearBtn" type="button" disabled>रीसेट</button>
+        </div>
+        <div class="row" style="justify-content:flex-end">
+          <button class="btn red" id="exportBtn" type="button" disabled>ZIP बनाओ</button>
+          <button class="btn gold" id="downloadBtn" type="button" disabled>डाउनलोड ZIP</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="padding:0 22px 22px">
+      <h3 style="margin:16px 0 10px">कैसे इस्तेमाल करें?</h3>
+      <ol style="margin:0 0 0 18px">
+        <li>ऊपर PDF ड्रैग‑ड्रॉप करो (या “PDF चुनो”).</li>
+        <li>रेंज डालो, DPI चुनो (150–300), और फॉर्मैट JPG/PNG सेट करो।
+            PNG के लिए “ट्रांसपेरेंट” ऑन/ऑफ कर सकते हो; JPG के लिए बैकग्राउंड कलर यूज़ होगा।</li>
+        <li>फ़ाइल‑नाम के लिए बेस‑नेम, स्टार्ट‑नंबर और पैड (जैसे 001) चुनो।</li>
+        <li>“ZIP बनाओ” दबाओ → थम्बनेल/प्रोग्रेस देखो → “डाउनलोड ZIP”.</li>
+      </ol>
+      <p class="tiny" style="margin-top:8px">गोपनीयता: कोई अपलोड नहीं — सब कुछ आपके ब्राउज़र में।</p>
+    </section>
+  </main>
+
+  <script>
+  /* ===== Setup ===== */
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+  if (pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+
+  /* ===== State ===== */
+  const S = { pdfBytes:null, name:null, pageCount:0, zip:null, zipBlob:null };
+
+  /* ===== DOM ===== */
+  const listEl = document.getElementById('list');
+  const fileEl = document.getElementById('file');
+  const dropEl = document.getElementById('drop');
+  const demoBtn = document.getElementById('demoBtn');
+  const exportBtn = document.getElementById('exportBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const clearBtn = document.getElementById('clearBtn');
+  const barEl = document.getElementById('bar');
+  const statusEl = document.getElementById('status');
+  const countEl = document.getElementById('countLine');
+  const pvWrap = document.getElementById('preview');
+
+  const fmtSel = document.getElementById('fmt');
+  const dpiEl = document.getElementById('dpi');
+  const rangeEl = document.getElementById('range');
+  const qEl = document.getElementById('q');
+  const transparentEl = document.getElementById('transparent');
+  const bgEl = document.getElementById('bg');
+  const baseEl = document.getElementById('basename');
+  const startEl = document.getElementById('start');
+  const padEl = document.getElementById('pad');
+
+  /* ===== Utils ===== */
+  function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
+  function fmtBytes(b){ if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; }
+  function pad(n, w){ const s=String(n); return s.length>=w ? s : '0'.repeat(w-s.length)+s; }
+  function parseRange(str, max){ if(!str || str.toLowerCase()==='all') return Array.from({length:max}, (_,i)=>i+1); const out = new Set(); const parts = str.split(',').map(s=>s.trim()).filter(Boolean); for(const p of parts){ const m = p.match(/^(\d+)(?:\s*[-–]\s*(\d+))?$/); if(!m) throw new Error('format'); let a=parseInt(m[1],10), b=m[2]?parseInt(m[2],10):a; if(a<1||b<1||a>max||b>max) throw new Error('range'); if(a>b) [a,b]=[b,a]; for(let i=a;i<=b;i++) out.add(i); } if(!out.size) throw new Error('empty'); return [...out].sort((x,y)=>x-y); }
+  const sleep = ms => new Promise(r=>setTimeout(r,ms));
+
+  function updateButtons(){ const has=!!S.pdfBytes; exportBtn.disabled=!has; clearBtn.disabled=!has; downloadBtn.disabled=!S.zipBlob; setBar(0); statusEl.textContent='तैयार…'; }
+  clearBtn.addEventListener('click', ()=>{ S.pdfBytes=null; S.pageCount=0; S.zip=null; S.zipBlob=null; listEl.innerHTML=''; pvWrap.innerHTML=''; countEl.textContent='कोई PDF लोड नहीं हुआ।'; updateButtons(); });
+
+  /* ===== File add + basic info + first thumb ===== */
+  fileEl.addEventListener('change', async e=>{ await loadPDF(e.target.files?.[0]); fileEl.value=''; });
+  ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
+  ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
+  dropEl.addEventListener('drop', async e=>{ const f=e.dataTransfer.files?.[0]; if (f && f.type==='application/pdf') await loadPDF(f); });
+
+  demoBtn.addEventListener('click', async ()=>{
+    const { PDFDocument, StandardFonts } = PDFLib;
+    const doc = await PDFDocument.create();
+    const font = await doc.embedFont(StandardFonts.Helvetica);
+    for(let p=1;p<=5;p++){ const page = doc.addPage([595, 842]); page.drawText(`डेमो PDF — पेज ${p}`, { x: 180, y: 420, size: 26, font }); }
+    const bytes = await doc.save();
+    await loadPDF(new File([new Blob([bytes],{type:'application/pdf'})], 'Demo.pdf', {type:'application/pdf'}));
+  });
+
+  async function loadPDF(file){
+    if (!file) return;
+    S.name = file.name.replace(/\.pdf$/i,'');
+    S.pdfBytes = new Uint8Array(await file.arrayBuffer());
+    const pdf = await pdfjsLib.getDocument({data:S.pdfBytes}).promise;
+    S.pageCount = pdf.numPages;
+
+    // Basic list row
+    listEl.innerHTML = '';
+    const row = document.createElement('div'); row.className='item';
+    const th = document.createElement('div'); th.className='thumb'; th.textContent='…';
+    const col = document.createElement('div');
+    const name = document.createElement('div'); name.className='name'; name.textContent=file.name;
+    const meta = document.createElement('div'); meta.className='meta'; meta.textContent=`${fmtBytes(file.size)} • ${S.pageCount} पेज`;
+    col.append(name, meta); row.append(th, col, document.createElement('div')); listEl.appendChild(row);
+    countEl.textContent = `${S.pageCount} पेज तैयार`;
+
+    // First page thumb
+    try{
+      const page = await pdf.getPage(1);
+      const vp = page.getViewport({scale: 0.3});
+      const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
+      await page.render({canvasContext: c.getContext('2d'), viewport: vp}).promise;
+      th.textContent=''; th.appendChild(c);
+    }catch(e){ console.error(e); }
+
+    updateButtons(); pvWrap.innerHTML='';
+  }
+
+  /* ===== Export (ZIP) ===== */
+  exportBtn.addEventListener('click', exportZip);
+  downloadBtn.addEventListener('click', ()=>{ if (!S.zipBlob) return; const a=document.createElement('a'); const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19); a.href=URL.createObjectURL(S.zipBlob); a.download=`${(S.name||'PDF')}-images-${stamp}.zip`; a.click(); URL.revokeObjectURL(a.href); });
+
+  async function exportZip(){
+    if (!S.pdfBytes) return;
+    try{
+      setBar(1); statusEl.textContent='पेज लोड…';
+      const pdf = await pdfjsLib.getDocument({data:S.pdfBytes}).promise;
+      const total = S.pageCount;
+      const selPages = parseRange((rangeEl.value||'all').trim(), total);
+      const dpi = Math.min(600, Math.max(72, parseInt(dpiEl.value,10)||150));
+      const scaleFromDPI = dpi / 72; // 1pt=1/72in
+      const fmt = fmtSel.value; // 'jpeg' | 'png'
+      const q = parseFloat(qEl.value)||0.92;
+      const transparent = !!transparentEl.checked; const bg = bgEl.value || '#ffffff';
+      const basename = (baseEl.value||'page').replace(/[^a-zA-Z0-9_-]/g,'_');
+      const start = Math.max(0, parseInt(startEl.value,10)||1);
+      const padW = Math.max(1, Math.min(6, parseInt(padEl.value,10)||3));
+
+      // ZIP prep
+      const zip = new JSZip();
+      const folder = zip.folder(`${(S.name||'PDF')}_images`);
+
+      pvWrap.innerHTML='';
+      for (let i=0;i<selPages.length;i++){
+        const pageNum = selPages[i];
+        const page = await pdf.getPage(pageNum);
+        const vp = page.getViewport({ scale: scaleFromDPI });
+
+        // canvas render
+        const c = document.createElement('canvas');
+        const ctx = c.getContext('2d');
+        c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
+        // background for JPEG, or PNG with transparent=false
+        if (fmt==='jpeg' || !transparent){ ctx.fillStyle = bg; ctx.fillRect(0,0,c.width,c.height); }
+        await page.render({ canvasContext: ctx, viewport: vp, background: 'rgba(0,0,0,0)' }).promise;
+
+        // thumbnail in UI
+        const box=document.createElement('div'); box.className='pv';
+        const tc=document.createElement('canvas'); tc.width=Math.min(600, c.width/2); tc.height=Math.min(800, c.height/2);
+        const tctx=tc.getContext('2d');
+        const scale = Math.min(tc.width/c.width, tc.height/c.height);
+        tc.width = Math.floor(c.width*scale); tc.height = Math.floor(c.height*scale);
+        tctx.drawImage(c, 0, 0, tc.width, tc.height);
+        const cap=document.createElement('div'); cap.className='cap'; cap.textContent='पेज '+pageNum;
+        box.appendChild(tc); box.appendChild(cap); pvWrap.appendChild(box);
+
+        // blob & zip add
+        const mime = fmt==='png' ? 'image/png' : 'image/jpeg';
+        const blob = await new Promise(res => c.toBlob(res, mime, q));
+        const fname = `${basename}-${pad(start + i, padW)}.${fmt==='png'?'png':'jpg'}`;
+        folder.file(fname, blob);
+
+        setBar(((i+1)/selPages.length)*95);
+        if ((i%3)===0) await sleep(0);
+      }
+
+      statusEl.textContent='ZIP पैक हो रहा…';
+      S.zipBlob = await zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{level:6} });
+      setBar(100);
+      downloadBtn.disabled=false; statusEl.textContent='तैयार — डाउनलोड ZIP!';
+    }catch(err){ console.error(err); alert('एक्सपोर्ट नहीं हो पाया: '+(err?.message||err)); statusEl.textContent='एरर।'; }
+  }
+  </script>
+</body>
+</html>
