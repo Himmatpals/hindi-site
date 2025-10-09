@@ -1,0 +1,332 @@
+<!--
+File: pdf-lock-hi.html
+Title: PDF लॉक (Password) — AES‑256 एन्क्रिप्शन • परमिशन्स • मेटाडेटा स्क्रब
+Description: 100% ब्राउज़र में PDF पासवर्ड प्रोटेक्शन (यूज़र/ओनर पासवर्ड), AES‑256/AES‑128, प्रिंट/कॉपी/एडिट परमिशन, मेटाडेटा निकालना, लाइव प्रीव्यू। pdf.js + pdfcpu‑wasm (WASM) का प्रयोग।
+How to use: Save as pdf-lock-hi.html और किसी मॉडर्न ब्राउज़र में खोलें। इंटरनेट कनेक्शन चाहिए (WASM लाइब्रेरी लोड करने के लिए)।
+Important: खोया पासवर्ड रिकवर नहीं किया जा सकता।
+-->
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF लॉक (Password) — सुरक्षित AES‑256</title>
+  <meta name="description" content="PDF पर पासवर्ड लगाओ — यूज़र/ओनर पासवर्ड, AES‑256/128 एन्क्रिप्शन, प्रिंट/कॉपी/एडिट परमिशन कंट्रोल, मेटाडेटा स्क्रब — सब कुछ आपके ब्राउज़र में।"/>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
+      --text:#e9eefb; --muted:#9fb0de; --accent:#ffd95c; /* yellow */
+      --accent2:#ff5c7c; /* rose/red */ --success:#23d3ac; --danger:#ff4d4f;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; color:var(--text); background:
+        radial-gradient(1100px 700px at 80% -10%, rgba(255,217,92,.18), transparent),
+        radial-gradient(900px 600px at 10% 110%, rgba(255,92,124,.16), transparent), var(--bg);
+      font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    }
+    a{color:inherit; text-decoration:none}
+    header{position:sticky; top:0; z-index:70; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 16px; background:rgba(11,16,32,.75); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+    .brand{display:flex; gap:10px; align-items:center; font-weight:900}
+    .brand svg{width:28px;height:28px}
+    .tiny{font-size:12px; color:#ffe38a}
+
+    .container{max-width:1180px; margin:14px auto 24px; padding:0 16px}
+    .card{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden}
+    .hero{padding:20px 20px 6px}
+    h1{margin:0 0 8px; font-weight:900; font-size:28px}
+    .sub{margin:0; color:var(--muted)}
+
+    .uploader{border:1.5px dashed rgba(255,255,255,.25); border-radius:16px; padding:18px; margin:14px 20px; text-align:center}
+    .uploader.dragover{border-color:var(--accent)}
+    .uploader input[type=file]{display:none}
+    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
+    .btn{appearance:none; border:none; border-radius:12px; padding:12px 14px; font-weight:900; cursor:pointer; min-height:42px; transition:.16s transform, .16s box-shadow}
+    .btn:active{transform:translateY(1px)}
+    .btn-primary{background:linear-gradient(90deg,var(--accent),#ffe88f); color:#1e1b4b; box-shadow:0 8px 24px rgba(255,217,92,.35)}
+    .btn-rose{background:linear-gradient(90deg,var(--accent2),#ff8fa3); color:#2b0f14; box-shadow:0 10px 26px rgba(255,92,124,.35)}
+    .btn-ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.22)}
+
+    .grid{display:grid; gap:14px; padding:0 20px 16px}
+    .two{grid-template-columns:420px 1fr}
+    @media (max-width:980px){ .two{grid-template-columns:1fr} }
+
+    .panel{background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:12px}
+    .panel h4{margin:0 0 10px; font-size:14px}
+    label{font-size:13px}
+    input[type=text], input[type=password], input[type=number], select{width:100%; background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.18); border-radius:10px; padding:10px}
+    .field{display:grid; gap:6px; margin-bottom:10px}
+
+    .perm-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
+    .perm{display:flex; align-items:center; gap:8px; border:1px solid rgba(255,255,255,.14); background:#121935; padding:10px; border-radius:10px}
+
+    .viewer{position:relative; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; overflow:auto; min-height:220px}
+    #pv{display:grid; grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); gap:10px}
+    .thumb{background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:6px}
+    .thumb canvas{width:100%; height:auto; display:block}
+    .cap{font-size:12px; color:var(--muted); text-align:center}
+
+    .progress{height:10px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12)}
+    .bar{height:100%; width:0; background:linear-gradient(90deg,var(--accent2),var(--accent)); transition:width .2s}
+
+    .actions{display:flex; justify-content:space-between; gap:10px; padding:14px 20px 18px; border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02)}
+    .warn{font-size:12px; color:#ffd0d6}
+    .ok{color:#b6ffd6}
+  </style>
+
+  <!-- libs -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
+  <!-- qpdf/pdfcpu wasm wrapper (public CDN). If this fails, ऐप फॉलबैक मैसेज दिखाएगा. -->
+  <script defer src="https://cdn.jsdelivr.net/npm/pdfcpu-wasm/dist/pdfcpu.js"></script>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+      <span>PDF लॉक — <span style="color:var(--accent2)">हिंदी</span> टूल</span>
+    </div>
+    <div class="tiny">महत्वपूर्ण: पासवर्ड भूलने पर रिकवर नहीं होगा।</div>
+  </header>
+
+  <main class="container">
+    <section class="card" aria-labelledby="title">
+      <div class="hero">
+        <h1 id="title">PDF पर मजबूत पासवर्ड लगाओ</h1>
+        <p class="sub">AES‑256/AES‑128 एन्क्रिप्शन, यूज़र/ओनर पासवर्ड, और प्रिंट/कॉपी/एडिट परमिशन्स पर फुल कंट्रोल — 100% ब्राउज़र में।</p>
+      </div>
+
+      <div class="uploader" id="drop" tabindex="0">
+        <p style="margin:0 0 10px">फ़ाइल यहाँ <strong>Drag & Drop</strong> करो या</p>
+        <div class="row" style="justify-content:center">
+          <label class="btn btn-primary" for="file">PDF चुनो</label>
+          <button class="btn btn-rose" id="demo">डेमो PDF</button>
+        </div>
+        <input id="file" type="file" accept="application/pdf" />
+        <p class="warn" style="margin-top:8px">नोट: बड़े/स्कैन PDFs पर प्रोसेसिंग को समय लग सकता है।</p>
+      </div>
+
+      <section class="grid two">
+        <!-- Left: options -->
+        <div class="panel">
+          <h4>पासवर्ड व एन्क्रिप्शन</h4>
+          <div class="field">
+            <label>यूज़र पासवर्ड (Open करने के लिए)*</label>
+            <input id="userPwd" type="password" placeholder="कम से कम 8 अक्षर" />
+          </div>
+          <div class="field">
+            <label>ओनर पासवर्ड (परमिशन्स बदलने/निकालने हेतु)</label>
+            <input id="ownerPwd" type="password" placeholder="(वैकल्पिक पर सुझाया जाता है)" />
+          </div>
+          <div class="field">
+            <label>एन्क्रिप्शन स्ट्रेन्थ</label>
+            <select id="enc">
+              <option value="AES256" selected>AES‑256 (मजबूत)</option>
+              <option value="AES128">AES‑128</option>
+            </select>
+          </div>
+
+          <h4 style="margin-top:6px">परमिशन्स</h4>
+          <div class="perm-grid">
+            <label class="perm"><input type="checkbox" id="perm_print" checked> प्रिंट करने दें</label>
+            <label class="perm"><input type="checkbox" id="perm_copy"> टेक्स्ट/कॉन्टेन्ट कॉपी</label>
+            <label class="perm"><input type="checkbox" id="perm_annot"> कमेंट/एनोटेशन</label>
+            <label class="perm"><input type="checkbox" id="perm_fillform" checked> फ़ॉर्म भरना</label>
+            <label class="perm"><input type="checkbox" id="perm_mod"> डॉक्यूमेंट एडिट</label>
+            <label class="perm"><input type="checkbox" id="perm_acc"> स्क्रीन‑रीडर (Accessibility)</label>
+          </div>
+
+          <h4 style="margin-top:6px">अन्य</h4>
+          <label class="perm"><input type="checkbox" id="scrubMeta" checked> मेटाडेटा निकालो (Title/Author आदि)</label>
+          <label class="perm"><input type="checkbox" id="fast" checked> तेज़ मोड (पेज री‑राइट मिनिमम)</label>
+
+          <div style="margin-top:10px">
+            <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
+            <div class="tiny" id="status" style="margin-top:8px">तैयार…</div>
+          </div>
+        </div>
+
+        <!-- Right: preview -->
+        <div class="panel">
+          <h4>प्रीव्यू</h4>
+          <div class="viewer"><div id="pv"></div></div>
+        </div>
+      </section>
+
+      <div class="actions">
+        <div class="row" style="justify-content:flex-start">
+          <button class="btn btn-ghost" id="reset" disabled>रीसेट</button>
+        </div>
+        <div class="row" style="justify-content:flex-end">
+          <button class="btn btn-primary" id="lock" disabled>लॉक लगाओ</button>
+          <button class="btn btn-rose" id="download" disabled>डाउनलोड</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="card" style="padding:0 20px 18px">
+      <h3 style="margin:14px 0 8px">कैसे इस्तेमाल करें?</h3>
+      <ol style="margin:0 0 0 18px">
+        <li>ऊपर PDF चुनो या Drag & Drop करो।</li>
+        <li>यूज़र पासवर्ड (ज़रूरी) और चाहो तो ओनर पासवर्ड डालो।
+            एन्क्रिप्शन स्ट्रेन्थ व परमिशन्स चुनो।</li>
+        <li>“लॉक लगाओ” दबाओ → प्रोग्रेस देखो → “डाउनलोड”.</li>
+      </ol>
+      <p class="warn" style="margin-top:8px">सावधानी: पासवर्ड खो गया तो वापस नहीं मिलेगा। फाइल का अनलॉक तभी सम्भव है जब पासवर्ड सही हो।</p>
+    </section>
+  </main>
+
+  <script>
+    // ===== Setup =====
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    if (pdfjsLib){ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+
+    // pdfcpu wasm उपलब्ध?
+    let pdfcpuReady = false;
+    let pdfcpu = null;
+    window.addEventListener('load', async ()=>{
+      try{
+        if (window.pdfcpu){
+          pdfcpu = await window.pdfcpu(); // init wasm
+          pdfcpuReady = true;
+          document.getElementById('status').textContent = 'एन्क्रिप्शन इंजन लोड हुआ।';
+        } else {
+          document.getElementById('status').textContent = 'एन्क्रिप्शन इंजन नहीं मिला — इंटरनेट/एडब्लॉकर चेक करें।';
+        }
+      }catch(e){
+        document.getElementById('status').textContent = 'एन्क्रिप्शन इंजन लोड नहीं हो पाया।';
+      }
+    });
+
+    // ===== State =====
+    const S = { file:null, bytes:null, outBytes:null };
+
+    // ===== DOM =====
+    const drop = document.getElementById('drop');
+    const fileEl = document.getElementById('file');
+    const demoBtn = document.getElementById('demo');
+    const resetBtn = document.getElementById('reset');
+    const lockBtn = document.getElementById('lock');
+    const dlBtn = document.getElementById('download');
+    const bar = document.getElementById('bar');
+    const statusEl = document.getElementById('status');
+    const pv = document.getElementById('pv');
+
+    const userPwd = document.getElementById('userPwd');
+    const ownerPwd = document.getElementById('ownerPwd');
+    const enc = document.getElementById('enc');
+    const scrubMeta = document.getElementById('scrubMeta');
+    const fast = document.getElementById('fast');
+
+    const perm_print = document.getElementById('perm_print');
+    const perm_copy = document.getElementById('perm_copy');
+    const perm_annot = document.getElementById('perm_annot');
+    const perm_fillform = document.getElementById('perm_fillform');
+    const perm_mod = document.getElementById('perm_mod');
+    const perm_acc = document.getElementById('perm_acc');
+
+    function setBar(p){ bar.style.width = Math.max(0,Math.min(100,Math.round(p))) + '%'; }
+
+    // Drag & drop
+    ;['dragenter','dragover'].forEach(ev=> drop.addEventListener(ev, e=>{ e.preventDefault(); drop.classList.add('dragover'); }));
+    ;['dragleave','drop'].forEach(ev=> drop.addEventListener(ev, e=>{ e.preventDefault(); drop.classList.remove('dragover'); }));
+    drop.addEventListener('drop', async e=>{ const f = [...e.dataTransfer.files][0]; if (f && f.type==='application/pdf') await loadFile(f); });
+    fileEl.addEventListener('change', async e=>{ const f = e.target.files[0]; if (f) await loadFile(f); fileEl.value=''; });
+
+    demoBtn.addEventListener('click', async ()=>{
+      // छोटा डेमो PDF
+      const { PDFDocument, StandardFonts } = window.PDFLib || {};
+      if (!window.PDFLib){
+        const s = document.createElement('script'); s.src = 'https://unpkg.com/pdf-lib/dist/pdf-lib.min.js'; document.head.appendChild(s);
+        await new Promise(r=> s.onload = r);
+      }
+      const { PDFDocument, StandardFonts } = window.PDFLib;
+      const doc = await PDFDocument.create();
+      const font = await doc.embedFont(StandardFonts.Helvetica);
+      const page = doc.addPage([595,842]);
+      page.drawText('डेमो PDF — लॉक फीचर टेस्ट', { x:120, y:420, size:24, font });
+      const bytes = await doc.save();
+      await loadFile(new File([new Blob([bytes],{type:'application/pdf'})], 'Demo.pdf', {type:'application/pdf'}));
+    });
+
+    resetBtn.addEventListener('click', ()=>{ S.file=null; S.bytes=null; S.outBytes=null; pv.innerHTML=''; lockBtn.disabled=true; dlBtn.disabled=true; resetBtn.disabled=true; setBar(0); statusEl.textContent='तैयार…'; });
+
+    async function loadFile(file){
+      S.file = file; S.bytes = new Uint8Array(await file.arrayBuffer());
+      statusEl.textContent = 'लोड हो रहा…'; setBar(10);
+      await renderPreview(S.bytes);
+      lockBtn.disabled = false; resetBtn.disabled = false; setBar(0); statusEl.textContent = 'तैयार — पासवर्ड सेट करें।';
+    }
+
+    async function renderPreview(bytes){
+      pv.innerHTML = '';
+      try{
+        const pdf = await pdfjsLib.getDocument({data:bytes}).promise; const n = pdf.numPages; const show = Math.min(6,n);
+        for (let i=1;i<=show;i++){
+          const page = await pdf.getPage(i);
+          const vp = page.getViewport({scale:0.5});
+          const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
+          await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
+          const box = document.createElement('div'); box.className='thumb';
+          const cap = document.createElement('div'); cap.className='cap'; cap.textContent = 'पेज '+i;
+          box.appendChild(c); box.appendChild(cap); pv.appendChild(box);
+        }
+      }catch(e){ console.error(e); }
+    }
+
+    lockBtn.addEventListener('click', async ()=>{
+      if (!S.bytes) return;
+      const up = (userPwd.value||'').trim();
+      if (!up || up.length < 4){ alert('यूज़र पासवर्ड कम से कम 4 अक्षर का रखें।'); return; }
+      if (!pdfcpuReady){ alert('एन्क्रिप्शन इंजन लोड नहीं हुआ। इंटरनेट/एडब्लॉकर चेक करें।'); return; }
+
+      setBar(8); statusEl.textContent = 'एन्क्रिप्शन तैयार…';
+
+      try{
+        // pdfcpu-wasm CLI जैसे कॉल्स: encrypt -upwd <u> -opwd <o> -key AES256 -perm <flags>
+        const flags = [];
+        if (perm_print.checked) flags.push('print');
+        if (perm_copy.checked) flags.push('copy');
+        if (perm_annot.checked) flags.push('annotate');
+        if (perm_fillform.checked) flags.push('form');
+        if (perm_mod.checked) flags.push('modify');
+        if (perm_acc.checked) flags.push('accessibility');
+
+        const args = [
+          'encrypt',
+          '-upwd', up,
+          ...(ownerPwd.value? ['-opwd', ownerPwd.value] : []),
+          '-key', enc.value,
+          ...(flags.length? ['-perm', flags.join(',')] : []),
+          ...(scrubMeta.checked? ['-mode','rc','-rm','meta'] : []), // rc=read+copy rewrite; rm meta
+          '-', // stdin
+          '-o','-' // stdout
+        ];
+
+        setBar(18); statusEl.textContent = 'एन्क्रिप्ट किया जा रहा है…';
+        const res = await pdfcpu.run(args, S.bytes);
+        if (!res || !res.data){ throw new Error('encrypt_failed'); }
+        S.outBytes = res.data;
+        setBar(100); statusEl.textContent = 'तैयार — डाउनलोड करें।';
+        dlBtn.disabled = false;
+      }catch(err){ console.error(err); alert('लॉक फ़ेल: '+(err?.message||err)); statusEl.textContent='एरर'; }
+    });
+
+    dlBtn.addEventListener('click', ()=>{
+      if (!S.outBytes) return;
+      const a = document.createElement('a');
+      const stamp = new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
+      a.href = URL.createObjectURL(new Blob([S.outBytes], {type:'application/pdf'}));
+      a.download = `Locked-${stamp}.pdf`;
+      a.click(); URL.revokeObjectURL(a.href);
+    });
+  </script>
+</body>
+</html>
