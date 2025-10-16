@@ -1,332 +1,625 @@
-<!--
-File: pdf-lock-hi.html
-Title: PDF लॉक (Password) — AES‑256 एन्क्रिप्शन • परमिशन्स • मेटाडेटा स्क्रब
-Description: 100% ब्राउज़र में PDF पासवर्ड प्रोटेक्शन (यूज़र/ओनर पासवर्ड), AES‑256/AES‑128, प्रिंट/कॉपी/एडिट परमिशन, मेटाडेटा निकालना, लाइव प्रीव्यू। pdf.js + pdfcpu‑wasm (WASM) का प्रयोग।
-How to use: Save as pdf-lock-hi.html और किसी मॉडर्न ब्राउज़र में खोलें। इंटरनेट कनेक्शन चाहिए (WASM लाइब्रेरी लोड करने के लिए)।
-Important: खोया पासवर्ड रिकवर नहीं किया जा सकता।
--->
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PDF लॉक (Password) — सुरक्षित AES‑256</title>
-  <meta name="description" content="PDF पर पासवर्ड लगाओ — यूज़र/ओनर पासवर्ड, AES‑256/128 एन्क्रिप्शन, प्रिंट/कॉपी/एडिट परमिशन कंट्रोल, मेटाडेटा स्क्रब — सब कुछ आपके ब्राउज़र में।"/>
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <title>PDF लॉक (विज़ार्ड) — 1) संख्या 2) PDFs 3) सेटिंग 4) लॉक/डाउनलोड</title>
+  <meta name="description" content="PDF पासवर्ड प्रोटेक्शन विज़ार्ड: 1) कितने PDFs 2) उतने PDFs अपलोड/री-ऑर्डर 3) पासवर्ड/एन्क्रिप्शन/परमिशन्स 4) लॉक + डाउनलोड (एक-एक या ZIP). 100% ब्राउज़र में." />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1020"   media="(prefers-color-scheme: dark)">
 
   <style>
     :root{
-      --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
-      --text:#e9eefb; --muted:#9fb0de; --accent:#ffd95c; /* yellow */
-      --accent2:#ff5c7c; /* rose/red */ --success:#23d3ac; --danger:#ff4d4f;
+      --bg:#f7fafc; --panel:#ffffff; --card:#ffffff; --line:rgba(2,6,23,.10);
+      --text:#0b1020; --muted:#334155; --focus:#2563eb;
+      --c1:#7c5cff; --c2:#23d3ac; --c3:#ffd95c; --c4:#ff5c7c; --c5:#06b6d4; --c6:#22c55e; --c7:#f97316;
+      --grad: conic-gradient(from 180deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c7),var(--c1));
+      --shadow:0 10px 30px rgba(2,6,23,.08);
+      --tile-bg:linear-gradient(180deg,#ffffff,#f8fafc);
+      --font: "Noto Sans Devanagari","Nirmala UI","Hind","Kohinoor Devanagरी", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    }
+    html[data-theme="dark"]{
+      --bg:#0b1020; --panel:#0f1630; --card:#121a3b; --line:rgba(255,255,255,.12);
+      --text:#eef3ff; --muted:#b8c6f1; --focus:#7dd3fc;
+      --shadow:0 18px 60px rgba(0,0,0,.45);
+      --tile-bg:linear-gradient(180deg,#11183a,#0e1430);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; color:var(--text); background:
-        radial-gradient(1100px 700px at 80% -10%, rgba(255,217,92,.18), transparent),
-        radial-gradient(900px 600px at 10% 110%, rgba(255,92,124,.16), transparent), var(--bg);
-      font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      margin:0; color:var(--text); font-family:var(--font); line-height:1.5;
+      background:
+        radial-gradient(1100px 700px at 10% -10%, #7c5cff18, transparent 60%),
+        radial-gradient(1000px 700px at 90% 110%, #23d3ac18, transparent 60%),
+        radial-gradient(900px 600px at 20% 120%, #ffd95c18, transparent 60%),
+        var(--bg);
     }
     a{color:inherit; text-decoration:none}
-    header{position:sticky; top:0; z-index:70; display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 16px; background:rgba(11,16,32,.75); backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
-    .brand{display:flex; gap:10px; align-items:center; font-weight:900}
-    .brand svg{width:28px;height:28px}
-    .tiny{font-size:12px; color:#ffe38a}
+    :focus-visible{outline:3px solid var(--focus); outline-offset:2px; border-radius:8px}
+    .container{max-width:1200px; margin:0 auto; padding:0 16px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    .container{max-width:1180px; margin:14px auto 24px; padding:0 16px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden}
-    .hero{padding:20px 20px 6px}
-    h1{margin:0 0 8px; font-weight:900; font-size:28px}
+    /* Privacy Promise (sticky) */
+    .pp{position:sticky; top:0; z-index:80; background:var(--panel); border-bottom:1px solid var(--line)}
+    .pp .row{display:flex; gap:12px; align-items:center; justify-content:center; padding:8px 16px}
+    .pp .shield{width:26px;height:26px;border-radius:8px;background:var(--grad);display:grid;place-items:center}
+
+    /* Header */
+    header.site{position:sticky; top:48px; z-index:70; backdrop-filter:blur(10px); background:rgba(255,255,255,.82); border-bottom:1px solid var(--line)}
+    html[data-theme="dark"] header.site{background:linear-gradient(180deg, rgba(11,16,32,.85), rgba(11,16,32,.60))}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:900}
+    .brand svg{width:30px;height:30px}
+    .theme-btn{border:1px solid var(--line); background:var(--panel); color:inherit; border-radius:12px; padding:8px 12px; font-weight:800}
+
+    /* Card / common */
+    .card{background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); overflow:hidden}
+    .hero{padding:22px 22px 0}
+    h1{margin:0 0 6px; font-size:clamp(22px,3.6vw,30px); font-weight:900}
     .sub{margin:0; color:var(--muted)}
+    .tiny{font-size:12px; color:var(--muted)}
 
-    .uploader{border:1.5px dashed rgba(255,255,255,.25); border-radius:16px; padding:18px; margin:14px 20px; text-align:center}
-    .uploader.dragover{border-color:var(--accent)}
-    .uploader input[type=file]{display:none}
-    .row{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
-    .btn{appearance:none; border:none; border-radius:12px; padding:12px 14px; font-weight:900; cursor:pointer; min-height:42px; transition:.16s transform, .16s box-shadow}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+    .row.center{justify-content:center}
+    .row.between{justify-content:space-between}
+
+    .btn{appearance:none; border:none; border-radius:14px; padding:12px 14px; font-weight:900; cursor:pointer; min-height:44px}
     .btn:active{transform:translateY(1px)}
-    .btn-primary{background:linear-gradient(90deg,var(--accent),#ffe88f); color:#1e1b4b; box-shadow:0 8px 24px rgba(255,217,92,.35)}
-    .btn-rose{background:linear-gradient(90deg,var(--accent2),#ff8fa3); color:#2b0f14; box-shadow:0 10px 26px rgba(255,92,124,.35)}
-    .btn-ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.22)}
+    .btn.primary{color:#0b1020; background:var(--grad); box-shadow:0 8px 24px rgba(2,6,23,.18)}
+    .btn.secondary{color:inherit; background:#00000007; border:1px solid var(--line)}
+    .btn.ok{color:#0b1020; background:linear-gradient(90deg,#22c55e,#ffd95c)}
+    .btn.ghost{color:inherit; background:transparent; border:1px solid var(--line)}
+    .btn.warn{color:#0b1020; background:linear-gradient(90deg,#ffd95c,#ff5c7c)}
+    .btn.slim{padding:8px 10px; border-radius:10px}
+    .btn[disabled]{opacity:.55; cursor:not-allowed; pointer-events:none; box-shadow:none !important}
 
-    .grid{display:grid; gap:14px; padding:0 20px 16px}
-    .two{grid-template-columns:420px 1fr}
-    @media (max-width:980px){ .two{grid-template-columns:1fr} }
+    /* Step chips */
+    .steps{display:flex; gap:8px; flex-wrap:wrap; padding:12px 22px 0}
+    .chip{display:inline-flex; align-items:center; gap:8px; border:1px solid var(--line); background:var(--tile-bg); padding:8px 12px; border-radius:999px; font-weight:800; font-size:13px; opacity:.7}
+    .chip.active{opacity:1; box-shadow:0 0 0 3px #00000010 inset}
 
-    .panel{background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:12px}
+    /* Wizard pages */
+    .page{display:none; padding:18px 22px 22px}
+    .page.show{display:block}
+
+    /* Uploader & list */
+    .uploader{border:1.5px dashed var(--line); border-radius:16px; padding:18px; margin:10px 0; text-align:center; background:var(--tile-bg)}
+    .uploader.dragover{border-color:#94a3b8; box-shadow:0 0 0 4px rgba(148,163,184,.2) inset}
+
+    .list{display:grid; gap:10px}
+    .item{display:grid; grid-template-columns:64px 1fr auto; gap:10px; align-items:center; padding:10px; background:var(--panel); border:1px solid var(--line); border-radius:12px}
+    .thumb{width:64px;height:90px;background:#0b102020;border:1px solid var(--line);border-radius:8px;display:grid;place-items:center;overflow:hidden}
+    .thumb canvas{width:100%;height:100%;display:block}
+    .name{font-weight:800}
+    .meta{color:var(--muted); font-size:12px}
+    .controls{display:flex; gap:6px; align-items:center}
+    .iconbtn{background:#0000; border:1px solid var(--line); color:inherit; width:34px; height:34px; border-radius:8px; display:grid; place-items:center; cursor:pointer}
+    .grid2{display:grid; gap:16px; grid-template-columns:420px 1fr}
+    @media (max-width:980px){ .grid2{grid-template-columns:1fr} }
+
+    /* Right settings & preview */
+    .panel{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px}
     .panel h4{margin:0 0 10px; font-size:14px}
-    label{font-size:13px}
-    input[type=text], input[type=password], input[type=number], select{width:100%; background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.18); border-radius:10px; padding:10px}
-    .field{display:grid; gap:6px; margin-bottom:10px}
+    input[type=text],input[type=password],input[type=number],select{background:#00000006;color:inherit;border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
 
-    .perm-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
-    .perm{display:flex; align-items:center; gap:8px; border:1px solid rgba(255,255,255,.14); background:#121935; padding:10px; border-radius:10px}
-
-    .viewer{position:relative; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; overflow:auto; min-height:220px}
-    #pv{display:grid; grid-template-columns:repeat(auto-fill, minmax(160px,1fr)); gap:10px}
-    .thumb{background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:6px}
-    .thumb canvas{width:100%; height:auto; display:block}
+    .viewer{position:relative; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px; overflow:auto; min-height:220px}
+    #pv,#pvFinal{display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px}
+    .thumbbox{background:var(--tile-bg); border:1px solid var(--line); border-radius:8px; padding:6px}
+    .thumbbox canvas{width:100%;height:auto;display:block;border-radius:6px}
     .cap{font-size:12px; color:var(--muted); text-align:center}
 
-    .progress{height:10px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12)}
-    .bar{height:100%; width:0; background:linear-gradient(90deg,var(--accent2),var(--accent)); transition:width .2s}
+    .progress{height:10px;background:#00000008;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
+    .bar{height:100%;width:0;background:var(--grad);transition:width .2s}
 
-    .actions{display:flex; justify-content:space-between; gap:10px; padding:14px 20px 18px; border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02)}
-    .warn{font-size:12px; color:#ffd0d6}
-    .ok{color:#b6ffd6}
+    .actions{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 22px;border-top:1px solid var(--line);background:linear-gradient(90deg,#00000003,#00000006)}
+
+    /* Pulsating cues */
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(255, 217, 92, 0.55); transform: translateY(0) scale(1); }
+      50%  { box-shadow: 0 0 0 12px rgba(255, 217, 92, 0);   transform: translateY(-1px) scale(1.035); }
+      100% { box-shadow: 0 0 0 0 rgba(255, 217, 92, 0);     transform: translateY(0) scale(1); }
+    }
+    .pulse{ animation: pulse 1.8s ease-in-out infinite; }
+    @keyframes pulse-green {
+      0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); transform: translateY(0) scale(1); }
+      50%  { box-shadow: 0 0 0 12px rgba(34, 197, 94, 0);   transform: translateY(-1px) scale(1.035); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);     transform: translateY(0) scale(1); }
+    }
+    .pulse-green{ animation: pulse-green 1.8s ease-in-out infinite; }
+    @media (prefers-reduced-motion:reduce){ .pulse,.pulse-green,.bar{animation:none;transition:none} }
   </style>
 
-  <!-- libs -->
+  <!-- Client-side libs -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
-  <!-- qpdf/pdfcpu wasm wrapper (public CDN). If this fails, ऐप फॉलबैक मैसेज दिखाएगा. -->
   <script defer src="https://cdn.jsdelivr.net/npm/pdfcpu-wasm/dist/pdfcpu.js"></script>
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <span>PDF लॉक — <span style="color:var(--accent2)">हिंदी</span> टूल</span>
+  <a class="sr-only" href="#main">मुख्य सामग्री पर जाएँ</a>
+
+  <!-- Privacy -->
+  <section class="pp" role="region" aria-label="प्राइवेसी वादा">
+    <div class="container row center">
+      <div class="shield" aria-hidden="true">🔒</div>
+      <div>
+        <strong>प्राइवेसी वादा:</strong> सारी प्रोसेसिंग <strong>आपके ब्राउज़र</strong> में — <strong>फाइलें कहीं अपलोड नहीं</strong> होतीं। (WASM लाइब्रेरी के लिए इंटरनेट चाहिए)
+      </div>
     </div>
-    <div class="tiny">महत्वपूर्ण: पासवर्ड भूलने पर रिकवर नहीं होगा।</div>
+  </section>
+
+  <!-- Header -->
+  <header class="site">
+    <div class="container nav">
+      <div class="brand" aria-label="हिंदी टूल्स">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <strong>PDF लॉक (विज़ार्ड)</strong>
+      </div>
+      <button class="theme-btn" id="themeBtn" aria-pressed="false" aria-label="थीम बदलें">🌗 थीम</button>
+    </div>
   </header>
 
-  <main class="container">
-    <section class="card" aria-labelledby="title">
+  <main id="main" class="container" style="margin:18px auto">
+    <section class="card">
       <div class="hero">
-        <h1 id="title">PDF पर मजबूत पासवर्ड लगाओ</h1>
-        <p class="sub">AES‑256/AES‑128 एन्क्रिप्शन, यूज़र/ओनर पासवर्ड, और प्रिंट/कॉपी/एडिट परमिशन्स पर फुल कंट्रोल — 100% ब्राउज़र में।</p>
+        <h1>4 स्टेप में PDF पासवर्ड प्रोटेक्शन</h1>
+        <p class="sub">1) संख्या 2) PDFs 3) पासवर्ड/एन्क्रिप्शन/परमिशन्स 4) लॉक + डाउनलोड</p>
       </div>
 
-      <div class="uploader" id="drop" tabindex="0">
-        <p style="margin:0 0 10px">फ़ाइल यहाँ <strong>Drag & Drop</strong> करो या</p>
-        <div class="row" style="justify-content:center">
-          <label class="btn btn-primary" for="file">PDF चुनो</label>
-          <button class="btn btn-rose" id="demo">डेमो PDF</button>
-        </div>
-        <input id="file" type="file" accept="application/pdf" />
-        <p class="warn" style="margin-top:8px">नोट: बड़े/स्कैन PDFs पर प्रोसेसिंग को समय लग सकता है।</p>
+      <!-- Step chips -->
+      <div class="steps">
+        <div class="chip active" data-step="1">1) कितने PDFs?</div>
+        <div class="chip" data-step="2">2) PDFs जोड़ें/ऑर्डर</div>
+        <div class="chip" data-step="3">3) सेटिंग्स</div>
+        <div class="chip" data-step="4">4) लॉक/डाउनलोड</div>
       </div>
 
-      <section class="grid two">
-        <!-- Left: options -->
+      <!-- Pages -->
+      <div class="page show" id="p1" role="region" aria-label="स्टेप 1">
+        <div class="row center" style="gap:16px">
+          <label>कितने PDFs (1–50)
+            <input id="cap" type="number" min="1" max="50" value="3" style="width:120px">
+          </label>
+          <button class="btn primary pulse" id="toP2" type="button">अगला: PDFs</button>
+        </div>
+        <p class="tiny" style="margin-top:8px">टिप: संख्या बदलकर आगे बढ़ेंगे तो सूची रीसेट होगी।</p>
+      </div>
+
+      <div class="page" id="p2" role="region" aria-label="स्टेप 2">
+        <div class="row between">
+          <div><strong>लक्ष्य:</strong> <span id="goal"></span> PDF • <strong>जोड़े:</strong> <span id="curCount">0</span></div>
+          <div class="tiny" id="needHint">एकदम उतने PDFs जोड़ें तभी “अगला” एक्टिव होगा।</div>
+        </div>
+
+        <div class="uploader" id="drop" tabindex="0" role="button" aria-label="PDF जोड़ें — ड्रैग-ड्रॉप करें या एंटर दबाएँ">
+          <p style="margin:0 0 10px">फाइलें यहाँ <strong>Drag & Drop</strong> करो या</p>
+          <div class="row center">
+            <label class="btn primary" for="file">PDF चुनो</label>
+            <button class="btn secondary" id="demoBtn" type="button">डेमो PDF</button>
+            <button class="btn ghost" id="resetBtn" type="button" disabled>रीसेट</button>
+          </div>
+          <input id="file" type="file" accept="application/pdf" multiple hidden/>
+          <p class="tiny" style="margin-top:8px">टिप: स्कैन PDFs भी चलेंगी।</p>
+        </div>
+
+        <div class="grid2">
+          <div class="panel">
+            <h4>PDFs</h4>
+            <div id="list" class="list" aria-live="polite"></div>
+            <div class="tiny" id="countLine">कोई PDF नहीं जोड़ा गया।</div>
+          </div>
+          <div class="panel">
+            <h4>त्वरित निर्देश</h4>
+            <ul style="margin:0 0 0 18px">
+              <li>ड्रैग करके ऑर्डर बदलें</li>
+              <li>🗑 से हटाएँ</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn ghost" id="backP1" type="button">◀ पिछला</button>
+          <button class="btn warn" id="toP3" type="button" disabled>अगला: सेटिंग्स</button>
+        </div>
+      </div>
+
+      <div class="page" id="p3" role="region" aria-label="स्टेप 3">
+        <div class="grid2">
+          <!-- Settings -->
+          <div class="panel">
+            <h4>पासवर्ड व एन्क्रिप्शन</h4>
+            <div class="row" style="gap:16px; align-items:flex-start; flex-wrap:wrap">
+              <label style="display:grid; gap:6px">यूज़र पासवर्ड* <input id="userPwd" type="password" placeholder="कम से कम 4 अक्षर"></label>
+              <label style="display:grid; gap:6px">ओनर पासवर्ड <input id="ownerPwd" type="password" placeholder="(वैकल्पिक पर सुझाया)"></label>
+              <label style="display:grid; gap:6px">एन्क्रिप्शन
+                <select id="enc">
+                  <option value="AES256" selected>AES-256 (मजबूत)</option>
+                  <option value="AES128">AES-128</option>
+                </select>
+              </label>
+            </div>
+
+            <h4 style="margin-top:10px">परमिशन्स</h4>
+            <div class="row" style="gap:8px 12px; flex-wrap:wrap">
+              <label><input type="checkbox" id="perm_print" checked> प्रिंट</label>
+              <label><input type="checkbox" id="perm_copy"> कॉपी</label>
+              <label><input type="checkbox" id="perm_annot"> एनोटेशन</label>
+              <label><input type="checkbox" id="perm_fillform" checked> फ़ॉर्म भरना</label>
+              <label><input type="checkbox" id="perm_mod"> एडिट</label>
+              <label><input type="checkbox" id="perm_acc"> एक्सेसिबिलिटी</label>
+            </div>
+
+            <h4 style="margin-top:10px">अन्य</h4>
+            <label style="display:block; margin:6px 0"><input type="checkbox" id="scrubMeta" checked> मेटाडेटा निकालो (Title/Author आदि)</label>
+            <label style="display:block; margin:6px 0"><input type="checkbox" id="fast" checked> तेज़ मोड (न्यूनतम री-राइट)</label>
+
+            <p class="tiny" style="margin-top:6px; color:#b91c1c">महत्वपूर्ण: पासवर्ड भूलने पर रिकवर नहीं किया जा सकता।</p>
+          </div>
+
+          <!-- Previews + global progress -->
+          <div class="panel">
+            <h4>प्रीव्यू</h4>
+            <div class="viewer"><div id="pv"></div></div>
+            <div style="margin-top:12px">
+              <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
+              <div class="tiny" id="status" style="margin-top:8px" aria-live="polite">तैयार…</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <button class="btn ghost" id="backP2" type="button">◀ पिछला</button>
+          <button class="btn primary pulse" id="toP4" type="button">अगला: लॉक बनाओ</button>
+        </div>
+      </div>
+
+      <div class="page" id="p4" role="region" aria-label="स्टेप 4">
         <div class="panel">
-          <h4>पासवर्ड व एन्क्रिप्शन</h4>
-          <div class="field">
-            <label>यूज़र पासवर्ड (Open करने के लिए)*</label>
-            <input id="userPwd" type="password" placeholder="कम से कम 8 अक्षर" />
-          </div>
-          <div class="field">
-            <label>ओनर पासवर्ड (परमिशन्स बदलने/निकालने हेतु)</label>
-            <input id="ownerPwd" type="password" placeholder="(वैकल्पिक पर सुझाया जाता है)" />
-          </div>
-          <div class="field">
-            <label>एन्क्रिप्शन स्ट्रेन्थ</label>
-            <select id="enc">
-              <option value="AES256" selected>AES‑256 (मजबूत)</option>
-              <option value="AES128">AES‑128</option>
-            </select>
-          </div>
-
-          <h4 style="margin-top:6px">परमिशन्स</h4>
-          <div class="perm-grid">
-            <label class="perm"><input type="checkbox" id="perm_print" checked> प्रिंट करने दें</label>
-            <label class="perm"><input type="checkbox" id="perm_copy"> टेक्स्ट/कॉन्टेन्ट कॉपी</label>
-            <label class="perm"><input type="checkbox" id="perm_annot"> कमेंट/एनोटेशन</label>
-            <label class="perm"><input type="checkbox" id="perm_fillform" checked> फ़ॉर्म भरना</label>
-            <label class="perm"><input type="checkbox" id="perm_mod"> डॉक्यूमेंट एडिट</label>
-            <label class="perm"><input type="checkbox" id="perm_acc"> स्क्रीन‑रीडर (Accessibility)</label>
-          </div>
-
-          <h4 style="margin-top:6px">अन्य</h4>
-          <label class="perm"><input type="checkbox" id="scrubMeta" checked> मेटाडेटा निकालो (Title/Author आदि)</label>
-          <label class="perm"><input type="checkbox" id="fast" checked> तेज़ मोड (पेज री‑राइट मिनिमम)</label>
-
-          <div style="margin-top:10px">
-            <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
-            <div class="tiny" id="status" style="margin-top:8px">तैयार…</div>
-          </div>
+          <h4>लॉक्ड आउटपुट</h4>
+          <p class="tiny">“लॉक लगाओ” दबाएँ — हर PDF एन्क्रिप्ट होकर नीचे लिस्ट में आ जाएगा।</p>
+          <div class="viewer"><div id="pvFinal"></div></div>
         </div>
-
-        <!-- Right: preview -->
-        <div class="panel">
-          <h4>प्रीव्यू</h4>
-          <div class="viewer"><div id="pv"></div></div>
-        </div>
-      </section>
-
-      <div class="actions">
-        <div class="row" style="justify-content:flex-start">
-          <button class="btn btn-ghost" id="reset" disabled>रीसेट</button>
-        </div>
-        <div class="row" style="justify-content:flex-end">
-          <button class="btn btn-primary" id="lock" disabled>लॉक लगाओ</button>
-          <button class="btn btn-rose" id="download" disabled>डाउनलोड</button>
+        <div class="actions">
+          <button class="btn ghost" id="backP3" type="button">◀ पिछला</button>
+          <div class="row">
+            <button class="btn primary" id="lockAllBtn" type="button">लॉक लगाओ</button>
+            <button class="btn ok" id="zipBtn" type="button" disabled>सारे डाउनलोड (.zip)</button>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="card" style="padding:0 20px 18px">
-      <h3 style="margin:14px 0 8px">कैसे इस्तेमाल करें?</h3>
+    <section class="card" style="padding:0 22px 18px">
+      <h3 style="margin:16px 0 10px">कैसे इस्तेमाल करें?</h3>
       <ol style="margin:0 0 0 18px">
-        <li>ऊपर PDF चुनो या Drag & Drop करो।</li>
-        <li>यूज़र पासवर्ड (ज़रूरी) और चाहो तो ओनर पासवर्ड डालो।
-            एन्क्रिप्शन स्ट्रेन्थ व परमिशन्स चुनो।</li>
-        <li>“लॉक लगाओ” दबाओ → प्रोग्रेस देखो → “डाउनलोड”.</li>
+        <li>स्टेप-1 में PDFs की संख्या चुनें।</li>
+        <li>स्टेप-2 में उतने PDFs जोड़ें/री-ऑर्डर करें।</li>
+        <li>स्टेप-3 में पासवर्ड/एन्क्रिप्शन/परमिशन्स सेट करें।</li>
+        <li>स्टेप-4 में “लॉक लगाओ” → फिर प्रति-फाइल डाउनलोड या “.zip” से सब डाउनलोड।</li>
       </ol>
-      <p class="warn" style="margin-top:8px">सावधानी: पासवर्ड खो गया तो वापस नहीं मिलेगा। फाइल का अनलॉक तभी सम्भव है जब पासवर्ड सही हो।</p>
+      <p class="tiny" style="margin-top:8px">नोट: प्रोसेसिंग 100% लोकल — केवल लाइब्रेरीज़ CDN से लोड होती हैं।</p>
     </section>
   </main>
 
   <script>
-    // ===== Setup =====
-    const pdfjsLib = window['pdfjs-dist/build/pdf'];
-    if (pdfjsLib){ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+  /* ===== Theme toggle ===== */
+  (function(){
+    const root=document.documentElement, btn=document.getElementById('themeBtn');
+    const stored=localStorage.getItem('theme'); if(stored) root.dataset.theme=stored;
+    btn?.addEventListener('click', ()=>{ root.dataset.theme = root.dataset.theme==='light'?'dark':'light'; localStorage.setItem('theme',root.dataset.theme); btn.setAttribute('aria-pressed', String(root.dataset.theme==='dark')); });
+  })();
 
-    // pdfcpu wasm उपलब्ध?
-    let pdfcpuReady = false;
-    let pdfcpu = null;
-    window.addEventListener('load', async ()=>{
-      try{
-        if (window.pdfcpu){
-          pdfcpu = await window.pdfcpu(); // init wasm
-          pdfcpuReady = true;
-          document.getElementById('status').textContent = 'एन्क्रिप्शन इंजन लोड हुआ।';
-        } else {
-          document.getElementById('status').textContent = 'एन्क्रिप्शन इंजन नहीं मिला — इंटरनेट/एडब्लॉकर चेक करें।';
-        }
-      }catch(e){
-        document.getElementById('status').textContent = 'एन्क्रिप्शन इंजन लोड नहीं हो पाया।';
+  /* ===== pdf.js worker ===== */
+  const pdfjsLib = window['pdfjs-dist/build/pdf'];
+  if (pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+
+  /* ===== pdfcpu-wasm init ===== */
+  let pdfcpuReady=false, pdfcpu=null;
+  window.addEventListener('load', async ()=>{
+    try{
+      if (window.pdfcpu){
+        pdfcpu = await window.pdfcpu();
+        pdfcpuReady = true;
+        S.status('एन्क्रिप्शन इंजन तैयार।');
+      }else{
+        S.status('WASM इंजन नहीं मिला — इंटरनेट/एडब्लॉकर जाँचें।');
       }
+    }catch{ S.status('एन्क्रिप्शन इंजन लोड विफल।'); }
+  });
+
+  /* ===== State ===== */
+  const S = {
+    cap: 3,
+    files: [], // {id, file, name, size, bytes, pageCount, thumbCanvas}
+    out:   [], // {nameOut, bytes}
+    setBar(p){ document.getElementById('bar').style.width = Math.max(0,Math.min(100,Math.round(p)))+'%'; },
+    status(t){ document.getElementById('status').textContent = t; }
+  };
+
+  /* ===== DOM Shortcuts ===== */
+  const steps = Array.from(document.querySelectorAll('.chip'));
+  const pages = {1:$('#p1'),2:$('#p2'),3:$('#p3'),4:$('#p4')};
+
+  const capInput = $('#cap'), toP2=$('#toP2'), toP3=$('#toP3'), toP4=$('#toP4');
+  const backP1=$('#backP1'), backP2=$('#backP2'), backP3=$('#backP3');
+
+  const goalEl=$('#goal'), curCount=$('#curCount'), needHint=$('#needHint');
+  const listEl=$('#list'), countLine=$('#countLine');
+
+  const drop=$('#drop'), fileEl=$('#file'), demoBtn=$('#demoBtn'), resetBtn=$('#resetBtn');
+
+  const userPwd=$('#userPwd'), ownerPwd=$('#ownerPwd'), encSel=$('#enc');
+  const perm_print=$('#perm_print'), perm_copy=$('#perm_copy'), perm_annot=$('#perm_annot'),
+        perm_fillform=$('#perm_fillform'), perm_mod=$('#perm_mod'), perm_acc=$('#perm_acc');
+  const scrubMeta=$('#scrubMeta'), fast=$('#fast');
+
+  const pv=$('#pv'), pvFinal=$('#pvFinal');
+  const lockAllBtn=$('#lockAllBtn'), zipBtn=$('#zipBtn');
+
+  function $(s){ return document.querySelector(s); }
+
+  /* ===== Step wiring ===== */
+  function clearPulse(){ document.querySelectorAll('.pulse,.pulse-green').forEach(el=>el.classList.remove('pulse','pulse-green')); }
+
+  function setStep(n){
+    steps.forEach(s=>s.classList.toggle('active', s.dataset.step==n));
+    Object.values(pages).forEach(el=>el.classList.remove('show'));
+    pages[n].classList.add('show');
+    clearPulse();
+    if (n===1) toP2.classList.add('pulse');
+    if (n===2) document.querySelector('label[for="file"]')?.classList.add('pulse');
+    if (n===3) toP4.classList.add('pulse');
+    if (n===4) lockAllBtn.classList.add('pulse');
+  }
+
+  capInput.addEventListener('input', ()=>{
+    const v = Math.max(1, Math.min(50, parseInt(capInput.value||'3',10)||3));
+    capInput.value = String(v);
+  });
+  toP2.addEventListener('click', ()=>{
+    S.cap = Math.max(1, Math.min(50, parseInt(capInput.value||'3',10)||3));
+    goalEl.textContent = String(S.cap);
+    resetList();
+    setStep(2);
+  });
+  backP1?.addEventListener('click', ()=> setStep(1));
+  backP2?.addEventListener('click', ()=> setStep(2));
+  backP3?.addEventListener('click', ()=> setStep(3));
+  toP3.addEventListener('click', ()=>{ if (!toP3.disabled) setStep(3); });
+  toP4.addEventListener('click', ()=> setStep(4));
+
+  /* ===== List helpers ===== */
+  function resetList(){
+    S.files.length=0; listEl.innerHTML=''; pv.innerHTML=''; pvFinal.innerHTML='';
+    countLine.textContent = 'कोई PDF नहीं जोड़ा गया।';
+    curCount.textContent = '0'; resetBtn.disabled=true; toP3.disabled=true;
+    needHint.style.display='inline';
+  }
+
+  function renderList(){
+    listEl.innerHTML='';
+    S.files.forEach((f,idx)=>{
+      const row=document.createElement('div'); row.className='item'; row.draggable=true; row.dataset.id=f.id;
+      row.addEventListener('dragstart', e=> e.dataTransfer.setData('text/plain', f.id));
+      row.addEventListener('dragover', e=>e.preventDefault());
+      row.addEventListener('drop', e=>{
+        e.preventDefault();
+        const fromId=e.dataTransfer.getData('text/plain'); if(!fromId||fromId===f.id) return;
+        const fromIndex=S.files.findIndex(x=>x.id===fromId); const toIndex=idx;
+        const [m]=S.files.splice(fromIndex,1); S.files.splice(toIndex,0,m); renderList(); updateCounts();
+      });
+
+      const th=document.createElement('div'); th.className='thumb';
+      if (f.thumbCanvas) th.appendChild(f.thumbCanvas); else th.textContent='…';
+
+      const col=document.createElement('div');
+      const name=document.createElement('div'); name.className='name'; name.textContent=f.name;
+      const meta=document.createElement('div'); meta.className='meta';
+      meta.textContent = `${fmtBytes(f.size)}${f.pageCount? ' • '+f.pageCount+' पेज':''}`;
+      col.append(name, meta);
+
+      const ctrls=document.createElement('div'); ctrls.className='controls';
+      const up=mkIconBtn('ऊपर','M12 8l-4 4h8l-4-4z'); up.addEventListener('click', ()=>{ if(idx>0){ const [m]=S.files.splice(idx,1); S.files.splice(idx-1,0,m); renderList(); }});
+      const down=mkIconBtn('नीचे','M12 16l4-4H8l4 4z'); down.addEventListener('click', ()=>{ if(idx<S.files.length-1){ const [m]=S.files.splice(idx,1); S.files.splice(idx+1,0,m); renderList(); }});
+      const del=mkIconBtn('हटाओ','M6 7h12M10 7v10m4-10v10M9 7l1-2h4l1 2',true); del.addEventListener('click', ()=>{ S.files.splice(idx,1); renderList(); updateCounts(); });
+
+      ctrls.append(up,down,del);
+      row.append(th,col,ctrls);
+      listEl.appendChild(row);
     });
+    updateCounts();
+  }
 
-    // ===== State =====
-    const S = { file:null, bytes:null, outBytes:null };
+  function mkIconBtn(title, path, danger=false){
+    const b=document.createElement('button'); b.className='iconbtn'; b.title=title;
+    if(danger) b.style.borderColor='rgba(255,92,124,.45)';
+    b.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="${path}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    return b;
+  }
 
-    // ===== DOM =====
-    const drop = document.getElementById('drop');
-    const fileEl = document.getElementById('file');
-    const demoBtn = document.getElementById('demo');
-    const resetBtn = document.getElementById('reset');
-    const lockBtn = document.getElementById('lock');
-    const dlBtn = document.getElementById('download');
-    const bar = document.getElementById('bar');
-    const statusEl = document.getElementById('status');
-    const pv = document.getElementById('pv');
+  function updateCounts(){
+    countLine.textContent = S.files.length ? `${S.files.length} PDFs जोड़े गए` : 'कोई PDF नहीं जोड़ा गया।';
+    curCount.textContent = String(S.files.length);
+    resetBtn.disabled = S.files.length===0;
+    const ready = (S.files.length === S.cap);
+    toP3.disabled = !ready;
+    needHint.style.display = ready ? 'none' : 'inline';
+    document.querySelector('label[for="file"]')?.classList.toggle('pulse', !ready);
+  }
 
-    const userPwd = document.getElementById('userPwd');
-    const ownerPwd = document.getElementById('ownerPwd');
-    const enc = document.getElementById('enc');
-    const scrubMeta = document.getElementById('scrubMeta');
-    const fast = document.getElementById('fast');
+  /* ===== Drag-drop & file intake ===== */
+  drop.addEventListener('keydown', (e)=>{ if (e.key==='Enter'||e.key===' ') { e.preventDefault(); fileEl.click(); }});
+  ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault(); drop.classList.add('dragover');}));
+  ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault(); drop.classList.remove('dragover');}));
 
-    const perm_print = document.getElementById('perm_print');
-    const perm_copy = document.getElementById('perm_copy');
-    const perm_annot = document.getElementById('perm_annot');
-    const perm_fillform = document.getElementById('perm_fillform');
-    const perm_mod = document.getElementById('perm_mod');
-    const perm_acc = document.getElementById('perm_acc');
+  drop.addEventListener('drop', async e=>{
+    const files=[...e.dataTransfer.files].filter(f=>f.type==='application/pdf');
+    await addFiles(files);
+  });
+  fileEl.addEventListener('change', async e=>{
+    await addFiles([...e.target.files]); fileEl.value='';
+  });
 
-    function setBar(p){ bar.style.width = Math.max(0,Math.min(100,Math.round(p))) + '%'; }
+  resetBtn.addEventListener('click', resetList);
 
-    // Drag & drop
-    ;['dragenter','dragover'].forEach(ev=> drop.addEventListener(ev, e=>{ e.preventDefault(); drop.classList.add('dragover'); }));
-    ;['dragleave','drop'].forEach(ev=> drop.addEventListener(ev, e=>{ e.preventDefault(); drop.classList.remove('dragover'); }));
-    drop.addEventListener('drop', async e=>{ const f = [...e.dataTransfer.files][0]; if (f && f.type==='application/pdf') await loadFile(f); });
-    fileEl.addEventListener('change', async e=>{ const f = e.target.files[0]; if (f) await loadFile(f); fileEl.value=''; });
-
-    demoBtn.addEventListener('click', async ()=>{
-      // छोटा डेमो PDF
-      const { PDFDocument, StandardFonts } = window.PDFLib || {};
-      if (!window.PDFLib){
-        const s = document.createElement('script'); s.src = 'https://unpkg.com/pdf-lib/dist/pdf-lib.min.js'; document.head.appendChild(s);
-        await new Promise(r=> s.onload = r);
-      }
+  demoBtn.addEventListener('click', async ()=>{
+    // Create as many demo PDFs as needed to reach the cap
+    const need = Math.max(0, S.cap - S.files.length);
+    for (let i=1;i<=need;i++){
       const { PDFDocument, StandardFonts } = window.PDFLib;
       const doc = await PDFDocument.create();
       const font = await doc.embedFont(StandardFonts.Helvetica);
       const page = doc.addPage([595,842]);
-      page.drawText('डेमो PDF — लॉक फीचर टेस्ट', { x:120, y:420, size:24, font });
+      page.drawText(`डेमो PDF — ${S.files.length + i}`, { x:160, y:420, size:24, font });
       const bytes = await doc.save();
-      await loadFile(new File([new Blob([bytes],{type:'application/pdf'})], 'Demo.pdf', {type:'application/pdf'}));
-    });
-
-    resetBtn.addEventListener('click', ()=>{ S.file=null; S.bytes=null; S.outBytes=null; pv.innerHTML=''; lockBtn.disabled=true; dlBtn.disabled=true; resetBtn.disabled=true; setBar(0); statusEl.textContent='तैयार…'; });
-
-    async function loadFile(file){
-      S.file = file; S.bytes = new Uint8Array(await file.arrayBuffer());
-      statusEl.textContent = 'लोड हो रहा…'; setBar(10);
-      await renderPreview(S.bytes);
-      lockBtn.disabled = false; resetBtn.disabled = false; setBar(0); statusEl.textContent = 'तैयार — पासवर्ड सेट करें।';
+      const file = new File([new Blob([bytes],{type:'application/pdf'})], `Demo-${S.files.length + i}.pdf`, {type:'application/pdf'});
+      await addFiles([file]);
+      if (S.files.length===S.cap) break;
     }
+  });
 
-    async function renderPreview(bytes){
-      pv.innerHTML = '';
-      try{
-        const pdf = await pdfjsLib.getDocument({data:bytes}).promise; const n = pdf.numPages; const show = Math.min(6,n);
-        for (let i=1;i<=show;i++){
-          const page = await pdf.getPage(i);
-          const vp = page.getViewport({scale:0.5});
-          const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
-          await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
-          const box = document.createElement('div'); box.className='thumb';
-          const cap = document.createElement('div'); cap.className='cap'; cap.textContent = 'पेज '+i;
-          box.appendChild(c); box.appendChild(cap); pv.appendChild(box);
-        }
-      }catch(e){ console.error(e); }
-    }
+  async function addFiles(files){
+    const existing = new Set(S.files.map(x=>x.name+'_'+x.size));
+    const room = Math.max(0, S.cap - S.files.length);
+    const pick = files
+      .filter(f=>f.type==='application/pdf')
+      .filter(f=>!existing.has(f.name+'_'+f.size))
+      .slice(0, room);
+    if (!pick.length){ updateCounts(); return; }
 
-    lockBtn.addEventListener('click', async ()=>{
-      if (!S.bytes) return;
-      const up = (userPwd.value||'').trim();
-      if (!up || up.length < 4){ alert('यूज़र पासवर्ड कम से कम 4 अक्षर का रखें।'); return; }
-      if (!pdfcpuReady){ alert('एन्क्रिप्शन इंजन लोड नहीं हुआ। इंटरनेट/एडब्लॉकर चेक करें।'); return; }
-
-      setBar(8); statusEl.textContent = 'एन्क्रिप्शन तैयार…';
+    for (const f of pick){
+      const id = (crypto?.randomUUID?.() || Math.random().toString(36).slice(2));
+      const ent = { id, file:f, name:f.name, size:f.size, bytes:null, pageCount:null, thumbCanvas:null };
+      S.files.push(ent); renderList();
 
       try{
-        // pdfcpu-wasm CLI जैसे कॉल्स: encrypt -upwd <u> -opwd <o> -key AES256 -perm <flags>
-        const flags = [];
-        if (perm_print.checked) flags.push('print');
-        if (perm_copy.checked) flags.push('copy');
-        if (perm_annot.checked) flags.push('annotate');
-        if (perm_fillform.checked) flags.push('form');
-        if (perm_mod.checked) flags.push('modify');
-        if (perm_acc.checked) flags.push('accessibility');
+        ent.bytes = new Uint8Array(await f.arrayBuffer());
+        const pdf = await pdfjsLib.getDocument({data:ent.bytes}).promise;
+        ent.pageCount = pdf.numPages;
+        const page = await pdf.getPage(1);
+        const vp = page.getViewport({scale:0.3});
+        const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
+        await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
+        ent.thumbCanvas = c;
+        renderList();
+      }catch(e){
+        console.error('Preview error', e);
+        alert('एक PDF पढ़ने में दिक्कत आई — फ़ाइल करप्ट हो सकती है।');
+      }
+    }
+  }
 
-        const args = [
-          'encrypt',
-          '-upwd', up,
-          ...(ownerPwd.value? ['-opwd', ownerPwd.value] : []),
-          '-key', enc.value,
-          ...(flags.length? ['-perm', flags.join(',')] : []),
-          ...(scrubMeta.checked? ['-mode','rc','-rm','meta'] : []), // rc=read+copy rewrite; rm meta
-          '-', // stdin
-          '-o','-' // stdout
-        ];
+  /* ===== Previews (Step 3) ===== */
+  async function renderPvAll(){
+    pv.innerHTML='';
+    for (const f of S.files){
+      if (!f.bytes) continue;
+      try{
+        const pdf = await pdfjsLib.getDocument({data:f.bytes}).promise;
+        const page = await pdf.getPage(1);
+        const vp = page.getViewport({scale:0.45});
+        const c = document.createElement('canvas'); c.width=Math.floor(vp.width); c.height=Math.floor(vp.height);
+        await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
+        const box=document.createElement('div'); box.className='thumbbox';
+        const cap=document.createElement('div'); cap.className='cap'; cap.textContent=f.name;
+        box.appendChild(c); box.appendChild(cap); pv.appendChild(box);
+      }catch(e){ /* ignore */ }
+    }
+  }
 
-        setBar(18); statusEl.textContent = 'एन्क्रिप्ट किया जा रहा है…';
-        const res = await pdfcpu.run(args, S.bytes);
-        if (!res || !res.data){ throw new Error('encrypt_failed'); }
-        S.outBytes = res.data;
-        setBar(100); statusEl.textContent = 'तैयार — डाउनलोड करें।';
-        dlBtn.disabled = false;
-      }catch(err){ console.error(err); alert('लॉक फ़ेल: '+(err?.message||err)); statusEl.textContent='एरर'; }
-    });
+  /* ===== Step navigation init ===== */
+  (function init(){
+    goalEl.textContent = String(S.cap);
+    setStep(1);
+  })();
 
-    dlBtn.addEventListener('click', ()=>{
-      if (!S.outBytes) return;
-      const a = document.createElement('a');
-      const stamp = new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
-      a.href = URL.createObjectURL(new Blob([S.outBytes], {type:'application/pdf'}));
-      a.download = `Locked-${stamp}.pdf`;
-      a.click(); URL.revokeObjectURL(a.href);
-    });
+  /* ===== Step transitions extra effects ===== */
+  // When entering step 3, render previews
+  pages[3].addEventListener('transitionstart', renderPvAll, { once:false });
+
+  /* ===== Lock All (Step 4) ===== */
+  lockAllBtn.addEventListener('click', async ()=>{
+    if (!pdfcpuReady){ alert('एन्क्रिप्शन इंजन तैयार नहीं। इंटरनेट/एडब्लॉकर चेक करें।'); return; }
+    const up = (userPwd.value||'').trim();
+    if (!up || up.length<4){ alert('यूज़र पासवर्ड कम से कम 4 अक्षर का रखें।'); return; }
+
+    S.out.length=0; pvFinal.innerHTML=''; zipBtn.disabled=true;
+    S.setBar(5); S.status('लॉक की तैयारी…');
+
+    const flags=[];
+    if (perm_print.checked) flags.push('print');
+    if (perm_copy.checked) flags.push('copy');
+    if (perm_annot.checked) flags.push('annotate');
+    if (perm_fillform.checked) flags.push('form');
+    if (perm_mod.checked) flags.push('modify');
+    if (perm_acc.checked) flags.push('accessibility');
+
+    const baseArgsTemplate = [
+      'encrypt',
+      '-upwd', up,
+      ...(ownerPwd.value? ['-opwd', ownerPwd.value] : []),
+      '-key', encSel.value,
+      ...(flags.length? ['-perm', flags.join(',')] : []),
+      ...(scrubMeta.checked? ['-mode','rc','-rm','meta'] : []),
+      '-', '-o','-'
+    ];
+
+    for (let i=0;i<S.files.length;i++){
+      const f=S.files[i];
+      try{
+        S.status(`एन्क्रिप्ट हो रहा: ${f.name}`);
+        const res = await pdfcpu.run(baseArgsTemplate, f.bytes);
+        if (!res || !res.data) throw new Error('encrypt_failed');
+        const outName = f.name.replace(/\.pdf$/i,'') + '.locked.pdf';
+        S.out.push({ nameOut: outName, bytes: res.data });
+        // add a small tile with download button
+        addFinalTile(outName, res.data);
+      }catch(e){
+        console.error('lock error', e);
+        addFinalTile(f.name + ' (विफल)', null, true);
+      }
+      S.setBar(5 + ((i+1)/S.files.length)*90);
+      await new Promise(r=>setTimeout(r,0));
+    }
+    S.status('तैयार — डाउनलोड करें।'); S.setBar(100);
+    if (S.out.length>1) zipBtn.disabled=false;
+    lockAllBtn.classList.remove('pulse'); zipBtn.classList.add('pulse-green');
+  });
+
+  function addFinalTile(name, bytes, failed=false){
+    const box=document.createElement('div'); box.className='thumbbox';
+    const cap=document.createElement('div'); cap.className='cap'; cap.textContent=name;
+    box.appendChild(cap);
+    const row=document.createElement('div'); row.className='row'; row.style.marginTop='6px';
+    if (failed){
+      const span=document.createElement('span'); span.className='tiny'; span.style.color='#b91c1c'; span.textContent='एन्क्रिप्शन विफल';
+      row.appendChild(span);
+    }else{
+      const btn=document.createElement('button'); btn.className='btn secondary slim'; btn.textContent='डाउनलोड';
+      btn.addEventListener('click', ()=>{
+        const a=document.createElement('a');
+        a.href=URL.createObjectURL(new Blob([bytes],{type:'application/pdf'}));
+        a.download=name; a.click(); URL.revokeObjectURL(a.href);
+      });
+      row.appendChild(btn);
+    }
+    box.appendChild(row); pvFinal.appendChild(box);
+  }
+
+  zipBtn.addEventListener('click', async ()=>{
+    if (!window.JSZip){ alert('ZIP लाइब्रेरी नहीं मिली'); return; }
+    const zip = new JSZip();
+    for (const o of S.out){ zip.file(o.nameOut, o.bytes); }
+    const blob = await zip.generateAsync({type:'blob'});
+    const a=document.createElement('a');
+    const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
+    a.href=URL.createObjectURL(blob); a.download=`Locked-PDFs-${stamp}.zip`; a.click(); URL.revokeObjectURL(a.href);
+  });
+
+  /* ===== Utils ===== */
+  function fmtBytes(b){ if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; }
   </script>
 </body>
 </html>
