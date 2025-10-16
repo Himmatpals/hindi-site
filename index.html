@@ -8,18 +8,12 @@
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="color-scheme" content="dark light">
   <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://www.hinditools.com/" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <!-- NOTE: CSP allows inline scripts for this single-file build; lock down further if you externalize JS. -->
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: blob:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">  <!-- Open Graph / Twitter -->  <meta property="og:title" content="हिंदी टूल्स — PDF के सारे काम, फटाफट" />
-  <meta property="og:description" content="100% ब्राउज़र में, बिना अपलोड। जोड़ो, बाँटो, छोटा करो, इमेज↔PDF, AI और भी।" />
+  <link rel="canonical" href="https://www.hinditools.com/" />  <!-- Open Graph / Twitter -->  <meta property="og:title" content="हिंदी टूल्स — PDF के सारे काम, फटाफट" />
+  <meta property="og:description" content="100% ब्राउज़र में, बिना अपलोड। जोड़ो, बाँٹو, छोटा करो, इमेज↔PDF, AI और भी।" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.hinditools.com/" />
   <meta property="og:locale" content="hi_IN" />
-  <meta name="twitter:card" content="summary_large_image" />  <!-- PWA baseline -->  <link rel="manifest" href="/site.webmanifest" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="#0b1020" />
-  <link rel="apple-touch-icon" href="/icons/icon-192.png" />  <!-- Favicon (embedded SVG data-URI, no file fetch) -->  <link rel="icon" type="image/svg+xml" href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="%230b75ff"/><stop offset="1" stop-color="%23ff5c7c"/></linearGradient></defs><rect rx="26" width="128" height="128" fill="url(%23g)"/><path d="M28 36a10 10 0 0 1 10-10h52a10 10 0 0 1 10 10v56a10 10 0 0 1-10 10H38a10 10 0 0 1-10-10V36z" fill="%23fff" opacity=".92"/><path d="M44 50h40M44 68h40M44 86h26" stroke="%230b1020" stroke-width="8" stroke-linecap="round"/></svg>'>  <!-- Fonts -->  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <meta name="twitter:card" content="summary_large_image" />  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">  <link rel="preload" as="image" href="images/hero-pdf.jpg" imagesrcset="images/hero-pdf.jpg 1x" imagesizes="100vw">  <script type="application/ld+json">
   {
@@ -35,27 +29,20 @@
   }
   </script>  <style>
     /* ========================
-       THEME TOKENS & RESETS
+       RAINBOW VIBRANT THEME
        ======================== */
     :root{
-      /* Light theme */
-      --bg:#f8fafc; --panel:#ffffff; --card:#ffffff; --line:rgba(2,6,23,.08);
-      --text:#0b1020; --muted:#475569; --ink:#0b1020;
-      --accent:#7c5cff; --accent2:#23d3ac;
-      --sun:#ffd95c; --sun-2:#ffefb3; --rose:#ff5c7c; --rose-2:#ff98ab;
-      --focus:#2563eb;
-      --shadow:0 8px 30px rgba(2,6,23,.08);
+      --bg:#0b1020; --panel:#0e1330; --card:#11183a; --line:rgba(255,255,255,.12);
+      --text:#eef3ff; --muted:#a9b9ef; --ink:#0b1020;
+      --focus:#7dd3fc;
+      /* Multicolour spectrum */
+      --c1:#7c5cff; --c2:#23d3ac; --c3:#ffd95c; --c4:#ff5c7c; --c5:#84cc16; --c6:#38bdf8; --c7:#fb923c;
+      --grad: conic-gradient(from 180deg, var(--c1), var(--c2), var(--c3), var(--c4), var(--c5), var(--c6), var(--c7), var(--c1));
+      --shadow:0 18px 60px rgba(0,0,0,.45);
     }
-    html[data-theme="dark"]{
-      --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.10);
-      --text:#e9eefb; --muted:#9fb0de; --ink:#0b1020;
-      --accent:#7c5cff; --accent2:#23d3ac;
-      --sun:#ffd95c; --sun-2:#ffefb3; --rose:#ff5c7c; --rose-2:#ff98ab;
-      --focus:#60a5fa;
-      --shadow:0 12px 44px rgba(0,0,0,.35);
+    @media (prefers-color-scheme: light){
+      :root{ --bg:#f6f8ff; --panel:#ffffff; --card:#ffffff; --line:rgba(2,6,23,.08); --text:#0b1020; --muted:#475569; --shadow:0 12px 40px rgba(2,6,23,.10); }
     }
-    @media (prefers-color-scheme: dark){ html:not([data-theme="light"]) { color-scheme: dark; } }
-    @media (prefers-color-scheme: light){ html:not([data-theme="dark"]) { color-scheme: light; } }
 
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -63,244 +50,201 @@
       margin:0; color:var(--text);
       font-family:"Noto Sans Devanagari", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
       background:
-        radial-gradient(1400px 900px at 85% -15%, rgba(255,92,124,.15), transparent),
-        radial-gradient(1200px 700px at 10% 110%, rgba(255,217,92,.18), transparent),
-        radial-gradient(1200px 800px at 80% -10%, rgba(124,92,255,.18), transparent),
-        radial-gradient(900px 600px at 10% 110%, rgba(35,211,172,.12), transparent),
+        radial-gradient(1200px 800px at 10% -10%, #7c5cff22 0%, transparent 60%),
+        radial-gradient(1200px 800px at 90% 110%, #23d3ac22 0%, transparent 60%),
+        radial-gradient(1000px 700px at 20% 120%, #ffd95c22 0%, transparent 60%),
         var(--bg);
     }
     a{color:inherit; text-decoration:none}
     img{max-width:100%; height:auto; display:block}
-    :focus-visible{outline:3px solid var(--focus); outline-offset:2px; border-radius:6px}
+    :focus-visible{outline:3px solid var(--focus); outline-offset:2px; border-radius:8px}
 
-    /* Screen reader utility */
+    /* ======================== */
+    /* Global utilities         */
+    .container{max-width:1200px; margin:0 auto; padding:0 16px}
     .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
 
-    /* Skip link */
-    .skip{position:absolute; left:-9999px; top:auto; width:1px; height:1px; overflow:hidden}
-    .skip:focus{left:12px; top:12px; width:auto; height:auto; background:#fff; color:#0b1020; padding:8px 12px; z-index:9999; border-radius:8px}
-
-    /* Top ribbon */
-    .ribbon{position:sticky; top:0; z-index:80; padding:6px 0; background:transparent}
-    .marquee{position:relative; overflow:hidden}
-    .track{display:flex; gap:20px; align-items:center; white-space:nowrap; will-change:transform; animation:marq 65s linear infinite}
-    .pill{display:inline-flex; gap:8px; align-items:center; border:1px solid #bfe0ff33; background:linear-gradient(180deg,#fff8,#fff3); color:#053247; border-radius:999px; padding:7px 12px; font-weight:900; box-shadow:0 8px 18px rgba(7,89,133,.15)}
-    .dot{width:8px;height:8px;border-radius:50%;background:var(--accent2)}
-    @keyframes marq{0%{transform:translateX(100%)}100%{transform:translateX(-100%)}}
-    .marquee:hover .track{animation-play-state:paused}
-    @media (max-width:820px){ .track{animation-duration:22s} }
-    @media (prefers-reduced-motion:reduce){ .track{animation:none} }
-
-    /* Header */
-    header.site{position:sticky; top:0; z-index:70; background:rgba(11,16,32,.86); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
-    header.site[data-theme="light"]{background:rgba(255,255,255,.8)}
-    .nav{max-width:1180px; margin:0 auto; padding:10px 16px; display:flex; align-items:center; justify-content:space-between; gap:12px}
+    /* ======================== */
+    /* Header / Nav             */
+    header.site{position:sticky; top:0; z-index:70; backdrop-filter:blur(10px);
+      background:linear-gradient(180deg, rgba(11,16,32,.85), rgba(11,16,32,.55)); border-bottom:1px solid var(--line)}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0}
     .brand{display:flex; align-items:center; gap:10px; font-weight:900}
-    .brand svg{width:28px;height:28px}
+    .brand svg{width:30px;height:30px; color:#fff}
+    .brand-badge{display:inline-flex; align-items:center; gap:10px; padding:6px 10px; border-radius:999px; background:linear-gradient(90deg,#ffffff10,#ffffff06); border:1px solid #ffffff26}
+
+    .nav-ctrls{display:flex; gap:8px; align-items:center}
+    .menu-btn,.theme-btn{border:1px solid var(--line); background:var(--panel); color:inherit; border-radius:12px; padding:8px 12px; font-weight:800}
+
     .tags{display:flex; gap:8px; flex-wrap:wrap}
-    .tag{border:1px solid var(--line); border-radius:999px; padding:7px 10px; font-size:12px; color:inherit; background:linear-gradient(180deg, rgba(255,217,92,.14), rgba(255,92,124,.08)); box-shadow:inset 0 0 0 1px rgba(255,255,255,.04); cursor:pointer; transition:box-shadow .2s, transform .08s}
-    .tag:hover{box-shadow:0 6px 22px rgba(255,217,92,.16)}
-    .tag[aria-selected="true"]{background:linear-gradient(180deg, rgba(255,217,92,.28), rgba(255,92,124,.16));}
-    .menu-btn{display:none; border:1px solid var(--line); background:#0e1635; color:var(--text); border-radius:10px; padding:8px 12px; font-weight:800}
-    .theme-toggle{border:1px solid var(--line); background:var(--panel); color:inherit; border-radius:10px; padding:8px 12px; font-weight:800}
-    @media (max-width:820px){ .menu-btn{display:inline-block} .tags{display:none} .tags.open{display:flex; position:absolute; right:16px; top:64px; background:var(--panel); padding:10px; border:1px solid var(--line); border-radius:12px} }
+    .tag{position:relative; border:1px solid var(--line); border-radius:999px; padding:8px 12px; font-size:12px; cursor:pointer; transition:transform .08s}
+    .tag:before{content:""; position:absolute; inset:-2px; border-radius:inherit; background:var(--grad); filter:blur(6px); opacity:.45; z-index:-1}
+    .tag[aria-selected="true"]{background:linear-gradient(180deg,#ffffff20,#ffffff10)}
+    @media (max-width:860px){ .tags{display:none} .tags.open{display:flex; position:absolute; right:16px; top:68px; background:var(--panel); padding:12px; border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow)} }
 
-    /* Hero */
-    .hero{position:relative; min-height:66vh; display:grid; place-items:center; overflow:hidden; border-radius:20px; margin:16px; color:#fff}
-    .hero::before{content:""; position:absolute; inset:0; background: linear-gradient(120deg, rgba(15,22,48,.88), rgba(15,22,48,.88)), url('images/hero-pdf.jpg') center/cover no-repeat}
-    .hero::after{content:""; position:absolute; inset:-30%; background: radial-gradient(60% 30% at 120% 0%, rgba(255,255,255,.12), transparent 60%), radial-gradient(120% 70% at -10% 120%, rgba(255,217,92,.18), transparent 70%), radial-gradient(120% 70% at 120% -10%, rgba(255,92,124,.18), transparent 70%); animation:sweep 8s ease-in-out infinite; pointer-events:none}
-    @keyframes sweep{0%,100%{transform:translateX(0) translateY(0)}50%{transform:translateX(-6%) translateY(-2%)}}
-    .hero .content{position:relative; text-align:center; padding:24px; animation:rise .7s ease-out both}
-    @keyframes rise{from{opacity:0; transform:translateY(8px)} to{opacity:1; transform:translateY(0)}}
-    .hero h1{font-size:clamp(24px,6vw,44px); margin:6px 0 10px; font-weight:900}
-    .hero p{color:#e6edff; font-size:clamp(14px,3.5vw,18px); margin:0 0 14px}
-    .btn{appearance:none; border:none; border-radius:14px; padding:12px 16px; font-weight:900; cursor:pointer; min-height:44px; transition:transform .16s, box-shadow .16s, background .2s}
-    .btn:active{transform:translateY(1px)}
-    .btn-primary{background:linear-gradient(90deg, var(--accent) 0%, var(--rose) 100%); color:#1e1b4b; box-shadow:0 10px 28px rgba(255,92,124,.30)}
-    .btn-primary:hover{box-shadow:0 16px 40px rgba(255,92,124,.45)}
-    .btn-ghost{background:rgba(255,255,255,.14); color:#fff; border:1px solid rgba(255,255,255,.28)}
-    .btn-alt{background:linear-gradient(90deg, var(--sun) 0%, var(--sun-2) 100%); color:#3b2600; box-shadow:0 8px 24px rgba(255,217,92,.35)}
-    .hero-actions{display:flex; gap:10px; justify-content:center; flex-wrap:wrap}
-    .chipbar{display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:12px}
-    .chip{background:linear-gradient(180deg, rgba(255,217,92,.16), rgba(255,255,255,.08)); color:#fff; border:1px solid rgba(255,217,92,.35); padding:8px 12px; border-radius:999px; font-size:13px}
+    /* ======================== */
+    /* HERO                     */
+    .hero{position:relative; overflow:hidden; border-radius:20px; margin:16px 0}
+    .hero-inner{display:grid; grid-template-columns:1.25fr .75fr; gap:20px; align-items:center; min-height:62vh; padding:28px}
+    @media (max-width:1000px){ .hero-inner{grid-template-columns:1fr; min-height:auto} }
 
-    /* Toolbar */
-    .toolbar{max-width:1180px; margin:8px auto 0; padding:0 16px 6px; display:flex; gap:10px; flex-wrap:wrap; align-items:center}
-    .search{flex:1 1 300px; display:flex; align-items:center; gap:8px; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:10px 12px}
-    .search input{flex:1; background:transparent; border:none; outline:none; color:var(--text)}
-    .sr-count{font-size:12px; color:var(--muted)}
+    .hero-left{position:relative; z-index:2}
+    .eyebrow{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-weight:800; background:#ffffff14; border:1px solid #ffffff30}
+    .hero-title{margin:10px 0; font-size:clamp(28px,6vw,54px); line-height:1.05; font-weight:900}
+    .rainbow-text{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .hero-sub{color:var(--muted); font-size:clamp(14px,2.6vw,18px); max-width:68ch}
+    .hero-actions{display:flex; gap:10px; flex-wrap:wrap; margin-top:14px}
+    .btn{appearance:none; border:none; border-radius:14px; padding:12px 16px; font-weight:900; cursor:pointer; min-height:44px}
+    .btn-primary{color:#0b1020; background:var(--grad); box-shadow:0 14px 36px #00000040}
+    .btn-ghost{color:#fff; background:#ffffff18; border:1px solid #ffffff35}
+    .btn-alt{color:#0b1020; background:linear-gradient(90deg, var(--c3), var(--c4))}
 
-    /* Grid */
-    .container{max-width:1180px; margin:0 auto; padding:0 16px}
-    .grid{display:grid; gap:14px; margin:12px 0 20px}
+    .hero-right{position:relative}
+    .glass{position:relative; border-radius:18px; padding:12px; background:linear-gradient(180deg,#ffffff20,#ffffff10); border:1px solid #ffffff33; box-shadow:var(--shadow)}
+    .glass .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+    .mini-card{background:linear-gradient(180deg,#0f1630,#11183a); border:1px solid var(--line); border-radius:14px; padding:10px; display:flex; gap:8px; align-items:flex-start}
+    .mini-ico{width:28px;height:28px; display:grid; place-items:center; border-radius:8px; background:var(--grad)}
+    .mini-ico span{filter:brightness(0)}
+
+    /* Animated rainbow halo */
+    .halo{position:absolute; inset:-35%; background:var(--grad); filter:blur(80px); opacity:.25; animation:spin 14s linear infinite}
+    @keyframes spin{to{transform:rotate(1turn)}}
+
+    /* ======================== */
+    /* TOOLBAR & SEARCH         */
+    .toolbar{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    .search{flex:1 1 340px; display:flex; align-items:center; gap:8px; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:10px 12px; box-shadow:var(--shadow)}
+    .search input{flex:1; background:transparent; border:none; outline:none; color:inherit}
+    .badge{font-size:12px; border:1px solid #ffffff33; padding:6px 10px; border-radius:999px; background:linear-gradient(90deg,#ffffff20,#ffffff0f)}
+    .count{font-size:12px; color:var(--muted)}
+
+    /* ======================== */
+    /* GRID CARDS               */
+    .grid{display:grid; gap:14px}
     .three{grid-template-columns:repeat(3,minmax(0,1fr))}
     @media (max-width:980px){ .three{grid-template-columns:repeat(2,minmax(0,1fr))} }
     @media (max-width:640px){ .three{grid-template-columns:1fr} }
 
-    .card{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:16px; padding:14px; display:flex; flex-direction:column; gap:10px; min-height:172px; transition:transform .08s, box-shadow .18s, border-color .2s; box-shadow:var(--shadow)}
-    .card:hover{transform:translateY(-2px); box-shadow:0 10px 44px rgba(255,92,124,.25)}
+    .card{position:relative; background:linear-gradient(180deg,#0f1736,#0e1430); border:1px solid var(--line); border-radius:18px; padding:16px; display:flex; flex-direction:column; gap:10px; min-height:184px; overflow:hidden}
+    .card:before{content:""; position:absolute; inset:-1px; border-radius:inherit; padding:1px; background:var(--grad); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude;}
+    .card:hover{transform:translateY(-2px); transition:transform .1s ease-out}
     .card h3{margin:0; font-size:18px}
     .card p{margin:0; color:#cfe0ff; font-size:14px}
-    .badge{font-size:11px; border:1px solid rgba(255,217,92,.45); padding:2px 8px; border-radius:999px; color:#fff; background:linear-gradient(90deg, rgba(255,217,92,.25), rgba(255,92,124,.25))}
+    .card .row{display:flex; align-items:center; justify-content:space-between; gap:12px}
+    .pill-ico{display:grid; place-items:center; width:38px; height:38px; border-radius:12px; background:var(--grad); color:#000; font-weight:900}
     .actions{margin-top:auto; display:flex; gap:8px; flex-wrap:wrap}
 
-    /* Info strip */
-    .infostrip{max-width:1180px; margin:10px auto; padding:0 16px}
-    .strip{display:flex; align-items:center; justify-content:space-between; gap:12px; border:1px dashed rgba(255,217,92,.45); padding:10px 12px; border-radius:12px; background:linear-gradient(90deg, rgba(255,217,92,.08), rgba(255,92,124,.08))}
+    /* ======================== */
+    /* EXPLAINER / STEPS        */
+    .steps{margin:18px 0; display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+    @media (max-width:900px){ .steps{grid-template-columns:1fr} }
+    .step{position:relative; background:linear-gradient(180deg,#0f1736,#0e1430); border:1px solid var(--line); border-radius:16px; padding:14px}
+    .step:before{content:""; position:absolute; inset:-1px; border-radius:inherit; padding:1px; background:var(--grad); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; opacity:.5}
+    .step-num{font-weight:900; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; font-size:20px}
 
-    /* Privacy section */
-    .privacy{max-width:1180px; margin:12px auto 0; padding:0 16px}
-    .privacy-card{position:relative; overflow:hidden; border:1px solid rgba(255,217,92,.4); border-radius:18px; padding:16px; background:linear-gradient(180deg, rgba(255,217,92,.10), rgba(255,92,124,.10)); box-shadow:0 12px 44px rgba(0,0,0,.35)}
-    .privacy-card h2{margin:0 0 8px; font-size:20px}
-    .privacy-card p{margin:0; color:#f6f7ff}
-    .privacy-points{display:grid; gap:8px; margin-top:10px}
-    .privacy-points li{list-style:none; display:flex; gap:8px; align-items:flex-start; background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.08); padding:10px; border-radius:12px}
-    .privacy-actions{display:flex; gap:10px; margin-top:12px; flex-wrap:wrap}
+    /* ======================== */
+    /* INFO & PRIVACY           */
+    .strip{display:flex; align-items:center; justify-content:space-between; gap:12px; border:1px dashed #ffffff55; padding:12px; border-radius:14px; background:linear-gradient(90deg,#ffffff10,#ffffff06)}
 
-    /* Testimonials */
-    .carousel{display:grid; gap:12px}
-    blockquote{margin:0; padding:14px; background:#0e1738; border:1px solid var(--line); border-radius:14px}
-    .stars{color:var(--sun)}
+    .privacy-card{position:relative; overflow:hidden; border:1px solid #ffffff3a; border-radius:18px; padding:16px; background:linear-gradient(180deg,#ffffff10,#ffffff06); box-shadow:var(--shadow)}
 
-    /* Footer */
+    /* ======================== */
+    /* FOOTER                   */
     footer{border-top:1px solid var(--line); margin-top:26px}
-    .foot{max-width:1180px; margin:0 auto; padding:16px; color:#aab8e8; font-size:13px; display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap}
+    .foot{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:16px; color:#aab8e8; font-size:13px}
 
     /* Floating CTA */
-    .float-cta{position:fixed; right:20px; bottom:24px; z-index:60; display:flex; align-items:center; gap:10px; background:linear-gradient(90deg, var(--sun) 0%, var(--rose) 100%); color:#301b00; font-weight:900; padding:14px 16px; border-radius:16px; box-shadow:0 16px 40px rgba(0,0,0,.25); border:0; cursor:pointer; min-width:240px}
-    .float-cta:hover{filter:brightness(1.05)}
+    .float-cta{position:fixed; right:20px; bottom:24px; z-index:60; display:flex; align-items:center; gap:10px; background:var(--grad); color:#0b1020; font-weight:900; padding:14px 16px; border-radius:16px; box-shadow:var(--shadow); border:0; cursor:pointer; min-width:240px}
     .float-badges{position:fixed; right:20px; bottom:calc(24px + 64px); display:flex; gap:8px; flex-wrap:wrap; z-index:59}
     .float-chip{background:#fff; color:#0b1020; border:1px solid #e5e7eb; border-radius:999px; padding:6px 10px; font-weight:800}
     @media (max-width:520px){ .float-cta{min-width:auto; max-width:85vw} .float-badges{right:14px} }
 
     /* Modal */
-    .modal{position:fixed; inset:0; display:none; place-items:center; background:rgba(0,0,0,.6); z-index:90}
+    .modal{position:fixed; inset:0; display:none; place-items:center; background:#0008; z-index:90}
     .modal.open{display:grid}
-    .sheet{max-width:720px; width:92vw; background:#0f1630; border:1px solid rgba(255,217,92,.35); border-radius:16px; padding:16px}
-    .sheet h3{margin:0 0 8px}
-    .sheet p{margin:0 0 8px; color:#dbe7ff}
-    .close{margin-left:auto}
+    .sheet{max-width:720px; width:92vw; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px}
 
-    /* Reduced motion preference */
-    @media (prefers-reduced-motion:reduce){ .hero::after, .card{animation:none} }
+    @media (prefers-reduced-motion:reduce){ .halo{animation:none} .card,.tag{transition:none} }
   </style></head>
 <body>
-  <a href="#tools" class="skip">मुख्य सामग्री पर जाएँ</a>  <noscript>
-    <div style="max-width:980px;margin:8px auto;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,217,92,.6);background:#251e00;color:#fff">
-      ⚠️ जावास्क्रिप्ट बंद है। ये टूल्स 100% आपके ब्राउज़र में चलते हैं — कृपया JS ऑन करें।
-    </div>
-  </noscript>  <!-- Top Marquee Ribbon -->  <div class="ribbon" role="region" aria-label="सुरक्षित ब्राउज़र प्रोसेसिंग">
-    <div class="marquee" aria-hidden="true">
-      <div class="track">
-        <span class="pill"><span class="dot" aria-hidden="true"></span> 100% ब्राउज़र में प्रोसेसिंग</span>
-        <span class="pill">कोई अपलोड नहीं • प्राइवेसी फर्स्ट</span>
-        <span class="pill">तेज़, हल्का और फ्री</span>
-        <span class="pill">हिंदी UI + Hinglish hints</span>
-        <span class="pill"><span class="dot" aria-hidden="true"></span> 100% ब्राउज़र में प्रोसेसिंग</span>
-        <span class="pill">कोई अपलोड नहीं • प्राइवेसी फर्स्ट</span>
-        <span class="pill">तेज़, हल्का और फ्री</span>
-        <span class="pill">हिंदी UI + Hinglish hints</span>
+  <a href="#tools" class="sr-only" id="skip">मुख्य सामग्री पर जाएँ</a>  <!-- Header -->  <header class="site">
+    <div class="container nav">
+      <div class="brand-badge">
+        <div class="brand" aria-label="हिंदी टूल्स">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <strong>हिंदी टूल्स</strong>
+        </div>
+      </div>
+      <div class="nav-ctrls">
+        <button class="theme-btn" id="themeBtn" aria-pressed="true" aria-label="थीम बदलें">🌈 थीम</button>
+        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navTags">☰ मेनू</button>
       </div>
     </div>
-  </div>  <!-- Header -->  <header class="site" role="banner">
-    <div class="nav">
-      <div class="brand">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <span>हिंदी टूल्स</span>
-      </div>
-      <div style="display:flex; gap:8px; align-items:center">
-        <button class="theme-toggle" id="themeBtn" aria-pressed="true" aria-label="थीम बदलें (लाइट/डार्क)">🌗</button>
-        <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navTags">मेनू ☰</button>
-      </div>
-      <div id="navTags" class="tags" role="tablist" aria-label="कैटेगरी फ़िल्टर">
-        <button class="tag" role="tab" aria-selected="true" data-tag="all" id="tab-all">सभी</button>
-        <button class="tag" role="tab" aria-selected="false" data-tag="pdf" id="tab-pdf">PDF</button>
-        <button class="tag" role="tab" aria-selected="false" data-tag="image" id="tab-image">इमेज</button>
-        <button class="tag" role="tab" aria-selected="false" data-tag="office" id="tab-office">ऑफिस</button>
-        <button class="tag" role="tab" aria-selected="false" data-tag="ai" id="tab-ai">AI</button>
+    <div class="container" id="navTags" class="tags" role="tablist" aria-label="कैटेगरी">
+      <div class="tags" id="tagsRow">
+        <button class="tag" role="tab" aria-selected="true" data-tag="all">सभी</button>
+        <button class="tag" role="tab" aria-selected="false" data-tag="pdf">PDF</button>
+        <button class="tag" role="tab" aria-selected="false" data-tag="image">इमेज</button>
+        <button class="tag" role="tab" aria-selected="false" data-tag="office">ऑफिस</button>
+        <button class="tag" role="tab" aria-selected="false" data-tag="ai">AI</button>
       </div>
     </div>
-  </header>  <!-- Hero -->  <section class="hero" aria-labelledby="h1">
-    <div class="content">
-      <h1 id="h1">PDF के सारे काम, अब <span style="color:var(--sun)">हिंदी</span> में!</h1>
-      <p>जोड़ो, बाँटो, छोटा करो, इमेज ↔ PDF — सब कुछ फटाफट और सुरक्षित, <strong>बिना अपलोड</strong>।</p>
-      <div class="hero-actions">
-        <a class="btn btn-ghost" href="#tools">टूल्स देखो</a>
-        <a class="btn btn-primary" href="merge-pdf-hi.html">सबसे पहले: PDF जोड़ो</a>
-        <a class="btn btn-alt" href="#privacy">प्राइवेसी वादा</a>
+  </header>  <!-- HERO -->  <section class="container hero" aria-labelledby="h1">
+    <div class="halo" aria-hidden="true"></div>
+    <div class="hero-inner">
+      <div class="hero-left">
+        <span class="eyebrow">🔒 100% ब्राउज़र • कोई अपलोड नहीं</span>
+        <h1 id="h1" class="hero-title">PDF के सारे काम, अब <span class="rainbow-text">हिंदी</span> में — तेज़, रंगीन और आसान।</h1>
+        <p class="hero-sub">जोड़ो, बाँटो, छोटा करो, इमेज ↔ PDF — सब कुछ फटाफट और सुरक्षित, <strong>बिना अपलोड</strong>। मोबाइल/डेस्कटॉप पर समान अनुभव।</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="merge-pdf-hi.html">⚡ तुरंत शुरू करें — PDF जोड़ो</a>
+          <a class="btn btn-ghost" href="#tools">टूल्स देखें</a>
+          <a class="btn btn-alt" href="#how">कैसे काम करता है?</a>
+        </div>
       </div>
-      <div class="chipbar" aria-label="मुख्य विशेषताएँ">
-        <span class="chip">100% ब्राउज़र</span>
-        <span class="chip">थम्बनेल प्रीव्यू</span>
-        <span class="chip">A4 नॉर्मलाइज़</span>
-        <span class="chip">पेज नंबरिंग</span>
+      <div class="hero-right">
+        <div class="glass">
+          <div class="grid">
+            <div class="mini-card"><div class="mini-ico"><span>🧩</span></div><div><strong>Merge</strong><div class="muted">कई PDFs को एक में</div></div></div>
+            <div class="mini-card"><div class="mini-ico"><span>✂️</span></div><div><strong>Split</strong><div class="muted">रेंज/बुकमार्क से</div></div></div>
+            <div class="mini-card"><div class="mini-ico"><span>🗜️</span></div><div><strong>Compress</strong><div class="muted">क्वालिटी कंट्रोल</div></div></div>
+            <div class="mini-card"><div class="mini-ico"><span>🖼️</span></div><div><strong>Image ↔ PDF</strong><div class="muted">फिट टू A4/A5</div></div></div>
+          </div>
+        </div>
       </div>
     </div>
-  </section>  <!-- Toolbar -->  <div class="toolbar">
-    <div class="search" role="search">
-      <label for="search" class="sr-only">टूल खोजें</label>
+  </section>  <!-- SEARCH / TOOLBAR -->  <div class="container toolbar" role="search">
+    <div class="search">
       <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <input id="search" placeholder="टूल खोजें: जोड़ो, बाँटो, छोटा करो, इमेज, लॉक…" autocomplete="off" aria-describedby="resultsCount">
+      <input id="search" placeholder="टूल खोजें: जोड़ो, बाँटो, छोटा करो, इमेज, लॉक…" autocomplete="off" aria-describedby="rc">
     </div>
-    <span class="badge">सब ब्राउज़र में • कोई अपलोड नहीं</span>
-    <span id="resultsCount" class="sr-count" aria-live="polite"></span>
-  </div>  <!-- Info strip -->  <div class="infostrip"><div class="strip">
-    <div>प्राइवेसी: आपकी फाइलें <strong>कहीं अपलोड नहीं</strong> होतीं — सब कुछ आपके डिवाइस पर होता है।</div>
-    <div class="badge">फ्री & तेज़</div>
-  </div></div>  <!-- Strong Privacy Section -->  <section id="privacy" class="privacy" aria-labelledby="pv">
-    <article class="privacy-card" role="region" aria-label="प्राइवेसी वादा">
-      <h2 id="pv">🔒 प्राइवेसी वादा — आपकी फाइलें आपकी ही रहती हैं</h2>
-      <p><strong>महत्वपूर्ण:</strong> ये साइट <em>सर्वर पर आपकी फाइलें अपलोड नहीं</em> करती। प्रोसेसिंग <em>पूरी तरह आपके ब्राउज़र/डिवाइस पर</em> होती है। इसलिए आपकी फाइलें <em>आपके पास सुरक्षित</em> रहती हैं — <strong>कोई और उन्हें देख नहीं सकता</strong>।</p>
-      <ul class="privacy-points" role="list">
-        <li>✅ 100% ऑन-डिवाइस प्रोसेसिंग (client-side)</li>
-        <li>✅ इंटरनेट ऑफलाइन होने पर भी ज़्यादातर टूल्स चलेंगे</li>
-        <li>✅ टैब बंद करते ही टेम्प फाइलें मेमोरी से हट जाती हैं</li>
-        <li>✅ थर्ड-पार्टी अपलोड/ट्रैकिंग नहीं</li>
+    <span class="badge">ऑफलाइन-रेडी*</span>
+    <span id="rc" class="count" aria-live="polite"></span>
+  </div>  <!-- QUICK STEPS -->  <section id="how" class="container">
+    <div class="steps">
+      <div class="step"><div class="step-num">①</div><h3>फाइलें चुनें</h3><p>ड्रैग-ड्रॉप या “खोलो” पर क्लिक। थम्बनेल तुरंत दिखेंगे।</p></div>
+      <div class="step"><div class="step-num">②</div><h3>सेटिंग्स एडजस्ट</h3><p>पेज रेंज, क्रम, पेज-साइज, क्वालिटी—सब कंट्रोल्स हिंदी में।</p></div>
+      <div class="step"><div class="step-num">③</div><h3>एक्सपोर्ट</h3><p>एक क्लिक में सेव। आपकी फाइलें डिवाइस से बाहर नहीं जातीं।</p></div>
+    </div>
+  </section>  <!-- TOOLS GRID -->  <main id="tools" class="container" aria-label="टूल्स">
+    <section class="grid three" id="toolGrid"></section>
+  </main>  <!-- INFO STRIP & PRIVACY -->  <section class="container" style="margin-top:14px">
+    <div class="strip">
+      <div>प्राइवेसी: सब कुछ <strong>ऑन-डिवाइस</strong>। कोई अपलोड नहीं।</div>
+      <a class="btn btn-ghost" id="readPolicy" href="#policy">नीति पढ़ें</a>
+    </div>
+  </section>  <section id="privacy" class="container" aria-labelledby="pv" style="margin-top:14px">
+    <article class="privacy-card" role="region">
+      <h2 id="pv">🔐 प्राइवेसी वादा</h2>
+      <ul>
+        <li>100% क्लाइंट-साइड प्रोसेसिंग (WebAssembly, Canvas, pdf-lib/pdf.js)</li>
+        <li>टैब बंद/रीलोड पर टेम्प डेटा साफ़</li>
+        <li>ट्रैकिंग न्यूनतम — कोई कंटेंट अपलोडिंग नहीं</li>
+        <li>लाइब्रेरी कैश होने पर ऑफलाइन मोड</li>
       </ul>
-      <div class="privacy-actions">
-        <button class="btn btn-alt" id="readPolicy" type="button">डिटेल्ड पॉलिसी पढ़ें</button>
-        <a class="btn btn-primary" href="merge-pdf-hi.html">अभी शुरू करें</a>
-      </div>
     </article>
-  </section>  <!-- Tools Grid -->  <main id="tools" class="container">
-    <section class="grid three" id="toolGrid" aria-label="टूल्स की सूची"></section><!-- Testimonials -->
-<section style="margin-top:10px">
-  <h2 style="margin:6px 0 10px">लोग क्या कहते हैं</h2>
-  <div class="carousel" id="carousel" aria-roledescription="carousel" aria-label="प्रशंसापत्र">
-    <blockquote role="group" aria-roledescription="slide" aria-label="1 में से 3">
-      <div class="stars" aria-hidden="true">★★★★★</div>
-      “Hindi UI कमाल! Merge, Split सब कुछ झटपट हो गया।”
-      <div style="color:#9fb0de">— स्टूडेंट</div>
-    </blockquote>
-    <blockquote role="group" aria-roledescription="slide" aria-label="2 में से 3" hidden>
-      <div class="stars" aria-hidden="true">★★★★★</div>
-      “ऑफिस में सबको यही साइट भेजता हूँ — बिना अपलोड, टेंशन-फ्री।”
-      <div style="color:#9fb0de">— प्रोफेशनल</div>
-    </blockquote>
-    <blockquote role="group" aria-roledescription="slide" aria-label="3 में से 3" hidden>
-      <div class="stars" aria-hidden="true">★★★★★</div>
-      “मोबाइल पर भी बड़िया चलता है, बस ड्रैग-ड्रॉप और काम ख़त्म।”
-      <div style="color:#9fb0de">— फ्रीलांसर</div>
-    </blockquote>
-    <div style="display:flex; gap:8px; margin-top:8px; justify-content:center">
-      <button class="btn btn-ghost" id="prev" aria-label="पिछला">‹</button>
-      <button class="btn btn-ghost" id="next" aria-label="अगला">›</button>
-    </div>
-  </div>
-</section>
-
-<!-- FAQ / AI -->
-<section style="margin-top:14px" id="ai">
-  <h2 style="margin:6px 0 10px">AI फीचर्स (जल्द/बीटा)</h2>
-  <div class="grid three">
-    <article class="card"><h3>AI सारांश</h3><p>लंबे PDF का छोटा हिंदी सारांश।</p><div class="actions"><a class="btn btn-primary" href="ai-summary-hi.html">खोलो</a></div></article>
-    <article class="card"><h3>PDF से चैट</h3><p>PDF अपलोड करो और सवाल पूछो — जवाब AI देगा।</p><div class="actions"><a class="btn btn-primary" href="ai-chat-hi.html">खोलो</a></div></article>
-    <article class="card"><h3>टेबल/डेटा निकालो</h3><p>टेबल/इनवॉइस डेटा Excel/CSV में।</p><div class="actions"><a class="btn btn-primary" href="ai-extract-hi.html">खोलो</a></div></article>
-  </div>
-</section>
-
-  </main>  <footer>
-    <div class="foot">
+  </section>  <!-- FOOTER -->  <footer>
+    <div class="container foot">
       <div>© <span id="yr"></span> हिंदी टूल्स — “सब ब्राउज़र में, सब सुरक्षित।”</div>
       <div>फ़ीडबैक? <a href="#" id="fb">मेल भेजें</a></div>
     </div>
@@ -313,174 +257,135 @@
     <div class="sheet">
       <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px">
         <h3 id="polHead" style="margin:0">डिटेल्ड प्राइवेसी पॉलिसी</h3>
-        <button class="btn btn-ghost close" id="closePolicy" aria-label="बंद करें">✕</button>
+        <button class="menu-btn" id="closePolicy" aria-label="बंद करें">✕</button>
       </div>
       <div id="polBody">
-        <p>हमारे सभी PDF/इमेज टूल्स <strong>client-side</strong> टेक्नोलॉजी (जैसे <em>WebAssembly, Canvas, pdf-lib, pdf.js</em>) का इस्तेमाल करते हैं। इसका मतलब:</p>
+        <p>हमारे PDF/इमेज टूल्स पूर्णत: <strong>क्लाइंट-साइड</strong> हैं। कोई अपलोड नहीं।</p>
         <ul>
-          <li>• आपकी फाइलों का <strong>डेटा ब्राउज़र की मेमोरी</strong> में रहता है; किसी सर्वर पर नहीं भेजा जाता।</li>
-          <li>• टैब बंद/रीलोड होने पर <strong>टेम्प डेटा साफ़</strong> हो जाता है।</li>
-          <li>• हम <strong>ट्रैकिंग/एनालिटिक्स</strong> को मिनिमम रखते हैं — कोई कंटेंट अपलोडिंग नहीं।</li>
-          <li>• अगर आप चाहें तो <em>ऑफ़लाइन</em> मोड में भी टूल्स चलेंगे (जब जरूरी लाइब्रेरीज़ कैश हो जाएँ)।</li>
+          <li>डेटा ब्राउज़र मेमोरी में; सर्वर नहीं</li>
+          <li>टैब बंद/रीलोड पर टेम्प डेटा हटता है</li>
+          <li>ट्रैकिंग न्यूनतम; ऑफलाइन-रेडी*</li>
         </ul>
-        <p>अगर आपको फिर भी कोई सुरक्षा सवाल हो, तो हमें लिखें — हम खुशी से समझाएँगे।</p>
       </div>
     </div>
   </div>  <script>
-  // ===== Theme (persisted) =====
-  (function(){
-    const root = document.documentElement;
-    const stored = localStorage.getItem('theme');
-    if(stored){ root.setAttribute('data-theme', stored); }
-    const themeBtn = document.getElementById('themeBtn');
-    function toggle(){
-      const cur = root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
-      root.setAttribute('data-theme', cur);
-      localStorage.setItem('theme', cur);
-      themeBtn.setAttribute('aria-pressed', String(cur==='dark'));
-    }
-    themeBtn && themeBtn.addEventListener('click', toggle);
-  })();
+    // Theme toggle with persistence
+    (function(){
+      const root = document.documentElement;
+      const btn  = document.getElementById('themeBtn');
+      const stored = localStorage.getItem('theme');
+      if(stored) root.dataset.theme = stored;
+      btn.addEventListener('click', ()=>{
+        root.dataset.theme = root.dataset.theme==='light' ? 'dark' : 'light';
+        localStorage.setItem('theme', root.dataset.theme);
+        btn.setAttribute('aria-pressed', String(root.dataset.theme==='dark'));
+      });
+    })();
 
-  // ===== Tool list =====
-  const tools = [
-    { slug: "merge-pdf-hi.html",   title: "PDF जोड़ो (Merge)",         hint: "कई PDFs को जोड़कर एक बनाओ। थम्बनेल, पेज रेंज, A4, नंबरिंग।", tag:"pdf", badge:"नया" },
-    { slug: "split-pdf-hi.html",   title: "PDF बाँटो (Split)",         hint: "रेंज से, हर X पेज पर, या बुकमार्क्स से अलग-अलग PDFs।", tag:"pdf" },
-    { slug: "compress-pdf-hi.html",title: "PDF छोटा करो (Compress)",   hint: "क्वालिटी स्लाइडर के साथ फाइल साइज घटाओ — शेयर के लिए परफेक्ट।", tag:"pdf" },
-    { slug: "pdf-rotate-hi.html",  title: "PDF घुमाओ/ऑर्गनाइज़",       hint: "थम्बनेल में पेज घुमाओ, हटाओ, रीऑर्डर करो।", tag:"pdf" },
-    { slug: "pdf-watermark-hi.html",title:"वॉटरमार्क लगाओ",            hint: "टेक्स्ट/इमेज वॉटरमार्क — पोज़िशन, साइज, ट्रांसपेरेंसी।", tag:"pdf" },
-    { slug: "pdf-lock-hi.html",    title: "PDF लॉक (Password)",        hint: "पासवर्ड लगाओ (ध्यान दें: खोया पासवर्ड रिकवर नहीं)।", tag:"pdf" },
-    { slug: "pdf-unlock-hi.html",  title: "PDF अनलॉक",                 hint: "पासवर्ड पता है? अनलॉक करके नई PDF सेव करो।", tag:"pdf" },
+    // Tags open on mobile
+    const menuBtn = document.getElementById('menuBtn');
+    const tagsRow = document.getElementById('tagsRow');
+    menuBtn.addEventListener('click', ()=>{
+      const open = tagsRow.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', String(open));
+    });
 
-    { slug: "image-to-pdf-hi.html",title: "इमेज से PDF",               hint: "JPG/PNG को A4/A5 में फिट करके PDF। ऑर्डर सेट करो।", tag:"image" },
-    { slug: "pdf-to-image-hi.html",title: "PDF से इमेज",               hint: "हर पेज को JPG/PNG के रूप में सेव (ZIP)।", tag:"image" },
+    // Tools list
+    const tools = [
+      { slug: "merge-pdf-hi.html",   title: "PDF जोड़ो (Merge)",         hint: "कई PDFs को जोड़कर एक बनाओ। थम्बनेल, पेज रेंज, A4, नंबरिंग।", tag:"pdf", ico:"🧩", badge:"नया" },
+      { slug: "split-pdf-hi.html",   title: "PDF बाँटो (Split)",         hint: "रेंज से, हर X पेज पर, या बुकमार्क्स से अलग-अलग PDFs।", tag:"pdf", ico:"✂️" },
+      { slug: "compress-pdf-hi.html",title: "PDF छोटा करो (Compress)",   hint: "क्वालिटी स्लाइडर के साथ फाइल साइज घटाओ — शेयर के लिए परफेक्ट।", tag:"pdf", ico:"🗜️" },
+      { slug: "pdf-rotate-hi.html",  title: "PDF घुमाओ/ऑर्गनाइज़",       hint: "थम्बनेल में पेज घुमाओ, हटाओ, रीऑर्डर करो।", tag:"pdf", ico:"🔁" },
+      { slug: "pdf-watermark-hi.html",title:"वॉटरमार्क लगाओ",            hint: "टेक्स्ट/इमेज वॉटरमार्क — पोज़िशन, साइज, ट्रांसपेरेंसी।", tag:"pdf", ico:"💧" },
+      { slug: "pdf-lock-hi.html",    title: "PDF लॉक (Password)",        hint: "पासवर्ड लगाओ (ध्यान दें: खोया पासवर्ड रिकवर नहीं)।", tag:"pdf", ico:"🔒" },
+      { slug: "pdf-unlock-hi.html",  title: "PDF अनलॉक",                 hint: "पासवर्ड पता है? अनलॉक करके नई PDF सेव करो।", tag:"pdf", ico:"🔓" },
 
-    { slug: "pdf-to-word-hi.html", title: "PDF → Word",                hint: "एڈिटेबल DOCX में बदलो (स्कैन के लिए OCR)।", tag:"office" },
-    { slug: "word-to-pdf-hi.html", title: "Word → PDF",                hint: "DOCX को सही फॉन्ट/मार्जिन के साथ PDF।", tag:"office" },
-    { slug: "pdf-signer-hi.html",  title: "PDF साइन करो",               hint: "ड्रा/टेक्स्ट सिग्नेचर, तारीख/नाम ऑटो-फिल।", tag:"office" },
+      { slug: "image-to-pdf-hi.html",title: "इमेज से PDF",               hint: "JPG/PNG को A4/A5 में फिट करके PDF। ऑर्डर सेट करो।", tag:"image", ico:"🖼️" },
+      { slug: "pdf-to-image-hi.html",title: "PDF से इमेज",               hint: "हर पेज को JPG/PNG के रूप में सेव (ZIP)।", tag:"image", ico:"🧾" },
 
-    // AI placeholders
-    { slug: "ai-summary-hi.html",  title: "AI सारांश",                  hint: "लंबे PDF का शॉर्ट हिंदी सारांश।", tag:"ai", badge:"बीटा" },
-    { slug: "ai-chat-hi.html",     title: "PDF से चैट (AI)",            hint: "PDF से सवाल पूछो — जवाब AI देगा।", tag:"ai", badge:"बीटा" },
-    { slug: "ai-extract-hi.html",  title: "AI डेटा निकालो",             hint: "टेबल/इनवॉइस डेटा Excel/CSV में।", tag:"ai", badge:"बीटा" },
-  ];
+      { slug: "pdf-to-word-hi.html", title: "PDF → Word",                hint: "एडिटेबल DOCX में बदलो (स्कैन के लिए OCR)।", tag:"office", ico:"📄" },
+      { slug: "word-to-pdf-hi.html", title: "Word → PDF",                hint: "DOCX को सही फॉन्ट/मार्जिन के साथ PDF।", tag:"office", ico:"↔️" },
+      { slug: "pdf-signer-hi.html",  title: "PDF साइन करो",               hint: "ड्रा/टेक्स्ट सिग्नेचर, तारीख/नाम ऑटो-फिल।", tag:"office", ico:"✍️" },
 
-  const grid = document.getElementById('toolGrid');
-  const search = document.getElementById('search');
-  const resultsCount = document.getElementById('resultsCount');
-  const tagTabs = Array.from(document.querySelectorAll('#navTags .tag'));
+      { slug: "ai-summary-hi.html",  title: "AI सारांश",                  hint: "लंबे PDF का शॉर्ट हिंदी सारांश।", tag:"ai", ico:"🧠", badge:"बीटा" },
+      { slug: "ai-chat-hi.html",     title: "PDF से चैट (AI)",            hint: "PDF से सवाल पूछो — जवाब AI देगा।", tag:"ai", ico:"💬", badge:"बीटा" },
+      { slug: "ai-extract-hi.html",  title: "AI डेटा निकालो",             hint: "टेबल/इनवॉइस डेटा Excel/CSV में।", tag:"ai", ico:"📊", badge:"बीटा" },
+    ];
 
-  function cardHtml(t){
-    return `
-      <article class="card" data-tag="${t.tag}" data-title="${(t.title+" "+t.hint).toLowerCase()}">
-        <div style="display:flex; align-items:flex-start; justify-content:space-between; gap:8px">
-          <h3>${t.title}</h3>
-          ${t.badge ? `<span class="badge">${t.badge}</span>` : ``}
-        </div>
+    const grid  = document.getElementById('toolGrid');
+    const search= document.getElementById('search');
+    const rc    = document.getElementById('rc');
+    const tagBtns = Array.from(document.querySelectorAll('#tagsRow .tag'));
+
+    function card(t){
+      return `<article class="card" data-tag="${t.tag}" data-title="${(t.title+" "+t.hint).toLowerCase()}">
+        <div class="row"><h3>${t.title}</h3> ${t.badge?`<span class="badge">${t.badge}</span>`:''}</div>
         <p>${t.hint}</p>
         <div class="actions">
-          <a class="btn btn-primary" href="${t.slug}">खोलो</a>
-          <a class="btn btn-ghost" href="${t.slug}#howto">कैसे इस्तेमाल करें?</a>
+          <a class="btn btn-primary" href="${t.slug}">${t.ico || '➡️'} खोलो</a>
+          <a class="btn btn-ghost" href="${t.slug}#howto">कैसे?</a>
         </div>
-      </article>`;
-  }
-
-  function render(qTxt = "", tag = "all"){
-    const q = qTxt.trim().toLowerCase();
-    grid.innerHTML = tools.map(cardHtml).join("");
-    let visible = 0;
-    Array.from(grid.children).forEach(card=>{
-      const hay = card.getAttribute('data-title');
-      const tg  = card.getAttribute('data-tag');
-      const okText = !q || hay.includes(q);
-      const okTag  = tag==="all" || tg===tag;
-      const show = okText && okTag;
-      card.style.display = show ? "flex" : "none";
-      if (show){
-        card.style.borderColor = 'rgba(255,217,92,.22)';
-        visible++;
-      }
-    });
-    resultsCount.textContent = `${visible} टूल${visible===1?"":"्स"} मिलें`;
-  }
-
-  // Search & filter
-  search.addEventListener('input', ()=> {
-    const active = document.querySelector('#navTags .tag[aria-selected="true"]');
-    render(search.value, active?.dataset.tag || 'all');
-  });
-
-  // Tabs with keyboard support
-  tagTabs.forEach((btn, idx)=>{
-    btn.setAttribute('tabindex', idx===0? '0' : '-1');
-    btn.addEventListener('click', ()=>selectTab(btn));
-    btn.addEventListener('keydown', (e)=>{
-      const i = tagTabs.indexOf(document.activeElement);
-      if(e.key==='ArrowRight'){ const n=(i+1)%tagTabs.length; tagTabs[n].focus(); e.preventDefault(); }
-      if(e.key==='ArrowLeft'){ const p=(i-1+tagTabs.length)%tagTabs.length; tagTabs[p].focus(); e.preventDefault(); }
-      if(e.key==='Enter' || e.key===' '){ selectTab(document.activeElement); e.preventDefault(); }
-    });
-  });
-
-  function selectTab(btn){
-    tagTabs.forEach(b=>{ b.setAttribute('aria-selected','false'); b.setAttribute('tabindex','-1'); });
-    btn.setAttribute('aria-selected','true'); btn.setAttribute('tabindex','0');
-    render(search.value, btn.dataset.tag);
-  }
-
-  // Menu button (mobile tags)
-  const menuBtn = document.getElementById('menuBtn');
-  const navTags = document.getElementById('navTags');
-  menuBtn && menuBtn.addEventListener('click', ()=>{ const open = navTags.classList.toggle('open'); menuBtn.setAttribute('aria-expanded', String(open)); });
-
-  // Testimonials carousel (with polite announcements)
-  (function(){
-    const prev = document.getElementById('prev');
-    const next = document.getElementById('next');
-    const nodes = Array.from(document.querySelectorAll('#carousel blockquote'));
-    if (!nodes.length || !prev || !next) return;
-    let i = 0; const show = idx => nodes.forEach((n,j)=> n.hidden = j!==idx);
-    function announce(){
-      const label = nodes[i].getAttribute('aria-label') || '';
-      carousel.setAttribute('aria-label', `प्रशंसापत्र — ${label}`);
+      </article>`
     }
-    prev.addEventListener('click', ()=>{ i = (i-1+nodes.length)%nodes.length; show(i); announce(); });
-    next.addEventListener('click', ()=>{ i = (i+1)%nodes.length; show(i); announce(); });
-    setInterval(()=>{ i=(i+1)%nodes.length; show(i); announce(); }, 6000);
-    show(0); announce();
-  })();
 
-  // Floating chips scroll-to category
-  document.querySelectorAll('.float-chip').forEach(el=>{
-    el.addEventListener('click', ()=>{
-      const tag = el.getAttribute('data-go');
-      const target = document.querySelector(`#navTags .tag[data-tag="${tag}"]`) || document.querySelector('#tab-all');
-      selectTab(target);
-      window.scrollTo({ top: document.getElementById('tools').offsetTop - 20, behavior:'smooth' });
+    function render(q="", tag="all"){
+      grid.innerHTML = tools.map(card).join("");
+      let count=0; q=q.trim().toLowerCase();
+      Array.from(grid.children).forEach(el=>{
+        const okText = !q || el.dataset.title.includes(q);
+        const okTag  = tag==='all' || el.dataset.tag===tag;
+        const show = okText && okTag; el.style.display = show? 'flex':'none'; if(show) count++;
+      });
+      rc.textContent = `${count} टूल${count===1?'':'्स'} मिले`;
+    }
+
+    // Initial render
+    render();
+
+    // Search
+    search.addEventListener('input', ()=>{
+      const active = tagBtns.find(b=>b.getAttribute('aria-selected')==='true');
+      render(search.value, active?.dataset.tag || 'all');
     });
-  });
 
-  // Quick start CTA
-  document.getElementById('quickStart').addEventListener('click', ()=>{ window.location.href = 'merge-pdf-hi.html'; });
-
-  // Footer helpers
-  document.getElementById('yr').textContent = new Date().getFullYear();
-  document.getElementById('fb').addEventListener('click', (e)=>{ e.preventDefault(); window.location.href = 'mailto:feedback@yourdomain.in?subject=Feedback%20for%20Hindi%20Tools'; });
-
-  // Privacy modal
-  const policyModal = document.getElementById('policyModal');
-  document.getElementById('readPolicy').addEventListener('click', ()=> policyModal.classList.add('open'));
-  document.getElementById('closePolicy').addEventListener('click', ()=> policyModal.classList.remove('open'));
-  policyModal.addEventListener('click', (e)=>{ if(e.target===policyModal) policyModal.classList.remove('open'); });
-
-  // PWA service worker (optional)
-  if ('serviceWorker' in navigator) {
-    window.addEventListener('load', ()=>{
-      navigator.serviceWorker.register('/sw.js').catch(()=>{});
+    // Tag behavior + keyboard
+    tagBtns.forEach((b, i)=>{
+      b.setAttribute('tabindex', i===0? '0':'-1');
+      b.addEventListener('click', ()=> selectTag(b));
+      b.addEventListener('keydown', (e)=>{
+        const idx = tagBtns.indexOf(document.activeElement);
+        if(e.key==='ArrowRight'){ tagBtns[(idx+1)%tagBtns.length].focus(); }
+        if(e.key==='ArrowLeft'){ tagBtns[(idx-1+tagBtns.length)%tagBtns.length].focus(); }
+        if(e.key==='Enter' || e.key===' '){ selectTag(document.activeElement); }
+      })
     });
-  }
 
-  // Init
-  render('', 'all');
+    function selectTag(btn){
+      tagBtns.forEach(b=>{ b.setAttribute('aria-selected','false'); b.setAttribute('tabindex','-1'); });
+      btn.setAttribute('aria-selected','true'); btn.setAttribute('tabindex','0');
+      render(search.value, btn.dataset.tag);
+    }
+
+    // Quick chips
+    document.querySelectorAll('.float-chip').forEach(c=>{
+      c.addEventListener('click', ()=>{
+        const tgt = tagBtns.find(b=> b.dataset.tag===c.dataset.go) || tagBtns[0];
+        selectTag(tgt);
+        window.scrollTo({ top: document.getElementById('tools').offsetTop - 20, behavior:'smooth' });
+      })
+    })
+
+    // Quick start CTA
+    document.getElementById('quickStart').addEventListener('click', ()=>{ location.href='merge-pdf-hi.html'; });
+
+    // Footer / year / feedback
+    document.getElementById('yr').textContent = new Date().getFullYear();
+    document.getElementById('fb').addEventListener('click', (e)=>{ e.preventDefault(); location.href='mailto:feedback@yourdomain.in?subject=Hindi%20Tools%20Feedback'; });
+
+    // Privacy modal
+    const policyModal = document.getElementById('policyModal');
+    document.getElementById('readPolicy').addEventListener('click', (e)=>{ e.preventDefault(); policyModal.classList.add('open'); });
+    document.getElementById('closePolicy').addEventListener('click', ()=> policyModal.classList.remove('open'));
+    policyModal.addEventListener('click', (e)=>{ if(e.target===policyModal) policyModal.classList.remove('open'); });
   </script></body>
 </html>
