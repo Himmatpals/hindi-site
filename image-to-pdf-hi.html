@@ -3,28 +3,33 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>इमेज से PDF — A4/A5/Letter • N-Up • मार्जिन • बैकग्राउंड • कैप्शन • क्वालिटी</title>
-  <meta name="description" content="100% ब्राउज़र-आधारित JPG/PNG/WebP → PDF कन्वर्टर (Hindi UI). Drag & drop, री-ऑर्डर, EXIF auto-orient, N-up (1/2/4), Fit/Fill, मार्जिन, बैकग्राउंड, कैप्शन, पेज नंबरिंग, क्वालिटी री-एन्कोड, लाइव प्रीव्यू." />
+  <title>इमेज → PDF (Wizard) — तेज़ • सुरक्षित • 100% ब्राउज़र में</title>
+  <meta name="description" content="चरण-दर-चरण: इमेज अपलोड → अरेंज/री-ऑर्डर → सेटिंग्स (A4/A5/Letter, N-up, मार्जिन, बैकग्राउंड, कैप्शन, क्वालिटी, पेज नंबर) → प्रीव्यू/डाउनलोड — सब कुछ आपके ब्राउज़र में।" />
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0b1020"   media="(prefers-color-scheme: dark)">
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
+
   <style>
     :root{
-      /* Light baseline aligned with index page */
+      /* Light baseline consistent with index pages */
       --bg:#f7fafc; --panel:#ffffff; --card:#ffffff; --line:rgba(2,6,23,.10);
       --text:#0b1020; --muted:#334155; --focus:#2563eb;
       --c1:#7c5cff; --c2:#23d3ac; --c3:#ffd95c; --c4:#ff5c7c; --c5:#06b6d4; --c6:#22c55e; --c7:#f97316;
       --grad: conic-gradient(from 180deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c7),var(--c1));
       --shadow:0 10px 30px rgba(2,6,23,.08);
-      --tile-bg:linear-gradient(180deg,#ffffff,#f8fafc);
-      --font: "Noto Sans Devanagari","Nirmala UI","Hind","Kohinoor Devanagari", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+      --tile:linear-gradient(180deg,#ffffff,#f8fafc);
+      --font:"Noto Sans Devanagari", Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     }
     html[data-theme="dark"]{
       --bg:#0b1020; --panel:#0f1630; --card:#121a3b; --line:rgba(255,255,255,.12);
       --text:#eef3ff; --muted:#b8c6f1; --focus:#7dd3fc;
       --shadow:0 18px 60px rgba(0,0,0,.45);
-      --tile-bg:linear-gradient(180deg,#11183a,#0e1430);
+      --tile:linear-gradient(180deg,#11183a,#0e1430);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -37,45 +42,63 @@
         var(--bg);
     }
     a{color:inherit; text-decoration:none}
-    :focus-visible{outline:3px solid var(--focus); outline-offset:2px; border-radius:8px}
-    .container{max-width:1200px; margin:0 auto; padding:0 16px}
+    :focus-visible{outline:3px solid var(--focus); outline-offset:3px; border-radius:10px}
+    .container{max-width:1180px; margin:0 auto; padding:0 16px}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    /* Privacy Promise (top, sticky) */
-    .pp{position:sticky; top:0; z-index:80; background:var(--panel); border-bottom:1px solid var(--line)}
-    .pp .row{display:flex; gap:12px; align-items:center; justify-content:center; padding:8px 16px}
+    /* Privacy Promise ribbon */
+    .pp{position:sticky; top:0; z-index:90; background:var(--panel); border-bottom:1px solid var(--line)}
+    .pp .row{display:flex; gap:10px; align-items:center; justify-content:center; padding:8px 16px; font-weight:900}
     .pp .shield{width:26px;height:26px;border-radius:8px;background:var(--grad);display:grid;place-items:center}
 
-    /* Header */
-    header.site{position:sticky; top:48px; z-index:70; backdrop-filter:blur(10px); background:rgba(255,255,255,.82); border-bottom:1px solid var(--line)}
+    /* Header + stepper */
+    header.site{position:sticky; top:48px; z-index:80; backdrop-filter:blur(10px); background:rgba(255,255,255,.82); border-bottom:1px solid var(--line)}
     html[data-theme="dark"] header.site{background:linear-gradient(180deg, rgba(11,16,32,.85), rgba(11,16,32,.60))}
     .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0}
     .brand{display:flex; align-items:center; gap:10px; font-weight:900}
-    .brand svg{width:30px;height:30px}
+    .brand svg{width:28px;height:28px}
     .theme-btn{border:1px solid var(--line); background:var(--panel); color:inherit; border-radius:12px; padding:8px 12px; font-weight:800}
 
-    /* Card framing */
+    .stepper{display:flex; gap:8px; flex-wrap:wrap}
+    .step{display:flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-size:13px; font-weight:800;
+      border:1px solid var(--line); background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02))}
+    .step.active{border-color:rgba(255,217,92,.55); box-shadow:0 0 0 1px rgba(255,217,92,.18) inset}
+
+    /* Card + wizard pages */
     .card{background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); overflow:hidden}
     .hero{padding:22px 22px 0}
     h1{margin:0 0 6px; font-size:clamp(22px,3.6vw,30px); font-weight:900}
     .sub{margin:0; color:var(--muted)}
+    .wizard{padding:0 22px 18px}
+    .page{display:none}
+    .page.show{display:block}
 
-    .uploader{border:1.5px dashed var(--line); border-radius:16px; padding:18px; margin:16px 22px; text-align:center; background:var(--tile-bg)}
-    .uploader.dragover{border-color:#94a3b8; box-shadow:0 0 0 4px rgba(148,163,184,.2) inset}
     .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center}
-    .btn{appearance:none; border:none; border-radius:14px; padding:12px 14px; font-weight:900; cursor:pointer; min-height:44px}
+
+    /* Buttons */
+    .btn{appearance:none; border:none; border-radius:14px; padding:12px 14px; font-weight:900; cursor:pointer; min-height:44px; transition:transform .12s ease, box-shadow .2s ease}
     .btn:active{transform:translateY(1px)}
     .btn.primary{color:#0b1020; background:var(--grad); box-shadow:0 8px 24px rgba(2,6,23,.18)}
     .btn.secondary{color:inherit; background:#00000007; border:1px solid var(--line)}
     .btn.ghost{color:inherit; background:transparent; border:1px solid var(--line)}
-    .btn.ok{color:#0b1020; background:linear-gradient(90deg,var(--c2),var(--c3))}
+    .btn.ok{color:#0b1020; background:linear-gradient(90deg, var(--c2), var(--c3))}
+    .btn.danger{color:#fff; background:linear-gradient(90deg, #ff5c7c, #ff98ab)}
+    .btn.slim{padding:8px 10px; border-radius:10px}
     .tiny{font-size:12px; color:var(--muted)}
 
-    .grid{display:grid; gap:16px; padding:0 22px 18px}
-    .two{grid-template-columns:420px 1fr}
-    @media (max-width:980px){.two{grid-template-columns:1fr}}
+    /* Pulsating Next Action */
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(255,217,92,.55)} 50%{box-shadow:0 0 0 12px rgba(255,217,92,0)} 100%{box-shadow:0 0 0 0 rgba(255,217,92,0)} }
+    @keyframes pulse-green { 0%{box-shadow:0 0 0 0 rgba(34,197,94,.55)} 50%{box-shadow:0 0 0 12px rgba(34,197,94,0)} 100%{box-shadow:0 0 0 0 rgba(34,197,94,0)} }
+    .pulse{animation:pulse 1.8s ease-in-out infinite}
+    .pulse-green{animation:pulse-green 1.8s ease-in-out infinite}
+    @media (prefers-reduced-motion:reduce){ .pulse,.pulse-green{animation:none} }
 
-    /* Left list */
+    /* Page 1: Uploader */
+    .uploader{border:1.5px dashed var(--line); border-radius:16px; padding:18px; margin:16px 0; text-align:center; background:var(--tile)}
+    .uploader.dragover{border-color:#94a3b8; box-shadow:0 0 0 4px rgba(148,163,184,.2) inset}
+    .uploader input[type=file]{display:none}
+
+    /* Page 2: Arrange list */
     .list{display:grid; gap:10px}
     .item{display:grid; grid-template-columns:64px 1fr auto; gap:10px; align-items:center; padding:10px; background:var(--panel); border:1px solid var(--line); border-radius:12px}
     .thumb{width:64px;height:64px;background:#0b102020;border:1px solid var(--line);border-radius:8px;display:grid;place-items:center;overflow:hidden}
@@ -85,45 +108,28 @@
     .controls{display:flex; gap:6px; align-items:center}
     .iconbtn{background:#0000; border:1px solid var(--line); color:inherit; width:34px; height:34px; border-radius:8px; display:grid; place-items:center; cursor:pointer}
 
-    /* Right panels */
+    /* Page 3: Settings panel */
+    .grid{display:grid; gap:16px}
+    .two{grid-template-columns:420px 1fr}
+    @media (max-width:980px){.two{grid-template-columns:1fr}}
     .panel{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px}
     .panel h4{margin:0 0 10px; font-size:14px}
     input[type=text],input[type=number],input[type=color],select{background:#00000006;color:inherit;border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
     input[type=range]{width:100%}
     label{font-size:13px}
 
+    /* Page 4: Preview */
     .viewer{position:relative; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px; overflow:auto; min-height:220px}
     #preview{display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px}
-    .pv{background:var(--tile-bg); border:1px solid var(--line); border-radius:8px; padding:6px; display:grid; gap:6px}
+    .pv{background:var(--tile); border:1px solid var(--line); border-radius:8px; padding:6px; display:grid; gap:6px}
     .pv canvas{width:100%;height:auto;display:block;border-radius:6px}
     .pv .cap{font-size:12px; color:var(--muted); text-align:center}
-
     .progress{height:10px;background:#00000008;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
     .bar{height:100%;width:0;background:var(--grad);transition:width .2s}
-
-    .actions{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 22px 18px;border-top:1px solid var(--line);background:linear-gradient(90deg,#00000003,#00000006)}
     @media (prefers-reduced-motion:reduce){ .bar{transition:none} }
-
-    /* ===== Pulsating Next Action ===== */
-    @keyframes pulse {
-      0%   { box-shadow: 0 0 0 0 rgba(255, 217, 92, 0.55); transform: translateY(0) scale(1); }
-      50%  { box-shadow: 0 0 0 12px rgba(255, 217, 92, 0);   transform: translateY(-1px) scale(1.035); }
-      100% { box-shadow: 0 0 0 0 rgba(255, 217, 92, 0);     transform: translateY(0) scale(1); }
-    }
-    .pulse{ animation: pulse 1.8s ease-in-out infinite; }
-    /* Alternative accent for download step */
-    @keyframes pulse-green {
-      0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); transform: translateY(0) scale(1); }
-      50%  { box-shadow: 0 0 0 12px rgba(34, 197, 94, 0);   transform: translateY(-1px) scale(1.035); }
-      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);     transform: translateY(0) scale(1); }
-    }
-    .pulse-green{ animation: pulse-green 1.8s ease-in-out infinite; }
-    @media (prefers-reduced-motion:reduce){
-      .pulse, .pulse-green{ animation:none }
-    }
   </style>
 
-  <!-- Client-side libs (privacy-friendly CDNs) -->
+  <!-- libs -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
   <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
@@ -132,97 +138,120 @@
 <body>
   <a class="sr-only" href="#main">मुख्य सामग्री पर जाएँ</a>
 
-  <!-- Privacy Promise -->
+  <!-- Privacy -->
   <section class="pp" role="region" aria-label="प्राइवेसी वादा">
     <div class="container row">
       <div class="shield" aria-hidden="true">🔒</div>
-      <div>
-        <strong>प्राइवेसी वादा:</strong> सारी प्रोसेसिंग <strong>आपके ब्राउज़र</strong> में होती है — <strong>फाइलें कहीं अपलोड नहीं</strong> होतीं।
-      </div>
+      <div><strong>प्राइवेसी वादा:</strong> सारी प्रोसेसिंग <strong>आपके ब्राउज़र</strong> में होती है — <strong>फाइलें कहीं अपलोड नहीं</strong> होतीं।</div>
     </div>
   </section>
 
   <!-- Header -->
   <header class="site">
     <div class="container nav">
-      <div class="brand" aria-label="हिंदी टूल्स">
+      <div class="brand">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <strong>इमेज → PDF</strong>
+        <strong>इमेज → PDF (विज़ार्ड)</strong>
       </div>
+      <nav class="stepper" aria-label="चरण">
+        <span class="step active" data-step="1">1. अपलोड</span>
+        <span class="step" data-step="2">2. अरेंज</span>
+        <span class="step" data-step="3">3. सेटिंग्स</span>
+        <span class="step" data-step="4">4. प्रीव्यू/डाउनलोड</span>
+      </nav>
       <button class="theme-btn" id="themeBtn" aria-pressed="false" aria-label="थीम बदलें">🌗 थीम</button>
     </div>
   </header>
 
   <main id="main" class="container" style="margin:18px auto">
-    <section class="card" aria-labelledby="title">
+    <section class="card">
       <div class="hero">
-        <h1 id="title">JPG/PNG/WebP को PDF में बदलो</h1>
-        <p class="sub">A4/A5/Letter साइज, N-up (1/2/4), Fit/Fill, मार्जिन, बैकग्राउंड, कैप्शन, पेज नंबर — सब कुछ एक क्लिक में।</p>
+        <h1>JPG/PNG/WebP को PDF में बदलो</h1>
+        <p class="sub">अपलोड → अरेंज/री-ऑर्डर → आउटपुट सेटिंग्स → प्रीव्यू/डाउनलोड। 100% ब्राउज़र में।</p>
       </div>
 
-      <!-- Uploader -->
-      <div class="uploader" id="drop" tabindex="0" role="button" aria-label="इमेज जोड़ें — ड्रैग-ड्रॉप करें या एंटर दबाएँ">
-        <p style="margin:0 0 10px">फाइलें यहाँ <strong>Drag & Drop</strong> करो या</p>
-        <div class="row">
-          <label class="btn primary" for="file">इमेज चुनो</label>
-          <button class="btn secondary" id="demoBtn" type="button">डेमो इमेज</button>
-          <button class="btn ghost" id="resetBtn" type="button" disabled>रीसेट</button>
-        </div>
-        <input id="file" type="file" accept="image/*" multiple hidden/>
-        <p class="tiny" style="margin-top:8px">टिप: एक साथ 100 तक इमेज बेहतर काम करती हैं। HEIC/RAW समर्थित नहीं।</p>
-      </div>
+      <div class="wizard">
+        <!-- PAGE 1: Upload -->
+        <section id="p1" class="page show" aria-labelledby="p1h">
+          <h3 id="p1h" style="margin:10px 0">इमेज अपलोड करो</h3>
+          <div class="uploader" id="drop" tabindex="0" role="button" aria-label="इमेज जोड़ें — ड्रैग-ड्रॉप करें या एंटर दबाएँ">
+            <p style="margin:0 0 10px">फाइलें यहाँ <strong>Drag & Drop</strong> करो या</p>
+            <div class="row">
+              <label class="btn primary" for="file">इमेज चुनो</label>
+              <button class="btn secondary" id="demoBtn" type="button">डेमो इमेज</button>
+              <button class="btn ghost" id="resetBtn" type="button" disabled>रीसेट</button>
+            </div>
+            <input id="file" type="file" accept="image/*" multiple hidden/>
+            <p class="tiny" style="margin-top:8px">टिप: एक साथ 100 तक इमेज बेहतर काम करती हैं। HEIC/RAW समर्थित नहीं।</p>
+          </div>
+          <div class="row" style="justify-content:space-between; margin-top:8px">
+            <span class="tiny" id="countLine">कोई इमेज नहीं जोड़ी गई।</span>
+            <button id="toP2" class="btn primary pulse" type="button" disabled>अगला: अरेंज</button>
+          </div>
+        </section>
 
-      <section class="grid two">
-        <!-- Left: file list -->
-        <div class="panel">
-          <h4>इमेजेस</h4>
+        <!-- PAGE 2: Arrange -->
+        <section id="p2" class="page" aria-labelledby="p2h">
+          <h3 id="p2h" style="margin:10px 0">अरेंज / री-ऑर्डर</h3>
           <div id="list" class="list" aria-live="polite"></div>
-          <div class="tiny" id="countLine">कोई इमेज नहीं जोड़ी गई।</div>
-        </div>
+          <div class="row" style="justify-content:space-between; margin-top:12px">
+            <button class="btn ghost" id="backP1" type="button">◀ वापस</button>
+            <div class="row">
+              <button class="btn slim ghost" id="addMore" type="button">+ और जोड़ो</button>
+              <button class="btn ok" id="toP3" type="button" disabled>आउटपुट सेटिंग्स</button>
+            </div>
+          </div>
+        </section>
 
-        <!-- Right: options + previews -->
-        <div class="panel">
-          <h4>आउटपुट सेटिंग्स</h4>
-          <div class="row" style="justify-content:space-between">
-            <label style="display:flex;gap:8px;align-items:center">पेज साइज
-              <select id="pageSize" style="min-width:140px" aria-label="पेज साइज">
-                <option value="A4" selected>A4 (210×297mm)</option>
-                <option value="A5">A5 (148×210mm)</option>
-                <option value="LETTER">Letter (8.5×11in)</option>
-                <option value="CUSTOM">कस्टम…</option>
-              </select>
-            </label>
-            <label style="display:flex;gap:8px;align-items:center">ओरिएंटेशन
-              <select id="orient" aria-label="ओरिएंटेशन"><option value="auto" selected>Auto</option><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select>
-            </label>
-          </div>
-          <div class="row" id="customSizeRow" style="display:none;justify-content:flex-start">
-            <label style="display:flex;gap:6px;align-items:center">Width (mm) <input id="wmm" type="number" value="210" min="20" max="600" style="width:100px"></label>
-            <label style="display:flex;gap:6px;align-items:center">Height (mm) <input id="hmm" type="number" value="297" min="20" max="800" style="width:100px"></label>
-          </div>
+        <!-- PAGE 3: Settings -->
+        <section id="p3" class="page" aria-labelledby="p3h">
+          <h3 id="p3h" style="margin:10px 0">आउटपुट सेटिंग्स</h3>
+          <div class="grid two">
+            <div class="panel">
+              <h4>पेज</h4>
+              <div class="row" style="justify-content:space-between">
+                <label style="display:flex;gap:8px;align-items:center">पेज साइज
+                  <select id="pageSize" style="min-width:140px" aria-label="पेज साइज">
+                    <option value="A4" selected>A4 (210×297mm)</option>
+                    <option value="A5">A5 (148×210mm)</option>
+                    <option value="LETTER">Letter (8.5×11in)</option>
+                    <option value="CUSTOM">कस्टम…</option>
+                  </select>
+                </label>
+                <label style="display:flex;gap:8px;align-items:center">ओरिएंटेशन
+                  <select id="orient" aria-label="ओरिएंटेशन"><option value="auto" selected>Auto</option><option value="portrait">Portrait</option><option value="landscape">Landscape</option></select>
+                </label>
+              </div>
+              <div class="row" id="customSizeRow" style="display:none;justify-content:flex-start">
+                <label style="display:flex;gap:6px;align-items:center">Width (mm) <input id="wmm" type="number" value="210" min="20" max="600" style="width:100px"></label>
+                <label style="display:flex;gap:6px;align-items:center">Height (mm) <input id="hmm" type="number" value="297" min="20" max="800" style="width:100px"></label>
+              </div>
+              <div class="row" style="justify-content:flex-start">
+                <label style="display:flex;gap:6px;align-items:center">मार्जिन (mm) <input id="margin" type="number" value="10" min="0" max="50" style="width:90px"></label>
+                <label style="display:flex;gap:6px;align-items:center">N-up
+                  <select id="nup" style="width:110px" aria-label="N-up"><option value="1" selected>1 / पेज</option><option value="2">2 / पेज</option><option value="4">4 / पेज</option></select>
+                </label>
+                <label style="display:flex;gap:6px;align-items:center">Scale
+                  <select id="scaleMode" aria-label="Scale"><option value="fit" selected>Fit</option><option value="fill">Fill (crop)</option><option value="stretch">Stretch</option></select>
+                </label>
+              </div>
+            </div>
 
-          <div class="row" style="justify-content:flex-start">
-            <label style="display:flex;gap:6px;align-items:center">मार्जिन (mm) <input id="margin" type="number" value="10" min="0" max="50" style="width:90px"></label>
-            <label style="display:flex;gap:6px;align-items:center">N-up
-              <select id="nup" style="width:110px" aria-label="N-up"><option value="1" selected>1 / पेज</option><option value="2">2 / पेज</option><option value="4">4 / पेज</option></select>
-            </label>
-            <label style="display:flex;gap:6px;align-items:center">Scale
-              <select id="scaleMode" aria-label="Scale"><option value="fit" selected>Fit</option><option value="fill">Fill (crop)</option><option value="stretch">Stretch</option></select>
-            </label>
-          </div>
-
-          <div class="row" style="justify-content:space-between">
-            <label style="display:flex;gap:6px;align-items:center">बैकग्राउंड <input id="bg" type="color" value="#ffffff" style="width:120px"></label>
-            <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="caption"> कैप्शन (फ़ाइल नाम)</label>
-            <label style="display:flex;gap:6px;align-items:center">क्वालिटी (JPEG) <input id="quality" type="range" min="40" max="100" value="85"> <span class="tiny" id="qv">85%</span></label>
-          </div>
-
-          <div class="row" style="justify-content:flex-start">
-            <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="autoOrient" checked> EXIF Auto-Orient</label>
-            <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="addNumbers"> पेज नंबरिंग</label>
-          </div>
-          <div class="row" style="justify-content:flex-start">
-            <label style="display:flex;gap:6px;align-items:center">फ़ॉन्ट साइज़ (कैप्शन/नंबर) <input id="fontSize" type="number" value="10" min="6" max="24" style="width:90px"></label>
+            <div class="panel">
+              <h4>रंग व टेक्स्ट</h4>
+              <div class="row" style="justify-content:space-between">
+                <label style="display:flex;gap:6px;align-items:center">बैकग्राउंड <input id="bg" type="color" value="#ffffff" style="width:120px"></label>
+                <label style="display:flex;gap:6px;align-items:center"><input type="checkbox" id="caption"> कैप्शन (फ़ाइल नाम)</label>
+                <label style="display:flex;gap:6px;align-items:center">क्वालिटी (JPEG) <input id="quality" type="range" min="40" max="100" value="85"> <span class="tiny" id="qv">85%</span></label>
+              </div>
+              <div class="row" style="justify-content:flex-start">
+                <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="autoOrient" checked> EXIF Auto-Orient</label>
+                <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="addNumbers"> पेज नंबरिंग</label>
+              </div>
+              <div class="row" style="justify-content:flex-start">
+                <label style="display:flex;gap:6px;align-items:center">फ़ॉन्ट साइज़ (कैप्शन/नंबर) <input id="fontSize" type="number" value="10" min="6" max="24" style="width:90px"></label>
+              </div>
+            </div>
           </div>
 
           <div style="margin-top:10px">
@@ -230,31 +259,26 @@
             <div class="tiny" id="status" style="margin-top:8px" aria-live="polite">तैयार…</div>
           </div>
 
-          <div class="viewer" style="margin-top:12px">
-            <div id="preview"></div>
+          <div class="row" style="justify-content:space-between; margin-top:12px">
+            <button class="btn ghost" id="backP2" type="button">◀ अरेंज</button>
+            <button class="btn primary pulse" id="toP4" type="button">PDF बनाओ</button>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <div class="actions">
-        <div class="row" style="justify-content:flex-start">
-          <span class="tiny">प्राइवेसी: कोई अपलोड नहीं — सब कुछ आपके डिवाइस पर होता है।</span>
-        </div>
-        <div class="row" style="justify-content:flex-end">
-          <button class="btn secondary" id="buildBtn" type="button" disabled>PDF बनाओ</button>
-          <button class="btn ok" id="downloadBtn" type="button" disabled>डाउनलोड</button>
-        </div>
+        <!-- PAGE 4: Preview & Download -->
+        <section id="p4" class="page" aria-labelledby="p4h">
+          <h3 id="p4h" style="margin:10px 0">प्रीव्यू और डाउनलोड</h3>
+          <div class="viewer"><div id="preview"></div></div>
+          <div class="row" style="justify-content:space-between; margin-top:12px">
+            <button class="btn ghost" id="backP3" type="button">◀ सेटिंग्स</button>
+            <div class="row">
+              <button class="btn ok pulse-green" id="downloadBtn" type="button" disabled>डाउनलोड</button>
+              <button class="btn secondary" id="startOver" type="button">नई PDF</button>
+            </div>
+          </div>
+          <p class="tiny" style="margin-top:8px">गोपनीयता: कोई अपलोड नहीं — सब कुछ आपके ब्राउज़र में।</p>
+        </section>
       </div>
-    </section>
-
-    <section class="card" style="padding:0 22px 22px">
-      <h3 style="margin:16px 0 10px">कैसे इस्तेमाल करें?</h3>
-      <ol style="margin:0 0 0 18px">
-        <li>ऊपर इमेजेस ड्रैग-ड्रॉप या “इमेज चुनो” से जोड़ो।</li>
-        <li>लिस्ट में री-ऑर्डर/रोटेट/हटाओ; दाएँ साइड में साइज, N-up, मार्जिन, बैकग्राउंड, कैप्शन और क्वालिटी सेट करो।</li>
-        <li>“PDF बनाओ” दबाओ → प्रीव्यू देखो → “डाउनलोड”।</li>
-      </ol>
-      <p class="tiny" style="margin-top:8px">टिप: बड़े एल्बम के लिए क्वालिटी 70–85% रखें — फाइल साइज बहुत घटेगी।</p>
     </section>
   </main>
 
@@ -279,82 +303,65 @@
   }
 
   /* ===== State ===== */
-  const S = { items: [] }; // {id, file, name, size, imgEl, thumbURL, rot:0}
+  const S = { items: [], _outBytes:null }; // {id, file, name, size, imgEl, thumbURL, rot:0}
 
-  /* ===== DOM ===== */
-  const listEl = document.getElementById('list');
-  const fileEl = document.getElementById('file');
-  const dropEl = document.getElementById('drop');
-  const demoBtn = document.getElementById('demoBtn');
-  const buildBtn = document.getElementById('buildBtn');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const resetBtn = document.getElementById('resetBtn');
-  const barEl = document.getElementById('bar');
-  const statusEl = document.getElementById('status');
-  const countEl = document.getElementById('countLine');
-  const pvWrap = document.getElementById('preview');
+  /* ===== Stepper helpers ===== */
+  const steps = [...document.querySelectorAll('.step')];
+  const pages = { p1:$('#p1'), p2:$('#p2'), p3:$('#p3'), p4:$('#p4') };
+  function setStep(n){
+    steps.forEach(s=>s.classList.toggle('active', s.dataset.step==n));
+    Object.values(pages).forEach(el=>el.classList.remove('show'));
+    pages['p'+n].classList.add('show');
+    // next-action pulses
+    document.querySelectorAll('.pulse,.pulse-green').forEach(el=>el.classList.remove('pulse','pulse-green'));
+    if (n===1) toP2.classList.add('pulse');
+    if (n===2) toP3.classList.add('pulse');
+    if (n===3) toP4.classList.add('pulse');
+    if (n===4) downloadBtn.classList.add('pulse-green');
+  }
 
-  const pageSizeSel = document.getElementById('pageSize');
-  const orientSel = document.getElementById('orient');
-  const customSizeRow = document.getElementById('customSizeRow');
-  const wmm = document.getElementById('wmm');
-  const hmm = document.getElementById('hmm');
+  function $(q){ return document.getElementById(q.replace('#','')); }
+  // DOM
+  const fileEl = $('#file'), dropEl = $('#drop'), demoBtn = $('#demoBtn'), resetBtn = $('#resetBtn');
+  const listEl = $('#list'), countEl = $('#countLine');
+  const toP2 = $('#toP2'), backP1 = $('#backP1'), addMore = $('#addMore');
+  const toP3 = $('#toP3'), backP2 = $('#backP2'), toP4 = $('#toP4'), backP3 = $('#backP3');
+  const downloadBtn = $('#downloadBtn'), startOver = $('#startOver');
+  const statusEl = $('#status'), barEl = $('#bar'), pvWrap = $('#preview');
 
-  const marginInput = document.getElementById('margin');
-  const nupSel = document.getElementById('nup');
-  const scaleModeSel = document.getElementById('scaleMode');
-  const bgInput = document.getElementById('bg');
-  const captionChk = document.getElementById('caption');
-  const qualityRange = document.getElementById('quality');
-  const qv = document.getElementById('qv');
-  const autoOrientChk = document.getElementById('autoOrient');
-  const addNumbersChk = document.getElementById('addNumbers');
-  const fontSizeInput = document.getElementById('fontSize');
+  // Settings
+  const pageSizeSel = $('#pageSize'), orientSel = $('#orient'), customSizeRow = $('#customSizeRow'), wmm = $('#wmm'), hmm = $('#hmm');
+  const marginInput = $('#margin'), nupSel = $('#nup'), scaleModeSel = $('#scaleMode'), bgInput = $('#bg');
+  const captionChk = $('#caption'), qualityRange = $('#quality'), qv = $('#qv');
+  const autoOrientChk = $('#autoOrient'), addNumbersChk = $('#addNumbers'), fontSizeInput = $('#fontSize');
 
   /* ===== Utilities ===== */
-  const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
-  const sleep = ms => new Promise(r=>setTimeout(r,ms));
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const sleep = ms => new Promise(r=>setTimeout(r,ms));
+  const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
   function setBar(p){ barEl.style.width = clamp(Math.round(p),0,100) + '%'; }
   function setStatus(t){ statusEl.textContent = t; }
   function mm2pt(mm){ return mm * 72 / 25.4; }
-
-  function hexToRgb(hex){
-    const m = hex.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i); if(!m) return {r:255,g:255,b:255};
-    return { r: parseInt(m[1],16), g: parseInt(m[2],16), b: parseInt(m[3],16) };
-  }
-  function relLuma({r,g,b}){
-    const toLin = v => { v/=255; return v<=0.03928? v/12.92 : Math.pow((v+0.055)/1.055,2.4); };
-    return 0.2126*toLin(r) + 0.7152*toLin(g) + 0.0722*toLin(b);
-  }
-  function contrastInk(bg){
-    const L = relLuma(bg);
-    return L > 0.6 ? {r:0,g:0,b:0} : {r:1,g:1,b:1};
-  }
+  function hexToRgb(hex){ const m=hex.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i); if(!m) return {r:255,g:255,b:255}; return {r:parseInt(m[1],16),g:parseInt(m[2],16),b:parseInt(m[3],16)}; }
+  function relLuma({r,g,b}){ const toLin=v=>{v/=255; return v<=0.03928? v/12.92 : Math.pow((v+0.055)/1.055,2.4);}; return 0.2126*toLin(r)+0.7152*toLin(g)+0.0722*toLin(b); }
+  function contrastInk(bg){ const L=relLuma(bg); return L>0.6 ? {r:0,g:0,b:0} : {r:1,g:1,b:1}; }
 
   function pageDims(){
-    let w, h;
-    const v = pageSizeSel.value;
+    let w,h; const v = pageSizeSel.value;
     if (v==='A4'){ w = mm2pt(210); h = mm2pt(297); }
     else if (v==='A5'){ w = mm2pt(148); h = mm2pt(210); }
     else if (v==='LETTER'){ w = 612; h = 792; }
     else { w = mm2pt(parseFloat(wmm.value)||210); h = mm2pt(parseFloat(hmm.value)||297); }
     const o = orientSel.value;
-    if (o==='portrait') return {w, h};
-    if (o==='landscape') return {w:h, h:w};
-    return {w, h}; // auto handled later
+    if (o==='portrait') return {w,h}; if (o==='landscape') return {w:h,h:w}; return {w,h};
   }
 
-  /* ===== File add + thumbnails ===== */
+  /* ===== Upload (Page 1) ===== */
   dropEl.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); fileEl.click(); } });
   fileEl.addEventListener('change', async e=>{ await addFiles([...e.target.files]); fileEl.value=''; });
-
   ['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
   ['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
-  dropEl.addEventListener('drop', async e=>{
-    const files = [...e.dataTransfer.files].filter(f=>f.type.startsWith('image/'));
-    await addFiles(files);
-  });
+  dropEl.addEventListener('drop', async e=>{ const files=[...e.dataTransfer.files].filter(f=>f.type.startsWith('image/')); await addFiles(files); });
 
   demoBtn.addEventListener('click', async ()=>{
     for (let i=1;i<=6;i++){
@@ -363,8 +370,7 @@
       g.fillStyle = '#111'; g.globalAlpha=0.15; for(let x=0;x<c.width;x+=40){ g.fillRect(x,0,20,c.height);} g.globalAlpha=1;
       g.fillStyle = '#fff'; g.font='bold 72px system-ui, sans-serif'; g.textAlign='center'; g.textBaseline='middle'; g.fillText(`डेमो ${i}`, c.width/2, c.height/2);
       const blob = await new Promise(r=>c.toBlob(r,'image/jpeg',0.9));
-      const file = new File([blob], `Demo-${i}.jpg`, {type:'image/jpeg'});
-      await addFiles([file]);
+      await addFiles([new File([blob], `Demo-${i}.jpg`, {type:'image/jpeg'})]);
     }
   });
 
@@ -373,70 +379,41 @@
     const pick = files
       .filter(f=>f.type.startsWith('image/'))
       .filter(f=>!existing.has(f.name+'_'+f.size))
-      .slice(0, 100 - S.items.length); // cap 100
+      .slice(0, 100 - S.items.length);
     if (!pick.length) return;
 
     for (const f of pick){
       const id = (crypto?.randomUUID?.() || Math.random().toString(36).slice(2));
       const ent = { id, file:f, name:f.name, size:f.size, imgEl:null, thumbURL:null, rot:0 };
-      S.items.push(ent);
-      renderList(); updateButtons();
+      S.items.push(ent); updateStepButtons(); // enable next on first add
       try{
         const img = await readAndOrientImage(f, autoOrientChk.checked);
-        ent.imgEl = img;
-        ent.thumbURL = await makeThumb(img);
-        renderList();
+        ent.imgEl = img; ent.thumbURL = await makeThumb(img);
       }catch(e){ console.error(e); }
     }
+    updateCounts(); if (pages.p2.classList.contains('show')) renderList();
   }
 
-  // EXIF orientation from FILE bytes
-  async function getExifOrientation(file){
-    try{
-      const buf = await file.arrayBuffer();
-      const exif = EXIF.readFromBinaryFile(buf) || {};
-      return exif.Orientation || 1;
-    }catch{ return 1; }
+  resetBtn.addEventListener('click', ()=>{ S.items.length=0; updateCounts(); renderList(); updateStepButtons(); });
+
+  function updateCounts(){
+    countEl.textContent = S.items.length ? `${S.items.length} इमेज जोड़ी गईं` : 'कोई इमेज नहीं जोड़ी गई।';
+    resetBtn.disabled = S.items.length===0;
   }
 
-  async function readAndOrientImage(file, autoOrient){
-    const dataURL = await new Promise((res, rej)=>{
-      const fr = new FileReader(); fr.onload=()=>res(fr.result); fr.onerror=rej; fr.readAsDataURL(file);
-    });
-    const img = await new Promise((res, rej)=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src=dataURL; });
-    if (!autoOrient) return img;
-
-    const o = await getExifOrientation(file);
-    if (o===1) return img;
-    return applyOrientation(img, o);
+  function updateStepButtons(){
+    const has = S.items.length>0;
+    toP2.disabled = !has;
+    toP3.disabled = !has;
   }
 
-  function applyOrientation(img, o){
-    const c=document.createElement('canvas'), g=c.getContext('2d');
-    const w=img.naturalWidth, h=img.naturalHeight; let cw=w, ch=h;
-    if ([5,6,7,8].includes(o)){ cw=h; ch=w; }
-    c.width=cw; c.height=ch;
-    g.save();
-    switch(o){
-      case 2: g.translate(cw,0); g.scale(-1,1); break;
-      case 3: g.translate(cw,ch); g.rotate(Math.PI); break;
-      case 4: g.translate(0,ch); g.scale(1,-1); break;
-      case 5: g.translate(0,cw); g.rotate(-Math.PI/2); g.scale(1,-1); break;
-      case 6: g.translate(cw,0); g.rotate(Math.PI/2); break;
-      case 7: g.translate(cw,0); g.rotate(Math.PI/2); g.scale(-1,1); break;
-      case 8: g.translate(0,ch); g.rotate(-Math.PI/2); break;
-    }
-    g.drawImage(img,0,0);
-    g.restore();
-    const out = new Image(); out.src = c.toDataURL('image/jpeg', 0.95);
-    return out;
-  }
+  toP2.addEventListener('click', ()=>{ renderList(); setStep(2); });
 
-  async function makeThumb(img){
-    const max=256; let w=img.naturalWidth, h=img.naturalHeight; const r=Math.max(w,h)/max; if(r>1){ w=Math.round(w/r); h=Math.round(h/r); }
-    const c=document.createElement('canvas'); c.width=w; c.height=h; const g=c.getContext('2d'); g.drawImage(img,0,0,w,h);
-    return c.toDataURL('image/jpeg',0.8);
-  }
+  /* ===== Page 2: Arrange ===== */
+  const addMoreHandler = ()=> fileEl.click();
+  addMore.addEventListener('click', addMoreHandler);
+  backP1?.addEventListener('click', ()=> setStep(1));
+  toP3?.addEventListener('click', ()=> setStep(3));
 
   function renderList(){
     listEl.innerHTML = '';
@@ -460,21 +437,18 @@
       col.append(name, meta);
 
       const ctrls = document.createElement('div'); ctrls.className='controls';
-      const up = mkIconBtn('ऊपर', `M12 8l-4 4h8l-4-4z`);
-      up.addEventListener('click', ()=>{ if(idx>0){ const [m]=S.items.splice(idx,1); S.items.splice(idx-1,0,m); renderList(); }});
-      const down = mkIconBtn('नीचे', `M12 16l4-4H8l4 4z`);
-      down.addEventListener('click', ()=>{ if(idx<S.items.length-1){ const [m]=S.items.splice(idx,1); S.items.splice(idx+1,0,m); renderList(); }});
-      const rot = mkIconBtn('रोटेट 90°', `M12 5v4m0 6v4m-7-7h4m6 0h4`);
-      rot.addEventListener('click', ()=>{ f.rot=(f.rot+90)%360; renderList(); });
-      const del = mkIconBtn('हटाओ', `M6 7h12M10 7v10m4-10v10M9 7l1-2h4l1 2`, true);
-      del.addEventListener('click', ()=>{ S.items.splice(idx,1); renderList(); updateButtons(); });
-      ctrls.append(up, down, rot, del);
+      const up = mkIconBtn('ऊपर', `M12 8l-4 4h8l-4-4z`); up.addEventListener('click', ()=>{ if(idx>0){ const [m]=S.items.splice(idx,1); S.items.splice(idx-1,0,m); renderList(); }});
+      const down = mkIconBtn('नीचे', `M12 16l4-4H8l4 4z`); down.addEventListener('click', ()=>{ if(idx<S.items.length-1){ const [m]=S.items.splice(idx,1); S.items.splice(idx+1,0,m); renderList(); }});
+      const rot = mkIconBtn('रोटेट 90°', `M12 5v4m0 6v4m-7-7h4m6 0h4`); rot.addEventListener('click', ()=>{ f.rot=(f.rot+90)%360; renderList(); });
+      const del = mkIconBtn('हटाओ', `M6 7h12M10 7v10m4-10v10M9 7l1-2h4l1 2`, true); del.addEventListener('click', ()=>{ S.items.splice(idx,1); renderList(); updateCounts(); updateStepButtons(); });
 
+      ctrls.append(up, down, rot, del);
       row.append(th, col, ctrls);
       listEl.appendChild(row);
     });
 
-    countEl.textContent = S.items.length ? `${S.items.length} इमेज जोड़ी गईं` : 'कोई इमेज नहीं जोड़ी गई।';
+    // enable/disable next
+    toP3.disabled = S.items.length===0;
   }
 
   function mkIconBtn(title, path, danger=false){
@@ -484,37 +458,83 @@
     return b;
   }
 
-  /* ===== Next-action pulsating logic + state reset ===== */
-  function clearPulses(){
-    buildBtn.classList.remove('pulse');
-    downloadBtn.classList.remove('pulse-green');
-  }
-  function updateButtons(){
-    const has=S.items.length>0;
-    buildBtn.disabled=!has;
-    resetBtn.disabled=!has;
-    downloadBtn.disabled=true;
-    setBar(0); setStatus('तैयार…'); pvWrap.innerHTML='';
-    clearPulses();
-    if (has) buildBtn.classList.add('pulse'); // next action: build
-  }
-  resetBtn.addEventListener('click', ()=>{ S.items.length=0; renderList(); updateButtons(); });
-  buildBtn.addEventListener('click', ()=>{ buildBtn.classList.remove('pulse'); });
-  downloadBtn.addEventListener('click', ()=>{ downloadBtn.classList.remove('pulse-green'); });
-
-  // UI bits
-  pageSizeSel.addEventListener('change', ()=>{ customSizeRow.style.display = pageSizeSel.value==='CUSTOM' ? 'flex' : 'none'; });
+  /* ===== Page 3: Settings ===== */
+  backP2?.addEventListener('click', ()=> setStep(2));
   qualityRange.addEventListener('input', ()=>{ qv.textContent = qualityRange.value + '%'; });
+  pageSizeSel.addEventListener('change', ()=>{ customSizeRow.style.display = pageSizeSel.value==='CUSTOM' ? 'flex' : 'none'; });
+  toP4?.addEventListener('click', async ()=>{ await buildPDF(); setStep(4); });
 
-  /* ===== PDF Build ===== */
-  buildBtn.addEventListener('click', buildPDF);
-  downloadBtn.addEventListener('click', ()=>{
+  /* ===== Page 4: Preview/Download ===== */
+  backP3?.addEventListener('click', ()=> setStep(3));
+  startOver?.addEventListener('click', ()=>{
+    S._outBytes=null; pvWrap.innerHTML=''; setBar(0); setStatus('तैयार…'); downloadBtn.disabled=true;
+    S.items.length=0; updateCounts(); renderList(); setStep(1);
+  });
+
+  downloadBtn?.addEventListener('click', ()=>{
     if (!S._outBytes) return;
     const a=document.createElement('a');
     const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
     a.href=URL.createObjectURL(new Blob([S._outBytes],{type:'application/pdf'}));
     a.download=`Images-${stamp}.pdf`; a.click(); URL.revokeObjectURL(a.href);
   });
+
+  /* ===== Image pipeline ===== */
+  async function getExifOrientation(file){
+    try{ const buf = await file.arrayBuffer(); const exif = EXIF.readFromBinaryFile(buf) || {}; return exif.Orientation || 1; }
+    catch{ return 1; }
+  }
+  async function readAndOrientImage(file, autoOrient){
+    const dataURL = await new Promise((res, rej)=>{ const fr=new FileReader(); fr.onload=()=>res(fr.result); fr.onerror=rej; fr.readAsDataURL(file); });
+    const img = await new Promise((res, rej)=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src=dataURL; });
+    if (!autoOrient) return img;
+    const o = await getExifOrientation(file); if (o===1) return img; return applyOrientation(img, o);
+  }
+  function applyOrientation(img, o){
+    const c=document.createElement('canvas'), g=c.getContext('2d');
+    const w=img.naturalWidth, h=img.naturalHeight; let cw=w, ch=h;
+    if ([5,6,7,8].includes(o)){ cw=h; ch=w; }
+    c.width=cw; c.height=ch; g.save();
+    switch(o){
+      case 2: g.translate(cw,0); g.scale(-1,1); break;
+      case 3: g.translate(cw,ch); g.rotate(Math.PI); break;
+      case 4: g.translate(0,ch); g.scale(1,-1); break;
+      case 5: g.translate(0,cw); g.rotate(-Math.PI/2); g.scale(1,-1); break;
+      case 6: g.translate(cw,0); g.rotate(Math.PI/2); break;
+      case 7: g.translate(cw,0); g.rotate(Math.PI/2); g.scale(-1,1); break;
+      case 8: g.translate(0,ch); g.rotate(-Math.PI/2); break;
+    }
+    g.drawImage(img,0,0); g.restore();
+    const out = new Image(); out.src = c.toDataURL('image/jpeg', 0.95); return out;
+  }
+  async function makeThumb(img){
+    const max=256; let w=img.naturalWidth, h=img.naturalHeight; const r=Math.max(w,h)/max; if(r>1){ w=Math.round(w/r); h=Math.round(h/r); }
+    const c=document.createElement('canvas'); c.width=w; c.height=h; const g=c.getContext('2d'); g.drawImage(img,0,0,w,h);
+    return c.toDataURL('image/jpeg',0.8);
+  }
+
+  /* ===== Build PDF ===== */
+  async function rasterToJPEG(imgEl, rotDeg, quality){
+    const c=document.createElement('canvas'), g=c.getContext('2d');
+    const w=imgEl.naturalWidth, h=imgEl.naturalHeight;
+    if (rotDeg===90 || rotDeg===270){ c.width = h; c.height = w; } else { c.width = w; c.height = h; }
+    g.save();
+    if (rotDeg){
+      const angle = rotDeg * Math.PI/180;
+      if (rotDeg===90){ g.translate(c.width,0); }
+      if (rotDeg===180){ g.translate(c.width,c.height); }
+      if (rotDeg===270){ g.translate(0,c.height); }
+      g.rotate(angle);
+    }
+    g.drawImage(imgEl,0,0); g.restore();
+    const blob = await new Promise(r=>c.toBlob(r,'image/jpeg',quality)); const buf = await blob.arrayBuffer();
+    return new Uint8Array(buf);
+  }
+  async function probeJpegDims(u8){
+    const blob = new Blob([u8], {type:'image/jpeg'}); const url = URL.createObjectURL(blob);
+    const img = await new Promise((res,rej)=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src=url; });
+    const dims = { w: img.naturalWidth, h: img.naturalHeight }; URL.revokeObjectURL(url); return dims;
+  }
 
   async function buildPDF(){
     if (!S.items.length) return;
@@ -529,7 +549,7 @@
       const margin = mm2pt(parseFloat(marginInput.value)||0);
       const bgHex = bgInput.value || '#ffffff';
       const bgCol = hexToRgb(bgHex);
-      const ink = contrastInk(bgCol); // 0..1 for pdf-lib
+      const ink = contrastInk(bgCol);
 
       setStatus('इमेज तैयार की जा रही हैं…'); setBar(1);
       const prepared = [];
@@ -564,11 +584,8 @@
           if (imgLandscape !== pageLandscape){ [W,H] = [H,W]; }
         }
         page = out.addPage([W,H]);
-
-        // Background
         page.drawRectangle({ x:0, y:0, width:W, height:H, color: rgb(bgCol.r/255,bgCol.g/255,bgCol.b/255) });
 
-        // Place tiles
         for (let slotIndex=0; slotIndex<slots.length && placed<prepared.length; slotIndex++){
           const s = slots[slotIndex];
           const box = { x: margin + s.x*(W-2*margin), y: margin + s.y*(H-2*margin), w: s.w*(W-2*margin), h: s.h*(H-2*margin) };
@@ -582,12 +599,11 @@
             const r = Math.min(box.w/iw, box.h/ih); tw = iw*r; th = ih*r;
           }else if (scaleModeSel.value==='fill'){
             const r = Math.max(box.w/iw, box.h/ih); tw = iw*r; th = ih*r;
-          } // stretch uses full box
+          }
           const dx = box.x + (box.w - tw)/2;
           const dy = box.y + (box.h - th)/2;
           page.drawImage(img, { x:dx, y:dy, width:tw, height:th });
 
-          // Caption (adaptive ink)
           if (captionChk.checked){
             const fs = clamp(parseInt(fontSizeInput.value,10)||10, 6, 24);
             const pad = 6;
@@ -607,11 +623,7 @@
 
       const outBytes = await out.save({ updateFieldAppearances:false });
       S._outBytes = outBytes; downloadBtn.disabled = false; setBar(100); setStatus('तैयार — डाउनलोड कर लो!');
-      // Next action pulses: download
-      downloadBtn.classList.add('pulse-green');
-
       await renderPreview(outBytes);
-
     }catch(err){
       console.error(err);
       alert('PDF नहीं बन पाया: '+(err?.message||err));
@@ -619,45 +631,18 @@
     }
   }
 
-  async function rasterToJPEG(imgEl, rotDeg, quality){
-    const c=document.createElement('canvas'), g=c.getContext('2d');
-    const w=imgEl.naturalWidth, h=imgEl.naturalHeight;
-    if (rotDeg===90 || rotDeg===270){ c.width = h; c.height = w; }
-    else { c.width = w; c.height = h; }
-    g.save();
-    if (rotDeg){
-      const angle = rotDeg * Math.PI/180;
-      if (rotDeg===90){ g.translate(c.width,0); }
-      if (rotDeg===180){ g.translate(c.width,c.height); }
-      if (rotDeg===270){ g.translate(0,c.height); }
-      g.rotate(angle);
-    }
-    g.drawImage(imgEl,0,0);
-    g.restore();
-    const blob = await new Promise(r=>c.toBlob(r,'image/jpeg',quality));
-    const buf = await blob.arrayBuffer();
-    return new Uint8Array(buf);
-  }
-
-  async function probeJpegDims(u8){
-    const blob = new Blob([u8], {type:'image/jpeg'}); const url = URL.createObjectURL(blob);
-    const img = await new Promise((res,rej)=>{ const im=new Image(); im.onload=()=>res(im); im.onerror=rej; im.src=url; });
-    const dims = { w: img.naturalWidth, h: img.naturalHeight }; URL.revokeObjectURL(url); return dims;
-  }
-
   async function renderPreview(bytes){
     pvWrap.innerHTML='';
     try{
       const pdf = await pdfjsLib.getDocument({data:bytes}).promise;
-      const n=pdf.numPages; const show=Math.min(6,n);
-      for (let i=1;i<=show;i++){
+      const n=Math.min(6,pdf.numPages);
+      for (let i=1;i<=n;i++){
         const page = await pdf.getPage(i);
         const vp = page.getViewport({scale:0.6});
         const c = document.createElement('canvas'); c.width=Math.floor(vp.width); c.height=Math.floor(vp.height);
         await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
         const box=document.createElement('div'); box.className='pv';
-        box.appendChild(c);
-        const cap=document.createElement('div'); cap.className='cap'; cap.textContent='पेज '+i; box.appendChild(cap);
+        box.appendChild(c); const cap=document.createElement('div'); cap.className='cap'; cap.textContent='पेज '+i; box.appendChild(cap);
         pvWrap.appendChild(box);
       }
     }catch(e){ console.error(e); }
@@ -666,8 +651,7 @@
   // Init
   function updateCustomRow(){ customSizeRow.style.display = pageSizeSel.value==='CUSTOM' ? 'flex' : 'none'; }
   updateCustomRow();
-  function init(){ updateButtons(); }
-  init();
+  setStep(1);
   </script>
 </body>
 </html>
