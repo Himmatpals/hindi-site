@@ -1,125 +1,131 @@
-<!--
-File: merge-pdf-hi.html
-Title: PDF जोड़ो (Merge) — थम्बनेल • पेज‑रेंज • A4 नॉर्मलाइज़ • पेज नंबरिंग (Neo Theme)
-Note: Visually upgraded theme with purple + teal base, plus yellow & red accents.
-How to use: Save as merge-pdf-hi.html and open in a modern browser.
--->
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PDF जोड़ो (Merge) — फटाफट, सुरक्षित</title>
-  <meta name="description" content="कई PDFs जोड़कर एक बनाओ — ड्रैग & ड्रॉप, थम्बनेल, पेज‑रेंज, A4 नॉर्मलाइज़, पेज नंबरिंग। सब कुछ आपके ब्राउज़र में।"/>
-
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <title>PDF जोड़ो (Merge) — थम्बनेल • पेज-रेंज • A4 नॉर्मलाइज़ • पेज नंबरिंग</title>
+  <meta name="description" content="कई PDFs जोड़कर एक बनाओ — ड्रैग & ड्रॉप, थम्बनेल, पेज-रेंज, A4 नॉर्मलाइज़, पेज नंबरिंग। सब कुछ आपके ब्राउज़र में; कोई अपलोड नहीं।" />
+  <meta name="color-scheme" content="dark light" />
+  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0b1020"   media="(prefers-color-scheme: dark)">
 
   <style>
     :root{
-      /* Base */
+      /* Light theme baseline */
+      --bg:#f7fafc; --panel:#ffffff; --card:#ffffff; --line:rgba(2,6,23,.10);
+      --text:#0b1020; --muted:#334155; --focus:#2563eb;
+      --c1:#7c5cff; --c2:#23d3ac; --c3:#ffd95c; --c4:#ff5c7c; --c5:#06b6d4; --c6:#22c55e; --c7:#f97316;
+      --grad: conic-gradient(from 180deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c7),var(--c1));
+      --shadow:0 10px 30px rgba(2,6,23,.08);
+      --tile-bg:linear-gradient(180deg,#ffffff,#f8fafc);
+      --font:"Noto Sans Devanagari","Nirmala UI","Hind","Kohinoor Devanagari",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    }
+    html[data-theme="dark"]{
       --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
-      --text:#e9eefb; --muted:#9db0de;
-      /* Existing accents */
-      --accent:#7c5cff;   /* purple */
-      --accent2:#23d3ac;  /* teal */
-      /* New accents requested */
-      --sun:#ffd54f;      /* warm yellow */
-      --sun-2:#ffec80;    /* softer yellow */
-      --rose:#ff4d6d;     /* bright red/pink */
-      --rose-2:#ff7a8f;   /* soft red */
+      --text:#eef3ff; --muted:#b8c6f1; --focus:#7dd3fc;
+      --shadow:0 18px 60px rgba(0,0,0,.45);
+      --tile-bg:linear-gradient(180deg,#11183a,#0e1430);
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; color:var(--text);
-      font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, Arial;
-      line-height:1.5;
-      /* Upgraded hero background with purple→red→yellow glow */
+      margin:0; color:var(--text); font-family:var(--font); line-height:1.5;
       background:
-        radial-gradient(1200px 800px at 85% -10%, rgba(124,92,255,.25), transparent 60%),
-        radial-gradient(1000px 700px at 10% 110%, rgba(35,211,172,.18), transparent 60%),
-        radial-gradient(800px 600px at -10% 20%, rgba(255,77,109,.20), transparent 60%),
-        radial-gradient(900px 650px at 50% 120%, rgba(255,213,79,.16), transparent 60%),
+        radial-gradient(1100px 700px at 10% -10%, #7c5cff18, transparent 60%),
+        radial-gradient(1000px 700px at 90% 110%, #23d3ac18, transparent 60%),
+        radial-gradient(900px 600px at 20% 120%, #ffd95c18, transparent 60%),
         var(--bg);
     }
-    a{color:var(--sun)}
+    a{color:inherit; text-decoration:none}
+    :focus-visible{outline:3px solid var(--focus); outline-offset:2px; border-radius:8px}
+    .container{max-width:1200px; margin:0 auto; padding:0 16px}
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+    /* Privacy Promise (top sticky) */
+    .pp{position:sticky; top:0; z-index:90; background:var(--panel); border-bottom:1px solid var(--line)}
+    .pp .row{display:flex; gap:12px; align-items:center; justify-content:center; padding:8px 16px}
+    .pp .shield{width:26px;height:26px;border-radius:8px;background:var(--grad);display:grid;place-items:center}
 
     /* Header */
-    header{ display:flex; align-items:center; justify-content:space-between; padding:14px 18px; position:sticky; top:0; z-index:40;
-      backdrop-filter:blur(6px); background:linear-gradient(180deg, rgba(11,16,32,.78), rgba(11,16,32,.45)); border-bottom:1px solid var(--line) }
-    .brand{ display:flex; gap:10px; align-items:center; font-weight:800 }
-    .brand svg{ width:28px; height:28px; color:var(--sun) }
-    .brand span{letter-spacing:.2px}
-    .badge-live{display:inline-flex; align-items:center; gap:8px; font-size:12px; padding:6px 10px; border-radius:999px;
-      background:linear-gradient(180deg, rgba(255,213,79,.15), rgba(255,213,79,.08));
-      color:#ffe28f; border:1px solid rgba(255,213,79,.35)}
+    header.site{position:sticky; top:48px; z-index:80; backdrop-filter:blur(10px); background:rgba(255,255,255,.82); border-bottom:1px solid var(--line)}
+    html[data-theme="dark"] header.site{background:linear-gradient(180deg, rgba(11,16,32,.85), rgba(11,16,32,.60))}
+    .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0}
+    .brand{display:flex; align-items:center; gap:10px; font-weight:900}
+    .brand svg{width:30px;height:30px}
+    .theme-btn{border:1px solid var(--line); background:var(--panel); color:inherit; border-radius:12px; padding:8px 12px; font-weight:800}
 
-    /* Containers */
-    .container{ max-width:1200px; margin:20px auto; padding:0 16px }
-    .card{ background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:20px; box-shadow:0 22px 80px rgba(0,0,0,.38); overflow:hidden }
-    .hero{ padding:22px 22px 0 }
-    h1{ margin:0 0 6px; font-size:28px; font-weight:800; background:linear-gradient(90deg, #fff, #ffe28f 40%, #ff8fa3 80%); -webkit-background-clip:text; background-clip:text; color:transparent }
-    .sub{ margin:0; color:var(--muted) }
+    /* Card framing */
+    .card{background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); overflow:hidden}
+    .hero{padding:22px 22px 0}
+    h1{margin:0 0 6px; font-size:clamp(22px,3.6vw,30px); font-weight:900; background:linear-gradient(90deg,#fff, #ffe28f 40%, #ff8fa3 80%); -webkit-background-clip:text; background-clip:text; color:transparent}
+    .sub{margin:0; color:var(--muted)}
 
     /* Uploader */
-    .uploader{ border:1.5px dashed rgba(255,255,255,.18); border-radius:16px; padding:18px; margin:16px 22px; text-align:center; transition:border-color .25s }
-    .uploader.dragover{ border-color:var(--sun) }
-    .uploader input[type=file]{ display:none }
+    .uploader{border:1.5px dashed var(--line); border-radius:16px; padding:18px; margin:16px 22px; text-align:center; background:var(--tile-bg)}
+    .uploader.dragover{border-color:#94a3b8; box-shadow:0 0 0 4px rgba(148,163,184,.2) inset}
+    .uploader input[type=file]{display:none}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center}
 
     /* Buttons */
-    .row{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center }
-    .btn{ appearance:none; border:none; border-radius:14px; padding:12px 14px; font-weight:800; cursor:pointer; color:#0b1020; min-height:40px; transition:transform .12s ease, box-shadow .2s }
-    .btn:active{ transform:translateY(1px) }
-    .btn.primary{ background:linear-gradient(90deg, var(--accent), var(--rose)); color:#0d0814; box-shadow:0 10px 28px rgba(124,92,255,.35) }
-    .btn.secondary{ background:#1f2752; color:var(--text); box-shadow:none }
-    .btn.ghost{ background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.18) }
-    .btn.sun{ background:linear-gradient(90deg, var(--sun), var(--sun-2)); color:#2a2100; box-shadow:0 10px 28px rgba(255,213,79,.3) }
-    .btn.danger{ background:linear-gradient(90deg, var(--rose), var(--rose-2)); color:#fff; box-shadow:0 10px 28px rgba(255,77,109,.32) }
-    .btn.slim{ padding:8px 10px; border-radius:10px }
-    .tiny{ font-size:12px; color:var(--muted) }
+    .btn{appearance:none; border:none; border-radius:14px; padding:12px 14px; font-weight:900; cursor:pointer; min-height:44px}
+    .btn:active{transform:translateY(1px)}
+    .btn.primary{color:#0b1020; background:linear-gradient(90deg, var(--c1), var(--c4)); box-shadow:0 8px 24px rgba(2,6,23,.18)}
+    .btn.secondary{color:inherit; background:#00000007; border:1px solid var(--line)}
+    .btn.ghost{color:inherit; background:transparent; border:1px solid var(--line)}
+    .btn.sun{color:#0b1020; background:linear-gradient(90deg,var(--c3),#ffeab0)}
+    .btn.danger{color:#fff; background:linear-gradient(90deg,var(--c4),#ff7a8f)}
+    .tiny{font-size:12px; color:var(--muted)}
 
-    /* Grid */
-    .grid{ display:grid; gap:14px; padding:0 22px 16px }
-    .two{ grid-template-columns: 380px 1fr }
-    @media (max-width:980px){ .two{ grid-template-columns:1fr } }
+    .grid{display:grid; gap:16px; padding:0 22px 18px}
+    .two{grid-template-columns:380px 1fr}
+    @media (max-width:980px){.two{grid-template-columns:1fr}}
 
     /* Left list */
-    .panel{ background:var(--panel); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:12px }
-    .panel h4{ margin:0 0 10px; font-size:14px; color:#ffe28f }
-    .list{ display:grid; gap:10px }
-    .item{ display:grid; grid-template-columns: 64px 1fr auto; gap:10px; align-items:center; padding:10px; background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)); border:1px solid rgba(255,255,255,.10); border-radius:12px; position:relative }
-    .item::after{ content:""; position:absolute; inset:0; border-radius:12px; pointer-events:none; box-shadow:inset 0 0 0 1px rgba(255,213,79,.08) }
-    .thumb{ width:64px; height:90px; background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px; display:grid; place-items:center; overflow:hidden }
-    .thumb canvas{ width:100%; height:100%; display:block }
-    .name{ font-weight:800 }
-    .meta{ color:var(--muted); font-size:12px }
-    .range{ display:flex; gap:6px; align-items:center; flex-wrap:wrap }
-    .range input{ width:160px; padding:8px 10px; border-radius:8px; border:1px solid rgba(255,255,255,.16); background:#121935; color:var(--text) }
-    .controls{ display:flex; gap:6px; align-items:center }
-    .iconbtn{ background:linear-gradient(180deg,#182154,#121a3f); border:1px solid rgba(255,255,255,.14); color:var(--text); width:36px; height:36px; border-radius:9px; display:grid; place-items:center; cursor:pointer; transition: transform .12s }
-    .iconbtn:hover{ transform: translateY(-1px) }
+    .panel{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px}
+    .panel h4{margin:0 0 10px; font-size:14px}
+    .list{display:grid; gap:10px}
+    .item{display:grid; grid-template-columns:64px 1fr auto; gap:10px; align-items:center; padding:10px; background:var(--tile-bg); border:1px solid var(--line); border-radius:12px; position:relative}
+    .thumb{width:64px; height:90px; background:#0b102020; border:1px solid var(--line); border-radius:8px; display:grid; place-items:center; overflow:hidden}
+    .thumb canvas{width:100%; height:100%; display:block}
+    .name{font-weight:800}
+    .meta{color:var(--muted); font-size:12px}
+    .range{display:flex; gap:6px; align-items:center; flex-wrap:wrap}
+    .range input{width:160px; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:#00000006; color:inherit}
+    .controls{display:flex; gap:6px; align-items:center}
+    .iconbtn{background:#0000; border:1px solid var(--line); color:inherit; width:34px; height:34px; border-radius:8px; display:grid; place-items:center; cursor:pointer}
 
-    /* Right controls & viewer */
-    input[type=text], input[type=number], input[type=color], select{ background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.16); border-radius:8px; padding:8px 10px; width:100% }
+    /* Right controls */
+    input[type=text], input[type=number], input[type=color], select{background:#00000006; color:inherit; border:1px solid var(--line); border-radius:8px; padding:8px 10px; width:100%}
 
-    .viewer{ position:relative; background:var(--panel); border:1px solid rgba(255,255,255,.08); border-radius:14px; padding:12px; overflow:auto; min-height:220px }
-    #preview{ display:grid; grid-template-columns: repeat(auto-fill, minmax(140px,1fr)); gap:10px }
-    .pv{ background:#0b1020; border:1px solid rgba(255,255,255,.10); border-radius:10px; padding:6px; display:grid; gap:6px; box-shadow:0 14px 36px rgba(0,0,0,.28) }
-    .pv canvas{ width:100%; height:auto; display:block; border-radius:6px }
-    .pv .cap{ font-size:12px; color:#ffcbd4; text-align:center }
+    /* Viewer */
+    .viewer{position:relative; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px; overflow:auto; min-height:220px}
+    #preview{display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:10px}
+    .pv{background:var(--tile-bg); border:1px solid var(--line); border-radius:10px; padding:6px; display:grid; gap:6px; box-shadow:0 14px 36px rgba(0,0,0,.1)}
+    .pv canvas{width:100%; height:auto; display:block; border-radius:6px}
+    .pv .cap{font-size:12px; color:#ffb3bf; text-align:center}
 
     /* Progress */
-    .progress{ height:12px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12) }
-    .bar{ height:100%; width:0; background:linear-gradient(90deg, var(--rose), var(--accent), var(--sun)); transition:width .25s }
+    .progress{height:12px; background:#00000008; border-radius:999px; overflow:hidden; border:1px solid var(--line)}
+    .bar{height:100%; width:0; background:var(--grad); transition:width .25s}
 
     /* Actions */
-    .actions{ display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid rgba(255,255,255,.06); background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01)) }
+    .actions{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid var(--line); background:linear-gradient(90deg,#00000003,#00000006)}
+    @media (prefers-reduced-motion:reduce){ .bar{transition:none} }
 
-    /* Tiny ribbon tags */
-    .ribbon{ display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-size:12px; font-weight:800; border:1px solid rgba(255,77,109,.35); color:#ffd5dc; background:linear-gradient(180deg, rgba(255,77,109,.18), rgba(255,77,109,.10)) }
+    /* Pulsating next-action */
+    @keyframes pulse {
+      0%   { box-shadow: 0 0 0 0 rgba(124, 92, 255, 0.55); transform: translateY(0) scale(1); }
+      50%  { box-shadow: 0 0 0 12px rgba(124, 92, 255, 0);   transform: translateY(-1px) scale(1.035); }
+      100% { box-shadow: 0 0 0 0 rgba(124, 92, 255, 0);     transform: translateY(0) scale(1); }
+    }
+    .pulse{ animation: pulse 1.8s ease-in-out infinite; }
+    @keyframes pulse-green {
+      0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); transform: translateY(0) scale(1); }
+      50%  { box-shadow: 0 0 0 12px rgba(34, 197, 94, 0);   transform: translateY(-1px) scale(1.035); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);     transform: translateY(0) scale(1); }
+    }
+    .pulse-green{ animation: pulse-green 1.8s ease-in-out infinite; }
+    @media (prefers-reduced-motion:reduce){ .pulse, .pulse-green{ animation:none } }
   </style>
 
   <!-- libs -->
@@ -128,23 +134,38 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
   <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <span>PDF जोड़ो — <span style="color:var(--sun)">हिंदी</span> टूल</span>
+  <a class="sr-only" href="#main">मुख्य सामग्री पर जाएँ</a>
+
+  <!-- Privacy Promise -->
+  <section class="pp" role="region" aria-label="प्राइवेसी वादा">
+    <div class="container row">
+      <div class="shield" aria-hidden="true">🔒</div>
+      <div>
+        <strong>प्राइवेसी वादा:</strong> सारी प्रोसेसिंग <strong>आपके ब्राउज़र</strong> में होती है — <strong>फाइलें कहीं अपलोड नहीं</strong> होतीं।
+      </div>
     </div>
-    <div class="badge-live">100% ब्राउज़र में • कोई अपलोड नहीं</div>
+  </section>
+
+  <!-- Header -->
+  <header class="site">
+    <div class="container nav">
+      <div class="brand">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+        <strong>PDF जोड़ो (Merge)</strong>
+      </div>
+      <button class="theme-btn" id="themeBtn" aria-pressed="false" aria-label="थीम बदलें">🌗 थीम</button>
+    </div>
   </header>
 
-  <main class="container">
+  <main id="main" class="container" style="margin:18px auto">
     <section class="card" aria-labelledby="title">
       <div class="hero">
         <h1 id="title">कई PDFs को जोड़कर एक बनाओ</h1>
-        <p class="sub">थम्बनेल देख‑देख के ऑर्डर सेट करो, हर फाइल के लिए पेज‑रेंज भरो, चाहो तो A4 में नॉर्मलाइज़ करो और नीचे पेज नंबर भी लगा दो।</p>
-        <div class="ribbon" style="margin:10px 0 0">🔥 बोल्ड रंग — पर्पल + रेड + येलो मैजिक</div>
+        <p class="sub">थम्बनेल के साथ ऑर्डर सेट करो, हर फाइल के लिए पेज-रेंज भरो, A4 नॉर्मलाइज़ और पेज नंबरिंग जैसे विकल्प चुनो — सब कुछ 100% ब्राउज़र में।</p>
       </div>
 
-      <div class="uploader" id="drop" tabindex="0">
+      <!-- Uploader -->
+      <div class="uploader" id="drop" tabindex="0" role="button" aria-label="PDF जोड़ें — ड्रैग-ड्रॉप करें या एंटर दबाएँ">
         <p style="margin:0 0 10px">फाइलें यहाँ <strong>Drag & Drop</strong> करो या</p>
         <div class="row">
           <label class="btn sun" for="file">फ़ाइलें चुनो</label>
@@ -167,17 +188,17 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
           <h4>आउटपुट सेटिंग्स</h4>
           <div class="row" style="justify-content:space-between">
             <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="normalizeA4"> A4 नॉर्मलाइज़ (सब पेज A4 में फिट)</label>
-            <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="autoRotate" checked> Auto‑Rotate (पोर्ट्रेट/लैंडस्केप ठीक)</label>
+            <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="autoRotate" checked> Auto-Rotate (पोर्ट्रेट/लैंडस्केप ठीक)</label>
           </div>
           <div class="row" style="justify-content:space-between">
             <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="addNumbers"> पेज नंबरिंग</label>
-            <select id="numPos" style="max-width:210px">
-              <option value="br" selected>नीचे‑दायाँ (Bottom‑Right)</option>
-              <option value="bl">नीचे‑बायाँ (Bottom‑Left)</option>
-              <option value="bc">नीचे‑बीच (Bottom‑Center)</option>
-              <option value="tr">ऊपर‑दायाँ (Top‑Right)</option>
-              <option value="tl">ऊपर‑बायाँ (Top‑Left)</option>
-              <option value="tc">ऊपर‑बीच (Top‑Center)</option>
+            <select id="numPos" style="max-width:210px" aria-label="नंबर पोज़िशन">
+              <option value="br" selected>नीचे-दायाँ (Bottom-Right)</option>
+              <option value="bl">नीचे-बायाँ (Bottom-Left)</option>
+              <option value="bc">नीचे-बीच (Bottom-Center)</option>
+              <option value="tr">ऊपर-दायाँ (Top-Right)</option>
+              <option value="tl">ऊपर-बायाँ (Top-Left)</option>
+              <option value="tc">ऊपर-बीच (Top-Center)</option>
             </select>
           </div>
           <div class="row" style="justify-content:flex-start">
@@ -188,7 +209,7 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
 
           <div style="margin-top:10px">
             <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
-            <div class="tiny" id="status" style="margin-top:8px">तैयार…</div>
+            <div class="tiny" id="status" style="margin-top:8px" aria-live="polite">तैयार…</div>
           </div>
 
           <div class="viewer" style="margin-top:12px">
@@ -209,22 +230,36 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
     </section>
 
     <section class="card" style="padding:0 22px 22px">
-      <h3 style="margin:16px 0 10px; color:#ffb3bf">कैसे इस्तेमाल करें?</h3>
+      <h3 style="margin:16px 0 10px; color:#ff8fa3">कैसे इस्तेमाल करें?</h3>
       <ol style="margin:0 0 0 18px">
         <li>ऊपर Drag & Drop से PDFs डालो (या “फ़ाइलें चुनो”).</li>
-        <li>हर फाइल के थम्बनेल के पास पेज‑रेंज भरो (जैसे <code>all</code> या <code>1-3,5</code>). 
-            लिस्ट को drag से री‑ऑर्डर भी कर सकते हो।</li>
+        <li>हर फाइल के थम्बनेल के पास पेज-रेंज भरो (जैसे <code>all</code> या <code>1-3,5</code>), और लिस्ट को ड्रैग से री-ऑर्डर करो।</li>
         <li>चाहो तो “A4 नॉर्मलाइज़” ऑन करो और “पेज नंबरिंग” सेट करो।</li>
-        <li>“मर्ज करो” दबाओ → प्रोग्रेस देखो → “डाउनलोड”.</li>
+        <li>“मर्ज करो” दबाओ → प्रीव्यू देखो → “डाउनलोड”.</li>
       </ol>
       <p class="tiny" style="margin-top:8px">गोपनीयता: कोई अपलोड नहीं — सब कुछ आपके ब्राउज़र में।</p>
     </section>
   </main>
 
   <script>
-  /* ===== Setup ===== */
+  /* ===== Theme toggle ===== */
+  (function(){
+    const root = document.documentElement;
+    const btn  = document.getElementById('themeBtn');
+    const stored = localStorage.getItem('theme');
+    if(stored) root.dataset.theme = stored;
+    btn?.addEventListener('click', ()=>{
+      root.dataset.theme = root.dataset.theme==='light' ? 'dark' : 'light';
+      localStorage.setItem('theme', root.dataset.theme);
+      btn.setAttribute('aria-pressed', String(root.dataset.theme==='dark'));
+    });
+  })();
+
+  /* ===== pdf.js worker ===== */
   const pdfjsLib = window['pdfjs-dist/build/pdf'];
-  if (pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+  if (pdfjsLib) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+  }
 
   /* ===== State ===== */
   const S = { files:[] }; // {id, file, name, size, range:'all', pageCount:null, thumb:null, bytes:Uint8Array}
@@ -253,14 +288,32 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
   /* ===== Utils ===== */
   const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
   function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
-  function parseRange(str, max){ if(!str || str.toLowerCase()==='all') return Array.from({length:max}, (_,i)=>i); const out = new Set(); const parts = str.split(',').map(s=>s.trim()).filter(Boolean); for(const p of parts){ const m = p.match(/^(\d+)(?:\s*[-–]\s*(\d+))?$/); if(!m) throw new Error('format'); let a=parseInt(m[1],10), b=m[2]?parseInt(m[2],10):a; if(a<1||b<1||a>max||b>max) throw new Error('range'); if(a>b) [a,b]=[b,a]; for(let i=a;i<=b;i++) out.add(i-1); } if(!out.size) throw new Error('empty'); return [...out].sort((x,y)=>x-y); }
+  function parseRange(str, max){
+    if(!str || str.toLowerCase()==='all') return Array.from({length:max}, (_,i)=>i);
+    const out = new Set();
+    const parts = str.split(',').map(s=>s.trim()).filter(Boolean);
+    for(const p of parts){
+      const m = p.match(/^(\d+)(?:\s*[-–]\s*(\d+))?$/);
+      if(!m) throw new Error('format');
+      let a=parseInt(m[1],10), b=m[2]?parseInt(m[2],10):a;
+      if(a<1||b<1||a>max||b>max) throw new Error('range');
+      if(a>b) [a,b]=[b,a];
+      for(let i=a;i<=b;i++) out.add(i-1);
+    }
+    if(!out.size) throw new Error('empty');
+    return [...out].sort((x,y)=>x-y);
+  }
   const sleep = ms => new Promise(r=>setTimeout(r,ms));
 
   /* ===== File add + thumbnails ===== */
+  dropEl.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); fileEl.click(); } });
   fileEl.addEventListener('change', async e=>{ await addFiles([...e.target.files]); fileEl.value=''; });
-  ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
-  ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
-  dropEl.addEventListener('drop', async e=>{ const files=[...e.dataTransfer.files].filter(f=>f.type==='application/pdf'); await addFiles(files); });
+  ['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
+  ['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
+  dropEl.addEventListener('drop', async e=>{
+    const files=[...e.dataTransfer.files].filter(f=>f.type==='application/pdf');
+    await addFiles(files);
+  });
 
   demoBtn.addEventListener('click', async ()=>{
     const { PDFDocument, StandardFonts } = PDFLib;
@@ -285,16 +338,14 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
     if (total > 100*1024*1024){ alert('कुल फाइल साइज़ 100MB से ज्यादा है।'); return; }
 
     for (const f of pick){
-      const id = crypto.randomUUID();
+      const id = (crypto?.randomUUID?.() || Math.random().toString(36).slice(2));
       const ent = { id, file:f, name:f.name, size:f.size, range:'all', pageCount:null, thumb:null, bytes:null };
       S.files.push(ent);
       renderList(); updateButtons();
-      // load bytes + page count + thumbnail
       try{
         ent.bytes = new Uint8Array(await f.arrayBuffer());
         const pdf = await pdfjsLib.getDocument({data:ent.bytes}).promise;
         ent.pageCount = pdf.numPages;
-        // thumbnail (page 1)
         const page = await pdf.getPage(1);
         const vp = page.getViewport({scale: 0.3});
         const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
@@ -310,7 +361,12 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
       const row = document.createElement('div'); row.className='item'; row.draggable=true; row.dataset.id=f.id;
       row.addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain', f.id); });
       row.addEventListener('dragover', e=>{ e.preventDefault(); });
-      row.addEventListener('drop', e=>{ e.preventDefault(); const fromId=e.dataTransfer.getData('text/plain'); if(!fromId||fromId===f.id) return; const fromIndex=S.files.findIndex(x=>x.id===fromId); const toIndex=idx; const [m]=S.files.splice(fromIndex,1); S.files.splice(toIndex,0,m); renderList(); });
+      row.addEventListener('drop', e=>{
+        e.preventDefault();
+        const fromId=e.dataTransfer.getData('text/plain'); if(!fromId||fromId===f.id) return;
+        const fromIndex=S.files.findIndex(x=>x.id===fromId); const toIndex=idx;
+        const [m]=S.files.splice(fromIndex,1); S.files.splice(toIndex,0,m); renderList();
+      });
 
       const th = document.createElement('div'); th.className='thumb'; if (f.thumb) th.appendChild(f.thumb); else th.textContent='…';
       const col = document.createElement('div');
@@ -324,9 +380,12 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
       const input = document.createElement('input'); input.placeholder = f.pageCount? `1-${f.pageCount} या 1-3,5`:'all'; input.value=f.range; input.addEventListener('input', ()=>{ f.range = input.value.trim()||'all'; });
       rangeWrap.append(label, input);
 
-      const up = mkIconBtn('ऊपर', `M12 8l-4 4h8l-4-4z`); up.addEventListener('click', ()=>{ if(idx>0){ const [m]=S.files.splice(idx,1); S.files.splice(idx-1,0,m); renderList(); }});
-      const down = mkIconBtn('नीचे', `M12 16l4-4H8l4 4z`); down.addEventListener('click', ()=>{ if(idx<S.files.length-1){ const [m]=S.files.splice(idx,1); S.files.splice(idx+1,0,m); renderList(); }});
-      const del = mkIconBtn('हटाओ', `M6 7h12M10 7v10m4-10v10M9 7l1-2h4l1 2`, true); del.addEventListener('click', ()=>{ S.files.splice(idx,1); renderList(); updateButtons(); });
+      const up = mkIconBtn('ऊपर', `M12 8l-4 4h8l-4-4z`);
+      up.addEventListener('click', ()=>{ if(idx>0){ const [m]=S.files.splice(idx,1); S.files.splice(idx-1,0,m); renderList(); }});
+      const down = mkIconBtn('नीचे', `M12 16l4-4H8l4 4z`);
+      down.addEventListener('click', ()=>{ if(idx<S.files.length-1){ const [m]=S.files.splice(idx,1); S.files.splice(idx+1,0,m); renderList(); }});
+      const del = mkIconBtn('হटाओ', `M6 7h12M10 7v10m4-10v10M9 7l1-2h4l1 2`, true);
+      del.addEventListener('click', ()=>{ S.files.splice(idx,1); renderList(); updateButtons(); });
 
       ctrls.append(rangeWrap, up, down, del);
       row.append(th, col, ctrls);
@@ -336,45 +395,67 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
     countEl.textContent = S.files.length ? `${S.files.length} फाइलें जोड़ी गईं` : 'कोई फ़ाइल नहीं जोड़ी गई।';
   }
 
-  function mkIconBtn(title, path, danger=false){ const b=document.createElement('button'); b.className='iconbtn'; b.title=title; if(danger){ b.style.borderColor='rgba(255,77,109,.55)'; b.style.background='linear-gradient(180deg, rgba(255,77,109,.25), #171b39)'; } b.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="${path}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`; return b; }
+  function mkIconBtn(title, path, danger=false){
+    const b=document.createElement('button'); b.className='iconbtn'; b.title=title;
+    if(danger){ b.style.borderColor='rgba(255,92,124,.45)'; }
+    b.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="${path}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    return b;
+  }
 
-  function updateButtons(){ const has=S.files.length>0; mergeBtn.disabled=!has; clearBtn.disabled=!has; downloadBtn.disabled=true; setBar(0); statusEl.textContent='तैयार…'; pvWrap.innerHTML=''; }
+  /* ===== Next action pulses & state ===== */
+  function clearPulses(){
+    mergeBtn.classList.remove('pulse');
+    downloadBtn.classList.remove('pulse-green');
+  }
+  function updateButtons(){
+    const has=S.files.length>0;
+    mergeBtn.disabled=!has;
+    clearBtn.disabled=!has;
+    downloadBtn.disabled=true;
+    setBar(0); statusEl.textContent='तैयार…'; pvWrap.innerHTML='';
+    clearPulses();
+    if (has) mergeBtn.classList.add('pulse'); // next step
+  }
   clearBtn.addEventListener('click', ()=>{ S.files.length=0; renderList(); updateButtons(); });
+  mergeBtn.addEventListener('click', ()=>{ mergeBtn.classList.remove('pulse'); });
+  downloadBtn.addEventListener('click', ()=>{ downloadBtn.classList.remove('pulse-green'); });
 
   /* ===== Merge ===== */
   mergeBtn.addEventListener('click', merge);
-  downloadBtn.addEventListener('click', ()=>{ if (!S._outBytes) return; const a=document.createElement('a'); const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19); a.href=URL.createObjectURL(new Blob([S._outBytes],{type:'application/pdf'})); a.download=`Merged-${stamp}.pdf`; a.click(); URL.revokeObjectURL(a.href); });
+  downloadBtn.addEventListener('click', ()=>{
+    if (!S._outBytes) return;
+    const a=document.createElement('a');
+    const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
+    a.href=URL.createObjectURL(new Blob([S._outBytes],{type:'application/pdf'}));
+    a.download=`Merged-${stamp}.pdf`;
+    a.click(); URL.revokeObjectURL(a.href);
+  });
 
   async function merge(){
     if (!S.files.length) return;
     try{
-      const { PDFDocument, StandardFonts } = PDFLib;
+      const { PDFDocument, StandardFonts, rgb } = PDFLib;
       const out = await PDFDocument.create();
       const font = await out.embedFont(StandardFonts.Helvetica);
-      const A4 = { w:595.28, h:841.89 }; // points
+      const A4 = { w:595.28, h:841.89 };
 
-      let totalPages=0; // for numbering
-      const copyPlan = []; // [{srcDoc, idxs}]
       statusEl.textContent='रेंज चेक…';
-
-      // Preload src docs
       const loaded = await Promise.all(S.files.map(async f=> ({ f, doc: await PDFDocument.load(f.bytes) })));
-
+      const copyPlan = [];
       for (const {f, doc} of loaded){
         const max = doc.getPageCount();
         let idxs;
         try{ idxs = parseRange((f.range||'all').trim(), max); }catch(e){ alert(`पेज रेंज ग़लत: ${f.name}`); return; }
-        copyPlan.push({doc, idxs}); totalPages += idxs.length;
+        copyPlan.push({doc, idxs});
       }
 
-      // Copy pages sequentially
       let done=0, total=copyPlan.reduce((a,c)=>a+c.idxs.length,0); setBar(1);
       for (const {doc, idxs} of copyPlan){
         const pages = await out.copyPages(doc, idxs);
         for (const p of pages){ out.addPage(p); done++; if (done%3===0) await sleep(0); setBar((done/total)*60); }
       }
 
-      // Normalize to A4 + auto-rotate if needed
+      // Normalize to A4 & Auto-rotate (best-effort, same approach as before)
       if (normalizeA4.checked || autoRotate.checked){
         const n = out.getPageCount();
         for (let i=0;i<n;i++){
@@ -382,22 +463,26 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
           const { width:W, height:H } = pg.getSize();
           let targetW=A4.w, targetH=A4.h;
           const isLandscape = W>H; if (autoRotate.checked && isLandscape){ targetW=A4.h; targetH=A4.w; }
-          if (normalizeA4.checked){ pg.setSize(targetW, targetH); // content scales to fit box by translating matrix
-            // Compute scale to fit within margins
-            const m = parseFloat(marg.value)||28; const boxW=targetW-2*m, boxH=targetH-2*m;
-            const sX = boxW/W, sY = boxH/H; const s = Math.min(sX, sY);
-            pg.scale(s, s); pg.moveTo(m, m); // bottom-left margin origin
+          if (normalizeA4.checked){
+            pg.setSize(targetW, targetH);
+            const m = Math.max(0, parseFloat(marg.value)||28);
+            const boxW=targetW-2*m, boxH=targetH-2*m;
+            const s = Math.min(boxW/W, boxH/H);
+            pg.scale(s, s);
+            pg.moveTo(m, m);
           }
           setBar(60 + (i/n)*20);
         }
       }
 
-      // Numbering
+      // Page numbering
       if (addNumbers.checked){
         const start = Math.max(0, parseInt(startNum.value,10)||0);
-        const size = Math.max(6, Math.min(24, parseInt(numSize.value,10)||10));
-        const m = Math.max(0, parseInt(marg.value,10)||28);
-        const pos = numPos.value; const n = out.getPageCount();
+        const size  = Math.max(6, Math.min(24, parseInt(numSize.value,10)||10));
+        const m     = Math.max(0, parseInt(marg.value,10)||28);
+        const pos   = numPos.value;
+        const n     = out.getPageCount();
+
         for (let i=0;i<n;i++){
           const pg = out.getPage(i);
           const { width:W, height:H } = pg.getSize();
@@ -409,37 +494,52 @@ How to use: Save as merge-pdf-hi.html and open in a modern browser.
           if (pos==='tr'){ x=W-m; y=H-m; }
           if (pos==='tl'){ x=m; y=H-m; }
           if (pos==='tc'){ x=W/2; y=H-m; }
-          const opts = { size, font, color: PDFLib.rgb(0,0,0) };
-          if (pos.endsWith('c')){ pg.drawText(text, { ...opts, x: x - (size*text.length*0.25), y }); }
-          else if (pos.endsWith('r')){ pg.drawText(text, { ...opts, x: x - (size*text.length*0.5), y }); }
-          else { pg.drawText(text, { ...opts, x, y }); }
+          const opts = { size, font, color: rgb(0,0,0) };
+          const xAdj = (pos.endsWith('c') || pos.endsWith('r')) ? (size*text.length*0.5) : 0;
+          const xAdjCenter = pos.endsWith('c') ? (size*text.length*0.25) : 0;
+          if (pos.endsWith('c')) pg.drawText(text, { ...opts, x: x - xAdjCenter, y });
+          else if (pos.endsWith('r')) pg.drawText(text, { ...opts, x: x - xAdj, y });
+          else pg.drawText(text, { ...opts, x, y });
+
           if (i%5===0) setBar(80 + (i/n)*20);
         }
       }
 
       const outBytes = await out.save({ updateFieldAppearances:false });
       S._outBytes = outBytes; downloadBtn.disabled=false; statusEl.textContent='तैयार — डाउनलोड कर लो!'; setBar(100);
+      // Next step pulse
+      downloadBtn.classList.add('pulse-green');
 
-      // quick preview grid (first 8 pages)
       await renderPreview(outBytes);
-    }catch(err){ console.error(err); alert('मर्ज नहीं हो पाया: '+(err?.message||err)); statusEl.textContent='एरर।'; }
+
+    }catch(err){
+      console.error(err);
+      alert('मर्ज नहीं हो पाया: '+(err?.message||err));
+      statusEl.textContent='एरर।';
+    }
   }
 
   async function renderPreview(bytes){
     pvWrap.innerHTML='';
     try{
-      const pdf = await pdfjsLib.getDocument({data:bytes}).promise; const n=pdf.numPages; const show=Math.min(8,n);
-      for (let i=1;i<=show;i++){
+      const pdf = await pdfjsLib.getDocument({data:bytes}).promise;
+      const n=Math.min(8,pdf.numPages);
+      for (let i=1;i<=n;i++){
         const page = await pdf.getPage(i);
         const vp = page.getViewport({scale:0.6});
         const c = document.createElement('canvas'); c.width=Math.floor(vp.width); c.height=Math.floor(vp.height);
         await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
         const box=document.createElement('div'); box.className='pv';
-        box.appendChild(c); const cap=document.createElement('div'); cap.className='cap'; cap.textContent='पेज '+i; box.appendChild(cap);
+        box.appendChild(c);
+        const cap=document.createElement('div'); cap.className='cap'; cap.textContent='पेज '+i; box.appendChild(cap);
         pvWrap.appendChild(box);
       }
     }catch(e){ console.error(e); }
   }
+
+  // Init
+  function init(){ updateButtons(); }
+  init();
   </script>
 </body>
 </html>
