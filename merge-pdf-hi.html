@@ -1,131 +1,139 @@
 <!DOCTYPE html>
-<html lang="hi" data-theme="light">
+<html lang="hi" data-theme="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PDF जोड़ो (Merge) — थम्बनेल • पेज-रेंज • A4 नॉर्मलाइज़ • पेज नंबरिंग</title>
-  <meta name="description" content="कई PDFs जोड़कर एक बनाओ — ड्रैग & ड्रॉप, थम्बनेल, पेज-रेंज, A4 नॉर्मलाइज़, पेज नंबरिंग। सब कुछ आपके ब्राउज़र में; कोई अपलोड नहीं।" />
+  <title>PDF जोड़ो (Merge) — चरण दर चरण • सुरक्षित</title>
+  <meta name="description" content="चार सरल पेज: गिनती चुनो → उतने स्लॉट में PDFs अपलोड करो → सेटिंग्स चुनो → मर्ज, प्रीव्यू और डाउनलोड — सब कुछ 100% ब्राउज़र में।" />
   <meta name="color-scheme" content="dark light" />
-  <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-  <meta name="theme-color" content="#0b1020"   media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#0b1020" />
+
+  <!-- Fonts (Devanagari-first + Latin fallback) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
 
   <style>
+    /* ===== Theme aligned with index ===== */
     :root{
-      /* Light theme baseline */
-      --bg:#f7fafc; --panel:#ffffff; --card:#ffffff; --line:rgba(2,6,23,.10);
-      --text:#0b1020; --muted:#334155; --focus:#2563eb;
-      --c1:#7c5cff; --c2:#23d3ac; --c3:#ffd95c; --c4:#ff5c7c; --c5:#06b6d4; --c6:#22c55e; --c7:#f97316;
-      --grad: conic-gradient(from 180deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c7),var(--c1));
-      --shadow:0 10px 30px rgba(2,6,23,.08);
-      --tile-bg:linear-gradient(180deg,#ffffff,#f8fafc);
-      --font:"Noto Sans Devanagari","Nirmala UI","Hind","Kohinoor Devanagari",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-    }
-    html[data-theme="dark"]{
+      /* Base (index theme) */
       --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
-      --text:#eef3ff; --muted:#b8c6f1; --focus:#7dd3fc;
-      --shadow:0 18px 60px rgba(0,0,0,.45);
-      --tile-bg:linear-gradient(180deg,#11183a,#0e1430);
+      --text:#e9eefb; --muted:#9fb0de; --ink:#0b1020;
+      /* Brand */
+      --accent:#7c5cff; --accent2:#23d3ac;
+      /* Sun & Rose */
+      --sun:#ffd95c; --sun-2:#ffefb3; --rose:#ff5c7c; --rose-2:#ff98ab;
+      /* Shadows */
+      --shadow:0 22px 80px rgba(0,0,0,.38);
+      --tile:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
     }
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; color:var(--text); font-family:var(--font); line-height:1.5;
+      margin:0; color:var(--text);
+      font-family:"Noto Sans Devanagari", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      line-height:1.5;
+      /* same multi-colour glow as index */
       background:
-        radial-gradient(1100px 700px at 10% -10%, #7c5cff18, transparent 60%),
-        radial-gradient(1000px 700px at 90% 110%, #23d3ac18, transparent 60%),
-        radial-gradient(900px 600px at 20% 120%, #ffd95c18, transparent 60%),
+        radial-gradient(1400px 900px at 85% -15%, rgba(255,92,124,.18), transparent),
+        radial-gradient(1200px 700px at 10% 110%, rgba(255,217,92,.18), transparent),
+        radial-gradient(1200px 800px at 80% -10%, rgba(124,92,255,.22), transparent),
+        radial-gradient(900px 600px at 10% 110%, rgba(35,211,172,.18), transparent),
         var(--bg);
     }
     a{color:inherit; text-decoration:none}
-    :focus-visible{outline:3px solid var(--focus); outline-offset:2px; border-radius:8px}
-    .container{max-width:1200px; margin:0 auto; padding:0 16px}
+    :focus-visible{outline:3px solid #94a3ff; outline-offset:3px; border-radius:12px}
+    .container{max-width:1180px; margin:0 auto; padding:0 16px}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    /* Privacy Promise (top sticky) */
-    .pp{position:sticky; top:0; z-index:90; background:var(--panel); border-bottom:1px solid var(--line)}
-    .pp .row{display:flex; gap:12px; align-items:center; justify-content:center; padding:8px 16px}
-    .pp .shield{width:26px;height:26px;border-radius:8px;background:var(--grad);display:grid;place-items:center}
+    /* Privacy Promise (sticky top, like index) */
+    .pp{position:sticky; top:0; z-index:90; background:rgba(11,16,32,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+    .pp .inner{display:flex; gap:10px; align-items:center; justify-content:center; padding:8px 10px; font-weight:800}
+    .pp .shield{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
+      background:conic-gradient(from 180deg,var(--accent),var(--accent2),var(--sun),var(--rose),var(--accent));
+      color:#1b1440}
 
     /* Header */
-    header.site{position:sticky; top:48px; z-index:80; backdrop-filter:blur(10px); background:rgba(255,255,255,.82); border-bottom:1px solid var(--line)}
-    html[data-theme="dark"] header.site{background:linear-gradient(180deg, rgba(11,16,32,.85), rgba(11,16,32,.60))}
+    header.site{position:sticky; top:48px; z-index:80; background:rgba(11,16,32,.86); border-bottom:1px solid var(--line); backdrop-filter:blur(10px)}
     .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0}
     .brand{display:flex; align-items:center; gap:10px; font-weight:900}
-    .brand svg{width:30px;height:30px}
-    .theme-btn{border:1px solid var(--line); background:var(--panel); color:inherit; border-radius:12px; padding:8px 12px; font-weight:800}
+    .brand svg{width:28px;height:28px;color:var(--sun)}
+    .stepper{display:flex; gap:8px; flex-wrap:wrap}
+    .step{display:flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-size:13px; font-weight:800;
+      border:1px solid var(--line); background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02))}
+    .step.active{border-color:rgba(255,217,92,.5); box-shadow:0 0 0 1px rgba(255,217,92,.18) inset}
 
-    /* Card framing */
-    .card{background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); overflow:hidden}
+    /* Card + sections */
+    .card{background:var(--card); border:1px solid var(--line); border-radius:20px; box-shadow:var(--shadow); overflow:hidden}
     .hero{padding:22px 22px 0}
     h1{margin:0 0 6px; font-size:clamp(22px,3.6vw,30px); font-weight:900; background:linear-gradient(90deg,#fff, #ffe28f 40%, #ff8fa3 80%); -webkit-background-clip:text; background-clip:text; color:transparent}
-    .sub{margin:0; color:var(--muted)}
+    .sub{margin:0; color:#f4f3d2}
 
-    /* Uploader */
-    .uploader{border:1.5px dashed var(--line); border-radius:16px; padding:18px; margin:16px 22px; text-align:center; background:var(--tile-bg)}
-    .uploader.dragover{border-color:#94a3b8; box-shadow:0 0 0 4px rgba(148,163,184,.2) inset}
-    .uploader input[type=file]{display:none}
-    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center}
+    /* Wizard shell */
+    .wizard{padding:0 22px 18px}
+    .page{display:none}
+    .page.show{display:block}
+    .row{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
+    .center{justify-content:center}
+    .between{justify-content:space-between}
 
     /* Buttons */
-    .btn{appearance:none; border:none; border-radius:14px; padding:12px 14px; font-weight:900; cursor:pointer; min-height:44px}
+    .btn{appearance:none; border:none; border-radius:14px; padding:12px 16px; font-weight:900; cursor:pointer; min-height:44px; transition:transform .12s ease, box-shadow .2s ease}
     .btn:active{transform:translateY(1px)}
-    .btn.primary{color:#0b1020; background:linear-gradient(90deg, var(--c1), var(--c4)); box-shadow:0 8px 24px rgba(2,6,23,.18)}
-    .btn.secondary{color:inherit; background:#00000007; border:1px solid var(--line)}
-    .btn.ghost{color:inherit; background:transparent; border:1px solid var(--line)}
-    .btn.sun{color:#0b1020; background:linear-gradient(90deg,var(--c3),#ffeab0)}
-    .btn.danger{color:#fff; background:linear-gradient(90deg,var(--c4),#ff7a8f)}
+    .btn.primary{background:linear-gradient(90deg, var(--accent), var(--rose)); color:#120b1f; box-shadow:0 10px 28px rgba(124,92,255,.35)}
+    .btn.sun{background:linear-gradient(90deg, var(--sun), var(--sun-2)); color:#2a2100; box-shadow:0 10px 28px rgba(255,213,79,.28)}
+    .btn.ghost{background:transparent; color:var(--text); border:1px solid var(--line)}
+    .btn.ok{background:linear-gradient(90deg, var(--accent2), #8ef0d9); color:#06261e; box-shadow:0 10px 28px rgba(35,211,172,.30)}
     .tiny{font-size:12px; color:var(--muted)}
 
-    .grid{display:grid; gap:16px; padding:0 22px 18px}
-    .two{grid-template-columns:380px 1fr}
-    @media (max-width:980px){.two{grid-template-columns:1fr}}
+    /* Pulsating next action */
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(124,92,255,.55) }
+      50%{ box-shadow: 0 0 0 14px rgba(124,92,255,0) }
+      100%{ box-shadow: 0 0 0 0 rgba(124,92,255,0) }
+    }
+    @keyframes pulse-green {
+      0% { box-shadow: 0 0 0 0 rgba(35,211,172,.55) }
+      50%{ box-shadow: 0 0 0 14px rgba(35,211,172,0) }
+      100%{ box-shadow: 0 0 0 0 rgba(35,211,172,0) }
+    }
+    .pulse{animation:pulse 1.8s ease-in-out infinite}
+    .pulse-green{animation:pulse-green 1.8s ease-in-out infinite}
+    @media (prefers-reduced-motion:reduce){ .pulse,.pulse-green{animation:none} }
 
-    /* Left list */
-    .panel{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px}
-    .panel h4{margin:0 0 10px; font-size:14px}
-    .list{display:grid; gap:10px}
-    .item{display:grid; grid-template-columns:64px 1fr auto; gap:10px; align-items:center; padding:10px; background:var(--tile-bg); border:1px solid var(--line); border-radius:12px; position:relative}
-    .thumb{width:64px; height:90px; background:#0b102020; border:1px solid var(--line); border-radius:8px; display:grid; place-items:center; overflow:hidden}
-    .thumb canvas{width:100%; height:100%; display:block}
-    .name{font-weight:800}
-    .meta{color:var(--muted); font-size:12px}
-    .range{display:flex; gap:6px; align-items:center; flex-wrap:wrap}
-    .range input{width:160px; padding:8px 10px; border-radius:8px; border:1px solid var(--line); background:#00000006; color:inherit}
-    .controls{display:flex; gap:6px; align-items:center}
-    .iconbtn{background:#0000; border:1px solid var(--line); color:inherit; width:34px; height:34px; border-radius:8px; display:grid; place-items:center; cursor:pointer}
+    /* Page 1: count selector */
+    .count-wrap{display:flex; gap:10px; align-items:center; justify-content:center; padding:16px 0}
+    .count-wrap input{width:110px; background:#121935; color:var(--text); border:1px solid var(--line); border-radius:12px; padding:10px 12px; font-weight:800; text-align:center}
 
-    /* Right controls */
-    input[type=text], input[type=number], input[type=color], select{background:#00000006; color:inherit; border:1px solid var(--line); border-radius:8px; padding:8px 10px; width:100%}
+    /* Page 2: upload slots */
+    .slots{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
+    @media (max-width:980px){ .slots{grid-template-columns:repeat(2,minmax(0,1fr))} }
+    @media (max-width:600px){ .slots{grid-template-columns:1fr} }
+    .slot{background:var(--panel); border:1px dashed rgba(255,255,255,.25); border-radius:16px; padding:12px; min-height:160px; display:grid; gap:10px}
+    .slot-header{display:flex; align-items:center; justify-content:space-between; gap:8px}
+    .slot-title{font-weight:800}
+    .slot-btns{display:flex; gap:8px; align-items:center}
+    .slot input[type=file]{display:none}
+    .drop{display:grid; place-items:center; text-align:center; background:var(--tile); border:1px solid var(--line); border-radius:12px; min-height:120px; padding:12px}
+    .drop.dragover{border-color:var(--sun); box-shadow:0 0 0 3px rgba(255,217,92,.24) inset}
+    .thumb{width:100%; display:grid; place-items:center}
+    .thumb canvas{width:100%; height:auto; border-radius:10px; display:block}
 
-    /* Viewer */
-    .viewer{position:relative; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px; overflow:auto; min-height:220px}
-    #preview{display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:10px}
-    .pv{background:var(--tile-bg); border:1px solid var(--line); border-radius:10px; padding:6px; display:grid; gap:6px; box-shadow:0 14px 36px rgba(0,0,0,.1)}
-    .pv canvas{width:100%; height:auto; display:block; border-radius:6px}
+    /* Page 3: settings */
+    .panel{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:12px}
+    .panel h4{margin:0 0 8px}
+    input[type=text], input[type=number], input[type=color], select{background:#121935; color:var(--text); border:1px solid var(--line); border-radius:10px; padding:10px 12px}
+
+    /* Page 4: preview */
+    .viewer{position:relative; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:12px; overflow:auto; min-height:220px}
+    #preview{display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px}
+    .pv{background:var(--tile); border:1px solid var(--line); border-radius:12px; padding:6px; display:grid; gap:6px}
+    .pv canvas{width:100%; height:auto; display:block; border-radius:8px}
     .pv .cap{font-size:12px; color:#ffb3bf; text-align:center}
 
     /* Progress */
-    .progress{height:12px; background:#00000008; border-radius:999px; overflow:hidden; border:1px solid var(--line)}
-    .bar{height:100%; width:0; background:var(--grad); transition:width .25s}
-
-    /* Actions */
-    .actions{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid var(--line); background:linear-gradient(90deg,#00000003,#00000006)}
-    @media (prefers-reduced-motion:reduce){ .bar{transition:none} }
-
-    /* Pulsating next-action */
-    @keyframes pulse {
-      0%   { box-shadow: 0 0 0 0 rgba(124, 92, 255, 0.55); transform: translateY(0) scale(1); }
-      50%  { box-shadow: 0 0 0 12px rgba(124, 92, 255, 0);   transform: translateY(-1px) scale(1.035); }
-      100% { box-shadow: 0 0 0 0 rgba(124, 92, 255, 0);     transform: translateY(0) scale(1); }
-    }
-    .pulse{ animation: pulse 1.8s ease-in-out infinite; }
-    @keyframes pulse-green {
-      0%   { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.55); transform: translateY(0) scale(1); }
-      50%  { box-shadow: 0 0 0 12px rgba(34, 197, 94, 0);   transform: translateY(-1px) scale(1.035); }
-      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);     transform: translateY(0) scale(1); }
-    }
-    .pulse-green{ animation: pulse-green 1.8s ease-in-out infinite; }
-    @media (prefers-reduced-motion:reduce){ .pulse, .pulse-green{ animation:none } }
+    .progress{height:12px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid var(--line)}
+    .bar{height:100%; width:0; background:linear-gradient(90deg, var(--rose), var(--accent), var(--sun)); transition:width .25s}
   </style>
 
   <!-- libs -->
@@ -138,11 +146,9 @@
 
   <!-- Privacy Promise -->
   <section class="pp" role="region" aria-label="प्राइवेसी वादा">
-    <div class="container row">
+    <div class="container inner">
       <div class="shield" aria-hidden="true">🔒</div>
-      <div>
-        <strong>प्राइवेसी वादा:</strong> सारी प्रोसेसिंग <strong>आपके ब्राउज़र</strong> में होती है — <strong>फाइलें कहीं अपलोड नहीं</strong> होतीं।
-      </div>
+      <div><strong>प्राइवेसी वादा:</strong> सभी प्रोसेसिंग <strong>आपके ब्राउज़र</strong> में — <strong>फाइलें कहीं अपलोड नहीं</strong> होतीं।</div>
     </div>
   </section>
 
@@ -151,110 +157,104 @@
     <div class="container nav">
       <div class="brand">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <strong>PDF जोड़ो (Merge)</strong>
+        <span>PDF जोड़ो (Merge)</span>
       </div>
-      <button class="theme-btn" id="themeBtn" aria-pressed="false" aria-label="थीम बदलें">🌗 थीम</button>
+      <nav class="stepper" aria-label="चरण">
+        <span class="step active" data-step="1">1. गिनती</span>
+        <span class="step" data-step="2">2. अपलोड</span>
+        <span class="step" data-step="3">3. सेटिंग्स</span>
+        <span class="step" data-step="4">4. प्रीव्यू/डाउनलोड</span>
+      </nav>
     </div>
   </header>
 
   <main id="main" class="container" style="margin:18px auto">
-    <section class="card" aria-labelledby="title">
+    <section class="card">
       <div class="hero">
-        <h1 id="title">कई PDFs को जोड़कर एक बनाओ</h1>
-        <p class="sub">थम्बनेल के साथ ऑर्डर सेट करो, हर फाइल के लिए पेज-रेंज भरो, A4 नॉर्मलाइज़ और पेज नंबरिंग जैसे विकल्प चुनो — सब कुछ 100% ब्राउज़र में।</p>
+        <h1>कई PDFs को जोड़कर एक बनाओ</h1>
+        <p class="sub">चार आसान पेज — पहले गिनती, फिर अपलोड, उसके बाद सेटिंग्स, और अंत में प्रीव्यू + डाउनलोड।</p>
       </div>
 
-      <!-- Uploader -->
-      <div class="uploader" id="drop" tabindex="0" role="button" aria-label="PDF जोड़ें — ड्रैग-ड्रॉप करें या एंटर दबाएँ">
-        <p style="margin:0 0 10px">फाइलें यहाँ <strong>Drag & Drop</strong> करो या</p>
-        <div class="row">
-          <label class="btn sun" for="file">फ़ाइलें चुनो</label>
-          <button class="btn secondary" id="demoBtn" type="button">डेमो फाइलें</button>
-        </div>
-        <input id="file" type="file" accept="application/pdf" multiple />
-        <p class="tiny" style="margin-top:8px">टिप: कुल ~100MB तक बेहतर परफॉर्मेंस। स्कैन PDFs भी चलेंगी।</p>
-      </div>
-
-      <section class="grid two">
-        <!-- Left: file list -->
-        <div class="panel">
-          <h4>फाइलें</h4>
-          <div id="list" class="list" aria-live="polite"></div>
-          <div class="tiny" id="countLine">कोई फ़ाइल नहीं जोड़ी गई।</div>
-        </div>
-
-        <!-- Right: options + previews -->
-        <div class="panel">
-          <h4>आउटपुट सेटिंग्स</h4>
-          <div class="row" style="justify-content:space-between">
-            <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="normalizeA4"> A4 नॉर्मलाइज़ (सब पेज A4 में फिट)</label>
-            <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="autoRotate" checked> Auto-Rotate (पोर्ट्रेट/लैंडस्केप ठीक)</label>
+      <div class="wizard">
+        <!-- ===== PAGE 1: COUNT ===== -->
+        <section id="p1" class="page show" aria-labelledby="p1h">
+          <h3 id="p1h" style="margin:10px 0">कितनी PDF जोड़नी हैं?</h3>
+          <div class="count-wrap">
+            <label for="count" class="sr-only">Number of PDFs</label>
+            <input id="count" type="number" min="2" max="50" value="3" inputmode="numeric" />
+            <button id="toP2" class="btn primary pulse" type="button">अगला</button>
           </div>
-          <div class="row" style="justify-content:space-between">
-            <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="addNumbers"> पेज नंबरिंग</label>
-            <select id="numPos" style="max-width:210px" aria-label="नंबर पोज़िशन">
-              <option value="br" selected>नीचे-दायाँ (Bottom-Right)</option>
-              <option value="bl">नीचे-बायाँ (Bottom-Left)</option>
-              <option value="bc">नीचे-बीच (Bottom-Center)</option>
-              <option value="tr">ऊपर-दायाँ (Top-Right)</option>
-              <option value="tl">ऊपर-बायाँ (Top-Left)</option>
-              <option value="tc">ऊपर-बीच (Top-Center)</option>
-            </select>
+          <p class="tiny">टिप: 2–50 फाइलें बेहतर काम करती हैं (कुल ~100MB अनुशंसित)।</p>
+        </section>
+
+        <!-- ===== PAGE 2: UPLOAD SLOTS ===== -->
+        <section id="p2" class="page" aria-labelledby="p2h">
+          <h3 id="p2h" style="margin:10px 0">PDF अपलोड करो</h3>
+          <div id="slots" class="slots" aria-live="polite"></div>
+
+          <div class="row between" style="margin-top:14px">
+            <button class="btn ghost" id="backP1" type="button">◀ वापस</button>
+            <div class="row">
+              <button class="btn sun" id="demoBtn" type="button">डेमो फाइलें</button>
+              <button class="btn ok" id="toP3" type="button" disabled>मर्ज सेटिंग्स</button>
+            </div>
           </div>
-          <div class="row" style="justify-content:flex-start">
-            <label style="display:flex;gap:6px;align-items:center">स्टार्ट नंबर <input id="startNum" type="number" value="1" min="0" style="width:90px"></label>
-            <label style="display:flex;gap:6px;align-items:center">मार्जिन (pt) <input id="marg" type="number" value="28" min="0" max="100" style="width:90px"></label>
-            <label style="display:flex;gap:6px;align-items:center">फ़ॉन्ट साइज़ <input id="numSize" type="number" value="10" min="6" max="24" style="width:90px"></label>
+        </section>
+
+        <!-- ===== PAGE 3: SETTINGS ===== -->
+        <section id="p3" class="page" aria-labelledby="p3h">
+          <h3 id="p3h" style="margin:10px 0">आउटपुट सेटिंग्स</h3>
+          <div class="panel">
+            <div class="row">
+              <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="normalizeA4"> A4 नॉर्मलाइज़ (सब पेज A4 में फिट)</label>
+              <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="autoRotate" checked> Auto-Rotate (पोर्ट्रेट/लैंडस्केप ठीक)</label>
+            </div>
+            <div class="row" style="margin-top:8px">
+              <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="addNumbers"> पेज नंबरिंग</label>
+              <select id="numPos" style="max-width:220px" aria-label="नंबर पोज़िशन">
+                <option value="br" selected>नीचे-दायाँ</option>
+                <option value="bl">नीचे-बायाँ</option>
+                <option value="bc">नीचे-बीच</option>
+                <option value="tr">ऊपर-दायाँ</option>
+                <option value="tl">ऊपर-बायाँ</option>
+                <option value="tc">ऊपर-बीच</option>
+              </select>
+              <label style="display:flex;gap:6px;align-items:center">स्टार्ट नंबर <input id="startNum" type="number" value="1" min="0" style="width:90px"></label>
+              <label style="display:flex;gap:6px;align-items:center">मार्जिन (pt) <input id="marg" type="number" value="28" min="0" max="100" style="width:90px"></label>
+              <label style="display:flex;gap:6px;align-items:center">फ़ॉन्ट साइज़ <input id="numSize" type="number" value="10" min="6" max="24" style="width:90px"></label>
+            </div>
           </div>
 
-          <div style="margin-top:10px">
-            <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
-            <div class="tiny" id="status" style="margin-top:8px" aria-live="polite">तैयार…</div>
+          <div class="row between" style="margin-top:14px">
+            <button class="btn ghost" id="backP2" type="button">◀ वापस</button>
+            <button class="btn primary pulse" id="toP4" type="button">मर्ज करो</button>
           </div>
+        </section>
 
-          <div class="viewer" style="margin-top:12px">
+        <!-- ===== PAGE 4: PREVIEW + DOWNLOAD ===== -->
+        <section id="p4" class="page" aria-labelledby="p4h">
+          <h3 id="p4h" style="margin:10px 0">मर्ज पूरा — प्रीव्यू और डाउनलोड</h3>
+          <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
+          <div class="tiny" id="status" style="margin:8px 0">तैयार…</div>
+
+          <div class="viewer" style="margin-top:10px">
             <div id="preview"></div>
           </div>
-        </div>
-      </section>
 
-      <div class="actions">
-        <div class="row" style="justify-content:flex-start">
-          <button class="btn ghost" id="clearBtn" type="button" disabled>रीसेट</button>
-        </div>
-        <div class="row" style="justify-content:flex-end">
-          <button class="btn primary" id="mergeBtn" type="button" disabled>मर्ज करो</button>
-          <button class="btn sun" id="downloadBtn" type="button" disabled>डाउनलोड</button>
-        </div>
+          <div class="row between" style="margin-top:14px">
+            <button class="btn ghost" id="backP3" type="button">◀ सेटिंग्स बदलें</button>
+            <div class="row">
+              <button class="btn sun" id="downloadBtn" type="button" disabled>डाउनलोड</button>
+              <button class="btn ok" id="startOver" type="button">नई मर्ज</button>
+            </div>
+          </div>
+          <p class="tiny" style="margin-top:8px">गोपनीयता: कोई अपलोड नहीं — सब कुछ आपके ब्राउज़र में।</p>
+        </section>
       </div>
-    </section>
-
-    <section class="card" style="padding:0 22px 22px">
-      <h3 style="margin:16px 0 10px; color:#ff8fa3">कैसे इस्तेमाल करें?</h3>
-      <ol style="margin:0 0 0 18px">
-        <li>ऊपर Drag & Drop से PDFs डालो (या “फ़ाइलें चुनो”).</li>
-        <li>हर फाइल के थम्बनेल के पास पेज-रेंज भरो (जैसे <code>all</code> या <code>1-3,5</code>), और लिस्ट को ड्रैग से री-ऑर्डर करो।</li>
-        <li>चाहो तो “A4 नॉर्मलाइज़” ऑन करो और “पेज नंबरिंग” सेट करो।</li>
-        <li>“मर्ज करो” दबाओ → प्रीव्यू देखो → “डाउनलोड”.</li>
-      </ol>
-      <p class="tiny" style="margin-top:8px">गोपनीयता: कोई अपलोड नहीं — सब कुछ आपके ब्राउज़र में।</p>
     </section>
   </main>
 
   <script>
-  /* ===== Theme toggle ===== */
-  (function(){
-    const root = document.documentElement;
-    const btn  = document.getElementById('themeBtn');
-    const stored = localStorage.getItem('theme');
-    if(stored) root.dataset.theme = stored;
-    btn?.addEventListener('click', ()=>{
-      root.dataset.theme = root.dataset.theme==='light' ? 'dark' : 'light';
-      localStorage.setItem('theme', root.dataset.theme);
-      btn.setAttribute('aria-pressed', String(root.dataset.theme==='dark'));
-    });
-  })();
-
   /* ===== pdf.js worker ===== */
   const pdfjsLib = window['pdfjs-dist/build/pdf'];
   if (pdfjsLib) {
@@ -262,20 +262,32 @@
   }
 
   /* ===== State ===== */
-  const S = { files:[] }; // {id, file, name, size, range:'all', pageCount:null, thumb:null, bytes:Uint8Array}
+  const S = {
+    count: 3,
+    slots: [],   // { id, file?, bytes?, name?, size?, pageCount?, thumbCanvas? }
+    _outBytes: null,
+  };
 
   /* ===== DOM ===== */
-  const listEl = document.getElementById('list');
-  const fileEl = document.getElementById('file');
-  const dropEl = document.getElementById('drop');
+  const steps = [...document.querySelectorAll('.step')];
+  const pages = {
+    p1: document.getElementById('p1'),
+    p2: document.getElementById('p2'),
+    p3: document.getElementById('p3'),
+    p4: document.getElementById('p4'),
+  };
+
+  const countInput = document.getElementById('count');
+  const toP2 = document.getElementById('toP2');
+  const backP1 = document.getElementById('backP1');
+  const backP2 = document.getElementById('backP2');
+  const backP3 = document.getElementById('backP3');
+  const toP3 = document.getElementById('toP3');
+  const toP4 = document.getElementById('toP4');
+  const startOver = document.getElementById('startOver');
+
+  const slotsWrap = document.getElementById('slots');
   const demoBtn = document.getElementById('demoBtn');
-  const mergeBtn = document.getElementById('mergeBtn');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const clearBtn = document.getElementById('clearBtn');
-  const barEl = document.getElementById('bar');
-  const statusEl = document.getElementById('status');
-  const countEl = document.getElementById('countLine');
-  const pvWrap = document.getElementById('preview');
 
   const normalizeA4 = document.getElementById('normalizeA4');
   const autoRotate = document.getElementById('autoRotate');
@@ -285,9 +297,186 @@
   const marg = document.getElementById('marg');
   const numSize = document.getElementById('numSize');
 
+  const barEl = document.getElementById('bar');
+  const statusEl = document.getElementById('status');
+  const pvWrap = document.getElementById('preview');
+  const downloadBtn = document.getElementById('downloadBtn');
+
   /* ===== Utils ===== */
+  const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
   const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
   function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
+  function setStep(n){
+    steps.forEach(s=>s.classList.toggle('active', s.dataset.step==n));
+    Object.values(pages).forEach(el=>el.classList.remove('show'));
+    document.getElementById('p'+n).classList.add('show');
+    // Pulses
+    document.querySelectorAll('.pulse,.pulse-green').forEach(el=>el.classList.remove('pulse','pulse-green'));
+    if (n==1) toP2.classList.add('pulse');
+    if (n==2) toP3.classList.add('pulse');
+    if (n==3) toP4.classList.add('pulse');
+    if (n==4) downloadBtn.classList.add('pulse-green');
+  }
+
+  /* ===== Page1 ===== */
+  countInput.addEventListener('input', ()=>{
+    let v = parseInt(countInput.value,10);
+    if (Number.isNaN(v)) v = 2;
+    v = Math.max(2, Math.min(50, v));
+    countInput.value = v;
+    S.count = v;
+  });
+  toP2.addEventListener('click', ()=>{
+    S.count = parseInt(countInput.value,10) || 3;
+    buildSlots(S.count);
+    setStep(2);
+  });
+
+  /* ===== Page2 (slots) ===== */
+  function buildSlots(n){
+    S.slots = Array.from({length:n}, (_,i)=>({ id: 'slot_'+(i+1) }));
+    slotsWrap.innerHTML = '';
+    S.slots.forEach((s,i)=>{
+      const slot = document.createElement('div'); slot.className='slot'; slot.dataset.id=s.id;
+
+      const head = document.createElement('div'); head.className='slot-header';
+      const title = document.createElement('div'); title.className='slot-title'; title.textContent = `फाइल ${i+1}`;
+      const btns = document.createElement('div'); btns.className='slot-btns';
+
+      const pickLbl = document.createElement('label'); pickLbl.className='btn sun'; pickLbl.textContent='अपलोड';
+      const inp = document.createElement('input'); inp.type='file'; inp.accept='application/pdf';
+      pickLbl.appendChild(inp);
+
+      const rem = document.createElement('button'); rem.className='btn ghost'; rem.type='button'; rem.textContent='हटाएँ';
+      rem.addEventListener('click', ()=>{ clearSlot(s.id, slot); updateNextEnabled(); });
+
+      btns.append(pickLbl, rem);
+      head.append(title, btns);
+
+      const drop = document.createElement('div'); drop.className='drop'; drop.tabIndex=0; drop.setAttribute('role','button');
+      drop.setAttribute('aria-label', `फाइल ${i+1} अपलोड करें`);
+      drop.innerHTML = `<div>
+        <div style="font-weight:900; margin-bottom:6px">Drag & Drop या “अपलोड”</div>
+        <div class="tiny">PDF यहाँ छोड़ें (${i+1}/${n})</div>
+      </div>`;
+
+      const content = document.createElement('div'); content.className='thumb';
+
+      slot.append(head, drop, content);
+      slotsWrap.appendChild(slot);
+
+      // handlers
+      inp.addEventListener('change', async e=>{
+        if (!e.target.files?.[0]) return;
+        await setSlotFile(s.id, e.target.files[0], content, drop);
+        updateNextEnabled();
+      });
+      ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault(); drop.classList.add('dragover');}));
+      ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault(); drop.classList.remove('dragover');}));
+      drop.addEventListener('drop', async e=>{
+        const f = [...e.dataTransfer.files].find(x=>x.type==='application/pdf');
+        if (!f) return;
+        await setSlotFile(s.id, f, content, drop);
+        updateNextEnabled();
+      });
+      drop.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); inp.click(); } });
+    });
+
+    updateNextEnabled();
+  }
+
+  function updateNextEnabled(){
+    const ok = S.slots.every(s=>!!s.bytes);
+    toP3.disabled = !ok;
+    if (ok) { toP3.classList.add('pulse'); } else { toP3.classList.remove('pulse'); }
+  }
+
+  async function setSlotFile(id, file, contentEl, dropEl){
+    const slot = S.slots.find(x=>x.id===id);
+    if (!slot) return;
+    try{
+      slot.file = file; slot.name = file.name; slot.size = file.size;
+      slot.bytes = new Uint8Array(await file.arrayBuffer());
+
+      // Render thumbnail via pdf.js (page 1)
+      const pdf = await pdfjsLib.getDocument({data:slot.bytes}).promise;
+      slot.pageCount = pdf.numPages;
+      const page = await pdf.getPage(1);
+      const vp = page.getViewport({scale:0.35});
+      const c = document.createElement('canvas'); c.width=Math.floor(vp.width); c.height=Math.floor(vp.height);
+      await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
+      slot.thumbCanvas = c;
+      contentEl.innerHTML='';
+      const meta = document.createElement('div'); meta.className='tiny'; meta.style.margin='6px 0'; meta.textContent = `${slot.name} • ${fmtBytes(slot.size)} • ${slot.pageCount} पेज`;
+      contentEl.append(c, meta);
+      dropEl.innerHTML = `<div style="color: var(--accent2); font-weight:800">अपलोड हो गया ✓</div>`;
+    }catch(e){
+      console.error(e);
+      alert('PDF पढ़ने में दिक्कत आई: '+(e?.message||e));
+    }
+  }
+
+  function clearSlot(id, slotEl){
+    const slot = S.slots.find(x=>x.id===id);
+    if (!slot) return;
+    Object.assign(slot, { file:null, bytes:null, name:null, size:null, pageCount:null, thumbCanvas:null });
+    const drop = slotEl.querySelector('.drop');
+    const content = slotEl.querySelector('.thumb');
+    drop.innerHTML = `<div><div style="font-weight:900; margin-bottom:6px">Drag & Drop या “अपलोड”</div><div class="tiny">PDF यहाँ छोड़ें</div></div>`;
+    content.innerHTML = '';
+  }
+
+  backP1?.addEventListener('click', ()=> setStep(1));
+  toP3?.addEventListener('click', ()=> setStep(3));
+
+  /* Demo PDFs (Page2) */
+  demoBtn?.addEventListener('click', async ()=>{
+    const { PDFDocument, StandardFonts } = PDFLib;
+    for (let i=0;i<S.slots.length;i++){
+      const slot = S.slots[i];
+      if (slot.bytes) continue;
+      const doc = await PDFDocument.create();
+      const font = await doc.embedFont(StandardFonts.Helvetica);
+      const page = doc.addPage([595,842]);
+      page.drawText(`डेमो PDF — ${i+1}`, { x: 190, y: 420, size: 26, font });
+      const bytes = await doc.save();
+      const file = new File([new Blob([bytes],{type:'application/pdf'})], `Demo-${i+1}.pdf`, {type:'application/pdf'});
+      const slotEl = document.querySelector(`[data-id="${slot.id}"]`);
+      await setSlotFile(slot.id, file, slotEl.querySelector('.thumb'), slotEl.querySelector('.drop'));
+    }
+    updateNextEnabled();
+  });
+
+  /* ===== Page3 ===== */
+  backP2?.addEventListener('click', ()=> setStep(2));
+
+  /* ===== Page4 (Merge) ===== */
+  backP3?.addEventListener('click', ()=> setStep(3));
+
+  toP4?.addEventListener('click', async ()=>{
+    // run merge, then go to page 4
+    await mergeAndPreview();
+    setStep(4);
+  });
+
+  downloadBtn?.addEventListener('click', ()=>{
+    if (!S._outBytes) return;
+    const a=document.createElement('a');
+    const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
+    a.href=URL.createObjectURL(new Blob([S._outBytes],{type:'application/pdf'}));
+    a.download=`Merged-${stamp}.pdf`;
+    a.click(); URL.revokeObjectURL(a.href);
+  });
+
+  startOver?.addEventListener('click', ()=>{
+    // reset everything
+    S.count = 3; countInput.value = 3;
+    S.slots = []; S._outBytes = null;
+    pvWrap.innerHTML=''; statusEl.textContent='तैयार…'; setBar(0);
+    setStep(1);
+  });
+
+  /* ===== Merge core ===== */
   function parseRange(str, max){
     if(!str || str.toLowerCase()==='all') return Array.from({length:max}, (_,i)=>i);
     const out = new Set();
@@ -303,159 +492,30 @@
     if(!out.size) throw new Error('empty');
     return [...out].sort((x,y)=>x-y);
   }
-  const sleep = ms => new Promise(r=>setTimeout(r,ms));
 
-  /* ===== File add + thumbnails ===== */
-  dropEl.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); fileEl.click(); } });
-  fileEl.addEventListener('change', async e=>{ await addFiles([...e.target.files]); fileEl.value=''; });
-  ['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
-  ['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
-  dropEl.addEventListener('drop', async e=>{
-    const files=[...e.dataTransfer.files].filter(f=>f.type==='application/pdf');
-    await addFiles(files);
-  });
+  async function mergeAndPreview(){
+    const allOK = S.slots.every(s=>!!s.bytes);
+    if(!allOK){ alert('कृपया सभी स्लॉट में PDFs अपलोड करें।'); return; }
 
-  demoBtn.addEventListener('click', async ()=>{
-    const { PDFDocument, StandardFonts } = PDFLib;
-    for (let i=1;i<=3;i++){
-      const doc = await PDFDocument.create();
-      const font = await doc.embedFont(StandardFonts.Helvetica);
-      for(let p=1;p<= (i===3?2:1); p++){
-        const page = doc.addPage([595, 842]);
-        page.drawText(`डेमो PDF ${i} — पेज ${p}`, { x: 160, y: 420, size: 24, font });
-      }
-      const bytes = await doc.save();
-      await addFiles([new File([new Blob([bytes],{type:'application/pdf'})], `Demo-${i}.pdf`, {type:'application/pdf'})]);
-    }
-  });
-
-  async function addFiles(files){
-    const existing = new Set(S.files.map(x=>x.name+'_'+x.size));
-    const pick = files.filter(f=>f.type==='application/pdf' && !existing.has(f.name+'_'+f.size));
-    if (!pick.length) return;
-
-    const total = pick.reduce((a,f)=>a+f.size,0) + S.files.reduce((a,f)=>a+f.size,0);
-    if (total > 100*1024*1024){ alert('कुल फाइल साइज़ 100MB से ज्यादा है।'); return; }
-
-    for (const f of pick){
-      const id = (crypto?.randomUUID?.() || Math.random().toString(36).slice(2));
-      const ent = { id, file:f, name:f.name, size:f.size, range:'all', pageCount:null, thumb:null, bytes:null };
-      S.files.push(ent);
-      renderList(); updateButtons();
-      try{
-        ent.bytes = new Uint8Array(await f.arrayBuffer());
-        const pdf = await pdfjsLib.getDocument({data:ent.bytes}).promise;
-        ent.pageCount = pdf.numPages;
-        const page = await pdf.getPage(1);
-        const vp = page.getViewport({scale: 0.3});
-        const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
-        await page.render({canvasContext: c.getContext('2d'), viewport: vp}).promise;
-        ent.thumb = c; renderList();
-      }catch(e){ console.error(e); ent.pageCount=null; renderList(); }
-    }
-  }
-
-  function renderList(){
-    listEl.innerHTML = '';
-    S.files.forEach((f, idx)=>{
-      const row = document.createElement('div'); row.className='item'; row.draggable=true; row.dataset.id=f.id;
-      row.addEventListener('dragstart', e=>{ e.dataTransfer.setData('text/plain', f.id); });
-      row.addEventListener('dragover', e=>{ e.preventDefault(); });
-      row.addEventListener('drop', e=>{
-        e.preventDefault();
-        const fromId=e.dataTransfer.getData('text/plain'); if(!fromId||fromId===f.id) return;
-        const fromIndex=S.files.findIndex(x=>x.id===fromId); const toIndex=idx;
-        const [m]=S.files.splice(fromIndex,1); S.files.splice(toIndex,0,m); renderList();
-      });
-
-      const th = document.createElement('div'); th.className='thumb'; if (f.thumb) th.appendChild(f.thumb); else th.textContent='…';
-      const col = document.createElement('div');
-      const name = document.createElement('div'); name.className='name'; name.textContent=f.name;
-      const meta = document.createElement('div'); meta.className='meta'; meta.textContent=`${fmtBytes(f.size)} • ${f.pageCount? f.pageCount+' पेज':'लोड हो रहा…'}`;
-      col.append(name, meta);
-
-      const ctrls = document.createElement('div'); ctrls.className='controls';
-      const rangeWrap = document.createElement('div'); rangeWrap.className='range';
-      const label = document.createElement('label'); label.textContent='पेज रेंज:'; label.style.fontSize='12px';
-      const input = document.createElement('input'); input.placeholder = f.pageCount? `1-${f.pageCount} या 1-3,5`:'all'; input.value=f.range; input.addEventListener('input', ()=>{ f.range = input.value.trim()||'all'; });
-      rangeWrap.append(label, input);
-
-      const up = mkIconBtn('ऊपर', `M12 8l-4 4h8l-4-4z`);
-      up.addEventListener('click', ()=>{ if(idx>0){ const [m]=S.files.splice(idx,1); S.files.splice(idx-1,0,m); renderList(); }});
-      const down = mkIconBtn('नीचे', `M12 16l4-4H8l4 4z`);
-      down.addEventListener('click', ()=>{ if(idx<S.files.length-1){ const [m]=S.files.splice(idx,1); S.files.splice(idx+1,0,m); renderList(); }});
-      const del = mkIconBtn('হटाओ', `M6 7h12M10 7v10m4-10v10M9 7l1-2h4l1 2`, true);
-      del.addEventListener('click', ()=>{ S.files.splice(idx,1); renderList(); updateButtons(); });
-
-      ctrls.append(rangeWrap, up, down, del);
-      row.append(th, col, ctrls);
-      listEl.appendChild(row);
-    });
-
-    countEl.textContent = S.files.length ? `${S.files.length} फाइलें जोड़ी गईं` : 'कोई फ़ाइल नहीं जोड़ी गई।';
-  }
-
-  function mkIconBtn(title, path, danger=false){
-    const b=document.createElement('button'); b.className='iconbtn'; b.title=title;
-    if(danger){ b.style.borderColor='rgba(255,92,124,.45)'; }
-    b.innerHTML=`<svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="${path}" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    return b;
-  }
-
-  /* ===== Next action pulses & state ===== */
-  function clearPulses(){
-    mergeBtn.classList.remove('pulse');
-    downloadBtn.classList.remove('pulse-green');
-  }
-  function updateButtons(){
-    const has=S.files.length>0;
-    mergeBtn.disabled=!has;
-    clearBtn.disabled=!has;
-    downloadBtn.disabled=true;
-    setBar(0); statusEl.textContent='तैयार…'; pvWrap.innerHTML='';
-    clearPulses();
-    if (has) mergeBtn.classList.add('pulse'); // next step
-  }
-  clearBtn.addEventListener('click', ()=>{ S.files.length=0; renderList(); updateButtons(); });
-  mergeBtn.addEventListener('click', ()=>{ mergeBtn.classList.remove('pulse'); });
-  downloadBtn.addEventListener('click', ()=>{ downloadBtn.classList.remove('pulse-green'); });
-
-  /* ===== Merge ===== */
-  mergeBtn.addEventListener('click', merge);
-  downloadBtn.addEventListener('click', ()=>{
-    if (!S._outBytes) return;
-    const a=document.createElement('a');
-    const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
-    a.href=URL.createObjectURL(new Blob([S._outBytes],{type:'application/pdf'}));
-    a.download=`Merged-${stamp}.pdf`;
-    a.click(); URL.revokeObjectURL(a.href);
-  });
-
-  async function merge(){
-    if (!S.files.length) return;
+    setBar(1); statusEl.textContent='मर्ज हो रहा है…';
     try{
       const { PDFDocument, StandardFonts, rgb } = PDFLib;
       const out = await PDFDocument.create();
       const font = await out.embedFont(StandardFonts.Helvetica);
       const A4 = { w:595.28, h:841.89 };
 
-      statusEl.textContent='रेंज चेक…';
-      const loaded = await Promise.all(S.files.map(async f=> ({ f, doc: await PDFDocument.load(f.bytes) })));
-      const copyPlan = [];
-      for (const {f, doc} of loaded){
-        const max = doc.getPageCount();
-        let idxs;
-        try{ idxs = parseRange((f.range||'all').trim(), max); }catch(e){ alert(`पेज रेंज ग़लत: ${f.name}`); return; }
-        copyPlan.push({doc, idxs});
-      }
+      // load all src docs
+      const loaded = await Promise.all(S.slots.map(async s => ({ s, doc: await PDFDocument.load(s.bytes) })));
 
-      let done=0, total=copyPlan.reduce((a,c)=>a+c.idxs.length,0); setBar(1);
-      for (const {doc, idxs} of copyPlan){
+      let total = loaded.reduce((a,{doc})=>a+doc.getPageCount(), 0);
+      let done = 0;
+
+      for (const {doc} of loaded){
+        const idxs = parseRange('all', doc.getPageCount());
         const pages = await out.copyPages(doc, idxs);
-        for (const p of pages){ out.addPage(p); done++; if (done%3===0) await sleep(0); setBar((done/total)*60); }
+        for (const p of pages) { out.addPage(p); done++; if (done%3===0) await sleep(0); setBar((done/total)*60); }
       }
 
-      // Normalize to A4 & Auto-rotate (best-effort, same approach as before)
       if (normalizeA4.checked || autoRotate.checked){
         const n = out.getPageCount();
         for (let i=0;i<n;i++){
@@ -471,18 +531,16 @@
             pg.scale(s, s);
             pg.moveTo(m, m);
           }
-          setBar(60 + (i/n)*20);
+          if (i%4===0) setBar(60 + (i/n)*20);
         }
       }
 
-      // Page numbering
       if (addNumbers.checked){
         const start = Math.max(0, parseInt(startNum.value,10)||0);
         const size  = Math.max(6, Math.min(24, parseInt(numSize.value,10)||10));
         const m     = Math.max(0, parseInt(marg.value,10)||28);
         const pos   = numPos.value;
         const n     = out.getPageCount();
-
         for (let i=0;i<n;i++){
           const pg = out.getPage(i);
           const { width:W, height:H } = pg.getSize();
@@ -495,23 +553,17 @@
           if (pos==='tl'){ x=m; y=H-m; }
           if (pos==='tc'){ x=W/2; y=H-m; }
           const opts = { size, font, color: rgb(0,0,0) };
-          const xAdj = (pos.endsWith('c') || pos.endsWith('r')) ? (size*text.length*0.5) : 0;
-          const xAdjCenter = pos.endsWith('c') ? (size*text.length*0.25) : 0;
-          if (pos.endsWith('c')) pg.drawText(text, { ...opts, x: x - xAdjCenter, y });
-          else if (pos.endsWith('r')) pg.drawText(text, { ...opts, x: x - xAdj, y });
+          const wEst = size*text.length*0.5;
+          if (pos.endsWith('c')) pg.drawText(text, { ...opts, x: x - (size*text.length*0.25), y });
+          else if (pos.endsWith('r')) pg.drawText(text, { ...opts, x: x - wEst, y });
           else pg.drawText(text, { ...opts, x, y });
-
-          if (i%5===0) setBar(80 + (i/n)*20);
+          if (i%6===0) setBar(80 + (i/n)*20);
         }
       }
 
       const outBytes = await out.save({ updateFieldAppearances:false });
       S._outBytes = outBytes; downloadBtn.disabled=false; statusEl.textContent='तैयार — डाउनलोड कर लो!'; setBar(100);
-      // Next step pulse
-      downloadBtn.classList.add('pulse-green');
-
       await renderPreview(outBytes);
-
     }catch(err){
       console.error(err);
       alert('मर्ज नहीं हो पाया: '+(err?.message||err));
@@ -530,16 +582,14 @@
         const c = document.createElement('canvas'); c.width=Math.floor(vp.width); c.height=Math.floor(vp.height);
         await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
         const box=document.createElement('div'); box.className='pv';
-        box.appendChild(c);
-        const cap=document.createElement('div'); cap.className='cap'; cap.textContent='पेज '+i; box.appendChild(cap);
+        box.appendChild(c); const cap=document.createElement('div'); cap.className='cap'; cap.textContent='पेज '+i; box.appendChild(cap);
         pvWrap.appendChild(box);
       }
     }catch(e){ console.error(e); }
   }
 
-  // Init
-  function init(){ updateButtons(); }
-  init();
+  // init
+  setStep(1);
   </script>
 </body>
 </html>
