@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PDF जोड़ो (Merge) — चरण दर चरण • सुरक्षित</title>
-  <meta name="description" content="चार सरल पेज: गिनती चुनो → उतने स्लॉट में PDFs अपलोड करो/री-ऑर्डर करो → सेटिंग्स चुनो → मर्ज, प्रीव्यू और डाउनलोड — सब कुछ 100% ब्राउज़र में।" />
+  <meta name="description" content="गिनती लिखो → उतने स्लॉट में PDFs अपलोड/रीऑर्डर → सेटिंग्स → मर्ज, प्रीव्यू, डाउनलोड — सब कुछ 100% ब्राउज़र में।" />
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#0b1020" />
 
@@ -18,8 +18,7 @@
       --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
       --text:#e9eefb; --muted:#9fb0de; --ink:#0b1020;
       --accent:#7c5cff; --accent2:#23d3ac; --sun:#ffd95c; --sun-2:#ffefb3; --rose:#ff5c7c; --rose-2:#ff98ab;
-      --shadow:0 22px 80px rgba(0,0,0,.38);
-      --tile:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+      --shadow:0 22px 80px rgba(0,0,0,.38); --tile:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
     }
     *{box-sizing:border-box}
     html,body{height:100%}
@@ -39,12 +38,11 @@
     .container{max-width:1180px; margin:0 auto; padding:0 16px}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    /* Privacy Promise */
+    /* Privacy ribbon */
     .pp{position:sticky; top:0; z-index:90; background:rgba(11,16,32,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
     .pp .inner{display:flex; gap:10px; align-items:center; justify-content:center; padding:8px 10px; font-weight:800}
     .pp .shield{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
-      background:conic-gradient(from 180deg,var(--accent),var(--accent2),var(--sun),var(--rose),var(--accent));
-      color:#1b1440}
+      background:conic-gradient(from 180deg,var(--accent),var(--accent2),var(--sun),var(--rose),var(--accent)); color:#1b1440}
 
     /* Header */
     header.site{position:sticky; top:48px; z-index:80; background:rgba(11,16,32,.86); border-bottom:1px solid var(--line); backdrop-filter:blur(10px)}
@@ -81,7 +79,7 @@
     .btn.slim{padding:8px 10px; border-radius:10px}
     .tiny{font-size:12px; color:var(--muted)}
 
-    /* Pulsating next action */
+    /* Pulsating CTA */
     @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(124,92,255,.55)} 50%{box-shadow:0 0 0 14px rgba(124,92,255,0)} 100%{box-shadow:0 0 0 0 rgba(124,92,255,0)} }
     @keyframes pulse-green { 0%{box-shadow:0 0 0 0 rgba(35,211,172,.55)} 50%{box-shadow:0 0 0 14px rgba(35,211,172,0)} 100%{box-shadow:0 0 0 0 rgba(35,211,172,0)} }
     .pulse{animation:pulse 1.8s ease-in-out infinite}
@@ -90,7 +88,7 @@
 
     /* Page 1 */
     .count-wrap{display:flex; gap:10px; align-items:center; justify-content:center; padding:16px 0}
-    .count-wrap input{width:110px; background:#121935; color:var(--text); border:1px solid var(--line); border-radius:12px; padding:10px 12px; font-weight:800; text-align:center}
+    .count-wrap input{width:130px; background:#121935; color:var(--text); border:1px solid var(--line); border-radius:12px; padding:12px 12px; font-weight:800; text-align:center}
 
     /* Page 2 */
     .slots{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
@@ -101,7 +99,7 @@
     .slot-title{font-weight:800}
     .slot-btns{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
     .slot input[type=file]{display:none}
-    .drop{display:grid; place-items:center; text-align:center; background:var(--tile); border:1px solid var(--line); border-radius:12px; min-height:120px; padding:12px}
+    .drop{display:grid; place-items:center; text-align:center; background:var(--tile); border:1px solid var(--line); border-radius:12px; min-height:120px; padding:12px; cursor:pointer}
     .drop.dragover{border-color:var(--sun); box-shadow:0 0 0 3px rgba(255,217,92,.24) inset}
     .thumb{width:100%; display:grid; place-items:center}
     .thumb canvas{width:100%; height:auto; border-radius:10px; display:block}
@@ -167,17 +165,16 @@
           <h3 id="p1h" style="margin:10px 0">कितनी PDF जोड़नी हैं?</h3>
           <div class="count-wrap">
             <label for="count" class="sr-only">Number of PDFs</label>
-            <input id="count" type="number" min="2" max="50" value="3" inputmode="numeric" />
+            <input id="count" type="number" min="2" max="200" value="3" inputmode="numeric" />
             <button id="toP2" class="btn primary pulse" type="button">अगला</button>
           </div>
-          <p class="tiny">टिप: 2–50 फाइलें बेहतर काम करती हैं (कुल ~100MB अनुशंसित)।</p>
+          <p class="tiny">टिप: बड़े सेट परफॉर्मेंस के लिए 2–100 में रखें।</p>
         </section>
 
         <!-- PAGE 2 -->
         <section id="p2" class="page" aria-labelledby="p2h">
           <h3 id="p2h" style="margin:10px 0">PDF अपलोड करो</h3>
           <div id="slots" class="slots" aria-live="polite"></div>
-
           <div class="row between" style="margin-top:14px">
             <button class="btn ghost" id="backP1" type="button">◀ वापस</button>
             <div class="row">
@@ -192,8 +189,8 @@
           <h3 id="p3h" style="margin:10px 0">आउटपुट सेटिंग्स</h3>
           <div class="panel">
             <div class="row">
-              <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="normalizeA4"> A4 नॉर्मलाइज़ (सब पेज A4 में फिट)</label>
-              <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="autoRotate" checked> Auto-Rotate (पोर्ट्रेट/लैंडस्केप ठीक)</label>
+              <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="normalizeA4"> A4 नॉर्मलाइज़</label>
+              <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="autoRotate" checked> Auto-Rotate</label>
             </div>
             <div class="row" style="margin-top:8px">
               <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="addNumbers"> पेज नंबरिंग</label>
@@ -241,15 +238,17 @@
   </main>
 
   <script>
+  // ===== pdf.js worker path =====
   const pdfjsLib = window['pdfjs-dist/build/pdf'];
   if (pdfjsLib) {
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
   }
 
-  /* ===== State ===== */
+  // ===== State =====
   const S = { count:3, slots:[], _outBytes:null };
 
-  /* ===== DOM ===== */
+  // ===== DOM helpers =====
+  function $(q){ return document.getElementById(q.replace('#','')); }
   const steps = [...document.querySelectorAll('.step')];
   const pages = { p1:$('#p1'), p2:$('#p2'), p3:$('#p3'), p4:$('#p4') };
 
@@ -272,8 +271,7 @@
   const downloadBtn = $('#downloadBtn');
   const startOver = $('#startOver');
 
-  /* ===== Utils ===== */
-  function $(q){ return document.getElementById(q.replace('#','')); }
+  // ===== Utils =====
   const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
   const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
   function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
@@ -288,24 +286,40 @@
     if (n==4) downloadBtn.classList.add('pulse-green');
   }
 
-  /* ===== Page 1 ===== */
+  // ===== Count <-> Slots: live sync =====
+  function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
+  function makeSlotModel(n){ return { id:'slot_'+n, name:null, size:null, file:null, bytes:null, pageCount:null, thumbCanvas:null }; }
+
+  function syncSlotsToCount(){
+    const want = S.count;
+    if (want > S.slots.length){
+      const start = S.slots.length;
+      for (let i=start;i<want;i++) S.slots.push(makeSlotModel(i+1));
+    }else if (want < S.slots.length){
+      // Remove trailing empty first; if filled exist at tail, still remove from the end (user can reduce intentionally).
+      S.slots.length = want;
+    }
+    renderSlots();
+    updateNextEnabled();
+  }
+
   countInput.addEventListener('input', ()=>{
     let v = parseInt(countInput.value,10);
     if (Number.isNaN(v)) v = 2;
-    v = Math.max(2, Math.min(50, v));
+    v = clamp(v, 2, 200);
     countInput.value = v; S.count = v;
+    // live sync slots while on p1 or later
+    syncSlotsToCount();
   });
-  toP2.addEventListener('click', ()=>{ S.count = parseInt(countInput.value,10) || 3; buildSlots(S.count); setStep(2); });
 
-  /* ===== Page 2 (Slots) ===== */
-  addSlotBtn.addEventListener('click', ()=>{ S.slots.push(makeSlotObj(S.slots.length+1)); renderSlots(); updateNextEnabled(); });
+  toP2.addEventListener('click', ()=>{ setStep(2); });
 
-  function buildSlots(n){
-    S.slots = Array.from({length:n}, (_,i)=> makeSlotObj(i+1));
-    renderSlots();
-  }
-
-  function makeSlotObj(n){ return { id: 'slot_'+n, name:null, size:null, file:null, bytes:null, pageCount:null, thumbCanvas:null }; }
+  // ===== Page 2 (Slots) =====
+  addSlotBtn.addEventListener('click', ()=>{
+    S.count = clamp(S.count+1, 2, 200);
+    countInput.value = S.count;
+    syncSlotsToCount();
+  });
 
   function renderSlots(){
     slotsWrap.innerHTML = '';
@@ -366,14 +380,15 @@
       updateNextEnabled();
     });
     drop.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); inp.click(); } });
+    drop.addEventListener('click', ()=> inp.click());
 
     clearBtn.addEventListener('click', ()=>{
       clearSlotData(slot, content, drop, inp);
       updateNextEnabled();
     });
     removeBtn.addEventListener('click', ()=>{
-      const idx = S.slots.findIndex(x=>x.id===slot.id);
-      if (idx>-1) { S.slots.splice(idx,1); renderSlots(); updateNextEnabled(); }
+      const i = S.slots.findIndex(x=>x.id===slot.id);
+      if (i>-1) { S.slots.splice(i,1); S.count = S.slots.length; countInput.value = S.count; renderSlots(); updateNextEnabled(); }
     });
     leftBtn.addEventListener('click', ()=>{
       const i = S.slots.findIndex(x=>x.id===slot.id);
@@ -395,30 +410,47 @@
     }
     try{
       slot.file = file; slot.name = file.name; slot.size = file.size;
-      slot.bytes = new Uint8Array(await file.arrayBuffer());
+      const buf = await file.arrayBuffer();
+      slot.bytes = new Uint8Array(buf);
 
-      // Try reading with pdf.js for preview
-      const pdf = await pdfjsLib.getDocument({data:slot.bytes}).promise;
-      slot.pageCount = pdf.numPages;
-      const page = await pdf.getPage(1);
-      const vp = page.getViewport({scale:0.35});
-      const c = document.createElement('canvas'); c.width=Math.floor(vp.width); c.height=Math.floor(vp.height);
-      await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
-      slot.thumbCanvas = c;
+      // Validate with pdf-lib first (independent of preview)
+      let doc;
+      try {
+        doc = await PDFLib.PDFDocument.load(slot.bytes);
+      } catch (e) {
+        console.error(e);
+        dropEl.innerHTML = `<div style="color:#ffb3bf;font-weight:800">PDF पढ़ा नहीं जा सका (संभवतः एन्क्रिप्टेड/करप्ट)</div>`;
+        clearSlotData(slot, contentEl, dropEl, inputEl);
+        return;
+      }
+
+      // Try preview with pdf.js (fallback if fails)
+      try{
+        const pdf = await pdfjsLib.getDocument({data:slot.bytes}).promise;
+        slot.pageCount = pdf.numPages;
+        const page = await pdf.getPage(1);
+        const vp = page.getViewport({scale:0.35});
+        const c = document.createElement('canvas'); c.width=Math.floor(vp.width); c.height=Math.floor(vp.height);
+        await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
+        slot.thumbCanvas = c;
+      }catch(previewErr){
+        console.warn('Preview unavailable, will still merge:', previewErr);
+        slot.pageCount = doc.getPageCount?.() || null;
+        slot.thumbCanvas = null; // still mergeable
+      }
 
       // UI
       contentEl.innerHTML='';
-      const meta = document.createElement('div'); meta.className='tiny'; meta.style.margin='6px 0'; meta.textContent = `${slot.name} • ${fmtBytes(slot.size)} • ${slot.pageCount} पेज`;
-      contentEl.append(c, meta);
+      if (slot.thumbCanvas) contentEl.append(slot.thumbCanvas);
+      const meta = document.createElement('div'); meta.className='tiny'; meta.style.margin='6px 0';
+      meta.textContent = `${slot.name} • ${fmtBytes(slot.size)} • ${slot.pageCount??'?'} पेज${slot.thumbCanvas?'':' • (प्रीव्यू नहीं)'}`;
+      contentEl.append(meta);
       dropEl.innerHTML = `<div style="color: var(--accent2); font-weight:800">अपलोड हो गया ✓</div>`;
 
-      // ensure re-selecting same file later works
       if (inputEl) inputEl.value = '';
     }catch(e){
       console.error(e);
-      // Common case: password-protected / damaged PDFs
-      dropEl.innerHTML = `<div style="color:#ffb3bf;font-weight:800">PDF पढ़ा नहीं जा सका — संभवतः एन्क्रिप्टेड/करप्ट</div>`;
-      // reset data so the slot isn’t “half filled”
+      dropEl.innerHTML = `<div style="color:#ffb3bf;font-weight:800">फाइल हैंडल नहीं हुई</div>`;
       clearSlotData(slot, contentEl, dropEl, inputEl);
     }
   }
@@ -442,7 +474,7 @@
   $('#backP2')?.addEventListener('click', ()=> setStep(2));
   $('#backP3')?.addEventListener('click', ()=> setStep(3));
 
-  /* ===== Page 4: Merge ===== */
+  // ===== Page 4: Merge =====
   $('#toP4')?.addEventListener('click', async ()=>{
     await mergeAndPreview();
     setStep(4);
@@ -458,29 +490,14 @@
   });
 
   startOver?.addEventListener('click', ()=>{
-    S.count = 3; countInput.value = 3;
-    S.slots = []; S._outBytes = null;
-    pvWrap.innerHTML=''; statusEl.textContent='तैयार…'; setBar(0);
+    S._outBytes = null; pvWrap.innerHTML=''; statusEl.textContent='तैयार…'; setBar(0);
+    // keep theme + keep count, but reset slots to that count
+    S.slots = [];
+    syncSlotsToCount();
     setStep(1);
   });
 
-  /* ===== Merge core ===== */
-  function parseRange(str, max){
-    if(!str || str.toLowerCase()==='all') return Array.from({length:max}, (_,i)=>i);
-    const out = new Set();
-    const parts = str.split(',').map(s=>s.trim()).filter(Boolean);
-    for(const p of parts){
-      const m = p.match(/^(\d+)(?:\s*[-–]\s*(\d+))?$/);
-      if(!m) throw new Error('format');
-      let a=parseInt(m[1],10), b=m[2]?parseInt(m[2],10):a;
-      if(a<1||b<1||a>max||b>max) throw new Error('range');
-      if(a>b) [a,b]=[b,a];
-      for(let i=a;i<=b;i++) out.add(i-1);
-    }
-    if(!out.size) throw new Error('empty');
-    return [...out].sort((x,y)=>x-y);
-  }
-
+  // ===== Merge core =====
   async function mergeAndPreview(){
     const allOK = S.slots.length>=2 && S.slots.every(s=>!!s.bytes);
     if(!allOK){ alert('कृपया कम से कम 2 स्लॉट भरें।'); return; }
@@ -492,27 +509,29 @@
       const font = await out.embedFont(StandardFonts.Helvetica);
       const A4 = { w:595.28, h:841.89 };
 
-      // Load all src docs
+      // Load all src docs with pdf-lib (preview independence)
       const loaded = await Promise.all(S.slots.map(async s => ({ s, doc: await PDFDocument.load(s.bytes) })));
 
-      // Copy all pages in the (possibly re-ordered) slot order
+      // Copy all pages by slot order
       let total = loaded.reduce((a,{doc})=>a+doc.getPageCount(), 0);
       let done = 0;
       for (const {doc} of loaded){
-        const idxs = parseRange('all', doc.getPageCount());
+        const count = doc.getPageCount();
+        const idxs = Array.from({length:count}, (_,i)=>i);
         const pages = await out.copyPages(doc, idxs);
         for (const p of pages) { out.addPage(p); done++; if (done%3===0) await sleep(0); setBar((done/Math.max(1,total))*60); }
       }
 
       // Normalize / rotate
-      if (normalizeA4.checked || autoRotate.checked){
+      const normalizeA4El = normalizeA4, autoRotateEl = autoRotate;
+      if (normalizeA4El.checked || autoRotateEl.checked){
         const n = out.getPageCount();
         for (let i=0;i<n;i++){
           const pg = out.getPage(i);
           const { width:W, height:H } = pg.getSize();
           let targetW=A4.w, targetH=A4.h;
-          const isLandscape = W>H; if (autoRotate.checked && isLandscape){ targetW=A4.h; targetH=A4.w; }
-          if (normalizeA4.checked){
+          const isLandscape = W>H; if (autoRotateEl.checked && isLandscape){ targetW=A4.h; targetH=A4.w; }
+          if (normalizeA4El.checked){
             pg.setSize(targetW, targetH);
             const m = Math.max(0, parseFloat(marg.value)||28);
             const boxW=targetW-2*m, boxH=targetH-2*m;
@@ -551,7 +570,7 @@
       }
 
       const outBytes = await out.save({ updateFieldAppearances:false });
-      S._outBytes = outBytes; downloadBtn.disabled=true; // enable after preview
+      S._outBytes = outBytes; downloadBtn.disabled=true;
       await renderPreview(outBytes);
       downloadBtn.disabled=false; statusEl.textContent='तैयार — डाउनलोड कर लो!'; setBar(100);
     }catch(err){
@@ -574,10 +593,12 @@
         box.appendChild(c); const cap=document.createElement('div'); cap.className='cap'; cap.textContent='पेज '+i; box.appendChild(cap);
         pvWrap.appendChild(box);
       }
-    }catch(e){ console.error(e); }
+    }catch(e){ console.warn('Preview render failed, but file is ready:', e); }
   }
 
-  // Init
+  // ===== Init =====
+  // Start with slots for default count
+  syncSlotsToCount();
   setStep(1);
   </script>
 </body>
