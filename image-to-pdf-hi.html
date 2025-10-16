@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>इमेज → PDF (विज़ार्ड) — संख्या चुनो → सेटिंग्स → अरेंज → बनाओ</title>
+  <title>इमेज → PDF (विज़ार्ड) — संख्या → सेटिंग्स → अपलोड/अरेंज → बनाओ</title>
   <meta name="description" content="चरण-दर-चरण: कितनी इमेज (1–50) → आउटपुट सेटिंग्स → अपलोड/अरेंज → PDF बनाओ/प्रीव्यू/डाउनलोड — सब कुछ ब्राउज़र में।" />
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
@@ -16,7 +16,6 @@
 
   <style>
     :root{
-      /* Index-page aligned theme */
       --bg:#f7fafc; --panel:#ffffff; --card:#ffffff; --line:rgba(2,6,23,.10);
       --text:#0b1020; --muted:#334155; --focus:#2563eb;
       --c1:#7c5cff; --c2:#23d3ac; --c3:#ffd95c; --c4:#ff5c7c; --c5:#06b6d4; --c6:#22c55e; --c7:#f97316;
@@ -46,7 +45,7 @@
     .container{max-width:1180px; margin:0 auto; padding:0 16px}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    /* Privacy Promise */
+    /* Privacy */
     .pp{position:sticky; top:0; z-index:90; background:var(--panel); border-bottom:1px solid var(--line)}
     .pp .row{display:flex; gap:10px; align-items:center; justify-content:center; padding:8px 16px; font-weight:900}
     .pp .shield{width:26px;height:26px;border-radius:8px;background:var(--grad);display:grid;place-items:center}
@@ -90,7 +89,7 @@
     .pulse-green{animation:pulse-green 1.8s ease-in-out infinite}
     @media (prefers-reduced-motion:reduce){ .pulse,.pulse-green{animation:none} }
 
-    /* Lists, inputs, panels */
+    /* Layouts & inputs */
     .grid{display:grid; gap:16px}
     .two{grid-template-columns:420px 1fr}
     @media (max-width:980px){.two{grid-template-columns:1fr}}
@@ -125,6 +124,10 @@
     .uploader{border:1.5px dashed var(--line); border-radius:16px; padding:18px; text-align:center; background:var(--tile)}
     .uploader.dragover{border-color:#94a3b8; box-shadow:0 0 0 4px rgba(148,163,184,.2) inset}
     .uploader input[type=file]{display:none}
+
+    /* Inline helper */
+    .hint{font-size:12px; color:#b45309; margin-left:8px}
+    html[data-theme="dark"] .hint{color:#facc15}
   </style>
 
   <!-- libs -->
@@ -169,7 +172,7 @@
       </div>
 
       <div class="wizard">
-        <!-- STEP 1: How many images -->
+        <!-- STEP 1 -->
         <section id="p1" class="page show" aria-labelledby="p1h">
           <h3 id="p1h" style="margin:10px 0">कितनी इमेज मर्ज करनी हैं?</h3>
           <div class="panel" style="max-width:520px; margin:0 auto">
@@ -179,14 +182,14 @@
                 <input id="imgCount" type="number" value="6" min="1" max="50" style="width:110px" inputmode="numeric" />
               </label>
             </div>
-            <p class="tiny" style="text-align:center; margin-top:8px">यह संख्या अपलोड सीमा तय करेगी (अधिकतम)।</p>
+            <p class="tiny" style="text-align:center; margin-top:8px">यह संख्या अपलोड सीमा तय करेगी (अधिकतम, और स्टेप-3 में वही लक्ष्य भी)।</p>
           </div>
           <div class="row" style="justify-content:flex-end; margin-top:12px">
             <button id="toP2" class="btn primary pulse" type="button">अगला: सेटिंग्स</button>
           </div>
         </section>
 
-        <!-- STEP 2: Settings -->
+        <!-- STEP 2 -->
         <section id="p2" class="page" aria-labelledby="p2h">
           <h3 id="p2h" style="margin:10px 0">आउटपुट सेटिंग्स</h3>
           <div class="grid two">
@@ -242,7 +245,7 @@
           </div>
         </section>
 
-        <!-- STEP 3: Upload & Arrange -->
+        <!-- STEP 3 -->
         <section id="p3" class="page" aria-labelledby="p3h">
           <h3 id="p3h" style="margin:10px 0">अपलोड करें और ऑर्डर सेट करें</h3>
 
@@ -255,7 +258,10 @@
                 <button class="btn danger slim" id="resetBtn" type="button" disabled>रीसेट</button>
               </div>
               <input id="file" type="file" accept="image/*" multiple hidden/>
-              <p class="tiny" id="capInfo" style="margin-top:8px">अधिकतम: <span id="capMax">6</span> इमेज (स्टेप-1 में सेट)।</p>
+              <p class="tiny" id="capInfo" style="margin-top:8px">
+                चाहिए: <strong><span id="capMax">6</span></strong> इमेज • जोड़ी गई: <strong><span id="curCount">0</span></strong>
+                <span class="hint" id="needHint">— आगे बढ़ने के लिए ठीक उतनी इमेज चाहिए।</span>
+              </p>
             </div>
 
             <div class="list" id="list" aria-live="polite" style="margin-top:12px"></div>
@@ -269,7 +275,7 @@
           </div>
         </section>
 
-        <!-- STEP 4: Build / Preview / Download -->
+        <!-- STEP 4 -->
         <section id="p4" class="page" aria-labelledby="p4h">
           <h3 id="p4h" style="margin:10px 0">PDF बनाओ, प्रीव्यू और डाउनलोड</h3>
 
@@ -316,13 +322,24 @@
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
   }
 
+  /* ===== Helpers ===== */
+  const $ = id => document.getElementById(id);
+  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
+  const sleep = ms => new Promise(r=>setTimeout(r,ms));
+  const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
+  function mm2pt(mm){ return mm * 72 / 25.4; }
+  function setBar(p){ barEl.style.width = clamp(Math.round(p),0,100) + '%'; }
+  function setStatus(t){ statusEl.textContent = t; }
+  function hexToRgb(hex){ const m=hex.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i); if(!m) return {r:255,g:255,b:255}; return {r:parseInt(m[1],16),g:parseInt(m[2],16),b:parseInt(m[3],16)}; }
+  function relLuma({r,g,b}){ const toLin=v=>{v/=255; return v<=0.03928? v/12.92 : Math.pow((v+0.055)/1.055,2.4);}; return 0.2126*toLin(r)+0.7152*toLin(g)+0.0722*toLin(b); }
+  function contrastInk(bg){ const L=relLuma(bg); return L>0.6 ? {r:0,g:0,b:0} : {r:1,g:1,b:1}; }
+
   /* ===== State ===== */
-  const S = { items: [], cap: 6, _outBytes: null }; // items: {id, file, name, size, imgEl, thumbURL, rot}
+  const S = { items: [], cap: 6, _outBytes: null };
 
   /* ===== Stepper ===== */
   const steps = [...document.querySelectorAll('.step')];
   const pages = {1:$('#p1'),2:$('#p2'),3:$('#p3'),4:$('#p4')};
-  function $(id){ return document.getElementById(id); }
   function setStep(n){
     steps.forEach(s=>s.classList.toggle('active', s.dataset.step==n));
     Object.values(pages).forEach(el=>el.classList.remove('show'));
@@ -331,69 +348,55 @@
     document.querySelectorAll('.pulse,.pulse-green').forEach(el=>el.classList.remove('pulse','pulse-green'));
     if (n===1) toP2.classList.add('pulse');
     if (n===2) toP3.classList.add('pulse');
-    if (n===3) toP4.classList.add('pulse');
+    if (n===3) updateCounts(); // will pulse toP4 if eligible
     if (n===4) buildBtn.classList.add('pulse');
   }
 
-  /* ===== DOM ===== */
-  const imgCount = $('#imgCount'); const capMax = $('#capMax');
+  /* ===== DOM refs ===== */
+  const imgCount = $('#imgCount'); const capMax = $('#capMax'); const curCount = $('#curCount'); const needHint = $('#needHint');
   const toP2 = $('#toP2'), toP3 = $('#toP3'), toP4 = $('#toP4');
   const backP1 = $('#backP1'), backP2 = $('#backP2'), backP3 = $('#backP3');
+
   const fileEl = $('#file'), dropEl = $('#drop'), demoBtn = $('#demoBtn'), resetBtn = $('#resetBtn');
   const listEl = $('#list'), countEl = $('#countLine');
+
   const barEl = $('#bar'), statusEl = $('#status'), pvWrap = $('#preview');
   const buildBtn = $('#buildBtn'), downloadBtn = $('#downloadBtn'), startOver = $('#startOver');
 
-  // Settings refs
-  const pageSizeSel = $('#pageSize'), orientSel = $('#orient'), customSizeRow = $('#customSizeRow'), wmm = $('#hmm').previousElementSibling.querySelector('input')?$('#wmm'):$('#wmm');
+  // Settings
+  const pageSizeSel = $('#pageSize'), orientSel = $('#orient'), customSizeRow = $('#customSizeRow');
+  const wmm = $('#wmm'), hmm = $('#hmm');
   const marginInput = $('#margin'), nupSel = $('#nup'), scaleModeSel = $('#scaleMode'), bgInput = $('#bg');
   const captionChk = $('#caption'), qualityRange = $('#quality'), qv = $('#qv');
   const autoOrientChk = $('#autoOrient'), addNumbersChk = $('#addNumbers'), fontSizeInput = $('#fontSize');
-  const hmm = $('#hmm');
-
-  /* ===== Utilities ===== */
-  const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
-  const sleep = ms => new Promise(r=>setTimeout(r,ms));
-  const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
-  function setBar(p){ barEl.style.width = clamp(Math.round(p),0,100) + '%'; }
-  function setStatus(t){ statusEl.textContent = t; }
-  function mm2pt(mm){ return mm * 72 / 25.4; }
-  function hexToRgb(hex){ const m=hex.match(/^#?([\da-f]{2})([\da-f]{2})([\da-f]{2})$/i); if(!m) return {r:255,g:255,b:255}; return {r:parseInt(m[1],16),g:parseInt(m[2],16),b:parseInt(m[3],16)}; }
-  function relLuma({r,g,b}){ const toLin=v=>{v/=255; return v<=0.03928? v/12.92 : Math.pow((v+0.055)/1.055,2.4);}; return 0.2126*toLin(r)+0.7152*toLin(g)+0.0722*toLin(b); }
-  function contrastInk(bg){ const L=relLuma(bg); return L>0.6 ? {r:0,g:0,b:0} : {r:1,g:1,b:1}; }
-
-  function pageDims(){
-    let w,h; const v = pageSizeSel.value;
-    if (v==='A4'){ w = mm2pt(210); h = mm2pt(297); }
-    else if (v==='A5'){ w = mm2pt(148); h = mm2pt(210); }
-    else if (v==='LETTER'){ w = 612; h = 792; }
-    else { w = mm2pt(parseFloat($('#wmm').value)||210); h = mm2pt(parseFloat($('#hmm').value)||297); }
-    const o = orientSel.value;
-    if (o==='portrait') return {w,h}; if (o==='landscape') return {w:h,h:w}; return {w,h};
-  }
 
   /* ===== Step 1 → 2 ===== */
   toP2.addEventListener('click', ()=>{
     const n = parseInt(imgCount.value, 10);
     if (isNaN(n) || n<1 || n>50){ alert('कृपया 1 से 50 के बीच सही संख्या दर्ज करें।'); return; }
-    S.cap = n; capMax.textContent = String(n);
+    S.cap = n; capMax.textContent = String(n); curCount.textContent = String(S.items.length);
     setStep(2);
   });
 
   /* ===== Step 2 UI ===== */
-  $('#pageSize').addEventListener('change', ()=>{ customSizeRow.style.display = pageSizeSel.value==='CUSTOM' ? 'flex' : 'none'; });
+  pageSizeSel.addEventListener('change', ()=>{ customSizeRow.style.display = pageSizeSel.value==='CUSTOM' ? 'flex' : 'none'; });
   qualityRange.addEventListener('input', ()=>{ qv.textContent = qualityRange.value + '%'; });
   backP1?.addEventListener('click', ()=> setStep(1));
   toP3?.addEventListener('click', ()=> setStep(3));
 
   /* ===== Step 3: Upload & Arrange ===== */
   backP2?.addEventListener('click', ()=> setStep(2));
-  $('#toP4').disabled = true;
 
   function updateCounts(){
-    countEl.textContent = S.items.length ? `${S.items.length} / ${S.cap} इमेज` : `कोई इमेज नहीं — सीमा ${S.cap}`;
+    countEl.textContent = S.items.length ? `${S.items.length} / ${S.cap} इमेज` : `कोई इमेज नहीं — लक्ष्य ${S.cap}`;
+    curCount.textContent = String(S.items.length);
     resetBtn.disabled = S.items.length===0;
-    toP4.disabled = S.items.length===0;
+
+    // STRICT: enable Next only when EXACTLY cap is reached
+    const ready = S.items.length === S.cap;
+    toP4.disabled = !ready;
+    needHint.style.display = ready ? 'none' : 'inline';
+    toP4.classList.toggle('pulse', ready); // pulsate only when actionable
   }
 
   // DnD + chooser
@@ -426,9 +429,9 @@
     const pick = files
       .filter(f=>f.type.startsWith('image/'))
       .filter(f=>!existing.has(f.name+'_'+f.size))
-      .slice(0, room);
+      .slice(0, room); // hard cap
     if (!pick.length){
-      if (room===0) alert(`सीमा पूरी हो गई (${S.cap}). स्टेप-1 में संख्या बढ़ाएँ या कुछ हटाएँ।`);
+      if (room===0) alert(`ठीक ${S.cap} इमेज चाहिए। कुछ हटाएँ या स्टेप-1 में संख्या बदलें।`);
       return;
     }
     for (const f of pick){
@@ -453,7 +456,7 @@
         e.preventDefault();
         const fromId=e.dataTransfer.getData('text/plain'); if(!fromId||fromId===f.id) return;
         const fromIndex=S.items.findIndex(x=>x.id===fromId); const toIndex=idx;
-        const [m]=S.items.splice(fromIndex,1); S.items.splice(toIndex,0,m); renderList();
+        const [m]=S.items.splice(fromIndex,1); S.items.splice(toIndex,0,m); renderList(); updateCounts();
       });
 
       const th = document.createElement('div'); th.className='thumb';
@@ -465,15 +468,17 @@
       col.append(name, meta);
 
       const ctrls = document.createElement('div'); ctrls.className='controls';
-      const up = mkIconBtn('ऊपर', `M12 8l-4 4h8l-4-4z`); up.addEventListener('click', ()=>{ if(idx>0){ const [m]=S.items.splice(idx,1); S.items.splice(idx-1,0,m); renderList(); }});
-      const down = mkIconBtn('नीचे', `M12 16l4-4H8l4 4z`); down.addEventListener('click', ()=>{ if(idx<S.items.length-1){ const [m]=S.items.splice(idx,1); S.items.splice(idx+1,0,m); renderList(); }});
-      const rot = mkIconBtn('रोटेट 90°', `M12 5v4m0 6v4m-7-7h4m6 0h4`); rot.addEventListener('click', ()=>{ f.rot=(f.rot+90)%360; renderList(); });
+      const up = mkIconBtn('ऊपर', `M12 8l-4 4h8l-4-4z`); up.addEventListener('click', ()=>{ if(idx>0){ const [m]=S.items.splice(idx,1); S.items.splice(idx-1,0,m); renderList(); updateCounts(); }});
+      const down = mkIconBtn('नीचे', `M12 16l4-4H8l4 4z`); down.addEventListener('click', ()=>{ if(idx<S.items.length-1){ const [m]=S.items.splice(idx,1); S.items.splice(idx+1,0,m); renderList(); updateCounts(); }});
+      const rot = mkIconBtn('रोटेट 90°', `M12 5v4m0 6v4m-7-7h4m6 0h4`); rot.addEventListener('click', ()=>{ f.rot=(f.rot+90)%360; renderList(); updateCounts(); });
       const del = mkIconBtn('हटाओ', `M6 7h12M10 7v10m4-10v10M9 7l1-2h4l1 2`, true); del.addEventListener('click', ()=>{ S.items.splice(idx,1); renderList(); updateCounts(); });
 
       ctrls.append(up, down, rot, del);
       row.append(th, col, ctrls);
       listEl.appendChild(row);
     });
+
+    countEl.textContent = S.items.length ? `${S.items.length} / ${S.cap} इमेज` : 'कोई इमेज नहीं जोड़ी गई।';
   }
 
   function mkIconBtn(title, path, danger=false){
@@ -483,17 +488,16 @@
     return b;
   }
 
-  // Navigation to Step 4
   toP4?.addEventListener('click', ()=> setStep(4));
   backP3?.addEventListener('click', ()=> setStep(3));
   startOver?.addEventListener('click', ()=>{
     S.items.length = 0; S._outBytes=null; setBar(0); setStatus('तैयार…'); pvWrap.innerHTML=''; downloadBtn.disabled=true;
-    setStep(1);
+    curCount.textContent='0'; updateCounts(); setStep(1);
   });
 
   /* ===== Image pipeline ===== */
   async function getExifOrientation(file){
-    try{ const buf = await file.arrayBuffer(); const exif = EXIF.readFromBinaryFile(buf) || {}; return exif.Orientation || 1; }
+    try{ const buf = await file.arrayBuffer(); const exIF = EXIF.readFromBinaryFile(buf) || {}; return exIF.Orientation || 1; }
     catch{ return 1; }
   }
   async function readAndOrientImage(file, autoOrient){
@@ -526,7 +530,15 @@
   }
 
   /* ===== Build / Preview ===== */
-  function contrastInk(bg){ const L=relLuma(bg); return L>0.6 ? {r:0,g:0,b:0} : {r:1,g:1,b:1}; } // re-def for scope safety
+  function pageDims(){
+    let w,h; const v = pageSizeSel.value;
+    if (v==='A4'){ w = mm2pt(210); h = mm2pt(297); }
+    else if (v==='A5'){ w = mm2pt(148); h = mm2pt(210); }
+    else if (v==='LETTER'){ w = 612; h = 792; }
+    else { w = mm2pt(parseFloat(wmm.value)||210); h = mm2pt(parseFloat(hmm.value)||297); }
+    const o = orientSel.value;
+    if (o==='portrait') return {w,h}; if (o==='landscape') return {w:h,h:w}; return {w,h};
+  }
 
   buildBtn.addEventListener('click', buildPDF);
   downloadBtn.addEventListener('click', ()=>{
@@ -536,8 +548,6 @@
     a.href=URL.createObjectURL(new Blob([S._outBytes],{type:'application/pdf'}));
     a.download=`Images-${stamp}.pdf`; a.click(); URL.revokeObjectURL(a.href);
   });
-
-  function mm2pt(mm){ return mm * 72 / 25.4; } // duplicate-safe
 
   async function rasterToJPEG(imgEl, rotDeg, quality){
     const c=document.createElement('canvas'), g=c.getContext('2d');
@@ -672,10 +682,7 @@
     }catch(e){ console.error(e); }
   }
 
-  /* ===== Helpers for settings UI ===== */
-  $('#pageSize').addEventListener('change', ()=>{ customSizeRow.style.display = pageSizeSel.value==='CUSTOM' ? 'flex' : 'none'; });
-
-  // Init
+  /* init */
   setStep(1);
   </script>
 </body>
