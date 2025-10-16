@@ -4,26 +4,20 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>PDF जोड़ो (Merge) — चरण दर चरण • सुरक्षित</title>
-  <meta name="description" content="चार सरल पेज: गिनती चुनो → उतने स्लॉट में PDFs अपलोड करो → सेटिंग्स चुनो → मर्ज, प्रीव्यू और डाउनलोड — सब कुछ 100% ब्राउज़र में।" />
+  <meta name="description" content="चार सरल पेज: गिनती चुनो → उतने स्लॉट में PDFs अपलोड करो/री-ऑर्डर करो → सेटिंग्स चुनो → मर्ज, प्रीव्यू और डाउनलोड — सब कुछ 100% ब्राउज़र में।" />
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#0b1020" />
 
-  <!-- Fonts (Devanagari-first + Latin fallback) -->
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
 
   <style>
-    /* ===== Theme aligned with index ===== */
     :root{
-      /* Base (index theme) */
       --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
       --text:#e9eefb; --muted:#9fb0de; --ink:#0b1020;
-      /* Brand */
-      --accent:#7c5cff; --accent2:#23d3ac;
-      /* Sun & Rose */
-      --sun:#ffd95c; --sun-2:#ffefb3; --rose:#ff5c7c; --rose-2:#ff98ab;
-      /* Shadows */
+      --accent:#7c5cff; --accent2:#23d3ac; --sun:#ffd95c; --sun-2:#ffefb3; --rose:#ff5c7c; --rose-2:#ff98ab;
       --shadow:0 22px 80px rgba(0,0,0,.38);
       --tile:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
     }
@@ -33,7 +27,6 @@
       margin:0; color:var(--text);
       font-family:"Noto Sans Devanagari", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       line-height:1.5;
-      /* same multi-colour glow as index */
       background:
         radial-gradient(1400px 900px at 85% -15%, rgba(255,92,124,.18), transparent),
         radial-gradient(1200px 700px at 10% 110%, rgba(255,217,92,.18), transparent),
@@ -46,7 +39,7 @@
     .container{max-width:1180px; margin:0 auto; padding:0 16px}
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    /* Privacy Promise (sticky top, like index) */
+    /* Privacy Promise */
     .pp{position:sticky; top:0; z-index:90; background:rgba(11,16,32,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
     .pp .inner{display:flex; gap:10px; align-items:center; justify-content:center; padding:8px 10px; font-weight:800}
     .pp .shield{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
@@ -69,7 +62,7 @@
     h1{margin:0 0 6px; font-size:clamp(22px,3.6vw,30px); font-weight:900; background:linear-gradient(90deg,#fff, #ffe28f 40%, #ff8fa3 80%); -webkit-background-clip:text; background-clip:text; color:transparent}
     .sub{margin:0; color:#f4f3d2}
 
-    /* Wizard shell */
+    /* Wizard */
     .wizard{padding:0 22px 18px}
     .page{display:none}
     .page.show{display:block}
@@ -84,54 +77,47 @@
     .btn.sun{background:linear-gradient(90deg, var(--sun), var(--sun-2)); color:#2a2100; box-shadow:0 10px 28px rgba(255,213,79,.28)}
     .btn.ghost{background:transparent; color:var(--text); border:1px solid var(--line)}
     .btn.ok{background:linear-gradient(90deg, var(--accent2), #8ef0d9); color:#06261e; box-shadow:0 10px 28px rgba(35,211,172,.30)}
+    .btn.danger{background:linear-gradient(90deg, var(--rose), var(--rose-2)); color:#fff}
+    .btn.slim{padding:8px 10px; border-radius:10px}
     .tiny{font-size:12px; color:var(--muted)}
 
     /* Pulsating next action */
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(124,92,255,.55) }
-      50%{ box-shadow: 0 0 0 14px rgba(124,92,255,0) }
-      100%{ box-shadow: 0 0 0 0 rgba(124,92,255,0) }
-    }
-    @keyframes pulse-green {
-      0% { box-shadow: 0 0 0 0 rgba(35,211,172,.55) }
-      50%{ box-shadow: 0 0 0 14px rgba(35,211,172,0) }
-      100%{ box-shadow: 0 0 0 0 rgba(35,211,172,0) }
-    }
+    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(124,92,255,.55)} 50%{box-shadow:0 0 0 14px rgba(124,92,255,0)} 100%{box-shadow:0 0 0 0 rgba(124,92,255,0)} }
+    @keyframes pulse-green { 0%{box-shadow:0 0 0 0 rgba(35,211,172,.55)} 50%{box-shadow:0 0 0 14px rgba(35,211,172,0)} 100%{box-shadow:0 0 0 0 rgba(35,211,172,0)} }
     .pulse{animation:pulse 1.8s ease-in-out infinite}
     .pulse-green{animation:pulse-green 1.8s ease-in-out infinite}
     @media (prefers-reduced-motion:reduce){ .pulse,.pulse-green{animation:none} }
 
-    /* Page 1: count selector */
+    /* Page 1 */
     .count-wrap{display:flex; gap:10px; align-items:center; justify-content:center; padding:16px 0}
     .count-wrap input{width:110px; background:#121935; color:var(--text); border:1px solid var(--line); border-radius:12px; padding:10px 12px; font-weight:800; text-align:center}
 
-    /* Page 2: upload slots */
+    /* Page 2 */
     .slots{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
     @media (max-width:980px){ .slots{grid-template-columns:repeat(2,minmax(0,1fr))} }
     @media (max-width:600px){ .slots{grid-template-columns:1fr} }
-    .slot{background:var(--panel); border:1px dashed rgba(255,255,255,.25); border-radius:16px; padding:12px; min-height:160px; display:grid; gap:10px}
+    .slot{background:var(--panel); border:1px dashed rgba(255,255,255,.25); border-radius:16px; padding:12px; min-height:170px; display:grid; gap:10px}
     .slot-header{display:flex; align-items:center; justify-content:space-between; gap:8px}
     .slot-title{font-weight:800}
-    .slot-btns{display:flex; gap:8px; align-items:center}
+    .slot-btns{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
     .slot input[type=file]{display:none}
     .drop{display:grid; place-items:center; text-align:center; background:var(--tile); border:1px solid var(--line); border-radius:12px; min-height:120px; padding:12px}
     .drop.dragover{border-color:var(--sun); box-shadow:0 0 0 3px rgba(255,217,92,.24) inset}
     .thumb{width:100%; display:grid; place-items:center}
     .thumb canvas{width:100%; height:auto; border-radius:10px; display:block}
 
-    /* Page 3: settings */
+    /* Page 3 */
     .panel{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:12px}
     .panel h4{margin:0 0 8px}
     input[type=text], input[type=number], input[type=color], select{background:#121935; color:var(--text); border:1px solid var(--line); border-radius:10px; padding:10px 12px}
 
-    /* Page 4: preview */
+    /* Page 4 */
     .viewer{position:relative; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:12px; overflow:auto; min-height:220px}
     #preview{display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px}
     .pv{background:var(--tile); border:1px solid var(--line); border-radius:12px; padding:6px; display:grid; gap:6px}
     .pv canvas{width:100%; height:auto; display:block; border-radius:8px}
     .pv .cap{font-size:12px; color:#ffb3bf; text-align:center}
 
-    /* Progress */
     .progress{height:12px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid var(--line)}
     .bar{height:100%; width:0; background:linear-gradient(90deg, var(--rose), var(--accent), var(--sun)); transition:width .25s}
   </style>
@@ -172,11 +158,11 @@
     <section class="card">
       <div class="hero">
         <h1>कई PDFs को जोड़कर एक बनाओ</h1>
-        <p class="sub">चार आसान पेज — पहले गिनती, फिर अपलोड, उसके बाद सेटिंग्स, और अंत में प्रीव्यू + डाउनलोड।</p>
+        <p class="sub">चार आसान पेज — पहले गिनती, फिर अपलोड/री-ऑर्डर, उसके बाद सेटिंग्स, और अंत में प्रीव्यू + डाउनलोड।</p>
       </div>
 
       <div class="wizard">
-        <!-- ===== PAGE 1: COUNT ===== -->
+        <!-- PAGE 1 -->
         <section id="p1" class="page show" aria-labelledby="p1h">
           <h3 id="p1h" style="margin:10px 0">कितनी PDF जोड़नी हैं?</h3>
           <div class="count-wrap">
@@ -187,7 +173,7 @@
           <p class="tiny">टिप: 2–50 फाइलें बेहतर काम करती हैं (कुल ~100MB अनुशंसित)।</p>
         </section>
 
-        <!-- ===== PAGE 2: UPLOAD SLOTS ===== -->
+        <!-- PAGE 2 -->
         <section id="p2" class="page" aria-labelledby="p2h">
           <h3 id="p2h" style="margin:10px 0">PDF अपलोड करो</h3>
           <div id="slots" class="slots" aria-live="polite"></div>
@@ -195,13 +181,13 @@
           <div class="row between" style="margin-top:14px">
             <button class="btn ghost" id="backP1" type="button">◀ वापस</button>
             <div class="row">
-              <button class="btn sun" id="demoBtn" type="button">डेमो फाइलें</button>
+              <button class="btn slim ghost" id="addSlot" type="button">+ एक और स्लॉट</button>
               <button class="btn ok" id="toP3" type="button" disabled>मर्ज सेटिंग्स</button>
             </div>
           </div>
         </section>
 
-        <!-- ===== PAGE 3: SETTINGS ===== -->
+        <!-- PAGE 3 -->
         <section id="p3" class="page" aria-labelledby="p3h">
           <h3 id="p3h" style="margin:10px 0">आउटपुट सेटिंग्स</h3>
           <div class="panel">
@@ -231,7 +217,7 @@
           </div>
         </section>
 
-        <!-- ===== PAGE 4: PREVIEW + DOWNLOAD ===== -->
+        <!-- PAGE 4 -->
         <section id="p4" class="page" aria-labelledby="p4h">
           <h3 id="p4h" style="margin:10px 0">मर्ज पूरा — प्रीव्यू और डाउनलोड</h3>
           <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
@@ -255,62 +241,46 @@
   </main>
 
   <script>
-  /* ===== pdf.js worker ===== */
   const pdfjsLib = window['pdfjs-dist/build/pdf'];
   if (pdfjsLib) {
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
   }
 
   /* ===== State ===== */
-  const S = {
-    count: 3,
-    slots: [],   // { id, file?, bytes?, name?, size?, pageCount?, thumbCanvas? }
-    _outBytes: null,
-  };
+  const S = { count:3, slots:[], _outBytes:null };
 
   /* ===== DOM ===== */
   const steps = [...document.querySelectorAll('.step')];
-  const pages = {
-    p1: document.getElementById('p1'),
-    p2: document.getElementById('p2'),
-    p3: document.getElementById('p3'),
-    p4: document.getElementById('p4'),
-  };
+  const pages = { p1:$('#p1'), p2:$('#p2'), p3:$('#p3'), p4:$('#p4') };
 
-  const countInput = document.getElementById('count');
-  const toP2 = document.getElementById('toP2');
-  const backP1 = document.getElementById('backP1');
-  const backP2 = document.getElementById('backP2');
-  const backP3 = document.getElementById('backP3');
-  const toP3 = document.getElementById('toP3');
-  const toP4 = document.getElementById('toP4');
-  const startOver = document.getElementById('startOver');
+  const countInput = $('#count');
+  const toP2 = $('#toP2'), backP1 = $('#backP1');
+  const toP3 = $('#toP3'), backP2 = $('#backP2');
+  const toP4 = $('#toP4'), backP3 = $('#backP3');
 
-  const slotsWrap = document.getElementById('slots');
-  const demoBtn = document.getElementById('demoBtn');
+  const slotsWrap = $('#slots'), addSlotBtn = $('#addSlot');
 
-  const normalizeA4 = document.getElementById('normalizeA4');
-  const autoRotate = document.getElementById('autoRotate');
-  const addNumbers = document.getElementById('addNumbers');
-  const numPos = document.getElementById('numPos');
-  const startNum = document.getElementById('startNum');
-  const marg = document.getElementById('marg');
-  const numSize = document.getElementById('numSize');
+  const normalizeA4 = $('#normalizeA4');
+  const autoRotate = $('#autoRotate');
+  const addNumbers = $('#addNumbers');
+  const numPos = $('#numPos');
+  const startNum = $('#startNum');
+  const marg = $('#marg');
+  const numSize = $('#numSize');
 
-  const barEl = document.getElementById('bar');
-  const statusEl = document.getElementById('status');
-  const pvWrap = document.getElementById('preview');
-  const downloadBtn = document.getElementById('downloadBtn');
+  const barEl = $('#bar'), statusEl = $('#status'), pvWrap = $('#preview');
+  const downloadBtn = $('#downloadBtn');
+  const startOver = $('#startOver');
 
   /* ===== Utils ===== */
+  function $(q){ return document.getElementById(q.replace('#','')); }
   const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
   const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
   function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
   function setStep(n){
     steps.forEach(s=>s.classList.toggle('active', s.dataset.step==n));
     Object.values(pages).forEach(el=>el.classList.remove('show'));
-    document.getElementById('p'+n).classList.add('show');
-    // Pulses
+    pages['p'+n].classList.add('show');
     document.querySelectorAll('.pulse,.pulse-green').forEach(el=>el.classList.remove('pulse','pulse-green'));
     if (n==1) toP2.classList.add('pulse');
     if (n==2) toP3.classList.add('pulse');
@@ -318,87 +288,116 @@
     if (n==4) downloadBtn.classList.add('pulse-green');
   }
 
-  /* ===== Page1 ===== */
+  /* ===== Page 1 ===== */
   countInput.addEventListener('input', ()=>{
     let v = parseInt(countInput.value,10);
     if (Number.isNaN(v)) v = 2;
     v = Math.max(2, Math.min(50, v));
-    countInput.value = v;
-    S.count = v;
+    countInput.value = v; S.count = v;
   });
-  toP2.addEventListener('click', ()=>{
-    S.count = parseInt(countInput.value,10) || 3;
-    buildSlots(S.count);
-    setStep(2);
-  });
+  toP2.addEventListener('click', ()=>{ S.count = parseInt(countInput.value,10) || 3; buildSlots(S.count); setStep(2); });
 
-  /* ===== Page2 (slots) ===== */
+  /* ===== Page 2 (Slots) ===== */
+  addSlotBtn.addEventListener('click', ()=>{ S.slots.push(makeSlotObj(S.slots.length+1)); renderSlots(); updateNextEnabled(); });
+
   function buildSlots(n){
-    S.slots = Array.from({length:n}, (_,i)=>({ id: 'slot_'+(i+1) }));
+    S.slots = Array.from({length:n}, (_,i)=> makeSlotObj(i+1));
+    renderSlots();
+  }
+
+  function makeSlotObj(n){ return { id: 'slot_'+n, name:null, size:null, file:null, bytes:null, pageCount:null, thumbCanvas:null }; }
+
+  function renderSlots(){
     slotsWrap.innerHTML = '';
-    S.slots.forEach((s,i)=>{
-      const slot = document.createElement('div'); slot.className='slot'; slot.dataset.id=s.id;
+    S.slots.forEach((s, i) => slotsWrap.appendChild(makeSlotEl(s, i)));
+  }
 
-      const head = document.createElement('div'); head.className='slot-header';
-      const title = document.createElement('div'); title.className='slot-title'; title.textContent = `फाइल ${i+1}`;
-      const btns = document.createElement('div'); btns.className='slot-btns';
+  function acceptAsPdf(file){
+    if (!file) return false;
+    const t = (file.type||'').toLowerCase();
+    const name = (file.name||'').toLowerCase();
+    return t.includes('pdf') || t==='application/x-pdf' || name.endsWith('.pdf');
+  }
 
-      const pickLbl = document.createElement('label'); pickLbl.className='btn sun'; pickLbl.textContent='अपलोड';
-      const inp = document.createElement('input'); inp.type='file'; inp.accept='application/pdf';
-      pickLbl.appendChild(inp);
+  function makeSlotEl(slot, idx){
+    const el = document.createElement('div'); el.className='slot'; el.dataset.id=slot.id;
 
-      const rem = document.createElement('button'); rem.className='btn ghost'; rem.type='button'; rem.textContent='हटाएँ';
-      rem.addEventListener('click', ()=>{ clearSlot(s.id, slot); updateNextEnabled(); });
+    const head = document.createElement('div'); head.className='slot-header';
+    const title = document.createElement('div'); title.className='slot-title'; title.textContent = `फाइल ${idx+1}`;
+    const btns = document.createElement('div'); btns.className='slot-btns';
 
-      btns.append(pickLbl, rem);
-      head.append(title, btns);
+    const pickLbl = document.createElement('label'); pickLbl.className='btn sun'; pickLbl.textContent='अपलोड';
+    const inp = document.createElement('input'); inp.type='file'; inp.accept='.pdf,application/pdf,application/x-pdf';
+    pickLbl.appendChild(inp);
 
-      const drop = document.createElement('div'); drop.className='drop'; drop.tabIndex=0; drop.setAttribute('role','button');
-      drop.setAttribute('aria-label', `फाइल ${i+1} अपलोड करें`);
-      drop.innerHTML = `<div>
-        <div style="font-weight:900; margin-bottom:6px">Drag & Drop या “अपलोड”</div>
-        <div class="tiny">PDF यहाँ छोड़ें (${i+1}/${n})</div>
-      </div>`;
+    const clearBtn = document.createElement('button'); clearBtn.className='btn ghost slim'; clearBtn.type='button'; clearBtn.textContent='क्लियर';
+    const removeBtn = document.createElement('button'); removeBtn.className='btn danger slim'; removeBtn.type='button'; removeBtn.textContent='हटाएँ';
+    const leftBtn = document.createElement('button'); leftBtn.className='btn ghost slim'; leftBtn.type='button'; leftBtn.textContent='↤';
+    const rightBtn = document.createElement('button'); rightBtn.className='btn ghost slim'; rightBtn.type='button'; rightBtn.textContent='↦';
 
-      const content = document.createElement('div'); content.className='thumb';
+    btns.append(pickLbl, clearBtn, removeBtn, leftBtn, rightBtn);
+    head.append(title, btns);
 
-      slot.append(head, drop, content);
-      slotsWrap.appendChild(slot);
+    const drop = document.createElement('div'); drop.className='drop'; drop.tabIndex=0; drop.setAttribute('role','button');
+    drop.setAttribute('aria-label', `फाइल ${idx+1} अपलोड करें`);
+    drop.innerHTML = `<div><div style="font-weight:900; margin-bottom:6px">Drag & Drop या “अपलोड”</div><div class="tiny">${slot.name?slot.name:'PDF यहाँ छोड़ें'} (${idx+1}/${S.slots.length})</div></div>`;
 
-      // handlers
-      inp.addEventListener('change', async e=>{
-        if (!e.target.files?.[0]) return;
-        await setSlotFile(s.id, e.target.files[0], content, drop);
-        updateNextEnabled();
-      });
-      ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault(); drop.classList.add('dragover');}));
-      ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault(); drop.classList.remove('dragover');}));
-      drop.addEventListener('drop', async e=>{
-        const f = [...e.dataTransfer.files].find(x=>x.type==='application/pdf');
-        if (!f) return;
-        await setSlotFile(s.id, f, content, drop);
-        updateNextEnabled();
-      });
-      drop.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); inp.click(); } });
+    const content = document.createElement('div'); content.className='thumb';
+    if (slot.thumbCanvas) {
+      const meta = document.createElement('div'); meta.className='tiny'; meta.style.margin='6px 0';
+      meta.textContent = `${slot.name} • ${fmtBytes(slot.size)} • ${slot.pageCount??'?'} पेज`;
+      content.append(slot.thumbCanvas, meta);
+    }
+
+    // Handlers
+    inp.addEventListener('change', async e=>{
+      const f = e.target.files?.[0];
+      if (!f) return;
+      await assignFileToSlot(slot, f, content, drop, inp);
+      updateNextEnabled();
     });
 
-    updateNextEnabled();
+    ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault(); drop.classList.add('dragover');}));
+    ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault(); drop.classList.remove('dragover');}));
+    drop.addEventListener('drop', async e=>{
+      const f = [...e.dataTransfer.files].find(x=>acceptAsPdf(x));
+      if (!f) { drop.innerHTML = `<div style="color:#ffb3bf;font-weight:800">PDF नहीं मिला</div>`; return; }
+      await assignFileToSlot(slot, f, content, drop, inp);
+      updateNextEnabled();
+    });
+    drop.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); inp.click(); } });
+
+    clearBtn.addEventListener('click', ()=>{
+      clearSlotData(slot, content, drop, inp);
+      updateNextEnabled();
+    });
+    removeBtn.addEventListener('click', ()=>{
+      const idx = S.slots.findIndex(x=>x.id===slot.id);
+      if (idx>-1) { S.slots.splice(idx,1); renderSlots(); updateNextEnabled(); }
+    });
+    leftBtn.addEventListener('click', ()=>{
+      const i = S.slots.findIndex(x=>x.id===slot.id);
+      if (i>0){ const [m]=S.slots.splice(i,1); S.slots.splice(i-1,0,m); renderSlots(); updateNextEnabled(); }
+    });
+    rightBtn.addEventListener('click', ()=>{
+      const i = S.slots.findIndex(x=>x.id===slot.id);
+      if (i<S.slots.length-1){ const [m]=S.slots.splice(i,1); S.slots.splice(i+1,0,m); renderSlots(); updateNextEnabled(); }
+    });
+
+    el.append(head, drop, content);
+    return el;
   }
 
-  function updateNextEnabled(){
-    const ok = S.slots.every(s=>!!s.bytes);
-    toP3.disabled = !ok;
-    if (ok) { toP3.classList.add('pulse'); } else { toP3.classList.remove('pulse'); }
-  }
-
-  async function setSlotFile(id, file, contentEl, dropEl){
-    const slot = S.slots.find(x=>x.id===id);
-    if (!slot) return;
+  async function assignFileToSlot(slot, file, contentEl, dropEl, inputEl){
+    if (!acceptAsPdf(file)) {
+      dropEl.innerHTML = `<div style="color:#ffb3bf;font-weight:800">यह PDF नहीं है</div>`;
+      return;
+    }
     try{
       slot.file = file; slot.name = file.name; slot.size = file.size;
       slot.bytes = new Uint8Array(await file.arrayBuffer());
 
-      // Render thumbnail via pdf.js (page 1)
+      // Try reading with pdf.js for preview
       const pdf = await pdfjsLib.getDocument({data:slot.bytes}).promise;
       slot.pageCount = pdf.numPages;
       const page = await pdf.getPage(1);
@@ -406,55 +405,45 @@
       const c = document.createElement('canvas'); c.width=Math.floor(vp.width); c.height=Math.floor(vp.height);
       await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
       slot.thumbCanvas = c;
+
+      // UI
       contentEl.innerHTML='';
       const meta = document.createElement('div'); meta.className='tiny'; meta.style.margin='6px 0'; meta.textContent = `${slot.name} • ${fmtBytes(slot.size)} • ${slot.pageCount} पेज`;
       contentEl.append(c, meta);
       dropEl.innerHTML = `<div style="color: var(--accent2); font-weight:800">अपलोड हो गया ✓</div>`;
+
+      // ensure re-selecting same file later works
+      if (inputEl) inputEl.value = '';
     }catch(e){
       console.error(e);
-      alert('PDF पढ़ने में दिक्कत आई: '+(e?.message||e));
+      // Common case: password-protected / damaged PDFs
+      dropEl.innerHTML = `<div style="color:#ffb3bf;font-weight:800">PDF पढ़ा नहीं जा सका — संभवतः एन्क्रिप्टेड/करप्ट</div>`;
+      // reset data so the slot isn’t “half filled”
+      clearSlotData(slot, contentEl, dropEl, inputEl);
     }
   }
 
-  function clearSlot(id, slotEl){
-    const slot = S.slots.find(x=>x.id===id);
-    if (!slot) return;
+  function clearSlotData(slot, contentEl, dropEl, inputEl){
     Object.assign(slot, { file:null, bytes:null, name:null, size:null, pageCount:null, thumbCanvas:null });
-    const drop = slotEl.querySelector('.drop');
-    const content = slotEl.querySelector('.thumb');
-    drop.innerHTML = `<div><div style="font-weight:900; margin-bottom:6px">Drag & Drop या “अपलोड”</div><div class="tiny">PDF यहाँ छोड़ें</div></div>`;
-    content.innerHTML = '';
+    if (contentEl) contentEl.innerHTML='';
+    if (dropEl) dropEl.innerHTML = `<div><div style="font-weight:900; margin-bottom:6px">Drag & Drop या “अपलोड”</div><div class="tiny">PDF यहाँ छोड़ें</div></div>`;
+    if (inputEl) inputEl.value='';
   }
 
-  backP1?.addEventListener('click', ()=> setStep(1));
+  function updateNextEnabled(){
+    const ok = S.slots.length>=2 && S.slots.every(s=>!!s.bytes);
+    toP3.disabled = !ok;
+    toP3.classList.toggle('pulse', ok);
+  }
+
+  // Navigation
+  $('#backP1')?.addEventListener('click', ()=> setStep(1));
   toP3?.addEventListener('click', ()=> setStep(3));
+  $('#backP2')?.addEventListener('click', ()=> setStep(2));
+  $('#backP3')?.addEventListener('click', ()=> setStep(3));
 
-  /* Demo PDFs (Page2) */
-  demoBtn?.addEventListener('click', async ()=>{
-    const { PDFDocument, StandardFonts } = PDFLib;
-    for (let i=0;i<S.slots.length;i++){
-      const slot = S.slots[i];
-      if (slot.bytes) continue;
-      const doc = await PDFDocument.create();
-      const font = await doc.embedFont(StandardFonts.Helvetica);
-      const page = doc.addPage([595,842]);
-      page.drawText(`डेमो PDF — ${i+1}`, { x: 190, y: 420, size: 26, font });
-      const bytes = await doc.save();
-      const file = new File([new Blob([bytes],{type:'application/pdf'})], `Demo-${i+1}.pdf`, {type:'application/pdf'});
-      const slotEl = document.querySelector(`[data-id="${slot.id}"]`);
-      await setSlotFile(slot.id, file, slotEl.querySelector('.thumb'), slotEl.querySelector('.drop'));
-    }
-    updateNextEnabled();
-  });
-
-  /* ===== Page3 ===== */
-  backP2?.addEventListener('click', ()=> setStep(2));
-
-  /* ===== Page4 (Merge) ===== */
-  backP3?.addEventListener('click', ()=> setStep(3));
-
-  toP4?.addEventListener('click', async ()=>{
-    // run merge, then go to page 4
+  /* ===== Page 4: Merge ===== */
+  $('#toP4')?.addEventListener('click', async ()=>{
     await mergeAndPreview();
     setStep(4);
   });
@@ -469,7 +458,6 @@
   });
 
   startOver?.addEventListener('click', ()=>{
-    // reset everything
     S.count = 3; countInput.value = 3;
     S.slots = []; S._outBytes = null;
     pvWrap.innerHTML=''; statusEl.textContent='तैयार…'; setBar(0);
@@ -494,8 +482,8 @@
   }
 
   async function mergeAndPreview(){
-    const allOK = S.slots.every(s=>!!s.bytes);
-    if(!allOK){ alert('कृपया सभी स्लॉट में PDFs अपलोड करें।'); return; }
+    const allOK = S.slots.length>=2 && S.slots.every(s=>!!s.bytes);
+    if(!allOK){ alert('कृपया कम से कम 2 स्लॉट भरें।'); return; }
 
     setBar(1); statusEl.textContent='मर्ज हो रहा है…';
     try{
@@ -504,18 +492,19 @@
       const font = await out.embedFont(StandardFonts.Helvetica);
       const A4 = { w:595.28, h:841.89 };
 
-      // load all src docs
+      // Load all src docs
       const loaded = await Promise.all(S.slots.map(async s => ({ s, doc: await PDFDocument.load(s.bytes) })));
 
+      // Copy all pages in the (possibly re-ordered) slot order
       let total = loaded.reduce((a,{doc})=>a+doc.getPageCount(), 0);
       let done = 0;
-
       for (const {doc} of loaded){
         const idxs = parseRange('all', doc.getPageCount());
         const pages = await out.copyPages(doc, idxs);
-        for (const p of pages) { out.addPage(p); done++; if (done%3===0) await sleep(0); setBar((done/total)*60); }
+        for (const p of pages) { out.addPage(p); done++; if (done%3===0) await sleep(0); setBar((done/Math.max(1,total))*60); }
       }
 
+      // Normalize / rotate
       if (normalizeA4.checked || autoRotate.checked){
         const n = out.getPageCount();
         for (let i=0;i<n;i++){
@@ -535,6 +524,7 @@
         }
       }
 
+      // Numbering
       if (addNumbers.checked){
         const start = Math.max(0, parseInt(startNum.value,10)||0);
         const size  = Math.max(6, Math.min(24, parseInt(numSize.value,10)||10));
@@ -553,21 +543,20 @@
           if (pos==='tl'){ x=m; y=H-m; }
           if (pos==='tc'){ x=W/2; y=H-m; }
           const opts = { size, font, color: rgb(0,0,0) };
-          const wEst = size*text.length*0.5;
           if (pos.endsWith('c')) pg.drawText(text, { ...opts, x: x - (size*text.length*0.25), y });
-          else if (pos.endsWith('r')) pg.drawText(text, { ...opts, x: x - wEst, y });
+          else if (pos.endsWith('r')) pg.drawText(text, { ...opts, x: x - (size*text.length*0.5), y });
           else pg.drawText(text, { ...opts, x, y });
           if (i%6===0) setBar(80 + (i/n)*20);
         }
       }
 
       const outBytes = await out.save({ updateFieldAppearances:false });
-      S._outBytes = outBytes; downloadBtn.disabled=false; statusEl.textContent='तैयार — डाउनलोड कर लो!'; setBar(100);
+      S._outBytes = outBytes; downloadBtn.disabled=true; // enable after preview
       await renderPreview(outBytes);
+      downloadBtn.disabled=false; statusEl.textContent='तैयार — डाउनलोड कर लो!'; setBar(100);
     }catch(err){
       console.error(err);
-      alert('मर्ज नहीं हो पाया: '+(err?.message||err));
-      statusEl.textContent='एरर।';
+      statusEl.textContent='एरर।'; alert('मर्ज नहीं हो पाया: '+(err?.message||err));
     }
   }
 
@@ -588,7 +577,7 @@
     }catch(e){ console.error(e); }
   }
 
-  // init
+  // Init
   setStep(1);
   </script>
 </body>
