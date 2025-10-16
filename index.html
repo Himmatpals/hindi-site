@@ -1,41 +1,37 @@
-<!DOCTYPE html><html lang="hi" data-theme="light">
+<!DOCTYPE html>
+<html lang="hi" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>हिंदी टूल्स — PDF जोड़ो, बाँटो, छोटा करो, इमेज↔PDF, AI और भी</title>
-  <meta name="description" content="हिंदी में आसान PDF टूल्स: PDF जोड़ो, बाँटो, छोटा करो, इमेज ↔ PDF, PDF से इमेज, वॉटरमार्क, लॉक/अनलॉक, AI सारांश — सब कुछ 100% ब्राउज़र में।" />
-  <meta name="theme-color" content="#0b1020" media="(prefers-color-scheme: dark)">
+  <title>हिंदी टूल्स — PDF जोड़ो, बाँटो, छोटा करो, इमेज↔PDF, AI</title>
+  <meta name="description" content="हिंदी में आसान PDF टूल्स: जोड़ो, बाँटो, छोटा करो, इमेज ↔ PDF—सब कुछ 100% आपके ब्राउज़र में, बिना किसी अपलोड के।" />
+  <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
-  <meta name="color-scheme" content="dark light">
-  <meta name="robots" content="index,follow" />
-  <link rel="canonical" href="https://www.hinditools.com/" />  <!-- Open Graph / Twitter -->  <meta property="og:title" content="हिंदी टूल्स — PDF के सारे काम, फटाफट" />
-  <meta property="og:description" content="100% ब्राउज़र में, बिना अपलोड। जोड़ो, बाँटो, छोटा करो, इमेज↔PDF, AI और भी।" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.hinditools.com/" />
-  <meta property="og:locale" content="hi_IN" />
-  <meta name="twitter:card" content="summary_large_image" />  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">  <link rel="preload" as="image" href="images/hero-pdf.jpg" imagesrcset="images/hero-pdf.jpg 1x" imagesizes="100vw">  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebSite",
-    "name": "हिंदी टूल्स",
-    "url": "https://www.hinditools.com/",
-    "potentialAction": {"@type": "SearchAction","target": "https://www.hinditools.com/?q={search_term_string}","query-input": "required name=search_term_string"}
-  }
-  </script>  <style>
+  <meta name="theme-color" content="#0b1020"   media="(prefers-color-scheme: dark)">
+  <link rel="canonical" href="." />
+
+  <!-- Favicon (embedded SVG) -->
+  <link rel="icon" type="image/svg+xml"
+        href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128"><defs><linearGradient id="g" x1="0" x2="1"><stop offset="0" stop-color="%237c5cff"/><stop offset="1" stop-color="%23ff5c7c"/></linearGradient></defs><rect rx="28" width="128" height="128" fill="url(%23g)"/><path d="M28 36a10 10 0 0 1 10-10h52a10 10 0 0 1 10 10v56a10 10 0 0 1-10 10H38a10 10 0 0 1-10-10V36z" fill="%23fff" opacity=".95"/><path d="M44 50h40M44 68h40M44 86h26" stroke="%230b1020" stroke-width="8" stroke-linecap="round"/></svg>'>
+
+  <!-- JSON-LD (kept minimal) -->
+  <script type="application/ld+json">
+  {"@context":"https://schema.org","@type":"WebSite","name":"हिंदी टूल्स","url":"."}
+  </script>
+
+  <style>
     /* ========================
-       MULTICOLOUR ACCESSIBLE THEME
+       ACCESSIBLE MULTICOLOUR THEME (single file)
        ======================== */
     :root{
-      /* Light (default) */
-      --bg:#f7fafc; --panel:#ffffff; --card:#ffffff; --line:rgba(2,6,23,.10);
+      --bg:#f7fafc; --panel:#fff; --card:#fff; --line:rgba(2,6,23,.10);
       --text:#0b1020; --muted:#334155; --focus:#2563eb;
       --c1:#7c5cff; --c2:#23d3ac; --c3:#ffd95c; --c4:#ff5c7c; --c5:#06b6d4; --c6:#22c55e; --c7:#f97316;
       --grad: conic-gradient(from 180deg, var(--c1), var(--c2), var(--c3), var(--c4), var(--c5), var(--c6), var(--c7), var(--c1));
       --shadow:0 10px 30px rgba(2,6,23,.08);
       --tile-bg:linear-gradient(180deg,#ffffff,#f8fafc);
       --tile-sub:#475569;
+      --font: "Noto Sans Devanagari", "Nirmala UI", "Hind", "Kohinoor Devanagari", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     }
     html[data-theme="dark"]{
       --bg:#0b1020; --panel:#0e1330; --card:#121a3b; --line:rgba(255,255,255,.12);
@@ -44,27 +40,25 @@
       --tile-bg:linear-gradient(180deg,#11183a,#0e1430);
       --tile-sub:#dbe7ff;
     }
-
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
       margin:0; color:var(--text);
-      font-family:"Noto Sans Devanagari", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      font-family:var(--font);
       background:
         radial-gradient(1100px 700px at 10% -10%, #7c5cff18, transparent 60%),
         radial-gradient(1000px 700px at 90% 110%, #23d3ac18, transparent 60%),
         radial-gradient(900px 600px at 20% 120%, #ffd95c18, transparent 60%),
         var(--bg);
+      line-height:1.5;
     }
     a{color:inherit; text-decoration:none}
     img{max-width:100%; height:auto; display:block}
     :focus-visible{outline:3px solid var(--focus); outline-offset:2px; border-radius:8px}
-
     .container{max-width:1200px; margin:0 auto; padding:0 16px}
     .sr-only{position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0}
 
-    /* ======================== */
-    /* Top Privacy Promise Bar */
+    /* Privacy Promise (top) */
     .pp{position:sticky; top:0; z-index:80; background:var(--panel); border-bottom:1px solid var(--line)}
     .pp .row{display:flex; gap:12px; align-items:center; justify-content:center; padding:10px 16px}
     .pp .shield{width:28px; height:28px; border-radius:8px; background:var(--grad); display:grid; place-items:center}
@@ -77,21 +71,18 @@
     .brand{display:flex; align-items:center; gap:10px; font-weight:900}
     .brand svg{width:30px;height:30px}
     .brand-badge{display:inline-flex; align-items:center; gap:10px; padding:6px 10px; border-radius:999px; background:linear-gradient(90deg,#00000006,#00000003); border:1px solid var(--line)}
-
     .nav-ctrls{display:flex; gap:8px; align-items:center}
     .menu-btn,.theme-btn{border:1px solid var(--line); background:var(--panel); color:inherit; border-radius:12px; padding:8px 12px; font-weight:800}
-
     .tags{display:flex; gap:8px; flex-wrap:wrap}
     .tag{position:relative; border:1px solid var(--line); border-radius:999px; padding:8px 12px; font-size:12px; cursor:pointer}
     .tag:before{content:""; position:absolute; inset:-2px; border-radius:inherit; background:var(--grad); filter:blur(6px); opacity:.35; z-index:-1}
     .tag[aria-selected="true"]{background:linear-gradient(180deg,#00000005,#00000002)}
     @media (max-width:860px){ .tags{display:none} .tags.open{display:flex; position:absolute; right:16px; top:68px; background:var(--panel); padding:12px; border:1px solid var(--line); border-radius:14px; box-shadow:var(--shadow)} }
 
-    /* HERO */
+    /* Hero (uses inline SVG background) */
     .hero{position:relative; overflow:hidden; border-radius:20px; margin:16px 0; background:var(--panel); border:1px solid var(--line)}
     .hero-inner{display:grid; grid-template-columns:1.25fr .75fr; gap:20px; align-items:center; min-height:54vh; padding:28px}
-    @media (max-width:1000px){ .hero-inner{grid-template-columns:1fr; min-height:auto} }
-
+    @media (max-width:1000px){ .hero-inner{grid-template-columns:1fr; min-height:auto}}
     .eyebrow{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-weight:800; background:linear-gradient(90deg,#00000005,#00000003); border:1px solid var(--line)}
     .hero-title{margin:10px 0; font-size:clamp(28px,6vw,54px); line-height:1.05; font-weight:900}
     .rainbow-text{background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent}
@@ -101,27 +92,25 @@
     .btn-primary{color:#0b1020; background:var(--grad); box-shadow:0 12px 28px rgba(2,6,23,.18)}
     .btn-ghost{color:inherit; background:#00000007; border:1px solid var(--line)}
     .btn-alt{color:#0b1020; background:linear-gradient(90deg, var(--c3), var(--c4))}
-
     .glass{position:relative; border-radius:18px; padding:12px; background:linear-gradient(180deg,#00000006,#00000003); border:1px solid var(--line); box-shadow:var(--shadow)}
     .glass .grid{display:grid; grid-template-columns:1fr 1fr; gap:10px}
     .mini-card{background:var(--tile-bg); border:1px solid var(--line); border-radius:14px; padding:10px; display:flex; gap:8px; align-items:flex-start}
     .mini-ico{width:28px;height:28px; display:grid; place-items:center; border-radius:8px; background:var(--grad)}
-
     .halo{position:absolute; inset:-35%; background:var(--grad); filter:blur(80px); opacity:.18; animation:spin 14s linear infinite; pointer-events:none}
     @keyframes spin{to{transform:rotate(1turn)}}
 
-    /* TOOLBAR */
+    /* Toolbar */
     .toolbar{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
     .search{flex:1 1 340px; display:flex; align-items:center; gap:8px; background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:10px 12px; box-shadow:var(--shadow)}
     .search input{flex:1; background:transparent; border:none; outline:none; color:inherit}
     .badge{font-size:12px; border:1px solid var(--line); padding:6px 10px; border-radius:999px; background:linear-gradient(90deg,#00000006,#00000003)}
     .count{font-size:12px; color:var(--muted)}
 
-    /* GRID / TILES */
+    /* Grid / Tiles */
     .grid{display:grid; gap:16px}
     .three{grid-template-columns:repeat(3,minmax(0,1fr))}
-    @media (max-width:980px){ .three{grid-template-columns:repeat(2,minmax(0,1fr))} }
-    @media (max-width:640px){ .three{grid-template-columns:1fr} }
+    @media (max-width:980px){ .three{grid-template-columns:repeat(2,minmax(0,1fr))}}
+    @media (max-width:640px){ .three{grid-template-columns:1fr}}
 
     .tile{position:relative; border-radius:20px; overflow:hidden; min-height:210px; display:flex; flex-direction:column; border:1px solid var(--line); background:var(--tile-bg)}
     .tile::before{content:""; position:absolute; inset:-1px; border-radius:inherit; padding:1px; background:conic-gradient(from var(--h,0deg), var(--c1), var(--c2), var(--c3), var(--c4), var(--c5), var(--c6), var(--c7)); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude;}
@@ -130,19 +119,14 @@
     .tile-title{margin:0; font-size:18px}
     .tile-sub{margin:2px 0 0; color:var(--tile-sub); font-size:13px}
     .tile-body{padding:0 16px 16px}
-
     .reveal{max-height:0; opacity:.0; transform:translateY(-6px); transition:max-height .24s ease, opacity .24s ease, transform .24s ease; overflow:hidden}
     .tile:hover .reveal, .tile:focus-within .reveal{max-height:260px; opacity:1; transform:translateY(0)}
-
     .tile-actions{display:flex; gap:8px; flex-wrap:wrap; margin-top:12px}
-    .btn-ghost{background:#00000007; border:1px solid var(--line)}
-
-    /* Quick Actions toolbar (i) pin (ii) share (iii) info */
     .qa{margin-left:auto; display:flex; gap:6px; opacity:.0; transform:translateY(-4px); transition:opacity .15s ease, transform .15s ease}
     .tile:hover .qa, .tile:focus-within .qa{opacity:1; transform:translateY(0)}
     .icon-btn{width:36px;height:36px; display:grid; place-items:center; border-radius:10px; border:1px solid var(--line); background:#00000005; cursor:pointer}
 
-    /* Category colour mapping */
+    /* Category → hue */
     .tag-pdf{--h:350deg}
     .tag-image{--h:190deg}
     .tag-office{--h:35deg}
@@ -150,13 +134,10 @@
 
     /* Steps & privacy */
     .steps{margin:18px 0; display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
-    @media (max-width:900px){ .steps{grid-template-columns:1fr} }
+    @media (max-width:900px){ .steps{grid-template-columns:1fr}}
     .step{position:relative; background:var(--tile-bg); border:1px solid var(--line); border-radius:16px; padding:14px}
     .step:before{content:""; position:absolute; inset:-1px; border-radius:inherit; padding:1px; background:var(--grad); -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0); -webkit-mask-composite:xor; mask-composite:exclude; opacity:.4}
     .step-num{font-weight:900; background:var(--grad); -webkit-background-clip:text; background-clip:text; color:transparent; font-size:20px}
-
-    .strip{display:flex; align-items:center; justify-content:space-between; gap:12px; border:1px dashed var(--line); padding:12px; border-radius:14px; background:linear-gradient(90deg,#00000006,#00000003)}
-    .privacy-card{position:relative; overflow:hidden; border:1px solid var(--line); border-radius:18px; padding:16px; background:linear-gradient(180deg,#00000006,#00000003); box-shadow:var(--shadow)}
 
     footer{border-top:1px solid var(--line); margin-top:26px}
     .foot{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; padding:16px; color:#334155; font-size:13px}
@@ -168,17 +149,27 @@
     .modal{position:fixed; inset:0; display:none; place-items:center; background:#0008; z-index:90}
     .modal.open{display:grid}
     .sheet{max-width:720px; width:92vw; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:16px}
+    .sheet-head{display:flex; align-items:center; gap:10px; margin-bottom:8px}
 
     @media (prefers-reduced-motion:reduce){ .halo{animation:none} .tile,.tag{transition:none} .qa{transition:none} }
-  </style></head>
+  </style>
+</head>
 <body>
-  <a href="#tools" class="sr-only" id="skip">मुख्य सामग्री पर जाएँ</a>  <!-- Privacy Promise Top Bar -->  <div class="pp" role="region" aria-label="प्राइवेसी वादा">
+  <a class="sr-only" href="#tools">मुख्य सामग्री पर जाएँ</a>
+
+  <!-- Privacy Promise -->
+  <section class="pp" role="region" aria-label="प्राइवेसी वादा">
     <div class="container row">
       <div class="shield" aria-hidden="true">🔒</div>
-      <div><strong>प्राइवेसी वादा:</strong> सारी प्रोसेसिंग <strong>आपके ब्राउज़र</strong> में होती है — <strong>फाइलें कहीं अपलोड नहीं</strong> होतीं।</div>
-      <a class="btn btn-ghost" id="readPolicy" href="#policy">नीति पढ़ें</a>
+      <div>
+        <strong>प्राइवेसी वादा:</strong> सारी प्रोसेसिंग <strong>आपके ब्राउज़र</strong> में होती है — <strong>फाइलें कहीं अपलोड नहीं</strong> होतीं।
+      </div>
+      <button class="btn btn-ghost" id="readPolicy" type="button">नीति पढ़ें</button>
     </div>
-  </div>  <!-- Header -->  <header class="site">
+  </section>
+
+  <!-- Header -->
+  <header class="site">
     <div class="container nav">
       <div class="brand-badge">
         <div class="brand" aria-label="हिंदी टूल्स">
@@ -191,16 +182,19 @@
         <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navTags">☰ मेनू</button>
       </div>
     </div>
-    <div class="container" id="navTags" class="tags" role="tablist" aria-label="कैटेगरी">
+    <div class="container" id="navTags" role="tablist" aria-label="कैटेगरी">
       <div class="tags" id="tagsRow">
-        <button class="tag" role="tab" aria-selected="true" data-tag="all">सभी</button>
+        <button class="tag" role="tab" aria-selected="true"  data-tag="all">सभी</button>
         <button class="tag" role="tab" aria-selected="false" data-tag="pdf">PDF</button>
         <button class="tag" role="tab" aria-selected="false" data-tag="image">इमेज</button>
         <button class="tag" role="tab" aria-selected="false" data-tag="office">ऑफिस</button>
         <button class="tag" role="tab" aria-selected="false" data-tag="ai">AI</button>
       </div>
     </div>
-  </header>  <!-- HERO -->  <section class="container hero" aria-labelledby="h1">
+  </header>
+
+  <!-- Hero (self-contained SVG artwork) -->
+  <section class="container hero" aria-labelledby="h1" style="background-image:url('data:image/svg+xml;utf8,<?xml version=&quot;1.0&quot;?><svg xmlns=&quot;http://www.w3.org/2000/svg&quot; viewBox=&quot;0 0 1200 600&quot; preserveAspectRatio=&quot;xMidYMid slice&quot;><defs><linearGradient id=&quot;a&quot; x1=&quot;0&quot; x2=&quot;1&quot; y1=&quot;0&quot; y2=&quot;1&quot;><stop offset=&quot;0&quot; stop-color=&quot;%237c5cff&quot; stop-opacity=&quot;.18&quot;/><stop offset=&quot;.5&quot; stop-color=&quot;%2323d3ac&quot; stop-opacity=&quot;.18&quot;/><stop offset=&quot;1&quot; stop-color=&quot;%23ffd95c&quot; stop-opacity=&quot;.18&quot;/></linearGradient></defs><rect width=&quot;1200&quot; height=&quot;600&quot; fill=&quot;url(%23a)&quot;/><g opacity=&quot;.25&quot;><circle cx=&quot;980&quot; cy=&quot;100&quot; r=&quot;220&quot; fill=&quot;%23ff5c7c&quot;/><circle cx=&quot;200&quot; cy=&quot;560&quot; r=&quot;260&quot; fill=&quot;%237c5cff&quot;/><circle cx=&quot;1000&quot; cy=&quot;600&quot; r=&quot;300&quot; fill=&quot;%2323d3ac&quot;/></g></svg>'); background-size:cover;">
     <div class="halo" aria-hidden="true"></div>
     <div class="hero-inner">
       <div>
@@ -219,28 +213,40 @@
             <div class="mini-card"><div class="mini-ico"><span>🧩</span></div><div><strong>Merge</strong><div class="muted">कई PDFs को एक में</div></div></div>
             <div class="mini-card"><div class="mini-ico"><span>✂️</span></div><div><strong>Split</strong><div class="muted">रेंज/बुकमार्क से</div></div></div>
             <div class="mini-card"><div class="mini-ico"><span>🗜️</span></div><div><strong>Compress</strong><div class="muted">क्वालिटी कंट्रोल</div></div></div>
-            <div class="mini-card"><div class="mini-ico"><span>🖼️</span></div><div><strong>Image ↔ PDF</strong><div class="muted">फिट टू A4/A5</div></div></div>
+            <div class="mini-card"><div class="mini-ico"><span>🖼️</span></div><div><strong>Image ↔ PDF</strong><div class="muted">A4/A5 में फिट</div></div></div>
           </div>
         </div>
       </div>
     </div>
-  </section>  <!-- SEARCH / TOOLBAR -->  <div class="container toolbar" role="search">
+  </section>
+
+  <!-- Search / Toolbar -->
+  <div class="container toolbar" role="search">
     <div class="search">
       <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="1.5"/><path d="M20 20l-3.5-3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       <input id="search" placeholder="टूल खोजें: जोड़ो, बाँटो, छोटा करो, इमेज, लॉक…" autocomplete="off" aria-describedby="rc">
     </div>
     <span class="badge">ऑफलाइन-रेडी*</span>
     <span id="rc" class="count" aria-live="polite"></span>
-  </div>  <!-- QUICK STEPS -->  <section id="how" class="container">
+  </div>
+
+  <!-- Quick Steps -->
+  <section id="how" class="container">
     <div class="steps">
       <div class="step"><div class="step-num">①</div><h3>फाइलें चुनें</h3><p>ड्रैग-ड्रॉप या “खोलो” पर क्लिक। थम्बनेल तुरंत दिखेंगे।</p></div>
       <div class="step"><div class="step-num">②</div><h3>सेटिंग्स एडजस्ट</h3><p>पेज रेंज, क्रम, पेज-साइज, क्वालिटी—सब कंट्रोल्स हिंदी में।</p></div>
       <div class="step"><div class="step-num">③</div><h3>एक्सपोर्ट</h3><p>एक क्लिक में सेव। आपकी फाइलें डिवाइस से बाहर नहीं जातीं।</p></div>
     </div>
-  </section>  <!-- TOOLS GRID -->  <main id="tools" class="container" aria-label="टूल्स">
+  </section>
+
+  <!-- Tools Grid -->
+  <main id="tools" class="container" aria-label="टूल्स">
     <section class="grid three" id="toolGrid"></section>
-  </main>  <!-- INFO STRIP & PRIVACY (detailed) -->  <section id="privacy" class="container" aria-labelledby="pv" style="margin-top:14px">
-    <article class="privacy-card" role="region">
+  </main>
+
+  <!-- Detailed Privacy -->
+  <section id="privacy" class="container" aria-labelledby="pv" style="margin-top:14px">
+    <article class="sheet" role="region" style="border:1px solid var(--line); border-radius:16px;">
       <h2 id="pv">🔐 प्राइवेसी वादा — सब कुछ ब्राउज़र में</h2>
       <ul>
         <li>100% <strong>क्लाइंट-साइड</strong> प्रोसेसिंग (WebAssembly, Canvas, pdf-lib/pdf.js)</li>
@@ -249,20 +255,28 @@
         <li>लाइब्रेरी कैश होने पर <strong>ऑफ़लाइन</strong> मोड</li>
       </ul>
     </article>
-  </section>  <!-- FOOTER -->  <footer>
+  </section>
+
+  <footer>
     <div class="container foot">
       <div>© <span id="yr"></span> हिंदी टूल्स — “सब ब्राउज़र में, सब सुरक्षित।”</div>
       <div>फ़ीडबैक? <a href="#" id="fb">मेल भेजें</a></div>
     </div>
-  </footer>  <!-- Floating CTA -->  <div class="float-badges" aria-label="क्विक कैटेगरी">
+  </footer>
+
+  <!-- Floating CTA -->
+  <div class="float-badges" aria-label="क्विक कैटेगरी">
     <button class="float-chip" data-go="pdf">PDF</button>
     <button class="float-chip" data-go="image">इमेज</button>
     <button class="float-chip" data-go="ai">AI</button>
   </div>
-  <button class="float-cta" id="quickStart" type="button">⚡ जल्दी शुरू करो — “PDF जोड़ो”</button>  <!-- Modal: Privacy Policy -->  <div id="policyModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="polHead" aria-describedby="polBody">
+  <button class="float-cta" id="quickStart" type="button">⚡ जल्दी शुरू करो — “PDF जोड़ो”</button>
+
+  <!-- Modal: Privacy Policy -->
+  <div id="policyModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="polHead" aria-describedby="polBody">
     <div class="sheet">
-      <div style="display:flex; align-items:center; gap:10px; margin-bottom:8px">
-        <h3 id="polHead" style="margin:0">डिटेल्ड प्राइवेसी पॉलिसी</h3>
+      <div class="sheet-head">
+        <h3 id="polHead">डिटेल्ड प्राइवेसी पॉलिसी</h3>
         <button class="menu-btn" id="closePolicy" aria-label="बंद करें">✕</button>
       </div>
       <div id="polBody">
@@ -274,29 +288,31 @@
         </ul>
       </div>
     </div>
-  </div>  <script>
-    // Theme toggle with persistence
+  </div>
+
+  <script>
+    // Theme toggle
     (function(){
       const root = document.documentElement;
       const btn  = document.getElementById('themeBtn');
       const stored = localStorage.getItem('theme');
       if(stored) root.dataset.theme = stored;
-      btn.addEventListener('click', ()=>{
+      btn?.addEventListener('click', ()=>{
         root.dataset.theme = root.dataset.theme==='light' ? 'dark' : 'light';
         localStorage.setItem('theme', root.dataset.theme);
         btn.setAttribute('aria-pressed', String(root.dataset.theme==='dark'));
       });
     })();
 
-    // Tags open on mobile
+    // Tags menu (mobile)
     const menuBtn = document.getElementById('menuBtn');
     const tagsRow = document.getElementById('tagsRow');
-    menuBtn.addEventListener('click', ()=>{
+    menuBtn?.addEventListener('click', ()=>{
       const open = tagsRow.classList.toggle('open');
       menuBtn.setAttribute('aria-expanded', String(open));
     });
 
-    // ===== Inline SVG icons (crisp) =====
+    // Inline SVG icon set
     const ICONS = {
       merge:`<svg viewBox='0 0 24 24' width='22' height='22' fill='none' stroke='currentColor' stroke-width='1.8'><path d='M7 7h5M7 12h5M7 17h5'/><path d='M14 7h3M14 12h3M14 17h3'/><path d='M12 6v12'/></svg>`,
       split:`<svg viewBox='0 0 24 24' width='22' height='22' fill='none' stroke='currentColor' stroke-width='1.8'><path d='M4 12h16'/><path d='M12 4v16'/></svg>`,
@@ -312,26 +328,26 @@
       ai:`<svg viewBox='0 0 24 24' width='22' height='22' fill='none' stroke='currentColor' stroke-width='1.8'><circle cx='12' cy='12' r='6'/><path d='M12 2v4M12 18v4M2 12h4M18 12h4M5 5l2.5 2.5M16.5 16.5L19 19M19 5l-2.5 2.5M5 19l2.5-2.5'/></svg>`
     };
 
-    // Tools list with category colours and SVG icons
+    // Tools data
     const tools = [
-      { slug: "merge-pdf-hi.html",   title: "PDF जोड़ो (Merge)",         hint: "कई PDFs को जोड़कर एक बनाओ। थम्बनेल, पेज रेंज, A4, नंबरिंग।", tag:"pdf", icon:ICONS.merge, badge:"नया" },
-      { slug: "split-pdf-hi.html",   title: "PDF बाँटो (Split)",         hint: "रेंज से, हर X पेज पर, या बुकमार्क्स से अलग-अलग PDFs।", tag:"pdf", icon:ICONS.split },
-      { slug: "compress-pdf-hi.html",title: "PDF छोटा करो (Compress)",   hint: "क्वालिटी स्लाइडर के साथ फाइल साइज घटाओ — शेयर के लिए परफेक्ट।", tag:"pdf", icon:ICONS.compress },
-      { slug: "pdf-rotate-hi.html",  title: "PDF घुमाओ/ऑर्गनाइज़",       hint: "थम्बनेल में पेज घुमाओ, हटाओ, रीऑर्डर करो।", tag:"pdf", icon:ICONS.rotate },
-      { slug: "pdf-watermark-hi.html",title:"वॉटरमार्क लगाओ",            hint: "टेक्स्ट/इमेज वॉटरमार्क — पोज़िशन, साइज, ट्रांसपेरेंसी।", tag:"pdf", icon:ICONS.watermark },
-      { slug: "pdf-lock-hi.html",    title: "PDF लॉक (Password)",        hint: "पासवर्ड लगाओ (ध्यान दें: खोया पासवर्ड रिकवर नहीं)।", tag:"pdf", icon:ICONS.lock },
-      { slug: "pdf-unlock-hi.html",  title: "PDF अनलॉक",                 hint: "पासवर्ड पता है? अनलॉक करके नई PDF सेव करो।", tag:"pdf", icon:ICONS.unlock },
+      { slug:"merge-pdf-hi.html",   title:"PDF जोड़ो (Merge)",         hint:"कई PDFs को जोड़कर एक बनाओ। थम्बनेल, पेज रेंज, A4, नंबरिंग।", tag:"pdf",    icon:ICONS.merge,     badge:"नया" },
+      { slug:"split-pdf-hi.html",   title:"PDF बाँटो (Split)",         hint:"रेंज से, हर X पेज पर, या बुकमार्क्स से अलग PDFs।",            tag:"pdf",    icon:ICONS.split     },
+      { slug:"compress-pdf-hi.html",title:"PDF छोटा करो (Compress)",   hint:"क्वालिटी स्लाइडर के साथ फाइल साइज घटाओ — शेयर के लिए परफेक्ट।", tag:"pdf", icon:ICONS.compress  },
+      { slug:"pdf-rotate-hi.html",  title:"PDF घुमाओ/ऑर्गनाइज़",       hint:"थम्बनेल में पेज घुमाओ, हटाओ, रीऑर्डर करो।",                    tag:"pdf",    icon:ICONS.rotate    },
+      { slug:"pdf-watermark-hi.html",title:"वॉटरमार्क लगाओ",           hint:"टेक्स्ट/इमेज वॉटरमार्क — पोज़िशन, साइज, ट्रांसपेरेंसी।",        tag:"pdf",    icon:ICONS.watermark },
+      { slug:"pdf-lock-hi.html",    title:"PDF लॉक (Password)",        hint:"पासवर्ड लगाओ (ध्यान दें: खोया पासवर्ड रिकवर नहीं)।",           tag:"pdf",    icon:ICONS.lock      },
+      { slug:"pdf-unlock-hi.html",  title:"PDF अनलॉक",                 hint:"पासवर्ड पता है? अनलॉक करके नई PDF सेव करो।",                     tag:"pdf",    icon:ICONS.unlock    },
 
-      { slug: "image-to-pdf-hi.html",title: "इमेज से PDF",               hint: "JPG/PNG को A4/A5 में फिट करके PDF। ऑर्डर सेट करो।", tag:"image", icon:ICONS.imgpdf },
-      { slug: "pdf-to-image-hi.html",title: "PDF से इमेज",               hint: "हर पेज को JPG/PNG के रूप में सेव (ZIP)।", tag:"image", icon:ICONS.pdfimg },
+      { slug:"image-to-pdf-hi.html",title:"इमेज से PDF",               hint:"JPG/PNG को A4/A5 में फिट करके PDF। ऑर्डर सेट करो।",             tag:"image",  icon:ICONS.imgpdf    },
+      { slug:"pdf-to-image-hi.html",title:"PDF से इमेज",               hint:"हर पेज को JPG/PNG के रूप में सेव (ZIP)।",                         tag:"image",  icon:ICONS.pdfimg    },
 
-      { slug: "pdf-to-word-hi.html", title: "PDF → Word",                hint: "एडिटेबल DOCX में बदलो (स्कैन के लिए OCR)।", tag:"office", icon:ICONS.word },
-      { slug: "word-to-pdf-hi.html", title: "Word → PDF",                hint: "DOCX को सही फॉन्ट/मार्जिन के साथ PDF।", tag:"office", icon:ICONS.word },
-      { slug: "pdf-signer-hi.html",  title: "PDF साइन करो",               hint: "ड्रा/टेक्स्ट सिग्नेचर, तारीख/नाम ऑटो-फिल।", tag:"office", icon:ICONS.sign },
+      { slug:"pdf-to-word-hi.html", title:"PDF → Word",                hint:"एडिटेबल DOCX में बदलो (स्कैन के लिए OCR)।",                      tag:"office", icon:ICONS.word      },
+      { slug:"word-to-pdf-hi.html", title:"Word → PDF",                hint:"DOCX को सही फॉन्ट/मार्जिन के साथ PDF।",                           tag:"office", icon:ICONS.word      },
+      { slug:"pdf-signer-hi.html",  title:"PDF साइन करो",              hint:"ड्रा/टेक्स्ट सिग्नेचर, तारीख/नाम ऑटो-फिल।",                       tag:"office", icon:ICONS.sign      },
 
-      { slug: "ai-summary-hi.html",  title: "AI सारांश",                  hint: "लंबे PDF का शॉर्ट हिंदी सारांश।", tag:"ai", icon:ICONS.ai, badge:"बीटा" },
-      { slug: "ai-chat-hi.html",     title: "PDF से चैट (AI)",            hint: "PDF से सवाल पूछो — जवाब AI देगा।", tag:"ai", icon:ICONS.ai, badge:"बीटा" },
-      { slug: "ai-extract-hi.html",  title: "AI डेटा निकालो",             hint: "टेबल/इनवॉइस डेटा Excel/CSV में।", tag:"ai", icon:ICONS.ai, badge:"बीटा" },
+      { slug:"ai-summary-hi.html",  title:"AI सारांश",                 hint:"लंबे PDF का शॉर्ट हिंदी सारांश।",                                 tag:"ai",     icon:ICONS.ai,      badge:"बीटा" },
+      { slug:"ai-chat-hi.html",     title:"PDF से चैट (AI)",           hint:"PDF से सवाल पूछो — जवाब AI देगा।",                                tag:"ai",     icon:ICONS.ai,      badge:"बीटा" },
+      { slug:"ai-extract-hi.html",  title:"AI डेटा निकालो",            hint:"टेबल/इनवॉइस डेटा Excel/CSV में।",                                 tag:"ai",     icon:ICONS.ai,      badge:"बीटा" },
     ];
 
     const grid  = document.getElementById('toolGrid');
@@ -353,7 +369,7 @@
           </div>
           ${t.badge?`<span class="badge" style="margin-left:auto">${t.badge}</span>`:''}
           <div class="qa" role="toolbar" aria-label="क्विक एक्शन्स">
-            <button class="icon-btn pin" title="Pin">📌</button>
+            <button class="icon-btn pin"   title="Pin">📌</button>
             <button class="icon-btn share" title="Share">🔗</button>
             <a class="icon-btn info" href="${t.slug}#howto" title="How to">❔</a>
           </div>
@@ -365,35 +381,34 @@
             <a class="btn btn-ghost" href="${t.slug}#howto">कैसे इस्तेमाल करें?</a>
           </div>
         </div>
-      </article>`
+      </article>`;
     }
 
     function visibleTools(qTxt, tag){
       const q = (qTxt||'').trim().toLowerCase();
       return tools.filter(t=>{
         const okText = !q || (t.title+" "+t.hint).toLowerCase().includes(q);
-        const okTag = !tag || tag==='all' || t.tag===tag;
+        const okTag  = !tag || tag==='all' || t.tag===tag;
         return okText && okTag;
       });
     }
 
     function render(q="", tag="all"){
-      // pinned first
       const pins = JSON.parse(localStorage.getItem('pins')||'[]');
       const list = visibleTools(q, tag).sort((a,b)=> (pins.includes(a.slug)?-1:0) - (pins.includes(b.slug)?-1:0));
       grid.innerHTML = list.map(card).join("");
       rc.textContent = `${list.length} टूल${list.length===1?'':'्स'} मिले`;
 
-      // attach quick actions
+      // Quick actions
       grid.querySelectorAll('.tile').forEach(tile=>{
         const slug = tile.querySelector('a.btn-primary')?.getAttribute('href');
         const pinBtn = tile.querySelector('.pin');
         const shareBtn = tile.querySelector('.share');
-        if(pins.includes(slug)) pinBtn.classList.add('active');
+        if ((JSON.parse(localStorage.getItem('pins')||'[]')).includes(slug)) pinBtn.classList.add('active');
         pinBtn?.addEventListener('click', ()=>{
-          const arr = new Set(JSON.parse(localStorage.getItem('pins')||'[]'));
-          if(arr.has(slug)) arr.delete(slug); else arr.add(slug);
-          localStorage.setItem('pins', JSON.stringify(Array.from(arr)));
+          const set = new Set(JSON.parse(localStorage.getItem('pins')||'[]'));
+          if(set.has(slug)) set.delete(slug); else set.add(slug);
+          localStorage.setItem('pins', JSON.stringify(Array.from(set)));
           render(search.value, document.querySelector('#tagsRow .tag[aria-selected="true"]').dataset.tag);
           window.scrollTo({top: document.getElementById('tools').offsetTop-20});
         });
@@ -409,7 +424,7 @@
     render();
 
     // Search
-    search.addEventListener('input', ()=>{
+    search?.addEventListener('input', ()=>{
       const active = tagBtns.find(b=>b.getAttribute('aria-selected')==='true');
       render(search.value, active?.dataset.tag || 'all');
     });
@@ -423,35 +438,23 @@
         if(e.key==='ArrowRight'){ tagBtns[(idx+1)%tagBtns.length].focus(); }
         if(e.key==='ArrowLeft'){ tagBtns[(idx-1+tagBtns.length)%tagBtns.length].focus(); }
         if(e.key==='Enter' || e.key===' '){ selectTag(document.activeElement); }
-      })
+      });
     });
-
     function selectTag(btn){
       tagBtns.forEach(b=>{ b.setAttribute('aria-selected','false'); b.setAttribute('tabindex','-1'); });
       btn.setAttribute('aria-selected','true'); btn.setAttribute('tabindex','0');
       render(search.value, btn.dataset.tag);
     }
 
-    // Quick chips
-    document.querySelectorAll('.float-chip').forEach(c=>{
-      c.addEventListener('click', ()=>{
-        const tgt = tagBtns.find(b=> b.dataset.tag===c.dataset.go) || tagBtns[0];
-        selectTag(tgt);
-        window.scrollTo({ top: document.getElementById('tools').offsetTop - 20, behavior:'smooth' });
-      })
-    })
-
-    // Quick start CTA
-    document.getElementById('quickStart').addEventListener('click', ()=>{ location.href='merge-pdf-hi.html'; });
-
-    // Footer / year / feedback
+    // CTA + footer actions + privacy modal
+    document.getElementById('quickStart')?.addEventListener('click', ()=>{ location.href='merge-pdf-hi.html'; });
     document.getElementById('yr').textContent = new Date().getFullYear();
-    document.getElementById('fb').addEventListener('click', (e)=>{ e.preventDefault(); location.href='mailto:feedback@yourdomain.in?subject=Hindi%20Tools%20Feedback'; });
+    document.getElementById('fb')?.addEventListener('click', (e)=>{ e.preventDefault(); location.href='mailto:feedback@yourdomain.in?subject=Hindi%20Tools%20Feedback'; });
 
-    // Privacy modal
     const policyModal = document.getElementById('policyModal');
-    document.getElementById('readPolicy').addEventListener('click', (e)=>{ e.preventDefault(); policyModal.classList.add('open'); });
-    document.getElementById('closePolicy').addEventListener('click', ()=> policyModal.classList.remove('open'));
-    policyModal.addEventListener('click', (e)=>{ if(e.target===policyModal) policyModal.classList.remove('open'); });
-  </script></body>
+    document.getElementById('readPolicy')?.addEventListener('click', ()=> policyModal.classList.add('open'));
+    document.getElementById('closePolicy')?.addEventListener('click', ()=> policyModal.classList.remove('open'));
+    policyModal?.addEventListener('click', (e)=>{ if(e.target===policyModal) policyModal.classList.remove('open'); });
+  </script>
+</body>
 </html>
