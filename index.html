@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>हिंदी टूल्स — PDF जोड़ो, बाँटो, छोटा करो, इमेज↔PDF, AI</title>
-  <meta name="description" content="हिंदी में आसान PDF टूल्स: जोड़ो, बाँटो, छोटा करो, इमेज ↔ PDF—सब कुछ 100% आपके ब्राउज़र में, बिना किसी अपलोड के।" />
+  <meta name="description" content="हिंदी में आसान PDF टूल्स: जोड़ो, बाँटो, छोटा करो, इमेज ↔ PDF—सब कुछ 100% आपके ब्रउज़र में, बिना किसी अपलोड के।" />
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0b1020"   media="(prefers-color-scheme: dark)">
@@ -164,7 +164,8 @@
       <div>
         <strong>प्राइवेसी वादा:</strong> सारी प्रोसेसिंग <strong>आपके ब्राउज़र</strong> में होती है — <strong>फाइलें कहीं अपलोड नहीं</strong> होतीं।
       </div>
-      <button class="btn btn-ghost" id="readPolicy" type="button">नीति पढ़ें</button>
+      <!-- changed: button → link -->
+      <a class="btn btn-ghost" href="privacy.html">नीति पढ़ें</a>
     </div>
   </section>
 
@@ -178,6 +179,9 @@
         </div>
       </div>
       <div class="nav-ctrls">
+        <!-- added: About + Privacy links (kept styles) -->
+        <a class="menu-btn" href="about.html" aria-label="हमारे बारे में">ℹ️ हमारे बारे में</a>
+        <a class="menu-btn" href="privacy.html" aria-label="गोपनीयता नीति">🔒 गोपनीयता</a>
         <button class="theme-btn" id="themeBtn" aria-pressed="false" aria-label="थीम बदलें">🌗 थीम</button>
         <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="navTags">☰ मेनू</button>
       </div>
@@ -260,7 +264,11 @@
   <footer>
     <div class="container foot">
       <div>© <span id="yr"></span> हिंदी टूल्स — “सब ब्राउज़र में, सब सुरक्षित।”</div>
-      <div>फ़ीडबैक? <a href="#" id="fb">मेल भेजें</a></div>
+      <div>
+        <a href="about.html">हमारे बारे में</a> •
+        <a href="privacy.html">गोपनीयता नीति</a> •
+        फ़ीडबैक? <a href="#" id="fb">मेल भेजें</a>
+      </div>
     </div>
   </footer>
 
