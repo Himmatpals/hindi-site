@@ -1,22 +1,22 @@
 <!--
-File: split-pdf-hi.html (Wizard)
-Description: Client-side Hindi "Split PDF" tool, 4-step wizard. No server upload.
-Tech: pdf.js (render + outline) + pdf-lib (rebuild) + JSZip (multi-file zip)
-Modes: Ranges, Every N pages, By Bookmarks (best-effort), Odd/Even
+File: split-pdf-hi.html
+Purpose: Remade from scratch — fully interactive, one-step-at-a-time wizard for splitting PDFs.
+UX: Clear instruction per step, “Next” enabled only when ready, robust file-read checks.
+Privacy: 100% client-side (pdf.js + pdf-lib + JSZip). No uploads.
 -->
 <!DOCTYPE html>
 <html lang="hi" data-theme="light">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PDF बाँटो (Split) — रेंज, हर N पेज, बुकमार्क, Odd/Even</title>
-  <meta name="description" content="PDF को हिस्सों में बाँटो — पेज रेंज, हर N पेज, बुकमार्क, Odd/Even। 100% ब्राउज़र में, कोई अपलोड नहीं।" />
+  <title>PDF बाँटो (Split) — चरण-दर-चरण विज़ार्ड</title>
+  <meta name="description" content="एकदम आसान हिंदी विज़ार्ड: PDF खोलो → मोड चुनो → प्लान देखो → स्प्लिट करो — सब 100% आपके ब्राउज़र में।" />
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0b1020"   media="(prefers-color-scheme: dark)">
 
   <style>
-    /* ===== Unified site theme (same as index & image-to-pdf) ===== */
+    /* ===== Unified theme (matches your index) ===== */
     :root{
       --bg:#f7fafc; --panel:#ffffff; --card:#ffffff; --line:rgba(2,6,23,.10);
       --text:#0b1020; --muted:#334155; --focus:#2563eb;
@@ -47,8 +47,7 @@ Modes: Ranges, Every N pages, By Bookmarks (best-effort), Odd/Even
     .container{max-width:1200px; margin:0 auto; padding:0 16px}
     .tiny{font-size:12px; color:var(--muted)}
 
-    /* Header */
-    header.site{position:sticky; top:0; z-index:70; backdrop-filter:blur(10px); background:rgba(255,255,255,.82); border-bottom:1px solid var(--line)}
+    header.site{position:sticky; top:0; z-index:50; backdrop-filter:blur(10px); background:rgba(255,255,255,.82); border-bottom:1px solid var(--line)}
     html[data-theme="dark"] header.site{background:linear-gradient(180deg, rgba(11,16,32,.85), rgba(11,16,32,.60))}
     .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0}
     .brand{display:flex; align-items:center; gap:10px; font-weight:900}
@@ -57,70 +56,63 @@ Modes: Ranges, Every N pages, By Bookmarks (best-effort), Odd/Even
 
     /* Card / wizard shell */
     .card{background:var(--card); border:1px solid var(--line); border-radius:18px; box-shadow:var(--shadow); overflow:hidden; margin:18px 0}
-    .hero{padding:22px 22px 8px}
+    .hero{padding:20px 22px 0}
     h1{margin:0 0 8px; font-weight:900; font-size:clamp(22px,3.6vw,30px)}
     .sub{margin:0; color:var(--muted)}
 
-    /* Stepper header */
-    .stepper{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; padding:10px 22px 0}
-    .step-pill{display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:999px; border:1px solid var(--line); background:linear-gradient(90deg,#00000006,#00000003); font-size:13px}
+    /* Stepper (instruction-first) */
+    .stepper{display:grid; grid-template-columns:repeat(4,1fr); gap:8px; padding:12px 22px}
+    .step-pill{display:flex; align-items:center; gap:8px; padding:8px 10px; border-radius:999px; border:1px solid var(--line); background:linear-gradient(90deg,#0001,#0000); font-size:13px}
     .step-pill.active{border-color:#94a3b8}
-    .step-pill .n{display:grid; place-items:center; width:22px; height:22px; border-radius:50%; background:var(--grad); color:#0b1020; font-weight:900}
+    .n{display:grid; place-items:center; width:22px; height:22px; border-radius:50%; background:var(--grad); color:#0b1020; font-weight:900}
 
-    /* Uploader + panels */
-    .uploader{border:1.5px dashed var(--line); border-radius:16px; padding:18px; margin:16px 22px; text-align:center; background:var(--tile-bg)}
+    /* Sections + controls */
+    .grid{display:grid; gap:16px; padding:0 22px 18px}
+    .two{grid-template-columns:420px 1fr}
+    @media (max-width:1000px){ .two{grid-template-columns:1fr} }
+
+    .panel{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px}
+    .panel h4{margin:0 0 8px; font-size:14px}
+    .lead{font-weight:800}
+    .help{color:var(--muted); margin:6px 0 0; font-size:13px}
+    .uploader{border:1.5px dashed var(--line); border-radius:16px; padding:18px; text-align:center; background:var(--tile-bg)}
     .uploader.dragover{border-color:#94a3b8; box-shadow:0 0 0 4px rgba(148,163,184,.2) inset}
-    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center}
+    input[type=text],input[type=number],select{background:#00000006;color:inherit;border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
+    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
 
     .btn{appearance:none; border:none; border-radius:14px; padding:12px 14px; font-weight:900; cursor:pointer; min-height:44px}
     .btn.primary{color:#0b1020; background:var(--grad); box-shadow:0 8px 24px rgba(2,6,23,.18)}
     .btn.secondary{color:inherit; background:#00000007; border:1px solid var(--line)}
-    .btn.ghost{color:inherit; background:transparent; border:1px solid var(--line)}
     .btn.ok{color:#0b1020; background:linear-gradient(90deg,var(--c2),var(--c3))}
-    .btn.danger{color:#fff; background:linear-gradient(90deg,var(--c4),#ff8fa3)}
+    .btn.ghost{color:inherit; background:transparent; border:1px solid var(--line)}
 
-    .grid{display:grid; gap:16px; padding:0 22px 18px}
-    .two{grid-template-columns:420px 1fr}
-    @media (max-width:980px){.two{grid-template-columns:1fr}}
+    /* Viewer / meta / lists */
+    .viewer{position:relative; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px; overflow:auto; min-height:200px}
+    .viewer canvas{width:100%; height:auto; display:block; background:#0b102010; border:1px solid var(--line); border-radius:8px}
+    .file-list{display:grid; gap:10px}
+    .file-item{display:flex; justify-content:space-between; align-items:center; border:1px solid var(--line); border-radius:10px; padding:8px 10px; background:var(--tile-bg)}
+    .file-item .meta{font-size:12px; color:var(--muted)}
+    .bookmark-box{max-height:240px; overflow:auto; background:#00000006; border:1px solid var(--line); border-radius:10px; padding:8px; font-size:14px}
+    .bookmark-box label{display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:8px}
+    .bookmark-box label:hover{background:#00000006}
 
-    .panel{background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px}
-    .panel h4{margin:0 0 10px; font-size:14px}
-    input[type=text],input[type=number],select{background:#00000006;color:inherit;border:1px solid var(--line);border-radius:8px;padding:8px 10px;width:100%}
-
-    /* Preview */
-    .viewer{position:relative; background:var(--panel); border:1px solid var(--line); border-radius:12px; padding:12px; overflow:auto; min-height:220px}
-    .pv canvas{width:100%;height:auto;display:block;border-radius:6px;border:1px solid var(--line); background:#0b102010}
-
-    /* Progress */
     .progress{height:10px;background:#00000008;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
     .bar{height:100%;width:0;background:var(--grad);transition:width .2s}
     @media (prefers-reduced-motion:reduce){ .bar{transition:none} }
 
-    /* Wizard footer */
-    .actions{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:14px 22px 18px;border-top:1px solid var(--line);background:linear-gradient(90deg,#00000003,#00000006)}
-    .left,.right{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .actions{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid var(--line); background:linear-gradient(90deg,#00000003,#00000006)}
+    .left,.right{display:flex; gap:10px; align-items:center; flex-wrap:wrap}
 
-    /* Bookmark list */
-    .bookmark-box{max-height:260px; overflow:auto; background:#00000006; border:1px solid var(--line); border-radius:10px; padding:8px; font-size:14px}
-    .bookmark-box label{display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:8px}
-    .bookmark-box label:hover{background:#00000006}
-
-    /* Pulsating Next */
     @keyframes pulse {
-      0%{ box-shadow:0 0 0 0 rgba(255,217,92,.55); transform:translateY(0) scale(1); }
-      50%{ box-shadow:0 0 0 14px rgba(255,217,92,0); transform:translateY(-1px) scale(1.035); }
-      100%{ box-shadow:0 0 0 0 rgba(255,217,92,0); transform:translateY(0) scale(1); }
+      0%{box-shadow:0 0 0 0 rgba(255,217,92,.55); transform:translateY(0) scale(1)}
+      50%{box-shadow:0 0 0 12px rgba(255,217,92,0); transform:translateY(-1px) scale(1.035)}
+      100%{box-shadow:0 0 0 0 rgba(255,217,92,0); transform:translateY(0) scale(1)}
     }
-    .pulse{ animation:pulse 1.8s ease-in-out infinite; }
+    .pulse{animation:pulse 1.8s ease-in-out infinite}
     @media (prefers-reduced-motion:reduce){ .pulse{animation:none} }
-
-    /* Result list */
-    .file-list{display:grid; gap:10px}
-    .file-item{display:flex; justify-content:space-between; align-items:center; border:1px solid var(--line); border-radius:10px; padding:8px 10px; background:var(--tile-bg)}
-    .file-item .meta{font-size:12px; color:var(--muted)}
   </style>
 
-  <!-- libs -->
+  <!-- libs (client-side only) -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
   <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
@@ -131,7 +123,7 @@ Modes: Ranges, Every N pages, By Bookmarks (best-effort), Odd/Even
     <div class="container nav">
       <div class="brand" aria-label="हिंदी टूल्स">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <strong>PDF बाँटो — हिंदी टूल</strong>
+        <strong>PDF बाँटो — विज़ार्ड</strong>
       </div>
       <button class="theme-btn" id="themeBtn" aria-pressed="false" aria-label="थीम बदलें">🌗 थीम</button>
     </div>
@@ -140,104 +132,114 @@ Modes: Ranges, Every N pages, By Bookmarks (best-effort), Odd/Even
   <main class="container">
     <section class="card" aria-labelledby="title">
       <div class="hero">
-        <h1 id="title">PDF Split — रेंज, हर N पेज, बुकमार्क, Odd/Even</h1>
-        <p class="sub">भारी PDFs को हिस्सों में बाँटो — सब कुछ 100% ब्राउज़र में, बिना अपलोड।</p>
+        <h1 id="title">चरण-दर-चरण: PDF Split</h1>
+        <p class="sub">हर स्टेप में निर्देश दिए जाएँगे। पहले स्टेप से शुरू करें।</p>
       </div>
 
       <!-- Stepper -->
-      <div class="stepper" aria-label="स्टेप्स">
-        <div class="step-pill active" data-step="1"><span class="n">1</span> PDF चुनो</div>
-        <div class="step-pill" data-step="2"><span class="n">2</span> मोड & रेंज</div>
+      <div class="stepper" aria-label="स्टेप इंडिकेटर">
+        <div class="step-pill active" data-step="1"><span class="n">1</span> PDF खोलो</div>
+        <div class="step-pill" data-step="2"><span class="n">2</span> मोड चुनो</div>
         <div class="step-pill" data-step="3"><span class="n">3</span> प्लान जाँचो</div>
         <div class="step-pill" data-step="4"><span class="n">4</span> स्प्लिट & डाउनलोड</div>
       </div>
 
-      <!-- STEP 1: Upload -->
-      <section id="step1" class="grid" style="padding-top:10px">
+      <!-- STEP 1: File open -->
+      <section id="step1" class="grid two" style="padding-top:6px">
         <div class="panel">
-          <h4>PDF जोड़ो</h4>
-          <div class="uploader" id="drop" tabindex="0" role="button" aria-label="PDF जोड़ें — ड्रैग-ड्रॉप करें या एंटर दबाएँ">
+          <div class="lead">निर्देश: नीचे “PDF खोलो” दबाएँ या फ़ाइल यहाँ ड्रैग-ड्रॉप करें।</div>
+          <p class="help">अगर फाइल पासवर्ड-प्रोटेक्टेड/करप्ट होगी तो प्रीव्यू नहीं दिखेगा।</p>
+
+          <div class="uploader" id="drop" tabindex="0" role="button" aria-label="PDF जोड़ें — ड्रैग-ड्रॉप करें या एंटर दबाएँ" style="margin-top:10px">
             <p style="margin:0 0 10px">फाइल यहाँ <strong>Drag & Drop</strong> करो या</p>
             <div class="row">
-              <label class="btn primary" for="file">PDF चुनो</label>
-              <button class="btn secondary" id="demoBtn" type="button">डेमो फाइल</button>
+              <label class="btn primary" for="file">PDF खोलो</label>
+              <button class="btn secondary" id="demoBtn" type="button">डेमो PDF</button>
+              <button class="btn ghost" id="resetBtn" type="button" disabled>रीसेट</button>
             </div>
             <input id="file" type="file" accept="application/pdf" hidden/>
-            <p class="tiny" style="margin-top:8px">टिप: पासवर्ड-प्रोटेक्टेड/करप्ट PDFs लोड नहीं होंगी।</p>
+            <p class="tiny" id="fileInfo" style="margin-top:8px">कोई फ़ाइल नहीं चुनी गई।</p>
           </div>
-          <div class="tiny" id="fileInfo">कोई फ़ाइल नहीं जोड़ी गई।</div>
         </div>
         <div class="panel">
           <h4>प्रीव्यू</h4>
-          <div class="viewer pv"><canvas id="c1"></canvas></div>
-          <div class="tiny" id="meta1">—</div>
+          <div class="viewer"><canvas id="c1"></canvas></div>
+          <div class="tiny" id="meta1" style="margin-top:6px">—</div>
         </div>
       </section>
 
-      <!-- STEP 2: Mode & settings -->
+      <!-- STEP 2: Mode -->
       <section id="step2" class="grid two" hidden>
         <div class="panel">
-          <h4>मोड चुनो</h4>
+          <div class="lead">निर्देश: स्प्लिट करने का तरीका चुनें और सेटिंग भरें।</div>
+          <p class="help">रेंज लिखने का उदाहरण: 1-3,6,10-12</p>
+
+          <h4 style="margin-top:10px">मोड</h4>
           <select id="mode">
-            <option value="ranges" selected>रेंज से (उदा: 1-3,5,10-12)</option>
+            <option value="ranges" selected>रेंज से</option>
             <option value="nth">हर N पेज पर</option>
-            <option value="bookmarks">बुकमार्क से (चैप्टर)</option>
+            <option value="bookmarks">बुकमार्क से (टॉप-लेवल)</option>
             <option value="oddeven">Odd/Even पेज</option>
           </select>
-          <p class="tiny">ज़रूरत के हिसाब से मोड बदलो।</p>
         </div>
-        <div class="panel" id="rangesBox">
-          <h4>पेज रेंज</h4>
-          <input id="ranges" type="text" placeholder="उदा: 1-5,6-10,12,14-18"/>
-          <p class="tiny">हर रेंज से एक अलग PDF बनेगी।</p>
-        </div>
-        <div class="panel" id="nthBox" hidden>
-          <h4>हर N पेज</h4>
-          <input id="nth" type="number" min="1" value="5"/>
-          <p class="tiny">N=5 ⇒ 1-5, 6-10, 11-15…</p>
-        </div>
-        <div class="panel" id="bookmarksBox" hidden>
-          <h4>बुकमार्क चुनो (टॉप-लेवल)</h4>
-          <div id="bmWrap" class="bookmark-box">PDF लोड करो — बुकमार्क दिखाई देंगे।</div>
-          <p class="tiny">चुने हुए बुकमार्क से अध्याय-वार PDFs बनेंगी (best-effort).</p>
-        </div>
-        <div class="panel" id="oddevenBox" hidden>
-          <h4>Odd/Even</h4>
-          <select id="oeSel">
-            <option value="odd">केवल Odd पेज</option>
-            <option value="even">केवल Even पेज</option>
-          </select>
-          <p class="tiny">एक PDF बनेगी — सिर्फ़ चुने हुए पेज।</p>
+
+        <div class="panel">
+          <div id="rangesBox">
+            <h4>पेज रेंज</h4>
+            <input id="ranges" type="text" placeholder="उदा: 1-5,6-10,12"/>
+            <p class="help">हर रेंज → अलग PDF</p>
+          </div>
+
+          <div id="nthBox" hidden>
+            <h4>हर N पेज</h4>
+            <input id="nth" type="number" min="1" value="5"/>
+            <p class="help">N=5 ⇒ 1-5, 6-10, …</p>
+          </div>
+
+          <div id="bookmarksBox" hidden>
+            <h4>बुकमार्क चुनो</h4>
+            <div id="bmWrap" class="bookmark-box">बुकमार्क दिखाने के लिए PDF में आउटलाइन होना चाहिए।</div>
+            <p class="help">चुने हुए बुकमार्क-टाइटल से अध्यायवार PDFs बनेंगी।</p>
+          </div>
+
+          <div id="oddevenBox" hidden>
+            <h4>Odd/Even</h4>
+            <select id="oeSel">
+              <option value="odd">Odd पेज</option>
+              <option value="even">Even पेज</option>
+            </select>
+            <p class="help">एक ही PDF बनेगी — चुने हुए पेज।</p>
+          </div>
         </div>
       </section>
 
-      <!-- STEP 3: Summary -->
+      <!-- STEP 3: Plan -->
       <section id="step3" class="grid two" hidden>
         <div class="panel">
-          <h4>स्प्लिट प्लान</h4>
+          <div class="lead">निर्देश: नीचे आउटपुट-प्लान जाँच लें। सही है तो “स्प्लिट करो” दबाएँ।</div>
+          <h4 style="margin-top:10px">स्प्लिट प्लान</h4>
           <div id="plan" class="file-list"></div>
         </div>
         <div class="panel">
-          <h4>जानकारी</h4>
-          <div class="viewer">
+          <h4>स्टेटस</h4>
+          <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
+          <div class="tiny" id="status" style="margin-top:8px" aria-live="polite">तैयार…</div>
+          <div class="viewer" style="margin-top:10px">
             <div class="tiny" id="meta2">—</div>
-          </div>
-          <div style="margin-top:10px">
-            <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
-            <div class="tiny" id="status" style="margin-top:8px" aria-live="polite">तैयार…</div>
           </div>
         </div>
       </section>
 
-      <!-- STEP 4: Split & download -->
+      <!-- STEP 4: Results -->
       <section id="step4" class="grid two" hidden>
         <div class="panel">
-          <h4>आउटपुट</h4>
+          <div class="lead">निर्देश: नीचे बनी फाइलें डाउनलोड करें। चाहें तो ZIP भी ले सकते हैं।</div>
+          <h4 style="margin-top:10px">आउटपुट फाइलें</h4>
           <div id="outList" class="file-list"></div>
         </div>
         <div class="panel">
-          <h4>ZIP विकल्प</h4>
-          <p class="tiny">मल्टीपल PDFs को एक ZIP में डाउनलोड कर सकते हैं।</p>
+          <h4>ZIP</h4>
+          <p class="help">कई PDFs को एक ZIP में डाउनलोड करें।</p>
           <button class="btn ok" id="zipBtn" type="button" disabled>ZIP डाउनलोड</button>
         </div>
       </section>
@@ -245,381 +247,384 @@ Modes: Ranges, Every N pages, By Bookmarks (best-effort), Odd/Even
       <!-- Wizard footer -->
       <div class="actions">
         <div class="left">
-          <button class="btn ghost" id="resetBtn" type="button" disabled>रीसेट</button>
+          <button class="btn ghost" id="backBtn" type="button" disabled>◀︎ पीछे</button>
           <span class="tiny" id="crumb">स्टेप 1 / 4</span>
         </div>
         <div class="right">
-          <button class="btn secondary" id="backBtn" type="button" disabled>◀︎ पीछे</button>
+          <button class="btn secondary" id="hintBtn" type="button">ℹ︎ निर्देश</button>
           <button class="btn primary pulse" id="nextBtn" type="button" disabled>अगला ▶︎</button>
           <button class="btn ok" id="runBtn" type="button" hidden>स्प्लिट करो</button>
         </div>
       </div>
     </section>
 
-    <section class="card" style="padding:0 22px 22px">
-      <h3 style="margin:16px 0 10px">कैसे इस्तेमाल करें?</h3>
-      <ol style="margin:0 0 0 18px">
-        <li>PDF जोड़ो (ड्रैग-ड्रॉप/चुनो)।</li>
-        <li>मोड चुनकर रेंज/N/बुकमार्क/Odd-Even सेट करो।</li>
-        <li>प्लान देखो, फिर “स्प्लिट करो”।</li>
-        <li>फाइलें सीधे या ZIP से डाउनलोड करो।</li>
-      </ol>
-      <p class="tiny" style="margin-top:8px">प्राइवेसी: 100% क्लाइंट-साइड — कोई अपलोड नहीं।</p>
-    </section>
+    <p class="tiny" style="margin:6px 0 18px">🔐 प्राइवेसी: सब कुछ आपके ब्राउज़र में — कोई अपलोड नहीं।</p>
   </main>
 
   <script>
-  /* ===== Theme toggle ===== */
-  (function(){
-    const root = document.documentElement;
-    const btn  = document.getElementById('themeBtn');
-    const stored = localStorage.getItem('theme');
-    if(stored) root.dataset.theme = stored;
-    btn?.addEventListener('click', ()=>{
-      root.dataset.theme = root.dataset.theme==='light' ? 'dark' : 'light';
-      localStorage.setItem('theme', root.dataset.theme);
-      btn.setAttribute('aria-pressed', String(root.dataset.theme==='dark'));
+    /* ===== Theme toggle ===== */
+    (function(){
+      const root = document.documentElement;
+      const btn  = document.getElementById('themeBtn');
+      const stored = localStorage.getItem('theme');
+      if(stored) root.dataset.theme = stored;
+      btn?.addEventListener('click', ()=>{
+        root.dataset.theme = root.dataset.theme==='light' ? 'dark' : 'light';
+        localStorage.setItem('theme', root.dataset.theme);
+        btn.setAttribute('aria-pressed', String(root.dataset.theme==='dark'));
+      });
+    })();
+
+    /* ===== pdf.js worker ===== */
+    const pdfjsLib = window['pdfjs-dist/build/pdf'];
+    if (pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+
+    /* ===== State ===== */
+    const S = {
+      step:1,
+      file:null, bytes:null, name:'', size:0,
+      pdf:null, pageCount:0, outline:[],
+      jobs:[], results:[]
+    };
+
+    /* ===== DOM ===== */
+    const stepper = [...document.querySelectorAll('.step-pill')];
+    const sections = [null,
+      document.getElementById('step1'),
+      document.getElementById('step2'),
+      document.getElementById('step3'),
+      document.getElementById('step4')
+    ];
+    const crumb   = document.getElementById('crumb');
+    const backBtn = document.getElementById('backBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    const runBtn  = document.getElementById('runBtn');
+    const hintBtn = document.getElementById('hintBtn');
+
+    const dropEl  = document.getElementById('drop');
+    const fileEl  = document.getElementById('file');
+    const resetBtn= document.getElementById('resetBtn');
+    const demoBtn = document.getElementById('demoBtn');
+    const fileInfo= document.getElementById('fileInfo');
+    const c1      = document.getElementById('c1');
+    const meta1   = document.getElementById('meta1');
+
+    const modeSel = document.getElementById('mode');
+    const rangesBox = document.getElementById('rangesBox');
+    const nthBox = document.getElementById('nthBox');
+    const bookmarksBox = document.getElementById('bookmarksBox');
+    const oddevenBox = document.getElementById('oddevenBox');
+    const rangesEl = document.getElementById('ranges');
+    const nthEl = document.getElementById('nth');
+    const bmWrap = document.getElementById('bmWrap');
+    const oeSel = document.getElementById('oeSel');
+
+    const planEl = document.getElementById('plan');
+    const meta2 = document.getElementById('meta2');
+    const barEl = document.getElementById('bar');
+    const statusEl = document.getElementById('status');
+
+    const outList = document.getElementById('outList');
+    const zipBtn  = document.getElementById('zipBtn');
+
+    /* ===== Utils ===== */
+    const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
+    function setBar(p){ barEl.style.width = Math.max(0,Math.min(100,Math.round(p))) + '%'; }
+    function setStatus(t){ statusEl.textContent = t; }
+    function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
+
+    function goStep(n){
+      S.step = n;
+      sections.forEach((sec,i)=>{ if(i) sec.hidden = (i!==n); });
+      stepper.forEach(p=>p.classList.toggle('active', Number(p.dataset.step)===n));
+      backBtn.disabled = (n===1);
+      nextBtn.hidden = (n>=3); // Next only on steps 1 & 2
+      runBtn.hidden  = (n!==3); // Run only on step 3
+      crumb.textContent = `स्टेप ${n} / 4`;
+      // Pulsing guidance
+      nextBtn.classList.remove('pulse');
+      if (n===1) { if (S.file) { nextBtn.disabled=false; nextBtn.classList.add('pulse'); } else { nextBtn.disabled=true; } }
+      if (n===2) { nextBtn.classList.add('pulse'); }
+    }
+
+    function enableNext(ok){ nextBtn.disabled = !ok; if(ok) nextBtn.classList.add('pulse'); else nextBtn.classList.remove('pulse'); }
+
+    /* ===== Step 1: File open (robust) ===== */
+    dropEl.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); fileEl.click(); } });
+    fileEl.addEventListener('change', async e=>{ const f = e.target.files[0]; if (f) await loadFile(f); fileEl.value=''; });
+
+    ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
+    ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
+    dropEl.addEventListener('drop', async e=>{
+      const f = [...e.dataTransfer.files].find(x=> x.type==='application/pdf' || /\.pdf$/i.test(x.name));
+      if (f) await loadFile(f);
     });
-  })();
 
-  /* ===== pdf.js worker ===== */
-  const pdfjsLib = window['pdfjs-dist/build/pdf'];
-  if (pdfjsLib) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  }
+    demoBtn.addEventListener('click', async ()=>{
+      const { PDFDocument, StandardFonts } = PDFLib;
+      const doc = await PDFDocument.create(); const font = await doc.embedFont(StandardFonts.Helvetica);
+      for (let i=1;i<=10;i++){ const p=doc.addPage([595,842]); p.drawText(`डेमो पेज ${i}`, { x:220, y:420, size:28, font }); }
+      const bytes = await doc.save();
+      const blob = new Blob([bytes], {type:'application/pdf'});
+      await loadFile(new File([blob], 'Demo-Split.pdf', {type:'application/pdf'}));
+    });
 
-  /* ===== State ===== */
-  const S = {
-    file:null, bytes:null, name:'', size:0, pdf:null, pageCount:0,
-    outline:[], jobs:[], results:[], // results: [{name, blobUrl, size}]
-    step:1
-  };
+    resetBtn.addEventListener('click', ()=> resetAll());
 
-  /* ===== DOM ===== */
-  const stepper = [...document.querySelectorAll('.step-pill')];
-  const sections = {
-    1: document.getElementById('step1'),
-    2: document.getElementById('step2'),
-    3: document.getElementById('step3'),
-    4: document.getElementById('step4'),
-  };
-  const nextBtn = document.getElementById('nextBtn');
-  const backBtn = document.getElementById('backBtn');
-  const runBtn  = document.getElementById('runBtn');
-  const resetBtn= document.getElementById('resetBtn');
-  const crumb   = document.getElementById('crumb');
+    async function loadFile(file){
+      resetPreviewOnly();
 
-  const dropEl = document.getElementById('drop');
-  const fileEl = document.getElementById('file');
-  const demoBtn= document.getElementById('demoBtn');
-  const c1 = document.getElementById('c1');
-  const meta1 = document.getElementById('meta1');
-  const fileInfo = document.getElementById('fileInfo');
-
-  const modeSel = document.getElementById('mode');
-  const rangesBox = document.getElementById('rangesBox');
-  const nthBox = document.getElementById('nthBox');
-  const bookmarksBox = document.getElementById('bookmarksBox');
-  const oddevenBox = document.getElementById('oddevenBox');
-  const rangesEl = document.getElementById('ranges');
-  const nthEl = document.getElementById('nth');
-  const bmWrap = document.getElementById('bmWrap');
-  const oeSel = document.getElementById('oeSel');
-
-  const planEl = document.getElementById('plan');
-  const meta2 = document.getElementById('meta2');
-  const barEl = document.getElementById('bar');
-  const statusEl = document.getElementById('status');
-
-  const outList = document.getElementById('outList');
-  const zipBtn  = document.getElementById('zipBtn');
-
-  /* ===== Utils ===== */
-  const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
-  function setBar(p){ barEl.style.width = Math.max(0,Math.min(100,Math.round(p))) + '%'; }
-  function setStatus(t){ statusEl.textContent = t; }
-  function clamp(v, lo, hi){ return Math.max(lo, Math.min(hi, v)); }
-  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
-
-  function goStep(n){
-    S.step = n;
-    for (const k in sections){ sections[k].hidden = (Number(k)!==n); }
-    stepper.forEach(p=>p.classList.toggle('active', Number(p.dataset.step)===n));
-    backBtn.disabled = (n===1);
-    nextBtn.hidden = (n>=3); // Only show Next on 1 & 2
-    runBtn.hidden  = (n!==3);
-    crumb.textContent = `स्टेप ${n} / 4`;
-    // Pulsing guidance
-    nextBtn.classList.remove('pulse');
-    if(n===1 && S.file) { nextBtn.disabled=false; nextBtn.classList.add('pulse'); }
-    else if(n===2){ nextBtn.classList.add('pulse'); }
-  }
-
-  function enableNext(ok){
-    nextBtn.disabled = !ok;
-    if (ok) nextBtn.classList.add('pulse'); else nextBtn.classList.remove('pulse');
-  }
-
-  /* ===== File handling (robust) ===== */
-  dropEl.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); fileEl.click(); } });
-  fileEl.addEventListener('change', async e=>{ const f = e.target.files[0]; if (f) await loadFile(f); fileEl.value=''; });
-
-  ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
-  ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
-  dropEl.addEventListener('drop', async e=>{
-    const f = [...e.dataTransfer.files].find(x=> x.type==='application/pdf' || /\.pdf$/i.test(x.name));
-    if (f) await loadFile(f);
-  });
-
-  demoBtn.addEventListener('click', async ()=>{
-    const { PDFDocument, StandardFonts } = PDFLib;
-    const doc = await PDFDocument.create(); const font = await doc.embedFont(StandardFonts.Helvetica);
-    for (let i=1;i<=12;i++){ const p=doc.addPage([595,842]); p.drawText(`डेमो पेज ${i}`, { x:220, y:420, size:28, font }); }
-    const bytes = await doc.save();
-    const blob = new Blob([bytes], {type:'application/pdf'});
-    await loadFile(new File([blob], 'Demo-Split.pdf', {type:'application/pdf'}));
-  });
-
-  async function loadFile(file){
-    // Reset old state
-    S.file=null; S.bytes=null; S.pdf=null; S.pageCount=0; S.outline=[]; S.jobs=[]; S.results=[];
-    outList.innerHTML=''; planEl.innerHTML=''; bmWrap.textContent='PDF लोड करो — बुकमार्क दिखाई देंगे।'; zipBtn.disabled=true;
-    enableNext(false); backBtn.disabled=true; resetBtn.disabled=true;
-
-    // Read bytes with sanity check
-    try{
-      const buf = await file.arrayBuffer();
-      const u8 = new Uint8Array(buf);
-      // Quick signature check
-      const sig = new TextDecoder().decode(u8.subarray(0,5));
-      if (sig!=='%PDF-') { alert('यह PDF नहीं लगती (signature missing).'); return; }
-
-      S.file = file; S.bytes = u8; S.name=file.name; S.size=file.size;
-      fileInfo.textContent = `${file.name} • ${fmtBytes(file.size)}`;
-      resetBtn.disabled=false;
-
-      // Load with pdf.js
-      const pdf = await pdfjsLib.getDocument({data:u8}).promise;
-      S.pdf = pdf; S.pageCount = pdf.numPages;
-      const page1 = await pdf.getPage(1);
-      await renderToCanvas(page1, c1, 144);
-      meta1.textContent = `पेज: 1/${pdf.numPages} • फाइल: ${fmtBytes(S.size)}`;
-
-      // Outline (best-effort)
       try{
-        const outline = await pdf.getOutline();
-        if (outline && outline.length){
-          const tops = outline.filter(o=>o && o.dest);
-          S.outline = await outlineToRows(tops, pdf);
-          if (S.outline.length){
-            bmWrap.innerHTML = S.outline.map((r,i)=>`
-              <label><input type="checkbox" data-page="${r.page}" checked> ${String(i+1).padStart(2,'0')}. ${escapeHtml(r.title)} — पेज ${r.page}</label>
-            `).join('');
-          }else{ bmWrap.textContent='बुकमार्क नहीं मिले।'; }
-        }else{ bmWrap.textContent='बुकमार्क नहीं मिले।'; }
-      }catch{ bmWrap.textContent='बुकमार्क नहीं पढ़ पाए।'; }
+        // Read bytes and check PDF signature first 5 chars: %PDF-
+        const buf = await file.arrayBuffer();
+        const u8 = new Uint8Array(buf);
+        if (u8.length < 5){ alert('फ़ाइल खाली/अमान्य है।'); return; }
+        const sig = new TextDecoder().decode(u8.subarray(0,5));
+        if (sig !== '%PDF-'){ alert('यह PDF नहीं लगती (signature missing)।'); return; }
 
-      enableNext(true); nextBtn.classList.add('pulse');
-    }catch(err){
-      console.error(err);
-      alert('फाइल नहीं पढ़ पाए। हो सकता है पासवर्ड/करप्शन या ब्राउज़र सीमाएँ।');
+        // pdf.js: try load
+        const pdf = await pdfjsLib.getDocument({data: u8}).promise;
+
+        S.file = file; S.bytes = u8; S.name = file.name; S.size = file.size;
+        S.pdf = pdf; S.pageCount = pdf.numPages;
+
+        fileInfo.textContent = `${file.name} • ${fmtBytes(file.size)}`;
+        resetBtn.disabled = false;
+
+        // Render first page
+        const page1 = await pdf.getPage(1);
+        await renderToCanvas(page1, c1, 144);
+        meta1.textContent = `पेज: 1/${pdf.numPages} • साइज: ${fmtBytes(file.size)}`;
+
+        // Outline best-effort
+        try{
+          const outline = await pdf.getOutline();
+          S.outline = [];
+          if (outline && outline.length){
+            for (const it of outline){
+              if (!it || !it.dest) continue;
+              try{
+                const dest = await pdf.getDestination(it.dest);
+                const ref = Array.isArray(dest) ? dest[0] : null;
+                const pageIndex = ref ? await pdf.getPageIndex(ref) : null;
+                if (pageIndex!=null){ S.outline.push({ title: it.title || 'Untitled', page: pageIndex+1 }); }
+              }catch{}
+            }
+            S.outline.sort((a,b)=>a.page-b.page);
+          }
+        }catch{}
+
+        enableNext(true);
+
+      }catch(err){
+        console.error(err);
+        if (String(err).toLowerCase().includes('password')) alert('यह PDF पासवर्ड-प्रोटेक्टेड है — अभी सपोर्ट नहीं।');
+        else alert('फ़ाइल नहीं पढ़ पाए। संभव कारण: करप्शन/ब्राउज़र लिमिट/पासवर्ड।');
+      }
     }
-  }
 
-  async function renderToCanvas(page, canvas, dpi){
-    const scale = dpi/72; const viewport = page.getViewport({scale});
-    const ctx = canvas.getContext('2d', { willReadFrequently:true });
-    canvas.width = Math.floor(viewport.width); canvas.height = Math.floor(viewport.height);
-    await page.render({canvasContext: ctx, viewport}).promise;
-  }
+    function resetPreviewOnly(){
+      S.pdf=null; S.pageCount=0; S.outline=[]; S.jobs=[]; S.results=[];
+      c1.width=c1.height=0; meta1.textContent='—'; planEl.innerHTML=''; outList.innerHTML='';
+      bmWrap.textContent='बुकमार्क दिखाने के लिए PDF में आउटलाइन होना चाहिए।';
+      zipBtn.disabled = true; setBar(0); setStatus('तैयार…'); enableNext(false);
+    }
 
-  async function outlineToRows(items, pdf){
-    const rows=[];
-    for (const it of items){
+    function resetAll(){
+      S.step=1; S.file=null; S.bytes=null; S.name=''; S.size=0;
+      resetPreviewOnly();
+      fileInfo.textContent='कोई फ़ाइल नहीं चुनी गई।';
+      resetBtn.disabled = true; backBtn.disabled=true;
+      goStep(1);
+    }
+
+    async function renderToCanvas(page, canvas, dpi){
+      const scale = dpi/72; const viewport = page.getViewport({scale});
+      const ctx = canvas.getContext('2d', { willReadFrequently:true });
+      canvas.width = Math.floor(viewport.width); canvas.height = Math.floor(viewport.height);
+      await page.render({canvasContext: ctx, viewport}).promise;
+    }
+
+    /* ===== Step 2: Mode choice ===== */
+    modeSel.addEventListener('change', ()=>{
+      const m = modeSel.value;
+      rangesBox.hidden = m!=='ranges';
+      nthBox.hidden = m!=='nth';
+      bookmarksBox.hidden = m!=='bookmarks';
+      oddevenBox.hidden = m!=='oddeven';
+
+      if (m==='bookmarks'){
+        if (S.outline.length){
+          bmWrap.innerHTML = S.outline.map((r,i)=>`
+            <label><input type="checkbox" data-page="${r.page}" checked> ${String(i+1).padStart(2,'0')}. ${escapeHtml(r.title)} — पेज ${r.page}</label>
+          `).join('');
+        }else{
+          bmWrap.textContent = 'बुकमार्क नहीं मिले। कोई और मोड ट्राय करें।';
+        }
+      }
+    });
+
+    /* ===== Wizard buttons ===== */
+    nextBtn.addEventListener('click', ()=>{
+      if (S.step===1){
+        if (!S.file){ alert('पहले PDF खोलें।'); return; }
+        goStep(2);
+      } else if (S.step===2){
+        if (!buildPlan()) return;
+        renderPlan();
+        goStep(3);
+      }
+    });
+
+    backBtn.addEventListener('click', ()=>{ if (S.step>1) goStep(S.step-1); });
+
+    hintBtn.addEventListener('click', ()=>{
+      const hints = {
+        1:'Step 1: “PDF खोलो” से फाइल चुनें या ड्रैग-ड्रॉप करें। प्रीव्यू दिखे तो Next।',
+        2:'Step 2: मोड चुनें — रेंज/N/बुकमार्क/Odd-Even — फिर Next।',
+        3:'Step 3: प्लान जाँचें और “स्प्लिट करो” दबाएँ।',
+        4:'Step 4: बनी फाइलें डाउनलोड करें या ZIP लें।'
+      };
+      alert(hints[S.step] || 'निर्देश उपलब्ध नहीं।');
+    });
+
+    /* ===== Build plan (Step 2 → Step 3) ===== */
+    function parseRangeList(str, max){
+      const out=[]; if(!str) return out;
+      for(const part of str.split(',').map(s=>s.trim()).filter(Boolean)){
+        const m = part.match(/^(\d+)(?:\s*[-–]\s*(\d+))?$/); if(!m) throw new Error('format');
+        let a = parseInt(m[1],10), b = m[2]? parseInt(m[2],10):a;
+        if(a<1||b<1||a>max||b>max) throw new Error('range');
+        if(a>b) [a,b]=[b,a];
+        out.push([a,b]);
+      }
+      out.sort((x,y)=>x[0]-y[0]);
+      const merged=[]; for(const r of out){
+        if(!merged.length || r[0] > merged[merged.length-1][1]+1) merged.push([...r]);
+        else merged[merged.length-1][1] = Math.max(merged[merged.length-1][1], r[1]);
+      }
+      return merged;
+    }
+
+    function buildPlan(){
+      if (!S.pdf){ alert('पहले PDF खोलें।'); return false; }
+      const total = S.pageCount;
+      const m = modeSel.value;
+      let jobs=[];
       try{
-        const dest = await pdf.getDestination(it.dest);
-        const ref = Array.isArray(dest) ? dest[0] : null;
-        const pageIndex = ref ? await pdf.getPageIndex(ref) : null;
-        if (pageIndex!=null){ rows.push({title: it.title || 'Untitled', page: pageIndex+1}); }
-      }catch{}
+        if (m==='ranges'){
+          const list = parseRangeList((rangesEl.value||'').trim(), total);
+          if(!list.length){ alert('रेंज डालें: जैसे 1-5,6-10,12'); return false; }
+          jobs = list.map(([a,b],i)=>({label:`part-${i+1}_${a}-${b}`, start:a, end:b}));
+        } else if (m==='nth'){
+          const n = Math.max(1, parseInt(nthEl.value||'5',10));
+          for(let a=1,i=1; a<=total; a+=n, i++){
+            const b = Math.min(total, a+n-1);
+            jobs.push({label:`part-${i}_${a}-${b}`, start:a, end:b});
+          }
+        } else if (m==='bookmarks'){
+          const checks = [...bmWrap.querySelectorAll('input[type=checkbox]')].filter(x=>x.checked);
+          if (!checks.length){ alert('कम से कम एक बुकमार्क चुनें।'); return false; }
+          const points = checks.map(c=>parseInt(c.dataset.page,10)).sort((a,b)=>a-b);
+          for(let i=0;i<points.length;i++){
+            const a = points[i]; const b = (i<points.length-1 ? points[i+1]-1 : total);
+            jobs.push({label:`chap-${i+1}_${a}-${b}`, start:a, end:b});
+          }
+        } else if (m==='oddeven'){
+          const pickEven = (oeSel.value==='even');
+          jobs = [{ label: pickEven? 'even-pages' : 'odd-pages', start:1, end:total, filter:(n)=> (pickEven? n%2===0 : n%2===1) }];
+        }
+      }catch(e){
+        alert('सेटिंग/रेंज फॉर्मैट ग़लत है।'); return false;
+      }
+      if (!jobs.length){ alert('कोई जॉब नहीं बना।'); return false; }
+      S.jobs = jobs; return true;
     }
-    rows.sort((a,b)=>a.page-b.page);
-    return rows;
-  }
 
-  /* ===== Mode UI toggling ===== */
-  modeSel.addEventListener('change', ()=>{
-    const m = modeSel.value;
-    rangesBox.hidden = m!=='ranges';
-    nthBox.hidden = m!=='nth';
-    bookmarksBox.hidden = m!=='bookmarks';
-    oddevenBox.hidden = m!=='oddeven';
-  });
-
-  /* ===== Range parser ===== */
-  function parseRangeList(str, max){
-    // "1-3,6,8-10"  -> [[1,3],[6,6],[8,10]]
-    const out=[]; if(!str) return out;
-    for(const part of str.split(',').map(s=>s.trim()).filter(Boolean)){
-      const m = part.match(/^(\d+)(?:\s*[-–]\s*(\d+))?$/); if(!m) throw new Error('format');
-      let a = parseInt(m[1],10), b = m[2]? parseInt(m[2],10):a;
-      if(a<1||b<1||a>max||b>max) throw new Error('range');
-      if(a>b) [a,b]=[b,a];
-      out.push([a,b]);
+    function renderPlan(){
+      const total = S.pageCount;
+      const rows = S.jobs.map(J=>{
+        const count = J.filter ? Array.from({length:J.end-J.start+1},(_,i)=>J.start+i).filter(J.filter).length
+                               : (J.end - J.start + 1);
+        return `<div class="file-item"><div><strong>${escapeHtml(J.label)}</strong><div class="meta">${count} पेज</div></div></div>`;
+      }).join('');
+      planEl.innerHTML = rows;
+      meta2.textContent = `कुल पेज: ${total} • आउटपुट: ${S.jobs.length} फाइलें`;
+      setBar(0); setStatus('तैयार…');
     }
-    // merge overlaps
-    out.sort((x,y)=>x[0]-y[0]);
-    const merged=[]; for(const r of out){
-      if(!merged.length || r[0] > merged[merged.length-1][1]+1) merged.push([...r]);
-      else merged[merged.length-1][1] = Math.max(merged[merged.length-1][1], r[1]);
+
+    /* ===== Run split (Step 3 → Step 4) ===== */
+    runBtn.addEventListener('click', async ()=>{
+      await doSplit();
+      goStep(4);
+    });
+
+    async function doSplit(){
+      if(!S.pdf || !S.jobs.length) return;
+      setBar(0); setStatus('स्प्लिट तैयार…');
+      const { PDFDocument } = PDFLib;
+      const srcBytes = S.bytes;
+      const results = [];
+      try{
+        // Reuse source for each job (simple + robust)
+        for (let ji=0; ji<S.jobs.length; ji++){
+          const J = S.jobs[ji];
+          setStatus(`बना रहे: ${J.label}`);
+          const out = await PDFDocument.create();
+          const src = await PDFDocument.load(srcBytes);
+          const idxs = [];
+          for(let p=J.start;p<=J.end;p++){ if(!J.filter || J.filter(p)) idxs.push(p-1); }
+          const copied = await out.copyPages(src, idxs);
+          copied.forEach(p=>out.addPage(p));
+          const bytes = await out.save({ updateFieldAppearances:false });
+          const fname = `${S.name.replace(/\.pdf$/i,'')}-${J.label}.pdf`;
+          const blob = new Blob([bytes], {type:'application/pdf'});
+          const url = URL.createObjectURL(blob);
+          results.push({ name: fname, url, size: blob.size });
+          setBar(((ji+1)/S.jobs.length)*100);
+        }
+        S.results = results;
+        renderResults(results);
+        setStatus(results.length>1? 'हो गया! ZIP भी ले सकते हैं।' : 'हो गया! डाउनलोड करें।');
+      }catch(err){
+        console.error(err);
+        alert('स्प्लिट नहीं हो पाया: '+(err?.message||err));
+        setStatus('एरर');
+      }
     }
-    return merged;
-  }
 
-  /* ===== Wizard buttons ===== */
-  nextBtn.addEventListener('click', async ()=>{
-    if (S.step===1){
-      if (!S.file){ alert('पहले PDF जोड़ें।'); return; }
-      goStep(2);
-    }else if (S.step===2){
-      // Build plan
-      const ok = buildPlan();
-      if (!ok) return;
-      renderPlan();
-      goStep(3);
+    function renderResults(list){
+      outList.innerHTML = list.map(r=>`
+        <div class="file-item">
+          <div><strong>${escapeHtml(r.name)}</strong><div class="meta">${fmtBytes(r.size)}</div></div>
+          <a class="btn secondary" href="${r.url}" download>डाउनलोड</a>
+        </div>
+      `).join('');
+      zipBtn.disabled = (list.length<=1);
     }
-  });
 
-  backBtn.addEventListener('click', ()=>{
-    if (S.step>1) goStep(S.step-1);
-  });
+    zipBtn.addEventListener('click', async ()=>{
+      if (!S.results.length) return;
+      const zip = new JSZip();
+      for (const r of S.results){
+        const blob = await (await fetch(r.url)).blob();
+        zip.file(r.name, blob);
+      }
+      const z = await zip.generateAsync({type:'blob'});
+      const a = document.createElement('a');
+      const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
+      a.href = URL.createObjectURL(z);
+      a.download = `${S.name.replace(/\.pdf$/i,'')}-split-${stamp}.zip`;
+      a.click(); URL.revokeObjectURL(a.href);
+    });
 
-  resetBtn.addEventListener('click', ()=>{
-    // Clear all
-    S.file=null; S.bytes=null; S.pdf=null; S.pageCount=0; S.outline=[]; S.jobs=[]; S.results=[];
-    c1.width=c1.height=0; meta1.textContent='—'; fileInfo.textContent='कोई फ़ाइल नहीं जोड़ी गई।';
-    planEl.innerHTML=''; outList.innerHTML=''; bmWrap.textContent='PDF लोड करो — बुकमार्क दिखाई देंगे।'; zipBtn.disabled=true;
-    resetBtn.disabled=true; backBtn.disabled=true; enableNext(false); setBar(0); setStatus('तैयार…');
+    /* ===== Nav helpers ===== */
+    backBtn.disabled = true;
+    nextBtn.disabled = true;
     goStep(1);
-  });
 
-  /* ===== Build plan from UI ===== */
-  function buildPlan(){
-    if (!S.pdf){ alert('पहले PDF जोड़ें।'); return false; }
-    const total = S.pageCount;
-    const m = modeSel.value;
-    let jobs=[];
-    try{
-      if (m==='ranges'){
-        const list = parseRangeList((rangesEl.value||'').trim(), total);
-        if(!list.length){ alert('रेंज डालो: जैसे 1-5,6-10,12'); return false; }
-        jobs = list.map(([a,b],i)=>({label:`part-${i+1}_${a}-${b}`, start:a, end:b}));
-      }else if(m==='nth'){
-        const n = Math.max(1, parseInt(nthEl.value||'5',10));
-        for(let a=1,i=1; a<=total; a+=n, i++){
-          const b = Math.min(total, a+n-1);
-          jobs.push({label:`part-${i}_${a}-${b}`, start:a, end:b});
-        }
-      }else if(m==='bookmarks'){
-        const checks = [...bmWrap.querySelectorAll('input[type=checkbox]')].filter(x=>x.checked);
-        if (!checks.length){ alert('कम से कम एक बुकमार्क चुनो।'); return false; }
-        const points = checks.map(c=>parseInt(c.dataset.page,10)).sort((a,b)=>a-b);
-        for(let i=0;i<points.length;i++){
-          const a = points[i]; const b = (i<points.length-1 ? points[i+1]-1 : total);
-          jobs.push({label:`chap-${i+1}_${a}-${b}`, start:a, end:b});
-        }
-      }else if(m==='oddeven'){
-        const pickEven = (oeSel.value==='even');
-        jobs = [{ label: pickEven? 'even-pages' : 'odd-pages', start:1, end:total, filter:(n)=> (pickEven? n%2===0 : n%2===1) }];
-      }
-    }catch(e){
-      alert('पेज रेंज/सेटिंग ग़लत है।'); return false;
-    }
-    if (!jobs.length){ alert('कोई जॉब नहीं बना।'); return false; }
-    S.jobs = jobs; return true;
-  }
-
-  function renderPlan(){
-    const total = S.pageCount;
-    const rows = S.jobs.map(J=>{
-      const count = J.filter ? Array.from({length:J.end-J.start+1},(_,i)=>J.start+i).filter(J.filter).length
-                             : (J.end - J.start + 1);
-      return `<div class="file-item"><div><strong>${escapeHtml(J.label)}</strong><div class="meta">${count} पेज</div></div></div>`;
-    }).join('');
-    planEl.innerHTML = rows;
-    meta2.textContent = `कुल पेज: ${total} • आउटपुट फाइलें: ${S.jobs.length}`;
-    setBar(0); setStatus('तैयार…');
-  }
-
-  /* ===== Run split ===== */
-  runBtn.addEventListener('click', async ()=>{
-    await doSplit();
-    goStep(4);
-  });
-
-  async function doSplit(){
-    if(!S.pdf || !S.jobs.length) return;
-    setBar(0); setStatus('स्प्लिट तैयार…');
-    const { PDFDocument } = PDFLib;
-    const srcBytes = S.bytes; // already in memory
-    const multiple = !(S.jobs.length===1 && !S.jobs[0].filter);
-    const results = [];
-    try{
-      for (let ji=0; ji<S.jobs.length; ji++){
-        const J = S.jobs[ji];
-        setStatus(`बना रहे: ${J.label}`);
-        const out = await PDFDocument.create();
-        const src = await PDFDocument.load(srcBytes);
-        const idxs = [];
-        for(let p=J.start;p<=J.end;p++){ if(!J.filter || J.filter(p)) idxs.push(p-1); }
-        const copied = await out.copyPages(src, idxs);
-        copied.forEach(p=>out.addPage(p));
-        const bytes = await out.save({ updateFieldAppearances:false });
-        const fname = `${S.name.replace(/\.pdf$/i,'')}-${J.label}.pdf`;
-        const blob = new Blob([bytes], {type:'application/pdf'});
-        const url = URL.createObjectURL(blob);
-        results.push({ name: fname, url, size: blob.size });
-        setBar(((ji+1)/S.jobs.length)*100);
-      }
-      S.results = results;
-      renderResults(results);
-      setStatus(multiple? 'हो गया! ZIP बन सकता है।' : 'हो गया! डाउनलोड करें।');
-    }catch(err){
-      console.error(err);
-      alert('स्प्लिट नहीं हो पाया: '+(err?.message||err));
-      setStatus('एरर');
-    }
-  }
-
-  function renderResults(list){
-    outList.innerHTML = list.map(r=>`
-      <div class="file-item">
-        <div><strong>${escapeHtml(r.name)}</strong><div class="meta">${fmtBytes(r.size)}</div></div>
-        <a class="btn secondary" href="${r.url}" download>डाउनलोड</a>
-      </div>
-    `).join('');
-    zipBtn.disabled = (list.length<=1);
-  }
-
-  zipBtn.addEventListener('click', async ()=>{
-    if (!S.results.length) return;
-    const zip = new JSZip();
-    // Fetch blobs from object URLs
-    for (const r of S.results){
-      const blob = await (await fetch(r.url)).blob();
-      zip.file(r.name, blob);
-    }
-    const z = await zip.generateAsync({type:'blob'});
-    const a = document.createElement('a');
-    const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
-    a.href = URL.createObjectURL(z);
-    a.download = `${S.name.replace(/\.pdf$/i,'')}-split-${stamp}.zip`;
-    a.click(); URL.revokeObjectURL(a.href);
-  });
-
-  /* ===== Init ===== */
-  goStep(1);
-  enableNext(false);
   </script>
 </body>
 </html>
