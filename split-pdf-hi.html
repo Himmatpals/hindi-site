@@ -3,19 +3,19 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PDF बाँटो (Split) — रेंज, हर N, बुकमार्क, Odd/Even</title>
-  <meta name="description" content="इंटरैक्टिव विज़ार्ड: PDF को हिस्सों में बाँटो — रेंज, हर N पेज, बुकमार्क, Odd/Even. 100% ब्राउज़र में.">
+  <title>PDF बाँटो (Split) — विज़ुअल पेज पिकर • रेंज • हर N • Odd/Even</title>
+  <meta name="description" content="इंटरैक्टिव विज़ार्ड: हर पेज की थम्बनेल से चुनो और स्प्लिट प्लान बनाओ — रेंज, हर N, Odd/Even, बुकमार्क। 100% ब्राउज़र में।">
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0b1020"   media="(prefers-color-scheme: dark)">
 
   <style>
     :root{
-      /* Light (matches index) */
+      /* Light (matches your index) */
       --bg:#f7fafc; --panel:#ffffff; --card:#ffffff; --line:rgba(2,6,23,.10);
       --text:#0b1020; --muted:#334155; --focus:#2563eb;
       --c1:#7c5cff; --c2:#23d3ac; --c3:#ffd95c; --c4:#ff5c7c; --c5:#06b6d4; --c6:#22c55e; --c7:#f97316;
-      --grad:conic-gradient(from 180deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c7),var(--c1));
+      --grad: conic-gradient(from 180deg,var(--c1),var(--c2),var(--c3),var(--c4),var(--c5),var(--c6),var(--c7),var(--c1));
       --shadow:0 10px 30px rgba(2,6,23,.08);
       --tile-bg:linear-gradient(180deg,#ffffff,#f8fafc);
       --font:"Noto Sans Devanagari","Nirmala UI","Hind","Kohinoor Devanagari",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
@@ -29,13 +29,12 @@
     *{box-sizing:border-box}
     html,body{height:100%}
     body{
-      margin:0; color:var(--text); font-family:var(--font);
+      margin:0; color:var(--text); font-family:var(--font); line-height:1.5;
       background:
         radial-gradient(1100px 700px at 10% -10%, #7c5cff18, transparent 60%),
         radial-gradient(1000px 700px at 90% 110%, #23d3ac18, transparent 60%),
         radial-gradient(900px 600px at 20% 120%, #ffd95c18, transparent 60%),
         var(--bg);
-      line-height:1.5;
     }
     a{color:inherit; text-decoration:none}
     :focus-visible{outline:3px solid var(--focus); outline-offset:3px; border-radius:10px}
@@ -77,14 +76,22 @@
     @media (max-width:960px){.two{grid-template-columns:1fr}}
     .pane{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px}
 
-    .viewer{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px; min-height:240px; overflow:auto}
-    #pv{display:grid; grid-template-columns:repeat(auto-fill,minmax(160px,1fr)); gap:10px}
-    .thumb{background:var(--tile-bg); border:1px solid var(--line); border-radius:10px; padding:6px}
-    .thumb canvas{width:100%; height:auto; display:block; border-radius:6px}
+    .viewer{background:var(--panel); border:1px solid var(--line); border-radius:14px; padding:12px; min-height:220px; overflow:auto}
 
-    .radio-grid{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px}
-    .opt{border:1px solid var(--line); border-radius:12px; padding:10px; display:flex; gap:10px; align-items:center; cursor:pointer}
-    .opt input{margin:0}
+    /* All-pages grid */
+    #pageGrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:12px}
+    .pg{
+      position:relative; border:1px solid var(--line); border-radius:12px; background:var(--tile-bg); padding:8px;
+      display:grid; gap:8px; cursor:pointer; transition:box-shadow .15s ease, transform .05s ease;
+    }
+    .pg:active{transform:translateY(1px)}
+    .pg canvas{width:100%; height:auto; display:block; border-radius:8px; background:#0b1020}
+    .pg .meta{display:flex; align-items:center; justify-content:space-between; font-size:12px; color:var(--muted)}
+    .pg .num{font-weight:900}
+    .pg input[type=checkbox]{width:18px;height:18px}
+    .pg.selected{box-shadow:0 0 0 3px rgba(124,92,255,.25) inset}
+    .selectbar{display:flex; gap:8px; flex-wrap:wrap; align-items:center; justify-content:flex-end; margin-bottom:8px}
+    .badge{font-size:12px; border:1px solid var(--line); padding:6px 10px; border-radius:999px; background:linear-gradient(90deg,#00000006,#00000003)}
 
     .progress{height:10px;background:#00000008;border-radius:999px;overflow:hidden;border:1px solid var(--line)}
     .bar{height:100%;width:0;background:var(--grad);transition:width .2s}
@@ -109,7 +116,7 @@
 
   <header>
     <div class="container nav">
-      <div class="brand">
+      <div class="brand" aria-label="Hindi Tools">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
         <strong>PDF बाँटो — हिंदी</strong>
       </div>
@@ -120,8 +127,8 @@
   <main id="main" class="container">
     <section class="card wizard" aria-label="Split PDF Wizard">
       <div class="hero">
-        <h1>इंटरैक्टिव विज़ार्ड — PDF Split</h1>
-        <p class="sub">एक-एक कदम में गाइडेड अनुभव: फाइल खोलो → मोड चुनो → प्लान → डाउनलोड। कोई अपलोड नहीं।</p>
+        <h1>इंटरैक्टिव विज़ार्ड — विज़ुअल पेज पिकर</h1>
+        <p class="sub">फाइल खोलो → पेज थम्बनेल से चुनो → मोड/सेटिंग्स → प्लान → डाउनलोड। कोई अपलोड नहीं।</p>
       </div>
 
       <!-- STEP 1: PICK -->
@@ -135,22 +142,26 @@
               <button class="btn ghost" id="demoBtn" type="button">डेमो PDF</button>
             </div>
             <input id="file" type="file" accept="application/pdf,.pdf" hidden />
-            <p class="tiny" style="margin-top:8px">टिप: पासवर्ड-प्रोटेक्टेड फाइल पर पासवर्ड पूछा जाएगा।</p>
+            <p class="tiny" style="margin-top:8px">टिप: पासवर्ड-प्रोटेक्टेड PDF पर पासवर्ड पूछा जाएगा।</p>
           </div>
 
-          <div class="grid two">
-            <div class="pane">
-              <h4 style="margin:0 0 10px">प्रीव्यू (पहला पेज)</h4>
-              <div class="viewer"><canvas id="c1"></canvas></div>
+          <div class="pane">
+            <div class="selectbar">
+              <span class="badge" id="docMeta">—</span>
+              <span class="badge" id="selCount">चुने: 0</span>
+              <div class="row" style="justify-content:flex-end">
+                <button class="btn ghost" id="selAll" type="button">सभी</button>
+                <button class="btn ghost" id="selNone" type="button">कोई नहीं</button>
+                <button class="btn ghost" id="selOdd" type="button">Odd</button>
+                <button class="btn ghost" id="selEven" type="button">Even</button>
+                <button class="btn ghost" id="selInvert" type="button">Invert</button>
+              </div>
             </div>
-            <div class="pane">
-              <h4 style="margin:0 0 10px">डॉक्यूमेंट जानकारी</h4>
-              <div id="meta" class="tiny">कोई फाइल लोड नहीं हुई।</div>
-            </div>
+            <div id="pageGrid" class="viewer" aria-live="polite">फाइल लोड करो — पेज दिखेंगे।</div>
           </div>
         </div>
         <div class="actions">
-          <div class="left tiny" id="s1hint">पहले फाइल जोड़ो।</div>
+          <div class="left tiny" id="s1hint">पहले फाइल जोड़ो, फिर पेज चुनो (Shift-क्लिक = रेंज)।</div>
           <div class="right">
             <button class="btn ghost" id="s1reset" type="button" disabled>रीसेट</button>
             <button class="btn primary pulse" id="s1next" type="button" disabled>अगला चरण</button>
@@ -167,27 +178,23 @@
               <div class="radio-grid" role="radiogroup" aria-label="मोड">
                 <label class="opt"><input type="radio" name="mode" value="ranges" checked> रेंज (उदा. 1-5,7,10-12)</label>
                 <label class="opt"><input type="radio" name="mode" value="nth"> हर N पेज</label>
-                <label class="opt"><input type="radio" name="mode" value="bookmarks"> बुकमार्क (अध्याय)</label>
                 <label class="opt"><input type="radio" name="mode" value="oddeven"> Odd / Even</label>
               </div>
-              <div id="modeHelp" class="tiny" style="margin-top:8px">रेंज मोड में हर रेंज एक अलग PDF बनेगी।</div>
+              <div id="modeHelp" class="tiny" style="margin-top:8px">
+                यदि आपने थम्बनेल से पेज चुने हैं, तो वही रेंज आपो-आप बन जाएगी।
+              </div>
             </div>
             <div class="pane" id="modeInputs">
               <!-- contextual inputs -->
               <div data-for="ranges">
-                <label>पेज रेंज</label>
+                <label>पेज रेंज (यदि हाथ से देना हो)</label>
                 <input id="ranges" type="text" placeholder="उदा: 1-5,6-10,12"/>
                 <div class="tiny">सीमा: 1 … <span id="pagesMax">—</span></div>
               </div>
               <div data-for="nth" hidden>
                 <label>हर N पेज</label>
                 <input id="nth" type="number" min="1" value="5"/>
-                <div class="tiny">N=5 ⇒ पेज 1-5, 6-10, 11-15…</div>
-              </div>
-              <div data-for="bookmarks" hidden>
-                <label>बुकमार्क चुनो (टॉप-लेवल)</label>
-                <div id="bmWrap" class="viewer" style="min-height:160px">बुकमार्क पढ़ रहे हैं/लोड करें…</div>
-                <div class="tiny">चुने हुए अध्याय से PDFs बनेंगी (best-effort).</div>
+                <div class="tiny">N=5 ⇒ 1-5, 6-10, 11-15…</div>
               </div>
               <div data-for="oddeven" hidden>
                 <label>टाइप</label>
@@ -262,7 +269,8 @@
   const S = {
     file:null, name:'', size:0, bytes:null,
     pdf:null, pageCount:0, previewOK:false,
-    outline:[], jobs:[], outputs:[] /* {name, blob} */
+    selected:new Set(), /* selected page numbers (1-based) */
+    jobs:[], outputs:[]
   };
 
   /* ===== DOM ===== */
@@ -274,20 +282,19 @@
   const fileEl = document.getElementById('file');
   const dropEl = document.getElementById('drop');
   const demoBtn = document.getElementById('demoBtn');
-  const c1 = document.getElementById('c1');
-  const metaEl = document.getElementById('meta');
+  const pageGrid = document.getElementById('pageGrid');
+  const docMeta = document.getElementById('docMeta');
+  const selCount = document.getElementById('selCount');
   const s1reset = document.getElementById('s1reset');
   const s1next = document.getElementById('s1next');
   const s1hint = document.getElementById('s1hint');
 
-  const pagesMax = document.getElementById('pagesMax');
   const modeRadios = Array.from(document.querySelectorAll('input[name="mode"]'));
   const modeInputs = document.getElementById('modeInputs');
-  const bmWrap = document.getElementById('bmWrap');
+  const pagesMax = document.getElementById('pagesMax');
   const rangesEl = document.getElementById('ranges');
   const nthEl = document.getElementById('nth');
   const oeSel = document.getElementById('oeSel');
-
   const s2back = document.getElementById('s2back');
   const s2reset = document.getElementById('s2reset');
   const s2next = document.getElementById('s2next');
@@ -303,39 +310,69 @@
   const zipAllBtn = document.getElementById('zipAll');
   const s4again = document.getElementById('s4again');
 
+  const selAll = document.getElementById('selAll');
+  const selNone = document.getElementById('selNone');
+  const selOdd = document.getElementById('selOdd');
+  const selEven = document.getElementById('selEven');
+  const selInvert = document.getElementById('selInvert');
+
   /* ===== Helpers ===== */
   const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
   const setBar = p => barEl.style.width = Math.max(0,Math.min(100,Math.round(p)))+'%';
   const sleep = ms => new Promise(r=>setTimeout(r,ms));
+  const radioValue = () => (modeRadios.find(x=>x.checked)?.value || 'ranges');
+  function magicLooksLikePDF(u8){ if(!u8||u8.length<5) return false; return new TextDecoder().decode(u8.slice(0,5)) === '%PDF-'; }
 
-  function showStep(n){
-    [step1,step2,step3,step4].forEach((s,i)=> s.classList.toggle('active', i===n-1));
-    // gentle pulse on main forward button
-    if (n===1) { s1next.classList.add('pulse'); }
-    else if (n===2) { s2next.classList.add('pulse'); }
-  }
-
-  function magicLooksLikePDF(u8){
-    if (!u8 || u8.length<5) return false;
-    const head = new TextDecoder().decode(u8.slice(0,5));
-    return head === '%PDF-';
-  }
-
-  function radioValue(){
-    const r = modeRadios.find(x=>x.checked);
-    return r ? r.value : 'ranges';
-  }
+  function showStep(n){ [step1,step2,step3,step4].forEach((s,i)=> s.classList.toggle('active', i===n-1)); if(n===1){s1next.classList.add('pulse');} if(n===2){s2next.classList.add('pulse');} }
 
   function setModeUI(){
     const m = radioValue();
-    modeHelp.textContent =
-      m==='ranges'   ? 'हर रेंज एक आउटपुट PDF बनेगी।'
-    : m==='nth'      ? 'हर N पेज पर स्वत: अलग PDFs।'
-    : m==='bookmarks'? 'अध्याय (टॉप-लेवल बुकमार्क) के हिसाब से PDFs।'
-    :                  'चुने हुए Odd/Even पेज एक PDF में।';
+    modeHelp.textContent = m==='ranges' ? 'यदि आपने थम्बनेल से पेज चुने हैं, तो वही रेंज आपो-आप बन जाएगी।'
+      : m==='nth' ? 'हर N पेज पर स्वत: अलग PDFs बनेंगी।'
+      : 'Odd/Even पेज से एक PDF बनेगी।';
     modeInputs.querySelectorAll('[data-for]').forEach(box=>{
       box.hidden = box.getAttribute('data-for') !== m;
     });
+  }
+
+  function updateSelCount(){ selCount.textContent = `चुने: ${S.selected.size}`; }
+
+  function contiguousRangesFromSelection(max){
+    const arr = Array.from(S.selected).sort((a,b)=>a-b);
+    if (!arr.length) return [];
+    const out=[]; let a=arr[0], b=arr[0];
+    for (let i=1;i<arr.length;i++){
+      if (arr[i]===b+1){ b=arr[i]; }
+      else { out.push([a,b]); a=b=arr[i]; }
+    }
+    out.push([a,b]);
+    // clamp just in case
+    return out.map(([x,y])=>[Math.max(1,x), Math.min(max,y)]);
+  }
+
+  function buildPlanFromMode(){
+    const max = S.pageCount || 9999;
+    const m = radioValue();
+    const jobs = [];
+    if (m==='ranges'){
+      const visual = contiguousRangesFromSelection(max);
+      if (visual.length){
+        visual.forEach(([a,b],i)=> jobs.push({label:`part-${i+1}_${a}-${b}`, start:a, end:b}));
+      } else {
+        const list = parseRangeList((rangesEl.value||'').trim(), max);
+        list.forEach(([a,b],i)=> jobs.push({label:`part-${i+1}_${a}-${b}`, start:a, end:b}));
+      }
+    } else if (m==='nth'){
+      const n = Math.max(1, parseInt(nthEl.value||'5',10));
+      for(let a=1,i=1; a<=max; a+=n, i++){
+        const b = Math.min(max, a+n-1);
+        jobs.push({label:`part-${i}_${a}-${b}`, start:a, end:b});
+      }
+    } else if (m==='oddeven'){
+      const pickEven = (oeSel.value==='even');
+      jobs.push({label: pickEven? 'even-pages' : 'odd-pages', start:1, end:max, filter:(n)=> (pickEven? n%2===0 : n%2===1)});
+    }
+    return jobs;
   }
 
   function parseRangeList(str, max){
@@ -346,7 +383,6 @@
       if(a<1||b<1||a>max||b>max) throw new Error('range');
       if(a>b) [a,b]=[b,a]; out.push([a,b]);
     }
-    // normalize overlaps
     out.sort((x,y)=>x[0]-y[0]);
     const merged=[]; for(const r of out){
       if(!merged.length || r[0] > merged[merged.length-1][1]+1) merged.push([...r]);
@@ -356,8 +392,8 @@
   }
 
   function downloadBlob(blob, name){
-    const a=document.createElement('a');
-    const url=URL.createObjectURL(blob); a.href=url; a.download=name; a.click(); URL.revokeObjectURL(url);
+    const a=document.createElement('a'); const url=URL.createObjectURL(blob);
+    a.href=url; a.download=name; a.click(); URL.revokeObjectURL(url);
   }
 
   /* ===== File intake (robust) ===== */
@@ -374,28 +410,26 @@
     const { PDFDocument, StandardFonts } = PDFLib;
     const doc = await PDFDocument.create();
     const font = await doc.embedFont(StandardFonts.Helvetica);
-    for (let i=1;i<=12;i++){ const p=doc.addPage([595,842]); p.drawText(`Demo Page ${i}`, {x:210, y:430, size:28, font}); }
+    for (let i=1;i<=16;i++){ const p=doc.addPage([595,842]); p.drawText(`Demo Page ${i}`, {x:210, y:430, size:28, font}); }
     const bytes = await doc.save();
     await loadFile(new File([new Blob([bytes],{type:'application/pdf'})], 'Demo-Split.pdf', {type:'application/pdf'}));
   });
 
   async function loadFile(file){
     try{
-      S.file=file; S.name=file.name||'Document.pdf'; S.size=file.size||0;
+      // reset
+      S.file=file; S.name=file.name||'Document.pdf'; S.size=file.size||0; S.selected.clear();
+      pageGrid.innerHTML='पेज तैयार किए जा रहे हैं…'; updateSelCount();
+      docMeta.textContent = `${S.name} • ${fmtBytes(S.size)}`;
+      s1reset.disabled = true; s1next.disabled = true; s1hint.textContent='प्रीव्यू लोड हो रहा है…';
+
       const u8 = new Uint8Array(await file.arrayBuffer());
       S.bytes = u8;
 
-      // Quick sniff; let password/protected still pass (pdf-lib can load some), but show hint
-      if (!magicLooksLikePDF(u8)){
-        // some tools produce PDFs without a clean header; allow preview to try anyway
-        console.warn('Header not %PDF-, attempting preview anyway.');
-      }
+      if (!magicLooksLikePDF(u8)){ console.warn('Header not %PDF-, attempting anyway.'); }
 
-      metaEl.textContent = `${S.name} • ${fmtBytes(S.size)}`;
-      s1reset.disabled = true; s1next.disabled = true; s1hint.textContent = 'प्रीव्यू लोड हो रहा है…';
+      S.previewOK=false; S.pdf=null; S.pageCount=0;
 
-      // Try pdf.js preview with password handler
-      S.previewOK = false; S.pdf = null; S.pageCount = 0;
       if (pdfjsLib){
         const task = pdfjsLib.getDocument({data:u8});
         task.onPassword = (updatePassword, reason)=>{
@@ -405,124 +439,132 @@
         };
         try{
           const pdf = await task.promise;
-          S.pdf = pdf; S.pageCount = pdf.numPages;
+          S.pdf = pdf; S.pageCount = pdf.numPages; S.previewOK=true;
           pagesMax.textContent = String(pdf.numPages);
-          const page1 = await pdf.getPage(1);
-          await renderToCanvas(page1, c1, 140);
-          S.previewOK = true;
-          // Outline (best-effort)
-          try{
-            const outline = await pdf.getOutline();
-            if (outline && outline.length){
-              bmWrap.innerHTML = ''; // will populate on step2
-              S.outline = outline;
-            } else {
-              S.outline = [];
-            }
-          }catch{ S.outline = []; }
-          s1hint.textContent = 'प्रीव्यू तैयार। “अगला चरण” दबाएँ।';
+          s1hint.textContent = 'थम्बनेल रेंडर हो रही हैं… (स्क्रॉल करते ही तेज़ हो जाएगा)';
+          await buildPageGrid(); // lazy render all pages
         }catch(previewErr){
-          console.warn('Preview failed, will fallback for splitting:', previewErr);
-          c1.width=c1.height=0;
-          metaEl.textContent += ' • (प्रीव्यू नहीं दिखा, पर स्प्लिट होगा)';
-          s1hint.textContent = 'प्रीव्यू नहीं दिखा — फिर भी “अगला चरण” से स्प्लिट कर सकते हैं।';
+          console.warn('Preview failed, fallback allowed:', previewErr);
+          pageGrid.textContent = 'प्रीव्यू नहीं दिखा — फिर भी आगे बढ़ सकते हैं (Step 2 में रेंज/मोड से प्लान बनाएं)।';
         }
       } else {
-        s1hint.textContent = 'pdf.js लोड नहीं हुआ — बिना प्रीव्यू आगे बढ़ें।';
+        pageGrid.textContent = 'pdf.js लोड नहीं हुआ — बिना प्रीव्यू आगे बढ़ें।';
       }
-
       s1reset.disabled = false; s1next.disabled = false;
     }catch(e){
       console.error(e);
-      alert('फाइल नहीं पढ़ पाए। कृपया किसी दूसरे ब्राउज़र में ट्राय करें या फाइल वैध है चेक करें।');
-      metaEl.textContent = '—';
+      alert('फाइल नहीं पढ़ पाए। कृपया फाइल वैध है/ब्राउज़र सपोर्ट चेक करें।');
+      pageGrid.textContent = '—';
       s1reset.disabled = false;
     }
   }
 
-  async function renderToCanvas(page, canvas, dpi){
-    const scale = dpi/72; const viewport = page.getViewport({scale});
-    const ctx = canvas.getContext('2d', { willReadFrequently:true });
-    canvas.width = Math.floor(viewport.width); canvas.height = Math.floor(viewport.height);
-    await page.render({canvasContext: ctx, viewport}).promise;
+  /* ===== All-pages grid with lazy rendering ===== */
+  let lastClickPage = null;
+
+  async function buildPageGrid(){
+    pageGrid.innerHTML = '';
+    const frag = document.createDocumentFragment();
+    for (let p=1; p<=S.pageCount; p++){
+      const box = document.createElement('div');
+      box.className='pg';
+      box.dataset.page = String(p);
+      box.innerHTML = `
+        <canvas width="10" height="10" aria-label="Page ${p}"></canvas>
+        <div class="meta">
+          <span class="num">पेज ${p}</span>
+          <input type="checkbox" aria-label="Select page ${p}">
+        </div>
+      `;
+      box.addEventListener('click', (e)=>{
+        if (e.target?.tagName?.toLowerCase()==='input') return; // checkbox click handled below
+        togglePageSelection(p, e.shiftKey);
+      });
+      box.querySelector('input[type=checkbox]')?.addEventListener('change', (e)=>{
+        e.stopPropagation();
+        togglePageSelection(p, e.shiftKey, e.target.checked);
+      });
+      frag.appendChild(box);
+    }
+    pageGrid.appendChild(frag);
+    lazyRenderCanvases();
+    refreshSelectionUI();
   }
 
-  /* ===== Step controls ===== */
+  function refreshSelectionUI(){
+    document.querySelectorAll('.pg').forEach(el=>{
+      const p = parseInt(el.dataset.page,10);
+      const sel = S.selected.has(p);
+      el.classList.toggle('selected', sel);
+      const cb = el.querySelector('input[type=checkbox]');
+      if (cb) cb.checked = sel;
+    });
+    updateSelCount();
+  }
+
+  function togglePageSelection(p, shift=false, explicit=null){
+    const doSelect = (explicit!=null)? explicit : !S.selected.has(p);
+    if (shift && lastClickPage!=null){
+      const [a,b] = p>lastClickPage ? [lastClickPage, p] : [p, lastClickPage];
+      for (let i=a;i<=b;i++){ if (doSelect) S.selected.add(i); else S.selected.delete(i); }
+    } else {
+      if (doSelect) S.selected.add(p); else S.selected.delete(p);
+    }
+    lastClickPage = p;
+    refreshSelectionUI();
+  }
+
+  // Bulk select buttons
+  selAll.addEventListener('click', ()=>{ S.selected.clear(); for(let i=1;i<=S.pageCount;i++) S.selected.add(i); refreshSelectionUI(); });
+  selNone.addEventListener('click', ()=>{ S.selected.clear(); refreshSelectionUI(); });
+  selOdd.addEventListener('click', ()=>{ S.selected.clear(); for(let i=1;i<=S.pageCount;i++) if (i%2===1) S.selected.add(i); refreshSelectionUI(); });
+  selEven.addEventListener('click', ()=>{ S.selected.clear(); for(let i=1;i<=S.pageCount;i++) if (i%2===0) S.selected.add(i); refreshSelectionUI(); });
+  selInvert.addEventListener('click', ()=>{ const next=new Set(); for(let i=1;i<=S.pageCount;i++) if(!S.selected.has(i)) next.add(i); S.selected=next; refreshSelectionUI(); });
+
+  function lazyRenderCanvases(){
+    const io = new IntersectionObserver(async (entries)=>{
+      for (const e of entries){
+        if (e.isIntersecting){
+          io.unobserve(e.target);
+          const box = e.target;
+          const p = parseInt(box.dataset.page,10);
+          try{ await renderPageThumb(p, box.querySelector('canvas')); }catch{}
+        }
+      }
+    }, { root: pageGrid, rootMargin:'200px 0px', threshold: 0.01 });
+
+    document.querySelectorAll('.pg').forEach(el=> io.observe(el));
+  }
+
+  async function renderPageThumb(pageNum, canvas){
+    if (!S.pdf) return;
+    const page = await S.pdf.getPage(pageNum);
+    const scale = 0.35; // nice and light
+    const vp = page.getViewport({scale});
+    canvas.width = Math.floor(vp.width); canvas.height = Math.floor(vp.height);
+    await page.render({canvasContext: canvas.getContext('2d'), viewport: vp}).promise;
+  }
+
+  /* ===== Step navigation ===== */
   s1reset.addEventListener('click', ()=>{
-    Object.assign(S,{file:null,name:'',size:0,bytes:null,pdf:null,pageCount:0,previewOK:false,outline:[],jobs:[],outputs:[]});
-    c1.width=c1.height=0; metaEl.textContent='कोई फाइल लोड नहीं हुई।'; s1hint.textContent='पहले फाइल जोड़ो।';
-    s1reset.disabled=true; s1next.disabled=true;
+    Object.assign(S,{file:null,name:'',size:0,bytes:null,pdf:null,pageCount:0,previewOK:false,selected:new Set(),jobs:[],outputs:[]});
+    pageGrid.textContent='फाइल लोड करो — पेज दिखेंगे।'; docMeta.textContent='—'; updateSelCount();
+    s1reset.disabled=true; s1next.disabled=true; s1hint.textContent='पहले फाइल जोड़ो, फिर पेज चुनो।';
   });
   s1next.addEventListener('click', ()=>{
     if (!S.bytes){ alert('पहले PDF जोड़ें।'); return; }
-    setModeUI(); populateBookmarksUI(); showStep(2);
+    setModeUI(); showStep(2);
   });
 
   modeRadios.forEach(r=> r.addEventListener('change', setModeUI));
-
-  function populateBookmarksUI(){
-    const host = modeInputs.querySelector('[data-for="bookmarks"] #bmWrap');
-    host.innerHTML = '—';
-    if (!S.previewOK || !S.pdf){ host.textContent = 'बुकमार्क पढ़ने के लिए प्रीव्यू चाहिए।'; return; }
-    // flatten top-level bookmarks into checkboxes
-    (async ()=>{
-      try{
-        const pdf=S.pdf;
-        const outline = S.outline || [];
-        const tops = (outline||[]).filter(o=>o && o.dest);
-        const rows=[];
-        for (const it of tops){
-          try{
-            const dest = await pdf.getDestination(it.dest);
-            const ref = Array.isArray(dest) ? dest[0] : null;
-            const pageIndex = ref ? await pdf.getPageIndex(ref) : null;
-            if (pageIndex!=null){ rows.push({title: it.title || 'Untitled', page: pageIndex+1}); }
-          }catch{}
-        }
-        rows.sort((a,b)=>a.page-b.page);
-        if (!rows.length){ host.textContent='बुकमार्क नहीं मिले।'; return; }
-        host.innerHTML = rows.map((r,i)=>`<label style="display:flex;gap:8px;align-items:center;margin:6px 0"><input type="checkbox" data-page="${r.page}" checked> ${String(i+1).padStart(2,'0')}. ${escapeHtml(r.title)} — पेज ${r.page}</label>`).join('');
-      }catch{ host.textContent='बुकमार्क नहीं पढ़ पाए।'; }
-    })();
-  }
-
-  function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c])); }
-
   s2back.addEventListener('click', ()=> showStep(1));
-  s2reset.addEventListener('click', ()=>{
-    rangesEl.value=''; nthEl.value='5'; oeSel.value='odd';
-  });
+  s2reset.addEventListener('click', ()=>{ rangesEl.value=''; nthEl.value='5'; oeSel.value='odd'; });
+
   s2next.addEventListener('click', ()=>{
     try{
-      const m = radioValue();
-      const max = S.pageCount || 9999; // when preview missing
-      let jobs=[];
-      if (m==='ranges'){
-        const list = parseRangeList((rangesEl.value||'').trim(), max);
-        if(!list.length){ alert('रेंज डालें, जैसे 1-5,7,10-12'); return; }
-        jobs = list.map(([a,b],i)=>({label:`part-${i+1}_${a}-${b}`, start:a, end:b}));
-      } else if (m==='nth'){
-        const n = Math.max(1, parseInt(nthEl.value||'5',10));
-        for(let a=1,i=1; a<=max; a+=n, i++){
-          const b = Math.min(max, a+n-1);
-          jobs.push({label:`part-${i}_${a}-${b}`, start:a, end:b});
-        }
-      } else if (m==='bookmarks'){
-        const checks = [...modeInputs.querySelectorAll('[data-for="bookmarks"] input[type=checkbox]')].filter(x=>x.checked);
-        if (!checks.length){ alert('कम से कम एक बुकमार्क चुनें।'); return; }
-        const points = checks.map(c=>parseInt(c.dataset.page,10)).sort((a,b)=>a-b);
-        for(let i=0;i<points.length;i++){
-          const a = points[i]; const b = (i<points.length-1 ? points[i+1]-1 : max);
-          jobs.push({label:`chap-${i+1}_${a}-${b}`, start:a, end:b});
-        }
-      } else if (m==='oddeven'){
-        const pickEven = (oeSel.value==='even');
-        jobs = [{ label: pickEven? 'even-pages' : 'odd-pages', start:1, end:max, filter:(n)=> (pickEven? n%2===0 : n%2===1) }];
-      }
-      if(!jobs.length) return alert('कोई प्लान नहीं बना।');
-
+      const jobs = buildPlanFromMode();
+      if (!jobs.length) return alert('कृपया रेंज/चयन सेट करें।');
       S.jobs = jobs;
-      // Plan summary
       planEl.innerHTML = `<strong>${S.name}</strong> ⇒ ${jobs.length} आउटपुट<br>` +
         jobs.map(j=>`• ${j.label}`).join('<br>');
       setBar(0); statusEl.textContent='तैयार…'; S.outputs.length=0;
@@ -537,7 +579,7 @@
     try{
       setBar(4); statusEl.textContent='PDF पढ़ रहे हैं…';
       const { PDFDocument } = PDFLib;
-      const src = await PDFDocument.load(S.bytes, { ignoreEncryption:false }); // pdf-lib handles many cases
+      const src = await PDFDocument.load(S.bytes, { ignoreEncryption:false });
       const total = S.jobs.length;
       S.outputs.length=0;
 
@@ -545,7 +587,6 @@
         const J = S.jobs[i];
         statusEl.textContent = `बना रहे: ${J.label}`;
         const out = await PDFDocument.create();
-        // build page indices
         const idxs=[]; const maxPages = src.getPageCount();
         const start = Math.max(1, J.start||1), end=Math.min(maxPages, J.end||maxPages);
         for(let p=start;p<=end;p++){ if(!J.filter || J.filter(p)) idxs.push(p-1); }
@@ -570,7 +611,7 @@
   function renderDownloads(){
     dlList.innerHTML = '';
     if (!S.outputs.length){ dlList.textContent='कुछ भी नहीं बना (रेंज/मोड जाँचें)'; zipAllBtn.disabled=true; return; }
-    S.outputs.forEach((o, i)=>{
+    S.outputs.forEach((o)=>{
       const row = document.createElement('div');
       row.className='pane';
       row.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;gap:10px">
@@ -593,10 +634,9 @@
   });
 
   s4again.addEventListener('click', ()=>{
-    // reset to step1 quickly
-    Object.assign(S,{file:null,name:'',size:0,bytes:null,pdf:null,pageCount:0,previewOK:false,outline:[],jobs:[],outputs:[]});
-    c1.width=c1.height=0; metaEl.textContent='कोई फाइल लोड नहीं हुई।'; s1hint.textContent='पहले फाइल जोड़ो।';
-    s1reset.disabled=true; s1next.disabled=true;
+    Object.assign(S,{file:null,name:'',size:0,bytes:null,pdf:null,pageCount:0,previewOK:false,selected:new Set(),jobs:[],outputs:[]});
+    pageGrid.textContent='फाइल लोड करो — पेज दिखेंगे।'; docMeta.textContent='—'; updateSelCount();
+    s1reset.disabled=true; s1next.disabled=true; s1hint.textContent='पहले फाइल जोड़ो, फिर पेज चुनो।';
     showStep(1);
   });
   </script>
