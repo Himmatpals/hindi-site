@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PDF Compressor — Interactive Wizard (100% in your browser)</title>
-  <meta name="description" content="Compress and reduce PDF size in your browser. Wizard-style UI, quality/DPI, grayscale, page ranges, live preview, and progress. No file upload." />
+  <title>PDF कंप्रेसर — इंटरैक्टिव विज़ार्ड (100% ब्राउज़र में)</title>
+  <meta name="description" content="PDF का साइज घटाएँ — विज़ार्ड UI, क्वालिटी/DPI, ग्रेस्केल, पेज रेंज, लाइव प्रीव्यू और प्रोग्रेस। सब कुछ आपके ब्राउज़र में।" />
   <style>
     :root{
       --bg:#0b0f17; --card:#121827; --muted:#2a3551; --accent:#8b5cf6; --accent-2:#22d3ee; --text:#e6ebff; --text-dim:#a7b0d8;
       --ok:#22c55e; --warn:#f59e0b; --err:#ef4444;
     }
     *{box-sizing:border-box}
-    html,body{height:100%;}
-    body{margin:0;font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu; color:var(--text); background: radial-gradient(1000px 600px at 10% -10%, #1a2240 0%, #0b0f17 40%) fixed, var(--bg);}    
+    html,body{height:100%}
+    body{margin:0;font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu; color:var(--text); background: radial-gradient(1000px 600px at 10% -10%, #1a2240 0%, #0b0f17 40%) fixed, var(--bg);}    
     .wrap{max-width:1080px;margin:0 auto;padding:24px}
     header{display:flex;align-items:center;gap:14px;margin:12px 0 22px}
     header .logo{width:38px;height:38px;border-radius:10px;background:
@@ -21,7 +21,7 @@
       box-shadow:0 0 0 2px #223, 0 10px 30px rgba(0,0,0,.4)}
     h1{font-size:clamp(22px,4vw,32px);margin:0}
 
-    /* Wizard layout */
+    /* विज़ार्ड लेआउट */
     .wizard{display:grid;grid-template-columns:280px 1fr;gap:18px}
     @media (max-width:900px){.wizard{grid-template-columns:1fr}}
     .steps{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
@@ -32,27 +32,28 @@
     .step-index{width:28px;height:28px;display:grid;place-items:center;border-radius:10px;background:#202940;font-weight:700}
 
     .panel{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border:1px solid #1e2a44;border-radius:16px;padding:18px;min-height:460px;position:relative;overflow:hidden}
+      border:1px solid #1e2a44;border-radius:16px;padding:18px;min-height:480px;position:relative;overflow:hidden}
 
-    /* Dropzone */
+    /* ड्रॉपज़ोन */
     .drop{border:2px dashed #30406d;border-radius:18px;padding:28px;text-align:center;transition:.25s}
     .drop:hover{border-color:var(--accent);box-shadow:0 0 0 4px rgba(139,92,246,.15)}
     .btn{appearance:none;border:none;border-radius:12px;padding:10px 14px;background:linear-gradient(135deg, var(--accent), #3b82f6);
-      color:white;font-weight:600;cursor:pointer;transition:.2s;box-shadow:0 8px 24px rgba(59,130,246,.35)}
+      color:white;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 24px rgba(59,130,246,.35)}
     .btn:hover{transform:translateY(-1px);filter:saturate(1.1)}
     .btn.secondary{background:linear-gradient(135deg,#2b354f,#1d253b);box-shadow:none}
     .btn.ghost{background:transparent;border:1px solid #2b3552;color:var(--text)}
     .btn-row{display:flex;flex-wrap:wrap;gap:10px}
 
-    /* Controls */
+    /* कंट्रोल्स */
     .grid{display:grid;gap:14px}
     .grid-2{grid-template-columns:1fr 1fr}
     .grid-3{grid-template-columns:repeat(3,1fr)}
     @media (max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
     label{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#101828;border:1px solid #1f2a48;padding:12px 14px;border-radius:12px}
-    label .lbl{font-weight:600}
+    label .lbl{font-weight:700}
     input[type=range]{width:100%}
     input[type=text], input[type=number]{width:100%;background:#0e1628;border:1px solid #1f2a48;color:var(--text);padding:10px;border-radius:10px}
+    select{background:#0e1628;border:1px solid #1f2a48;color:var(--text);padding:10px;border-radius:10px}
     .switch{position:relative;display:inline-block;width:50px;height:28px}
     .switch input{opacity:0;width:0;height:0}
     .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#34405d;transition:.2s;border-radius:32px}
@@ -71,15 +72,15 @@
     .bar{height:100%;width:0%;background:linear-gradient(90deg, var(--accent), var(--accent-2));transition:width .15s}
 
     .stat{display:flex;align-items:center;gap:10px;background:#0e1526;border:1px solid #223257;border-radius:12px;padding:10px 12px}
-    .stat .value{font-weight:700}
+    .stat .value{font-weight:800}
 
     .k{color:#9ab4ff}
-    .hint{color:var(--text-dim);font-size:.9rem}
-    .danger{color:var(--err);font-weight:600}
-    .success{color:var(--ok);font-weight:600}
-    .warn{color:var(--warn);font-weight:600}
+    .hint{color:var(--text-dim);font-size:.95rem}
+    .danger{color:var(--err);font-weight:700}
+    .success{color:var(--ok);font-weight:700}
+    .warn{color:var(--warn);font-weight:700}
 
-    footer{opacity:.75;margin-top:16px;font-size:.85rem}
+    footer{opacity:.8;margin-top:16px;font-size:.9rem}
     a{color:#93c5fd}
   </style>
 </head>
@@ -88,34 +89,32 @@
     <header>
       <div class="logo" aria-hidden="true"></div>
       <div>
-        <h1>PDF Compressor — Wizard</h1>
-        <div class="hint">Private. Fast. Powerful. No uploads — everything happens in your browser.</div>
+        <h1>PDF कंप्रेसर — विज़ार्ड</h1>
+        <div class="hint">निजी, तेज़ और शक्तिशाली। कोई अपलोड नहीं — सब कुछ आपके डिवाइस पर।</div>
       </div>
     </header>
 
-    <div class="wizard" role="application" aria-label="PDF compression wizard">
-      <nav class="steps" aria-label="Steps">
-        <div class="step-item active" data-step="1"><div class="step-index">1</div><div>Upload</div></div>
-        <div class="step-item" data-step="2"><div class="step-index">2</div><div>Options</div></div>
-        <div class="step-item" data-step="3"><div class="step-index">3</div><div>Preview & Estimate</div></div>
-        <div class="step-item" data-step="4"><div class="step-index">4</div><div>Compress & Download</div></div>
+    <div class="wizard" role="application" aria-label="PDF कंप्रेशन विज़ार्ड">
+      <nav class="steps" aria-label="कदम">
+        <div class="step-item active" data-step="1"><div class="step-index">1</div><div>फ़ाइल चुनें</div></div>
+        <div class="step-item" data-step="2"><div class="step-index">2</div><div>विकल्प</div></div>
+        <div class="step-item" data-step="3"><div class="step-index">3</div><div>प्रीव्यू व अनुमान</div></div>
+        <div class="step-item" data-step="4"><div class="step-index">4</div><div>कंप्रेस व डाउनलोड</div></div>
       </nav>
 
-      <section class="panel" id="panel">
-        <!-- Panels are rendered here -->
-      </section>
+      <section class="panel" id="panel"></section>
     </div>
 
     <footer>
-      Tip: <span class="k">Image Flatten</span> gives the strongest size reduction (best for scans). <span class="k">Safe Copy</span> keeps text selectable but reduces size modestly.
+      सुझाव: <span class="k">इमेज फ्लैटन</span> स्कैन/इमेज-भारी PDF के लिए सबसे छोटा साइज देगा। <span class="k">सेफ कॉपी</span> टेक्स्ट/वेक्टर सुरक्षित रखेगा।
     </footer>
   </div>
 
-  <!-- Dependencies (CDN) -->
+  <!-- डिपेंडेंसी (CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.6.82/pdf.min.js"></script>
   <script>
-    // Configure PDF.js worker
+    // PDF.js वर्कर कॉन्फ़िगरेशन
     if (window['pdfjsLib']) {
       pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.6.82/pdf.worker.min.js';
     }
@@ -129,27 +128,22 @@
     const state = {
       file: null,
       fileBytes: null,
-      pdfDoc: null, // PDF.js document
+      pdfDoc: null, // PDF.js
       numPages: 0,
       pagesMeta: [],
-      // Options
       mode: 'image', // 'image' | 'safe'
-      quality: 0.6, // JPEG quality 0..1
+      quality: 0.6,
       dpi: 110,
       grayscale: false,
       pageRange: 'all',
       format: 'jpeg', // 'jpeg' | 'png'
       estimate: null,
       estPreviewBlob: null,
+      pdfjsAvailable: !!window.pdfjsLib,
     };
 
     const steps = $$('.step-item');
     steps.forEach(s=>s.addEventListener('click', ()=>goStep(parseInt(s.dataset.step))));
-
-    function setActive(step){
-      steps.forEach(el=>el.classList.toggle('active', parseInt(el.dataset.step)===step));
-    }
-
     const panel = $('#panel');
 
     function humanBytes(n){
@@ -157,32 +151,34 @@
       const u=['B','KB','MB','GB']; let i=0; while(n>=1024&&i<u.length-1){n/=1024;i++} return `${n.toFixed(i?2:0)} ${u[i]}`;
     }
 
+    // ————— स्टेप 1: फ़ाइल चुनें —————
     function renderStep1(){
       setActive(1);
       panel.innerHTML = `
         <div class="grid" style="gap:16px">
-          <div class="drop" id="drop" aria-label="Drop PDF here or choose a file" tabindex="0">
-            <h2>Drop your PDF here</h2>
-            <div class="hint">or</div>
+          <div class="drop" id="drop" aria-label="यहाँ PDF छोड़ें या फ़ाइल चुनें" tabindex="0">
+            <h2>अपना PDF यहाँ छोड़ें</h2>
+            <div class="hint">या</div>
             <div class="btn-row" style="justify-content:center;margin-top:10px">
-              <label class="btn pulse" for="fileInput">Choose PDF</label>
-              <input id="fileInput" type="file" accept="application/pdf" hidden />
+              <label class="btn pulse" for="fileInput">PDF चुनें</label>
+              <input id="fileInput" type="file" accept=".pdf,application/pdf" hidden />
             </div>
-            <div style="margin-top:12px" class="hint">Your file never leaves this device.</div>
+            <div style="margin-top:12px" class="hint">आपकी फ़ाइल आपके डिवाइस से बाहर नहीं जाएगी।</div>
           </div>
           <div id="fileInfo" class="stat" style="display:none">
-            <div>Selected: <span class="value" id="fileName"></span></div>
+            <div>चुना गया: <span class="value" id="fileName"></span></div>
             <div>•</div>
-            <div>Size: <span class="value" id="fileSize"></span></div>
+            <div>साइज: <span class="value" id="fileSize"></span></div>
             <div>•</div>
-            <div>Pages: <span class="value" id="filePages">—</span></div>
+            <div>पेज: <span class="value" id="filePages">—</span></div>
           </div>
           <div id="thumbWrap" style="display:none">
-            <div class="hint">Quick thumbnails</div>
+            <div class="hint">त्वरित थंबनेल</div>
             <div class="thumbs" id="thumbs"></div>
           </div>
+          <div id="uploadError" class="hint danger" style="display:none"></div>
           <div class="btn-row" style="justify-content:flex-end">
-            <button class="btn secondary" disabled id="to2">Next: Options →</button>
+            <button class="btn secondary" disabled id="to2">अगला: विकल्प →</button>
           </div>
         </div>`;
 
@@ -192,26 +188,38 @@
 
       const onFile = async (f)=>{
         if(!f) return;
-        if(f.type!=="application/pdf" && !f.name.toLowerCase().endsWith('.pdf')){
-          alert('Please select a PDF file.'); return;
+        if(!(f.type==="application/pdf" || f.name.toLowerCase().endsWith('.pdf'))){
+          showError('कृपया PDF फ़ाइल चुनें।'); return;
         }
-        state.file = f;
-        state.fileBytes = new Uint8Array(await f.arrayBuffer());
-        $('#fileInfo').style.display='flex';
-        $('#fileName').textContent = f.name;
-        $('#fileSize').textContent = humanBytes(f.size);
-        to2.disabled = true;
-
-        // Load with PDF.js to get page count and thumbnails
         try{
-          state.pdfDoc = await pdfjsLib.getDocument({data: state.fileBytes}).promise;
-          state.numPages = state.pdfDoc.numPages;
-          $('#filePages').textContent = state.numPages;
-          await renderThumbs();
-          to2.disabled = false;
-          $('#thumbWrap').style.display = 'block';
-        }catch(err){
-          console.error(err); alert('Failed to read PDF. Is it encrypted?');
+          state.file = f;
+          state.fileBytes = await fileToBytes(f);
+          $('#fileInfo').style.display='flex';
+          $('#fileName').textContent = f.name;
+          $('#fileSize').textContent = humanBytes(f.size);
+          $('#uploadError').style.display='none';
+          to2.disabled = true;
+
+          if(state.pdfjsAvailable){
+            try{
+              state.pdfDoc = await pdfjsLib.getDocument({data: state.fileBytes}).promise;
+              state.numPages = state.pdfDoc.numPages;
+              $('#filePages').textContent = state.numPages;
+              await renderThumbs();
+              to2.disabled = false;
+              $('#thumbWrap').style.display = 'block';
+            }catch(err){
+              console.warn('PDF.js विफल:', err);
+              await fallbackPageCount();
+              if(state.numPages>0){ to2.disabled = false; }
+            }
+          } else {
+            await fallbackPageCount();
+            if(state.numPages>0){ to2.disabled = false; }
+          }
+        }catch(e){
+          console.error(e);
+          showError('फ़ाइल पढ़ने में समस्या। संभवतः फ़ाइल पासवर्ड-प्रोटेक्टेड है या भ्रष्ट है।');
         }
       };
 
@@ -221,6 +229,31 @@
       drop.addEventListener('click', ()=>fileInput.click());
       fileInput.addEventListener('change', e=>onFile(e.target.files[0]));
       to2.addEventListener('click', ()=>goStep(2));
+
+      function showError(msg){ const el=$('#uploadError'); el.textContent=msg; el.style.display='block'; }
+    }
+
+    async function fileToBytes(file){
+      if(file.arrayBuffer){ return new Uint8Array(await file.arrayBuffer()); }
+      return await new Promise((resolve,reject)=>{
+        const fr = new FileReader();
+        fr.onload = ()=>resolve(new Uint8Array(fr.result));
+        fr.onerror = ()=>reject(fr.error||new Error('FileReader त्रुटि'));
+        fr.readAsArrayBuffer(file);
+      });
+    }
+
+    async function fallbackPageCount(){
+      try{
+        const { PDFDocument } = PDFLib;
+        const doc = await PDFDocument.load(state.fileBytes);
+        state.numPages = doc.getPageCount();
+        $('#filePages').textContent = state.numPages;
+        $('#thumbWrap').style.display = 'none';
+      }catch(e){
+        $('#uploadError').textContent = 'PDF पढ़ा नहीं जा सका (पासवर्ड-प्रोटेक्टेड/खराब?).';
+        $('#uploadError').style.display='block';
+      }
     }
 
     async function renderThumbs(){
@@ -237,7 +270,7 @@
         canvas.height = Math.ceil(viewport.height);
         await page.render({canvasContext:ctx, viewport}).promise;
         const d = document.createElement('div'); d.className='thumb';
-        d.innerHTML = `<div style="font-weight:700;margin-bottom:6px">Pg ${i}</div>`;
+        d.innerHTML = `<div style="font-weight:800;margin-bottom:6px">पेज ${i}</div>`;
         d.appendChild(canvas);
         thumbs.appendChild(d);
         state.pagesMeta.push({w: viewport.width, h: viewport.height});
@@ -245,67 +278,68 @@
       if(state.numPages>maxThumbs){
         const more = document.createElement('div');
         more.className='hint';
-        more.textContent = `(+ ${state.numPages - maxThumbs} more pages)`;
+        more.textContent = `(+ ${state.numPages - maxThumbs} और पेज)`;
         $('#thumbWrap').appendChild(more);
       }
     }
 
+    // ————— स्टेप 2: विकल्प —————
     function renderStep2(){
       if(!state.file){return renderStep1()}
       setActive(2);
       panel.innerHTML = `
         <div class="grid" style="gap:16px">
           <div class="btn-row" style="justify-content:space-between;align-items:center">
-            <div>
-              <button class="btn ghost" id="back1">← Back</button>
-            </div>
+            <button class="btn ghost" id="back1">← वापस</button>
             <div class="btn-row">
-              <button class="btn pulse" id="presetStrong" title="Most compression">Preset: Strong</button>
-              <button class="btn secondary" id="presetBalanced" title="Balanced quality/size">Preset: Balanced</button>
-              <button class="btn secondary" id="presetSafe" title="Preserve text & vectors">Preset: Safe</button>
+              <button class="btn pulse" id="presetStrong" title="सबसे अधिक कंप्रेशन">प्रीसेट: स्ट्रॉन्ग</button>
+              <button class="btn secondary" id="presetBalanced" title="संतुलित गुणवत्ता/साइज">प्रीसेट: बैलेंस्ड</button>
+              <button class="btn secondary" id="presetSafe" title="टेक्स्ट सुरक्षित रखें">प्रीसेट: सेफ</button>
             </div>
           </div>
 
           <div class="grid grid-2">
             <label>
-              <div class="lbl">Mode</div>
+              <div class="lbl">मोड</div>
               <div>
-                <select id="mode" style="background:#0e1628;border:1px solid #1f2a48;color:var(--text);padding:10px;border-radius:10px">
-                  <option value="image">Image Flatten (max reduction)</option>
-                  <option value="safe">Safe Copy (keep text)</option>
+                <select id="mode">
+                  <option value="image">इमेज फ्लैटन (अधिकतम कमी)</option>
+                  <option value="safe">सेफ कॉपी (टेक्स्ट सुरक्षित)</option>
                 </select>
               </div>
             </label>
             <label>
-              <div class="lbl">Page Range</div>
-              <input id="range" type="text" placeholder="e.g. 1-3,5,7-" value="all" />
+              <div class="lbl">पेज रेंज</div>
+              <input id="range" type="text" placeholder="उदा. 1-3,5,7-" value="all" />
             </label>
           </div>
 
           <div class="grid grid-3" id="imageControls">
             <label>
-              <div class="lbl">JPEG Quality <span class="hint">(${Math.round(state.quality*100)}%)</span></div>
+              <div class="lbl">JPEG क्वालिटी <span class="hint">(${Math.round(state.quality*100)}%)</span></div>
               <input id="quality" type="range" min="0.2" max="0.95" step="0.01" value="${state.quality}" />
             </label>
             <label>
-              <div class="lbl">Render DPI <span class="hint">(${state.dpi} dpi)</span></div>
+              <div class="lbl">रेंडर DPI <span class="hint">(${state.dpi} dpi)</span></div>
               <input id="dpi" type="range" min="72" max="200" step="1" value="${state.dpi}" />
             </label>
             <label>
-              <div class="lbl">Grayscale</div>
+              <div class="lbl">ग्रेस्केल</div>
               <span class="switch"><input id="gray" type="checkbox" ${state.grayscale? 'checked':''}><span class="slider"></span></span>
             </label>
           </div>
 
           <div class="stat">
-            <div>Original: <span class="value">${humanBytes(state.file.size)}</span></div>
+            <div>मूल फ़ाइल: <span class="value">${humanBytes(state.file.size)}</span></div>
             <div>•</div>
-            <div>Mode: <span class="value" id="modeTag">${state.mode==='image'?'Image Flatten':'Safe Copy'}</span></div>
+            <div>मोड: <span class="value" id="modeTag">${state.mode==='image'?'इमेज फ्लैटन':'सेफ कॉपी'}</span></div>
           </div>
 
+          <div class="hint warn" id="noPdfJsNote" style="display:${state.pdfjsAvailable?'none':'block'}">नोट: PDF प्रीव्यू/इमेज रेंडर के लिए PDF.js उपलब्ध नहीं है। आप <b>सेफ कॉपी</b> मोड से आगे बढ़ सकते हैं।</div>
+
           <div class="btn-row" style="justify-content:flex-end">
-            <button class="btn secondary" id="to1">← Back</button>
-            <button class="btn" id="to3">Next: Preview →</button>
+            <button class="btn secondary" id="to1">← पीछे</button>
+            <button class="btn" id="to3">अगला: प्रीव्यू →</button>
           </div>
         </div>`;
 
@@ -323,10 +357,11 @@
       modeSel.value = state.mode;
       modeSel.addEventListener('change', ()=>{
         state.mode = modeSel.value;
-        $('#modeTag').textContent = state.mode==='image'? 'Image Flatten':'Safe Copy';
-        imageControls.style.display = state.mode==='image'? 'grid':'none';
+        $('#modeTag').textContent = state.mode==='image'? 'इमेज फ्लैटन':'सेफ कॉपी';
+        imageControls.style.display = (state.mode==='image')? 'grid':'none';
+        if(state.mode==='image' && !state.pdfjsAvailable){ alert('इमेज मोड के लिए PDF.js चाहिए। कृपया इंटरनेट कनेक्शन जांचें या सेफ कॉपी चुनें।'); }
       });
-      imageControls.style.display = state.mode==='image'? 'grid':'none';
+      imageControls.style.display = (state.mode==='image')? 'grid':'none';
 
       range.addEventListener('input', ()=>state.pageRange=range.value.trim());
       quality.addEventListener('input', ()=>{
@@ -339,7 +374,7 @@
       });
       gray.addEventListener('change', ()=>state.grayscale = gray.checked);
 
-      // Presets
+      // प्रीसेट्स
       $('#presetStrong').addEventListener('click', ()=>{state.mode='image'; modeSel.value='image'; state.quality=.5; state.dpi=96; state.grayscale=true; updateSliders(); pulsate('#presetStrong')});
       $('#presetBalanced').addEventListener('click', ()=>{state.mode='image'; modeSel.value='image'; state.quality=.65; state.dpi=110; state.grayscale=false; updateSliders(); pulsate('#presetBalanced')});
       $('#presetSafe').addEventListener('click', ()=>{state.mode='safe'; modeSel.value='safe'; updateSliders(); pulsate('#presetSafe')});
@@ -351,11 +386,9 @@
           quality.previousElementSibling.querySelector('.hint').textContent = `(${Math.round(state.quality*100)}%)`;
           dpi.previousElementSibling.querySelector('.hint').textContent = `(${state.dpi} dpi)`;
         }
-        $('#modeTag').textContent = state.mode==='image'? 'Image Flatten':'Safe Copy';
+        $('#modeTag').textContent = state.mode==='image'? 'इमेज फ्लैटन':'सेफ कॉपी';
       }
-      function pulsate(sel){
-        const b=$(sel); b.classList.add('pulse'); setTimeout(()=>b.classList.remove('pulse'),1600);
-      }
+      function pulsate(sel){ const b=$(sel); b.classList.add('pulse'); setTimeout(()=>b.classList.remove('pulse'),1600); }
     }
 
     function parseRange(input, total){
@@ -371,30 +404,31 @@
       return [...pages].sort((x,y)=>x-y);
     }
 
+    // ————— स्टेप 3: प्रीव्यू —————
     async function renderStep3(){
       if(!state.file){return renderStep1()}
       setActive(3);
       panel.innerHTML = `
         <div class="btn-row" style="justify-content:space-between;align-items:center;margin-bottom:8px">
-          <button class="btn ghost" id="back2">← Back</button>
-          <button class="btn" id="to4">Looks good — Compress →</button>
+          <button class="btn ghost" id="back2">← वापस</button>
+          <button class="btn" id="to4">सब ठीक — कंप्रेस करें →</button>
         </div>
         <div class="grid grid-2" style="align-items:start">
           <div>
-            <div class="hint" id="estLbl">Generating quick estimate…</div>
-            <div class="stat" style="margin-top:8px"><div>Original:</div><div class="value">${humanBytes(state.file.size)}</div></div>
-            <div class="stat" style="margin-top:8px"><div>Estimated:</div><div class="value" id="estSize">—</div></div>
-            <div class="hint" style="margin-top:6px">*Estimate is based on the first page with your current settings.</div>
-
+            <div class="hint" id="estLbl">त्वरित अनुमान बनाया जा रहा है…</div>
+            <div class="stat" style="margin-top:8px"><div>मूल फ़ाइल:</div><div class="value">${humanBytes(state.file.size)}</div></div>
+            <div class="stat" style="margin-top:8px"><div>अनुमानित आउटपुट:</div><div class="value" id="estSize">—</div></div>
+            <div class="hint" style="margin-top:6px">*अनुमान आपकी सेटिंग के साथ पहले पेज पर आधारित है।</div>
             <div class="grid" style="margin-top:16px">
               <label>
-                <div class="lbl">Quick toggle: Grayscale preview</div>
+                <div class="lbl">ग्रेस्केल प्रीव्यू</div>
                 <span class="switch"><input id="prevGray" type="checkbox" ${state.grayscale? 'checked':''}><span class="slider"></span></span>
               </label>
             </div>
+            <div class="hint warn" style="margin-top:10px; display:${state.pdfjsAvailable?'none':'block'}">प्रीव्यू उपलब्ध नहीं (PDF.js नहीं मिला)। आप फिर भी आगे बढ़ सकते हैं।</div>
           </div>
           <div>
-            <div class="hint">Preview</div>
+            <div class="hint">प्रीव्यू</div>
             <div class="thumb" style="padding:12px">
               <canvas id="preview" style="width:100%;height:auto"></canvas>
             </div>
@@ -403,37 +437,33 @@
 
       $('#back2').addEventListener('click', ()=>goStep(2));
       $('#to4').addEventListener('click', ()=>goStep(4));
-      $('#prevGray').addEventListener('change', (e)=>{state.grayscale = e.target.checked; doEstimate(true)});
+      $('#prevGray').addEventListener('change', (e)=>{state.grayscale = e.target.checked; if(state.pdfjsAvailable) doEstimate(true)});
 
-      await doEstimate();
+      if(state.pdfjsAvailable){ await doEstimate(); } else { $('#estLbl').textContent='पूर्वावलोकन उपलब्ध नहीं'; }
 
-      async function doEstimate(refreshPreview){
-        $('#estLbl').textContent = 'Calculating estimate…';
+      async function doEstimate(){
+        $('#estLbl').textContent = 'अनुमान की गणना…';
         try{
           const page = await state.pdfDoc.getPage(1);
-          const scale = state.dpi/72; // 72 user-space units per inch
+          const scale = state.dpi/72;
           const viewport = page.getViewport({scale});
           const can = $('#preview');
           can.width = Math.ceil(viewport.width);
           can.height = Math.ceil(viewport.height);
           const ctx = can.getContext('2d', {alpha:false});
-
           await page.render({canvasContext:ctx, viewport}).promise;
           if(state.grayscale){ toGrayscale(ctx, can.width, can.height); }
-
           const mime = state.format==='png'? 'image/png' : 'image/jpeg';
           const quality = state.format==='png'? undefined : state.quality;
           const blob = await new Promise(res=>can.toBlob(res, mime, quality));
           state.estPreviewBlob = blob;
-
-          // Rough total estimate: assume each page compresses similarly (conservative multiply)
           const selectedPages = parseRange(state.pageRange, state.numPages);
-          const est = blob.size * selectedPages.length + 35000; // add overhead padding
+          const est = blob.size * selectedPages.length + 35000; // ओवरहेड
           state.estimate = est;
           $('#estSize').textContent = humanBytes(est);
-          $('#estLbl').innerHTML = `Mode: <b>${state.mode==='image'? 'Image Flatten':'Safe Copy'}</b> • Pages: <b>${selectedPages.length}</b>`;
+          $('#estLbl').innerHTML = `मोड: <b>${state.mode==='image'? 'इमेज फ्लैटन':'सेफ कॉपी'}</b> • पेज: <b>${selectedPages.length}</b>`;
         }catch(e){
-          console.error(e); $('#estLbl').innerHTML = '<span class="danger">Could not create estimate.</span>';
+          console.error(e); $('#estLbl').innerHTML = '<span class="danger">अनुमान नहीं हो सका।</span>';
         }
       }
     }
@@ -449,26 +479,27 @@
       ctx.putImageData(imgData,0,0);
     }
 
+    // ————— स्टेप 4: कंप्रेस —————
     async function renderStep4(){
       if(!state.file){return renderStep1()}
       setActive(4);
       panel.innerHTML = `
         <div class="btn-row" style="justify-content:space-between;align-items:center;margin-bottom:8px">
-          <button class="btn ghost" id="back3">← Back</button>
-          <div class="hint">Ready to compress with your chosen settings.</div>
+          <button class="btn ghost" id="back3">← वापस</button>
+          <div class="hint">आपकी सेटिंग के साथ कंप्रेस करने के लिए तैयार।</div>
         </div>
         <div class="grid" style="gap:14px">
           <div class="progress"><div class="bar" id="bar"></div></div>
-          <div class="stat"><div>Status:</div> <div class="value" id="status">Idle</div></div>
-          <div class="stat"><div>Output:</div> <div class="value" id="outSize">—</div></div>
+          <div class="stat"><div>स्थिति:</div> <div class="value" id="status">Idle</div></div>
+          <div class="stat"><div>आउटपुट:</div> <div class="value" id="outSize">—</div></div>
           <div class="btn-row" style="justify-content:flex-end">
-            <button class="btn" id="go">Start Compression</button>
+            <button class="btn" id="go">कंप्रेस शुरू करें</button>
           </div>
-          <div id="done" style="display:none" class="success">Done! Your download will start automatically. If not, use the button below.</div>
+          <div id="done" style="display:none" class="success">पूर्ण! डाउनलोड स्वतः प्रारम्भ हो जाएगा। नहीं हुआ तो नीचे बटन से करें।</div>
           <div class="btn-row" style="justify-content:flex-end;display:none" id="dlRow">
-            <a id="dl" class="btn" href="#" download>Download again</a>
+            <a id="dl" class="btn" href="#" download>फिर से डाउनलोड</a>
           </div>
-          <div class="hint">Note: <b>Image Flatten</b> converts pages to images (smallest size but removes selectable text). <b>Safe Copy</b> keeps text but may reduce size modestly.</div>
+          <div class="hint">नोट: <b>इमेज फ्लैटन</b> पेज को इमेज बनाता है (सबसे छोटा साइज; टेक्स्ट चयन हटा देगा)। <b>सेफ कॉपी</b> टेक्स्ट रखता है।</div>
         </div>`;
 
       $('#back3').addEventListener('click', ()=>goStep(3));
@@ -481,10 +512,9 @@
         const pages = parseRange(state.pageRange, state.numPages);
         const t0 = performance.now();
         try{
-          status.textContent = 'Preparing…';
+          status.textContent = 'तैयारी…';
+          const { PDFDocument } = PDFLib;
           if(state.mode==='safe'){
-            // Safe Copy: import pages and save with object streams (keeps text/vectors)
-            const { PDFDocument } = PDFLib;
             const src = await PDFDocument.load(state.fileBytes);
             const out = await PDFDocument.create();
             const [ ...copied ] = await out.copyPages(src, pages.map(n=>n-1));
@@ -493,42 +523,37 @@
             const blob = new Blob([bytes], {type:'application/pdf'});
             finish(blob);
           } else {
-            // Image mode: render with PDF.js at DPI, rebuild with pdf-lib using JPEG/PNG
-            const { PDFDocument } = PDFLib;
+            if(!state.pdfjsAvailable){ status.innerHTML = '<span class="danger">इमेज मोड के लिए PDF.js चाहिए। कृपया इंटरनेट जांचें या सेफ कॉपी चुनें।</span>'; return; }
             const out = await PDFDocument.create();
             let i=0;
             for(const n of pages){
-              status.textContent = `Rendering page ${n}/${pages.length}…`;
+              status.textContent = `रेंडरिंग पेज ${n}/${pages.length}…`;
               const page = await state.pdfDoc.getPage(n);
               const scale = state.dpi/72;
               const viewport = page.getViewport({scale});
-              // Create canvas
               const can = document.createElement('canvas');
               can.width = Math.ceil(viewport.width);
               can.height = Math.ceil(viewport.height);
               const ctx = can.getContext('2d', {alpha:false});
               await page.render({canvasContext:ctx, viewport}).promise;
               if(state.grayscale){ toGrayscale(ctx, can.width, can.height); }
-
               const mime = state.format==='png'? 'image/png' : 'image/jpeg';
               const quality = state.format==='png'? undefined : state.quality;
               const imgBlob = await new Promise(res=>can.toBlob(res, mime, quality));
               const imgBytes = new Uint8Array(await imgBlob.arrayBuffer());
-
               let img; let w=can.width, h=can.height;
               if(state.format==='png') img = await out.embedPng(imgBytes); else img = await out.embedJpg(imgBytes);
               const pageOut = out.addPage([w,h]);
               pageOut.drawImage(img, {x:0,y:0,width:w,height:h});
-
               i++; bar.style.width = `${Math.round((i/pages.length)*100)}%`;
             }
-            status.textContent = 'Writing PDF…';
+            status.textContent = 'PDF लिखना…';
             const bytes = await out.save({ useObjectStreams:true, addDefaultPage:false });
             const blob = new Blob([bytes], {type:'application/pdf'});
             finish(blob);
           }
         }catch(e){
-          console.error(e); status.innerHTML = `<span class="danger">Error: ${e.message||e}</span>`;
+          console.error(e); status.innerHTML = `<span class="danger">त्रुटि: ${e.message||e}</span>`;
         }
 
         function finish(blob){
@@ -536,15 +561,16 @@
           $('#done').style.display='block';
           const name = (state.file.name||'document').replace(/\.pdf$/i,'');
           const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url; a.download = `${name}.compressed.pdf`; a.click();
+          const a = document.createElement('a'); a.href = url; a.download = `${name}.compressed.pdf`; a.click();
           $('#dl').href = url; $('#dl').download = `${name}.compressed.pdf`; $('#dlRow').style.display='flex';
-          outSize.textContent = humanBytes(blob.size) + `  •  ${dt.toFixed(1)}s`;
+          outSize.textContent = humanBytes(blob.size) + ` • ${dt.toFixed(1)}s`;
           bar.style.width = '100%';
-          status.innerHTML = '<span class="success">Complete</span>';
+          status.innerHTML = '<span class="success">सम्पन्न</span>';
         }
       }
     }
+
+    function setActive(step){ steps.forEach(el=>el.classList.toggle('active', parseInt(el.dataset.step)===step)); }
 
     function goStep(n){
       switch(n){
@@ -555,8 +581,8 @@
       }
     }
 
-    // Init
-    renderStep1();
+    // आरम्भ
+    goStep(1);
   })();
   </script>
 </body>
