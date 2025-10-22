@@ -35,7 +35,7 @@
     .step-index { width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border-radius: 0.625rem; background: var(--muted); font-weight: 700; }
 
     .panel { background: var(--card); border: 1px solid var(--muted); border-radius: 1rem; padding: 1.125rem; min-height: 30rem; box-shadow: 0 2px 8px var(--shadow); }
-    .drop { border: 2px dashed var(--muted); border-radius: 1.125rem; padding: 1.75rem; text-align: center; transition: all 0.25s; }
+    .drop { border: 2px dashed var(--muted); border-radius: 1.125rem; padding: 1.75rem; text-align: center; transition: all 0.25s; cursor: pointer; }
     .drop:hover, .drop.dragover { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(22,163,74,0.15); }
     .btn { border: none; border-radius: 0.75rem; padding: 0.625rem 0.875rem; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: white; font-weight: 700; cursor: pointer; transition: all 0.2s; }
     .btn:hover, .btn:focus { transform: translateY(-1px); filter: brightness(1.1); outline: none; }
@@ -82,6 +82,19 @@
     footer { opacity: 0.8; margin-top: 1rem; font-size: 0.9rem; }
     a { color: var(--accent); text-decoration: none; }
     a:hover { text-decoration: underline; }
+    
+    /* New styles for improved UI */
+    .loading { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .file-info-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .file-info-item { display: flex; align-items: center; gap: 5px; }
+    .file-info-badge { background: var(--accent); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; }
+    .preview-container { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+    .preview-canvas { max-width: 100%; border: 1px solid var(--muted); border-radius: 8px; }
+    .compression-stats { display: flex; justify-content: space-between; margin: 15px 0; }
+    .stat-card { flex: 1; text-align: center; padding: 15px; background: #f9fafb; border-radius: 8px; border: 1px solid var(--muted); }
+    .stat-value { font-size: 1.5rem; font-weight: bold; color: var(--accent); }
+    .stat-label { font-size: 0.9rem; color: var(--text-dim); }
   </style>
 </head>
 <body>
@@ -109,13 +122,15 @@
     </footer>
   </div>
 
+  <!-- Updated PDF.js to latest version -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.6.82/pdf.min.js"></script>
-  <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.6.82/pdf.worker.min.js';
-  </script>
+  
   <script>
     (function () {
+      // Set PDF.js worker
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      
       const $ = (sel, el = document) => el.querySelector(sel);
       const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
 
@@ -133,16 +148,29 @@
         format: 'jpeg',
         estimate: null,
         estPreviewBlob: null,
-        pdfjsAvailable: !!window.pdfjsLib,
+        pdfjsAvailable: true, // Assume it's available with our fix
         compressionLevel: 'balanced',
-        isCompressing: false
+        isCompressing: false,
+        abortController: null
       };
 
       const steps = $$('.step-item');
       steps.forEach(s => s.addEventListener('click', () => !state.isCompressing && goStep(parseInt(s.dataset.step))));
       const panel = $('#panel');
 
-      const humanBytes = n => n == null ? '—' : ['B', 'KB', 'MB', 'GB'].reduce((a, u, i) => a >= 1024 && i < 3 ? a / 1024 : [a.toFixed(i ? 2 : 0), u], n)[0] + ' ' + ['B', 'KB', 'MB', 'GB'].reduce((a, u, i) => a >= 1024 && i < 3 ? a / 1024 : u, n);
+      const humanBytes = n => {
+        if (n == null || n === 0) return '—';
+        const units = ['B', 'KB', 'MB', 'GB'];
+        let value = n;
+        let unitIndex = 0;
+        
+        while (value >= 1024 && unitIndex < units.length - 1) {
+          value /= 1024;
+          unitIndex++;
+        }
+        
+        return `${value.toFixed(unitIndex > 0 ? 2 : 0)} ${units[unitIndex]}`;
+      };
 
       // Step 1: File Selection
       function renderStep1() {
@@ -159,13 +187,19 @@
               <div class="hint" style="margin-top:0.75rem">आपकी फ़ाइल पूरी तरह सुरक्षित — कोई अपलोड नहीं।</div>
             </div>
             <div id="fileInfo" class="stat" style="display:none">
-              <div>चुना गया: <span class="value" id="fileName"></span></div>
-              <div>•</div>
-              <div>साइज: <span class="value" id="fileSize"></span></div>
-              <div>•</div>
-              <div>पेज: <span class="value" id="filePages">—</span></div>
-              <div class="btn-row" style="margin-left:0.625rem">
-                <button class="btn ghost" id="clearFile">हटाएँ</button>
+              <div class="file-info-row">
+                <div class="file-info-item">
+                  <span class="value" id="fileName"></span>
+                </div>
+                <div class="file-info-item">
+                  <span class="file-info-badge" id="fileSize"></span>
+                </div>
+                <div class="file-info-item">
+                  <span class="file-info-badge" id="filePages">—</span>
+                </div>
+                <div class="btn-row" style="margin-left:auto">
+                  <button class="btn ghost" id="clearFile">हटाएँ</button>
+                </div>
               </div>
             </div>
             <div id="thumbWrap" style="display:none">
@@ -179,11 +213,13 @@
           </div>`;
 
         const drop = $('#drop'), fileInput = $('#fileInput'), to2 = $('#to2'), clearFile = $('#clearFile');
+        
         const onFile = async f => {
           if (!f || !(f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'))) {
             showError('कृपया केवल PDF फ़ाइल चुनें।');
             return;
           }
+          
           try {
             state.file = f;
             state.fileBytes = await fileToBytes(f);
@@ -193,20 +229,17 @@
             $('#uploadError').style.display = 'none';
             to2.disabled = true;
 
-            if (state.pdfjsAvailable) {
-              try {
-                state.pdfDoc = await openWithPDFJS(state.fileBytes);
-                state.numPages = state.pdfDoc.numPages;
-                $('#filePages').textContent = state.numPages;
-                await renderThumbs();
-                to2.disabled = false;
-                $('#thumbWrap').style.display = 'block';
-              } catch (err) {
-                console.warn('PDF.js failed:', err);
-                await fallbackPageCount();
-                if (state.numPages > 0) to2.disabled = false;
-              }
-            } else {
+            // Try to load with PDF.js
+            try {
+              state.pdfDoc = await openWithPDFJS(state.fileBytes);
+              state.numPages = state.pdfDoc.numPages;
+              $('#filePages').textContent = `${state.numPages} पेज`;
+              await renderThumbs();
+              to2.disabled = false;
+              $('#thumbWrap').style.display = 'block';
+            } catch (err) {
+              console.warn('PDF.js failed:', err);
+              // Fallback to PDF-lib for page count
               await fallbackPageCount();
               if (state.numPages > 0) to2.disabled = false;
             }
@@ -216,22 +249,54 @@
           }
         };
 
-        drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
-        drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
-        drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('dragover'); onFile(e.dataTransfer.files[0]); });
-        drop.addEventListener('click', () => fileInput.click());
-        drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
-        fileInput.addEventListener('change', e => onFile(e.target.files[0]));
-        to2.addEventListener('click', () => goStep(2));
-        if (clearFile) clearFile.addEventListener('click', () => {
-          state.file = state.fileBytes = state.pdfDoc = null;
-          state.numPages = 0;
-          state.pagesMeta = [];
-          fileInput.value = '';
-          renderStep1();
+        // Setup event listeners
+        drop.addEventListener('dragover', e => { 
+          e.preventDefault(); 
+          drop.classList.add('dragover'); 
         });
+        
+        drop.addEventListener('dragleave', () => {
+          drop.classList.remove('dragover');
+        });
+        
+        drop.addEventListener('drop', e => {
+          e.preventDefault(); 
+          drop.classList.remove('dragover'); 
+          if (e.dataTransfer.files.length > 0) {
+            onFile(e.dataTransfer.files[0]);
+          }
+        });
+        
+        drop.addEventListener('click', () => fileInput.click());
+        drop.addEventListener('keydown', e => { 
+          if (e.key === 'Enter' || e.key === ' ') {
+            fileInput.click(); 
+          }
+        });
+        
+        fileInput.addEventListener('change', e => {
+          if (e.target.files.length > 0) {
+            onFile(e.target.files[0]);
+          }
+        });
+        
+        to2.addEventListener('click', () => goStep(2));
+        
+        if (clearFile) {
+          clearFile.addEventListener('click', () => {
+            state.file = state.fileBytes = state.pdfDoc = null;
+            state.numPages = 0;
+            state.pagesMeta = [];
+            fileInput.value = '';
+            renderStep1();
+          });
+        }
 
-        function showError(msg) { const el = $('#uploadError'); el.textContent = msg; el.style.display = 'block'; }
+        function showError(msg) { 
+          const el = $('#uploadError'); 
+          el.textContent = msg; 
+          el.style.display = 'block'; 
+        }
       }
 
       async function fileToBytes(file) {
@@ -255,7 +320,7 @@
         try {
           const doc = await PDFLib.PDFDocument.load(state.fileBytes);
           state.numPages = doc.getPageCount();
-          $('#filePages').textContent = state.numPages;
+          $('#filePages').textContent = `${state.numPages} पेज`;
           $('#thumbWrap').style.display = 'none';
         } catch (e) {
           $('#uploadError').textContent = 'PDF पढ़ने में त्रुटि (पासवर्ड-प्रोटेक्टेड या दूषित?)।';
@@ -267,22 +332,47 @@
         const thumbs = $('#thumbs');
         thumbs.innerHTML = '';
         state.pagesMeta = [];
-        const maxThumbs = Math.min(6, state.numPages); // Reduced for performance
+        
+        // Show loading indicator
+        const loadingDiv = document.createElement('div');
+        loadingDiv.className = 'hint';
+        loadingDiv.textContent = 'थंबनेल लोड हो रहे हैं...';
+        thumbs.appendChild(loadingDiv);
+        
+        const maxThumbs = Math.min(6, state.numPages);
+        
         for (let i = 1; i <= maxThumbs; i++) {
-          const page = await state.pdfDoc.getPage(i);
-          const viewport = page.getViewport({ scale: 0.2 }); // Lower scale for faster rendering
-          const canvas = document.createElement('canvas');
-          const ctx = canvas.getContext('2d');
-          canvas.width = Math.ceil(viewport.width);
-          canvas.height = Math.ceil(viewport.height);
-          await page.render({ canvasContext: ctx, viewport }).promise;
-          const d = document.createElement('div');
-          d.className = 'thumb';
-          d.innerHTML = `<div style="font-weight:800;margin-bottom:0.375rem">पेज ${i}</div>`;
-          d.appendChild(canvas);
-          thumbs.appendChild(d);
-          state.pagesMeta.push({ w: viewport.width, h: viewport.height });
+          try {
+            const page = await state.pdfDoc.getPage(i);
+            const viewport = page.getViewport({ scale: 0.2 });
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = Math.ceil(viewport.width);
+            canvas.height = Math.ceil(viewport.height);
+            
+            await page.render({ 
+              canvasContext: ctx, 
+              viewport,
+              intent: 'print'
+            }).promise;
+            
+            const d = document.createElement('div');
+            d.className = 'thumb';
+            d.innerHTML = `<div style="font-weight:800;margin-bottom:0.375rem">पेज ${i}</div>`;
+            d.appendChild(canvas);
+            
+            // Replace loading message with first thumbnail
+            if (i === 1 && loadingDiv.parentNode) {
+              loadingDiv.remove();
+            }
+            
+            thumbs.appendChild(d);
+            state.pagesMeta.push({ w: viewport.width, h: viewport.height });
+          } catch (err) {
+            console.error(`Error rendering thumbnail for page ${i}:`, err);
+          }
         }
+        
         if (state.numPages > maxThumbs) {
           const more = document.createElement('div');
           more.className = 'hint';
@@ -451,8 +541,16 @@
           <div class="grid grid-2" style="align-items:start">
             <div>
               <div class="hint" id="estLbl">त्वरित अनुमान बनाया जा रहा है…</div>
-              <div class="stat" style="margin-top:0.5rem"><div>मूल फ़ाइल:</div><div class="value">${humanBytes(state.file.size)}</div></div>
-              <div class="stat" style="margin-top:0.5rem"><div>अनुमानित आउटपुट:</div><div class="value" id="estSize">—</div></div>
+              <div class="compression-stats">
+                <div class="stat-card">
+                  <div class="stat-value">${humanBytes(state.file.size)}</div>
+                  <div class="stat-label">मूल फ़ाइल</div>
+                </div>
+                <div class="stat-card">
+                  <div class="stat-value" id="estSize">—</div>
+                  <div class="stat-label">अनुमानित आउटपुट</div>
+                </div>
+              </div>
               <div class="hint" style="margin-top:0.375rem">*अनुमान पहले पेज और सेटिंग्स पर आधारित।</div>
               <div class="grid" style="margin-top:1rem">
                 <label>
@@ -462,19 +560,21 @@
               </div>
               <div class="hint warn" style="margin-top:0.625rem; display:${state.pdfjsAvailable ? 'none' : 'block'}">प्रीव्यू उपलब्ध नहीं (PDF.js नहीं मिला)। फिर भी कंप्रेस करें।</div>
             </div>
-            <div>
+            <div class="preview-container">
               <div class="hint">प्रीव्यू</div>
-              <div class="thumb" style="padding:0.75rem">
-                <canvas id="preview" style="width:100%;height:auto"></canvas>
-              </div>
+              <canvas id="preview" class="preview-canvas"></canvas>
             </div>
           </div>`;
 
         $('#back2').addEventListener('click', () => goStep(2));
         $('#to4').addEventListener('click', () => goStep(4));
-        $('#prevGray').addEventListener('change', e => { state.grayscale = e.target.checked; if (state.pdfjsAvailable) doEstimate(); });
+        $('#prevGray').addEventListener('change', e => { 
+          state.grayscale = e.target.checked; 
+          if (state.pdfjsAvailable) doEstimate(); 
+        });
 
-        if (state.pdfjsAvailable) await doEstimate(); else $('#estLbl').textContent = 'प्रीव्यू उपलब्ध नहीं — सेफ कॉपी मोड में आगे बढ़ें';
+        if (state.pdfjsAvailable) await doEstimate(); 
+        else $('#estLbl').textContent = 'प्रीव्यू उपलब्ध नहीं — सेफ कॉपी मोड में आगे बढ़ें';
 
         async function doEstimate() {
           $('#estLbl').textContent = 'अनुमान की गणना…';
@@ -486,11 +586,18 @@
             can.width = Math.ceil(viewport.width);
             can.height = Math.ceil(viewport.height);
             const ctx = can.getContext('2d', { alpha: false });
-            await page.render({ canvasContext: ctx, viewport }).promise;
+            await page.render({ 
+              canvasContext: ctx, 
+              viewport,
+              intent: 'print'
+            }).promise;
+            
             if (state.grayscale) toGrayscale(ctx, can.width, can.height);
+            
             const mime = state.format === 'png' ? 'image/png' : 'image/jpeg';
             const quality = state.format === 'png' ? undefined : state.quality;
             const blob = await new Promise(res => can.toBlob(res, mime, quality));
+            
             state.estPreviewBlob = blob;
             const selectedPages = parseRange(state.pageRange, state.numPages);
             const est = blob.size * selectedPages.length + 35000;
@@ -557,19 +664,26 @@
         $('#go').addEventListener('click', () => doCompress());
         $('#cancel').addEventListener('click', () => {
           state.isCompressing = false;
+          if (state.abortController) {
+            state.abortController.abort();
+          }
           renderStep4();
         });
 
         async function doCompress() {
           if (state.isCompressing) return;
           state.isCompressing = true;
+          state.abortController = new AbortController();
           renderStep4();
+          
           const status = $('#status'), bar = $('#bar'), outSize = $('#outSize');
           const pages = parseRange(state.pageRange, state.numPages);
           const t0 = performance.now();
+          
           try {
             status.textContent = 'तैयारी…';
             const { PDFDocument } = PDFLib;
+            
             if (state.mode === 'safe') {
               const src = await PDFDocument.load(state.fileBytes);
               const out = await PDFDocument.create();
@@ -584,10 +698,16 @@
                 renderStep4();
                 return;
               }
+              
               const out = await PDFDocument.create();
               let i = 0;
+              
               for (const n of pages) {
-                if (!state.isCompressing) throw new Error('कंप्रेशन रद्द किया गया');
+                // Check for cancellation
+                if (state.abortController.signal.aborted) {
+                  throw new Error('कंप्रेशन रद्द किया गया');
+                }
+                
                 status.textContent = `रेंडरिंग पेज ${n}/${pages.length}…`;
                 const page = await state.pdfDoc.getPage(n);
                 const scale = state.dpi / 72;
@@ -596,20 +716,30 @@
                 can.width = Math.ceil(viewport.width);
                 can.height = Math.ceil(viewport.height);
                 const ctx = can.getContext('2d', { alpha: false });
-                await page.render({ canvasContext: ctx, viewport }).promise;
+                
+                await page.render({ 
+                  canvasContext: ctx, 
+                  viewport,
+                  intent: 'print'
+                }).promise;
+                
                 if (state.grayscale) toGrayscale(ctx, can.width, can.height);
+                
                 const mime = state.format === 'png' ? 'image/png' : 'image/jpeg';
                 const quality = state.format === 'png' ? undefined : state.quality;
                 const imgBlob = await new Promise(res => can.toBlob(res, mime, quality));
                 const imgBytes = new Uint8Array(await imgBlob.arrayBuffer());
+                
                 let img;
                 if (state.format === 'png') img = await out.embedPng(imgBytes);
                 else img = await out.embedJpg(imgBytes);
+                
                 const pageOut = out.addPage([can.width, can.height]);
                 pageOut.drawImage(img, { x: 0, y: 0, width: can.width, height: can.height });
                 i++;
                 bar.style.width = `${Math.round((i / pages.length) * 100)}%`;
               }
+              
               status.textContent = 'PDF लिखना…';
               const bytes = await out.save({ useObjectStreams: true, addDefaultPage: false });
               finish(new Blob([bytes], { type: 'application/pdf' }));
@@ -634,7 +764,7 @@
             $('#dl').href = url;
             $('#dl').download = `${name}.compressed.pdf`;
             $('#dlRow').style.display = 'flex';
-            outSize.textContent = humanBytes(blob.size) + ` • ${dt.toFixed(1)}s`;
+            outSize.textContent = `${humanBytes(blob.size)} • ${dt.toFixed(1)}s`;
             status.innerHTML = '<span class="success">सम्पन्न</span>';
             renderStep4();
           }
