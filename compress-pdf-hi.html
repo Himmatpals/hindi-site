@@ -1,9 +1,9 @@
 <!--
   File: compress-pdf-wizard-hi.html
-  Description: A single-page, 100% browser-based PDF compressor with a wizard UI.
-               "Safe Copy" mode works even if PDF.js is unavailable.
+  Description: A single-page, browser-based PDF compressor with an interactive wizard UI.
+               Works offline with "Safe Copy" mode if PDF.js is unavailable.
   Tech: PDF.js (preview/render) + pdf-lib (rebuild). No server uploads.
-  Notes: "Image Flatten" mode maximizes size reduction (page→image).
+  Notes: "Image Flatten" mode maximizes size reduction (converts pages to images).
          "Safe Copy" mode preserves text/vectors (minimal reduction).
 -->
 <!DOCTYPE html>
@@ -15,78 +15,81 @@
   <meta name="description" content="PDF का साइज घटाएँ — विज़ार्ड UI, क्वालिटी/DPI, ग्रेस्केल, पेज रेंज, लाइव प्रीव्यू। सब ब्राउज़र में।">
   <style>
     :root {
-      --bg: #0b0f17;
-      --card: #121827;
-      --muted: #2a3551;
-      --accent: #8b5cf6;
-      --accent-2: #22d3ee;
-      --text: #e6ebff;
-      --text-dim: #a7b0d8;
-      --ok: #22c55e;
-      --warn: #f59e0b;
-      --err: #ef4444;
+      --bg: #f5f7f5;
+      --card: #ffffff;
+      --muted: #d4d4d4;
+      --accent: #16a34a; /* Green */
+      --accent-2: #eab308; /* Yellow */
+      --text: #1f2937;
+      --text-dim: #6b7280;
+      --ok: #16a34a; /* Green */
+      --warn: #eab308; /* Yellow */
+      --err: #dc2626; /* Red */
+      --shadow: rgba(0, 0, 0, 0.1);
     }
     * { box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; font: 16px/1.5 system-ui, -apple-system, Roboto, sans-serif; color: var(--text); background: radial-gradient(1000px 600px at 10% -10%, #1a2240 0%, #0b0f17 40%) fixed, var(--bg); }
+    html, body { height: 100%; margin: 0; font: 16px/1.5 system-ui, -apple-system, Roboto, sans-serif; color: var(--text); background: linear-gradient(180deg, #e6f0fa, var(--bg)); }
     .wrap { max-width: 1080px; margin: 0 auto; padding: 1.5rem; }
     header { display: flex; align-items: center; gap: 0.875rem; margin: 0.75rem 0 1.375rem; }
-    header .logo { width: 2.375rem; height: 2.375rem; border-radius: 0.625rem; background: radial-gradient(120% 120% at 20% 10%, var(--accent) 0%, #6ee7f9 40%, #3b82f6 70%, transparent 71%), conic-gradient(from 200deg at 60% 60%, #111 0 60deg, var(--card) 60deg 360deg); box-shadow: 0 0 0 2px #223, 0 0.625rem 1.875rem rgba(0,0,0,.4); }
+    header .logo { width: 2.375rem; height: 2.375rem; border-radius: 0.625rem; background: radial-gradient(120% 120% at 20% 10%, var(--accent) 0%, var(--accent-2) 70%, transparent 71%), conic-gradient(from 200deg at 60% 60%, #e5e7eb 0 60deg, var(--card) 60deg 360deg); box-shadow: 0 0 0 2px var(--muted), 0 0.625rem 1.875rem var(--shadow); }
     h1 { font-size: clamp(1.375rem, 4vw, 2rem); margin: 0; }
 
     .wizard { display: grid; grid-template-columns: 17.5rem 1fr; gap: 1.125rem; }
     @media (max-width: 900px) { .wizard { grid-template-columns: 1fr; } }
-    .steps { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border: 1px solid #1e2a44; border-radius: 1rem; padding: 0.625rem; }
-    .step-item { display: flex; align-items: center; gap: 0.625rem; padding: 0.75rem; border-radius: 0.75rem; cursor: pointer; color: var(--text-dim); transition: background 0.2s; }
-    .step-item.active { background: linear-gradient(135deg, rgba(139,92,246,.25), rgba(34,211,238,.15)); color: var(--text); box-shadow: inset 0 0 0 1px rgba(139,92,246,.6); }
-    .step-index { width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border-radius: 0.625rem; background: #202940; font-weight: 700; }
+    .steps { background: var(--card); border: 1px solid var(--muted); border-radius: 1rem; padding: 0.625rem; box-shadow: 0 2px 8px var(--shadow); }
+    .step-item { display: flex; align-items: center; gap: 0.625rem; padding: 0.75rem; border-radius: 0.75rem; cursor: pointer; color: var(--text-dim); transition: all 0.2s; }
+    .step-item.active { background: linear-gradient(135deg, rgba(22,163,74,0.2), rgba(234,179,8,0.2)); color: var(--text); box-shadow: inset 0 0 0 1px var(--accent); }
+    .step-item:hover { background: rgba(22,163,74,0.1); }
+    .step-index { width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border-radius: 0.625rem; background: var(--muted); font-weight: 700; }
 
-    .panel { background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border: 1px solid #1e2a44; border-radius: 1rem; padding: 1.125rem; min-height: 30rem; position: relative; overflow: hidden; }
-    .drop { border: 2px dashed #30406d; border-radius: 1.125rem; padding: 1.75rem; text-align: center; transition: border-color 0.25s, box-shadow 0.25s; }
-    .drop:hover, .drop.dragover { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(139,92,246,.15); }
-    .btn { border: none; border-radius: 0.75rem; padding: 0.625rem 0.875rem; background: linear-gradient(135deg, var(--accent), #3b82f6); color: white; font-weight: 700; cursor: pointer; transition: transform 0.2s, filter 0.2s; }
-    .btn:hover { transform: translateY(-1px); filter: saturate(1.1); }
-    .btn.secondary { background: linear-gradient(135deg, #2b354f, #1d253b); box-shadow: none; }
-    .btn.ghost { background: transparent; border: 1px solid #2b3552; color: var(--text); }
+    .panel { background: var(--card); border: 1px solid var(--muted); border-radius: 1rem; padding: 1.125rem; min-height: 30rem; box-shadow: 0 2px 8px var(--shadow); }
+    .drop { border: 2px dashed var(--muted); border-radius: 1.125rem; padding: 1.75rem; text-align: center; transition: all 0.25s; }
+    .drop:hover, .drop.dragover { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(22,163,74,0.15); }
+    .btn { border: none; border-radius: 0.75rem; padding: 0.625rem 0.875rem; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: white; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+    .btn:hover, .btn:focus { transform: translateY(-1px); filter: brightness(1.1); outline: none; }
+    .btn.secondary { background: linear-gradient(135deg, #e5e7eb, #d1d5db); color: var(--text); }
+    .btn.ghost { background: transparent; border: 1px solid var(--muted); color: var(--text); }
     .btn-row { display: flex; flex-wrap: wrap; gap: 0.625rem; }
 
     .grid { display: grid; gap: 0.875rem; }
     .grid-2 { grid-template-columns: 1fr 1fr; }
     .grid-3 { grid-template-columns: repeat(3, 1fr); }
     @media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
-    label { display: flex; align-items: center; justify-content: space-between; gap: 0.875rem; background: #101828; border: 1px solid #1f2a48; padding: 0.75rem 0.875rem; border-radius: 0.75rem; }
+    label { display: flex; align-items: center; justify-content: space-between; gap: 0.875rem; background: #f9fafb; border: 1px solid var(--muted); padding: 0.75rem 0.875rem; border-radius: 0.75rem; }
     label .lbl { font-weight: 700; }
-    input[type=range] { width: 100%; }
-    input[type=text], input[type=number] { width: 100%; background: #0e1628; border: 1px solid #1f2a48; color: var(--text); padding: 0.625rem; border-radius: 0.625rem; }
-    select { background: #0e1628; border: 1px solid #1f2a48; color: var(--text); padding: 0.625rem; border-radius: 0.625rem; }
+    input[type=range] { width: 100%; accent-color: var(--accent); }
+    input[type=text], input[type=number] { width: 100%; background: #f9fafb; border: 1px solid var(--muted); color: var(--text); padding: 0.625rem; border-radius: 0.625rem; }
+    select { background: #f9fafb; border: 1px solid var(--muted); color: var(--text); padding: 0.625rem; border-radius: 0.625rem; }
 
     .switch { position: relative; display: inline-block; width: 3.125rem; height: 1.75rem; }
     .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #34405d; transition: background 0.2s; border-radius: 2rem; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--muted); transition: all 0.2s; border-radius: 2rem; }
     .slider:before { position: absolute; content: ""; height: 1.375rem; width: 1.375rem; left: 0.25rem; top: 0.1875rem; background: white; transition: transform 0.2s; border-radius: 50%; }
-    input:checked + .slider { background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    input:checked + .slider { background: var(--accent); }
     input:checked + .slider:before { transform: translateX(1.375rem); }
 
     .pulse { animation: pulse 1.6s infinite; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(139,92,246,.6); } 70% { box-shadow: 0 0 0 0.75rem rgba(139,92,246,0); } 100% { box-shadow: 0 0 0 0 rgba(139,92,246,0); } }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22,163,74,0.6); } 70% { box-shadow: 0 0 0 0.75rem rgba(22,163,74,0); } 100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); } }
 
     .thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.875rem, 1fr)); gap: 0.5rem; margin-top: 0.75rem; }
-    .thumb { background: #0c1220; border: 1px solid #253055; border-radius: 0.625rem; padding: 0.375rem; text-align: center; }
+    .thumb { background: var(--card); border: 1px solid var(--muted); border-radius: 0.625rem; padding: 0.375rem; text-align: center; }
     .thumb canvas { width: 100%; height: auto; border-radius: 0.375rem; }
 
-    .progress { height: 0.875rem; background: #0f182b; border: 1px solid #2b3a60; border-radius: 6.25rem; overflow: hidden; }
+    .progress { height: 0.875rem; background: #e5e7eb; border: 1px solid var(--muted); border-radius: 6.25rem; overflow: hidden; }
     .bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.15s; }
 
-    .stat { display: flex; align-items: center; gap: 0.625rem; background: #0e1526; border: 1px solid #223257; border-radius: 0.75rem; padding: 0.625rem 0.75rem; }
+    .stat { display: flex; align-items: center; gap: 0.625rem; background: #f9fafb; border: 1px solid var(--muted); border-radius: 0.75rem; padding: 0.625rem 0.75rem; }
     .stat .value { font-weight: 800; }
 
-    .k { color: #9ab4ff; }
+    .k { color: var(--accent); }
     .hint { color: var(--text-dim); font-size: 0.95rem; }
     .danger { color: var(--err); font-weight: 700; }
     .success { color: var(--ok); font-weight: 700; }
     .warn { color: var(--warn); font-weight: 700; }
 
     footer { opacity: 0.8; margin-top: 1rem; font-size: 0.9rem; }
-    a { color: #93c5fd; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -95,7 +98,7 @@
       <div class="logo" aria-hidden="true"></div>
       <div>
         <h1>PDF कंप्रेसर — विज़ार्ड</h1>
-        <div class="hint">निजी, तेज़ और शक्तिशाली। कोई अपलोड नहीं — सब कुछ आपके डिवाइस पर।</div>
+        <div class="hint">निजी, तेज़ और शक्तिशाली। आपकी फ़ाइल आपके डिवाइस पर ही रहती है।</div>
       </div>
     </header>
 
@@ -110,7 +113,7 @@
     </div>
 
     <footer>
-      सुझाव: <span class="k">इमेज फ्लैटन</span> स्कैन/इमेज-भारी PDF के लिए सबसे छोटा साइज देगा। <span class="k">सेफ कॉपी</span> टेक्स्ट/वेक्टर सुरक्षित रखेगा।
+      सुझाव: <span class="k">इमेज फ्लैटन</span> स्कैन/इमेज-भारी PDF के लिए सबसे छोटा साइज देता है। <span class="k">सेफ कॉपी</span> टेक्स्ट/वेक्टर सुरक्षित रखता है।
     </footer>
   </div>
 
@@ -139,11 +142,12 @@
         estimate: null,
         estPreviewBlob: null,
         pdfjsAvailable: !!window.pdfjsLib,
-        compressionLevel: 'balanced' // New: tracks preset
+        compressionLevel: 'balanced',
+        isCompressing: false
       };
 
       const steps = $$('.step-item');
-      steps.forEach(s => s.addEventListener('click', () => goStep(parseInt(s.dataset.step))));
+      steps.forEach(s => s.addEventListener('click', () => !state.isCompressing && goStep(parseInt(s.dataset.step))));
       const panel = $('#panel');
 
       const humanBytes = n => n == null ? '—' : ['B', 'KB', 'MB', 'GB'].reduce((a, u, i) => a >= 1024 && i < 3 ? a / 1024 : [a.toFixed(i ? 2 : 0), u], n)[0] + ' ' + ['B', 'KB', 'MB', 'GB'].reduce((a, u, i) => a >= 1024 && i < 3 ? a / 1024 : u, n);
@@ -160,7 +164,7 @@
                 <label class="btn pulse" for="fileInput">PDF चुनें</label>
                 <input id="fileInput" type="file" accept=".pdf,application/pdf" hidden>
               </div>
-              <div class="hint" style="margin-top:0.75rem">आपकी फ़ाइल आपके डिवाइस से बाहर नहीं जाएगी।</div>
+              <div class="hint" style="margin-top:0.75rem">आपकी फ़ाइल पूरी तरह सुरक्षित — कोई अपलोड नहीं।</div>
             </div>
             <div id="fileInfo" class="stat" style="display:none">
               <div>चुना गया: <span class="value" id="fileName"></span></div>
@@ -168,6 +172,9 @@
               <div>साइज: <span class="value" id="fileSize"></span></div>
               <div>•</div>
               <div>पेज: <span class="value" id="filePages">—</span></div>
+              <div class="btn-row" style="margin-left:0.625rem">
+                <button class="btn ghost" id="clearFile">हटाएँ</button>
+              </div>
             </div>
             <div id="thumbWrap" style="display:none">
               <div class="hint">त्वरित थंबनेल</div>
@@ -179,10 +186,10 @@
             </div>
           </div>`;
 
-        const drop = $('#drop'), fileInput = $('#fileInput'), to2 = $('#to2');
+        const drop = $('#drop'), fileInput = $('#fileInput'), to2 = $('#to2'), clearFile = $('#clearFile');
         const onFile = async f => {
           if (!f || !(f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'))) {
-            showError('कृपया PDF फ़ाइल चुनें।');
+            showError('कृपया केवल PDF फ़ाइल चुनें।');
             return;
           }
           try {
@@ -213,7 +220,7 @@
             }
           } catch (e) {
             console.error(e);
-            showError('फ़ाइल पढ़ने में समस्या। फ़ाइल पासवर्ड-प्रोटेक्टेड या करप्ट हो सकती है।');
+            showError('फ़ाइल पढ़ने में त्रुटि। फ़ाइल पासवर्ड-प्रोटेक्टेड या दूषित हो सकती है।');
           }
         };
 
@@ -221,8 +228,16 @@
         drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
         drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('dragover'); onFile(e.dataTransfer.files[0]); });
         drop.addEventListener('click', () => fileInput.click());
+        drop.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') fileInput.click(); });
         fileInput.addEventListener('change', e => onFile(e.target.files[0]));
         to2.addEventListener('click', () => goStep(2));
+        if (clearFile) clearFile.addEventListener('click', () => {
+          state.file = state.fileBytes = state.pdfDoc = null;
+          state.numPages = 0;
+          state.pagesMeta = [];
+          fileInput.value = '';
+          renderStep1();
+        });
 
         function showError(msg) { const el = $('#uploadError'); el.textContent = msg; el.style.display = 'block'; }
       }
@@ -237,7 +252,7 @@
         } catch (e) {
           if (e.name === 'PasswordException') {
             const pwd = prompt('यह PDF पासवर्ड-प्रोटेक्टेड है। पासवर्ड दर्ज करें:');
-            if (!pwd) throw e;
+            if (!pwd) throw new Error('पासवर्ड नहीं दिया गया');
             return await pdfjsLib.getDocument({ data: bytes, password: pwd }).promise;
           }
           throw e;
@@ -251,7 +266,7 @@
           $('#filePages').textContent = state.numPages;
           $('#thumbWrap').style.display = 'none';
         } catch (e) {
-          $('#uploadError').textContent = 'PDF पढ़ा नहीं जा सका (पासवर्ड-प्रोटेक्टेड/खराब?)।';
+          $('#uploadError').textContent = 'PDF पढ़ने में त्रुटि (पासवर्ड-प्रोटेक्टेड या दूषित?)।';
           $('#uploadError').style.display = 'block';
         }
       }
@@ -260,10 +275,10 @@
         const thumbs = $('#thumbs');
         thumbs.innerHTML = '';
         state.pagesMeta = [];
-        const maxThumbs = Math.min(12, state.numPages);
+        const maxThumbs = Math.min(6, state.numPages); // Reduced for performance
         for (let i = 1; i <= maxThumbs; i++) {
           const page = await state.pdfDoc.getPage(i);
-          const viewport = page.getViewport({ scale: 0.25 });
+          const viewport = page.getViewport({ scale: 0.2 }); // Lower scale for faster rendering
           const canvas = document.createElement('canvas');
           const ctx = canvas.getContext('2d');
           canvas.width = Math.ceil(viewport.width);
@@ -301,28 +316,28 @@
             <div class="grid grid-2">
               <label>
                 <div class="lbl">मोड</div>
-                <select id="mode">
+                <select id="mode" aria-label="कंप्रेशन मोड चुनें">
                   <option value="image" ${state.pdfjsAvailable ? '' : 'disabled'}>इमेज फ्लैटन (अधिकतम कमी)</option>
                   <option value="safe">सेफ कॉपी (टेक्स्ट सुरक्षित)</option>
                 </select>
               </label>
               <label>
                 <div class="lbl">पेज रेंज</div>
-                <input id="range" type="text" placeholder="उदा. 1-3,5,7-" value="${state.pageRange}">
+                <input id="range" type="text" placeholder="उदा. 1-3,5,7-" value="${state.pageRange}" aria-label="पेज रेंज दर्ज करें">
               </label>
             </div>
             <div class="grid grid-3" id="imageControls" style="display:${state.mode === 'image' ? 'grid' : 'none'}">
               <label>
                 <div class="lbl">JPEG क्वालिटी <span class="hint">(${Math.round(state.quality * 100)}%)</span></div>
-                <input id="quality" type="range" min="0.2" max="0.95" step="0.01" value="${state.quality}">
+                <input id="quality" type="range" min="0.2" max="0.95" step="0.01" value="${state.quality}" aria-label="JPEG क्वालिटी समायोजित करें">
               </label>
               <label>
                 <div class="lbl">रेंडर DPI <span class="hint">(${state.dpi} dpi)</span></div>
-                <input id="dpi" type="range" min="72" max="200" step="1" value="${state.dpi}">
+                <input id="dpi" type="range" min="72" max="200" step="1" value="${state.dpi}" aria-label="रेंडर DPI समायोजित करें">
               </label>
               <label>
                 <div class="lbl">ग्रेस्केल</div>
-                <span class="switch"><input id="gray" type="checkbox" ${state.grayscale ? 'checked' : ''}><span class="slider"></span></span>
+                <span class="switch"><input id="gray" type="checkbox" ${state.grayscale ? 'checked' : ''} aria-label="ग्रेस्केल चालू/बंद करें"><span class="slider"></span></span>
               </label>
             </div>
             <div class="stat">
@@ -330,7 +345,7 @@
               <div>•</div>
               <div>मोड: <span class="value" id="modeTag">${state.mode === 'image' ? 'इमेज फ्लैटन' : 'सेफ कॉपी'}</span></div>
             </div>
-            <div class="hint warn" id="noPdfJsNote" style="display:${state.pdfjsAvailable ? 'none' : 'block'}">नोट: PDF.js उपलब्ध नहीं — <b>इमेज फ्लैटन</b> मोड अक्षम। <b>सेफ कॉपी</b> मोड का उपयोग करें।</div>
+            <div class="hint warn" id="noPdfJsNote" style="display:${state.pdfjsAvailable ? 'none' : 'block'}">नोट: PDF.js उपलब्ध नहीं — <b>इमेज फ्लैटन</b> अक्षम। <b>सेफ कॉपी</b> मोड का उपयोग करें।</div>
             <div class="btn-row" style="justify-content:flex-end">
               <button class="btn secondary" id="to1">← पीछे</button>
               <button class="btn" id="to3">अगला: प्रीव्यू →</button>
@@ -339,7 +354,13 @@
 
         $('#back1').addEventListener('click', () => goStep(1));
         $('#to1').addEventListener('click', () => goStep(1));
-        $('#to3').addEventListener('click', () => goStep(3));
+        $('#to3').addEventListener('click', () => {
+          if (!validateRange(state.pageRange, state.numPages)) {
+            alert('अमान्य पेज रेंज। कृपया सही प्रारूप (उदा. 1-3,5,7-) दर्ज करें।');
+            return;
+          }
+          goStep(3);
+        });
 
         const modeSel = $('#mode'), range = $('#range'), quality = $('#quality'), dpi = $('#dpi'), gray = $('#gray'), imageControls = $('#imageControls');
         modeSel.value = state.pdfjsAvailable ? state.mode : 'safe';
@@ -366,7 +387,6 @@
           if (!state.pdfjsAvailable) return pulsateWarn();
           state.mode = 'image';
           state.compressionLevel = 'strong';
-          modeSel.value = 'image';
           state.quality = 0.5;
           state.dpi = 96;
           state.grayscale = true;
@@ -377,7 +397,6 @@
           if (!state.pdfjsAvailable) return pulsateWarn();
           state.mode = 'image';
           state.compressionLevel = 'balanced';
-          modeSel.value = 'image';
           state.quality = 0.65;
           state.dpi = 110;
           state.grayscale = false;
@@ -387,7 +406,6 @@
         $('#presetSafe').addEventListener('click', () => {
           state.mode = 'safe';
           state.compressionLevel = 'safe';
-          modeSel.value = 'safe';
           updateSliders();
           pulsate('#presetSafe');
         });
@@ -412,24 +430,21 @@
         }
 
         function pulsateWarn() {
-          alert('इमेज मोड के लिए PDF.js चाहिए। कृपया यह पेज https/localhost से चलाएँ या इंटरनेट कनेक्शन जाँचें।');
+          alert('इमेज मोड के लिए PDF.js आवश्यक है। कृपया यह पेज https/localhost से चलाएँ या इंटरनेट कनेक्शन जाँचें।');
         }
       }
 
-      function parseRange(input, total) {
-        if (!input || input === 'all') return Array.from({ length: total }, (_, i) => i + 1);
+      function validateRange(input, total) {
+        if (!input || input === 'all') return true;
         const parts = input.split(/\s*,\s*/);
-        const pages = new Set();
         for (const p of parts) {
-          const m = p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/);
-          if (!m) continue;
-          let [_, a, b] = m;
-          a = a ? parseInt(a) : 1;
-          b = b ? parseInt(b) : total;
-          if (a > b) [a, b] = [b, a];
-          for (let i = a; i <= b; i++) if (i >= 1 && i <= total) pages.add(i);
+          if (!p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/)) return false;
+          const [_, a, b] = p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/);
+          const start = a ? parseInt(a) : 1;
+          const end = b ? parseInt(b) : total;
+          if (start < 1 || end > total || start > end) return false;
         }
-        return [...pages].sort((x, y) => x - y);
+        return true;
       }
 
       // Step 3: Preview
@@ -450,10 +465,10 @@
               <div class="grid" style="margin-top:1rem">
                 <label>
                   <div class="lbl">ग्रेस्केल प्रीव्यू</div>
-                  <span class="switch"><input id="prevGray" type="checkbox" ${state.grayscale ? 'checked' : ''}><span class="slider"></span></span>
+                  <span class="switch"><input id="prevGray" type="checkbox" ${state.grayscale ? 'checked' : ''} aria-label="ग्रेस्केल प्रीव्यू चालू/बंद करें"><span class="slider"></span></span>
                 </label>
               </div>
-              <div class="hint warn" style="margin-top:0.625rem; display:${state.pdfjsAvailable ? 'none' : 'block'}">प्रीव्यू उपलब्ध नहीं (PDF.js नहीं मिला)। फिर भी आगे बढ़ें।</div>
+              <div class="hint warn" style="margin-top:0.625rem; display:${state.pdfjsAvailable ? 'none' : 'block'}">प्रीव्यू उपलब्ध नहीं (PDF.js नहीं मिला)। फिर भी कंप्रेस करें।</div>
             </div>
             <div>
               <div class="hint">प्रीव्यू</div>
@@ -467,7 +482,7 @@
         $('#to4').addEventListener('click', () => goStep(4));
         $('#prevGray').addEventListener('change', e => { state.grayscale = e.target.checked; if (state.pdfjsAvailable) doEstimate(); });
 
-        if (state.pdfjsAvailable) await doEstimate(); else $('#estLbl').textContent = 'पूर्वावलोकन उपलब्ध नहीं';
+        if (state.pdfjsAvailable) await doEstimate(); else $('#estLbl').textContent = 'प्रीव्यू उपलब्ध नहीं — सेफ कॉपी मोड में आगे बढ़ें';
 
         async function doEstimate() {
           $('#estLbl').textContent = 'अनुमान की गणना…';
@@ -492,7 +507,7 @@
             $('#estLbl').innerHTML = `मोड: <b>${state.mode === 'image' ? 'इमेज फ्लैटन' : 'सेफ कॉपी'}</b> • पेज: <b>${selectedPages.length}</b>`;
           } catch (e) {
             console.error(e);
-            $('#estLbl').innerHTML = '<span class="danger">अनुमान नहीं हो सका।</span>';
+            $('#estLbl').innerHTML = '<span class="danger">अनुमान नहीं हो सका। फिर भी कंप्रेस करें।</span>';
           }
         }
       }
@@ -505,6 +520,21 @@
           d[i] = d[i + 1] = d[i + 2] = y;
         }
         ctx.putImageData(imgData, 0, 0);
+      }
+
+      function parseRange(input, total) {
+        if (!input || input === 'all') return Array.from({ length: total }, (_, i) => i + 1);
+        const parts = input.split(/\s*,\s*/);
+        const pages = new Set();
+        for (const p of parts) {
+          if (!p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/)) continue;
+          let [_, a, b] = p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/);
+          a = a ? parseInt(a) : 1;
+          b = b ? parseInt(b) : total;
+          if (a > b) [a, b] = [b, a];
+          for (let i = a; i <= b; i++) if (i >= 1 && i <= total) pages.add(i);
+        }
+        return [...pages].sort((x, y) => x - y);
       }
 
       // Step 4: Compress
@@ -521,7 +551,8 @@
             <div class="stat"><div>स्थिति:</div> <div class="value" id="status">प्रतीक्षा</div></div>
             <div class="stat"><div>आउटपुट:</div> <div class="value" id="outSize">—</div></div>
             <div class="btn-row" style="justify-content:flex-end">
-              <button class="btn" id="go">कंप्रेस शुरू करें</button>
+              <button class="btn" id="go" ${state.isCompressing ? 'disabled' : ''}>${state.isCompressing ? 'कंप्रेस हो रहा है...' : 'कंप्रेस शुरू करें'}</button>
+              <button class="btn secondary" id="cancel" style="display:${state.isCompressing ? 'inline-block' : 'none'}">रद्द करें</button>
             </div>
             <div id="done" style="display:none" class="success">पूर्ण! डाउनलोड स्वतः शुरू होगा। नहीं हुआ तो नीचे बटन क्लिक करें।</div>
             <div class="btn-row" style="justify-content:flex-end;display:none" id="dlRow">
@@ -532,8 +563,15 @@
 
         $('#back3').addEventListener('click', () => goStep(3));
         $('#go').addEventListener('click', () => doCompress());
+        $('#cancel').addEventListener('click', () => {
+          state.isCompressing = false;
+          renderStep4();
+        });
 
         async function doCompress() {
+          if (state.isCompressing) return;
+          state.isCompressing = true;
+          renderStep4();
           const status = $('#status'), bar = $('#bar'), outSize = $('#outSize');
           const pages = parseRange(state.pageRange, state.numPages);
           const t0 = performance.now();
@@ -549,12 +587,15 @@
               finish(new Blob([bytes], { type: 'application/pdf' }));
             } else {
               if (!state.pdfjsAvailable) {
-                status.innerHTML = '<span class="danger">इमेज मोड के लिए PDF.js चाहिए। कृपया यह पेज https/localhost से चलाएँ।</span>';
+                status.innerHTML = '<span class="danger">इमेज मोड के लिए PDF.js आवश्यक है। कृपया यह पेज https/localhost से चलाएँ।</span>';
+                state.isCompressing = false;
+                renderStep4();
                 return;
               }
               const out = await PDFDocument.create();
               let i = 0;
               for (const n of pages) {
+                if (!state.isCompressing) throw new Error('कंप्रेशन रद्द किया गया');
                 status.textContent = `रेंडरिंग पेज ${n}/${pages.length}…`;
                 const page = await state.pdfDoc.getPage(n);
                 const scale = state.dpi / 72;
@@ -583,10 +624,13 @@
             }
           } catch (e) {
             console.error(e);
-            status.innerHTML = `<span class="danger">त्रुटि: ${e.message || e}</span>`;
+            status.innerHTML = `<span class="danger">त्रुटि: ${e.message || 'कंप्रेशन विफल'}</span>`;
+            state.isCompressing = false;
+            renderStep4();
           }
 
           function finish(blob) {
+            state.isCompressing = false;
             const dt = (performance.now() - t0) / 1000;
             $('#done').style.display = 'block';
             const name = (state.file.name || 'document').replace(/\.pdf$/i, '');
@@ -600,6 +644,7 @@
             $('#dlRow').style.display = 'flex';
             outSize.textContent = humanBytes(blob.size) + ` • ${dt.toFixed(1)}s`;
             status.innerHTML = '<span class="success">सम्पन्न</span>';
+            renderStep4();
           }
         }
       }
