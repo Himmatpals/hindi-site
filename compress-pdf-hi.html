@@ -1,86 +1,92 @@
 <!--
-  फ़ाइल: compress-pdf-wizard-hi.html
-  विवरण: एक-पेज, 100% ब्राउज़र में चलने वाला PDF कंप्रेसर (विज़ार्ड UI) —
-          PDF.js उपलब्ध न होने पर भी "सेफ कॉपी" मोड काम करता है।
-  टेक: PDF.js (प्रीव्यू/रेंडर) + pdf-lib (रीबिल्ड)। कोई सर्वर अपलोड नहीं।
-  नोट: "इमेज फ्लैटन" मोड सबसे अधिक साइज घटाता है (पेज→इमेज)।
-        "सेफ कॉपी" मोड टेक्स्ट/वेक्टर सुरक्षित रखता है (मामूली कमी)।
+  File: compress-pdf-wizard-hi.html
+  Description: A single-page, 100% browser-based PDF compressor with a wizard UI.
+               "Safe Copy" mode works even if PDF.js is unavailable.
+  Tech: PDF.js (preview/render) + pdf-lib (rebuild). No server uploads.
+  Notes: "Image Flatten" mode maximizes size reduction (page→image).
+         "Safe Copy" mode preserves text/vectors (minimal reduction).
 -->
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PDF कंप्रेसर — इंटरैक्टिव विज़ार्ड (100% ब्राउज़र में)</title>
-  <meta name="description" content="PDF का साइज घटाएँ — विज़ार्ड UI, क्वालिटी/DPI, ग्रेस्केल, पेज रेंज, लाइव प्रीव्यू व प्रोग्रेस। सब कुछ आपके ब्राउज़र में।" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PDF कंप्रेसर — इंटरैक्टिव विज़ार्ड</title>
+  <meta name="description" content="PDF का साइज घटाएँ — विज़ार्ड UI, क्वालिटी/DPI, ग्रेस्केल, पेज रेंज, लाइव प्रीव्यू। सब ब्राउज़र में।">
   <style>
-    :root{ --bg:#0b0f17; --card:#121827; --muted:#2a3551; --accent:#8b5cf6; --accent-2:#22d3ee; --text:#e6ebff; --text-dim:#a7b0d8; --ok:#22c55e; --warn:#f59e0b; --err:#ef4444; }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;font:16px/1.45 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu; color:var(--text); background: radial-gradient(1000px 600px at 10% -10%, #1a2240 0%, #0b0f17 40%) fixed, var(--bg);}    
-    .wrap{max-width:1080px;margin:0 auto;padding:24px}
-    header{display:flex;align-items:center;gap:14px;margin:12px 0 22px}
-    header .logo{width:38px;height:38px;border-radius:10px;background:
-      radial-gradient(120% 120% at 20% 10%, var(--accent) 0%, #6ee7f9 40%, #3b82f6 70%, transparent 71%),
-      conic-gradient(from 200deg at 60% 60%, #111 0 60deg, var(--card) 60deg 360deg);
-      box-shadow:0 0 0 2px #223, 0 10px 30px rgba(0,0,0,.4)}
-    h1{font-size:clamp(22px,4vw,32px);margin:0}
+    :root {
+      --bg: #0b0f17;
+      --card: #121827;
+      --muted: #2a3551;
+      --accent: #8b5cf6;
+      --accent-2: #22d3ee;
+      --text: #e6ebff;
+      --text-dim: #a7b0d8;
+      --ok: #22c55e;
+      --warn: #f59e0b;
+      --err: #ef4444;
+    }
+    * { box-sizing: border-box; }
+    html, body { height: 100%; margin: 0; font: 16px/1.5 system-ui, -apple-system, Roboto, sans-serif; color: var(--text); background: radial-gradient(1000px 600px at 10% -10%, #1a2240 0%, #0b0f17 40%) fixed, var(--bg); }
+    .wrap { max-width: 1080px; margin: 0 auto; padding: 1.5rem; }
+    header { display: flex; align-items: center; gap: 0.875rem; margin: 0.75rem 0 1.375rem; }
+    header .logo { width: 2.375rem; height: 2.375rem; border-radius: 0.625rem; background: radial-gradient(120% 120% at 20% 10%, var(--accent) 0%, #6ee7f9 40%, #3b82f6 70%, transparent 71%), conic-gradient(from 200deg at 60% 60%, #111 0 60deg, var(--card) 60deg 360deg); box-shadow: 0 0 0 2px #223, 0 0.625rem 1.875rem rgba(0,0,0,.4); }
+    h1 { font-size: clamp(1.375rem, 4vw, 2rem); margin: 0; }
 
-    .wizard{display:grid;grid-template-columns:280px 1fr;gap:18px}
-    @media (max-width:900px){.wizard{grid-template-columns:1fr}}
-    .steps{background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border:1px solid #1e2a44;border-radius:16px;padding:10px}
-    .step-item{display:flex;align-items:center;gap:10px;padding:12px;border-radius:12px;cursor:pointer;color:var(--text-dim)}
-    .step-item.active{background:linear-gradient(135deg, rgba(139,92,246,.25), rgba(34,211,238,.15)); color:var(--text);box-shadow: inset 0 0 0 1px rgba(139,92,246,.6)}
-    .step-index{width:28px;height:28px;display:grid;place-items:center;border-radius:10px;background:#202940;font-weight:700}
+    .wizard { display: grid; grid-template-columns: 17.5rem 1fr; gap: 1.125rem; }
+    @media (max-width: 900px) { .wizard { grid-template-columns: 1fr; } }
+    .steps { background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02)); border: 1px solid #1e2a44; border-radius: 1rem; padding: 0.625rem; }
+    .step-item { display: flex; align-items: center; gap: 0.625rem; padding: 0.75rem; border-radius: 0.75rem; cursor: pointer; color: var(--text-dim); transition: background 0.2s; }
+    .step-item.active { background: linear-gradient(135deg, rgba(139,92,246,.25), rgba(34,211,238,.15)); color: var(--text); box-shadow: inset 0 0 0 1px rgba(139,92,246,.6); }
+    .step-index { width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border-radius: 0.625rem; background: #202940; font-weight: 700; }
 
-    .panel{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid #1e2a44;border-radius:16px;padding:18px;min-height:480px;position:relative;overflow:hidden}
+    .panel { background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border: 1px solid #1e2a44; border-radius: 1rem; padding: 1.125rem; min-height: 30rem; position: relative; overflow: hidden; }
+    .drop { border: 2px dashed #30406d; border-radius: 1.125rem; padding: 1.75rem; text-align: center; transition: border-color 0.25s, box-shadow 0.25s; }
+    .drop:hover, .drop.dragover { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(139,92,246,.15); }
+    .btn { border: none; border-radius: 0.75rem; padding: 0.625rem 0.875rem; background: linear-gradient(135deg, var(--accent), #3b82f6); color: white; font-weight: 700; cursor: pointer; transition: transform 0.2s, filter 0.2s; }
+    .btn:hover { transform: translateY(-1px); filter: saturate(1.1); }
+    .btn.secondary { background: linear-gradient(135deg, #2b354f, #1d253b); box-shadow: none; }
+    .btn.ghost { background: transparent; border: 1px solid #2b3552; color: var(--text); }
+    .btn-row { display: flex; flex-wrap: wrap; gap: 0.625rem; }
 
-    .drop{border:2px dashed #30406d;border-radius:18px;padding:28px;text-align:center;transition:.25s}
-    .drop:hover{border-color:var(--accent);box-shadow:0 0 0 4px rgba(139,92,246,.15)}
-    .btn{appearance:none;border:none;border-radius:12px;padding:10px 14px;background:linear-gradient(135deg, var(--accent), #3b82f6); color:white;font-weight:700;cursor:pointer;transition:.2s;box-shadow:0 8px 24px rgba(59,130,246,.35)}
-    .btn:hover{transform:translateY(-1px);filter:saturate(1.1)}
-    .btn.secondary{background:linear-gradient(135deg,#2b354f,#1d253b);box-shadow:none}
-    .btn.ghost{background:transparent;border:1px solid #2b3552;color:var(--text)}
-    .btn-row{display:flex;flex-wrap:wrap;gap:10px}
+    .grid { display: grid; gap: 0.875rem; }
+    .grid-2 { grid-template-columns: 1fr 1fr; }
+    .grid-3 { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+    label { display: flex; align-items: center; justify-content: space-between; gap: 0.875rem; background: #101828; border: 1px solid #1f2a48; padding: 0.75rem 0.875rem; border-radius: 0.75rem; }
+    label .lbl { font-weight: 700; }
+    input[type=range] { width: 100%; }
+    input[type=text], input[type=number] { width: 100%; background: #0e1628; border: 1px solid #1f2a48; color: var(--text); padding: 0.625rem; border-radius: 0.625rem; }
+    select { background: #0e1628; border: 1px solid #1f2a48; color: var(--text); padding: 0.625rem; border-radius: 0.625rem; }
 
-    .grid{display:grid;gap:14px}
-    .grid-2{grid-template-columns:1fr 1fr}
-    .grid-3{grid-template-columns:repeat(3,1fr)}
-    @media (max-width:900px){.grid-2,.grid-3{grid-template-columns:1fr}}
-    label{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#101828;border:1px solid #1f2a48;padding:12px 14px;border-radius:12px}
-    label .lbl{font-weight:700}
-    input[type=range]{width:100%}
-    input[type=text], input[type=number]{width:100%;background:#0e1628;border:1px solid #1f2a48;color:var(--text);padding:10px;border-radius:10px}
-    select{background:#0e1628;border:1px solid #1f2a48;color:var(--text);padding:10px;border-radius:10px}
+    .switch { position: relative; display: inline-block; width: 3.125rem; height: 1.75rem; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: #34405d; transition: background 0.2s; border-radius: 2rem; }
+    .slider:before { position: absolute; content: ""; height: 1.375rem; width: 1.375rem; left: 0.25rem; top: 0.1875rem; background: white; transition: transform 0.2s; border-radius: 50%; }
+    input:checked + .slider { background: linear-gradient(90deg, var(--accent), var(--accent-2)); }
+    input:checked + .slider:before { transform: translateX(1.375rem); }
 
-    .switch{position:relative;display:inline-block;width:50px;height:28px}
-    .switch input{opacity:0;width:0;height:0}
-    .slider{position:absolute;cursor:pointer;top:0;left:0;right:0;bottom:0;background:#34405d;transition:.2s;border-radius:32px}
-    .slider:before{position:absolute;content:"";height:22px;width:22px;left:4px;top:3px;background:white;transition:.2s;border-radius:50%}
-    input:checked + .slider{background:linear-gradient(90deg,var(--accent),var(--accent-2))}
-    input:checked + .slider:before{transform:translateX(22px)}
+    .pulse { animation: pulse 1.6s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(139,92,246,.6); } 70% { box-shadow: 0 0 0 0.75rem rgba(139,92,246,0); } 100% { box-shadow: 0 0 0 0 rgba(139,92,246,0); } }
 
-    .pulse{animation:pulse 1.6s infinite}
-    @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(139,92,246,.6)}70%{box-shadow:0 0 0 12px rgba(139,92,246,0)}100%{box-shadow:0 0 0 0 rgba(139,92,246,0)}}
+    .thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.875rem, 1fr)); gap: 0.5rem; margin-top: 0.75rem; }
+    .thumb { background: #0c1220; border: 1px solid #253055; border-radius: 0.625rem; padding: 0.375rem; text-align: center; }
+    .thumb canvas { width: 100%; height: auto; border-radius: 0.375rem; }
 
-    .thumbs{display:grid;grid-template-columns:repeat(auto-fill, minmax(110px, 1fr));gap:8px;margin-top:12px}
-    .thumb{background:#0c1220;border:1px solid #253055;border-radius:10px;padding:6px;text-align:center}
-    .thumb canvas{width:100%;height:auto;border-radius:6px}
+    .progress { height: 0.875rem; background: #0f182b; border: 1px solid #2b3a60; border-radius: 6.25rem; overflow: hidden; }
+    .bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.15s; }
 
-    .progress{height:14px;background:#0f182b;border:1px solid #2b3a60;border-radius:99px;overflow:hidden}
-    .bar{height:100%;width:0%;background:linear-gradient(90deg, var(--accent), var(--accent-2));transition:width .15s}
+    .stat { display: flex; align-items: center; gap: 0.625rem; background: #0e1526; border: 1px solid #223257; border-radius: 0.75rem; padding: 0.625rem 0.75rem; }
+    .stat .value { font-weight: 800; }
 
-    .stat{display:flex;align-items:center;gap:10px;background:#0e1526;border:1px solid #223257;border-radius:12px;padding:10px 12px}
-    .stat .value{font-weight:800}
+    .k { color: #9ab4ff; }
+    .hint { color: var(--text-dim); font-size: 0.95rem; }
+    .danger { color: var(--err); font-weight: 700; }
+    .success { color: var(--ok); font-weight: 700; }
+    .warn { color: var(--warn); font-weight: 700; }
 
-    .k{color:#9ab4ff}
-    .hint{color:var(--text-dim);font-size:.95rem}
-    .danger{color:var(--err);font-weight:700}
-    .success{color:var(--ok);font-weight:700}
-    .warn{color:var(--warn);font-weight:700}
-
-    footer{opacity:.8;margin-top:16px;font-size:.9rem}
-    a{color:#93c5fd}
+    footer { opacity: 0.8; margin-top: 1rem; font-size: 0.9rem; }
+    a { color: #93c5fd; }
   </style>
 </head>
 <body>
@@ -100,7 +106,6 @@
         <div class="step-item" data-step="3"><div class="step-index">3</div><div>प्रीव्यू व अनुमान</div></div>
         <div class="step-item" data-step="4"><div class="step-index">4</div><div>कंप्रेस व डाउनलोड</div></div>
       </nav>
-
       <section class="panel" id="panel"></section>
     </div>
 
@@ -109,367 +114,512 @@
     </footer>
   </div>
 
-  <!-- डिपेंडेंसी (CDN) -->
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.6.82/pdf.min.js"></script>
   <script>
-    // PDF.js वर्कर कॉन्फ़िगरेशन (CDN)
-    if (window['pdfjsLib']) {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.6.82/pdf.worker.min.js';
-    }
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.6.82/pdf.worker.min.js';
   </script>
-
   <script>
-  (function(){
-    const $ = (sel, el=document)=> el.querySelector(sel);
-    const $$ = (sel, el=document)=> Array.from(el.querySelectorAll(sel));
+    (function () {
+      const $ = (sel, el = document) => el.querySelector(sel);
+      const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
 
-    const state = {
-      file: null,
-      fileBytes: null,
-      pdfDoc: null,
-      numPages: 0,
-      pagesMeta: [],
-      mode: 'image', // 'image' | 'safe'
-      quality: 0.6,
-      dpi: 110,
-      grayscale: false,
-      pageRange: 'all',
-      format: 'jpeg', // 'jpeg' | 'png'
-      estimate: null,
-      estPreviewBlob: null,
-      pdfjsAvailable: !!window.pdfjsLib,
-    };
-
-    const steps = $$('.step-item');
-    steps.forEach(s=>s.addEventListener('click', ()=>goStep(parseInt(s.dataset.step))));
-    const panel = $('#panel');
-
-    function humanBytes(n){ if(n==null) return '—'; const u=['B','KB','MB','GB']; let i=0; while(n>=1024&&i<u.length-1){n/=1024;i++} return `${n.toFixed(i?2:0)} ${u[i]}`; }
-
-    // ————— स्टेप 1: फ़ाइल चुनें —————
-    function renderStep1(){
-      setActive(1);
-      panel.innerHTML = `
-        <div class="grid" style="gap:16px">
-          <div class="drop" id="drop" aria-label="यहाँ PDF छोड़ें या फ़ाइल चुनें" tabindex="0">
-            <h2>अपना PDF यहाँ छोड़ें</h2>
-            <div class="hint">या</div>
-            <div class="btn-row" style="justify-content:center;margin-top:10px">
-              <label class="btn pulse" for="fileInput">PDF चुनें</label>
-              <input id="fileInput" type="file" accept=".pdf,application/pdf" hidden />
-            </div>
-            <div style="margin-top:12px" class="hint">आपकी फ़ाइल आपके डिवाइस से बाहर नहीं जाएगी।</div>
-          </div>
-          <div id="fileInfo" class="stat" style="display:none">
-            <div>चुना गया: <span class="value" id="fileName"></span></div>
-            <div>•</div>
-            <div>साइज: <span class="value" id="fileSize"></span></div>
-            <div>•</div>
-            <div>पेज: <span class="value" id="filePages">—</span></div>
-          </div>
-          <div id="thumbWrap" style="display:none">
-            <div class="hint">त्वरित थंबनेल</div>
-            <div class="thumbs" id="thumbs"></div>
-          </div>
-          <div id="uploadError" class="hint danger" style="display:none"></div>
-          <div class="btn-row" style="justify-content:flex-end">
-            <button class="btn secondary" disabled id="to2">अगला: विकल्प →</button>
-          </div>
-        </div>`;
-
-      const drop = $('#drop');
-      const fileInput = $('#fileInput');
-      const to2 = $('#to2');
-
-      const onFile = async (f)=>{
-        if(!f) return;
-        if(!(f.type==="application/pdf" || f.name.toLowerCase().endsWith('.pdf'))){ showError('कृपया PDF फ़ाइल चुनें।'); return; }
-        try{
-          state.file = f;
-          state.fileBytes = await fileToBytes(f);
-          $('#fileInfo').style.display='flex';
-          $('#fileName').textContent = f.name;
-          $('#fileSize').textContent = humanBytes(f.size);
-          $('#uploadError').style.display='none';
-          to2.disabled = true;
-
-          if(state.pdfjsAvailable){
-            try{
-              state.pdfDoc = await openWithPDFJS(state.fileBytes);
-              state.numPages = state.pdfDoc.numPages;
-              $('#filePages').textContent = state.numPages;
-              await renderThumbs();
-              to2.disabled = false; $('#thumbWrap').style.display = 'block';
-            }catch(err){
-              console.warn('PDF.js विफल:', err);
-              await fallbackPageCount();
-              if(state.numPages>0){ to2.disabled = false; }
-            }
-          } else {
-            await fallbackPageCount();
-            if(state.numPages>0){ to2.disabled = false; }
-          }
-        }catch(e){ console.error(e); showError('फ़ाइल पढ़ने में समस्या। फ़ाइल पासवर्ड-प्रोटेक्टेड या करप्ट हो सकती है।'); }
+      const state = {
+        file: null,
+        fileBytes: null,
+        pdfDoc: null,
+        numPages: 0,
+        pagesMeta: [],
+        mode: 'image',
+        quality: 0.6,
+        dpi: 110,
+        grayscale: false,
+        pageRange: 'all',
+        format: 'jpeg',
+        estimate: null,
+        estPreviewBlob: null,
+        pdfjsAvailable: !!window.pdfjsLib,
+        compressionLevel: 'balanced' // New: tracks preset
       };
 
-      drop.addEventListener('dragover', e=>{e.preventDefault(); drop.style.borderColor='var(--accent)'});
-      drop.addEventListener('dragleave', ()=>{drop.style.borderColor='#30406d'});
-      drop.addEventListener('drop', e=>{e.preventDefault(); drop.style.borderColor='#30406d'; onFile(e.dataTransfer.files[0]);});
-      drop.addEventListener('click', ()=>fileInput.click());
-      fileInput.addEventListener('change', e=>onFile(e.target.files[0]));
-      to2.addEventListener('click', ()=>goStep(2));
+      const steps = $$('.step-item');
+      steps.forEach(s => s.addEventListener('click', () => goStep(parseInt(s.dataset.step))));
+      const panel = $('#panel');
 
-      function showError(msg){ const el=$('#uploadError'); el.textContent=msg; el.style.display='block'; }
-    }
+      const humanBytes = n => n == null ? '—' : ['B', 'KB', 'MB', 'GB'].reduce((a, u, i) => a >= 1024 && i < 3 ? a / 1024 : [a.toFixed(i ? 2 : 0), u], n)[0] + ' ' + ['B', 'KB', 'MB', 'GB'].reduce((a, u, i) => a >= 1024 && i < 3 ? a / 1024 : u, n);
 
-    async function fileToBytes(file){
-      if(file.arrayBuffer){ return new Uint8Array(await file.arrayBuffer()); }
-      return await new Promise((resolve,reject)=>{ const fr=new FileReader(); fr.onload=()=>resolve(new Uint8Array(fr.result)); fr.onerror=()=>reject(fr.error||new Error('FileReader त्रुटि')); fr.readAsArrayBuffer(file); });
-    }
-
-    async function openWithPDFJS(bytes){
-      // पासवर्ड-प्रोटेक्टेड PDF के लिए साधारण प्रॉम्प्ट
-      try{
-        return await pdfjsLib.getDocument({data: bytes}).promise;
-      }catch(e){
-        if(e && e.name==="PasswordException"){ const pwd = prompt('यह PDF पासवर्ड-प्रोटेक्टेड है। पासवर्ड दर्ज करें:'); if(!pwd) throw e; return await pdfjsLib.getDocument({data: bytes, password: pwd}).promise; }
-        throw e;
-      }
-    }
-
-    async function fallbackPageCount(){
-      try{
-        const { PDFDocument } = PDFLib;
-        const doc = await PDFDocument.load(state.fileBytes);
-        state.numPages = doc.getPageCount();
-        $('#filePages').textContent = state.numPages; $('#thumbWrap').style.display = 'none';
-      }catch(e){ const el=$('#uploadError'); el.textContent='PDF पढ़ा नहीं जा सका (पासवर्ड-प्रोटेक्टेड/खराब?).'; el.style.display='block'; }
-    }
-
-    async function renderThumbs(){
-      const thumbs = $('#thumbs'); thumbs.innerHTML=''; state.pagesMeta = [];
-      const maxThumbs = Math.min(12, state.numPages);
-      for(let i=1;i<=maxThumbs;i++){
-        const page = await state.pdfDoc.getPage(i);
-        const viewport = page.getViewport({scale:0.25});
-        const canvas = document.createElement('canvas'); const ctx = canvas.getContext('2d');
-        canvas.width = Math.ceil(viewport.width); canvas.height = Math.ceil(viewport.height);
-        await page.render({canvasContext:ctx, viewport}).promise;
-        const d = document.createElement('div'); d.className='thumb'; d.innerHTML = `<div style="font-weight:800;margin-bottom:6px">पेज ${i}</div>`; d.appendChild(canvas);
-        thumbs.appendChild(d); state.pagesMeta.push({w: viewport.width, h: viewport.height});
-      }
-      if(state.numPages>maxThumbs){ const more=document.createElement('div'); more.className='hint'; more.textContent=`(+ ${state.numPages-maxThumbs} और पेज)`; $('#thumbWrap').appendChild(more); }
-    }
-
-    // ————— स्टेप 2: विकल्प —————
-    function renderStep2(){
-      if(!state.file){return renderStep1()}
-      setActive(2);
-      panel.innerHTML = `
-        <div class="grid" style="gap:16px">
-          <div class="btn-row" style="justify-content:space-between;align-items:center">
-            <button class="btn ghost" id="back1">← वापस</button>
-            <div class="btn-row">
-              <button class="btn pulse" id="presetStrong" title="सबसे अधिक कंप्रेशन">प्रीसेट: स्ट्रॉन्ग</button>
-              <button class="btn secondary" id="presetBalanced" title="संतुलित गुणवत्ता/साइज">प्रीसेट: बैलेंस्ड</button>
-              <button class="btn secondary" id="presetSafe" title="टेक्स्ट सुरक्षित रखें">प्रीसेट: सेफ</button>
+      // Step 1: File Selection
+      function renderStep1() {
+        setActive(1);
+        panel.innerHTML = `
+          <div class="grid" style="gap:1rem">
+            <div class="drop" id="drop" aria-label="यहाँ PDF छोड़ें या फ़ाइल चुनें" tabindex="0">
+              <h2>अपना PDF यहाँ छोड़ें</h2>
+              <div class="hint">या</div>
+              <div class="btn-row" style="justify-content:center;margin-top:0.625rem">
+                <label class="btn pulse" for="fileInput">PDF चुनें</label>
+                <input id="fileInput" type="file" accept=".pdf,application/pdf" hidden>
+              </div>
+              <div class="hint" style="margin-top:0.75rem">आपकी फ़ाइल आपके डिवाइस से बाहर नहीं जाएगी।</div>
             </div>
-          </div>
+            <div id="fileInfo" class="stat" style="display:none">
+              <div>चुना गया: <span class="value" id="fileName"></span></div>
+              <div>•</div>
+              <div>साइज: <span class="value" id="fileSize"></span></div>
+              <div>•</div>
+              <div>पेज: <span class="value" id="filePages">—</span></div>
+            </div>
+            <div id="thumbWrap" style="display:none">
+              <div class="hint">त्वरित थंबनेल</div>
+              <div class="thumbs" id="thumbs"></div>
+            </div>
+            <div id="uploadError" class="hint danger" style="display:none"></div>
+            <div class="btn-row" style="justify-content:flex-end">
+              <button class="btn secondary" disabled id="to2">अगला: विकल्प →</button>
+            </div>
+          </div>`;
 
-          <div class="grid grid-2">
-            <label>
-              <div class="lbl">मोड</div>
-              <div>
+        const drop = $('#drop'), fileInput = $('#fileInput'), to2 = $('#to2');
+        const onFile = async f => {
+          if (!f || !(f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'))) {
+            showError('कृपया PDF फ़ाइल चुनें।');
+            return;
+          }
+          try {
+            state.file = f;
+            state.fileBytes = await fileToBytes(f);
+            $('#fileInfo').style.display = 'flex';
+            $('#fileName').textContent = f.name;
+            $('#fileSize').textContent = humanBytes(f.size);
+            $('#uploadError').style.display = 'none';
+            to2.disabled = true;
+
+            if (state.pdfjsAvailable) {
+              try {
+                state.pdfDoc = await openWithPDFJS(state.fileBytes);
+                state.numPages = state.pdfDoc.numPages;
+                $('#filePages').textContent = state.numPages;
+                await renderThumbs();
+                to2.disabled = false;
+                $('#thumbWrap').style.display = 'block';
+              } catch (err) {
+                console.warn('PDF.js failed:', err);
+                await fallbackPageCount();
+                if (state.numPages > 0) to2.disabled = false;
+              }
+            } else {
+              await fallbackPageCount();
+              if (state.numPages > 0) to2.disabled = false;
+            }
+          } catch (e) {
+            console.error(e);
+            showError('फ़ाइल पढ़ने में समस्या। फ़ाइल पासवर्ड-प्रोटेक्टेड या करप्ट हो सकती है।');
+          }
+        };
+
+        drop.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('dragover'); });
+        drop.addEventListener('dragleave', () => drop.classList.remove('dragover'));
+        drop.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('dragover'); onFile(e.dataTransfer.files[0]); });
+        drop.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', e => onFile(e.target.files[0]));
+        to2.addEventListener('click', () => goStep(2));
+
+        function showError(msg) { const el = $('#uploadError'); el.textContent = msg; el.style.display = 'block'; }
+      }
+
+      async function fileToBytes(file) {
+        return new Uint8Array(await file.arrayBuffer());
+      }
+
+      async function openWithPDFJS(bytes) {
+        try {
+          return await pdfjsLib.getDocument({ data: bytes }).promise;
+        } catch (e) {
+          if (e.name === 'PasswordException') {
+            const pwd = prompt('यह PDF पासवर्ड-प्रोटेक्टेड है। पासवर्ड दर्ज करें:');
+            if (!pwd) throw e;
+            return await pdfjsLib.getDocument({ data: bytes, password: pwd }).promise;
+          }
+          throw e;
+        }
+      }
+
+      async function fallbackPageCount() {
+        try {
+          const doc = await PDFLib.PDFDocument.load(state.fileBytes);
+          state.numPages = doc.getPageCount();
+          $('#filePages').textContent = state.numPages;
+          $('#thumbWrap').style.display = 'none';
+        } catch (e) {
+          $('#uploadError').textContent = 'PDF पढ़ा नहीं जा सका (पासवर्ड-प्रोटेक्टेड/खराब?)।';
+          $('#uploadError').style.display = 'block';
+        }
+      }
+
+      async function renderThumbs() {
+        const thumbs = $('#thumbs');
+        thumbs.innerHTML = '';
+        state.pagesMeta = [];
+        const maxThumbs = Math.min(12, state.numPages);
+        for (let i = 1; i <= maxThumbs; i++) {
+          const page = await state.pdfDoc.getPage(i);
+          const viewport = page.getViewport({ scale: 0.25 });
+          const canvas = document.createElement('canvas');
+          const ctx = canvas.getContext('2d');
+          canvas.width = Math.ceil(viewport.width);
+          canvas.height = Math.ceil(viewport.height);
+          await page.render({ canvasContext: ctx, viewport }).promise;
+          const d = document.createElement('div');
+          d.className = 'thumb';
+          d.innerHTML = `<div style="font-weight:800;margin-bottom:0.375rem">पेज ${i}</div>`;
+          d.appendChild(canvas);
+          thumbs.appendChild(d);
+          state.pagesMeta.push({ w: viewport.width, h: viewport.height });
+        }
+        if (state.numPages > maxThumbs) {
+          const more = document.createElement('div');
+          more.className = 'hint';
+          more.textContent = `(+ ${state.numPages - maxThumbs} और पेज)`;
+          $('#thumbWrap').appendChild(more);
+        }
+      }
+
+      // Step 2: Options
+      function renderStep2() {
+        if (!state.file) return renderStep1();
+        setActive(2);
+        panel.innerHTML = `
+          <div class="grid" style="gap:1rem">
+            <div class="btn-row" style="justify-content:space-between;align-items:center">
+              <button class="btn ghost" id="back1">← वापस</button>
+              <div class="btn-row">
+                <button class="btn ${state.compressionLevel === 'strong' ? 'pulse' : 'secondary'}" id="presetStrong" title="सबसे अधिक कंप्रेशन">प्रीसेट: स्ट्रॉन्ग</button>
+                <button class="btn ${state.compressionLevel === 'balanced' ? 'pulse' : 'secondary'}" id="presetBalanced" title="संतुलित गुणवत्ता/साइज">प्रीसेट: बैलेंस्ड</button>
+                <button class="btn ${state.compressionLevel === 'safe' ? 'pulse' : 'secondary'}" id="presetSafe" title="टेक्स्ट सुरक्षित रखें">प्रीसेट: सेफ</button>
+              </div>
+            </div>
+            <div class="grid grid-2">
+              <label>
+                <div class="lbl">मोड</div>
                 <select id="mode">
-                  <option value="image" ${state.pdfjsAvailable? '' : 'disabled'}>इमेज फ्लैटन (अधिकतम कमी)</option>
+                  <option value="image" ${state.pdfjsAvailable ? '' : 'disabled'}>इमेज फ्लैटन (अधिकतम कमी)</option>
                   <option value="safe">सेफ कॉपी (टेक्स्ट सुरक्षित)</option>
                 </select>
-              </div>
-            </label>
-            <label>
-              <div class="lbl">पेज रेंज</div>
-              <input id="range" type="text" placeholder="उदा. 1-3,5,7-" value="all" />
-            </label>
-          </div>
-
-          <div class="grid grid-3" id="imageControls">
-            <label>
-              <div class="lbl">JPEG क्वालिटी <span class="hint">(${Math.round(state.quality*100)}%)</span></div>
-              <input id="quality" type="range" min="0.2" max="0.95" step="0.01" value="${state.quality}" />
-            </label>
-            <label>
-              <div class="lbl">रेंडर DPI <span class="hint">(${state.dpi} dpi)</span></div>
-              <input id="dpi" type="range" min="72" max="200" step="1" value="${state.dpi}" />
-            </label>
-            <label>
-              <div class="lbl">ग्रेस्केल</div>
-              <span class="switch"><input id="gray" type="checkbox" ${state.grayscale? 'checked':''}><span class="slider"></span></span>
-            </label>
-          </div>
-
-          <div class="stat">
-            <div>मूल फ़ाइल: <span class="value">${humanBytes(state.file.size)}</span></div>
-            <div>•</div>
-            <div>मोड: <span class="value" id="modeTag">${state.mode==='image'?'इमेज फ्लैटन':'सेफ कॉपी'}</span></div>
-          </div>
-
-          <div class="hint warn" id="noPdfJsNote" style="display:${state.pdfjsAvailable?'none':'block'}">नोट: PDF.js उपलब्ध नहीं — <b>इमेज फ्लैटन</b> मोड को अस्थायी रूप से अक्षम किया गया है। आप <b>सेफ कॉपी</b> मोड से आगे बढ़ सकते हैं।</div>
-
-          <div class="btn-row" style="justify-content:flex-end">
-            <button class="btn secondary" id="to1">← पीछे</button>
-            <button class="btn" id="to3">अगला: प्रीव्यू →</button>
-          </div>
-        </div>`;
-
-      $('#back1').addEventListener('click', ()=>goStep(1));
-      $('#to1').addEventListener('click', ()=>goStep(1));
-      $('#to3').addEventListener('click', ()=>goStep(3));
-
-      const modeSel=$('#mode'), range=$('#range'), quality=$('#quality'), dpi=$('#dpi'), gray=$('#gray'), imageControls=$('#imageControls');
-      modeSel.value = state.pdfjsAvailable ? state.mode : 'safe';
-      state.mode = state.pdfjsAvailable ? state.mode : 'safe';
-
-      modeSel.addEventListener('change', ()=>{
-        state.mode = modeSel.value; $('#modeTag').textContent = state.mode==='image'? 'इमेज फ्लैटन':'सेफ कॉपी'; imageControls.style.display = (state.mode==='image')? 'grid':'none';
-      });
-      imageControls.style.display = (state.mode==='image')? 'grid':'none';
-
-      range.addEventListener('input', ()=>state.pageRange=range.value.trim());
-      quality.addEventListener('input', ()=>{ state.quality = parseFloat(quality.value); quality.previousElementSibling.querySelector('.hint').textContent = `(${Math.round(state.quality*100)}%)`; });
-      dpi.addEventListener('input', ()=>{ state.dpi = parseInt(dpi.value,10); dpi.previousElementSibling.querySelector('.hint').textContent = `(${state.dpi} dpi)`; });
-      gray.addEventListener('change', ()=>state.grayscale = gray.checked);
-
-      $('#presetStrong').addEventListener('click', ()=>{ if(!state.pdfjsAvailable){pulsateWarn(); return;} state.mode='image'; modeSel.value='image'; state.quality=.5; state.dpi=96; state.grayscale=true; updateSliders(); pulsate('#presetStrong')});
-      $('#presetBalanced').addEventListener('click', ()=>{ if(!state.pdfjsAvailable){pulsateWarn(); return;} state.mode='image'; modeSel.value='image'; state.quality=.65; state.dpi=110; state.grayscale=false; updateSliders(); pulsate('#presetBalanced')});
-      $('#presetSafe').addEventListener('click', ()=>{ state.mode='safe'; modeSel.value='safe'; updateSliders(); pulsate('#presetSafe')});
-
-      function updateSliders(){ imageControls.style.display = state.mode==='image'? 'grid':'none'; if(state.mode==='image'){ quality.value=state.quality; dpi.value=state.dpi; gray.checked=state.grayscale; quality.previousElementSibling.querySelector('.hint').textContent = `(${Math.round(state.quality*100)}%)`; dpi.previousElementSibling.querySelector('.hint').textContent = `(${state.dpi} dpi)`; } $('#modeTag').textContent = state.mode==='image'? 'इमेज फ्लैटन':'सेफ कॉपी'; }
-      function pulsate(sel){ const b=$(sel); b.classList.add('pulse'); setTimeout(()=>b.classList.remove('pulse'),1600); }
-      function pulsateWarn(){ alert('इमेज मोड के लिए PDF.js चाहिए। कृपया यह पेज https/localhost से चलाएँ या इंटरनेट कनेक्शन जाँचें।'); }
-    }
-
-    function parseRange(input, total){ if(!input || input==='all') return Array.from({length: total}, (_,i)=>i+1); const parts=input.split(/\s*,\s*/); const pages=new Set(); for(const p of parts){ const m=p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/); if(!m) continue; let [_,a,b]=m; a=a?parseInt(a):1; b=b?parseInt(b): total; if(a>b)[a,b]=[b,a]; for(let i=a;i<=b;i++) if(i>=1&&i<=total) pages.add(i);} return [...pages].sort((x,y)=>x-y); }
-
-    // ————— स्टेप 3: प्रीव्यू —————
-    async function renderStep3(){
-      if(!state.file){return renderStep1()}
-      setActive(3);
-      panel.innerHTML = `
-        <div class="btn-row" style="justify-content:space-between;align-items:center;margin-bottom:8px">
-          <button class="btn ghost" id="back2">← वापस</button>
-          <button class="btn" id="to4">सब ठीक — कंप्रेस करें →</button>
-        </div>
-        <div class="grid grid-2" style="align-items:start">
-          <div>
-            <div class="hint" id="estLbl">त्वरित अनुमान बनाया जा रहा है…</div>
-            <div class="stat" style="margin-top:8px"><div>मूल फ़ाइल:</div><div class="value">${humanBytes(state.file.size)}</div></div>
-            <div class="stat" style="margin-top:8px"><div>अनुमानित आउटपुट:</div><div class="value" id="estSize">—</div></div>
-            <div class="hint" style="margin-top:6px">*अनुमान आपकी सेटिंग के साथ पहले पेज पर आधारित है।</div>
-            <div class="grid" style="margin-top:16px">
+              </label>
               <label>
-                <div class="lbl">ग्रेस्केल प्रीव्यू</div>
-                <span class="switch"><input id="prevGray" type="checkbox" ${state.grayscale? 'checked':''}><span class="slider"></span></span>
+                <div class="lbl">पेज रेंज</div>
+                <input id="range" type="text" placeholder="उदा. 1-3,5,7-" value="${state.pageRange}">
               </label>
             </div>
-            <div class="hint warn" style="margin-top:10px; display:${state.pdfjsAvailable?'none':'block'}">प्रीव्यू उपलब्ध नहीं (PDF.js नहीं मिला)। आप फिर भी आगे बढ़ सकते हैं।</div>
-          </div>
-          <div>
-            <div class="hint">प्रीव्यू</div>
-            <div class="thumb" style="padding:12px">
-              <canvas id="preview" style="width:100%;height:auto"></canvas>
+            <div class="grid grid-3" id="imageControls" style="display:${state.mode === 'image' ? 'grid' : 'none'}">
+              <label>
+                <div class="lbl">JPEG क्वालिटी <span class="hint">(${Math.round(state.quality * 100)}%)</span></div>
+                <input id="quality" type="range" min="0.2" max="0.95" step="0.01" value="${state.quality}">
+              </label>
+              <label>
+                <div class="lbl">रेंडर DPI <span class="hint">(${state.dpi} dpi)</span></div>
+                <input id="dpi" type="range" min="72" max="200" step="1" value="${state.dpi}">
+              </label>
+              <label>
+                <div class="lbl">ग्रेस्केल</div>
+                <span class="switch"><input id="gray" type="checkbox" ${state.grayscale ? 'checked' : ''}><span class="slider"></span></span>
+              </label>
             </div>
-          </div>
-        </div>`;
+            <div class="stat">
+              <div>मूल फ़ाइल: <span class="value">${humanBytes(state.file.size)}</span></div>
+              <div>•</div>
+              <div>मोड: <span class="value" id="modeTag">${state.mode === 'image' ? 'इमेज फ्लैटन' : 'सेफ कॉपी'}</span></div>
+            </div>
+            <div class="hint warn" id="noPdfJsNote" style="display:${state.pdfjsAvailable ? 'none' : 'block'}">नोट: PDF.js उपलब्ध नहीं — <b>इमेज फ्लैटन</b> मोड अक्षम। <b>सेफ कॉपी</b> मोड का उपयोग करें।</div>
+            <div class="btn-row" style="justify-content:flex-end">
+              <button class="btn secondary" id="to1">← पीछे</button>
+              <button class="btn" id="to3">अगला: प्रीव्यू →</button>
+            </div>
+          </div>`;
 
-      $('#back2').addEventListener('click', ()=>goStep(2));
-      $('#to4').addEventListener('click', ()=>goStep(4));
-      $('#prevGray').addEventListener('change', (e)=>{state.grayscale = e.target.checked; if(state.pdfjsAvailable) doEstimate(true)});
+        $('#back1').addEventListener('click', () => goStep(1));
+        $('#to1').addEventListener('click', () => goStep(1));
+        $('#to3').addEventListener('click', () => goStep(3));
 
-      if(state.pdfjsAvailable){ await doEstimate(); } else { $('#estLbl').textContent='पूर्वावलोकन उपलब्ध नहीं'; }
+        const modeSel = $('#mode'), range = $('#range'), quality = $('#quality'), dpi = $('#dpi'), gray = $('#gray'), imageControls = $('#imageControls');
+        modeSel.value = state.pdfjsAvailable ? state.mode : 'safe';
+        state.mode = state.pdfjsAvailable ? state.mode : 'safe';
 
-      async function doEstimate(){
-        $('#estLbl').textContent = 'अनुमान की गणना…';
-        try{
-          const page = await state.pdfDoc.getPage(1);
-          const scale = state.dpi/72; const viewport = page.getViewport({scale});
-          const can = $('#preview'); can.width = Math.ceil(viewport.width); can.height = Math.ceil(viewport.height);
-          const ctx = can.getContext('2d', {alpha:false});
-          await page.render({canvasContext:ctx, viewport}).promise;
-          if(state.grayscale){ toGrayscale(ctx, can.width, can.height); }
-          const mime = state.format==='png'? 'image/png' : 'image/jpeg'; const quality = state.format==='png'? undefined : state.quality;
-          const blob = await new Promise(res=>can.toBlob(res, mime, quality)); state.estPreviewBlob = blob;
-          const selectedPages = parseRange(state.pageRange, state.numPages); const est = blob.size * selectedPages.length + 35000; state.estimate = est;
-          $('#estSize').textContent = humanBytes(est); $('#estLbl').innerHTML = `मोड: <b>${state.mode==='image'? 'इमेज फ्लैटन':'सेफ कॉपी'}</b> • पेज: <b>${selectedPages.length}</b>`;
-        }catch(e){ console.error(e); $('#estLbl').innerHTML = '<span class="danger">अनुमान नहीं हो सका।</span>'; }
-      }
-    }
+        modeSel.addEventListener('change', () => {
+          state.mode = modeSel.value;
+          $('#modeTag').textContent = state.mode === 'image' ? 'इमेज फ्लैटन' : 'सेफ कॉपी';
+          imageControls.style.display = state.mode === 'image' ? 'grid' : 'none';
+        });
 
-    function toGrayscale(ctx,w,h){ const imgData = ctx.getImageData(0,0,w,h); const d = imgData.data; for(let i=0;i<d.length;i+=4){ const r=d[i], g=d[i+1], b=d[i+2]; const y = 0.2126*r + 0.7152*g + 0.0722*b; d[i]=d[i+1]=d[i+2]=y; } ctx.putImageData(imgData,0,0); }
+        range.addEventListener('input', () => state.pageRange = range.value.trim());
+        quality.addEventListener('input', () => {
+          state.quality = parseFloat(quality.value);
+          quality.previousElementSibling.querySelector('.hint').textContent = `(${Math.round(state.quality * 100)}%)`;
+        });
+        dpi.addEventListener('input', () => {
+          state.dpi = parseInt(dpi.value, 10);
+          dpi.previousElementSibling.querySelector('.hint').textContent = `(${state.dpi} dpi)`;
+        });
+        gray.addEventListener('change', () => state.grayscale = gray.checked);
 
-    // ————— स्टेप 4: कंप्रेस —————
-    async function renderStep4(){
-      if(!state.file){return renderStep1()}
-      setActive(4);
-      panel.innerHTML = `
-        <div class="btn-row" style="justify-content:space-between;align-items:center;margin-bottom:8px">
-          <button class="btn ghost" id="back3">← वापस</button>
-          <div class="hint">आपकी सेटिंग के साथ कंप्रेस करने के लिए तैयार।</div>
-        </div>
-        <div class="grid" style="gap:14px">
-          <div class="progress"><div class="bar" id="bar"></div></div>
-          <div class="stat"><div>स्थिति:</div> <div class="value" id="status">Idle</div></div>
-          <div class="stat"><div>आउटपुट:</div> <div class="value" id="outSize">—</div></div>
-          <div class="btn-row" style="justify-content:flex-end">
-            <button class="btn" id="go">कंप्रेस शुरू करें</button>
-          </div>
-          <div id="done" style="display:none" class="success">पूर्ण! डाउनलोड स्वतः प्रारम्भ हो जाएगा। नहीं हुआ तो नीचे बटन से करें।</div>
-          <div class="btn-row" style="justify-content:flex-end;display:none" id="dlRow">
-            <a id="dl" class="btn" href="#" download>फिर से डाउनलोड</a>
-          </div>
-          <div class="hint">नोट: <b>इमेज फ्लैटन</b> पेज को इमेज बनाता है (सबसे छोटा साइज; टेक्स्ट चयन हटा देगा)। <b>सेफ कॉपी</b> टेक्स्ट रखता है।</div>
-        </div>`;
+        $('#presetStrong').addEventListener('click', () => {
+          if (!state.pdfjsAvailable) return pulsateWarn();
+          state.mode = 'image';
+          state.compressionLevel = 'strong';
+          modeSel.value = 'image';
+          state.quality = 0.5;
+          state.dpi = 96;
+          state.grayscale = true;
+          updateSliders();
+          pulsate('#presetStrong');
+        });
+        $('#presetBalanced').addEventListener('click', () => {
+          if (!state.pdfjsAvailable) return pulsateWarn();
+          state.mode = 'image';
+          state.compressionLevel = 'balanced';
+          modeSel.value = 'image';
+          state.quality = 0.65;
+          state.dpi = 110;
+          state.grayscale = false;
+          updateSliders();
+          pulsate('#presetBalanced');
+        });
+        $('#presetSafe').addEventListener('click', () => {
+          state.mode = 'safe';
+          state.compressionLevel = 'safe';
+          modeSel.value = 'safe';
+          updateSliders();
+          pulsate('#presetSafe');
+        });
 
-      $('#back3').addEventListener('click', ()=>goStep(3));
-      $('#go').addEventListener('click', ()=>doCompress());
-
-      async function doCompress(){
-        const status = $('#status'); const bar = $('#bar'); const outSize = $('#outSize'); const pages = parseRange(state.pageRange, state.numPages); const t0 = performance.now();
-        try{
-          status.textContent = 'तैयारी…';
-          const { PDFDocument } = PDFLib;
-          if(state.mode==='safe'){
-            const src = await PDFDocument.load(state.fileBytes);
-            const out = await PDFDocument.create();
-            const [ ...copied ] = await out.copyPages(src, pages.map(n=>n-1)); copied.forEach(p=>out.addPage(p));
-            const bytes = await out.save({ useObjectStreams:true, addDefaultPage:false }); const blob = new Blob([bytes], {type:'application/pdf'}); finish(blob);
-          } else {
-            if(!state.pdfjsAvailable){ status.innerHTML = '<span class="danger">इमेज मोड के लिए PDF.js चाहिए। कृपया यह पेज https/localhost से चलाएँ या इंटरनेट जाँचें।</span>'; return; }
-            const out = await PDFDocument.create(); let i=0;
-            for(const n of pages){
-              status.textContent = `रेंडरिंग पेज ${n}/${pages.length}…`;
-              const page = await state.pdfDoc.getPage(n); const scale = state.dpi/72; const viewport = page.getViewport({scale});
-              const can = document.createElement('canvas'); can.width = Math.ceil(viewport.width); can.height = Math.ceil(viewport.height);
-              const ctx = can.getContext('2d', {alpha:false}); await page.render({canvasContext:ctx, viewport}).promise; if(state.grayscale){ toGrayscale(ctx, can.width, can.height); }
-              const mime = state.format==='png'? 'image/png' : 'image/jpeg'; const quality = state.format==='png'? undefined : state.quality;
-              const imgBlob = await new Promise(res=>can.toBlob(res, mime, quality)); const imgBytes = new Uint8Array(await imgBlob.arrayBuffer());
-              let img; let w=can.width, h=can.height; if(state.format==='png') img = await out.embedPng(imgBytes); else img = await out.embedJpg(imgBytes);
-              const pageOut = out.addPage([w,h]); pageOut.drawImage(img, {x:0,y:0,width:w,height:h}); i++; bar.style.width = `${Math.round((i/pages.length)*100)}%`;
-            }
-            status.textContent = 'PDF लिखना…'; const bytes = await out.save({ useObjectStreams:true, addDefaultPage:false }); const blob = new Blob([bytes], {type:'application/pdf'}); finish(blob);
+        function updateSliders() {
+          imageControls.style.display = state.mode === 'image' ? 'grid' : 'none';
+          if (state.mode === 'image') {
+            quality.value = state.quality;
+            dpi.value = state.dpi;
+            gray.checked = state.grayscale;
+            quality.previousElementSibling.querySelector('.hint').textContent = `(${Math.round(state.quality * 100)}%)`;
+            dpi.previousElementSibling.querySelector('.hint').textContent = `(${state.dpi} dpi)`;
           }
-        }catch(e){ console.error(e); status.innerHTML = `<span class="danger">त्रुटि: ${e.message||e}</span>`; }
+          $('#modeTag').textContent = state.mode === 'image' ? 'इमेज फ्लैटन' : 'सेफ कॉपी';
+          $$('.btn[id^="preset"]').forEach(btn => btn.classList.toggle('pulse', btn.id === `preset${state.compressionLevel.charAt(0).toUpperCase() + state.compressionLevel.slice(1)}`));
+        }
 
-        function finish(blob){ const dt = (performance.now()-t0)/1000; $('#done').style.display='block'; const name = (state.file.name||'document').replace(/\.pdf$/i,''); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `${name}.compressed.pdf`; a.click(); $('#dl').href = url; $('#dl').download = `${name}.compressed.pdf`; $('#dlRow').style.display='flex'; outSize.textContent = humanBytes(blob.size) + ` • ${dt.toFixed(1)}s`; bar.style.width = '100%'; status.innerHTML = '<span class="success">सम्पन्न</span>'; }
+        function pulsate(sel) {
+          const b = $(sel);
+          b.classList.add('pulse');
+          setTimeout(() => b.classList.remove('pulse'), 1600);
+        }
+
+        function pulsateWarn() {
+          alert('इमेज मोड के लिए PDF.js चाहिए। कृपया यह पेज https/localhost से चलाएँ या इंटरनेट कनेक्शन जाँचें।');
+        }
       }
-    }
 
-    function setActive(step){ steps.forEach(el=>el.classList.toggle('active', parseInt(el.dataset.step)===step)); }
-    function goStep(n){ switch(n){ case 1: renderStep1(); break; case 2: renderStep2(); break; case 3: renderStep3(); break; case 4: renderStep4(); break; } }
+      function parseRange(input, total) {
+        if (!input || input === 'all') return Array.from({ length: total }, (_, i) => i + 1);
+        const parts = input.split(/\s*,\s*/);
+        const pages = new Set();
+        for (const p of parts) {
+          const m = p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/);
+          if (!m) continue;
+          let [_, a, b] = m;
+          a = a ? parseInt(a) : 1;
+          b = b ? parseInt(b) : total;
+          if (a > b) [a, b] = [b, a];
+          for (let i = a; i <= b; i++) if (i >= 1 && i <= total) pages.add(i);
+        }
+        return [...pages].sort((x, y) => x - y);
+      }
 
-    // आरम्भ
-    goStep(1);
-  })();
+      // Step 3: Preview
+      async function renderStep3() {
+        if (!state.file) return renderStep1();
+        setActive(3);
+        panel.innerHTML = `
+          <div class="btn-row" style="justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+            <button class="btn ghost" id="back2">← वापस</button>
+            <button class="btn" id="to4">सब ठीक — कंप्रेस करें →</button>
+          </div>
+          <div class="grid grid-2" style="align-items:start">
+            <div>
+              <div class="hint" id="estLbl">त्वरित अनुमान बनाया जा रहा है…</div>
+              <div class="stat" style="margin-top:0.5rem"><div>मूल फ़ाइल:</div><div class="value">${humanBytes(state.file.size)}</div></div>
+              <div class="stat" style="margin-top:0.5rem"><div>अनुमानित आउटपुट:</div><div class="value" id="estSize">—</div></div>
+              <div class="hint" style="margin-top:0.375rem">*अनुमान पहले पेज और सेटिंग्स पर आधारित।</div>
+              <div class="grid" style="margin-top:1rem">
+                <label>
+                  <div class="lbl">ग्रेस्केल प्रीव्यू</div>
+                  <span class="switch"><input id="prevGray" type="checkbox" ${state.grayscale ? 'checked' : ''}><span class="slider"></span></span>
+                </label>
+              </div>
+              <div class="hint warn" style="margin-top:0.625rem; display:${state.pdfjsAvailable ? 'none' : 'block'}">प्रीव्यू उपलब्ध नहीं (PDF.js नहीं मिला)। फिर भी आगे बढ़ें।</div>
+            </div>
+            <div>
+              <div class="hint">प्रीव्यू</div>
+              <div class="thumb" style="padding:0.75rem">
+                <canvas id="preview" style="width:100%;height:auto"></canvas>
+              </div>
+            </div>
+          </div>`;
+
+        $('#back2').addEventListener('click', () => goStep(2));
+        $('#to4').addEventListener('click', () => goStep(4));
+        $('#prevGray').addEventListener('change', e => { state.grayscale = e.target.checked; if (state.pdfjsAvailable) doEstimate(); });
+
+        if (state.pdfjsAvailable) await doEstimate(); else $('#estLbl').textContent = 'पूर्वावलोकन उपलब्ध नहीं';
+
+        async function doEstimate() {
+          $('#estLbl').textContent = 'अनुमान की गणना…';
+          try {
+            const page = await state.pdfDoc.getPage(1);
+            const scale = state.dpi / 72;
+            const viewport = page.getViewport({ scale });
+            const can = $('#preview');
+            can.width = Math.ceil(viewport.width);
+            can.height = Math.ceil(viewport.height);
+            const ctx = can.getContext('2d', { alpha: false });
+            await page.render({ canvasContext: ctx, viewport }).promise;
+            if (state.grayscale) toGrayscale(ctx, can.width, can.height);
+            const mime = state.format === 'png' ? 'image/png' : 'image/jpeg';
+            const quality = state.format === 'png' ? undefined : state.quality;
+            const blob = await new Promise(res => can.toBlob(res, mime, quality));
+            state.estPreviewBlob = blob;
+            const selectedPages = parseRange(state.pageRange, state.numPages);
+            const est = blob.size * selectedPages.length + 35000;
+            state.estimate = est;
+            $('#estSize').textContent = humanBytes(est);
+            $('#estLbl').innerHTML = `मोड: <b>${state.mode === 'image' ? 'इमेज फ्लैटन' : 'सेफ कॉपी'}</b> • पेज: <b>${selectedPages.length}</b>`;
+          } catch (e) {
+            console.error(e);
+            $('#estLbl').innerHTML = '<span class="danger">अनुमान नहीं हो सका।</span>';
+          }
+        }
+      }
+
+      function toGrayscale(ctx, w, h) {
+        const imgData = ctx.getImageData(0, 0, w, h);
+        const d = imgData.data;
+        for (let i = 0; i < d.length; i += 4) {
+          const y = 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
+          d[i] = d[i + 1] = d[i + 2] = y;
+        }
+        ctx.putImageData(imgData, 0, 0);
+      }
+
+      // Step 4: Compress
+      async function renderStep4() {
+        if (!state.file) return renderStep1();
+        setActive(4);
+        panel.innerHTML = `
+          <div class="btn-row" style="justify-content:space-between;align-items:center;margin-bottom:0.5rem">
+            <button class="btn ghost" id="back3">← वापस</button>
+            <div class="hint">आपकी सेटिंग के साथ कंप्रेस करने के लिए तैयार।</div>
+          </div>
+          <div class="grid" style="gap:0.875rem">
+            <div class="progress"><div class="bar" id="bar"></div></div>
+            <div class="stat"><div>स्थिति:</div> <div class="value" id="status">प्रतीक्षा</div></div>
+            <div class="stat"><div>आउटपुट:</div> <div class="value" id="outSize">—</div></div>
+            <div class="btn-row" style="justify-content:flex-end">
+              <button class="btn" id="go">कंप्रेस शुरू करें</button>
+            </div>
+            <div id="done" style="display:none" class="success">पूर्ण! डाउनलोड स्वतः शुरू होगा। नहीं हुआ तो नीचे बटन क्लिक करें।</div>
+            <div class="btn-row" style="justify-content:flex-end;display:none" id="dlRow">
+              <a id="dl" class="btn" href="#" download>फिर से डाउनलोड</a>
+            </div>
+            <div class="hint">नोट: <b>इमेज फ्लैटन</b> पेज को इमेज में बदलता है (छोटा साइज; टेक्स्ट चयन हटाएगा)। <b>सेफ कॉपी</b> टेक्स्ट रखता है।</div>
+          </div>`;
+
+        $('#back3').addEventListener('click', () => goStep(3));
+        $('#go').addEventListener('click', () => doCompress());
+
+        async function doCompress() {
+          const status = $('#status'), bar = $('#bar'), outSize = $('#outSize');
+          const pages = parseRange(state.pageRange, state.numPages);
+          const t0 = performance.now();
+          try {
+            status.textContent = 'तैयारी…';
+            const { PDFDocument } = PDFLib;
+            if (state.mode === 'safe') {
+              const src = await PDFDocument.load(state.fileBytes);
+              const out = await PDFDocument.create();
+              const copied = await out.copyPages(src, pages.map(n => n - 1));
+              copied.forEach(p => out.addPage(p));
+              const bytes = await out.save({ useObjectStreams: true, addDefaultPage: false });
+              finish(new Blob([bytes], { type: 'application/pdf' }));
+            } else {
+              if (!state.pdfjsAvailable) {
+                status.innerHTML = '<span class="danger">इमेज मोड के लिए PDF.js चाहिए। कृपया यह पेज https/localhost से चलाएँ।</span>';
+                return;
+              }
+              const out = await PDFDocument.create();
+              let i = 0;
+              for (const n of pages) {
+                status.textContent = `रेंडरिंग पेज ${n}/${pages.length}…`;
+                const page = await state.pdfDoc.getPage(n);
+                const scale = state.dpi / 72;
+                const viewport = page.getViewport({ scale });
+                const can = document.createElement('canvas');
+                can.width = Math.ceil(viewport.width);
+                can.height = Math.ceil(viewport.height);
+                const ctx = can.getContext('2d', { alpha: false });
+                await page.render({ canvasContext: ctx, viewport }).promise;
+                if (state.grayscale) toGrayscale(ctx, can.width, can.height);
+                const mime = state.format === 'png' ? 'image/png' : 'image/jpeg';
+                const quality = state.format === 'png' ? undefined : state.quality;
+                const imgBlob = await new Promise(res => can.toBlob(res, mime, quality));
+                const imgBytes = new Uint8Array(await imgBlob.arrayBuffer());
+                let img;
+                if (state.format === 'png') img = await out.embedPng(imgBytes);
+                else img = await out.embedJpg(imgBytes);
+                const pageOut = out.addPage([can.width, can.height]);
+                pageOut.drawImage(img, { x: 0, y: 0, width: can.width, height: can.height });
+                i++;
+                bar.style.width = `${Math.round((i / pages.length) * 100)}%`;
+              }
+              status.textContent = 'PDF लिखना…';
+              const bytes = await out.save({ useObjectStreams: true, addDefaultPage: false });
+              finish(new Blob([bytes], { type: 'application/pdf' }));
+            }
+          } catch (e) {
+            console.error(e);
+            status.innerHTML = `<span class="danger">त्रुटि: ${e.message || e}</span>`;
+          }
+
+          function finish(blob) {
+            const dt = (performance.now() - t0) / 1000;
+            $('#done').style.display = 'block';
+            const name = (state.file.name || 'document').replace(/\.pdf$/i, '');
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${name}.compressed.pdf`;
+            a.click();
+            $('#dl').href = url;
+            $('#dl').download = `${name}.compressed.pdf`;
+            $('#dlRow').style.display = 'flex';
+            outSize.textContent = humanBytes(blob.size) + ` • ${dt.toFixed(1)}s`;
+            status.innerHTML = '<span class="success">सम्पन्न</span>';
+          }
+        }
+      }
+
+      function setActive(step) {
+        steps.forEach(el => el.classList.toggle('active', parseInt(el.dataset.step) === step));
+      }
+
+      function goStep(n) {
+        switch (n) {
+          case 1: renderStep1(); break;
+          case 2: renderStep2(); break;
+          case 3: renderStep3(); break;
+          case 4: renderStep4(); break;
+        }
+      }
+
+      // Initialize
+      goStep(1);
+    })();
   </script>
 </body>
 </html>
