@@ -95,6 +95,9 @@
     .stat-card { flex: 1; text-align: center; padding: 15px; background: #f9fafb; border-radius: 8px; border: 1px solid var(--muted); }
     .stat-value { font-size: 1.5rem; font-weight: bold; color: var(--accent); }
     .stat-label { font-size: 0.9rem; color: var(--text-dim); }
+    .size-comparison { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
+    .size-better { color: var(--ok); font-weight: bold; }
+    .size-worse { color: var(--err); font-weight: bold; }
   </style>
 </head>
 <body>
@@ -221,13 +224,20 @@
           }
           
           try {
+            // Reset state
             state.file = f;
             state.fileBytes = await fileToBytes(f);
+            state.pdfDoc = null;
+            state.numPages = 0;
+            state.pagesMeta = [];
+            
             $('#fileInfo').style.display = 'flex';
             $('#fileName').textContent = f.name;
             $('#fileSize').textContent = humanBytes(f.size);
             $('#uploadError').style.display = 'none';
             to2.disabled = true;
+            $('#thumbWrap').style.display = 'none';
+            $('#thumbs').innerHTML = '';
 
             // Try to load with PDF.js
             try {
@@ -252,15 +262,19 @@
         // Setup event listeners
         drop.addEventListener('dragover', e => { 
           e.preventDefault(); 
+          e.stopPropagation();
           drop.classList.add('dragover'); 
         });
         
-        drop.addEventListener('dragleave', () => {
+        drop.addEventListener('dragleave', e => {
+          e.preventDefault();
+          e.stopPropagation();
           drop.classList.remove('dragover');
         });
         
         drop.addEventListener('drop', e => {
           e.preventDefault(); 
+          e.stopPropagation();
           drop.classList.remove('dragover'); 
           if (e.dataTransfer.files.length > 0) {
             onFile(e.dataTransfer.files[0]);
@@ -600,7 +614,17 @@
             
             state.estPreviewBlob = blob;
             const selectedPages = parseRange(state.pageRange, state.numPages);
-            const est = blob.size * selectedPages.length + 35000;
+            
+            // Better estimation logic
+            let est;
+            if (state.mode === 'safe') {
+              // For safe mode, estimate 80% of original size
+              est = state.file.size * 0.8;
+            } else {
+              // For image mode, use actual image size with adjustment
+              est = blob.size * selectedPages.length * 0.9; // 10% adjustment for PDF structure
+            }
+            
             state.estimate = est;
             $('#estSize').textContent = humanBytes(est);
             $('#estLbl').innerHTML = `मोड: <b>${state.mode === 'image' ? 'इमेज फ्लैटन' : 'सेफ कॉपी'}</b> • पेज: <b>${selectedPages.length}</b>`;
@@ -649,6 +673,7 @@
             <div class="progress"><div class="bar" id="bar"></div></div>
             <div class="stat"><div>स्थिति:</div> <div class="value" id="status">प्रतीक्षा</div></div>
             <div class="stat"><div>आउटपुट:</div> <div class="value" id="outSize">—</div></div>
+            <div id="sizeComparison" style="display:none" class="size-comparison"></div>
             <div class="btn-row" style="justify-content:flex-end">
               <button class="btn" id="go" ${state.isCompressing ? 'disabled' : ''}>${state.isCompressing ? 'कंप्रेस हो रहा है...' : 'कंप्रेस शुरू करें'}</button>
               <button class="btn secondary" id="cancel" style="display:${state.isCompressing ? 'inline-block' : 'none'}">रद्द करें</button>
@@ -676,7 +701,7 @@
           state.abortController = new AbortController();
           renderStep4();
           
-          const status = $('#status'), bar = $('#bar'), outSize = $('#outSize');
+          const status = $('#status'), bar = $('#bar'), outSize = $('#outSize'), sizeComparison = $('#sizeComparison');
           const pages = parseRange(state.pageRange, state.numPages);
           const t0 = performance.now();
           
@@ -685,13 +710,21 @@
             const { PDFDocument } = PDFLib;
             
             if (state.mode === 'safe') {
+              // Safe mode - copy pages directly
               const src = await PDFDocument.load(state.fileBytes);
               const out = await PDFDocument.create();
               const copied = await out.copyPages(src, pages.map(n => n - 1));
               copied.forEach(p => out.addPage(p));
-              const bytes = await out.save({ useObjectStreams: true, addDefaultPage: false });
+              
+              // Use compression options for safe mode
+              const bytes = await out.save({ 
+                useObjectStreams: true, 
+                addDefaultPage: false,
+                objectsPerTick: 50 // Better performance
+              });
               finish(new Blob([bytes], { type: 'application/pdf' }));
             } else {
+              // Image mode - render pages as images
               if (!state.pdfjsAvailable) {
                 status.innerHTML = '<span class="danger">इमेज मोड के लिए PDF.js आवश्यक है। कृपया यह पेज https/localhost से चलाएँ।</span>';
                 state.isCompressing = false;
@@ -741,7 +774,11 @@
               }
               
               status.textContent = 'PDF लिखना…';
-              const bytes = await out.save({ useObjectStreams: true, addDefaultPage: false });
+              const bytes = await out.save({ 
+                useObjectStreams: true, 
+                addDefaultPage: false,
+                objectsPerTick: 50 // Better performance
+              });
               finish(new Blob([bytes], { type: 'application/pdf' }));
             }
           } catch (e) {
@@ -757,10 +794,25 @@
             $('#done').style.display = 'block';
             const name = (state.file.name || 'document').replace(/\.pdf$/i, '');
             const url = URL.createObjectURL(blob);
+            
+            // Show size comparison
+            const originalSize = state.file.size;
+            const compressedSize = blob.size;
+            const reduction = ((originalSize - compressedSize) / originalSize * 100).toFixed(1);
+            
+            sizeComparison.style.display = 'flex';
+            if (compressedSize < originalSize) {
+              sizeComparison.innerHTML = `<span class="size-better">${reduction}% छोटा</span> <span class="hint">(${humanBytes(originalSize)} → ${humanBytes(compressedSize)})</span>`;
+            } else {
+              sizeComparison.innerHTML = `<span class="size-worse">${Math.abs(reduction)}% बड़ा</span> <span class="hint">(${humanBytes(originalSize)} → ${humanBytes(compressedSize)})</span>`;
+            }
+            
+            // Auto-download
             const a = document.createElement('a');
             a.href = url;
             a.download = `${name}.compressed.pdf`;
             a.click();
+            
             $('#dl').href = url;
             $('#dl').download = `${name}.compressed.pdf`;
             $('#dlRow').style.display = 'flex';
