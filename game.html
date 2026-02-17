@@ -1,38 +1,44 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>WW2: Germany — Alternate History Decisions</title>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>WW2: Germany — Millionaire Style</title>
   <style>
     :root{
-      --bg:#070b08;
-      --panel:#0f1711;
-      --panel2:#0f1f15;
-      --text:#e9f2ea;
-      --muted:#a9b7ab;
-      --accent:#c6b36a;
-      --accent2:#7dd48a;
-      --danger:#d46a6a;
-      --line:rgba(255,255,255,.10);
-      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --bg1:#040713;
+      --bg2:#070c1f;
+      --panel:#0b1030;
+      --panel2:#0a0f2a;
+      --ink:#eaf0ff;
+      --muted:#b7c2ff;
+      --gold:#f4d06f;
+      --gold2:#ffb84a;
+      --cyan:#4df0ff;
+      --danger:#ff5a73;
+      --ok:#52ffa8;
+      --line:rgba(255,255,255,.12);
+      --shadow:0 22px 80px rgba(0,0,0,.65);
       --radius:22px;
-      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono","Courier New", monospace;
       --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
+
     *{ box-sizing:border-box; }
     body{
       margin:0;
       font-family:var(--sans);
-      color:var(--text);
+      color:var(--ink);
       background:
-        radial-gradient(900px 550px at 18% -10%, rgba(198,179,106,.13), transparent 60%),
-        radial-gradient(850px 550px at 105% 10%, rgba(125,212,138,.12), transparent 55%),
-        radial-gradient(900px 550px at 60% 115%, rgba(90,160,255,.08), transparent 55%),
-        linear-gradient(180deg, #060a07, #070b08 45%, #060a07);
+        radial-gradient(1100px 600px at 15% -10%, rgba(77,240,255,.16), transparent 60%),
+        radial-gradient(900px 500px at 110% 15%, rgba(244,208,111,.16), transparent 55%),
+        radial-gradient(900px 500px at 60% 120%, rgba(114,92,255,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg1), var(--bg2) 55%, var(--bg1));
       min-height:100vh;
+      overflow-x:hidden;
     }
-    .wrap{ max-width:1180px; margin:0 auto; padding:18px; }
+
+    .wrap{ max-width:1200px; margin:0 auto; padding:18px; }
 
     header{
       display:flex;
@@ -41,303 +47,377 @@
       gap:12px;
       margin-bottom:14px;
     }
-    .brand{ display:flex; align-items:center; gap:12px; }
-    .emblem{
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width: 260px;
+    }
+    .logo{
       width:54px;height:54px;border-radius:18px;
       border:1px solid var(--line);
-      background: linear-gradient(145deg, rgba(198,179,106,.20), rgba(255,255,255,.03));
-      box-shadow: var(--shadow);
+      background:
+        radial-gradient(circle at 30% 20%, rgba(77,240,255,.18), transparent 45%),
+        radial-gradient(circle at 80% 30%, rgba(244,208,111,.20), transparent 55%),
+        linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
+      box-shadow:var(--shadow);
       display:grid; place-items:center;
       position:relative;
       overflow:hidden;
     }
-    .emblem:before{
+    .logo:after{
       content:"";
       position:absolute; inset:-40%;
-      background: radial-gradient(circle, rgba(255,255,255,.08), transparent 55%);
-      transform: rotate(25deg);
+      background: conic-gradient(from 180deg, rgba(244,208,111,.00), rgba(244,208,111,.10), rgba(77,240,255,.10), rgba(244,208,111,.00));
+      filter: blur(8px);
+      animation: swirl 10s linear infinite;
+      opacity:.7;
     }
+    @keyframes swirl{ to{ transform: rotate(360deg);} }
+
+    .logo svg{ position:relative; z-index:2; }
     .title h1{
       margin:0;
       font-size:18px;
       letter-spacing:.35px;
     }
     .title p{
-      margin:5px 0 0;
+      margin:6px 0 0;
       font-size:12px;
-      color:var(--muted);
-      letter-spacing:.2px;
+      color:rgba(183,194,255,.85);
       line-height:1.35;
     }
 
-    .controls{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+    .topBtns{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
     button{
       border:1px solid var(--line);
+      color:var(--ink);
       background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
-      color:var(--text);
       border-radius:14px;
       padding:10px 12px;
       cursor:pointer;
-      font-weight:700;
+      font-weight:800;
       font-size:13px;
       box-shadow: 0 10px 22px rgba(0,0,0,.25);
-      transition: transform .08s ease, border-color .15s ease, filter .15s ease;
+      transition: transform .08s ease, border-color .15s ease, filter .15s ease, opacity .15s ease;
       user-select:none;
     }
-    button:hover{ transform: translateY(-1px); border-color: rgba(198,179,106,.40); filter:saturate(1.08); }
-    button:active{ transform: translateY(0px); }
+    button:hover{ transform:translateY(-1px); border-color: rgba(244,208,111,.45); filter:saturate(1.08); }
+    button:active{ transform:translateY(0); }
     button.primary{
-      border-color: rgba(198,179,106,.52);
-      background: linear-gradient(180deg, rgba(198,179,106,.20), rgba(255,255,255,.02));
+      border-color: rgba(244,208,111,.55);
+      background: linear-gradient(180deg, rgba(244,208,111,.18), rgba(255,255,255,.02));
     }
-    button.danger{ border-color: rgba(212,106,106,.55); }
-    button.ghost{
-      background: rgba(255,255,255,.03);
-      box-shadow:none;
-    }
-    button:disabled{
-      opacity:.55;
-      cursor:not-allowed;
-      transform:none;
-    }
+    button.danger{ border-color: rgba(255,90,115,.55); }
+    button.ghost{ background: rgba(255,255,255,.03); box-shadow:none; }
+    button:disabled{ opacity:.55; cursor:not-allowed; transform:none; filter:none; }
 
     .grid{
       display:grid;
-      grid-template-columns: 380px 1fr;
+      grid-template-columns: 1fr 300px;
       gap:14px;
+      align-items:start;
     }
-    @media (max-width: 1000px){
+    @media (max-width: 980px){
       .grid{ grid-template-columns:1fr; }
     }
 
     .card{
       border:1px solid var(--line);
       border-radius:var(--radius);
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      box-shadow: var(--shadow);
+      background:
+        radial-gradient(900px 380px at 30% 0%, rgba(77,240,255,.10), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow:var(--shadow);
       overflow:hidden;
+      position:relative;
     }
-    .card .head{
-      padding:14px 14px 10px;
-      border-bottom:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(16,31,21,.95), rgba(15,23,17,.65));
-    }
-    .card .head h2{ margin:0; font-size:14px; letter-spacing:.35px; }
-    .card .head p{ margin:6px 0 0; font-size:12px; color:var(--muted); line-height:1.35; }
-    .card .body{ padding:14px; }
-
-    .banner{
-      border:1px solid rgba(198,179,106,.25);
-      background: linear-gradient(90deg, rgba(198,179,106,.12), rgba(125,212,138,.06), rgba(255,255,255,.02));
-      border-radius:18px;
-      padding:12px;
+    .cardHead{
+      padding:14px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(11,16,48,.85), rgba(10,15,42,.55));
       display:flex;
       justify-content:space-between;
-      gap:12px;
+      gap:10px;
       align-items:center;
-      margin-bottom:12px;
     }
-    .banner .left{
-      display:flex;
-      flex-direction:column;
-      gap:4px;
+    .cardHead h2{
+      margin:0;
+      font-size:14px;
+      letter-spacing:.35px;
+      color:rgba(234,240,255,.96);
     }
-    .banner .left b{
-      font-size:13px;
-      letter-spacing:.25px;
-    }
-    .banner .left span{
+    .cardHead .meta{
+      font-family:var(--mono);
       font-size:12px;
-      color:var(--muted);
-    }
-
-    .progressOuter{
-      height:10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.06);
-      overflow:hidden;
-      flex:1;
-      min-width:140px;
-    }
-    .progressInner{
-      height:100%;
-      width:0%;
-      border-radius:999px;
-      background: linear-gradient(90deg, rgba(198,179,106,.92), rgba(125,212,138,.72));
-      transition: width .35s ease;
-    }
-
-    .statGrid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
+      color:rgba(183,194,255,.85);
+      display:flex;
       gap:10px;
-    }
-    .stat{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.20);
-      border-radius:16px;
-      padding:10px;
-      position:relative;
-      overflow:hidden;
-      transition: transform .12s ease;
-    }
-    .stat:hover{ transform: translateY(-1px); }
-    .stat.pulse:after{
-      content:"";
-      position:absolute; inset:-20%;
-      background: radial-gradient(circle, rgba(198,179,106,.14), transparent 55%);
-      animation: pulse .6s ease-out forwards;
-      pointer-events:none;
-    }
-    @keyframes pulse{
-      0%{ opacity:0; transform:scale(.95); }
-      30%{ opacity:1; }
-      100%{ opacity:0; transform:scale(1.15); }
-    }
-
-    .stat .row{ display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
-    .stat .name{ color:var(--muted); font-size:12px; letter-spacing:.15px; }
-    .stat .val{ font-family:var(--mono); font-weight:800; font-size:13px; }
-
-    .bar{
-      margin-top:8px;
-      height:8px;
-      border-radius:999px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.08);
-      overflow:hidden;
-    }
-    .bar i{
-      display:block;
-      height:100%;
-      width:50%;
-      border-radius:999px;
-      background: linear-gradient(90deg, rgba(198,179,106,.85), rgba(125,212,138,.65));
-      transition: width .35s ease;
-    }
-
-    .meta{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      margin-top:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
     }
     .pill{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.20);
+      border:1px solid rgba(255,255,255,.12);
       border-radius:999px;
-      padding:8px 10px;
-      font-size:12px;
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      color:var(--muted);
-    }
-    .pill b{ color:var(--text); font-family:var(--mono); font-size:12px; }
-
-    .log{
-      max-height:460px;
-      overflow:auto;
-      padding-right:6px;
-    }
-    .entry{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.18);
-      border-radius:18px;
-      padding:10px;
-      margin-bottom:10px;
-      transform: translateY(0);
-      transition: transform .12s ease;
-    }
-    .entry:hover{ transform: translateY(-1px); border-color: rgba(198,179,106,.25); }
-    .entry .top{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:6px;
-      font-family:var(--mono);
-      font-size:11px;
-      color:var(--muted);
-    }
-    .entry .q{ margin:0 0 6px 0; font-size:12px; line-height:1.35; color: rgba(233,242,234,.92); }
-    .entry .a{ margin:0; font-size:12px; color: rgba(233,242,234,.86); }
-
-    .questionTitle{ margin:0 0 10px 0; font-size:16px; letter-spacing:.2px; }
-    .questionText{ margin:0 0 12px 0; font-size:13px; line-height:1.5; color: rgba(233,242,234,.92); }
-
-    .choices{ display:grid; gap:10px; }
-    .choiceBtn{
-      text-align:left;
-      padding:13px 12px;
-      border-radius:18px;
-      border:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      box-shadow: 0 12px 24px rgba(0,0,0,.25);
-      transition: transform .08s ease, border-color .15s ease;
-    }
-    .choiceBtn:hover{ border-color: rgba(198,179,106,.40); transform: translateY(-1px); }
-    .choiceBtn small{
-      display:block;
-      margin-top:6px;
-      color:var(--muted);
-      font-weight:700;
-      letter-spacing:.12px;
-    }
-
-    .resultBox{
-      margin-top:12px;
-      border:1px solid rgba(255,255,255,.10);
-      border-radius:18px;
+      padding:6px 10px;
       background: rgba(0,0,0,.22);
-      padding:12px;
-      display:none;
-      animation: pop .18s ease-out;
     }
-    @keyframes pop{
-      from{ transform: translateY(4px); opacity:.0; }
-      to{ transform: translateY(0); opacity:1; }
+    .cardBody{ padding:14px; }
+
+    /* Millionaire stage */
+    .stage{
+      display:grid;
+      gap:12px;
     }
-    .resultBox.show{ display:block; }
-    .resultBox .label{
-      font-size:11px;
-      color:var(--muted);
+
+    .questionBox{
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:22px;
+      padding:14px;
+      background:
+        radial-gradient(600px 220px at 20% 0%, rgba(244,208,111,.10), transparent 60%),
+        radial-gradient(600px 220px at 95% 10%, rgba(77,240,255,.10), transparent 55%),
+        rgba(0,0,0,.22);
+      position:relative;
+      overflow:hidden;
+    }
+    .questionBox:before{
+      content:"";
+      position:absolute; inset:-2px;
+      border-radius:24px;
+      padding:2px;
+      background: linear-gradient(90deg, rgba(244,208,111,.42), rgba(77,240,255,.28), rgba(114,92,255,.18));
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      opacity:.85;
+      pointer-events:none;
+    }
+    .qTitle{
+      margin:0 0 10px 0;
+      font-size:13px;
       letter-spacing:.25px;
-      text-transform:uppercase;
+      color:rgba(183,194,255,.95);
     }
-    .resultBox .text{ margin-top:6px; font-size:13px; line-height:1.5; }
-    .delta{
+    .qText{
+      margin:0;
+      font-size:16px;
+      line-height:1.5;
+      letter-spacing:.2px;
+    }
+
+    /* Answer hex-like */
+    .answers{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:10px;
+    }
+    @media (max-width: 680px){
+      .answers{ grid-template-columns:1fr; }
+    }
+
+    .answer{
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:999px;
+      padding:12px 12px;
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(0,0,0,.22));
+      box-shadow: 0 12px 24px rgba(0,0,0,.25);
+      cursor:pointer;
+      transition: transform .08s ease, border-color .15s ease, background .15s ease;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      text-align:left;
+      position:relative;
+      overflow:hidden;
+      user-select:none;
+    }
+    .answer:hover{ transform: translateY(-1px); border-color: rgba(244,208,111,.45); }
+    .answer:active{ transform: translateY(0); }
+    .answer .badge{
+      flex:0 0 auto;
+      width:34px;height:34px;
+      border-radius:999px;
+      display:grid; place-items:center;
+      font-family:var(--mono);
+      font-weight:900;
+      color: rgba(4,7,19,.95);
+      background: linear-gradient(180deg, rgba(244,208,111,.95), rgba(255,184,74,.85));
+      box-shadow: 0 10px 20px rgba(0,0,0,.30);
+    }
+    .answer .txt{
+      flex:1 1 auto;
+      font-size:13px;
+      line-height:1.35;
+      padding-top:2px;
+      color: rgba(234,240,255,.95);
+    }
+
+    .answer.selected{
+      border-color: rgba(77,240,255,.60);
+      background: linear-gradient(180deg, rgba(77,240,255,.10), rgba(0,0,0,.22));
+    }
+    .answer.locked{
+      cursor:not-allowed;
+      opacity:.90;
+    }
+
+    /* Suspense states */
+    .answer.final{
+      border-color: rgba(244,208,111,.75);
+      background: linear-gradient(180deg, rgba(244,208,111,.12), rgba(0,0,0,.22));
+    }
+    .answer.correct{
+      border-color: rgba(82,255,168,.75);
+      background: linear-gradient(180deg, rgba(82,255,168,.12), rgba(0,0,0,.22));
+    }
+    .answer.wrong{
+      border-color: rgba(255,90,115,.75);
+      background: linear-gradient(180deg, rgba(255,90,115,.12), rgba(0,0,0,.22));
+    }
+
+    .controlsRow{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:space-between;
+      align-items:center;
+      margin-top:4px;
+    }
+    .rightControls{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
+
+    .statusBar{
+      min-height:22px;
+      font-size:12px;
+      color:rgba(183,194,255,.88);
+      line-height:1.35;
+    }
+
+    .outcome{
+      display:none;
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:18px;
+      padding:12px;
+      background: rgba(0,0,0,.24);
       margin-top:10px;
+      overflow:hidden;
+    }
+    .outcome.show{ display:block; }
+    .outcome .label{
+      font-size:11px;
+      text-transform:uppercase;
+      letter-spacing:.25px;
+      color:rgba(183,194,255,.80);
+    }
+    .outcome .text{
+      margin-top:6px;
+      font-size:13px;
+      line-height:1.5;
+      white-space:pre-wrap;
+    }
+    .delta{
       display:flex;
       flex-wrap:wrap;
       gap:8px;
+      margin-top:10px;
       font-family:var(--mono);
       font-size:12px;
     }
     .chip{
-      border:1px solid rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.12);
       background: rgba(255,255,255,.04);
       border-radius:999px;
       padding:6px 8px;
     }
-    .chip.ok{ border-color: rgba(125,212,138,.35); }
-    .chip.bad{ border-color: rgba(212,106,106,.35); }
+    .chip.ok{ border-color: rgba(82,255,168,.35); }
+    .chip.bad{ border-color: rgba(255,90,115,.35); }
 
-    .hint{ color:var(--muted); font-size:12px; line-height:1.35; margin-top:10px; }
-    .kbd{
-      font-family:var(--mono);
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.04);
-      border-radius:10px;
-      padding:2px 6px;
+    /* Ladder */
+    .ladder.card{
+      background:
+        radial-gradient(600px 300px at 50% 0%, rgba(244,208,111,.14), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+    }
+    .ladderBody{ padding:12px; }
+    .ladderTitle{
       font-size:12px;
-      color: rgba(233,242,234,.9);
+      color:rgba(183,194,255,.88);
+      margin:0 0 10px 0;
+      letter-spacing:.15px;
+    }
+    .levels{
+      display:grid;
+      gap:6px;
+    }
+    .level{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      border-radius:14px;
+      padding:8px 10px;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      font-family:var(--mono);
+      font-size:12px;
+      color: rgba(234,240,255,.90);
+      position:relative;
+      overflow:hidden;
+    }
+    .level.safe:before{
+      content:"SAFE";
+      position:absolute;
+      right:8px; top:8px;
+      font-size:10px;
+      color: rgba(244,208,111,.92);
+      opacity:.9;
+      letter-spacing:.4px;
+    }
+    .level.active{
+      border-color: rgba(244,208,111,.55);
+      background: linear-gradient(180deg, rgba(244,208,111,.12), rgba(0,0,0,.20));
+    }
+    .level.passed{
+      border-color: rgba(82,255,168,.22);
+      opacity:.9;
     }
 
+    .mini{
+      margin-top:12px;
+      border-top:1px solid rgba(255,255,255,.10);
+      padding-top:12px;
+      display:grid;
+      gap:10px;
+    }
+    .miniGrid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:8px;
+    }
+    .miniStat{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.22);
+      border-radius:14px;
+      padding:8px;
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      font-family:var(--mono);
+      font-size:11px;
+      color: rgba(234,240,255,.90);
+    }
+    .miniStat span{ color: rgba(183,194,255,.85); font-family:var(--sans); font-weight:700; }
+
+    /* Overlay */
     .overlay{
-      position:fixed;
-      inset:0;
-      background: rgba(0,0,0,.75);
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.78);
       display:none;
       align-items:center;
       justify-content:center;
@@ -347,14 +427,17 @@
     .overlay.show{ display:flex; }
     .modal{
       width:100%;
-      max-width:860px;
-      border:1px solid rgba(255,255,255,.12);
+      max-width:920px;
+      border:1px solid rgba(255,255,255,.14);
       border-radius:26px;
       overflow:hidden;
-      box-shadow: 0 26px 80px rgba(0,0,0,.65);
-      background: linear-gradient(180deg, rgba(16,31,21,.98), rgba(7,11,8,.98));
+      box-shadow: 0 30px 110px rgba(0,0,0,.75);
+      background:
+        radial-gradient(800px 380px at 10% 0%, rgba(77,240,255,.18), transparent 60%),
+        radial-gradient(800px 380px at 110% 10%, rgba(244,208,111,.18), transparent 55%),
+        linear-gradient(180deg, rgba(11,16,48,.98), rgba(4,7,19,.98));
     }
-    .modal .mhead{
+    .modalHead{
       padding:16px;
       border-bottom:1px solid rgba(255,255,255,.10);
       display:flex;
@@ -362,21 +445,21 @@
       gap:12px;
       align-items:flex-start;
     }
-    .modal h3{ margin:0; font-size:16px; letter-spacing:.3px; }
-    .modal .metaLine{
+    .modalHead h3{ margin:0; font-size:16px; letter-spacing:.3px; }
+    .modalHead .metaLine{
       margin-top:6px;
-      color:var(--muted);
+      color:rgba(183,194,255,.88);
       font-size:12px;
       font-family:var(--mono);
     }
-    .modal .mbody{
+    .modalBody{
       padding:16px;
       font-size:13px;
       line-height:1.55;
-      color: rgba(233,242,234,.93);
+      color:rgba(234,240,255,.93);
       white-space:pre-wrap;
     }
-    .modal .mfoot{
+    .modalFoot{
       padding:16px;
       border-top:1px solid rgba(255,255,255,.10);
       display:flex;
@@ -385,290 +468,225 @@
       justify-content:flex-end;
     }
 
-    /* Start screen */
-    .startOverlay{
-      position:fixed; inset:0;
-      background: rgba(0,0,0,.65);
-      display:flex;
+    /* Small toast */
+    .toast{
+      position:fixed;
+      left:50%; bottom:18px;
+      transform: translateX(-50%);
+      background: rgba(0,0,0,.55);
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:999px;
+      padding:10px 12px;
+      font-size:12px;
+      color:rgba(234,240,255,.95);
+      display:none;
+      gap:8px;
       align-items:center;
-      justify-content:center;
-      padding:18px;
       z-index:1000;
+      box-shadow: 0 18px 60px rgba(0,0,0,.55);
     }
-    .startCard{
-      width:100%;
-      max-width:920px;
+    .toast.show{ display:flex; animation: toastIn .18s ease-out; }
+    @keyframes toastIn{
+      from{ opacity:0; transform: translateX(-50%) translateY(6px); }
+      to{ opacity:1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .kbd{
+      font-family:var(--mono);
       border:1px solid rgba(255,255,255,.12);
-      border-radius:26px;
-      overflow:hidden;
-      box-shadow: 0 30px 90px rgba(0,0,0,.70);
-      background:
-        radial-gradient(800px 380px at 10% 0%, rgba(198,179,106,.16), transparent 60%),
-        radial-gradient(800px 380px at 110% 20%, rgba(125,212,138,.12), transparent 55%),
-        linear-gradient(180deg, rgba(16,31,21,.98), rgba(7,11,8,.98));
-    }
-    .startHead{
-      padding:18px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-    }
-    .startHead h2{ margin:0; font-size:18px; letter-spacing:.35px; }
-    .startHead p{ margin:8px 0 0; color:var(--muted); font-size:12px; line-height:1.45; max-width:70ch; }
-    .startBody{ padding:18px; display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
-    @media (max-width: 900px){ .startBody{ grid-template-columns:1fr; } }
-    .startPanel{
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.22);
-      border-radius:20px;
-      padding:14px;
-    }
-    .startPanel h4{ margin:0 0 8px 0; font-size:14px; letter-spacing:.25px; }
-    .startPanel p{ margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
-    .startFoot{
-      padding:18px;
-      border-top:1px solid rgba(255,255,255,.10);
-      display:flex;
-      gap:10px;
-      justify-content:flex-end;
-      flex-wrap:wrap;
+      background: rgba(255,255,255,.04);
+      border-radius:10px;
+      padding:2px 6px;
+      font-size:12px;
+      color: rgba(234,240,255,.9);
     }
   </style>
 </head>
-
 <body>
-<div class="wrap">
-  <header>
-    <div class="brand">
-      <div class="emblem" aria-hidden="true">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
-          <path d="M12 2l8 4v6c0 5-3.4 9.4-8 10-4.6-.6-8-5-8-10V6l8-4z" stroke="rgba(198,179,106,.95)" stroke-width="1.5"/>
-          <path d="M7 12h10" stroke="rgba(125,212,138,.85)" stroke-width="1.5" stroke-linecap="round"/>
-          <path d="M12 7v10" stroke="rgba(125,212,138,.85)" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2l8 4v6c0 5-3.4 9.4-8 10-4.6-.6-8-5-8-10V6l8-4z" stroke="rgba(244,208,111,.95)" stroke-width="1.6"/>
+            <path d="M7 12h10" stroke="rgba(77,240,255,.90)" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M12 7v10" stroke="rgba(77,240,255,.90)" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="title">
+          <h1>WW2: Germany — Millionaire Style Decisions</h1>
+          <p>Answer 100 strategic questions • 4 choices • Lifelines • Consequences change the timeline</p>
+        </div>
       </div>
-      <div class="title">
-        <h1>WW2: Germany — Alternate History Decisions</h1>
-        <p>Decision-based campaign • 4 choices each • Save/Load • Alternate timeline engine (prototype)</p>
+      <div class="topBtns">
+        <button class="primary" id="btnNew">New Campaign</button>
+        <button id="btnSave">Save</button>
+        <button id="btnLoad">Load</button>
+        <button class="danger" id="btnReset">Reset Save</button>
       </div>
-    </div>
+    </header>
 
-    <div class="controls">
-      <button class="primary" id="btnNew">New Campaign</button>
-      <button id="btnSave">Save</button>
-      <button id="btnLoad">Load</button>
-      <button class="danger" id="btnReset">Reset Save</button>
-    </div>
-  </header>
-
-  <div class="grid">
-    <!-- LEFT -->
-    <section class="card">
-      <div class="head">
-        <h2>Reich Situation</h2>
-        <p>Stats shift with every decision. Low fuel slows offensives. Low morale triggers instability. Diplomacy shapes coalitions.</p>
-      </div>
-      <div class="body">
-
-        <div class="banner">
-          <div class="left">
-            <b id="bannerLine">Germany • Campaign</b>
-            <span id="bannerSub">Make decisions to reshape the war.</span>
-          </div>
-          <div class="progressOuter" aria-label="Progress">
-            <div class="progressInner" id="progressInner"></div>
+    <div class="grid">
+      <!-- Main -->
+      <section class="card">
+        <div class="cardHead">
+          <h2>Decision Stage</h2>
+          <div class="meta">
+            <span class="pill" id="metaYear">Year: 1939</span>
+            <span class="pill" id="metaStep">Q: 0 / 100</span>
+            <span class="pill" id="metaTier">Tier: 1 / 20</span>
           </div>
         </div>
+        <div class="cardBody">
+          <div class="stage">
+            <div class="questionBox">
+              <p class="qTitle" id="qTitle">Press “New Campaign” to begin</p>
+              <p class="qText" id="qText">You are Germany. Each answer shifts resources, fronts, and diplomacy. Use lifelines wisely.</p>
+            </div>
 
-        <div class="statGrid" id="statGrid"></div>
+            <div class="answers" id="answers"></div>
 
-        <div class="meta">
-          <div class="pill"><span>Country</span><b id="mCountry">Germany</b></div>
-          <div class="pill"><span>Year</span><b id="mYear">1939</b></div>
-          <div class="pill"><span>Decisions</span><b id="mTurns">0 / 100</b></div>
-          <div class="pill"><span>Difficulty</span><b id="mDiff">Standard</b></div>
-        </div>
+            <div class="controlsRow">
+              <div class="statusBar" id="statusBar">
+                Lifelines: <span class="kbd">50:50</span>, <span class="kbd">Advisor</span>, <span class="kbd">Switch</span>
+              </div>
+              <div class="rightControls">
+                <button class="ghost" id="btn5050" disabled>50:50</button>
+                <button class="ghost" id="btnAdvisor" disabled>Ask Advisor</button>
+                <button class="ghost" id="btnSwitch" disabled>Switch Question</button>
+                <button class="primary" id="btnLock" disabled>Final Answer</button>
+                <button class="primary" id="btnNext" disabled>Next</button>
+              </div>
+            </div>
 
-        <div class="hint">
-          Shortcuts: <span class="kbd">Ctrl</span>+<span class="kbd">S</span> save, <span class="kbd">Ctrl</span>+<span class="kbd">L</span> load. <span class="kbd">Enter</span> continues after outcome.
-        </div>
+            <div class="outcome" id="outcomeBox">
+              <div class="label">Outcome</div>
+              <div class="text" id="outcomeText"></div>
+              <div class="delta" id="delta"></div>
+            </div>
 
-        <hr style="border:none;border-top:1px solid rgba(255,255,255,.10);margin:14px 0;">
-
-        <div class="head" style="padding:0;border:none;background:transparent;">
-          <h2 style="margin:0 0 8px 0;font-size:14px;">Timeline Log</h2>
-        </div>
-        <div class="log" id="log"></div>
-
-      </div>
-    </section>
-
-    <!-- RIGHT -->
-    <section class="card">
-      <div class="head">
-        <h2>Command Decision</h2>
-        <p>You are the strategic center of gravity. Every answer changes resources, fronts, and global reaction.</p>
-      </div>
-      <div class="body">
-        <h3 class="questionTitle" id="qTitle">Ready</h3>
-        <p class="questionText" id="qText">Start a new campaign (or load a save). Each decision has 4 choices and branching consequences.</p>
-
-        <div class="choices" id="choices"></div>
-
-        <div class="resultBox" id="resultBox">
-          <div class="label">Outcome</div>
-          <div class="text" id="resultText"></div>
-          <div class="delta" id="delta"></div>
-          <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">
-            <button class="ghost" id="btnQuickSave">Quick Save</button>
-            <button class="primary" id="btnContinue">Continue</button>
+            <div style="margin-top:6px; color:rgba(183,194,255,.85); font-size:12px; line-height:1.35;">
+              Shortcuts: <span class="kbd">Ctrl</span>+<span class="kbd">S</span> Save • <span class="kbd">Ctrl</span>+<span class="kbd">L</span> Load • <span class="kbd">Enter</span> Next
+            </div>
           </div>
         </div>
+      </section>
 
-        <div class="hint">
-          This is an alternate-history strategy game with simplified mechanics (not a perfect simulator).
+      <!-- Ladder / Stats -->
+      <aside class="card ladder">
+        <div class="cardHead">
+          <h2>Decision Ladder</h2>
+          <div class="meta"><span class="pill" id="ladderSafe">Safe: Tier 5 / 10 / 15 / 20</span></div>
         </div>
-      </div>
-    </section>
-  </div>
-</div>
+        <div class="ladderBody">
+          <p class="ladderTitle">Every 5 questions = 1 tier (20 tiers total). Safe tiers protect your run narrative.</p>
+          <div class="levels" id="levels"></div>
 
-<!-- END MODAL -->
-<div class="overlay" id="endOverlay" role="dialog" aria-modal="true">
-  <div class="modal">
-    <div class="mhead">
-      <div>
-        <h3 id="endTitle">Campaign End</h3>
-        <div class="metaLine" id="endMeta"></div>
-      </div>
-      <button class="danger" id="endClose">Close</button>
-    </div>
-    <div class="mbody" id="endBody"></div>
-    <div class="mfoot">
-      <button id="endNew" class="primary">New Campaign</button>
-      <button id="endSave">Save</button>
+          <div class="mini">
+            <div class="miniGrid">
+              <div class="miniStat"><span>Fuel</span><b id="sFuel">55</b></div>
+              <div class="miniStat"><span>Morale</span><b id="sMorale">55</b></div>
+              <div class="miniStat"><span>Industry</span><b id="sIndustry">55</b></div>
+              <div class="miniStat"><span>Diplomacy</span><b id="sDiplomacy">45</b></div>
+              <div class="miniStat"><span>Front West</span><b id="sWest">50</b></div>
+              <div class="miniStat"><span>Front East</span><b id="sEast">50</b></div>
+            </div>
+            <div style="color:rgba(183,194,255,.85); font-size:12px; line-height:1.35;">
+              Tip: Low <b>Fuel</b> and low <b>Morale</b> can end your campaign early.
+            </div>
+          </div>
+        </div>
+      </aside>
     </div>
   </div>
-</div>
 
-<!-- START SCREEN -->
-<div class="startOverlay" id="startOverlay">
-  <div class="startCard">
-    <div class="startHead">
-      <h2>Germany Campaign • Alternate WW2 Timeline</h2>
-      <p>
-        You’ll face strategic decisions across diplomacy, production, air/sea war, and fronts.
-        Choices update the world state, unlock different questions, and lead to multiple endings.
-      </p>
-    </div>
-    <div class="startBody">
-      <div class="startPanel">
-        <h4>How it works</h4>
-        <p>
-          Every question has 4 choices. Each choice changes stats like Fuel, Morale, Industry, and Front strength.
-          The next decision is selected based on your situation, not a fixed script—so runs feel different.
-        </p>
+  <!-- End overlay -->
+  <div class="overlay" id="endOverlay" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modalHead">
+        <div>
+          <h3 id="endTitle">Campaign End</h3>
+          <div class="metaLine" id="endMeta">Germany • Year 1945 • Q 100/100</div>
+        </div>
+        <button class="danger" id="endClose">Close</button>
       </div>
-      <div class="startPanel">
-        <h4>Goal</h4>
-        <p>
-          Reach decision 100 with strong fronts, stable resources, and manageable war weariness—or negotiate an armistice.
-          If morale or fronts collapse, the campaign ends early.
-        </p>
+      <div class="modalBody" id="endBody"></div>
+      <div class="modalFoot">
+        <button id="endNew" class="primary">New Campaign</button>
+        <button id="endSave">Save</button>
       </div>
-    </div>
-    <div class="startFoot">
-      <button class="ghost" id="startLoad">Load Save</button>
-      <button class="primary" id="startNew">Start New Campaign</button>
     </div>
   </div>
-</div>
+
+  <div class="toast" id="toast">Saved</div>
 
 <script>
 /* =========================
-   WW2 Germany Decision Game
-   Single-file (fixed)
+   Millionaire-style engine
    ========================= */
-const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
-const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
-const pick = arr => arr[Math.floor(Math.random()*arr.length)];
-const SAVE_KEY = "ww2_germany_alt_history_save_v2";
 
-const STAT_DEFS = [
-  {k:"industry", label:"Industry"},
-  {k:"manpower", label:"Manpower"},
-  {k:"fuel", label:"Fuel"},
-  {k:"morale", label:"Morale"},
-  {k:"diplomacy", label:"Diplomacy"},
-  {k:"intel", label:"Intel"},
-  {k:"tech", label:"Tech"},
-  {k:"front_west", label:"Front: West"},
-  {k:"front_east", label:"Front: East"},
-  {k:"air", label:"Air War"},
-  {k:"navy", label:"Naval War"},
-  {k:"war_weariness", label:"War Weariness"}
-];
+const SAVE_KEY = "ww2_millionaire_germany_v1";
+const clamp = (n,a,b)=>Math.max(a,Math.min(b,n));
+const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+const rnd = (min,max)=>Math.floor(Math.random()*(max-min+1))+min;
 
 function initialState(){
   return {
-    country: "Germany",
-    difficulty: "Standard",
-    year: 1939,
-    turn: 0,
-    usedQuestionIds: [],
-    log: [],
-    industry: 55,
-    manpower: 55,
-    fuel: 55,
-    morale: 55,
-    diplomacy: 45,
-    intel: 45,
-    tech: 40,
-    front_west: 50,
-    front_east: 50,
-    air: 45,
-    navy: 35,
-    war_weariness: 15,
-    flags: {
-      pact_ussr: true,
-      war_uk_fr: false,
-      war_ussr: false,
-      war_usa: false,
-      africa_focus: false,
-      uboat_focus: false,
-      vichy_created: false,
-      nukes_known: false
-    }
+    country:"Germany",
+    year:1939,
+    qIndex:0, // 0..100
+    usedIds:[],
+    // situation (0..100)
+    industry:55, manpower:55, fuel:55, morale:55,
+    diplomacy:45, intel:45, tech:40,
+    front_west:50, front_east:50, air:45, navy:35,
+    weariness:15,
+    flags:{ war_uk_fr:false, war_ussr:false, war_usa:false, vichy:false, uboat:false },
+    // lifelines
+    lifelines:{ fifty:true, advisor:true, switch:true },
+    // transient
+    lastOutcome:null
   };
 }
 
 let state = initialState();
-let currentQuestion = null;
+let currentQ = null;
+let selected = null;
 let locked = false;
+let revealed = false;
+let removedAnswers = new Set(); // indices removed by 50:50
 
 // UI refs
-const statGridEl = document.getElementById("statGrid");
-const logEl = document.getElementById("log");
-const qTitleEl = document.getElementById("qTitle");
-const qTextEl = document.getElementById("qText");
-const choicesEl = document.getElementById("choices");
-const resultBoxEl = document.getElementById("resultBox");
-const resultTextEl = document.getElementById("resultText");
-const deltaEl = document.getElementById("delta");
-
-const mCountry = document.getElementById("mCountry");
-const mYear = document.getElementById("mYear");
-const mTurns = document.getElementById("mTurns");
-const mDiff = document.getElementById("mDiff");
-
-const progressInner = document.getElementById("progressInner");
-const bannerLine = document.getElementById("bannerLine");
-const bannerSub = document.getElementById("bannerSub");
+const metaYear = document.getElementById("metaYear");
+const metaStep = document.getElementById("metaStep");
+const metaTier = document.getElementById("metaTier");
+const qTitle = document.getElementById("qTitle");
+const qText = document.getElementById("qText");
+const answers = document.getElementById("answers");
+const statusBar = document.getElementById("statusBar");
 
 const btnNew = document.getElementById("btnNew");
 const btnSave = document.getElementById("btnSave");
 const btnLoad = document.getElementById("btnLoad");
 const btnReset = document.getElementById("btnReset");
-const btnContinue = document.getElementById("btnContinue");
-const btnQuickSave = document.getElementById("btnQuickSave");
+
+const btn5050 = document.getElementById("btn5050");
+const btnAdvisor = document.getElementById("btnAdvisor");
+const btnSwitch = document.getElementById("btnSwitch");
+const btnLock = document.getElementById("btnLock");
+const btnNext = document.getElementById("btnNext");
+
+const outcomeBox = document.getElementById("outcomeBox");
+const outcomeText = document.getElementById("outcomeText");
+const delta = document.getElementById("delta");
+
+const levels = document.getElementById("levels");
+const sFuel = document.getElementById("sFuel");
+const sMorale = document.getElementById("sMorale");
+const sIndustry = document.getElementById("sIndustry");
+const sDiplomacy = document.getElementById("sDiplomacy");
+const sWest = document.getElementById("sWest");
+const sEast = document.getElementById("sEast");
 
 const endOverlay = document.getElementById("endOverlay");
 const endTitle = document.getElementById("endTitle");
@@ -678,161 +696,239 @@ const endClose = document.getElementById("endClose");
 const endNew = document.getElementById("endNew");
 const endSave = document.getElementById("endSave");
 
-const startOverlay = document.getElementById("startOverlay");
-const startNew = document.getElementById("startNew");
-const startLoad = document.getElementById("startLoad");
+const toastEl = document.getElementById("toast");
 
-// Questions
+const LETTERS = ["A","B","C","D"];
+const SAFE_TIERS = new Set([5,10,15,20]); // tier numbers
+
+/* -------------------------
+   Question bank (Germany)
+   - Each choice has fx + out
+   - We DO NOT mark "correct" historically; instead, we treat choice as final answer and reveal consequences
+   - Millionaire style is visual/interaction; not a true right/wrong quiz
+   - However we still do "reveal": selected -> suspense -> applied
+------------------------- */
+
 const QUESTIONS = [
   {
-    id:"g-1939-01", yearMin:1939, yearMax:1939, tag:["opening","diplomacy"],
-    req:s => s.turn === 0,
-    title:"September 1939 — The Opening Move",
-    text:"Poland stands exposed. The world watches your first major move. Speed brings momentum; hesitation invites coalitions.",
+    id:"g-1939-01",
+    yearMin:1939, yearMax:1939,
+    req:s => s.qIndex === 0,
+    title:"Opening Move • September 1939",
+    text:"Poland stands exposed. What do you do?",
     choices:[
-      { t:"Launch a rapid invasion (shock & speed).", fx:{ morale:+6, fuel:-8, manpower:-4, diplomacy:-12, front_west:+2, war_weariness:+2 },
-        out:"Your forces strike fast. Victory seems likely, but condemnation hardens abroad."},
-      { t:"Delay for mobilization and stockpiles.", fx:{ industry:+4, fuel:+4, morale:-3, diplomacy:+3, war_weariness:+1 },
-        out:"Preparation improves readiness, but the pause signals uncertainty and gives enemies time."},
-      { t:"Attempt a last-minute diplomatic partition.", fx:{ diplomacy:+8, intel:+2, morale:-2 },
-        out:"Backchannel bargaining gains breathing room, but your commanders resent the lost tempo."},
-      { t:"Coerce through intimidation without invasion.", fx:{ diplomacy:-4, morale:-4, industry:+2 },
-        out:"Threats alone fail to deliver decisive results. Rivals interpret restraint as weakness."}
+      { t:"Launch a rapid invasion to secure a quick victory.", fx:{ morale:+6, fuel:-8, manpower:-4, diplomacy:-12, front_west:+2, weariness:+2 }, out:"A fast campaign builds momentum, but international condemnation hardens." },
+      { t:"Delay to stockpile fuel and mobilize industry.", fx:{ industry:+4, fuel:+4, morale:-3, diplomacy:+3, weariness:+1 }, out:"Preparation improves sustainability, but rivals gain time to coordinate." },
+      { t:"Pursue last-minute backchannel negotiations for partition.", fx:{ diplomacy:+8, intel:+2, morale:-2 }, out:"You gain time and ambiguity, but your leadership looks less decisive." },
+      { t:"Use intimidation without invasion to force concessions.", fx:{ diplomacy:-4, morale:-4, industry:+2 }, out:"Threats alone fail to deliver certainty; adversaries interpret restraint as weakness." }
     ]
   },
   {
-    id:"g-1939-02", yearMin:1939, yearMax:1940, tag:["opening","west"],
-    req:s => s.turn >= 1,
-    title:"Britain & France Respond",
-    text:"London and Paris debate escalation. Your messaging can delay unity—or accelerate it.",
+    id:"g-1939-02",
+    yearMin:1939, yearMax:1940,
+    req:s => s.qIndex >= 1,
+    title:"Coalition Forms",
+    text:"Britain and France debate escalation. What messaging do you push?",
     choices:[
-      { t:"Propaganda: frame the move as defensive necessity.", fx:{ diplomacy:+4, morale:+2, intel:+1 },
-        out:"Your narrative gains traction among fence-sitters, slowing immediate unity."},
-      { t:"Make no concessions; project inevitability.", fx:{ morale:+4, diplomacy:-6, war_weariness:+1 },
-        out:"Confidence rallies loyalists, but rivals close ranks faster."},
-      { t:"Offer limited guarantees elsewhere to reduce escalation.", fx:{ diplomacy:+6, industry:-2, morale:-1 },
-        out:"Concessions buy time and ambiguity. Hardliners accuse you of softness."},
-      { t:"Threaten total mobilization and unrestricted war.", fx:{ morale:+1, diplomacy:-10, industry:+2, war_weariness:+2 },
-        out:"The threat backfires diplomatically, even as mobilization begins to hum."}
+      { t:"Propaganda: frame actions as defensive necessity.", fx:{ diplomacy:+4, morale:+2, intel:+1 }, out:"Your narrative slows unity among some opponents." },
+      { t:"No concessions: project inevitability and strength.", fx:{ morale:+4, diplomacy:-6, weariness:+1 }, out:"Domestic confidence rises; foreign unity accelerates." },
+      { t:"Offer limited guarantees elsewhere to reduce escalation.", fx:{ diplomacy:+6, industry:-2, morale:-1 }, out:"You buy time, but hardliners accuse you of softness." },
+      { t:"Threaten total mobilization and unrestricted war.", fx:{ morale:+1, diplomacy:-10, industry:+2, weariness:+2 }, out:"The threat backfires diplomatically, even as industry ramps up." }
     ]
   },
   {
-    id:"g-1939-03", yearMin:1939, yearMax:1941, tag:["economy","industry"],
-    req:s => s.industry < 60 || s.fuel < 55,
-    title:"Industrial Allocation",
-    text:"You cannot prioritize everything. Choose the balance between armor, air, navy, and logistics.",
+    id:"g-1940-01",
+    yearMin:1940, yearMax:1940,
+    req:s => s.year === 1940 && !s.flags.vichy,
+    title:"Spring 1940 • Western Gamble",
+    text:"France can be knocked out—or the war becomes a grind. Your plan?",
     choices:[
-      { t:"Prioritize armor and mechanized forces.", fx:{ industry:+3, fuel:-6, tech:+2, front_west:+4, front_east:+3, war_weariness:+1 },
-        out:"Armored formations improve. Fuel stress rises; logistics must catch up."},
-      { t:"Prioritize aircraft and air defense.", fx:{ air:+6, tech:+2, industry:+1, fuel:-3, morale:+1 },
-        out:"Air power strengthens, improving both offense and homeland defense."},
-      { t:"Prioritize U-boats and naval raiding.", fx:{ navy:+7, industry:+1, diplomacy:-3, war_weariness:+1 },
-        out:"The sea becomes a battlefield—at diplomatic cost."},
-      { t:"Prioritize logistics, repairs, and fuel efficiency.", fx:{ fuel:+6, manpower:+2, industry:+2, morale:-1 },
-        out:"The war machine becomes steadier—less flashy, more sustainable."}
+      { t:"Daring thrust through the Ardennes (high risk).", fx:{ fuel:-10, manpower:-6, morale:+6, front_west:+12, air:+2, weariness:+2 }, out:"A breakthrough becomes possible—if logistics sustain the tempo." },
+      { t:"Methodical push with heavy preparation.", fx:{ fuel:-6, manpower:-4, morale:+2, front_west:+6, weariness:+3 }, out:"Steady progress, but the enemy adapts and fortifies." },
+      { t:"Seek a political settlement and consolidate gains.", fx:{ diplomacy:+10, morale:-3, front_west:-2, weariness:-1 }, out:"You trade momentum for stability—risking that enemies grow stronger." },
+      { t:"Air campaign first, then ground action.", fx:{ air:+8, fuel:-4, front_west:+2, diplomacy:-4, weariness:+2 }, out:"Air power disrupts defenses, but civilian suffering harms diplomacy." }
     ]
   },
   {
-    id:"g-1940-01", yearMin:1940, yearMax:1940, tag:["west","france"],
-    req:s => s.year === 1940 && !s.flags.vichy_created,
-    title:"Spring 1940 — The Western Gamble",
-    text:"A bold maneuver could collapse France quickly. Failure would be catastrophic.",
+    id:"g-1940-02",
+    yearMin:1940, yearMax:1941,
+    req:s => s.front_west >= 60 && !s.flags.vichy,
+    title:"France Collapses • Governance Choice",
+    text:"How do you administer Western Europe?",
     choices:[
-      { t:"Daring thrust through the Ardennes.", fx:{ fuel:-10, manpower:-6, morale:+6, front_west:+12, air:+2, war_weariness:+2 },
-        out:"A breakthrough becomes possible—if your logistics can sustain speed."},
-      { t:"Methodical push with heavy preparation.", fx:{ fuel:-6, manpower:-4, morale:+2, front_west:+6, war_weariness:+3 },
-        out:"Progress is steady but slow. Opponents gain time to adapt."},
-      { t:"Seek a political settlement and consolidate.", fx:{ diplomacy:+10, morale:-3, front_west:-2, war_weariness:-1 },
-        out:"You pursue a political victory, risking that rivals interpret restraint as weakness."},
-      { t:"Air campaign first, then ground action.", fx:{ air:+8, fuel:-4, front_west:+2, diplomacy:-4, war_weariness:+2 },
-        out:"Air power disrupts defenses, but civilian suffering harms diplomacy."}
+      { t:"Create a client regime to reduce occupation burden.", fx:{ diplomacy:+5, industry:+3, morale:+1, weariness:-1 }, flag:{ vichy:true }, out:"Administration becomes cheaper and calmer—though resistance remains." },
+      { t:"Direct occupation and maximum extraction.", fx:{ industry:+6, diplomacy:-8, morale:+1, weariness:+2, intel:-1 }, flag:{ vichy:true }, out:"Resources rise, but sabotage and hostility spread." },
+      { t:"Offer a negotiated peace to split enemies.", fx:{ diplomacy:+10, morale:-2, weariness:-2, front_west:+2 }, flag:{ vichy:true }, out:"A political gamble: if it works, history changes." },
+      { t:"Fortify the coast for a long war.", fx:{ industry:+4, navy:+3, diplomacy:-6, weariness:+1 }, flag:{ vichy:true }, out:"You prepare for blockade and invasion threats—at diplomatic cost." }
     ]
   },
   {
-    id:"g-1940-02", yearMin:1940, yearMax:1941, tag:["occupation","politics"],
-    req:s => s.front_west >= 60 && !s.flags.vichy_created,
-    title:"France Collapses — Governance Choice",
-    text:"You can build a client state or impose direct occupation. This affects resources and resistance.",
-    choices:[
-      { t:"Create a compliant client regime.", fx:{ diplomacy:+5, industry:+3, morale:+1, war_weariness:-1 }, flag:{ vichy_created:true },
-        out:"Administration becomes cheaper and calmer—though resistance remains."},
-      { t:"Direct occupation and extraction.", fx:{ industry:+6, diplomacy:-8, morale:+1, war_weariness:+2, intel:-1 }, flag:{ vichy_created:true },
-        out:"Resources rise, but hostility and sabotage grow."},
-      { t:"Offer negotiated peace to split enemies.", fx:{ diplomacy:+10, morale:-2, war_weariness:-2, front_west:+2 }, flag:{ vichy_created:true },
-        out:"A risky political gambit: if it works, history changes."},
-      { t:"Fortify the coast for a long war.", fx:{ industry:+4, navy:+3, diplomacy:-6, war_weariness:+1 }, flag:{ vichy_created:true },
-        out:"You prepare for blockade and invasion threats—at diplomatic cost."}
-    ]
-  },
-  {
-    id:"g-1940-03", yearMin:1940, yearMax:1941, tag:["air","britain"],
-    req:s => s.flags.war_uk_fr || s.front_west >= 60,
-    title:"Britain Stands — Air/Sea Strategy",
-    text:"To force Britain out, you can seek air superiority, strategic bombing, or focus on a submarine blockade.",
-    choices:[
-      { t:"Target RAF airfields and fighters.", fx:{ air:+7, fuel:-4, diplomacy:-2, morale:+1 },
-        out:"You pursue air superiority systematically. Success opens new options."},
-      { t:"Bomb cities and industry to break morale.", fx:{ air:+3, diplomacy:-10, morale:+2, war_weariness:+2 },
-        out:"Shock is real—but international opinion turns sharply against you."},
-      { t:"Shift priority to a U-boat blockade.", fx:{ navy:+8, industry:+1, diplomacy:-4, war_weariness:+1 }, flag:{ uboat_focus:true },
-        out:"The Atlantic becomes decisive: imports, escorts, tonnage, and time."},
-      { t:"Pause escalation; consolidate Europe.", fx:{ industry:+4, fuel:+4, morale:-2, diplomacy:+2, war_weariness:-1 },
-        out:"You trade momentum for stability—risking enemy growth."}
-    ]
-  },
-  {
-    id:"g-1941-01", yearMin:1941, yearMax:1941, tag:["east","ussr"],
+    id:"g-1941-01",
+    yearMin:1941, yearMax:1941,
     req:s => s.year === 1941 && !s.flags.war_ussr,
-    title:"1941 — The Eastern Question",
-    text:"Do you keep the uneasy pact with the USSR, or launch a vast invasion? This defines the war’s scale.",
+    title:"1941 • The Eastern Question",
+    text:"Do you keep the uneasy pact with the USSR, or invade?",
     choices:[
-      { t:"Invade the USSR immediately.", fx:{ fuel:-12, manpower:-8, morale:+6, front_east:+10, diplomacy:-10, war_weariness:+3 },
-        flag:{ war_ussr:true, pact_ussr:false },
-        out:"A colossal invasion begins. Early gains are possible—so is catastrophic overstretch."},
-      { t:"Delay invasion; build logistics and winter gear first.", fx:{ industry:+4, fuel:+5, tech:+2, morale:-2, intel:+2, war_weariness:+1 },
-        out:"You prepare, but risk that the USSR grows stronger and less surprised."},
-      { t:"Maintain the pact; focus on Britain and the Atlantic.", fx:{ diplomacy:+6, navy:+4, industry:+2, war_weariness:-1 },
-        out:"You avoid a second front—for now. War becomes maritime and economic."},
-      { t:"Attempt a grand bargain through concessions.", fx:{ diplomacy:+10, intel:+2, morale:-3, war_weariness:-2 },
-        out:"You attempt a geopolitical reshuffle. It might delay war—or fail loudly."}
+      { t:"Invade the USSR immediately.", fx:{ fuel:-12, manpower:-8, morale:+6, front_east:+10, diplomacy:-10, weariness:+3 }, flag:{ war_ussr:true }, out:"A colossal invasion begins—early gains are possible, so is catastrophic overstretch." },
+      { t:"Delay invasion; build logistics and winter gear.", fx:{ industry:+4, fuel:+5, tech:+2, morale:-2, intel:+2, weariness:+1 }, out:"You prepare, but risk that the USSR grows stronger and less surprised." },
+      { t:"Maintain the pact; focus on Britain and the Atlantic.", fx:{ diplomacy:+6, navy:+4, industry:+2, weariness:-1 }, out:"You avoid a second front—for now. War becomes maritime and economic." },
+      { t:"Attempt a grand bargain via concessions.", fx:{ diplomacy:+10, intel:+2, morale:-3, weariness:-2 }, out:"You attempt a geopolitical reshuffle. It might delay war—or fail loudly." }
     ]
   }
 ];
 
-const GENERIC_POOL = [
+// Fallback pool keeps the game moving toward 100 with “eligible by situation”
+const GENERIC = [
   {
-    title:"Resource Crunch",
-    text:"Your war economy faces constraints. Something must give.",
+    title:"Industrial Allocation",
+    text:"Factories can’t do everything at once. What do you prioritize now?",
     choices:[
-      {t:"Ration civilians; prioritize the front.", fx:{industry:+2, morale:-3, war_weariness:+2}, out:"The front strengthens, but home morale cracks."},
-      {t:"Protect civilians; accept slower military output.", fx:{industry:-2, morale:+2, war_weariness:-1}, out:"Stability rises, but output slows."},
-      {t:"Trade concessions to neutrals for critical materials.", fx:{diplomacy:+3, industry:+2, morale:-1}, out:"Supplies arrive—political cost follows."},
-      {t:"Seize more from occupied zones.", fx:{industry:+3, diplomacy:-4, war_weariness:+1}, out:"Output increases while resistance hardens."}
+      { t:"Armor and mechanized forces.", fx:{ industry:+2, fuel:-5, tech:+2, front_west:+3, front_east:+2, weariness:+1 }, out:"Mobility improves, but fuel pressure rises." },
+      { t:"Aircraft and air defense.", fx:{ air:+6, tech:+2, fuel:-2, morale:+1 }, out:"Air power grows; raids become less punishing." },
+      { t:"U-boat production and convoy raiding.", fx:{ navy:+7, diplomacy:-3, weariness:+1 }, out:"Seas become contested—international anger intensifies." },
+      { t:"Logistics, repairs, and fuel efficiency.", fx:{ fuel:+6, industry:+2, morale:-1 }, out:"Sustainability improves, headlines less so." }
     ]
   },
   {
     title:"Bombing War Escalates",
-    text:"Air raids intensify. Do you build fighters, flak, radar, or disperse industry?",
+    text:"Air raids intensify. How do you respond?",
     choices:[
-      {t:"Prioritize fighters and pilot training.", fx:{air:+6, fuel:-2, manpower:-1, morale:+1}, out:"Interception improves, but pilots become scarce."},
-      {t:"Build flak belts and harden key factories.", fx:{industry:+3, air:+2, manpower:-1, war_weariness:+1}, out:"Production survives raids more reliably."},
-      {t:"Radar + night-fighting doctrine.", fx:{tech:+3, air:+4, industry:-1, intel:+2}, out:"Detection and response improve substantially."},
-      {t:"Disperse production into smaller sites.", fx:{industry:+2, morale:+1, tech:+1, war_weariness:+1}, out:"Catastrophic losses reduce, but efficiency suffers."}
+      { t:"Fighters and pilot training.", fx:{ air:+6, fuel:-2, manpower:-1, morale:+1 }, out:"Interception improves; pilots become strategic assets." },
+      { t:"Flak belts and hardened industry.", fx:{ industry:+3, air:+2, weariness:+1 }, out:"Factories survive raids more reliably." },
+      { t:"Radar and night-fighting doctrine.", fx:{ tech:+3, air:+4, intel:+2, industry:-1 }, out:"Detection improves; surprise declines." },
+      { t:"Disperse production into smaller sites.", fx:{ industry:+2, morale:+1, tech:+1, weariness:+1 }, out:"Catastrophic losses reduce, but efficiency drops." }
     ]
   },
   {
-    title:"Occupied Europe — Resistance Grows",
-    text:"Partisans sabotage rail lines and depots. Your response shapes long-term stability.",
+    title:"Occupied Europe • Resistance",
+    text:"Sabotage grows. Which approach do you take?",
     choices:[
-      {t:"Harsh crackdown.", fx:{intel:+2, manpower:-2, diplomacy:-8, war_weariness:+2, morale:+1}, out:"Short-term control improves; long-term hostility deepens."},
-      {t:"Intelligence-led counterinsurgency.", fx:{intel:+6, manpower:-1, diplomacy:-2, war_weariness:+1}, out:"Precision improves results, though it takes time."},
-      {t:"Co-opt local elites with incentives.", fx:{diplomacy:+4, industry:+2, morale:-1, intel:+1}, out:"Compliance improves in some areas—ideologues protest."},
-      {t:"Shorten lines; withdraw from marginal areas.", fx:{manpower:+3, fuel:+3, front_west:-2, front_east:-1, war_weariness:-1}, out:"Stability rises, but strategic depth shrinks."}
+      { t:"Harsh crackdown and reprisals.", fx:{ intel:+2, manpower:-2, diplomacy:-8, weariness:+2, morale:+1 }, out:"Short-term control improves; long-term hostility deepens." },
+      { t:"Intel-led counterinsurgency.", fx:{ intel:+6, diplomacy:-2, weariness:+1 }, out:"Precision improves results, though it takes time." },
+      { t:"Co-opt local elites with incentives.", fx:{ diplomacy:+4, industry:+2, morale:-1 }, out:"Compliance improves in some areas; ideologues protest." },
+      { t:"Shorten lines and withdraw from marginal areas.", fx:{ manpower:+3, fuel:+3, front_west:-2, front_east:-1, weariness:-1 }, out:"Stability rises, but depth shrinks." }
+    ]
+  },
+  {
+    title:"Resource Crunch",
+    text:"Your war economy faces constraints. What gives?",
+    choices:[
+      { t:"Ration civilians; prioritize the front.", fx:{ industry:+2, morale:-3, weariness:+2 }, out:"Front readiness improves; home morale cracks." },
+      { t:"Protect civilians; accept slower output.", fx:{ industry:-2, morale:+2, weariness:-1 }, out:"Stability rises; output slows." },
+      { t:"Trade concessions to neutrals for materials.", fx:{ diplomacy:+3, industry:+2, morale:-1 }, out:"Supplies arrive; political cost follows." },
+      { t:"Seize more from occupied zones.", fx:{ industry:+3, diplomacy:-4, weariness:+1 }, out:"Output increases while resistance hardens." }
+    ]
+  },
+  {
+    title:"Command Dispute",
+    text:"Senior commanders argue over strategy. What do you decide?",
+    choices:[
+      { t:"Back a bold offensive plan.", fx:{ morale:+2, fuel:-3, weariness:+1, front_west:+2, front_east:+2 }, out:"Momentum rises; risk rises too." },
+      { t:"Back defensive stabilization.", fx:{ fuel:+3, manpower:+2, morale:-2, weariness:-1 }, out:"You preserve strength but lose tempo." },
+      { t:"Replace leadership with loyalists.", fx:{ intel:+1, morale:+1, diplomacy:-2 }, out:"Control increases; competence may suffer." },
+      { t:"Create a joint planning staff.", fx:{ tech:+1, industry:+1 }, out:"Coordination improves gradually." }
     ]
   }
 ];
 
-// Rendering helpers
+/* -------------------------
+   Millionaire ladder (20 tiers)
+   - Tier = floor(qIndex/5)+1 (1..20)
+------------------------- */
+function tierFromQIndex(qIndex){
+  return clamp(Math.floor(qIndex / 5) + 1, 1, 20);
+}
+
+function yearFromQIndex(qIndex){
+  // rough pacing
+  if(qIndex < 13) return 1939;
+  if(qIndex < 29) return 1940;
+  if(qIndex < 49) return 1941;
+  if(qIndex < 69) return 1942;
+  if(qIndex < 85) return 1943;
+  if(qIndex < 96) return 1944;
+  return 1945;
+}
+
+/* -------------------------
+   Rendering
+------------------------- */
+function renderLadder(){
+  levels.innerHTML = "";
+  const currentTier = tierFromQIndex(state.qIndex);
+  for(let t=20; t>=1; t--){
+    const div = document.createElement("div");
+    div.className = "level";
+    if(SAFE_TIERS.has(t)) div.classList.add("safe");
+    if(t === currentTier) div.classList.add("active");
+    if(t < currentTier) div.classList.add("passed");
+
+    const label = `TIER ${String(t).padStart(2,"0")}`;
+    const qRangeStart = (t-1)*5 + 1;
+    const qRangeEnd = Math.min(t*5, 100);
+    div.innerHTML = `<span>${label}</span><span>Q ${qRangeStart}-${qRangeEnd}</span>`;
+    levels.appendChild(div);
+  }
+}
+
+function renderMeta(){
+  state.year = yearFromQIndex(state.qIndex);
+  metaYear.textContent = `Year: ${state.year}`;
+  metaStep.textContent = `Q: ${state.qIndex} / 100`;
+  metaTier.textContent = `Tier: ${tierFromQIndex(state.qIndex)} / 20`;
+
+  sFuel.textContent = state.fuel;
+  sMorale.textContent = state.morale;
+  sIndustry.textContent = state.industry;
+  sDiplomacy.textContent = state.diplomacy;
+  sWest.textContent = state.front_west;
+  sEast.textContent = state.front_east;
+
+  renderLifelines();
+}
+
+function renderLifelines(){
+  btn5050.disabled = !state.lifelines.fifty || !currentQ || locked || revealed;
+  btnAdvisor.disabled = !state.lifelines.advisor || !currentQ || locked || revealed;
+  btnSwitch.disabled = !state.lifelines.switch || !currentQ || locked || revealed;
+}
+
+function resetAnswerUI(){
+  selected = null;
+  locked = false;
+  revealed = false;
+  removedAnswers.clear();
+  outcomeBox.classList.remove("show");
+  outcomeText.textContent = "";
+  delta.innerHTML = "";
+  btnLock.disabled = true;
+  btnNext.disabled = true;
+}
+
+function renderQuestion(q){
+  currentQ = q;
+  resetAnswerUI();
+  qTitle.textContent = q.title;
+  qText.textContent = q.text;
+  statusBar.textContent = "Choose an answer, then press “Final Answer” to lock it in.";
+
+  answers.innerHTML = "";
+  q.choices.forEach((c, idx) => {
+    const div = document.createElement("div");
+    div.className = "answer";
+    div.setAttribute("data-idx", String(idx));
+    div.innerHTML = `
+      <div class="badge">${LETTERS[idx]}</div>
+      <div class="txt">${escapeHtml(c.t)}</div>
+    `;
+    div.onclick = () => onSelect(idx);
+    answers.appendChild(div);
+  });
+
+  btnLock.disabled = true;
+  renderMeta();
+}
+
 function escapeHtml(str){
   return String(str)
     .replaceAll("&","&amp;")
@@ -842,136 +938,274 @@ function escapeHtml(str){
     .replaceAll("'","&#039;");
 }
 
-function renderStats(pulseKeys = []){
-  statGridEl.innerHTML = "";
-  for(const def of STAT_DEFS){
-    const v = state[def.k];
-    const pct = clamp(v, 0, 100);
-    const card = document.createElement("div");
-    card.className = "stat" + (pulseKeys.includes(def.k) ? " pulse" : "");
-    card.innerHTML = `
-      <div class="row">
-        <div class="name">${def.label}</div>
-        <div class="val">${String(v).padStart(3," ")}</div>
-      </div>
-      <div class="bar"><i style="width:${pct}%;"></i></div>
-    `;
-    statGridEl.appendChild(card);
-  }
-
-  mCountry.textContent = state.country;
-  mYear.textContent = String(state.year);
-  mTurns.textContent = `${state.turn} / 100`;
-  mDiff.textContent = state.difficulty;
-
-  const prog = clamp((state.turn/100)*100, 0, 100);
-  progressInner.style.width = prog + "%";
-  bannerLine.textContent = `Germany • Year ${state.year}`;
-  bannerSub.textContent = statusLine();
-}
-
-function statusLine(){
-  const fronts = [];
-  if(state.flags.war_uk_fr) fronts.push("UK/FR");
-  if(state.flags.war_ussr) fronts.push("USSR");
-  if(state.flags.war_usa) fronts.push("USA");
-  const f = fronts.length ? `Fronts: ${fronts.join(", ")}.` : "Fronts: not yet open.";
-  return `${f} Fuel ${state.fuel}, Morale ${state.morale}, Weariness ${state.war_weariness}.`;
-}
-
-function renderLog(){
-  logEl.innerHTML = "";
-  if(!state.log.length){
-    const p = document.createElement("div");
-    p.className = "hint";
-    p.textContent = "No decisions yet. Start a new campaign.";
-    logEl.appendChild(p);
-    return;
-  }
-  const entries = [...state.log].reverse();
-  for(const e of entries){
-    const div = document.createElement("div");
-    div.className = "entry";
-    div.innerHTML = `
-      <div class="top">
-        <div>${e.year} • Decision ${e.turn}</div>
-        <div>${escapeHtml(e.tag || "—")}</div>
-      </div>
-      <p class="q"><b>${escapeHtml(e.title)}</b> — ${escapeHtml(e.question)}</p>
-      <p class="a">→ ${escapeHtml(e.answer)}<br><span style="color:var(--muted)">${escapeHtml(e.outcome)}</span></p>
-    `;
-    logEl.appendChild(div);
-  }
-}
-
-function questionEligible(q){
+/* -------------------------
+   Picking next question
+------------------------- */
+function eligible(q){
   if(state.year < q.yearMin || state.year > q.yearMax) return false;
-  if(typeof q.req === "function" && !q.req(state)) return false;
-  if(!q.repeatable && state.usedQuestionIds.includes(q.id)) return false;
+  if(q.req && !q.req(state)) return false;
+  if(state.usedIds.includes(q.id)) return false;
   return true;
 }
 
-function updateYearFromTurn(){
-  const t = state.turn;
-  let y = 1939;
-  if(t >= 13) y = 1940;
-  if(t >= 29) y = 1941;
-  if(t >= 49) y = 1942;
-  if(t >= 69) y = 1943;
-  if(t >= 85) y = 1944;
-  if(t >= 96) y = 1945;
-  state.year = y;
+function pickNext(){
+  if(state.qIndex >= 100) return null;
 
-  // plausible war opening
-  if(state.turn >= 1) state.flags.war_uk_fr = true;
-  // USA pressure later if diplomacy collapses
+  // evolve flags plausibly
+  if(state.qIndex >= 1) state.flags.war_uk_fr = true;
   if(!state.flags.war_usa && state.year >= 1942 && state.diplomacy < 18 && Math.random() < 0.25){
     state.flags.war_usa = true;
   }
-}
 
-function pickNextQuestion(){
-  if(state.turn >= 100) return null;
-
-  updateYearFromTurn();
-
-  const eligible = QUESTIONS.filter(questionEligible);
-
-  // Weighted urgency selection
-  const scored = eligible.map(q => {
-    let score = 10 + rnd(0,12);
-    const tags = q.tag || [];
-    if(tags.includes("east") && state.flags.war_ussr) score += (60 - state.front_east);
-    if(tags.includes("west")) score += (60 - state.front_west);
-    if(tags.includes("air")) score += (55 - state.air);
-    if(tags.includes("economy")) score += (55 - state.industry);
-    return {q, score};
-  }).sort((a,b)=>b.score-a.score);
-
-  if(scored.length){
-    const top = scored.slice(0, Math.min(6, scored.length));
-    return pick(top).q;
+  const pool = QUESTIONS.filter(eligible);
+  if(pool.length){
+    // mild weighting by situation
+    pool.sort((a,b)=>{
+      const sa = scoreQ(a);
+      const sb = scoreQ(b);
+      return sb - sa;
+    });
+    return pool[Math.min(pool.length-1, rnd(0, Math.min(4, pool.length-1)))];
   }
 
-  // fallback generic (always available)
-  const g = pick(GENERIC_POOL);
+  // fallback generic, but create a unique id so it can repeat
+  const g = pick(GENERIC);
   return {
-    id: "generic-"+state.turn+"-"+Math.random().toString(16).slice(2),
+    id: "gen-" + state.qIndex + "-" + Math.random().toString(16).slice(2),
     yearMin:1939, yearMax:1945,
-    tag:["generic"],
-    repeatable:true,
-    title:g.title,
-    text:g.text,
-    choices:g.choices
+    title: g.title,
+    text: g.text,
+    choices: g.choices
   };
 }
 
-function applyEffects(fx){
-  const before = {};
-  for(const def of STAT_DEFS) before[def.k] = state[def.k];
+function scoreQ(q){
+  let score = 10 + rnd(0,10);
+  const t = (q.title || "").toLowerCase();
+  if(t.includes("eastern") && state.flags.war_ussr) score += (60 - state.front_east);
+  if(t.includes("western")) score += (60 - state.front_west);
+  if(t.includes("bombing")) score += (55 - state.air);
+  if(t.includes("resource")) score += (55 - state.industry);
+  // if early, prefer historical beats
+  if(state.qIndex < 10 && q.id.startsWith("g-1939")) score += 8;
+  return score;
+}
 
-  for(const [k,v] of Object.entries(fx || {})){
-    if(typeof state[k] === "number") state[k] = clamp(state[k] + v, 0, 100);
+/* -------------------------
+   Selection, lifelines, lock-in, reveal
+------------------------- */
+function onSelect(idx){
+  if(!currentQ || locked || revealed) return;
+  if(removedAnswers.has(idx)) return;
+
+  selected = idx;
+
+  [...answers.children].forEach(el=>{
+    el.classList.remove("selected");
+  });
+  const el = answers.querySelector(`[data-idx="${idx}"]`);
+  if(el) el.classList.add("selected");
+
+  btnLock.disabled = false;
+  statusBar.textContent = `Selected ${LETTERS[idx]}. Press “Final Answer” to lock it in.`;
+}
+
+function apply5050(){
+  if(!state.lifelines.fifty || !currentQ || locked || revealed) return;
+
+  // Remove two answers NOT selected if possible; if none selected, remove any two.
+  const all = [0,1,2,3].filter(i => !removedAnswers.has(i));
+  let candidates = all.slice();
+  if(selected !== null) candidates = candidates.filter(i => i !== selected);
+
+  // pick two to remove
+  const toRemove = [];
+  while(toRemove.length < 2 && candidates.length){
+    const i = candidates.splice(rnd(0,candidates.length-1),1)[0];
+    toRemove.push(i);
+  }
+  // if selected was null, still ensure two removed
+  while(toRemove.length < 2){
+    const remaining = [0,1,2,3].filter(i => !removedAnswers.has(i));
+    const pickIdx = remaining.splice(rnd(0,remaining.length-1),1)[0];
+    if(pickIdx !== undefined && !toRemove.includes(pickIdx)) toRemove.push(pickIdx);
+    if(toRemove.length >= 2) break;
+  }
+
+  toRemove.forEach(i=>{
+    removedAnswers.add(i);
+    const el = answers.querySelector(`[data-idx="${i}"]`);
+    if(el){
+      el.style.opacity = "0.35";
+      el.style.filter = "grayscale(0.8)";
+      el.style.pointerEvents = "none";
+    }
+  });
+
+  state.lifelines.fifty = false;
+  toast("50:50 used");
+  renderLifelines();
+}
+
+function applyAdvisor(){
+  if(!state.lifelines.advisor || !currentQ || locked || revealed) return;
+
+  // Advisor suggests based on state (not “correctness”, just plausibility)
+  // We give a weighted recommendation toward stabilizing weak stats.
+  const weights = [1,1,1,1];
+  currentQ.choices.forEach((c, i)=>{
+    const fx = c.fx || {};
+    // bias toward fixing low fuel/morale/fronts
+    if(state.fuel < 35) weights[i] += (fx.fuel || 0) > 0 ? 3 : 0;
+    if(state.morale < 35) weights[i] += (fx.morale || 0) > 0 ? 3 : 0;
+    if(state.front_west < 45) weights[i] += (fx.front_west || 0) > 0 ? 2 : 0;
+    if(state.front_east < 45) weights[i] += (fx.front_east || 0) > 0 ? 2 : 0;
+    if(state.diplomacy < 30) weights[i] += (fx.diplomacy || 0) > 0 ? 2 : 0;
+    // avoid choices that spike weariness when already high
+    if(state.weariness > 60) weights[i] += (fx.weariness || 0) < 0 ? 2 : 0;
+  });
+
+  const total = weights.reduce((a,b)=>a+b,0);
+  let r = Math.random()*total;
+  let suggest = 0;
+  for(let i=0;i<4;i++){
+    r -= weights[i];
+    if(r <= 0){ suggest = i; break; }
+  }
+
+  state.lifelines.advisor = false;
+
+  const msg = `Advisor: “Given your current situation (Fuel ${state.fuel}, Morale ${state.morale}, West ${state.front_west}, East ${state.front_east}), I’d lean toward ${LETTERS[suggest]}.”`;
+  toast("Advisor used");
+  statusBar.textContent = msg;
+  renderLifelines();
+}
+
+function applySwitch(){
+  if(!state.lifelines.switch || !currentQ || locked || revealed) return;
+
+  state.lifelines.switch = false;
+  toast("Switched question");
+
+  // Mark current as used to avoid repetition
+  state.usedIds.push(currentQ.id);
+
+  // Pick another immediately without advancing qIndex
+  const next = pickNext();
+  renderQuestion(next);
+}
+
+function lockIn(){
+  if(selected === null || !currentQ || locked || revealed) return;
+  locked = true;
+
+  // Lock UI
+  [...answers.children].forEach(el=>{
+    el.classList.add("locked");
+    el.style.pointerEvents = "none";
+  });
+
+  // Final highlight
+  const selEl = answers.querySelector(`[data-idx="${selected}"]`);
+  if(selEl){
+    selEl.classList.remove("selected");
+    selEl.classList.add("final");
+  }
+
+  btnLock.disabled = true;
+  renderLifelines();
+  statusBar.textContent = "Final Answer locked in…";
+
+  // Suspense -> reveal after delay
+  setTimeout(()=>revealChoice(), 900);
+}
+
+function revealChoice(){
+  if(!currentQ || selected === null) return;
+
+  // Apply effects (no “wrong/correct”, but we show green for “stabilizing” and red for “costly” based on net)
+  const c = currentQ.choices[selected];
+  const fx = c.fx || {};
+  const deltas = applyEffects(fx);
+
+  // Color reveal cue
+  const netGood = netScore(fx) >= 0;
+
+  const selEl = answers.querySelector(`[data-idx="${selected}"]`);
+  if(selEl){
+    selEl.classList.remove("final");
+    selEl.classList.add(netGood ? "correct" : "wrong");
+  }
+
+  // Outcome text
+  const outcome = contextualOutcome(c.out);
+  state.lastOutcome = outcome;
+
+  outcomeBox.classList.add("show");
+  typeText(outcomeText, outcome, 10);
+
+  // delta chips
+  delta.innerHTML = "";
+  if(deltas.length){
+    deltas.forEach(d=>{
+      const chip = document.createElement("div");
+      chip.className = "chip " + (d.d > 0 ? "ok" : "bad");
+      const sign = d.d > 0 ? "+" : "";
+      chip.textContent = `${d.label}: ${sign}${d.d}`;
+      delta.appendChild(chip);
+    });
+  }
+
+  // mark used and advance
+  state.usedIds.push(currentQ.id);
+  state.qIndex += 1;
+
+  revealed = true;
+  btnNext.disabled = false;
+
+  // update stats and meta
+  renderMeta();
+
+  // check ending
+  const end = checkEnding();
+  if(end){
+    showEnd(end);
+    btnNext.disabled = true;
+  } else {
+    statusBar.textContent = `Outcome applied. Press “Next” to continue to Q${state.qIndex + 1}.`;
+  }
+}
+
+function netScore(fx){
+  // simple heuristic: good if improves fronts/fuel/morale/industry/tech/intel/diplomacy more than it harms
+  const good = (fx.front_west||0)+(fx.front_east||0)+(fx.fuel||0)+(fx.morale||0)+(fx.industry||0)+(fx.tech||0)+(fx.intel||0)+(fx.diplomacy||0);
+  const bad = (-(fx.manpower||0)) + (fx.weariness||0) + Math.max(0, -(fx.diplomacy||0));
+  return good - bad;
+}
+
+function typeText(el, text, speed){
+  el.textContent = "";
+  let i = 0;
+  const timer = setInterval(()=>{
+    el.textContent += text[i] || "";
+    i++;
+    if(i >= text.length) clearInterval(timer);
+  }, speed);
+}
+
+function applyEffects(fx){
+  const before = {
+    industry:state.industry, manpower:state.manpower, fuel:state.fuel, morale:state.morale,
+    diplomacy:state.diplomacy, intel:state.intel, tech:state.tech,
+    front_west:state.front_west, front_east:state.front_east, air:state.air, navy:state.navy,
+    weariness:state.weariness
+  };
+
+  // apply
+  for(const [k,v] of Object.entries(fx)){
+    if(typeof state[k] === "number"){
+      state[k] = clamp(state[k] + v, 0, 100);
+    }
   }
 
   // systemic consequences
@@ -981,7 +1215,7 @@ function applyEffects(fx){
     state.air = clamp(state.air - 2, 0, 100);
     state.morale = clamp(state.morale - 1, 0, 100);
   }
-  if(state.war_weariness > 70){
+  if(state.weariness > 70){
     state.morale = clamp(state.morale - 3, 0, 100);
     state.manpower = clamp(state.manpower - 1, 0, 100);
   }
@@ -989,19 +1223,26 @@ function applyEffects(fx){
     state.front_west = clamp(state.front_west - 2, 0, 100);
     state.navy = clamp(state.navy - 1, 0, 100);
   }
-
-  // if winning strongly, war-weariness softens slightly
-  if(state.front_west >= 70 && (!state.flags.war_ussr || state.front_east >= 65) && state.war_weariness > 10){
-    state.war_weariness = clamp(state.war_weariness - 1, 0, 100);
+  // winning reduces weariness slightly
+  if(state.front_west >= 70 && (!state.flags.war_ussr || state.front_east >= 65) && state.weariness > 10){
+    state.weariness = clamp(state.weariness - 1, 0, 100);
   }
 
-  // compute deltas
-  const deltas = [];
-  for(const def of STAT_DEFS){
-    const d = state[def.k] - before[def.k];
-    if(d !== 0) deltas.push({k:def.k, label:def.label, d});
-  }
-  return deltas;
+  // deltas list
+  const keys = Object.keys(before);
+  const labels = {
+    industry:"Industry", manpower:"Manpower", fuel:"Fuel", morale:"Morale",
+    diplomacy:"Diplomacy", intel:"Intel", tech:"Tech",
+    front_west:"Front West", front_east:"Front East", air:"Air War", navy:"Naval War",
+    weariness:"Weariness"
+  };
+  const out = [];
+  keys.forEach(k=>{
+    const d = state[k] - before[k];
+    if(d !== 0) out.push({k, label: labels[k] || k, d});
+  });
+
+  return out;
 }
 
 function contextualOutcome(base){
@@ -1014,32 +1255,21 @@ function contextualOutcome(base){
   if(s.diplomacy <= 25) parts.push("International isolation tightens as enemies coordinate more efficiently.");
   if(s.intel >= 75) parts.push("Intelligence advantages reduce surprise—but never eliminate it.");
   if(s.tech >= 75) parts.push("Advanced programs show tangible battlefield impact.");
-  if(s.flags.war_ussr && s.year >= 1942 && s.front_east <= 30) parts.push("The Eastern Front bleeds relentlessly; winter and distance amplify every mistake.");
   if(s.year >= 1944 && s.front_west <= 35) parts.push("Pressure in the West builds toward a decisive rupture.");
+  if(s.flags.war_ussr && s.year >= 1942 && s.front_east <= 30) parts.push("The Eastern Front bleeds relentlessly; winter and distance amplify every mistake.");
 
   const wars = [];
   if(s.flags.war_uk_fr) wars.push("UK/FR");
   if(s.flags.war_ussr) wars.push("USSR");
   if(s.flags.war_usa) wars.push("USA");
-  parts.push(wars.length ? `Active war fronts: ${wars.join(", ")}.` : "Active war fronts: none.");
+  parts.push(wars.length ? `Active fronts: ${wars.join(", ")}.` : "Active fronts: none.");
 
   return parts.join(" ");
 }
 
-function addLogEntry(q, choiceIndex, outcomeText){
-  const c = q.choices[choiceIndex];
-  state.log.push({
-    year: state.year,
-    turn: state.turn,
-    tag: (q.tag && q.tag[0]) ? q.tag[0] : "—",
-    title: q.title,
-    question: q.text,
-    answer: c.t,
-    outcome: outcomeText
-  });
-  if(state.log.length > 120) state.log.shift();
-}
-
+/* -------------------------
+   Endings
+------------------------- */
 function checkEnding(){
   const collapseWest = state.front_west <= 10 && state.year >= 1944;
   const collapseEast = state.front_east <= 10 && state.flags.war_ussr;
@@ -1048,19 +1278,20 @@ function checkEnding(){
   if(totalCollapse){
     return {
       title:"Collapse of the Reich",
-      text:`Your strategic position collapses.\n\nFronts break, morale shatters, and coordination fails.\nIn this timeline, the war ends with Germany’s defeat and occupation.`
+      text:`Your strategic position collapses.\n\nFronts break, morale shatters, and coordination fails.\nIn this alternate timeline, Germany is defeated and occupied.`
     };
   }
 
-  const canNegotiate = state.diplomacy >= 70 && state.war_weariness <= 35 && state.year >= 1942;
-  if(canNegotiate && state.turn >= 60){
+  const tier = tierFromQIndex(state.qIndex);
+  const canNegotiate = state.diplomacy >= 70 && state.weariness <= 35 && state.year >= 1942;
+  if(canNegotiate && tier >= 13){
     return {
       title:"Negotiated Armistice",
-      text:`Against expectations, your diplomacy and controlled war aims create space for negotiation.\n\nA ceasefire emerges—uneasy, controversial, but real. Europe enters a tense, altered order.`
+      text:`Against expectations, diplomacy and limited war aims create space for negotiation.\n\nA ceasefire emerges—uneasy, controversial, but real. Europe enters a tense, altered order.`
     };
   }
 
-  if(state.turn >= 100){
+  if(state.qIndex >= 100){
     const strong = state.front_west >= 75 && (!state.flags.war_ussr || state.front_east >= 65);
     const stable = state.industry >= 65 && state.fuel >= 45 && state.morale >= 55;
     if(strong && stable){
@@ -1071,138 +1302,63 @@ function checkEnding(){
     }
     return {
       title:"Stalemate: A Prolonged War",
-      text:`You survive to the end of the campaign, but without decisive victory.\n\nFronts remain contested. Industry strains. Diplomacy is unstable.\nThe world slides into a long, grinding conflict.`
+      text:`You survive to the end without decisive victory.\n\nFronts remain contested. Industry strains. Diplomacy is unstable.\nThe world slides into a long, grinding conflict.`
     };
   }
 
   return null;
 }
 
-function renderQuestion(q){
-  currentQuestion = q;
-  locked = false;
-
-  resultBoxEl.classList.remove("show");
-  deltaEl.innerHTML = "";
-  resultTextEl.textContent = "";
-
-  qTitleEl.textContent = q.title;
-  qTextEl.textContent = q.text;
-
-  choicesEl.innerHTML = "";
-  q.choices.forEach((c, idx) => {
-    const b = document.createElement("button");
-    b.className = "choiceBtn";
-    b.innerHTML = `${escapeHtml(c.t)}<small>Choice ${idx+1} of 4</small>`;
-    b.onclick = () => onChoose(idx);
-    choicesEl.appendChild(b);
-  });
+function showEnd(end){
+  endTitle.textContent = end.title;
+  endMeta.textContent = `Germany • Year ${state.year} • Q ${state.qIndex}/100 • Tier ${tierFromQIndex(state.qIndex)}/20`;
+  endBody.textContent = end.text;
+  endOverlay.classList.add("show");
 }
 
-function typeText(el, text, speed=10){
-  el.textContent = "";
-  let i = 0;
-  const timer = setInterval(() => {
-    el.textContent += text[i] || "";
-    i++;
-    if(i >= text.length) clearInterval(timer);
-  }, speed);
+function closeEnd(){
+  endOverlay.classList.remove("show");
 }
 
-function onChoose(choiceIndex){
-  if(!currentQuestion || locked) return;
-  locked = true;
-
-  // disable choice buttons
-  [...choicesEl.querySelectorAll("button")].forEach(b => b.disabled = true);
-
-  const choice = currentQuestion.choices[choiceIndex];
-
-  // apply flags
-  if(choice.flag){
-    for(const [fk, fv] of Object.entries(choice.flag)){
-      state.flags[fk] = !!fv;
-    }
+/* -------------------------
+   Next flow
+------------------------- */
+function next(){
+  if(state.qIndex >= 100){
+    const end = checkEnding();
+    if(end) showEnd(end);
+    return;
   }
-
-  const deltas = applyEffects(choice.fx || {});
-  state.turn += 1;
-  state.usedQuestionIds.push(currentQuestion.id);
-
-  const outcome = contextualOutcome(choice.out);
-  addLogEntry(currentQuestion, choiceIndex, outcome);
-
-  // show result
-  deltaEl.innerHTML = "";
-  const pulseKeys = [];
-
-  if(deltas.length){
-    for(const d of deltas){
-      pulseKeys.push(d.k);
-      const chip = document.createElement("div");
-      chip.className = "chip " + (d.d > 0 ? "ok" : "bad");
-      const sign = d.d > 0 ? "+" : "";
-      chip.textContent = `${d.label}: ${sign}${d.d}`;
-      deltaEl.appendChild(chip);
-    }
-  } else {
-    const chip = document.createElement("div");
-    chip.className = "chip";
-    chip.textContent = "No measurable change (hidden effects may still apply)";
-    deltaEl.appendChild(chip);
-  }
-
-  resultBoxEl.classList.add("show");
-  typeText(resultTextEl, outcome, 8);
-
-  renderStats(pulseKeys);
-  renderLog();
-
-  const ending = checkEnding();
-  if(ending) showEnding(ending);
-}
-
-function nextStep(){
-  const ending = checkEnding();
-  if(ending){ showEnding(ending); return; }
-
-  const q = pickNextQuestion();
+  const q = pickNext();
   if(!q){
-    showEnding({ title:"Campaign End", text:"The campaign concludes." });
+    showEnd({ title:"Campaign End", text:"The campaign concludes." });
     return;
   }
   renderQuestion(q);
 }
 
-function showEnding(end){
-  endTitle.textContent = end.title;
-  endMeta.textContent = `${state.country} • Year ${state.year} • Decisions ${state.turn}/100`;
-  endBody.textContent = end.text;
-  endOverlay.classList.add("show");
-}
-function closeEnding(){ endOverlay.classList.remove("show"); }
-
-// Save / Load
-function saveGame(){
+/* -------------------------
+   Save / Load
+------------------------- */
+function save(){
   localStorage.setItem(SAVE_KEY, JSON.stringify(state));
   toast("Saved");
 }
-function loadGame(){
+function load(){
   const raw = localStorage.getItem(SAVE_KEY);
   if(!raw){ toast("No save found"); return; }
   try{
     const obj = JSON.parse(raw);
-    if(!obj || obj.country !== "Germany") { toast("Save incompatible"); return; }
+    if(!obj || obj.country !== "Germany"){ toast("Save incompatible"); return; }
     state = obj;
-    // ensure defaults exist
+    // ensure defaults for lifelines
+    state.lifelines = Object.assign(initialState().lifelines, state.lifelines || {});
     state.flags = Object.assign(initialState().flags, state.flags || {});
-    state.usedQuestionIds = state.usedQuestionIds || [];
-    state.log = state.log || [];
-    renderStats();
-    renderLog();
-    nextStep();
+    state.usedIds = state.usedIds || [];
+    state.qIndex = clamp(state.qIndex || 0, 0, 100);
     toast("Loaded");
-    startOverlay.style.display = "none";
+    next();
+    renderMeta();
   } catch(e){
     toast("Load failed");
   }
@@ -1212,50 +1368,56 @@ function resetSave(){
   toast("Save reset");
 }
 
-// Toast (title flash)
-let toastTimer = null;
-function toast(msg){
-  const original = document.title;
-  document.title = msg + " • " + original;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>{ document.title = original; }, 1100);
-}
-
-// New campaign
+/* -------------------------
+   New campaign
+------------------------- */
 function newCampaign(){
   state = initialState();
-  renderStats();
-  renderLog();
-  nextStep();
   toast("New campaign");
-  startOverlay.style.display = "none";
+  next();
+  renderMeta();
 }
 
-// Events
+/* -------------------------
+   Toast
+------------------------- */
+let toastTimer = null;
+function toast(msg){
+  toastEl.textContent = msg;
+  toastEl.classList.add("show");
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>toastEl.classList.remove("show"), 1100);
+}
+
+/* -------------------------
+   Events
+------------------------- */
 btnNew.onclick = newCampaign;
-btnSave.onclick = saveGame;
-btnLoad.onclick = loadGame;
+btnSave.onclick = save;
+btnLoad.onclick = load;
 btnReset.onclick = resetSave;
-btnContinue.onclick = nextStep;
-btnQuickSave.onclick = saveGame;
 
-endClose.onclick = closeEnding;
-endNew.onclick = () => { closeEnding(); newCampaign(); };
-endSave.onclick = saveGame;
+btn5050.onclick = apply5050;
+btnAdvisor.onclick = applyAdvisor;
+btnSwitch.onclick = applySwitch;
+btnLock.onclick = lockIn;
+btnNext.onclick = next;
 
-startNew.onclick = newCampaign;
-startLoad.onclick = loadGame;
+endClose.onclick = closeEnd;
+endNew.onclick = () => { closeEnd(); newCampaign(); };
+endSave.onclick = save;
 
-// Keyboard shortcuts
-document.addEventListener("keydown", (e)=>{
-  if(e.key === "s" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); saveGame(); }
-  if(e.key === "l" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); loadGame(); }
-  if(e.key === "Enter" && resultBoxEl.classList.contains("show")){ nextStep(); }
+document.addEventListener("keydown",(e)=>{
+  if(e.key === "s" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); save(); }
+  if(e.key === "l" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); load(); }
+  if(e.key === "Enter" && !btnNext.disabled){ next(); }
 });
 
-// Init
-renderStats();
-renderLog();
+/* -------------------------
+   Boot
+------------------------- */
+renderMeta();
+renderLadder();
 </script>
 </body>
 </html>
