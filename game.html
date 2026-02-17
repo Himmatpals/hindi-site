@@ -1,8 +1,3 @@
-<!-- =========================
-FILE: ww2_germany_game.html
-PART 1/2 — START
-Copy Part 1 and Part 2 into ONE file, in order.
-========================= -->
 <!doctype html>
 <html lang="en">
 <head>
@@ -11,142 +6,166 @@ Copy Part 1 and Part 2 into ONE file, in order.
   <title>WW2: Germany — Alternate History Decisions</title>
   <style>
     :root{
-      --bg:#0b0f0c;
+      --bg:#070b08;
       --panel:#0f1711;
-      --panel2:#101f15;
-      --text:#e8f0e8;
+      --panel2:#0f1f15;
+      --text:#e9f2ea;
       --muted:#a9b7ab;
       --accent:#c6b36a;
+      --accent2:#7dd48a;
       --danger:#d46a6a;
-      --ok:#7dd48a;
       --line:rgba(255,255,255,.10);
-      --shadow: 0 10px 30px rgba(0,0,0,.35);
-      --radius:18px;
+      --shadow: 0 18px 60px rgba(0,0,0,.55);
+      --radius:22px;
       --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
       --sans: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
     }
-
     *{ box-sizing:border-box; }
     body{
       margin:0;
       font-family:var(--sans);
-      background: radial-gradient(1200px 600px at 20% -10%, rgba(198,179,106,.12), transparent 60%),
-                  radial-gradient(900px 500px at 110% 10%, rgba(125,212,138,.10), transparent 55%),
-                  var(--bg);
       color:var(--text);
+      background:
+        radial-gradient(900px 550px at 18% -10%, rgba(198,179,106,.13), transparent 60%),
+        radial-gradient(850px 550px at 105% 10%, rgba(125,212,138,.12), transparent 55%),
+        radial-gradient(900px 550px at 60% 115%, rgba(90,160,255,.08), transparent 55%),
+        linear-gradient(180deg, #060a07, #070b08 45%, #060a07);
+      min-height:100vh;
     }
-
-    .wrap{
-      max-width:1100px;
-      margin:0 auto;
-      padding:18px;
-    }
+    .wrap{ max-width:1180px; margin:0 auto; padding:18px; }
 
     header{
       display:flex;
-      gap:14px;
       align-items:center;
       justify-content:space-between;
+      gap:12px;
       margin-bottom:14px;
     }
-
-    .brand{
-      display:flex;
-      gap:12px;
-      align-items:center;
-    }
+    .brand{ display:flex; align-items:center; gap:12px; }
     .emblem{
-      width:46px;height:46px;border-radius:14px;
-      background: linear-gradient(145deg, rgba(198,179,106,.18), rgba(255,255,255,.03));
+      width:54px;height:54px;border-radius:18px;
       border:1px solid var(--line);
-      display:grid;
-      place-items:center;
-      box-shadow:var(--shadow);
+      background: linear-gradient(145deg, rgba(198,179,106,.20), rgba(255,255,255,.03));
+      box-shadow: var(--shadow);
+      display:grid; place-items:center;
+      position:relative;
+      overflow:hidden;
     }
-    .emblem svg{ opacity:.95; }
-
-    .title{
-      line-height:1.1;
+    .emblem:before{
+      content:"";
+      position:absolute; inset:-40%;
+      background: radial-gradient(circle, rgba(255,255,255,.08), transparent 55%);
+      transform: rotate(25deg);
     }
     .title h1{
-      font-size:18px;
       margin:0;
-      letter-spacing:.4px;
+      font-size:18px;
+      letter-spacing:.35px;
     }
     .title p{
-      margin:4px 0 0;
-      color:var(--muted);
+      margin:5px 0 0;
       font-size:12px;
+      color:var(--muted);
       letter-spacing:.2px;
+      line-height:1.35;
     }
 
-    .controls{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-
+    .controls{ display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end; }
     button{
-      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
       border:1px solid var(--line);
+      background: linear-gradient(180deg, rgba(255,255,255,.07), rgba(255,255,255,.02));
       color:var(--text);
-      padding:10px 12px;
       border-radius:14px;
+      padding:10px 12px;
       cursor:pointer;
-      transition: transform .06s ease, border-color .15s ease, background .15s ease;
-      box-shadow: 0 8px 18px rgba(0,0,0,.22);
-      font-weight:600;
+      font-weight:700;
       font-size:13px;
+      box-shadow: 0 10px 22px rgba(0,0,0,.25);
+      transition: transform .08s ease, border-color .15s ease, filter .15s ease;
+      user-select:none;
     }
-    button:hover{
-      transform: translateY(-1px);
-      border-color: rgba(198,179,106,.35);
-    }
+    button:hover{ transform: translateY(-1px); border-color: rgba(198,179,106,.40); filter:saturate(1.08); }
     button:active{ transform: translateY(0px); }
-
     button.primary{
-      border-color: rgba(198,179,106,.45);
-      background: linear-gradient(180deg, rgba(198,179,106,.18), rgba(255,255,255,.02));
+      border-color: rgba(198,179,106,.52);
+      background: linear-gradient(180deg, rgba(198,179,106,.20), rgba(255,255,255,.02));
     }
-    button.danger{
-      border-color: rgba(212,106,106,.45);
+    button.danger{ border-color: rgba(212,106,106,.55); }
+    button.ghost{
+      background: rgba(255,255,255,.03);
+      box-shadow:none;
+    }
+    button:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
     }
 
     .grid{
       display:grid;
-      grid-template-columns: 360px 1fr;
+      grid-template-columns: 380px 1fr;
       gap:14px;
     }
-    @media (max-width: 980px){
+    @media (max-width: 1000px){
       .grid{ grid-template-columns:1fr; }
     }
 
     .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
       border:1px solid var(--line);
       border-radius:var(--radius);
-      box-shadow:var(--shadow);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow: var(--shadow);
       overflow:hidden;
     }
     .card .head{
       padding:14px 14px 10px;
       border-bottom:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(16,31,21,.9), rgba(15,23,17,.6));
+      background: linear-gradient(180deg, rgba(16,31,21,.95), rgba(15,23,17,.65));
     }
-    .card .head h2{
-      margin:0;
-      font-size:14px;
-      letter-spacing:.35px;
+    .card .head h2{ margin:0; font-size:14px; letter-spacing:.35px; }
+    .card .head p{ margin:6px 0 0; font-size:12px; color:var(--muted); line-height:1.35; }
+    .card .body{ padding:14px; }
+
+    .banner{
+      border:1px solid rgba(198,179,106,.25);
+      background: linear-gradient(90deg, rgba(198,179,106,.12), rgba(125,212,138,.06), rgba(255,255,255,.02));
+      border-radius:18px;
+      padding:12px;
+      display:flex;
+      justify-content:space-between;
+      gap:12px;
+      align-items:center;
+      margin-bottom:12px;
     }
-    .card .head p{
-      margin:6px 0 0;
+    .banner .left{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .banner .left b{
+      font-size:13px;
+      letter-spacing:.25px;
+    }
+    .banner .left span{
       font-size:12px;
       color:var(--muted);
-      line-height:1.35;
     }
-    .card .body{
-      padding:14px;
+
+    .progressOuter{
+      height:10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      overflow:hidden;
+      flex:1;
+      min-width:140px;
+    }
+    .progressInner{
+      height:100%;
+      width:0%;
+      border-radius:999px;
+      background: linear-gradient(90deg, rgba(198,179,106,.92), rgba(125,212,138,.72));
+      transition: width .35s ease;
     }
 
     .statGrid{
@@ -155,41 +174,47 @@ Copy Part 1 and Part 2 into ONE file, in order.
       gap:10px;
     }
     .stat{
-      background: rgba(0,0,0,.18);
-      border:1px solid var(--line);
-      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.20);
+      border-radius:16px;
       padding:10px;
+      position:relative;
+      overflow:hidden;
+      transition: transform .12s ease;
     }
-    .stat .row{
-      display:flex;
-      justify-content:space-between;
-      align-items:baseline;
-      gap:8px;
+    .stat:hover{ transform: translateY(-1px); }
+    .stat.pulse:after{
+      content:"";
+      position:absolute; inset:-20%;
+      background: radial-gradient(circle, rgba(198,179,106,.14), transparent 55%);
+      animation: pulse .6s ease-out forwards;
+      pointer-events:none;
     }
-    .stat .name{
-      font-size:12px;
-      color:var(--muted);
-      letter-spacing:.2px;
+    @keyframes pulse{
+      0%{ opacity:0; transform:scale(.95); }
+      30%{ opacity:1; }
+      100%{ opacity:0; transform:scale(1.15); }
     }
-    .stat .val{
-      font-family:var(--mono);
-      font-size:13px;
-      font-weight:700;
-    }
+
+    .stat .row{ display:flex; justify-content:space-between; gap:10px; align-items:baseline; }
+    .stat .name{ color:var(--muted); font-size:12px; letter-spacing:.15px; }
+    .stat .val{ font-family:var(--mono); font-weight:800; font-size:13px; }
+
     .bar{
       margin-top:8px;
       height:8px;
       border-radius:999px;
       background: rgba(255,255,255,.06);
-      overflow:hidden;
       border:1px solid rgba(255,255,255,.08);
+      overflow:hidden;
     }
-    .bar > i{
+    .bar i{
       display:block;
       height:100%;
       width:50%;
-      background: linear-gradient(90deg, rgba(198,179,106,.85), rgba(125,212,138,.65));
       border-radius:999px;
+      background: linear-gradient(90deg, rgba(198,179,106,.85), rgba(125,212,138,.65));
+      transition: width .35s ease;
     }
 
     .meta{
@@ -199,7 +224,7 @@ Copy Part 1 and Part 2 into ONE file, in order.
       margin-top:10px;
     }
     .pill{
-      border:1px solid var(--line);
+      border:1px solid rgba(255,255,255,.10);
       background: rgba(0,0,0,.20);
       border-radius:999px;
       padding:8px 10px;
@@ -209,54 +234,69 @@ Copy Part 1 and Part 2 into ONE file, in order.
       gap:10px;
       color:var(--muted);
     }
-    .pill b{
-      color:var(--text);
-      font-family:var(--mono);
-      font-size:12px;
-    }
+    .pill b{ color:var(--text); font-family:var(--mono); font-size:12px; }
 
-    .questionTitle{
-      font-size:15px;
-      margin:0 0 10px 0;
-      letter-spacing:.2px;
+    .log{
+      max-height:460px;
+      overflow:auto;
+      padding-right:6px;
     }
-    .questionText{
-      color:var(--text);
-      line-height:1.45;
-      font-size:13px;
-      margin:0 0 12px 0;
+    .entry{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      border-radius:18px;
+      padding:10px;
+      margin-bottom:10px;
+      transform: translateY(0);
+      transition: transform .12s ease;
     }
-
-    .choices{
-      display:grid;
+    .entry:hover{ transform: translateY(-1px); border-color: rgba(198,179,106,.25); }
+    .entry .top{
+      display:flex;
+      justify-content:space-between;
       gap:10px;
+      margin-bottom:6px;
+      font-family:var(--mono);
+      font-size:11px;
+      color:var(--muted);
     }
+    .entry .q{ margin:0 0 6px 0; font-size:12px; line-height:1.35; color: rgba(233,242,234,.92); }
+    .entry .a{ margin:0; font-size:12px; color: rgba(233,242,234,.86); }
+
+    .questionTitle{ margin:0 0 10px 0; font-size:16px; letter-spacing:.2px; }
+    .questionText{ margin:0 0 12px 0; font-size:13px; line-height:1.5; color: rgba(233,242,234,.92); }
+
+    .choices{ display:grid; gap:10px; }
     .choiceBtn{
       text-align:left;
-      padding:12px 12px;
-      border-radius:16px;
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      padding:13px 12px;
+      border-radius:18px;
       border:1px solid rgba(255,255,255,.10);
-      box-shadow: 0 10px 22px rgba(0,0,0,.22);
+      background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: 0 12px 24px rgba(0,0,0,.25);
+      transition: transform .08s ease, border-color .15s ease;
     }
-    .choiceBtn:hover{
-      border-color: rgba(198,179,106,.35);
-    }
+    .choiceBtn:hover{ border-color: rgba(198,179,106,.40); transform: translateY(-1px); }
     .choiceBtn small{
       display:block;
       margin-top:6px;
       color:var(--muted);
-      font-weight:600;
-      letter-spacing:.15px;
+      font-weight:700;
+      letter-spacing:.12px;
     }
 
     .resultBox{
       margin-top:12px;
-      border:1px solid var(--line);
-      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      border-radius:18px;
       background: rgba(0,0,0,.22);
       padding:12px;
       display:none;
+      animation: pop .18s ease-out;
+    }
+    @keyframes pop{
+      from{ transform: translateY(4px); opacity:.0; }
+      to{ transform: translateY(0); opacity:1; }
     }
     .resultBox.show{ display:block; }
     .resultBox .label{
@@ -265,13 +305,9 @@ Copy Part 1 and Part 2 into ONE file, in order.
       letter-spacing:.25px;
       text-transform:uppercase;
     }
-    .resultBox .text{
-      margin-top:6px;
-      font-size:13px;
-      line-height:1.45;
-    }
+    .resultBox .text{ margin-top:6px; font-size:13px; line-height:1.5; }
     .delta{
-      margin-top:8px;
+      margin-top:10px;
       display:flex;
       flex-wrap:wrap;
       gap:8px;
@@ -279,7 +315,7 @@ Copy Part 1 and Part 2 into ONE file, in order.
       font-size:12px;
     }
     .chip{
-      border:1px solid var(--line);
+      border:1px solid rgba(255,255,255,.10);
       background: rgba(255,255,255,.04);
       border-radius:999px;
       padding:6px 8px;
@@ -287,105 +323,114 @@ Copy Part 1 and Part 2 into ONE file, in order.
     .chip.ok{ border-color: rgba(125,212,138,.35); }
     .chip.bad{ border-color: rgba(212,106,106,.35); }
 
-    .log{
-      max-height:440px;
-      overflow:auto;
-      padding-right:4px;
-    }
-    .entry{
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.18);
-      border-radius:16px;
-      padding:10px;
-      margin-bottom:10px;
-    }
-    .entry .top{
-      display:flex;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom:6px;
-    }
-    .entry .top .t{
-      color:var(--muted);
-      font-size:11px;
+    .hint{ color:var(--muted); font-size:12px; line-height:1.35; margin-top:10px; }
+    .kbd{
       font-family:var(--mono);
-    }
-    .entry .q{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      border-radius:10px;
+      padding:2px 6px;
       font-size:12px;
-      line-height:1.35;
-      margin:0 0 6px 0;
-      color: rgba(232,240,232,.92);
-    }
-    .entry .a{
-      margin:0;
-      font-size:12px;
-      color: rgba(232,240,232,.86);
+      color: rgba(233,242,234,.9);
     }
 
-    .endOverlay{
+    .overlay{
       position:fixed;
       inset:0;
-      background: rgba(0,0,0,.72);
+      background: rgba(0,0,0,.75);
       display:none;
       align-items:center;
       justify-content:center;
       padding:18px;
       z-index:999;
     }
-    .endOverlay.show{ display:flex; }
-    .endCard{
-      max-width:820px;
+    .overlay.show{ display:flex; }
+    .modal{
       width:100%;
-      background: linear-gradient(180deg, rgba(16,31,21,.95), rgba(11,15,12,.95));
-      border:1px solid var(--line);
-      border-radius:24px;
-      box-shadow: 0 20px 70px rgba(0,0,0,.55);
+      max-width:860px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:26px;
       overflow:hidden;
+      box-shadow: 0 26px 80px rgba(0,0,0,.65);
+      background: linear-gradient(180deg, rgba(16,31,21,.98), rgba(7,11,8,.98));
     }
-    .endCard .head{
+    .modal .mhead{
       padding:16px;
-      border-bottom:1px solid var(--line);
+      border-bottom:1px solid rgba(255,255,255,.10);
       display:flex;
       justify-content:space-between;
       gap:12px;
       align-items:flex-start;
     }
-    .endCard h3{
-      margin:0;
-      font-size:16px;
-      letter-spacing:.3px;
+    .modal h3{ margin:0; font-size:16px; letter-spacing:.3px; }
+    .modal .metaLine{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:12px;
+      font-family:var(--mono);
     }
-    .endCard .body{
+    .modal .mbody{
       padding:16px;
-      color: rgba(232,240,232,.92);
-      line-height:1.5;
       font-size:13px;
+      line-height:1.55;
+      color: rgba(233,242,234,.93);
+      white-space:pre-wrap;
     }
-    .endCard .footer{
+    .modal .mfoot{
       padding:16px;
-      border-top:1px solid var(--line);
+      border-top:1px solid rgba(255,255,255,.10);
       display:flex;
       gap:10px;
       flex-wrap:wrap;
       justify-content:flex-end;
     }
 
-    .hint{
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.35;
-      margin-top:10px;
+    /* Start screen */
+    .startOverlay{
+      position:fixed; inset:0;
+      background: rgba(0,0,0,.65);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+      z-index:1000;
     }
-    .kbd{
-      font-family:var(--mono);
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      border-radius:10px;
-      padding:2px 6px;
-      font-size:12px;
-      color: rgba(232,240,232,.9);
+    .startCard{
+      width:100%;
+      max-width:920px;
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:26px;
+      overflow:hidden;
+      box-shadow: 0 30px 90px rgba(0,0,0,.70);
+      background:
+        radial-gradient(800px 380px at 10% 0%, rgba(198,179,106,.16), transparent 60%),
+        radial-gradient(800px 380px at 110% 20%, rgba(125,212,138,.12), transparent 55%),
+        linear-gradient(180deg, rgba(16,31,21,.98), rgba(7,11,8,.98));
     }
-    a { color: var(--accent); }
+    .startHead{
+      padding:18px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .startHead h2{ margin:0; font-size:18px; letter-spacing:.35px; }
+    .startHead p{ margin:8px 0 0; color:var(--muted); font-size:12px; line-height:1.45; max-width:70ch; }
+    .startBody{ padding:18px; display:grid; grid-template-columns: 1fr 1fr; gap:14px; }
+    @media (max-width: 900px){ .startBody{ grid-template-columns:1fr; } }
+    .startPanel{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.22);
+      border-radius:20px;
+      padding:14px;
+    }
+    .startPanel h4{ margin:0 0 8px 0; font-size:14px; letter-spacing:.25px; }
+    .startPanel p{ margin:0; color:var(--muted); font-size:12px; line-height:1.45; }
+    .startFoot{
+      padding:18px;
+      border-top:1px solid rgba(255,255,255,.10);
+      display:flex;
+      gap:10px;
+      justify-content:flex-end;
+      flex-wrap:wrap;
+    }
   </style>
 </head>
 
@@ -394,7 +439,7 @@ Copy Part 1 and Part 2 into ONE file, in order.
   <header>
     <div class="brand">
       <div class="emblem" aria-hidden="true">
-        <svg width="28" height="28" viewBox="0 0 24 24" fill="none">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
           <path d="M12 2l8 4v6c0 5-3.4 9.4-8 10-4.6-.6-8-5-8-10V6l8-4z" stroke="rgba(198,179,106,.95)" stroke-width="1.5"/>
           <path d="M7 12h10" stroke="rgba(125,212,138,.85)" stroke-width="1.5" stroke-linecap="round"/>
           <path d="M12 7v10" stroke="rgba(125,212,138,.85)" stroke-width="1.5" stroke-linecap="round"/>
@@ -402,7 +447,7 @@ Copy Part 1 and Part 2 into ONE file, in order.
       </div>
       <div class="title">
         <h1>WW2: Germany — Alternate History Decisions</h1>
-        <p>100-decision campaign (prototype) • Browser-first • Save/Load • You change the timeline</p>
+        <p>Decision-based campaign • 4 choices each • Save/Load • Alternate timeline engine (prototype)</p>
       </div>
     </div>
 
@@ -415,13 +460,24 @@ Copy Part 1 and Part 2 into ONE file, in order.
   </header>
 
   <div class="grid">
-    <!-- LEFT: STATS + LOG -->
+    <!-- LEFT -->
     <section class="card">
       <div class="head">
         <h2>Reich Situation</h2>
-        <p>Stats shift with every decision. Low fuel breaks offensives. Low morale triggers unrest. Diplomacy shapes coalitions.</p>
+        <p>Stats shift with every decision. Low fuel slows offensives. Low morale triggers instability. Diplomacy shapes coalitions.</p>
       </div>
       <div class="body">
+
+        <div class="banner">
+          <div class="left">
+            <b id="bannerLine">Germany • Campaign</b>
+            <span id="bannerSub">Make decisions to reshape the war.</span>
+          </div>
+          <div class="progressOuter" aria-label="Progress">
+            <div class="progressInner" id="progressInner"></div>
+          </div>
+        </div>
+
         <div class="statGrid" id="statGrid"></div>
 
         <div class="meta">
@@ -432,27 +488,28 @@ Copy Part 1 and Part 2 into ONE file, in order.
         </div>
 
         <div class="hint">
-          Tip: Use <span class="kbd">Save</span> often. Your choices are designed to create plausible alternate history—not perfect simulation.
+          Shortcuts: <span class="kbd">Ctrl</span>+<span class="kbd">S</span> save, <span class="kbd">Ctrl</span>+<span class="kbd">L</span> load. <span class="kbd">Enter</span> continues after outcome.
         </div>
 
-        <hr style="border:none;border-top:1px solid var(--line);margin:14px 0;">
+        <hr style="border:none;border-top:1px solid rgba(255,255,255,.10);margin:14px 0;">
 
         <div class="head" style="padding:0;border:none;background:transparent;">
           <h2 style="margin:0 0 8px 0;font-size:14px;">Timeline Log</h2>
         </div>
         <div class="log" id="log"></div>
+
       </div>
     </section>
 
-    <!-- RIGHT: QUESTION + RESULT -->
+    <!-- RIGHT -->
     <section class="card">
       <div class="head">
         <h2>Command Decision</h2>
         <p>You are the strategic center of gravity. Every answer changes resources, fronts, and global reaction.</p>
       </div>
       <div class="body">
-        <h3 class="questionTitle" id="qTitle">Start a New Campaign</h3>
-        <p class="questionText" id="qText">Press <b>New Campaign</b> to begin as Germany in 1939. Your first choices shape the war’s opening tempo.</p>
+        <h3 class="questionTitle" id="qTitle">Ready</h3>
+        <p class="questionText" id="qText">Start a new campaign (or load a save). Each decision has 4 choices and branching consequences.</p>
 
         <div class="choices" id="choices"></div>
 
@@ -460,33 +517,67 @@ Copy Part 1 and Part 2 into ONE file, in order.
           <div class="label">Outcome</div>
           <div class="text" id="resultText"></div>
           <div class="delta" id="delta"></div>
-          <div style="margin-top:10px;display:flex;justify-content:flex-end;">
+          <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:10px;flex-wrap:wrap;">
+            <button class="ghost" id="btnQuickSave">Quick Save</button>
             <button class="primary" id="btnContinue">Continue</button>
           </div>
         </div>
 
         <div class="hint">
-          Add more questions later by extending the <span class="kbd">QUESTIONS</span> array. The engine automatically gates and selects them.
+          This is an alternate-history strategy game with simplified mechanics (not a perfect simulator).
         </div>
       </div>
     </section>
   </div>
 </div>
 
-<!-- ENDING OVERLAY -->
-<div class="endOverlay" id="endOverlay" role="dialog" aria-modal="true" aria-label="Campaign End">
-  <div class="endCard">
-    <div class="head">
+<!-- END MODAL -->
+<div class="overlay" id="endOverlay" role="dialog" aria-modal="true">
+  <div class="modal">
+    <div class="mhead">
       <div>
         <h3 id="endTitle">Campaign End</h3>
-        <div style="margin-top:6px;color:var(--muted);font-size:12px;font-family:var(--mono);" id="endMeta"></div>
+        <div class="metaLine" id="endMeta"></div>
       </div>
       <button class="danger" id="endClose">Close</button>
     </div>
-    <div class="body" id="endBody"></div>
-    <div class="footer">
+    <div class="mbody" id="endBody"></div>
+    <div class="mfoot">
       <button id="endNew" class="primary">New Campaign</button>
       <button id="endSave">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- START SCREEN -->
+<div class="startOverlay" id="startOverlay">
+  <div class="startCard">
+    <div class="startHead">
+      <h2>Germany Campaign • Alternate WW2 Timeline</h2>
+      <p>
+        You’ll face strategic decisions across diplomacy, production, air/sea war, and fronts.
+        Choices update the world state, unlock different questions, and lead to multiple endings.
+      </p>
+    </div>
+    <div class="startBody">
+      <div class="startPanel">
+        <h4>How it works</h4>
+        <p>
+          Every question has 4 choices. Each choice changes stats like Fuel, Morale, Industry, and Front strength.
+          The next decision is selected based on your situation, not a fixed script—so runs feel different.
+        </p>
+      </div>
+      <div class="startPanel">
+        <h4>Goal</h4>
+        <p>
+          Reach decision 100 with strong fronts, stable resources, and manageable war weariness—or negotiate an armistice.
+          If morale or fronts collapse, the campaign ends early.
+        </p>
+      </div>
+    </div>
+    <div class="startFoot">
+      <button class="ghost" id="startLoad">Load Save</button>
+      <button class="primary" id="startNew">Start New Campaign</button>
     </div>
   </div>
 </div>
@@ -494,18 +585,13 @@ Copy Part 1 and Part 2 into ONE file, in order.
 <script>
 /* =========================
    WW2 Germany Decision Game
-   Single-file prototype
+   Single-file (fixed)
    ========================= */
-
-/** Utility **/
 const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
 const rnd = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
 const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+const SAVE_KEY = "ww2_germany_alt_history_save_v2";
 
-/** Game constants **/
-const SAVE_KEY = "ww2_germany_alt_history_save_v1";
-
-/** Stats schema **/
 const STAT_DEFS = [
   {k:"industry", label:"Industry"},
   {k:"manpower", label:"Manpower"},
@@ -529,7 +615,6 @@ function initialState(){
     turn: 0,
     usedQuestionIds: [],
     log: [],
-    // core
     industry: 55,
     manpower: 55,
     fuel: 55,
@@ -537,479 +622,29 @@ function initialState(){
     diplomacy: 45,
     intel: 45,
     tech: 40,
-    // fronts (higher = better for Germany)
     front_west: 50,
     front_east: 50,
     air: 45,
     navy: 35,
     war_weariness: 15,
-    // flags
     flags: {
       pact_ussr: true,
       war_uk_fr: false,
       war_ussr: false,
       war_usa: false,
-      war_pacific: false,
       africa_focus: false,
       uboat_focus: false,
-      radar_focus: false,
-      nukes_known: false,
-      spain_joined: false,
-      turkey_joined: false,
-      italy_strong: true,
-      vichy_created: false
+      vichy_created: false,
+      nukes_known: false
     }
   };
 }
 
 let state = initialState();
 let currentQuestion = null;
-let pendingChoice = null;
+let locked = false;
 
-/** Question database (Germany-first).
- *  Requirements are functions: (s) => boolean
- *  Effects are objects with stat deltas + optional flag changes.
- */
-const QUESTIONS = [
-  {
-    id:"g-1939-01",
-    yearMin:1939, yearMax:1939,
-    tag:["opening","diplomacy"],
-    req: s => s.turn === 0,
-    title:"September 1939 — The Opening Move",
-    text:"Poland stands exposed. The world watches your first major move. Speed brings momentum; hesitation invites coalitions.",
-    choices:[
-      { t:"Launch a rapid invasion (shock & speed).",
-        fx:{ morale:+6, fuel:-8, manpower:-4, diplomacy:-12, front_west:+2, war_weariness:+2 },
-        out:"Your forces strike fast. Victory seems likely, but condemnation hardens abroad."},
-      { t:"Delay for mobilization and stockpiles.",
-        fx:{ industry:+4, fuel:+4, morale:-3, diplomacy:+3, war_weariness:+1 },
-        out:"Preparation improves readiness, but the pause signals uncertainty and gives enemies time."},
-      { t:"Attempt a last-minute diplomatic partition.",
-        fx:{ diplomacy:+8, intel:+2, morale:-2, war_weariness:+0 },
-        out:"Backchannel bargaining gains breathing room, but your commanders resent the lost tempo."},
-      { t:"Coerce through intimidation without invasion.",
-        fx:{ diplomacy:-4, morale:-4, industry:+2, war_weariness:+0 },
-        out:"Threats alone fail to deliver decisive results. Rivals interpret restraint as weakness."}
-    ]
-  },
-  {
-    id:"g-1939-02",
-    yearMin:1939, yearMax:1940,
-    tag:["opening","west"],
-    req: s => s.turn >= 1,
-    title:"Britain & France Respond",
-    text:"Following your opening actions, London and Paris debate whether to escalate immediately or contain you. Your messaging matters.",
-    choices:[
-      { t:"Double down on propaganda: portray your move as defensive necessity.",
-        fx:{ diplomacy:+4, morale:+2, intel:+1 },
-        out:"Your narrative gains some traction abroad, blunting immediate unity among opponents."},
-      { t:"Make no concessions; project inevitability.",
-        fx:{ morale:+4, diplomacy:-6, war_weariness:+1 },
-        out:"Your confidence rallies loyalists, but rivals close ranks faster."},
-      { t:"Offer limited guarantees elsewhere to reduce escalation.",
-        fx:{ diplomacy:+6, industry:-2, morale:-1 },
-        out:"Concessions buy time and ambiguity. Hardliners accuse you of softness."},
-      { t:"Threaten unrestricted warfare and total mobilization.",
-        fx:{ morale:+1, diplomacy:-10, industry:+2, war_weariness:+2 },
-        out:"The threat backfires diplomatically, even as mobilization begins to hum."}
-    ]
-  },
-  {
-    id:"g-1939-03",
-    yearMin:1939, yearMax:1940,
-    tag:["economy","industry"],
-    req: s => s.industry < 60 || s.fuel < 55,
-    title:"Industrial Allocation",
-    text:"Your factories cannot prioritize everything at once. You must decide the balance between armor, aircraft, navy, and logistics.",
-    choices:[
-      { t:"Prioritize armor and mechanized forces (Blitz).",
-        fx:{ industry:+3, fuel:-6, tech:+2, front_west:+4, front_east:+3, war_weariness:+1 },
-        out:"Armored formations improve. Fuel stress rises and rail logistics lag behind tempo."},
-      { t:"Prioritize aircraft and air defense.",
-        fx:{ air:+6, tech:+2, industry:+1, fuel:-3, morale:+1 },
-        out:"The Luftwaffe strengthens, improving air superiority and defense against bombing."},
-      { t:"Prioritize U-boats and naval raiding.",
-        fx:{ navy:+7, industry:+1, diplomacy:-3, war_weariness:+1 },
-        out:"Your raiders threaten maritime supply lines, but the world calls it piracy."},
-      { t:"Prioritize logistics, repairs, and fuel efficiency.",
-        fx:{ fuel:+6, manpower:+2, industry:+2, morale:-1 },
-        out:"Your machine becomes steadier and less fragile—though less spectacular in headlines."}
-    ]
-  },
-  {
-    id:"g-1939-04",
-    yearMin:1939, yearMax:1941,
-    tag:["intel","subversion"],
-    req: s => s.intel < 70,
-    title:"Espionage Focus",
-    text:"You can invest in codebreaking, sabotage networks, and counterintelligence. Each pays differently depending on the war’s direction.",
-    choices:[
-      { t:"Invest heavily in signals intelligence & codebreaking.",
-        fx:{ intel:+8, tech:+2, industry:-2 },
-        out:"Intercepts improve. You anticipate enemy movements—but pay in industrial output."},
-      { t:"Fund sabotage networks in enemy industry.",
-        fx:{ intel:+6, diplomacy:-3, industry:-1, front_west:+2 },
-        out:"Covert actions disrupt production, but expose agents and harden enemy resolve."},
-      { t:"Build counterintelligence to stop leaks.",
-        fx:{ intel:+5, morale:+1, diplomacy:+1 },
-        out:"You reduce internal leaks and improve operational security."},
-      { t:"Downplay intel; spend the resources on production.",
-        fx:{ industry:+4, morale:+1, intel:-3 },
-        out:"Output rises, but you fight with less information and more surprise risk."}
-    ]
-  },
-  {
-    id:"g-1940-01",
-    yearMin:1940, yearMax:1940,
-    tag:["west","france"],
-    req: s => s.year === 1940 && !s.flags.vichy_created,
-    title:"Spring 1940 — The Western Gamble",
-    text:"A direct assault risks grinding stalemate. A bold maneuver could collapse France quickly, but failure would be catastrophic.",
-    choices:[
-      { t:"Bold maneuver through the Ardennes (high risk, high reward).",
-        fx:{ fuel:-10, manpower:-6, morale:+6, front_west:+12, air:+2, war_weariness:+2 },
-        out:"A daring thrust breaks expectations. If sustained, it could shatter the Western Front."},
-      { t:"Methodical push with heavy artillery preparation.",
-        fx:{ fuel:-6, manpower:-4, morale:+2, front_west:+6, war_weariness:+3 },
-        out:"Progress is steady but slow. Opponents gain time to adapt and fortify."},
-      { t:"Avoid major escalation; pressure diplomatically for settlement.",
-        fx:{ diplomacy:+10, morale:-3, front_west:-2, war_weariness:-1 },
-        out:"You seek a political victory. But your enemies may interpret restraint as weakness."},
-      { t:"Focus on air campaign before ground action.",
-        fx:{ air:+8, fuel:-4, front_west:+2, diplomacy:-4, war_weariness:+2 },
-        out:"Air power softens defenses and disrupts logistics, but civilian suffering harms diplomacy."}
-    ]
-  },
-  {
-    id:"g-1940-02",
-    yearMin:1940, yearMax:1941,
-    tag:["occupation","politics"],
-    req: s => s.front_west >= 60 && !s.flags.vichy_created,
-    title:"France Collapses — How Do You Govern?",
-    text:"With French resistance broken, you can impose harsh occupation or build a compliant state. Your choice affects resources and resistance.",
-    choices:[
-      { t:"Create a compliant client state (Vichy-style), reduce direct occupation burden.",
-        fx:{ diplomacy:+5, industry:+3, morale:+1, war_weariness:-1 },
-        flag:{ vichy_created:true },
-        out:"A client regime eases administration and reduces costs, though resistance persists."},
-      { t:"Direct occupation and extraction of resources.",
-        fx:{ industry:+6, diplomacy:-8, morale:+1, war_weariness:+2, intel:-1 },
-        flag:{ vichy_created:true },
-        out:"You squeeze resources hard. Output rises, but resistance and condemnation expand."},
-      { t:"Seek a negotiated peace with concessions to neutralize Britain.",
-        fx:{ diplomacy:+10, morale:-2, war_weariness:-2, front_west:+2 },
-        flag:{ vichy_created:true },
-        out:"A peace offer divides opinions abroad. If it works, it changes the entire war."},
-      { t:"Annex key regions and militarize the coast immediately.",
-        fx:{ industry:+4, navy:+3, diplomacy:-6, war_weariness:+1 },
-        flag:{ vichy_created:true },
-        out:"You fortify for the long war at sea—at significant diplomatic cost."}
-    ]
-  },
-  {
-    id:"g-1940-03",
-    yearMin:1940, yearMax:1941,
-    tag:["air","britain"],
-    req: s => s.flags.war_uk_fr || s.front_west >= 60,
-    title:"Britain Stands Alone — Air War Decision",
-    text:"To force Britain out, you can intensify bombing, target ports, focus on fighters, or pivot to blockade with submarines.",
-    choices:[
-      { t:"Focus on RAF airfields and fighter attrition.",
-        fx:{ air:+7, fuel:-4, diplomacy:-2, morale:+1 },
-        out:"You pursue air superiority systematically. Success could open invasion possibilities."},
-      { t:"Bomb industry and cities to break morale quickly.",
-        fx:{ air:+3, diplomacy:-10, morale:+2, war_weariness:+2 },
-        out:"Strategic bombing shocks civilians. International opinion turns sharply against you."},
-      { t:"Shift priority to U-boat blockade (Battle of the Atlantic).",
-        fx:{ navy:+8, industry:+1, diplomacy:-4, war_weariness:+1 },
-        flag:{ uboat_focus:true },
-        out:"The sea becomes the battlefield. If Britain’s imports collapse, so might its will."},
-      { t:"Pause escalation; consolidate Europe and fortify.",
-        fx:{ industry:+4, fuel:+4, morale:-2, diplomacy:+2, war_weariness:-1 },
-        out:"You trade momentum for stability—risking that Britain and allies grow stronger."}
-    ]
-  },
-  {
-    id:"g-1940-04",
-    yearMin:1940, yearMax:1942,
-    tag:["med","africa"],
-    req: s => !s.flags.africa_focus && s.year >= 1940,
-    title:"Mediterranean Strategy",
-    text:"The Mediterranean offers a route to pressure Britain via Suez and oil. But it can also become a drain with endless supply problems.",
-    choices:[
-      { t:"Commit to North Africa decisively (logistics + armor).",
-        fx:{ fuel:-6, manpower:-4, front_west:+2, navy:+2, morale:+2, war_weariness:+1 },
-        flag:{ africa_focus:true },
-        out:"You commit resources to Africa. Success could choke British imperial supply routes."},
-      { t:"Keep Africa limited; prioritize Europe and the Atlantic.",
-        fx:{ fuel:+3, industry:+2, navy:+2, morale:+1 },
-        flag:{ africa_focus:true },
-        out:"A restrained Africa plan avoids a quagmire, but misses the chance for dramatic leverage."},
-      { t:"Pressure Spain to enter the war to seize Gibraltar.",
-        fx:{ diplomacy:-3, intel:+2, navy:+2, morale:+1 },
-        flag:{ spain_joined: (Math.random()<0.35) },
-        out:"You attempt to pull Spain in. It might open Gibraltar—or spark new resistance."},
-      { t:"Court Turkey for access to the Balkans & Black Sea leverage.",
-        fx:{ diplomacy:+2, intel:+2, front_east:+2, morale:+0 },
-        flag:{ turkey_joined: (Math.random()<0.30) },
-        out:"You maneuver diplomatically in the East. A Turkish shift could alter supply routes."}
-    ]
-  },
-  {
-    id:"g-1941-01",
-    yearMin:1941, yearMax:1941,
-    tag:["east","ussr"],
-    req: s => s.year === 1941 && !s.flags.war_ussr,
-    title:"1941 — The Eastern Question",
-    text:"Do you keep the uneasy pact with the USSR, or launch a vast invasion? This decision defines the war’s scale and outcome.",
-    choices:[
-      { t:"Invade the USSR immediately (massive offensive).",
-        fx:{ fuel:-12, manpower:-8, morale:+6, front_east:+10, diplomacy:-10, war_weariness:+3 },
-        flag:{ war_ussr:true, pact_ussr:false },
-        out:"A colossal invasion begins. Early gains are possible—so is catastrophic overstretch."},
-      { t:"Delay invasion; prepare winter gear and logistics first.",
-        fx:{ industry:+4, fuel:+5, tech:+2, morale:-2, intel:+2, war_weariness:+1 },
-        out:"You stockpile and plan, but risk that the USSR grows stronger and less surprised."},
-      { t:"Maintain the pact; focus on Britain and the Atlantic.",
-        fx:{ diplomacy:+6, navy:+4, industry:+2, morale:-1, war_weariness:-1 },
-        out:"You avoid a second front—for now. The war becomes maritime and economic."},
-      { t:"Seek a three-way grand bargain: concessions for neutrality.",
-        fx:{ diplomacy:+10, intel:+2, morale:-3, war_weariness:-2 },
-        out:"You attempt a geopolitical reshuffle. It could delay war—or fail loudly."}
-    ]
-  },
-  {
-    id:"g-1941-02",
-    yearMin:1941, yearMax:1943,
-    tag:["east","logistics"],
-    req: s => s.flags.war_ussr && (s.fuel < 55 || s.front_east < 60),
-    title:"Eastern Logistics Crisis",
-    text:"Distances are immense. Rail gauge, mud, and fuel shortages slow you. You must choose: push harder or stabilize the line.",
-    choices:[
-      { t:"Push relentlessly toward major cities (risk supply collapse).",
-        fx:{ fuel:-10, manpower:-6, morale:+3, front_east:+6, war_weariness:+2 },
-        out:"You surge forward. If supply breaks, the front may snap back violently."},
-      { t:"Pause to convert rails, secure depots, and rotate divisions.",
-        fx:{ fuel:+6, manpower:+2, industry:+2, front_east:+2, morale:-2, war_weariness:-1 },
-        out:"You trade tempo for sustainability. This may save you in winter."},
-      { t:"Redirect effort to seize oil regions to solve fuel problems.",
-        fx:{ fuel:+4, manpower:-4, front_east:+3, diplomacy:-2, war_weariness:+1 },
-        out:"You aim for oil. Success stabilizes fuel; failure wastes precious time."},
-      { t:"Rely on allies and satellites for rear security and supply work.",
-        fx:{ manpower:+3, morale:+1, diplomacy:+2, front_east:-1 },
-        out:"You spread the burden, but coordination issues reduce operational control."}
-    ]
-  },
-  {
-    id:"g-1941-03",
-    yearMin:1941, yearMax:1942,
-    tag:["usa","strategy"],
-    req: s => !s.flags.war_usa && s.year >= 1941,
-    title:"The United States — To Provoke or Avoid?",
-    text:"America is a sleeping industrial giant. Your actions at sea and in diplomacy can accelerate or delay U.S. entry.",
-    choices:[
-      { t:"Avoid direct provocations; focus on Europe and manage shipping rules.",
-        fx:{ diplomacy:+6, navy:+2, morale:+0, war_weariness:-1 },
-        out:"You try to keep the U.S. divided and distant while you pursue your main war."},
-      { t:"Intensify unrestricted submarine warfare against all shipping.",
-        fx:{ navy:+5, diplomacy:-10, industry:+0, war_weariness:+1 },
-        flag:{ war_usa: (Math.random()<0.45) },
-        out:"Your blockade tightens. But you gamble that America won’t unite against you."},
-      { t:"Offer economic concessions and backchannel talks to keep the U.S. neutral.",
-        fx:{ diplomacy:+8, industry:-2, intel:+1 },
-        out:"You seek to buy neutrality with pragmatism. It may work briefly."},
-      { t:"Covertly support anti-war movements and misinformation campaigns.",
-        fx:{ intel:+6, diplomacy:-2, war_weariness:+0 },
-        out:"Influence operations muddy the waters, though exposure risks backlash."}
-    ]
-  },
-
-  /* Repeatable/conditional strategic dilemmas */
-  {
-    id:"g-any-uboat",
-    yearMin:1939, yearMax:1944,
-    tag:["navy","atlantic"],
-    req: s => s.flags.uboat_focus || s.navy < 45,
-    repeatable:true,
-    title:"Atlantic Pressure",
-    text:"Convoys evolve. Escorts improve. Your raiders must adapt or fade. How do you respond?",
-    choices:[
-      { t:"Invest in wolfpack coordination and better torpedoes.",
-        fx:{ navy:+5, tech:+2, industry:-1, diplomacy:-2 },
-        out:"Your raiders become deadlier, but countermeasures accelerate too."},
-      { t:"Shift resources to surface raiders and long-range aircraft.",
-        fx:{ navy:+3, air:+3, fuel:-2, industry:-1 },
-        out:"Combined arms at sea improves reach, but stretches resources."},
-      { t:"Reduce Atlantic operations; conserve boats and crews.",
-        fx:{ navy:+1, manpower:+2, diplomacy:+2, war_weariness:-1 },
-        out:"You preserve assets for later, but Britain’s supply lines stabilize."},
-      { t:"Go all-in: accept losses for maximum tonnage sunk.",
-        fx:{ navy:+6, manpower:-3, diplomacy:-6, war_weariness:+2 },
-        out:"Short-term impact rises. Long-term sustainability becomes questionable."}
-    ]
-  },
-  {
-    id:"g-any-bombing",
-    yearMin:1940, yearMax:1945,
-    tag:["air","defense"],
-    req: s => s.year >= 1940 && (s.air < 55 || s.industry < 55),
-    repeatable:true,
-    title:"Bombing War Escalates",
-    text:"Air raids intensify. Factories disperse or burn. You must decide whether to prioritize fighters, flak, radar, or dispersion.",
-    choices:[
-      { t:"Prioritize fighters and pilot training.",
-        fx:{ air:+6, fuel:-2, manpower:-1, morale:+1 },
-        out:"Interception improves. Your pilots become a scarce strategic resource."},
-      { t:"Invest in flak belts and hardened industry.",
-        fx:{ industry:+3, air:+2, manpower:-1, war_weariness:+1 },
-        out:"Production becomes resilient, though resources divert from the front lines."},
-      { t:"Build radar + night fighting doctrine.",
-        fx:{ tech:+3, air:+4, industry:-1, intel:+2 },
-        out:"Detection and night response improve, reducing the shock of raids."},
-      { t:"Disperse production into smaller facilities (efficiency loss).",
-        fx:{ industry:+2, morale:+1, tech:+1, war_weariness:+1 },
-        out:"You reduce catastrophic losses but sacrifice efficiency and coordination."}
-    ]
-  },
-  {
-    id:"g-any-resistance",
-    yearMin:1940, yearMax:1945,
-    tag:["occupation","security"],
-    req: s => s.year >= 1940 && (s.diplomacy < 40 || s.war_weariness > 35),
-    repeatable:true,
-    title:"Occupied Europe — Resistance Grows",
-    text:"Partisans sabotage rail lines and depots. Harsh crackdowns can suppress short-term—but at long-term strategic cost.",
-    choices:[
-      { t:"Harsh crackdown and mass reprisals.",
-        fx:{ intel:+2, manpower:-2, diplomacy:-8, war_weariness:+2, morale:+1 },
-        out:"Short-term control improves, but international hostility deepens and resistance adapts."},
-      { t:"Targeted counterinsurgency and intelligence-led operations.",
-        fx:{ intel:+6, manpower:-1, diplomacy:-2, war_weariness:+1 },
-        out:"Precision improves results, though it takes time and skilled personnel."},
-      { t:"Co-opt local elites with incentives and autonomy.",
-        fx:{ diplomacy:+4, industry:+2, morale:-1, intel:+1 },
-        out:"Compliance improves in some areas, while ideologues accuse you of compromise."},
-      { t:"Withdraw from marginal regions to shorten lines.",
-        fx:{ manpower:+3, fuel:+3, front_west:-2, front_east:-1, war_weariness:-1 },
-        out:"Lines shorten and stability rises, but you concede strategic depth."}
-    ]
-  },
-  {
-    id:"g-1942-01",
-    yearMin:1942, yearMax:1942,
-    tag:["east","stalingrad"],
-    req: s => s.year === 1942 && s.flags.war_ussr,
-    title:"1942 — The Temptation of a Decisive City",
-    text:"A symbolic industrial city tempts you. Victory could break enemy morale; failure could trap entire armies.",
-    choices:[
-      { t:"Commit fully: seize the city at all costs.",
-        fx:{ manpower:-8, fuel:-8, morale:+4, front_east:+6, war_weariness:+3 },
-        out:"The battle becomes a grinding furnace. A win is glorious; a loss is ruinous."},
-      { t:"Bypass the city; encircle and cut supply lines.",
-        fx:{ fuel:-6, manpower:-4, front_east:+4, intel:+2, war_weariness:+2 },
-        out:"You aim for operational collapse over symbolism—reducing the risk of urban attrition."},
-      { t:"Pivot south to oil objectives instead of the city.",
-        fx:{ fuel:+5, manpower:-3, front_east:+2, war_weariness:+1 },
-        out:"You chase the fuel that runs your war. Success changes the strategic math."},
-      { t:"Hold the line; build defenses; force the USSR to bleed against you.",
-        fx:{ manpower:+2, fuel:+3, front_east:+2, morale:-2, war_weariness:-1 },
-        out:"You choose endurance. The war becomes one of production and patience."}
-    ]
-  },
-  {
-    id:"g-1942-02",
-    yearMin:1942, yearMax:1944,
-    tag:["tech","rockets"],
-    req: s => s.tech >= 45 && s.year >= 1942,
-    title:"Wonder Weapons Program",
-    text:"Advanced weapons could shift the war—or waste resources. Do you invest in rockets, jets, or focus on proven mass production?",
-    choices:[
-      { t:"Invest in rockets and long-range strikes.",
-        fx:{ tech:+6, industry:-3, diplomacy:-2, morale:+1 },
-        out:"Rockets promise strategic reach. They also consume scarce talent and materials."},
-      { t:"Invest in jet aircraft and advanced engines.",
-        fx:{ tech:+6, air:+4, fuel:-2, industry:-2 },
-        out:"Jet prototypes appear. Fielding them at scale is another battle entirely."},
-      { t:"Prioritize mass production of reliable weapons.",
-        fx:{ industry:+5, morale:+1, tech:+1 },
-        out:"You choose certainty: more tanks, more guns, fewer miracles."},
-      { t:"Split budget across multiple programs (dilution risk).",
-        fx:{ tech:+3, air:+2, industry:-2, morale:+0 },
-        out:"You hedge bets, but none of the programs reaches decisive scale quickly."}
-    ]
-  },
-  {
-    id:"g-1943-01",
-    yearMin:1943, yearMax:1943,
-    tag:["east","turning"],
-    req: s => s.year === 1943 && s.flags.war_ussr,
-    title:"1943 — The Initiative Slips",
-    text:"Enemy forces recover. You must decide between a defensive doctrine, a risky counteroffensive, or negotiation attempts.",
-    choices:[
-      { t:"Adopt elastic defense and layered fortifications.",
-        fx:{ manpower:+3, fuel:+4, front_east:+3, morale:-2, war_weariness:-1 },
-        out:"You trade land for time, aiming to bleed the attacker and preserve core strength."},
-      { t:"Launch a major counteroffensive to regain the initiative.",
-        fx:{ fuel:-10, manpower:-6, morale:+4, front_east:+6, war_weariness:+2 },
-        out:"A bold strike might restore momentum—or burn your last reserves."},
-      { t:"Seek an armistice through intermediaries.",
-        fx:{ diplomacy:+8, morale:-2, intel:+2, war_weariness:-2 },
-        out:"You probe for peace. Success would redefine history; failure exposes weakness."},
-      { t:"Shift divisions west to prepare for an inevitable invasion.",
-        fx:{ front_west:+4, front_east:-3, fuel:-2, morale:+1 },
-        out:"You anticipate the West will open a decisive front. The East may punish the transfer."}
-    ]
-  },
-  {
-    id:"g-1944-01",
-    yearMin:1944, yearMax:1944,
-    tag:["west","invasion"],
-    req: s => s.year === 1944,
-    title:"1944 — The Western Landing Threat",
-    text:"A massive landing is likely. You can fortify beaches, hold mobile reserves inland, or attempt pre-emptive diplomacy and disruption.",
-    choices:[
-      { t:"Fortify the coast heavily; deny the landing at the waterline.",
-        fx:{ front_west:+5, industry:-2, manpower:-2, morale:+1 },
-        out:"Static defenses strengthen, but risk being bypassed if the enemy finds weak points."},
-      { t:"Keep armored reserves inland for rapid counterattack.",
-        fx:{ fuel:-4, front_west:+6, morale:+2, industry:-1 },
-        out:"Mobility gives you a chance to throw invaders back—if fuel and command speed hold."},
-      { t:"Rely on deception and intelligence to strike the real landing.",
-        fx:{ intel:+6, front_west:+4, morale:+1 },
-        out:"Information becomes a weapon. If you guess wrong, the front collapses fast."},
-      { t:"Attempt political rupture among enemies via negotiation offers.",
-        fx:{ diplomacy:+8, morale:-2, front_west:+1 },
-        out:"You gamble on politics. A fracture could save you; unity ends you."}
-    ]
-  }
-];
-
-/** Generic filler pool (keeps gameplay going toward 100 decisions). */
-const GENERIC_POOL = [
-  {
-    title:"Resource Crunch",
-    text:"Your war economy faces constraints. Something must give.",
-    choices:[
-      {t:"Ration civilian consumption; prioritize the front.", fx:{industry:+2, morale:-3, war_weariness:+2}, out:"The front improves, but home morale cracks."},
-      {t:"Protect civilians; accept slower military output.", fx:{industry:-2, morale:+2, war_weariness:-1}, out:"Stability rises, but production lags."},
-      {t:"Trade concessions to neutrals for critical materials.", fx:{diplomacy:+3, industry:+2, morale:-1}, out:"You secure supplies at political cost."},
-      {t:"Seize resources aggressively in occupied zones.", fx:{industry:+3, diplomacy:-4, war_weariness:+1}, out:"Output increases while resistance hardens."}
-    ]
-  },
-  {
-    title:"Command Dispute",
-    text:"Senior commanders argue over strategy and priorities.",
-    choices:[
-      {t:"Back the bold offensive plan.", fx:{morale:+2, fuel:-3, war_weariness:+1}, out:"Momentum rises; risk rises too."},
-      {t:"Back the defensive stabilization plan.", fx:{fuel:+3, manpower:+2, morale:-2}, out:"You preserve strength but lose tempo."},
-      {t:"Replace leadership with loyalists.", fx:{intel:+1, morale:+1, diplomacy:-2}, out:"Control increases; competence may suffer."},
-      {t:"Create a joint planning staff to reduce friction.", fx:{tech:+1, industry:+1, morale:+0}, out:"Coordination improves gradually."}
-    ]
-  }
-];
-
-/** UI elements **/
+// UI refs
 const statGridEl = document.getElementById("statGrid");
 const logEl = document.getElementById("log");
 const qTitleEl = document.getElementById("qTitle");
@@ -1024,11 +659,16 @@ const mYear = document.getElementById("mYear");
 const mTurns = document.getElementById("mTurns");
 const mDiff = document.getElementById("mDiff");
 
+const progressInner = document.getElementById("progressInner");
+const bannerLine = document.getElementById("bannerLine");
+const bannerSub = document.getElementById("bannerSub");
+
 const btnNew = document.getElementById("btnNew");
 const btnSave = document.getElementById("btnSave");
 const btnLoad = document.getElementById("btnLoad");
 const btnReset = document.getElementById("btnReset");
 const btnContinue = document.getElementById("btnContinue");
+const btnQuickSave = document.getElementById("btnQuickSave");
 
 const endOverlay = document.getElementById("endOverlay");
 const endTitle = document.getElementById("endTitle");
@@ -1038,14 +678,177 @@ const endClose = document.getElementById("endClose");
 const endNew = document.getElementById("endNew");
 const endSave = document.getElementById("endSave");
 
-/** Render stats **/
-function renderStats(){
+const startOverlay = document.getElementById("startOverlay");
+const startNew = document.getElementById("startNew");
+const startLoad = document.getElementById("startLoad");
+
+// Questions
+const QUESTIONS = [
+  {
+    id:"g-1939-01", yearMin:1939, yearMax:1939, tag:["opening","diplomacy"],
+    req:s => s.turn === 0,
+    title:"September 1939 — The Opening Move",
+    text:"Poland stands exposed. The world watches your first major move. Speed brings momentum; hesitation invites coalitions.",
+    choices:[
+      { t:"Launch a rapid invasion (shock & speed).", fx:{ morale:+6, fuel:-8, manpower:-4, diplomacy:-12, front_west:+2, war_weariness:+2 },
+        out:"Your forces strike fast. Victory seems likely, but condemnation hardens abroad."},
+      { t:"Delay for mobilization and stockpiles.", fx:{ industry:+4, fuel:+4, morale:-3, diplomacy:+3, war_weariness:+1 },
+        out:"Preparation improves readiness, but the pause signals uncertainty and gives enemies time."},
+      { t:"Attempt a last-minute diplomatic partition.", fx:{ diplomacy:+8, intel:+2, morale:-2 },
+        out:"Backchannel bargaining gains breathing room, but your commanders resent the lost tempo."},
+      { t:"Coerce through intimidation without invasion.", fx:{ diplomacy:-4, morale:-4, industry:+2 },
+        out:"Threats alone fail to deliver decisive results. Rivals interpret restraint as weakness."}
+    ]
+  },
+  {
+    id:"g-1939-02", yearMin:1939, yearMax:1940, tag:["opening","west"],
+    req:s => s.turn >= 1,
+    title:"Britain & France Respond",
+    text:"London and Paris debate escalation. Your messaging can delay unity—or accelerate it.",
+    choices:[
+      { t:"Propaganda: frame the move as defensive necessity.", fx:{ diplomacy:+4, morale:+2, intel:+1 },
+        out:"Your narrative gains traction among fence-sitters, slowing immediate unity."},
+      { t:"Make no concessions; project inevitability.", fx:{ morale:+4, diplomacy:-6, war_weariness:+1 },
+        out:"Confidence rallies loyalists, but rivals close ranks faster."},
+      { t:"Offer limited guarantees elsewhere to reduce escalation.", fx:{ diplomacy:+6, industry:-2, morale:-1 },
+        out:"Concessions buy time and ambiguity. Hardliners accuse you of softness."},
+      { t:"Threaten total mobilization and unrestricted war.", fx:{ morale:+1, diplomacy:-10, industry:+2, war_weariness:+2 },
+        out:"The threat backfires diplomatically, even as mobilization begins to hum."}
+    ]
+  },
+  {
+    id:"g-1939-03", yearMin:1939, yearMax:1941, tag:["economy","industry"],
+    req:s => s.industry < 60 || s.fuel < 55,
+    title:"Industrial Allocation",
+    text:"You cannot prioritize everything. Choose the balance between armor, air, navy, and logistics.",
+    choices:[
+      { t:"Prioritize armor and mechanized forces.", fx:{ industry:+3, fuel:-6, tech:+2, front_west:+4, front_east:+3, war_weariness:+1 },
+        out:"Armored formations improve. Fuel stress rises; logistics must catch up."},
+      { t:"Prioritize aircraft and air defense.", fx:{ air:+6, tech:+2, industry:+1, fuel:-3, morale:+1 },
+        out:"Air power strengthens, improving both offense and homeland defense."},
+      { t:"Prioritize U-boats and naval raiding.", fx:{ navy:+7, industry:+1, diplomacy:-3, war_weariness:+1 },
+        out:"The sea becomes a battlefield—at diplomatic cost."},
+      { t:"Prioritize logistics, repairs, and fuel efficiency.", fx:{ fuel:+6, manpower:+2, industry:+2, morale:-1 },
+        out:"The war machine becomes steadier—less flashy, more sustainable."}
+    ]
+  },
+  {
+    id:"g-1940-01", yearMin:1940, yearMax:1940, tag:["west","france"],
+    req:s => s.year === 1940 && !s.flags.vichy_created,
+    title:"Spring 1940 — The Western Gamble",
+    text:"A bold maneuver could collapse France quickly. Failure would be catastrophic.",
+    choices:[
+      { t:"Daring thrust through the Ardennes.", fx:{ fuel:-10, manpower:-6, morale:+6, front_west:+12, air:+2, war_weariness:+2 },
+        out:"A breakthrough becomes possible—if your logistics can sustain speed."},
+      { t:"Methodical push with heavy preparation.", fx:{ fuel:-6, manpower:-4, morale:+2, front_west:+6, war_weariness:+3 },
+        out:"Progress is steady but slow. Opponents gain time to adapt."},
+      { t:"Seek a political settlement and consolidate.", fx:{ diplomacy:+10, morale:-3, front_west:-2, war_weariness:-1 },
+        out:"You pursue a political victory, risking that rivals interpret restraint as weakness."},
+      { t:"Air campaign first, then ground action.", fx:{ air:+8, fuel:-4, front_west:+2, diplomacy:-4, war_weariness:+2 },
+        out:"Air power disrupts defenses, but civilian suffering harms diplomacy."}
+    ]
+  },
+  {
+    id:"g-1940-02", yearMin:1940, yearMax:1941, tag:["occupation","politics"],
+    req:s => s.front_west >= 60 && !s.flags.vichy_created,
+    title:"France Collapses — Governance Choice",
+    text:"You can build a client state or impose direct occupation. This affects resources and resistance.",
+    choices:[
+      { t:"Create a compliant client regime.", fx:{ diplomacy:+5, industry:+3, morale:+1, war_weariness:-1 }, flag:{ vichy_created:true },
+        out:"Administration becomes cheaper and calmer—though resistance remains."},
+      { t:"Direct occupation and extraction.", fx:{ industry:+6, diplomacy:-8, morale:+1, war_weariness:+2, intel:-1 }, flag:{ vichy_created:true },
+        out:"Resources rise, but hostility and sabotage grow."},
+      { t:"Offer negotiated peace to split enemies.", fx:{ diplomacy:+10, morale:-2, war_weariness:-2, front_west:+2 }, flag:{ vichy_created:true },
+        out:"A risky political gambit: if it works, history changes."},
+      { t:"Fortify the coast for a long war.", fx:{ industry:+4, navy:+3, diplomacy:-6, war_weariness:+1 }, flag:{ vichy_created:true },
+        out:"You prepare for blockade and invasion threats—at diplomatic cost."}
+    ]
+  },
+  {
+    id:"g-1940-03", yearMin:1940, yearMax:1941, tag:["air","britain"],
+    req:s => s.flags.war_uk_fr || s.front_west >= 60,
+    title:"Britain Stands — Air/Sea Strategy",
+    text:"To force Britain out, you can seek air superiority, strategic bombing, or focus on a submarine blockade.",
+    choices:[
+      { t:"Target RAF airfields and fighters.", fx:{ air:+7, fuel:-4, diplomacy:-2, morale:+1 },
+        out:"You pursue air superiority systematically. Success opens new options."},
+      { t:"Bomb cities and industry to break morale.", fx:{ air:+3, diplomacy:-10, morale:+2, war_weariness:+2 },
+        out:"Shock is real—but international opinion turns sharply against you."},
+      { t:"Shift priority to a U-boat blockade.", fx:{ navy:+8, industry:+1, diplomacy:-4, war_weariness:+1 }, flag:{ uboat_focus:true },
+        out:"The Atlantic becomes decisive: imports, escorts, tonnage, and time."},
+      { t:"Pause escalation; consolidate Europe.", fx:{ industry:+4, fuel:+4, morale:-2, diplomacy:+2, war_weariness:-1 },
+        out:"You trade momentum for stability—risking enemy growth."}
+    ]
+  },
+  {
+    id:"g-1941-01", yearMin:1941, yearMax:1941, tag:["east","ussr"],
+    req:s => s.year === 1941 && !s.flags.war_ussr,
+    title:"1941 — The Eastern Question",
+    text:"Do you keep the uneasy pact with the USSR, or launch a vast invasion? This defines the war’s scale.",
+    choices:[
+      { t:"Invade the USSR immediately.", fx:{ fuel:-12, manpower:-8, morale:+6, front_east:+10, diplomacy:-10, war_weariness:+3 },
+        flag:{ war_ussr:true, pact_ussr:false },
+        out:"A colossal invasion begins. Early gains are possible—so is catastrophic overstretch."},
+      { t:"Delay invasion; build logistics and winter gear first.", fx:{ industry:+4, fuel:+5, tech:+2, morale:-2, intel:+2, war_weariness:+1 },
+        out:"You prepare, but risk that the USSR grows stronger and less surprised."},
+      { t:"Maintain the pact; focus on Britain and the Atlantic.", fx:{ diplomacy:+6, navy:+4, industry:+2, war_weariness:-1 },
+        out:"You avoid a second front—for now. War becomes maritime and economic."},
+      { t:"Attempt a grand bargain through concessions.", fx:{ diplomacy:+10, intel:+2, morale:-3, war_weariness:-2 },
+        out:"You attempt a geopolitical reshuffle. It might delay war—or fail loudly."}
+    ]
+  }
+];
+
+const GENERIC_POOL = [
+  {
+    title:"Resource Crunch",
+    text:"Your war economy faces constraints. Something must give.",
+    choices:[
+      {t:"Ration civilians; prioritize the front.", fx:{industry:+2, morale:-3, war_weariness:+2}, out:"The front strengthens, but home morale cracks."},
+      {t:"Protect civilians; accept slower military output.", fx:{industry:-2, morale:+2, war_weariness:-1}, out:"Stability rises, but output slows."},
+      {t:"Trade concessions to neutrals for critical materials.", fx:{diplomacy:+3, industry:+2, morale:-1}, out:"Supplies arrive—political cost follows."},
+      {t:"Seize more from occupied zones.", fx:{industry:+3, diplomacy:-4, war_weariness:+1}, out:"Output increases while resistance hardens."}
+    ]
+  },
+  {
+    title:"Bombing War Escalates",
+    text:"Air raids intensify. Do you build fighters, flak, radar, or disperse industry?",
+    choices:[
+      {t:"Prioritize fighters and pilot training.", fx:{air:+6, fuel:-2, manpower:-1, morale:+1}, out:"Interception improves, but pilots become scarce."},
+      {t:"Build flak belts and harden key factories.", fx:{industry:+3, air:+2, manpower:-1, war_weariness:+1}, out:"Production survives raids more reliably."},
+      {t:"Radar + night-fighting doctrine.", fx:{tech:+3, air:+4, industry:-1, intel:+2}, out:"Detection and response improve substantially."},
+      {t:"Disperse production into smaller sites.", fx:{industry:+2, morale:+1, tech:+1, war_weariness:+1}, out:"Catastrophic losses reduce, but efficiency suffers."}
+    ]
+  },
+  {
+    title:"Occupied Europe — Resistance Grows",
+    text:"Partisans sabotage rail lines and depots. Your response shapes long-term stability.",
+    choices:[
+      {t:"Harsh crackdown.", fx:{intel:+2, manpower:-2, diplomacy:-8, war_weariness:+2, morale:+1}, out:"Short-term control improves; long-term hostility deepens."},
+      {t:"Intelligence-led counterinsurgency.", fx:{intel:+6, manpower:-1, diplomacy:-2, war_weariness:+1}, out:"Precision improves results, though it takes time."},
+      {t:"Co-opt local elites with incentives.", fx:{diplomacy:+4, industry:+2, morale:-1, intel:+1}, out:"Compliance improves in some areas—ideologues protest."},
+      {t:"Shorten lines; withdraw from marginal areas.", fx:{manpower:+3, fuel:+3, front_west:-2, front_east:-1, war_weariness:-1}, out:"Stability rises, but strategic depth shrinks."}
+    ]
+  }
+];
+
+// Rendering helpers
+function escapeHtml(str){
+  return String(str)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function renderStats(pulseKeys = []){
   statGridEl.innerHTML = "";
   for(const def of STAT_DEFS){
     const v = state[def.k];
     const pct = clamp(v, 0, 100);
     const card = document.createElement("div");
-    card.className = "stat";
+    card.className = "stat" + (pulseKeys.includes(def.k) ? " pulse" : "");
     card.innerHTML = `
       <div class="row">
         <div class="name">${def.label}</div>
@@ -1060,27 +863,39 @@ function renderStats(){
   mYear.textContent = String(state.year);
   mTurns.textContent = `${state.turn} / 100`;
   mDiff.textContent = state.difficulty;
+
+  const prog = clamp((state.turn/100)*100, 0, 100);
+  progressInner.style.width = prog + "%";
+  bannerLine.textContent = `Germany • Year ${state.year}`;
+  bannerSub.textContent = statusLine();
 }
 
-/** Render log **/
+function statusLine(){
+  const fronts = [];
+  if(state.flags.war_uk_fr) fronts.push("UK/FR");
+  if(state.flags.war_ussr) fronts.push("USSR");
+  if(state.flags.war_usa) fronts.push("USA");
+  const f = fronts.length ? `Fronts: ${fronts.join(", ")}.` : "Fronts: not yet open.";
+  return `${f} Fuel ${state.fuel}, Morale ${state.morale}, Weariness ${state.war_weariness}.`;
+}
+
 function renderLog(){
   logEl.innerHTML = "";
-  if(state.log.length === 0){
+  if(!state.log.length){
     const p = document.createElement("div");
     p.className = "hint";
     p.textContent = "No decisions yet. Start a new campaign.";
     logEl.appendChild(p);
     return;
   }
-  // latest on top
   const entries = [...state.log].reverse();
   for(const e of entries){
     const div = document.createElement("div");
     div.className = "entry";
     div.innerHTML = `
       <div class="top">
-        <div class="t">${e.year} • Decision ${e.turn}</div>
-        <div class="t">${e.tag || "—"}</div>
+        <div>${e.year} • Decision ${e.turn}</div>
+        <div>${escapeHtml(e.tag || "—")}</div>
       </div>
       <p class="q"><b>${escapeHtml(e.title)}</b> — ${escapeHtml(e.question)}</p>
       <p class="a">→ ${escapeHtml(e.answer)}<br><span style="color:var(--muted)">${escapeHtml(e.outcome)}</span></p>
@@ -1089,16 +904,6 @@ function renderLog(){
   }
 }
 
-function escapeHtml(str){
-  return String(str)
-    .replaceAll("&","&amp;")
-    .replaceAll("<","&lt;")
-    .replaceAll(">","&gt;")
-    .replaceAll('"',"&quot;")
-    .replaceAll("'","&#039;");
-}
-
-/** Core: pick next question **/
 function questionEligible(q){
   if(state.year < q.yearMin || state.year > q.yearMax) return false;
   if(typeof q.req === "function" && !q.req(state)) return false;
@@ -1106,52 +911,49 @@ function questionEligible(q){
   return true;
 }
 
-function pickNextQuestion(){
-  // If reached 100 decisions, end.
-  if(state.turn >= 100){
-    return null;
-  }
-
-  // Advance year based on turn count (rough pacing).
-  // 0-12 => 1939, 13-28 => 1940, 29-48 => 1941, 49-68 => 1942, 69-84 => 1943, 85-100 => 1944/45
+function updateYearFromTurn(){
   const t = state.turn;
-  let newYear = 1939;
-  if(t >= 13) newYear = 1940;
-  if(t >= 29) newYear = 1941;
-  if(t >= 49) newYear = 1942;
-  if(t >= 69) newYear = 1943;
-  if(t >= 85) newYear = 1944;
-  if(t >= 96) newYear = 1945;
-  state.year = newYear;
+  let y = 1939;
+  if(t >= 13) y = 1940;
+  if(t >= 29) y = 1941;
+  if(t >= 49) y = 1942;
+  if(t >= 69) y = 1943;
+  if(t >= 85) y = 1944;
+  if(t >= 96) y = 1945;
+  state.year = y;
 
-  // Ensure war flags evolve plausibly:
+  // plausible war opening
   if(state.turn >= 1) state.flags.war_uk_fr = true;
-  if(state.flags.war_usa === true) state.flags.war_usa = true;
+  // USA pressure later if diplomacy collapses
+  if(!state.flags.war_usa && state.year >= 1942 && state.diplomacy < 18 && Math.random() < 0.25){
+    state.flags.war_usa = true;
+  }
+}
+
+function pickNextQuestion(){
+  if(state.turn >= 100) return null;
+
+  updateYearFromTurn();
 
   const eligible = QUESTIONS.filter(questionEligible);
 
-  // Weighted selection by urgency (fronts low => pick front questions)
+  // Weighted urgency selection
   const scored = eligible.map(q => {
-    let score = 10;
+    let score = 10 + rnd(0,12);
     const tags = q.tag || [];
     if(tags.includes("east") && state.flags.war_ussr) score += (60 - state.front_east);
     if(tags.includes("west")) score += (60 - state.front_west);
     if(tags.includes("air")) score += (55 - state.air);
-    if(tags.includes("navy")) score += (50 - state.navy);
     if(tags.includes("economy")) score += (55 - state.industry);
-    if(tags.includes("intel")) score += (55 - state.intel);
-    // Mild randomness
-    score += rnd(0,12);
     return {q, score};
   }).sort((a,b)=>b.score-a.score);
 
-  if(scored.length > 0){
-    // pick from top 5 for variety
-    const top = scored.slice(0, Math.min(5, scored.length));
+  if(scored.length){
+    const top = scored.slice(0, Math.min(6, scored.length));
     return pick(top).q;
   }
 
-  // If no eligible special questions, use generic pool (repeatable)
+  // fallback generic (always available)
   const g = pick(GENERIC_POOL);
   return {
     id: "generic-"+state.turn+"-"+Math.random().toString(16).slice(2),
@@ -1164,122 +966,121 @@ function pickNextQuestion(){
   };
 }
 
-/** Apply effects **/
 function applyEffects(fx){
   const before = {};
-  for(const def of STAT_DEFS){
-    before[def.k] = state[def.k];
-  }
+  for(const def of STAT_DEFS) before[def.k] = state[def.k];
 
-  // apply deltas
-  for(const [k, v] of Object.entries(fx || {})){
-    if(typeof state[k] === "number"){
-      state[k] = clamp(state[k] + v, 0, 100);
-    }
+  for(const [k,v] of Object.entries(fx || {})){
+    if(typeof state[k] === "number") state[k] = clamp(state[k] + v, 0, 100);
   }
 
   // systemic consequences
-  // Fuel low harms fronts and air.
   if(state.fuel < 20){
     state.front_west = clamp(state.front_west - 3, 0, 100);
     state.front_east = clamp(state.front_east - 3, 0, 100);
     state.air = clamp(state.air - 2, 0, 100);
     state.morale = clamp(state.morale - 1, 0, 100);
   }
-  // War weariness affects morale and manpower efficiency
   if(state.war_weariness > 70){
     state.morale = clamp(state.morale - 3, 0, 100);
     state.manpower = clamp(state.manpower - 1, 0, 100);
   }
-  // Very low diplomacy increases coalition pressure
   if(state.diplomacy < 20){
     state.front_west = clamp(state.front_west - 2, 0, 100);
     state.navy = clamp(state.navy - 1, 0, 100);
   }
 
-  // return deltas for UI
+  // if winning strongly, war-weariness softens slightly
+  if(state.front_west >= 70 && (!state.flags.war_ussr || state.front_east >= 65) && state.war_weariness > 10){
+    state.war_weariness = clamp(state.war_weariness - 1, 0, 100);
+  }
+
+  // compute deltas
   const deltas = [];
   for(const def of STAT_DEFS){
     const d = state[def.k] - before[def.k];
-    if(d !== 0){
-      deltas.push({k:def.k, label:def.label, d});
-    }
+    if(d !== 0) deltas.push({k:def.k, label:def.label, d});
   }
   return deltas;
 }
 
-/** Add to log **/
+function contextualOutcome(base){
+  const s = state;
+  const parts = [base];
+
+  if(s.fuel <= 25) parts.push("Fuel shortages begin to dictate operational tempo.");
+  if(s.industry >= 75) parts.push("Industrial output becomes a strategic weapon in its own right.");
+  if(s.morale <= 25) parts.push("Confidence falters; rumors spread through institutions.");
+  if(s.diplomacy <= 25) parts.push("International isolation tightens as enemies coordinate more efficiently.");
+  if(s.intel >= 75) parts.push("Intelligence advantages reduce surprise—but never eliminate it.");
+  if(s.tech >= 75) parts.push("Advanced programs show tangible battlefield impact.");
+  if(s.flags.war_ussr && s.year >= 1942 && s.front_east <= 30) parts.push("The Eastern Front bleeds relentlessly; winter and distance amplify every mistake.");
+  if(s.year >= 1944 && s.front_west <= 35) parts.push("Pressure in the West builds toward a decisive rupture.");
+
+  const wars = [];
+  if(s.flags.war_uk_fr) wars.push("UK/FR");
+  if(s.flags.war_ussr) wars.push("USSR");
+  if(s.flags.war_usa) wars.push("USA");
+  parts.push(wars.length ? `Active war fronts: ${wars.join(", ")}.` : "Active war fronts: none.");
+
+  return parts.join(" ");
+}
+
 function addLogEntry(q, choiceIndex, outcomeText){
-  const choice = q.choices[choiceIndex];
+  const c = q.choices[choiceIndex];
   state.log.push({
     year: state.year,
     turn: state.turn,
     tag: (q.tag && q.tag[0]) ? q.tag[0] : "—",
     title: q.title,
     question: q.text,
-    answer: choice.t,
+    answer: c.t,
     outcome: outcomeText
   });
-  // keep log manageable
   if(state.log.length > 120) state.log.shift();
 }
 
-/** Decide endings **/
 function checkEnding(){
-  // Defeat conditions
   const collapseWest = state.front_west <= 10 && state.year >= 1944;
   const collapseEast = state.front_east <= 10 && state.flags.war_ussr;
   const totalCollapse = state.morale <= 8 || (collapseWest && collapseEast);
 
   if(totalCollapse){
     return {
-      type:"defeat",
       title:"Collapse of the Reich",
-      text:`Your strategic position collapses. Fronts break, morale shatters, and your ability to coordinate defense evaporates.
-In this timeline, the war ends with Germany’s defeat and occupation.`,
+      text:`Your strategic position collapses.\n\nFronts break, morale shatters, and coordination fails.\nIn this timeline, the war ends with Germany’s defeat and occupation.`
     };
   }
 
-  // Armistice / negotiated end
   const canNegotiate = state.diplomacy >= 70 && state.war_weariness <= 35 && state.year >= 1942;
   if(canNegotiate && state.turn >= 60){
     return {
-      type:"armistice",
       title:"Negotiated Armistice",
-      text:`Against expectations, your diplomacy and controlled war aims create space for negotiation.
-A ceasefire emerges—uneasy, controversial, but real. Europe enters a tense, altered order.`,
+      text:`Against expectations, your diplomacy and controlled war aims create space for negotiation.\n\nA ceasefire emerges—uneasy, controversial, but real. Europe enters a tense, altered order.`
     };
   }
 
-  // Victory-ish outcomes (alt-history)
-  const strategicUpperHand = state.front_west >= 75 && (!state.flags.war_ussr || state.front_east >= 65);
-  const sustainedEconomy = state.industry >= 65 && state.fuel >= 45 && state.morale >= 55;
-
   if(state.turn >= 100){
-    if(strategicUpperHand && sustainedEconomy){
+    const strong = state.front_west >= 75 && (!state.flags.war_ussr || state.front_east >= 65);
+    const stable = state.industry >= 65 && state.fuel >= 45 && state.morale >= 55;
+    if(strong && stable){
       return {
-        type:"victory",
         title:"Alternate Victory: A Reshaped Europe",
-        text:`By balancing fronts, resources, and political pressure, you reach the end of the campaign with Germany dominant.
-This is an alternate timeline: the post-war world becomes a cold standoff shaped by your decisions.`,
+        text:`By balancing fronts, resources, and political pressure, you reach the end of the campaign with Germany dominant.\n\nThis is an alternate timeline: the post-war world becomes a cold standoff shaped by your decisions.`
       };
     }
     return {
-      type:"mixed",
       title:"Stalemate: A Prolonged War",
-      text:`You survive to the end of the campaign, but without decisive victory.
-Industry strains, diplomacy is unstable, and fronts remain contested. The world slides into a long, grinding conflict.`,
-      };
-    }
+      text:`You survive to the end of the campaign, but without decisive victory.\n\nFronts remain contested. Industry strains. Diplomacy is unstable.\nThe world slides into a long, grinding conflict.`
+    };
   }
 
   return null;
 }
 
-/** Render question **/
 function renderQuestion(q){
   currentQuestion = q;
-  pendingChoice = null;
+  locked = false;
 
   resultBoxEl.classList.remove("show");
   deltaEl.innerHTML = "";
@@ -1298,21 +1099,29 @@ function renderQuestion(q){
   });
 }
 
-/** When user chooses **/
-function onChoose(choiceIndex){
-  if(!currentQuestion) return;
-  if(pendingChoice !== null) return; // prevent double-click
+function typeText(el, text, speed=10){
+  el.textContent = "";
+  let i = 0;
+  const timer = setInterval(() => {
+    el.textContent += text[i] || "";
+    i++;
+    if(i >= text.length) clearInterval(timer);
+  }, speed);
+}
 
-  pendingChoice = choiceIndex;
+function onChoose(choiceIndex){
+  if(!currentQuestion || locked) return;
+  locked = true;
+
+  // disable choice buttons
+  [...choicesEl.querySelectorAll("button")].forEach(b => b.disabled = true);
 
   const choice = currentQuestion.choices[choiceIndex];
 
-  // Apply optional flags
+  // apply flags
   if(choice.flag){
     for(const [fk, fv] of Object.entries(choice.flag)){
-      // If fv is boolean, set. If fv is function, evaluate. If random already evaluated, set.
-      if(typeof fv === "function") state.flags[fk] = !!fv(state);
-      else state.flags[fk] = !!fv;
+      state.flags[fk] = !!fv;
     }
   }
 
@@ -1320,20 +1129,16 @@ function onChoose(choiceIndex){
   state.turn += 1;
   state.usedQuestionIds.push(currentQuestion.id);
 
-  // War USA can trigger if diplomacy very low later
-  if(!state.flags.war_usa && state.diplomacy < 18 && state.year >= 1942 && Math.random() < 0.25){
-    state.flags.war_usa = true;
-  }
+  const outcome = contextualOutcome(choice.out);
+  addLogEntry(currentQuestion, choiceIndex, outcome);
 
-  // Create narrative with context
-  const extra = contextualOutcome(choice.out);
-  addLogEntry(currentQuestion, choiceIndex, extra);
-
-  // Show result UI
-  resultTextEl.textContent = extra;
+  // show result
   deltaEl.innerHTML = "";
+  const pulseKeys = [];
+
   if(deltas.length){
     for(const d of deltas){
+      pulseKeys.push(d.k);
       const chip = document.createElement("div");
       chip.className = "chip " + (d.d > 0 ? "ok" : "bad");
       const sign = d.d > 0 ? "+" : "";
@@ -1346,317 +1151,111 @@ function onChoose(choiceIndex){
     chip.textContent = "No measurable change (hidden effects may still apply)";
     deltaEl.appendChild(chip);
   }
-  resultBoxEl.classList.add("show");
 
-  renderStats();
+  resultBoxEl.classList.add("show");
+  typeText(resultTextEl, outcome, 8);
+
+  renderStats(pulseKeys);
   renderLog();
 
-  // Check ending immediately
   const ending = checkEnding();
-  if(ending){
-    showEnding(ending);
-  }
+  if(ending) showEnding(ending);
 }
 
-/** Add extra flavor text based on state **/
-function contextualOutcome(base){
-  const parts = [base];
-
-  // State-based commentary
-  if(state.fuel <= 25) parts.push("Fuel shortages begin to dictate operational tempo.");
-  if(state.industry >= 75) parts.push("Industrial output becomes a strategic weapon in its own right.");
-  if(state.morale <= 25) parts.push("Rumors spread and confidence falters inside the regime.");
-  if(state.diplomacy <= 25) parts.push("International isolation tightens as enemies coordinate more efficiently.");
-  if(state.intel >= 75) parts.push("Intelligence advantages reduce surprise—but never eliminate it.");
-  if(state.tech >= 75) parts.push("Advanced programs show tangible battlefield impact.");
-  if(state.flags.war_ussr && state.year >= 1942 && state.front_east <= 30) parts.push("The Eastern Front bleeds you relentlessly; winter and distance amplify every mistake.");
-  if(state.year >= 1944 && state.front_west <= 35) parts.push("Pressure in the West builds toward a decisive rupture.");
-
-  // USA entry flavor
-  if(state.flags.war_usa && state.year >= 1942) parts.push("American industrial power begins to reshape the scale of the conflict.");
-
-  return parts.join(" ");
-}
-
-/** Continue to next question **/
 function nextStep(){
   const ending = checkEnding();
-  if(ending){
-    showEnding(ending);
-    return;
-  }
+  if(ending){ showEnding(ending); return; }
+
   const q = pickNextQuestion();
   if(!q){
-    const end = checkEnding() || {
-      type:"mixed",
-      title:"Campaign End",
-      text:"The campaign concludes."
-    };
-    showEnding(end);
+    showEnding({ title:"Campaign End", text:"The campaign concludes." });
     return;
   }
   renderQuestion(q);
 }
 
-/** Save/Load **/
-function saveGame(){
-  const payload = JSON.stringify(state);
-  localStorage.setItem(SAVE_KEY, payload);
-  toast("Saved.");
-}
-function loadGame(){
-  const raw = localStorage.getItem(SAVE_KEY);
-  if(!raw){
-    toast("No save found.");
-    return;
-  }
-  try{
-    const obj = JSON.parse(raw);
-    // basic validation
-    if(!obj || obj.country !== "Germany"){
-      toast("Save corrupted or incompatible.");
-      return;
-    }
-    state = obj;
-    // Ensure defaults exist for newly added flags
-    state.flags = Object.assign(initialState().flags, state.flags || {});
-    // Ensure arrays exist
-    state.usedQuestionIds = state.usedQuestionIds || [];
-    state.log = state.log || [];
-    renderStats();
-    renderLog();
-    nextStep();
-    toast("Loaded.");
-  } catch(e){
-    toast("Failed to load save.");
-  }
-}
-function resetSave(){
-  localStorage.removeItem(SAVE_KEY);
-  toast("Save reset.");
-}
-
-/** Toast **/
-let toastTimer = null;
-function toast(msg){
-  // simple inline toast using title bar text briefly
-  const original = document.title;
-  document.title = msg + " • " + original;
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(()=>{ document.title = original; }, 1100);
-}
-
-/** Ending overlay **/
 function showEnding(end){
   endTitle.textContent = end.title;
   endMeta.textContent = `${state.country} • Year ${state.year} • Decisions ${state.turn}/100`;
   endBody.textContent = end.text;
   endOverlay.classList.add("show");
 }
-function closeEnding(){
-  endOverlay.classList.remove("show");
+function closeEnding(){ endOverlay.classList.remove("show"); }
+
+// Save / Load
+function saveGame(){
+  localStorage.setItem(SAVE_KEY, JSON.stringify(state));
+  toast("Saved");
+}
+function loadGame(){
+  const raw = localStorage.getItem(SAVE_KEY);
+  if(!raw){ toast("No save found"); return; }
+  try{
+    const obj = JSON.parse(raw);
+    if(!obj || obj.country !== "Germany") { toast("Save incompatible"); return; }
+    state = obj;
+    // ensure defaults exist
+    state.flags = Object.assign(initialState().flags, state.flags || {});
+    state.usedQuestionIds = state.usedQuestionIds || [];
+    state.log = state.log || [];
+    renderStats();
+    renderLog();
+    nextStep();
+    toast("Loaded");
+    startOverlay.style.display = "none";
+  } catch(e){
+    toast("Load failed");
+  }
+}
+function resetSave(){
+  localStorage.removeItem(SAVE_KEY);
+  toast("Save reset");
 }
 
-/** New Campaign **/
+// Toast (title flash)
+let toastTimer = null;
+function toast(msg){
+  const original = document.title;
+  document.title = msg + " • " + original;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>{ document.title = original; }, 1100);
+}
+
+// New campaign
 function newCampaign(){
   state = initialState();
   renderStats();
   renderLog();
   nextStep();
-  toast("New campaign started.");
+  toast("New campaign");
+  startOverlay.style.display = "none";
 }
 
-/** Wire events **/
+// Events
 btnNew.onclick = newCampaign;
 btnSave.onclick = saveGame;
 btnLoad.onclick = loadGame;
 btnReset.onclick = resetSave;
 btnContinue.onclick = nextStep;
+btnQuickSave.onclick = saveGame;
 
 endClose.onclick = closeEnding;
 endNew.onclick = () => { closeEnding(); newCampaign(); };
-endSave.onclick = () => { saveGame(); toast("Saved."); };
+endSave.onclick = saveGame;
 
-/** Keyboard shortcuts **/
+startNew.onclick = newCampaign;
+startLoad.onclick = loadGame;
+
+// Keyboard shortcuts
 document.addEventListener("keydown", (e)=>{
   if(e.key === "s" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); saveGame(); }
   if(e.key === "l" && (e.ctrlKey || e.metaKey)){ e.preventDefault(); loadGame(); }
   if(e.key === "Enter" && resultBoxEl.classList.contains("show")){ nextStep(); }
 });
 
-/** Initial render **/
+// Init
 renderStats();
 renderLog();
 </script>
-<!-- =========================
-FILE: ww2_germany_game.html
-PART 2/2 — END
-Paste this directly AFTER Part 1/2 in the same file.
-========================= -->
-<script>
-/* =========================
-   Extra questions to deepen
-   Germany campaign variety.
-   (Kept in Part 2 so you can
-   expand easily toward 100+)
-   ========================= */
-
-// Append additional questions (keeps the engine unchanged)
-QUESTIONS.push(
-  {
-    id:"g-1940-05",
-    yearMin:1940, yearMax:1941,
-    tag:["diplomacy","balkans"],
-    req: s => s.year >= 1940 && s.year <= 1941,
-    title:"The Balkans Are Unstable",
-    text:"Allies argue over influence in the Balkans. Intervention could secure routes—but also drain manpower and attention.",
-    choices:[
-      { t:"Intervene decisively to stabilize the region under your influence.",
-        fx:{ manpower:-3, fuel:-3, diplomacy:-2, front_east:+2, war_weariness:+1 },
-        out:"Stability improves, but you pay for it in resources and attention."},
-      { t:"Rely on diplomacy and pressure rather than troops.",
-        fx:{ diplomacy:+5, intel:+2, morale:+0, war_weariness:-1 },
-        out:"You keep forces free, but risk local chaos undermining later operations."},
-      { t:"Let allies handle it; you focus elsewhere.",
-        fx:{ morale:+1, diplomacy:+1, front_west:+1, front_east:+1 },
-        out:"You conserve strength, but lose some strategic control to partners."},
-      { t:"Exploit divisions: play factions against each other covertly.",
-        fx:{ intel:+5, diplomacy:-3, war_weariness:+1 },
-        out:"You gain leverage through intrigue, though blowback is always possible."}
-    ]
-  },
-  {
-    id:"g-1941-04",
-    yearMin:1941, yearMax:1942,
-    tag:["east","winter"],
-    req: s => s.flags.war_ussr && s.year >= 1941,
-    title:"Winter Arrives",
-    text:"Cold, mud, and supply failures punish armies. Do you hold, withdraw, or gamble on a winter offensive?",
-    choices:[
-      { t:"Hold positions; absorb the weather and dig in.",
-        fx:{ manpower:-3, fuel:+2, front_east:+2, morale:-2, war_weariness:+1 },
-        out:"You endure the winter. Losses occur, but collapse is avoided."},
-      { t:"Withdraw to defensible lines to avoid encirclement.",
-        fx:{ manpower:+2, fuel:+3, front_east:-2, morale:-3, war_weariness:-1 },
-        out:"You reduce risk and shorten lines—but concede ground and confidence."},
-      { t:"Attempt a winter offensive to keep the enemy off balance.",
-        fx:{ fuel:-8, manpower:-5, front_east:+4, morale:+2, war_weariness:+2 },
-        out:"You gamble in bad conditions. A win shocks the enemy; a loss drains you."},
-      { t:"Reorganize: rotate units, prioritize winterization and supply.",
-        fx:{ industry:+2, fuel:+4, tech:+2, morale:-1, war_weariness:-1 },
-        out:"You invest in sustainability. It may save the army—at the cost of tempo."}
-    ]
-  },
-  {
-    id:"g-1942-03",
-    yearMin:1942, yearMax:1944,
-    tag:["home","economy"],
-    req: s => s.year >= 1942 && s.war_weariness >= 25,
-    title:"Home Front Strain",
-    text:"Long war pressures civilians and production. Your response affects morale, stability, and output.",
-    choices:[
-      { t:"Total war economy: reorganize industry ruthlessly for output.",
-        fx:{ industry:+6, morale:-3, war_weariness:+2, diplomacy:-1 },
-        out:"Output surges, but social strain deepens and discontent rises."},
-      { t:"Increase benefits and propaganda to stabilize morale.",
-        fx:{ morale:+4, industry:-2, war_weariness:-1 },
-        out:"Civilians feel supported. Production slows slightly, but cohesion improves."},
-      { t:"Crack down on dissent aggressively.",
-        fx:{ morale:-2, intel:+3, war_weariness:+2, diplomacy:-3 },
-        out:"Control increases, but resentment grows and international perception worsens."},
-      { t:"Offer limited reforms and local autonomy to reduce pressure.",
-        fx:{ morale:+2, diplomacy:+3, industry:-1, war_weariness:-1 },
-        out:"Tension eases at home and abroad, though hardliners resist compromise."}
-    ]
-  },
-  {
-    id:"g-1943-02",
-    yearMin:1943, yearMax:1945,
-    tag:["west","defense"],
-    req: s => s.year >= 1943 && (s.front_west < 60),
-    title:"Fortress Europe Planning",
-    text:"Your Western defenses can be static, mobile, or deception-based. Each approach shapes how a future invasion unfolds.",
-    choices:[
-      { t:"Static fortifications and coastal artillery.",
-        fx:{ front_west:+4, industry:-2, manpower:-2, morale:+1 },
-        out:"Strongpoints rise along the coast. It may stop a landing—or be bypassed."},
-      { t:"Mobile defense: reserve armor for counterattacks.",
-        fx:{ front_west:+5, fuel:-3, morale:+2, industry:-1 },
-        out:"Mobility offers decisive response if command and fuel hold under pressure."},
-      { t:"Deception, mines, and intelligence-led defense.",
-        fx:{ intel:+5, front_west:+3, morale:+1 },
-        out:"You aim to strike the real landing at the right time—if you read it correctly."},
-      { t:"Withdraw defenses deeper; prioritize protecting core industry.",
-        fx:{ industry:+3, front_west:-2, manpower:+1, war_weariness:-1 },
-        out:"You trade coastline for industrial survival. The political cost may be high."}
-    ]
-  },
-  {
-    id:"g-1944-02",
-    yearMin:1944, yearMax:1945,
-    tag:["tech","nukes"],
-    req: s => s.year >= 1944 && s.tech >= 60 && !s.flags.nukes_known,
-    title:"Rumors of a Super-Weapon",
-    text:"Intelligence suggests a rival program aiming for unprecedented explosive power. Do you redirect resources to catch up or sabotage?",
-    choices:[
-      { t:"Massively fund your own program (huge resource diversion).",
-        fx:{ tech:+8, industry:-5, morale:+1, intel:+1, war_weariness:+1 },
-        flag:{ nukes_known:true },
-        out:"You launch an emergency program. Even with funding, success is uncertain and late."},
-      { t:"Prioritize sabotage and intelligence to slow the rival program.",
-        fx:{ intel:+8, diplomacy:-2, industry:-1 },
-        flag:{ nukes_known:true },
-        out:"You hunt laboratories, scientists, and supply chains. Some operations succeed—some fail."},
-      { t:"Dismiss it as rumor; focus on conventional victory.",
-        fx:{ industry:+3, morale:+1, tech:-1 },
-        out:"You focus on tangible battlefield power, risking surprise later."},
-      { t:"Seek negotiated settlement to avoid the risk entirely.",
-        fx:{ diplomacy:+8, morale:-2, war_weariness:-2 },
-        out:"You attempt to end the war before the strategic landscape transforms."}
-    ]
-  }
-);
-
-/* =========================
-   Small helper: show “war
-   status” in outcomes.
-   ========================= */
-const _origContextualOutcome = contextualOutcome;
-contextualOutcome = function(base){
-  const s = state;
-  const status = [];
-  if(s.flags.war_uk_fr) status.push("UK/FR");
-  if(s.flags.war_ussr) status.push("USSR");
-  if(s.flags.war_usa) status.push("USA");
-  const warLine = status.length ? `Active war fronts: ${status.join(", ")}.` : "Active war fronts: none.";
-  return _origContextualOutcome(base) + " " + warLine;
-};
-
-/* =========================
-   Minor balance tweak:
-   If both fronts are strong,
-   war weariness can soften.
-   ========================= */
-const _origApplyEffects = applyEffects;
-applyEffects = function(fx){
-  const deltas = _origApplyEffects(fx);
-
-  // If you're winning consistently, population stress may dip.
-  if(state.front_west >= 70 && (!state.flags.war_ussr || state.front_east >= 65) && state.war_weariness > 10){
-    state.war_weariness = clamp(state.war_weariness - 1, 0, 100);
-  }
-  return deltas;
-};
-
-/* =========================
-   Final: refresh UI once more
-   ========================= */
-renderStats();
-renderLog();
-</script>
-
 </body>
 </html>
-<!-- =========================
-PART 2/2 — END
-========================= -->
