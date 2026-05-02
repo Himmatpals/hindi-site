@@ -1,360 +1,1868 @@
-<!--
-File: pdf-to-image-hi.html
-Title: PDF से इमेज (JPG/PNG + ZIP) — हाई क्वालिटी, फुल कंट्रोल
-Description: Client‑side PDF → Image exporter in Hindi. Page‑range, DPI, PNG/JPG, JPEG quality, transparent PNG, background color, filename padding, live thumbnails, progress, ZIP download. Uses pdf.js + JSZip (+ optional demo PDF via pdf-lib). 100% browser.
-How to use: Save as pdf-to-image-hi.html and open in a modern browser.
--->
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PDF से इमेज — JPG/PNG (ZIP) | हिंदी</title>
-  <meta name="description" content="हर पेज को JPG/PNG में सेव करो — DPI, क्वालिटी, ट्रांसपेरेंसी, रेंज, फ़ाइल नाम — सब कंट्रोल एक ही जगह, 100% ब्राउज़र में।"/>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Poppins:wght@400;700;800&display=swap" rel="stylesheet">
+  <title>PDF to Image Online | PDF को JPG PNG बनाएं हिंदी में - HindiTools</title>
+
+  <meta name="description" content="PDF pages को JPG या PNG images में बदलें। All pages या selected page range convert करें। Easy Hindi interface, quality control और ZIP download." />
+  <meta name="keywords" content="PDF to image Hindi, PDF to JPG Hindi, PDF to PNG, PDF pages image banaye, HindiTools" />
+  <meta name="author" content="HindiTools.com" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="PDF to Image Online - PDF को JPG PNG बनाएं" />
+  <meta property="og:description" content="PDF pages को images में convert करें। JPG/PNG, page range, quality और ZIP download के साथ।" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.hinditools.com/pdf-to-image-hi.html" />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <style>
-    :root{
-      --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
-      --text:#e9eefb; --muted:#9fb0de; --accent:#ffd95c; /* gold */
-      --accent2:#ff5c7c; /* red */ --brand:#7c5cff; --good:#23d3ac;
+    :root {
+      --bg: #fff8f0;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #f1d7bd;
+      --primary: #e66a1f;
+      --primary-dark: #bf4e13;
+      --secondary: #273c75;
+      --green: #12805c;
+      --red: #dc2626;
+      --purple: #6d28d9;
+      --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
+      --radius: 22px;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; color:var(--text);
-      font-family:"Noto Sans Devanagari", Poppins, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Sans Devanagari", system-ui, sans-serif;
       background:
-        radial-gradient(1200px 800px at 90% -10%, rgba(255,217,92,.18), transparent),
-        radial-gradient(900px 600px at 10% 110%, rgba(255,92,124,.16), transparent),
+        radial-gradient(circle at top left, rgba(230, 106, 31, 0.15), transparent 28%),
+        radial-gradient(circle at top right, rgba(39, 60, 117, 0.12), transparent 32%),
+        radial-gradient(circle at 85% 70%, rgba(109, 40, 217, 0.08), transparent 30%),
         var(--bg);
+      color: var(--text);
+      line-height: 1.6;
     }
-    header{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:14px 18px; position:sticky; top:0; z-index:40; backdrop-filter:blur(6px); background:rgba(11,16,32,.7); border-bottom:1px solid var(--line)}
-    .brand{display:flex; align-items:center; gap:10px; font-weight:900}
-    .brand svg{width:28px; height:28px}
-    .badges{display:flex; gap:8px; flex-wrap:wrap}
-    .pill{border:1px solid var(--line); background:#0d1632; color:#ffdca1; border-radius:999px; padding:6px 10px; font-weight:800; font-size:12px}
 
-    .container{max-width:1200px; margin:18px auto; padding:0 16px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden}
-    .hero{padding:22px 22px 0}
-    h1{margin:0 0 6px; font-size:28px; font-weight:900}
-    .sub{margin:0; color:var(--muted)}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-    .uploader{border:1.5px dashed rgba(255,255,255,.18); border-radius:16px; padding:18px; margin:16px 22px; text-align:center}
-    .uploader.dragover{border-color:var(--accent2)}
-    .uploader input[type=file]{display:none}
-    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center}
-    .btn{appearance:none; border:none; border-radius:12px; padding:12px 14px; font-weight:800; cursor:pointer; min-height:42px}
-    .btn.gold{background:var(--accent); color:#3a2c00; box-shadow:0 10px 28px rgba(255,217,92,.3)}
-    .btn.red{background:var(--accent2); color:#2b0c14; box-shadow:0 10px 28px rgba(255,92,124,.3)}
-    .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.2)}
-    .tiny{font-size:12px; color:var(--muted)}
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
 
-    .grid{display:grid; gap:14px; padding:0 22px 18px}
-    .two{grid-template-columns:380px 1fr}
-    @media (max-width:980px){.two{grid-template-columns:1fr}}
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: auto;
+    }
 
-    /* Left list */
-    .list{display:grid; gap:10px}
-    .item{display:grid; grid-template-columns:64px 1fr auto; gap:10px; align-items:center; padding:10px; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px}
-    .thumb{width:64px; height:90px; background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px; display:grid; place-items:center; overflow:hidden}
-    .thumb canvas{width:100%; height:100%; display:block}
-    .name{font-weight:700}
-    .meta{color:var(--muted); font-size:12px}
-    .controls{display:flex; gap:6px; align-items:center}
+    .top-strip {
+      background: linear-gradient(90deg, var(--secondary), #4457b5);
+      color: white;
+      padding: 9px 0;
+      font-size: 14px;
+      text-align: center;
+    }
 
-    /* Right panel */
-    .panel{background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px}
-    .panel h4{margin:0 0 10px; font-size:14px}
-    input[type=text], input[type=number], input[type=color], select{background:#121935; color:var(--text); border:1px solid rgba(255,255,255,.14); border-radius:8px; padding:8px 10px; width:100%}
-    input[type=range]{width:100%}
+    .top-strip strong {
+      color: #ffe5bf;
+    }
 
-    .viewer{position:relative; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:12px; overflow:auto; min-height:200px}
-    #preview{display:grid; grid-template-columns:repeat(auto-fill, minmax(140px,1fr)); gap:10px}
-    .pv{background:#0b1020; border:1px solid rgba(255,255,255,.08); border-radius:8px; padding:6px; display:grid; gap:6px}
-    .pv canvas{width:100%; height:auto; display:block; border-radius:6px}
-    .pv .cap{font-size:12px; color:var(--muted); text-align:center}
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 248, 240, 0.9);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(241, 215, 189, 0.9);
+    }
 
-    .progress{height:10px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12)}
-    .bar{height:100%; width:0; background:linear-gradient(90deg, var(--accent2), var(--accent)); transition:width .2s}
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
 
-    .actions{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02)}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--secondary);
+      font-size: 22px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), #ffbd59);
+      color: white;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 24px rgba(230, 106, 31, 0.28);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      padding: 10px 13px;
+      border-radius: 999px;
+      color: #3f4655;
+      font-size: 15px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.08);
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: white;
+      padding: 11px 16px;
+      border-radius: 999px;
+      font-weight: 900;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.25);
+    }
+
+    .menu-btn {
+      display: none;
+      border: 0;
+      background: white;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 21px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+      cursor: pointer;
+    }
+
+    .breadcrumb {
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .breadcrumb a {
+      color: var(--primary);
+    }
+
+    .hero {
+      padding: 38px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(241, 215, 189, 0.95);
+      color: #71401c;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.06);
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 4.7vw, 58px);
+      line-height: 1.08;
+      letter-spacing: -1.6px;
+      color: var(--secondary);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero p {
+      color: #4b5563;
+      font-size: 18px;
+      max-width: 650px;
+      margin-bottom: 20px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 22px;
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .danger-btn,
+    .ghost-btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .primary-btn {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.23);
+    }
+
+    .primary-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .primary-btn:disabled {
+      background: #c7c7c7;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .secondary-btn {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .secondary-btn:hover {
+      background: #1d2b5c;
+    }
+
+    .danger-btn {
+      background: #fff1f2;
+      color: var(--red);
+      border: 1px solid #fecdd3;
+    }
+
+    .ghost-btn {
+      background: white;
+      color: #4b5563;
+      border: 1px solid #ead6c2;
+    }
+
+    .ghost-btn:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .tool-shell {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(241, 215, 189, 0.95);
+      border-radius: 34px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .dropzone {
+      border: 2px dashed #efb276;
+      border-radius: 26px;
+      background:
+        linear-gradient(180deg, rgba(255,248,240,0.95), rgba(255,255,255,0.95));
+      min-height: 255px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 28px;
+      transition: 0.2s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dropzone.dragover {
+      border-color: var(--secondary);
+      background: #eef2ff;
+      transform: scale(1.01);
+    }
+
+    .dropzone input {
+      display: none;
+    }
+
+    .drop-icon {
+      font-size: 58px;
+      margin-bottom: 12px;
+    }
+
+    .dropzone h2 {
+      color: var(--secondary);
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .dropzone p {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 18px;
+    }
+
+    .upload-btn {
+      background: var(--primary);
+      color: white;
+      border: 0;
+      padding: 14px 20px;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.22);
+    }
+
+    .privacy-note {
+      margin-top: 12px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+      margin-top: 18px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .panel-head h2 {
+      color: var(--secondary);
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    .panel-head p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .file-summary {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      background: #fffaf5;
+      border: 1px solid #f1d7bd;
+      border-radius: 20px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .file-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: var(--secondary);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+    }
+
+    .file-name {
+      color: var(--secondary);
+      font-weight: 900;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .summary-item {
+      background: #fffaf5;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    .summary-item span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .summary-item strong {
+      display: block;
+      color: var(--secondary);
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .setting-card {
+      background: #fffaf5;
+      border: 1px solid #f1d7bd;
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .setting-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .setting-card label,
+    .input-group label {
+      display: block;
+      color: var(--secondary);
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .setting-card small {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .setting-card select,
+    .setting-card input,
+    .input-group input {
+      width: 100%;
+      border: 1px solid #ead6c2;
+      border-radius: 15px;
+      padding: 12px 13px;
+      font-size: 15px;
+      outline: 0;
+      background: white;
+    }
+
+    .setting-card select:focus,
+    .setting-card input:focus,
+    .input-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.1);
+    }
+
+    .range-wrap {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+    }
+
+    .range-value {
+      background: white;
+      border: 1px solid #ead6c2;
+      border-radius: 999px;
+      padding: 7px 10px;
+      min-width: 62px;
+      text-align: center;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .example-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .chip-btn {
+      border: 1px solid #ead6c2;
+      background: white;
+      color: #4b5563;
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .chip-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .preview-grid {
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .preview-grid.show {
+      display: grid;
+    }
+
+    .preview-card {
+      background: white;
+      border: 1px solid #ead6c2;
+      border-radius: 18px;
+      padding: 10px;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .preview-canvas-wrap {
+      flex: 1;
+      background: #f3f4f6;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+
+    .preview-canvas-wrap canvas {
+      max-width: 100%;
+      max-height: 150px;
+      display: block;
+    }
+
+    .preview-card strong {
+      color: var(--secondary);
+      font-size: 14px;
+    }
+
+    .notice {
+      margin-top: 14px;
+      background: #eef2ff;
+      color: #243b86;
+      border: 1px solid #c7d2fe;
+      border-radius: 18px;
+      padding: 13px 14px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: end;
+      margin-top: 18px;
+    }
+
+    .status-box {
+      display: none;
+      margin-top: 18px;
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-weight: 800;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #4b5563;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .status-box.success {
+      background: #ecfdf5;
+      color: var(--green);
+      border-color: #bbf7d0;
+    }
+
+    .status-box.error {
+      background: #fff1f2;
+      color: var(--red);
+      border-color: #fecdd3;
+    }
+
+    .progress-wrap {
+      display: none;
+      margin-top: 16px;
+      background: #f3f4f6;
+      border-radius: 999px;
+      overflow: hidden;
+      height: 12px;
+    }
+
+    .progress-wrap.show {
+      display: block;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #ffbd59);
+      transition: width 0.25s ease;
+    }
+
+    .download-card {
+      display: none;
+      margin-top: 18px;
+      background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+      border: 1px solid #bbf7d0;
+      border-radius: 24px;
+      padding: 20px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .download-card.show {
+      display: flex;
+    }
+
+    .download-card h3 {
+      color: var(--green);
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .download-card p {
+      color: #166534;
+      font-size: 14px;
+    }
+
+    .info-sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 36px;
+    }
+
+    .info-card {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+    }
+
+    .info-card h2 {
+      color: var(--secondary);
+      font-size: 25px;
+      margin-bottom: 12px;
+    }
+
+    .info-card p,
+    .info-card li {
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .info-card ul,
+    .info-card ol {
+      padding-left: 22px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .related {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .related a {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      padding: 16px;
+      font-weight: 900;
+      color: var(--secondary);
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
+      transition: 0.2s ease;
+    }
+
+    .related a:hover {
+      transform: translateY(-3px);
+      color: var(--primary);
+      border-color: rgba(230, 106, 31, 0.45);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
+    }
+
+    .faq-q {
+      width: 100%;
+      border: 0;
+      background: white;
+      padding: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      text-align: left;
+      color: var(--secondary);
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .faq-a {
+      display: none;
+      padding: 0 17px 17px;
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .faq-item.active .faq-a {
+      display: block;
+    }
+
+    footer {
+      margin-top: 46px;
+      background: #151f3e;
+      color: white;
+      padding: 38px 0 20px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      gap: 26px;
+      margin-bottom: 26px;
+    }
+
+    .footer-brand {
+      font-size: 25px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    footer p,
+    footer a {
+      color: rgba(255,255,255,0.78);
+      font-size: 15px;
+    }
+
+    footer h3 {
+      color: white;
+      margin-bottom: 12px;
+      font-size: 17px;
+    }
+
+    footer ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 18px;
+      color: rgba(255,255,255,0.62);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 1040px) {
+      .hero-grid,
+      .info-sections {
+        grid-template-columns: 1fr;
+      }
+
+      .related,
+      .preview-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .menu-btn {
+        display: inline-flex;
+      }
+
+      .nav.open .nav-links {
+        display: flex;
+        position: absolute;
+        top: 74px;
+        left: 16px;
+        right: 16px;
+        background: white;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 20px;
+        padding: 14px;
+        box-shadow: var(--shadow);
+        border: 1px solid #f1d7bd;
+      }
+
+      .nav.open .nav-links a {
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .top-strip {
+        font-size: 12px;
+      }
+
+      .hero {
+        padding-top: 28px;
+      }
+
+      .tool-shell {
+        padding: 16px;
+        border-radius: 24px;
+      }
+
+      .dropzone {
+        min-height: 235px;
+        padding: 22px 16px;
+      }
+
+      .dropzone h2 {
+        font-size: 23px;
+      }
+
+      .file-summary {
+        grid-template-columns: auto 1fr;
+      }
+
+      .file-summary .danger-btn {
+        grid-column: 1 / -1;
+      }
+
+      .summary-strip,
+      .settings-grid,
+      .controls-grid,
+      .related,
+      .preview-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .download-card {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .primary-btn,
+      .secondary-btn,
+      .danger-btn,
+      .ghost-btn {
+        width: 100%;
+      }
+
+      .hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .panel-head {
+        display: block;
+      }
+
+      .panel-head .danger-btn {
+        margin-top: 14px;
+      }
+    }
   </style>
-
-  <!-- libs -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 </head>
+
 <body>
-  <header>
-    <div class="brand">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <span>PDF → इमेज <span style="color:var(--accent)">ZIP</span></span>
+  <div class="top-strip">
+    <div class="container">
+      <strong>PDF to Image</strong> — PDF pages को JPG या PNG images में बदलें।
     </div>
-    <div class="badges">
-      <span class="pill">100% ब्राउज़र</span>
-      <span class="pill">कोई अपलोड नहीं</span>
+  </div>
+
+  <header>
+    <div class="container nav" id="nav">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">हि</span>
+        <span>HindiTools</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="image-to-pdf-hi.html">Image to PDF</a></li>
+        <li><a href="merge-pdf-hi.html">Merge PDF</a></li>
+        <li><a href="compress-pdf-hi.html">Compress PDF</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+      </ul>
+
+      <a class="nav-cta" href="#pdf-image-tool">PDF to Image</a>
+
+      <button class="menu-btn" id="menuBtn" type="button">☰</button>
     </div>
   </header>
 
-  <main class="container">
-    <section class="card" aria-labelledby="title">
-      <div class="hero">
-        <h1 id="title">हर पेज को JPG/PNG के रूप में सेव करो</h1>
-        <p class="sub">DPI, क्वालिटी, बैकग्राउंड/ट्रांसपेरेंसी, पेज‑रेंज, फ़ाइल नाम — सब कंट्रोल के साथ।</p>
+  <main>
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> / PDF Tools / PDF to Image
       </div>
+    </div>
 
-      <div class="uploader" id="drop" tabindex="0">
-        <p style="margin:0 0 10px">PDF यहाँ <strong>Drag & Drop</strong> करो या</p>
-        <div class="row">
-          <label class="btn gold" for="file">PDF चुनो</label>
-          <button class="btn ghost" id="demoBtn" type="button">डेमो PDF</button>
-        </div>
-        <input id="file" type="file" accept="application/pdf" />
-        <p class="tiny" style="margin-top:8px">टिप: बड़े PDF के लिए DPI 150–300 अच्छा रहता है। सब कुछ आपके ब्राउज़र में।</p>
-      </div>
-
-      <section class="grid two">
-        <!-- Left: file + pages list -->
-        <div class="panel">
-          <h4>फाइल</h4>
-          <div id="list" class="list" aria-live="polite"></div>
-          <div class="tiny" id="countLine">कोई PDF लोड नहीं हुआ।</div>
-        </div>
-
-        <!-- Right: options + previews -->
-        <div class="panel">
-          <h4>आउटपुट सेटिंग्स</h4>
-          <div class="row" style="justify-content:space-between">
-            <label style="display:flex;gap:8px;align-items:center">फॉर्मैट
-              <select id="fmt" style="width:140px">
-                <option value="jpeg">JPG (फोटो)</option>
-                <option value="png">PNG (ट्रांसपेरेंट)</option>
-              </select>
-            </label>
-            <label style="display:flex;gap:8px;align-items:center">DPI
-              <input id="dpi" type="number" value="150" step="1" min="72" max="600" style="width:90px">
-            </label>
-            <label style="display:flex;gap:8px;align-items:center">रेंज
-              <input id="range" placeholder="all या 1-3,5" style="width:140px">
-            </label>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge-row">
+            <span class="badge">📷 PDF to JPG</span>
+            <span class="badge">🖼️ PDF to PNG</span>
+            <span class="badge">📄 Page Range</span>
+            <span class="badge">📦 ZIP Download</span>
           </div>
 
-          <div class="row" style="justify-content:space-between">
-            <label style="display:flex;gap:8px;align-items:center">JPEG क्वालिटी
-              <input id="q" type="range" min="0.5" max="1" step="0.01" value="0.92" style="width:180px">
-            </label>
-            <label style="display:flex;gap:8px;align-items:center">PNG ट्रांसपेरेंट
-              <input id="transparent" type="checkbox" checked>
-            </label>
-            <label style="display:flex;gap:8px;align-items:center">बैकग्राउंड
-              <input id="bg" type="color" value="#ffffff" style="width:60px">
-            </label>
-          </div>
+          <h1>PDF को <span>Image बनाएं</span></h1>
 
-          <div class="row" style="justify-content:flex-start">
-            <label style="display:flex;gap:6px;align-items:center">बेस‑नेम
-              <input id="basename" type="text" value="page" style="width:160px">
-            </label>
-            <label style="display:flex;gap:6px;align-items:center">स्टार्ट‑नंबर
-              <input id="start" type="number" value="1" min="0" style="width:90px">
-            </label>
-            <label style="display:flex;gap:6px;align-items:center">पैड
-              <input id="pad" type="number" value="3" min="1" max="6" style="width:90px" title="डिजिट पैडिंग, जैसे 001, 002…">
-            </label>
-          </div>
+          <p>
+            PDF pages को high-quality JPG या PNG images में convert करें।
+            सभी pages convert करें या selected page range चुनें।
+          </p>
 
-          <div style="margin-top:10px">
-            <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
-            <div class="tiny" id="status" style="margin-top:8px">तैयार…</div>
-          </div>
-
-          <div class="viewer" style="margin-top:12px">
-            <div id="preview"></div>
+          <div class="hero-actions">
+            <a class="primary-btn" href="#pdf-image-tool">अभी Convert करें</a>
+            <a class="ghost-btn" href="image-to-pdf-hi.html">Image to PDF करें</a>
           </div>
         </div>
-      </section>
 
-      <div class="actions">
-        <div class="row" style="justify-content:flex-start">
-          <button class="btn ghost" id="clearBtn" type="button" disabled>रीसेट</button>
-        </div>
-        <div class="row" style="justify-content:flex-end">
-          <button class="btn red" id="exportBtn" type="button" disabled>ZIP बनाओ</button>
-          <button class="btn gold" id="downloadBtn" type="button" disabled>डाउनलोड ZIP</button>
+        <div class="tool-shell" id="pdf-image-tool">
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" accept="application/pdf,.pdf" />
+            <div>
+              <div class="drop-icon">📷</div>
+              <h2>PDF file यहाँ drop करें</h2>
+              <p>PDF upload करें और JPG/PNG images download करें।</p>
+              <button class="upload-btn" type="button" id="selectFileBtn">PDF File चुनें</button>
+              <div class="privacy-note">🔐 PDF आपके browser में render करने की कोशिश की जाती है।</div>
+            </div>
+          </div>
+
+          <div class="panel" id="filePanel" style="display:none;">
+            <div class="panel-head">
+              <div>
+                <h2>Conversion Settings</h2>
+                <p>All pages या selected pages convert करें। Multiple images ZIP में मिलेंगी।</p>
+              </div>
+              <button class="danger-btn" type="button" id="clearBtn">Remove</button>
+            </div>
+
+            <div class="file-summary">
+              <div class="file-icon">📄</div>
+
+              <div>
+                <div class="file-name" id="fileName">document.pdf</div>
+                <div class="file-meta">
+                  <span id="fileSize">0 KB</span>
+                  <span id="pageCount">0 pages</span>
+                </div>
+              </div>
+
+              <button class="ghost-btn" type="button" id="previewBtn">Preview</button>
+            </div>
+
+            <div class="summary-strip">
+              <div class="summary-item">
+                <span>Selected Pages</span>
+                <strong id="summaryPages">All</strong>
+              </div>
+              <div class="summary-item">
+                <span>Format</span>
+                <strong id="summaryFormat">JPG</strong>
+              </div>
+              <div class="summary-item">
+                <span>Scale</span>
+                <strong id="summaryScale">2.0x</strong>
+              </div>
+              <div class="summary-item">
+                <span>Download</span>
+                <strong id="summaryDownload">ZIP</strong>
+              </div>
+            </div>
+
+            <div class="settings-grid">
+              <div class="setting-card">
+                <label for="formatSelect">Output Format</label>
+                <select id="formatSelect">
+                  <option value="jpg" selected>JPG - छोटे size और sharing के लिए</option>
+                  <option value="png">PNG - sharp text/images के लिए</option>
+                </select>
+                <small>JPG में quality control मिलेगा। PNG usually बड़ा size देता है।</small>
+              </div>
+
+              <div class="setting-card">
+                <label for="pageModeSelect">Pages</label>
+                <select id="pageModeSelect">
+                  <option value="all" selected>All pages</option>
+                  <option value="range">Selected range</option>
+                </select>
+                <small>Selected range के लिए नीचे range लिखें।</small>
+              </div>
+
+              <div class="setting-card full" id="rangeCard" style="display:none;">
+                <label for="rangeInput">Page Range</label>
+                <input id="rangeInput" type="text" value="1-3" placeholder="जैसे 1-3, 5, 8-10" />
+                <div class="example-buttons">
+                  <button class="chip-btn" type="button" data-example="1">Page 1</button>
+                  <button class="chip-btn" type="button" data-example="1-3">1-3</button>
+                  <button class="chip-btn" type="button" data-example="1,3,5">1,3,5</button>
+                  <button class="chip-btn" type="button" data-example="2-">2 से last तक</button>
+                </div>
+              </div>
+
+              <div class="setting-card">
+                <label for="scaleRange">Image Scale</label>
+                <div class="range-wrap">
+                  <input type="range" id="scaleRange" min="1" max="4" step="0.25" value="2" />
+                  <div class="range-value" id="scaleValue">2.0x</div>
+                </div>
+                <small>Higher scale = better quality but bigger files.</small>
+              </div>
+
+              <div class="setting-card">
+                <label for="qualityRange">JPG Quality</label>
+                <div class="range-wrap">
+                  <input type="range" id="qualityRange" min="50" max="100" value="92" />
+                  <div class="range-value" id="qualityValue">92%</div>
+                </div>
+                <small>PNG format में यह setting apply नहीं होती।</small>
+              </div>
+
+              <div class="setting-card full">
+                <label for="outputName">Output file name</label>
+                <input id="outputName" type="text" value="pdf-images" placeholder="pdf-images" />
+                <div class="notice">
+                  Tip: Text clarity के लिए scale 2x या 2.5x अच्छा रहता है। बहुत बड़ी PDF में 1.5x रखें ताकि browser slow न हो।
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-grid" id="previewGrid"></div>
+
+            <div class="controls-grid">
+              <div></div>
+              <button class="primary-btn" type="button" id="convertBtn">
+                Images बनाएं
+              </button>
+            </div>
+
+            <div class="progress-wrap" id="progressWrap">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="status-box" id="statusBox"></div>
+
+            <div class="download-card" id="downloadCard">
+              <div>
+                <h3>✅ Images तैयार हैं</h3>
+                <p id="downloadMeta">आपकी images download के लिए ready हैं।</p>
+              </div>
+              <a class="secondary-btn" id="downloadLink" href="#" download="pdf-images.zip">
+                Download
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="card" style="padding:0 22px 22px">
-      <h3 style="margin:16px 0 10px">कैसे इस्तेमाल करें?</h3>
-      <ol style="margin:0 0 0 18px">
-        <li>ऊपर PDF ड्रैग‑ड्रॉप करो (या “PDF चुनो”).</li>
-        <li>रेंज डालो, DPI चुनो (150–300), और फॉर्मैट JPG/PNG सेट करो।
-            PNG के लिए “ट्रांसपेरेंट” ऑन/ऑफ कर सकते हो; JPG के लिए बैकग्राउंड कलर यूज़ होगा।</li>
-        <li>फ़ाइल‑नाम के लिए बेस‑नेम, स्टार्ट‑नंबर और पैड (जैसे 001) चुनो।</li>
-        <li>“ZIP बनाओ” दबाओ → थम्बनेल/प्रोग्रेस देखो → “डाउनलोड ZIP”.</li>
-      </ol>
-      <p class="tiny" style="margin-top:8px">गोपनीयता: कोई अपलोड नहीं — सब कुछ आपके ब्राउज़र में।</p>
+    <section class="container info-sections">
+      <article class="info-card">
+        <h2>PDF to Image कैसे करें?</h2>
+        <ol>
+          <li>ऊपर PDF file upload करें।</li>
+          <li>JPG या PNG format चुनें।</li>
+          <li>All pages या selected page range चुनें।</li>
+          <li>Scale और quality adjust करें।</li>
+          <li><strong>Images बनाएं</strong> button दबाएं और download करें।</li>
+        </ol>
+      </article>
+
+      <article class="info-card">
+        <h2>कौन सा format चुनें?</h2>
+        <ul>
+          <li><strong>JPG:</strong> छोटे size और WhatsApp/email sharing के लिए best।</li>
+          <li><strong>PNG:</strong> text, screenshots और sharp output के लिए best।</li>
+          <li><strong>Scale 2x:</strong> normal quality के लिए अच्छा balance।</li>
+          <li><strong>Scale 3x/4x:</strong> high quality, लेकिन file size और processing ज्यादा।</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="container" style="margin-top:28px;">
+      <div class="info-card">
+        <h2>Related Tools</h2>
+        <div class="related">
+          <a href="image-to-pdf-hi.html">🖼️ Image to PDF</a>
+          <a href="compress-pdf-hi.html">📉 PDF छोटा करें</a>
+          <a href="split-pdf-hi.html">✂️ PDF अलग करें</a>
+          <a href="merge-pdf-hi.html">📎 PDF जोड़ें</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" style="margin-top:28px;">
+      <div class="info-card">
+        <h2>FAQ</h2>
+
+        <div class="faq-list">
+          <div class="faq-item active">
+            <button class="faq-q" type="button">
+              क्या PDF के सभी pages images बनेंगे?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              हाँ, All pages mode में PDF के सभी pages images में convert होंगे।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या मैं सिर्फ कुछ pages convert कर सकता हूँ?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              हाँ, Selected range mode चुनकर 1-3, 5, 8-10 जैसा range लिखें।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              ZIP कब download होगी?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              अगर एक से ज्यादा pages convert होंगे, तो images ZIP file में download होंगी।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              JPG या PNG में क्या फर्क है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              JPG size में छोटा होता है और sharing के लिए अच्छा है। PNG sharp output देता है लेकिन file size बड़ा हो सकता है।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या मेरी PDF server पर upload होती है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              यह page browser-side PDF rendering library का उपयोग करता है। फिर भी sensitive documents के लिए हमेशा सावधानी रखें।
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
   </main>
 
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">HindiTools.com</div>
+          <p>
+            PDF, Image और Document कामों के लिए आसान हिंदी tools।
+            Simple interface, fast workflow और mobile-friendly design।
+          </p>
+        </div>
+
+        <div>
+          <h3>Popular Tools</h3>
+          <ul>
+            <li><a href="pdf-to-image-hi.html">PDF to Image</a></li>
+            <li><a href="image-to-pdf-hi.html">Image to PDF</a></li>
+            <li><a href="merge-pdf-hi.html">PDF जोड़ें</a></li>
+            <li><a href="compress-pdf-hi.html">PDF छोटा करें</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Website</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
+      </div>
+    </div>
+  </footer>
+
   <script>
-  /* ===== Setup ===== */
-  const pdfjsLib = window['pdfjs-dist/build/pdf'];
-  if (pdfjsLib) { pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js'; }
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-  /* ===== State ===== */
-  const S = { pdfBytes:null, name:null, pageCount:0, zip:null, zipBlob:null };
+    const fileInput = document.getElementById("fileInput");
+    const selectFileBtn = document.getElementById("selectFileBtn");
+    const dropzone = document.getElementById("dropzone");
+    const filePanel = document.getElementById("filePanel");
+    const fileNameEl = document.getElementById("fileName");
+    const fileSizeEl = document.getElementById("fileSize");
+    const pageCountEl = document.getElementById("pageCount");
+    const clearBtn = document.getElementById("clearBtn");
+    const previewBtn = document.getElementById("previewBtn");
 
-  /* ===== DOM ===== */
-  const listEl = document.getElementById('list');
-  const fileEl = document.getElementById('file');
-  const dropEl = document.getElementById('drop');
-  const demoBtn = document.getElementById('demoBtn');
-  const exportBtn = document.getElementById('exportBtn');
-  const downloadBtn = document.getElementById('downloadBtn');
-  const clearBtn = document.getElementById('clearBtn');
-  const barEl = document.getElementById('bar');
-  const statusEl = document.getElementById('status');
-  const countEl = document.getElementById('countLine');
-  const pvWrap = document.getElementById('preview');
+    const summaryPages = document.getElementById("summaryPages");
+    const summaryFormat = document.getElementById("summaryFormat");
+    const summaryScale = document.getElementById("summaryScale");
+    const summaryDownload = document.getElementById("summaryDownload");
 
-  const fmtSel = document.getElementById('fmt');
-  const dpiEl = document.getElementById('dpi');
-  const rangeEl = document.getElementById('range');
-  const qEl = document.getElementById('q');
-  const transparentEl = document.getElementById('transparent');
-  const bgEl = document.getElementById('bg');
-  const baseEl = document.getElementById('basename');
-  const startEl = document.getElementById('start');
-  const padEl = document.getElementById('pad');
+    const formatSelect = document.getElementById("formatSelect");
+    const pageModeSelect = document.getElementById("pageModeSelect");
+    const rangeCard = document.getElementById("rangeCard");
+    const rangeInput = document.getElementById("rangeInput");
+    const scaleRange = document.getElementById("scaleRange");
+    const scaleValue = document.getElementById("scaleValue");
+    const qualityRange = document.getElementById("qualityRange");
+    const qualityValue = document.getElementById("qualityValue");
+    const outputName = document.getElementById("outputName");
 
-  /* ===== Utils ===== */
-  function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
-  function fmtBytes(b){ if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; }
-  function pad(n, w){ const s=String(n); return s.length>=w ? s : '0'.repeat(w-s.length)+s; }
-  function parseRange(str, max){ if(!str || str.toLowerCase()==='all') return Array.from({length:max}, (_,i)=>i+1); const out = new Set(); const parts = str.split(',').map(s=>s.trim()).filter(Boolean); for(const p of parts){ const m = p.match(/^(\d+)(?:\s*[-–]\s*(\d+))?$/); if(!m) throw new Error('format'); let a=parseInt(m[1],10), b=m[2]?parseInt(m[2],10):a; if(a<1||b<1||a>max||b>max) throw new Error('range'); if(a>b) [a,b]=[b,a]; for(let i=a;i<=b;i++) out.add(i); } if(!out.size) throw new Error('empty'); return [...out].sort((x,y)=>x-y); }
-  const sleep = ms => new Promise(r=>setTimeout(r,ms));
+    const previewGrid = document.getElementById("previewGrid");
+    const convertBtn = document.getElementById("convertBtn");
+    const statusBox = document.getElementById("statusBox");
+    const progressWrap = document.getElementById("progressWrap");
+    const progressBar = document.getElementById("progressBar");
+    const downloadCard = document.getElementById("downloadCard");
+    const downloadLink = document.getElementById("downloadLink");
+    const downloadMeta = document.getElementById("downloadMeta");
 
-  function updateButtons(){ const has=!!S.pdfBytes; exportBtn.disabled=!has; clearBtn.disabled=!has; downloadBtn.disabled=!S.zipBlob; setBar(0); statusEl.textContent='तैयार…'; }
-  clearBtn.addEventListener('click', ()=>{ S.pdfBytes=null; S.pageCount=0; S.zip=null; S.zipBlob=null; listEl.innerHTML=''; pvWrap.innerHTML=''; countEl.textContent='कोई PDF लोड नहीं हुआ।'; updateButtons(); });
+    let selectedFile = null;
+    let selectedBuffer = null;
+    let pdfDocument = null;
+    let pageCount = 0;
+    let currentDownloadUrl = null;
 
-  /* ===== File add + basic info + first thumb ===== */
-  fileEl.addEventListener('change', async e=>{ await loadPDF(e.target.files?.[0]); fileEl.value=''; });
-  ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
-  ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
-  dropEl.addEventListener('drop', async e=>{ const f=e.dataTransfer.files?.[0]; if (f && f.type==='application/pdf') await loadPDF(f); });
+    function formatBytes(bytes) {
+      if (!bytes) return "0 Bytes";
+      const k = 1024;
+      const sizes = ["Bytes", "KB", "MB", "GB"];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+    }
 
-  demoBtn.addEventListener('click', async ()=>{
-    const { PDFDocument, StandardFonts } = PDFLib;
-    const doc = await PDFDocument.create();
-    const font = await doc.embedFont(StandardFonts.Helvetica);
-    for(let p=1;p<=5;p++){ const page = doc.addPage([595, 842]); page.drawText(`डेमो PDF — पेज ${p}`, { x: 180, y: 420, size: 26, font }); }
-    const bytes = await doc.save();
-    await loadPDF(new File([new Blob([bytes],{type:'application/pdf'})], 'Demo.pdf', {type:'application/pdf'}));
-  });
+    function sanitizeFileName(name) {
+      return (name || "pdf-images")
+        .replace(/\.(zip|jpg|jpeg|png|pdf)$/i, "")
+        .replace(/[^\u0900-\u097Fa-zA-Z0-9-_ ]/g, "")
+        .trim()
+        .replace(/\s+/g, "-") || "pdf-images";
+    }
 
-  async function loadPDF(file){
-    if (!file) return;
-    S.name = file.name.replace(/\.pdf$/i,'');
-    S.pdfBytes = new Uint8Array(await file.arrayBuffer());
-    const pdf = await pdfjsLib.getDocument({data:S.pdfBytes}).promise;
-    S.pageCount = pdf.numPages;
+    function setStatus(message, type = "normal") {
+      statusBox.textContent = message;
+      statusBox.className = "status-box show";
+      if (type === "success") statusBox.classList.add("success");
+      if (type === "error") statusBox.classList.add("error");
+    }
 
-    // Basic list row
-    listEl.innerHTML = '';
-    const row = document.createElement('div'); row.className='item';
-    const th = document.createElement('div'); th.className='thumb'; th.textContent='…';
-    const col = document.createElement('div');
-    const name = document.createElement('div'); name.className='name'; name.textContent=file.name;
-    const meta = document.createElement('div'); meta.className='meta'; meta.textContent=`${fmtBytes(file.size)} • ${S.pageCount} पेज`;
-    col.append(name, meta); row.append(th, col, document.createElement('div')); listEl.appendChild(row);
-    countEl.textContent = `${S.pageCount} पेज तैयार`;
+    function clearStatus() {
+      statusBox.className = "status-box";
+      statusBox.textContent = "";
+    }
 
-    // First page thumb
-    try{
-      const page = await pdf.getPage(1);
-      const vp = page.getViewport({scale: 0.3});
-      const c = document.createElement('canvas'); c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
-      await page.render({canvasContext: c.getContext('2d'), viewport: vp}).promise;
-      th.textContent=''; th.appendChild(c);
-    }catch(e){ console.error(e); }
+    function setProgress(percent) {
+      progressWrap.classList.add("show");
+      progressBar.style.width = `${percent}%`;
+    }
 
-    updateButtons(); pvWrap.innerHTML='';
-  }
+    function resetProgress() {
+      progressWrap.classList.remove("show");
+      progressBar.style.width = "0%";
+    }
 
-  /* ===== Export (ZIP) ===== */
-  exportBtn.addEventListener('click', exportZip);
-  downloadBtn.addEventListener('click', ()=>{ if (!S.zipBlob) return; const a=document.createElement('a'); const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19); a.href=URL.createObjectURL(S.zipBlob); a.download=`${(S.name||'PDF')}-images-${stamp}.zip`; a.click(); URL.revokeObjectURL(a.href); });
-
-  async function exportZip(){
-    if (!S.pdfBytes) return;
-    try{
-      setBar(1); statusEl.textContent='पेज लोड…';
-      const pdf = await pdfjsLib.getDocument({data:S.pdfBytes}).promise;
-      const total = S.pageCount;
-      const selPages = parseRange((rangeEl.value||'all').trim(), total);
-      const dpi = Math.min(600, Math.max(72, parseInt(dpiEl.value,10)||150));
-      const scaleFromDPI = dpi / 72; // 1pt=1/72in
-      const fmt = fmtSel.value; // 'jpeg' | 'png'
-      const q = parseFloat(qEl.value)||0.92;
-      const transparent = !!transparentEl.checked; const bg = bgEl.value || '#ffffff';
-      const basename = (baseEl.value||'page').replace(/[^a-zA-Z0-9_-]/g,'_');
-      const start = Math.max(0, parseInt(startEl.value,10)||1);
-      const padW = Math.max(1, Math.min(6, parseInt(padEl.value,10)||3));
-
-      // ZIP prep
-      const zip = new JSZip();
-      const folder = zip.folder(`${(S.name||'PDF')}_images`);
-
-      pvWrap.innerHTML='';
-      for (let i=0;i<selPages.length;i++){
-        const pageNum = selPages[i];
-        const page = await pdf.getPage(pageNum);
-        const vp = page.getViewport({ scale: scaleFromDPI });
-
-        // canvas render
-        const c = document.createElement('canvas');
-        const ctx = c.getContext('2d');
-        c.width = Math.floor(vp.width); c.height = Math.floor(vp.height);
-        // background for JPEG, or PNG with transparent=false
-        if (fmt==='jpeg' || !transparent){ ctx.fillStyle = bg; ctx.fillRect(0,0,c.width,c.height); }
-        await page.render({ canvasContext: ctx, viewport: vp, background: 'rgba(0,0,0,0)' }).promise;
-
-        // thumbnail in UI
-        const box=document.createElement('div'); box.className='pv';
-        const tc=document.createElement('canvas'); tc.width=Math.min(600, c.width/2); tc.height=Math.min(800, c.height/2);
-        const tctx=tc.getContext('2d');
-        const scale = Math.min(tc.width/c.width, tc.height/c.height);
-        tc.width = Math.floor(c.width*scale); tc.height = Math.floor(c.height*scale);
-        tctx.drawImage(c, 0, 0, tc.width, tc.height);
-        const cap=document.createElement('div'); cap.className='cap'; cap.textContent='पेज '+pageNum;
-        box.appendChild(tc); box.appendChild(cap); pvWrap.appendChild(box);
-
-        // blob & zip add
-        const mime = fmt==='png' ? 'image/png' : 'image/jpeg';
-        const blob = await new Promise(res => c.toBlob(res, mime, q));
-        const fname = `${basename}-${pad(start + i, padW)}.${fmt==='png'?'png':'jpg'}`;
-        folder.file(fname, blob);
-
-        setBar(((i+1)/selPages.length)*95);
-        if ((i%3)===0) await sleep(0);
+    function resetDownload() {
+      if (currentDownloadUrl) {
+        URL.revokeObjectURL(currentDownloadUrl);
+        currentDownloadUrl = null;
       }
 
-      statusEl.textContent='ZIP पैक हो रहा…';
-      S.zipBlob = await zip.generateAsync({ type:'blob', compression:'DEFLATE', compressionOptions:{level:6} });
-      setBar(100);
-      downloadBtn.disabled=false; statusEl.textContent='तैयार — डाउनलोड ZIP!';
-    }catch(err){ console.error(err); alert('एक्सपोर्ट नहीं हो पाया: '+(err?.message||err)); statusEl.textContent='एरर।'; }
-  }
+      downloadCard.classList.remove("show");
+      downloadLink.href = "#";
+    }
+
+    function resetPreview() {
+      previewGrid.innerHTML = "";
+      previewGrid.classList.remove("show");
+    }
+
+    function updateSummary() {
+      if (!pageCount) {
+        summaryPages.textContent = "All";
+        summaryFormat.textContent = formatSelect.value.toUpperCase();
+        summaryScale.textContent = `${Number(scaleRange.value).toFixed(2)}x`;
+        summaryDownload.textContent = "ZIP";
+        return;
+      }
+
+      let pages = [];
+
+      try {
+        pages = getSelectedPages();
+      } catch {
+        pages = [];
+      }
+
+      summaryPages.textContent = pageModeSelect.value === "all" ? `All ${pageCount}` : `${pages.length || "?"}`;
+      summaryFormat.textContent = formatSelect.value.toUpperCase();
+      summaryScale.textContent = `${Number(scaleRange.value).toFixed(2)}x`;
+      summaryDownload.textContent = pages.length === 1 ? "Image" : "ZIP";
+
+      scaleValue.textContent = `${Number(scaleRange.value).toFixed(2)}x`;
+      qualityValue.textContent = `${qualityRange.value}%`;
+    }
+
+    function parsePageRanges(input, totalPages) {
+      const cleanInput = String(input || "").replace(/\s+/g, "");
+      if (!cleanInput) {
+        throw new Error("Page range खाली है।");
+      }
+
+      const parts = cleanInput.split(",").filter(Boolean);
+      const pages = [];
+
+      for (const part of parts) {
+        if (/^\d+$/.test(part)) {
+          const page = Number(part);
+          if (page < 1 || page > totalPages) {
+            throw new Error(`Page ${page} PDF में मौजूद नहीं है।`);
+          }
+          pages.push(page);
+          continue;
+        }
+
+        const match = part.match(/^(\d*)-(\d*)$/);
+        if (!match) {
+          throw new Error(`"${part}" valid range नहीं है।`);
+        }
+
+        let start = match[1] ? Number(match[1]) : 1;
+        let end = match[2] ? Number(match[2]) : totalPages;
+
+        if (start < 1) start = 1;
+        if (end > totalPages) end = totalPages;
+
+        if (start > end) {
+          throw new Error(`"${part}" में start page end page से बड़ा है।`);
+        }
+
+        for (let page = start; page <= end; page++) {
+          pages.push(page);
+        }
+      }
+
+      const uniquePages = [...new Set(pages)];
+
+      if (!uniquePages.length) {
+        throw new Error("कोई valid page नहीं मिला।");
+      }
+
+      return uniquePages;
+    }
+
+    function getSelectedPages() {
+      if (!pageCount) return [];
+
+      if (pageModeSelect.value === "all") {
+        return Array.from({ length: pageCount }, (_, index) => index + 1);
+      }
+
+      return parsePageRanges(rangeInput.value, pageCount);
+    }
+
+    async function loadFile(file) {
+      clearStatus();
+      resetProgress();
+      resetDownload();
+      resetPreview();
+
+      if (!file || !(file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"))) {
+        setStatus("कृपया केवल PDF file upload करें।", "error");
+        return;
+      }
+
+      try {
+        setStatus("PDF read की जा रही है...");
+
+        selectedFile = file;
+        selectedBuffer = await file.arrayBuffer();
+
+        const loadingTask = pdfjsLib.getDocument({ data: selectedBuffer.slice(0) });
+        pdfDocument = await loadingTask.promise;
+        pageCount = pdfDocument.numPages;
+
+        fileNameEl.textContent = file.name;
+        fileNameEl.title = file.name;
+        fileSizeEl.textContent = formatBytes(file.size);
+        pageCountEl.textContent = `${pageCount} page${pageCount > 1 ? "s" : ""}`;
+
+        if (pageCount < 3) {
+          rangeInput.value = "1";
+        } else {
+          rangeInput.value = `1-${Math.min(3, pageCount)}`;
+        }
+
+        filePanel.style.display = "block";
+        convertBtn.disabled = false;
+        updateSummary();
+        setStatus(`PDF ready है। Total pages: ${pageCount}. Settings choose करें।`, "success");
+      } catch (error) {
+        console.error(error);
+        selectedFile = null;
+        selectedBuffer = null;
+        pdfDocument = null;
+        pageCount = 0;
+        filePanel.style.display = "none";
+        convertBtn.disabled = true;
+        setStatus("यह PDF read नहीं हो सकी। File encrypted, damaged या unsupported हो सकती है।", "error");
+      }
+    }
+
+    async function renderPageToCanvas(pageNumber, scale, preview = false) {
+      if (!pdfDocument) throw new Error("PDF load नहीं हुई।");
+
+      const page = await pdfDocument.getPage(pageNumber);
+      const viewport = page.getViewport({ scale });
+
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d", { alpha: false });
+
+      canvas.width = Math.floor(viewport.width);
+      canvas.height = Math.floor(viewport.height);
+
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      await page.render({
+        canvasContext: context,
+        viewport
+      }).promise;
+
+      if (preview) {
+        return canvas;
+      }
+
+      return canvas;
+    }
+
+    function canvasToBlob(canvas, format, quality) {
+      return new Promise(resolve => {
+        if (format === "png") {
+          canvas.toBlob(resolve, "image/png");
+        } else {
+          canvas.toBlob(resolve, "image/jpeg", quality);
+        }
+      });
+    }
+
+    async function showPreview() {
+      if (!pdfDocument) {
+        setStatus("पहले PDF upload करें।", "error");
+        return;
+      }
+
+      resetPreview();
+      clearStatus();
+
+      try {
+        const pages = getSelectedPages().slice(0, 6);
+        if (!pages.length) {
+          setStatus("Preview के लिए valid pages नहीं मिले।", "error");
+          return;
+        }
+
+        setStatus("Preview बनाई जा रही है...");
+        previewGrid.classList.add("show");
+
+        for (const pageNumber of pages) {
+          const canvas = await renderPageToCanvas(pageNumber, 0.45, true);
+
+          const card = document.createElement("div");
+          card.className = "preview-card";
+
+          const wrap = document.createElement("div");
+          wrap.className = "preview-canvas-wrap";
+          wrap.appendChild(canvas);
+
+          const label = document.createElement("strong");
+          label.textContent = `Page ${pageNumber}`;
+
+          card.appendChild(wrap);
+          card.appendChild(label);
+          previewGrid.appendChild(card);
+        }
+
+        const totalSelected = getSelectedPages().length;
+        if (totalSelected > 6) {
+          const extra = document.createElement("div");
+          extra.className = "preview-card";
+          extra.innerHTML = `
+            <div class="preview-canvas-wrap">
+              <strong>+${totalSelected - 6} more</strong>
+            </div>
+            <strong>बाकी pages output में शामिल होंगे</strong>
+          `;
+          previewGrid.appendChild(extra);
+        }
+
+        setStatus("Preview ready है। अब convert कर सकते हैं।", "success");
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || "Preview नहीं बन सकी।", "error");
+      }
+    }
+
+    async function convertPdfToImages() {
+      if (!pdfDocument || !selectedFile) {
+        setStatus("पहले PDF file upload करें।", "error");
+        return;
+      }
+
+      resetDownload();
+      resetProgress();
+      clearStatus();
+
+      convertBtn.disabled = true;
+
+      try {
+        const pages = getSelectedPages();
+        const format = formatSelect.value;
+        const scale = Number(scaleRange.value);
+        const quality = Number(qualityRange.value) / 100;
+        const baseName = sanitizeFileName(outputName.value);
+
+        if (!pages.length) {
+          throw new Error("कोई valid page selected नहीं है।");
+        }
+
+        setStatus("PDF pages convert हो रहे हैं...");
+        setProgress(5);
+
+        const outputFiles = [];
+
+        for (let i = 0; i < pages.length; i++) {
+          const pageNumber = pages[i];
+
+          setStatus(`Page ${pageNumber} convert हो रहा है... (${i + 1}/${pages.length})`);
+
+          const canvas = await renderPageToCanvas(pageNumber, scale);
+          const blob = await canvasToBlob(canvas, format, quality);
+
+          const extension = format === "png" ? "png" : "jpg";
+          const fileName = `${baseName}-page-${String(pageNumber).padStart(3, "0")}.${extension}`;
+
+          outputFiles.push({
+            fileName,
+            blob
+          });
+
+          canvas.width = 1;
+          canvas.height = 1;
+
+          setProgress(Math.round(((i + 1) / pages.length) * 85));
+        }
+
+        let finalBlob;
+        let finalName;
+        let description;
+
+        if (outputFiles.length === 1) {
+          finalBlob = outputFiles[0].blob;
+          finalName = outputFiles[0].fileName;
+          description = `${format.toUpperCase()} image ready`;
+        } else {
+          setStatus("ZIP file बनाई जा रही है...");
+          setProgress(92);
+
+          const zip = new JSZip();
+
+          outputFiles.forEach(file => {
+            zip.file(file.fileName, file.blob);
+          });
+
+          finalBlob = await zip.generateAsync({ type: "blob" });
+          finalName = `${baseName}-${format}-images.zip`;
+          description = `${outputFiles.length} images ZIP में ready हैं`;
+        }
+
+        currentDownloadUrl = URL.createObjectURL(finalBlob);
+        downloadLink.href = currentDownloadUrl;
+        downloadLink.download = finalName;
+        downloadLink.textContent = finalName.toLowerCase().endsWith(".zip") ? "Download ZIP" : "Download Image";
+        downloadMeta.textContent = `${description} • Size: ${formatBytes(finalBlob.size)}`;
+        downloadCard.classList.add("show");
+
+        setProgress(100);
+        setStatus("PDF successfully image में convert हो गई है। अब download करें।", "success");
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || "PDF image में convert नहीं हो सकी। File बहुत बड़ी, encrypted या unsupported हो सकती है।", "error");
+      } finally {
+        convertBtn.disabled = !pdfDocument;
+        setTimeout(resetProgress, 1100);
+      }
+    }
+
+    function clearFile() {
+      selectedFile = null;
+      selectedBuffer = null;
+      pdfDocument = null;
+      pageCount = 0;
+      fileInput.value = "";
+      filePanel.style.display = "none";
+      convertBtn.disabled = true;
+      resetDownload();
+      resetProgress();
+      resetPreview();
+      clearStatus();
+      updateSummary();
+      setStatus("File remove कर दी गई है। नई PDF upload करें।");
+    }
+
+    function updatePageModeUI() {
+      rangeCard.style.display = pageModeSelect.value === "range" ? "block" : "none";
+      resetDownload();
+      resetPreview();
+      clearStatus();
+      updateSummary();
+    }
+
+    function openFilePicker() {
+      fileInput.value = "";
+      fileInput.click();
+    }
+
+    selectFileBtn.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      openFilePicker();
+    });
+
+    dropzone.addEventListener("click", event => {
+      if (event.target.closest("button")) return;
+      openFilePicker();
+    });
+
+    fileInput.addEventListener("change", event => {
+      const file = event.target.files && event.target.files[0];
+      if (file) loadFile(file);
+      fileInput.value = "";
+    });
+
+    ["dragenter", "dragover"].forEach(eventName => {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropzone.classList.add("dragover");
+      });
+    });
+
+    ["dragleave", "drop"].forEach(eventName => {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropzone.classList.remove("dragover");
+      });
+    });
+
+    dropzone.addEventListener("drop", event => {
+      const file = event.dataTransfer.files && event.dataTransfer.files[0];
+      if (file) loadFile(file);
+    });
+
+    document.querySelectorAll(".chip-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        rangeInput.value = btn.dataset.example;
+        resetDownload();
+        resetPreview();
+        updateSummary();
+      });
+    });
+
+    formatSelect.addEventListener("change", () => {
+      resetDownload();
+      resetPreview();
+      updateSummary();
+    });
+
+    pageModeSelect.addEventListener("change", updatePageModeUI);
+
+    rangeInput.addEventListener("input", () => {
+      resetDownload();
+      resetPreview();
+      updateSummary();
+    });
+
+    scaleRange.addEventListener("input", () => {
+      scaleValue.textContent = `${Number(scaleRange.value).toFixed(2)}x`;
+      resetDownload();
+      resetPreview();
+      updateSummary();
+    });
+
+    qualityRange.addEventListener("input", () => {
+      qualityValue.textContent = `${qualityRange.value}%`;
+      resetDownload();
+      updateSummary();
+    });
+
+    outputName.addEventListener("input", resetDownload);
+
+    clearBtn.addEventListener("click", clearFile);
+    previewBtn.addEventListener("click", showPreview);
+    convertBtn.addEventListener("click", convertPdfToImages);
+
+    document.getElementById("menuBtn").addEventListener("click", () => {
+      document.getElementById("nav").classList.toggle("open");
+    });
+
+    document.querySelectorAll(".faq-q").forEach(btn => {
+      btn.addEventListener("click", () => {
+        btn.parentElement.classList.toggle("active");
+      });
+    });
+
+    updatePageModeUI();
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "क्या PDF के सभी pages images बनेंगे?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "हाँ, All pages mode में PDF के सभी pages images में convert होंगे।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या मैं सिर्फ कुछ pages convert कर सकता हूँ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "हाँ, Selected range mode चुनकर 1-3, 5, 8-10 जैसा range लिखें।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "ZIP कब download होगी?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "अगर एक से ज्यादा pages convert होंगे, तो images ZIP file में download होंगी।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "JPG या PNG में क्या फर्क है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "JPG size में छोटा होता है और sharing के लिए अच्छा है। PNG sharp output देता है लेकिन file size बड़ा हो सकता है।"
+          }
+        }
+      ]
+    };
+
+    const schemaScript = document.createElement("script");
+    schemaScript.type = "application/ld+json";
+    schemaScript.textContent = JSON.stringify(faqSchema);
+    document.head.appendChild(schemaScript);
   </script>
 </body>
 </html>
