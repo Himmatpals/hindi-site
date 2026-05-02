@@ -1,0 +1,2395 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Text to Speech & Speech to Text | Hindi Punjabi English Voice Tool - HindiTools</title>
+
+  <meta name="description" content="HindiTools Voice Studio: Hindi, Punjabi और English text to speech और speech to text tool. Voice selection, speed, pitch, volume, live transcription, copy, download और language controls के साथ." />
+  <meta name="keywords" content="text to speech Hindi, speech to text Hindi, Punjabi text to speech, Punjabi speech to text, English TTS, Hindi voice typing, Punjabi voice typing, HindiTools" />
+  <meta name="author" content="HindiTools.com" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="HindiTools Voice Studio - Text to Speech & Speech to Text" />
+  <meta property="og:description" content="Hindi, Punjabi और English के लिए professional TTS और voice typing tool." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.hinditools.com/voice-tools-hi.html" />
+
+  <link rel="canonical" href="https://www.hinditools.com/voice-tools-hi.html" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&family=Noto+Sans+Gurmukhi:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #fff8f0;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --primary: #e66a1f;
+      --primary-dark: #bf4e13;
+      --secondary: #273c75;
+      --green: #12805c;
+      --red: #dc2626;
+      --yellow: #b45309;
+      --border: #f1d7bd;
+      --soft: #fffaf5;
+      --card: #ffffff;
+      --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Sans Devanagari", "Noto Sans Gurmukhi", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(230, 106, 31, 0.15), transparent 28%),
+        radial-gradient(circle at top right, rgba(39, 60, 117, 0.12), transparent 32%),
+        radial-gradient(circle at 80% 70%, rgba(18, 128, 92, 0.08), transparent 28%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button,
+    textarea,
+    input,
+    select {
+      font-family: inherit;
+    }
+
+    .container {
+      width: min(1220px, calc(100% - 32px));
+      margin: auto;
+    }
+
+    .top-strip {
+      background: linear-gradient(90deg, var(--secondary), #4457b5);
+      color: white;
+      text-align: center;
+      padding: 9px 0;
+      font-size: 14px;
+    }
+
+    .top-strip strong {
+      color: #ffe5bf;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 248, 240, 0.9);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(241, 215, 189, 0.9);
+    }
+
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--secondary);
+      font-size: 22px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), #ffbd59);
+      color: white;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 24px rgba(230, 106, 31, 0.28);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      padding: 10px 13px;
+      border-radius: 999px;
+      color: #3f4655;
+      font-size: 15px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.08);
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: white;
+      padding: 11px 16px;
+      border-radius: 999px;
+      font-weight: 900;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.25);
+      white-space: nowrap;
+    }
+
+    .menu-btn {
+      display: none;
+      border: 0;
+      background: white;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 21px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+      cursor: pointer;
+    }
+
+    .breadcrumb {
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .breadcrumb a {
+      color: var(--primary);
+    }
+
+    .hero {
+      padding: 38px 0 24px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 0.82fr 1.18fr;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(241, 215, 189, 0.95);
+      color: #71401c;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.06);
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 4.7vw, 58px);
+      line-height: 1.08;
+      letter-spacing: -1.6px;
+      color: var(--secondary);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero p {
+      color: #4b5563;
+      font-size: 18px;
+      max-width: 650px;
+      margin-bottom: 20px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 22px;
+    }
+
+    .btn,
+    .primary-btn,
+    .secondary-btn,
+    .danger-btn,
+    .ghost-btn,
+    .small-btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .primary-btn,
+    .btn.primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.23);
+    }
+
+    .primary-btn:hover,
+    .btn.primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .secondary-btn,
+    .btn.dark {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .danger-btn,
+    .btn.danger {
+      background: #fff1f2;
+      color: var(--red);
+      border: 1px solid #fecdd3;
+    }
+
+    .ghost-btn,
+    .btn.ghost {
+      background: white;
+      color: #4b5563;
+      border: 1px solid #ead6c2;
+    }
+
+    .btn.green {
+      background: #ecfdf5;
+      color: var(--green);
+      border: 1px solid #bbf7d0;
+    }
+
+    .btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .studio-shell {
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(241, 215, 189, 0.95);
+      border-radius: 34px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .studio-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: start;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .studio-top h2 {
+      color: var(--secondary);
+      font-size: 24px;
+      line-height: 1.2;
+    }
+
+    .studio-top p {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .mode-pill {
+      display: inline-flex;
+      background: #fffaf5;
+      border: 1px solid var(--border);
+      padding: 4px;
+      border-radius: 999px;
+      gap: 4px;
+      flex-wrap: wrap;
+    }
+
+    .mode-pill button {
+      border: 0;
+      background: transparent;
+      padding: 8px 11px;
+      border-radius: 999px;
+      cursor: pointer;
+      color: #4b5563;
+      font-weight: 900;
+      font-size: 13px;
+    }
+
+    .mode-pill button.active {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .tool-panel {
+      display: none;
+    }
+
+    .tool-panel.active {
+      display: block;
+    }
+
+    .settings-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .setting {
+      background: var(--soft);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    .setting label {
+      display: block;
+      color: var(--secondary);
+      font-weight: 900;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .setting select,
+    .setting input {
+      width: 100%;
+      border: 1px solid #ead6c2;
+      background: white;
+      border-radius: 13px;
+      padding: 10px 11px;
+      font-size: 14px;
+      outline: 0;
+      font-weight: 700;
+    }
+
+    .setting select:focus,
+    .setting input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.1);
+    }
+
+    .editor-card {
+      background: var(--soft);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      padding: 14px;
+      min-width: 0;
+      margin-top: 14px;
+    }
+
+    .editor-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+
+    .editor-head h3 {
+      color: var(--secondary);
+      font-size: 18px;
+    }
+
+    .editor-head span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    textarea {
+      width: 100%;
+      border: 1px solid #ead6c2;
+      border-radius: 18px;
+      padding: 15px;
+      resize: vertical;
+      outline: 0;
+      font-size: 18px;
+      line-height: 1.8;
+      background: white;
+      color: var(--text);
+      min-height: 210px;
+    }
+
+    textarea:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.1);
+    }
+
+    .indic-text {
+      font-family: "Noto Sans Devanagari", "Noto Sans Gurmukhi", system-ui, sans-serif;
+    }
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .small-btn,
+    .btn.small {
+      border: 1px solid #ead6c2;
+      background: white;
+      color: #4b5563;
+      border-radius: 13px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-weight: 900;
+      box-shadow: none;
+    }
+
+    .btn.small.primary,
+    .small-btn.primary {
+      background: var(--primary);
+      color: white;
+      border-color: var(--primary);
+    }
+
+    .btn.small.dark,
+    .small-btn.dark {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+    }
+
+    .btn.small.green,
+    .small-btn.green {
+      background: #ecfdf5;
+      color: var(--green);
+      border-color: #bbf7d0;
+    }
+
+    .btn.small.danger,
+    .small-btn.danger {
+      background: #fff1f2;
+      color: var(--red);
+      border-color: #fecdd3;
+    }
+
+    .voice-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 14px;
+      margin-top: 14px;
+    }
+
+    .voice-card h3 {
+      color: var(--secondary);
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .voice-card p {
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .range-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .range-box {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 13px;
+    }
+
+    .range-box label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      font-weight: 900;
+      color: var(--secondary);
+      margin-bottom: 8px;
+    }
+
+    .range-box input {
+      width: 100%;
+      accent-color: var(--primary);
+    }
+
+    .progress-wrap {
+      margin-top: 14px;
+      background: #f3f4f6;
+      border-radius: 999px;
+      height: 12px;
+      overflow: hidden;
+      display: none;
+    }
+
+    .progress-wrap.show {
+      display: block;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--primary), #ffbd59);
+      transition: width 0.25s ease;
+    }
+
+    .read-view {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 15px;
+      min-height: 160px;
+      max-height: 260px;
+      overflow: auto;
+      font-size: 18px;
+      line-height: 1.9;
+      margin-top: 14px;
+      white-space: pre-wrap;
+    }
+
+    .read-view .word {
+      padding: 1px 3px;
+      border-radius: 6px;
+    }
+
+    .read-view .word.active {
+      background: #ffe5bf;
+      color: var(--secondary);
+      font-weight: 900;
+    }
+
+    .status-box {
+      display: none;
+      margin-top: 14px;
+      border-radius: 18px;
+      padding: 13px 14px;
+      font-size: 14px;
+      font-weight: 850;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #4b5563;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .status-box.success {
+      background: #ecfdf5;
+      color: var(--green);
+      border-color: #bbf7d0;
+    }
+
+    .status-box.error {
+      background: #fff1f2;
+      color: var(--red);
+      border-color: #fecdd3;
+    }
+
+    .status-box.warn {
+      background: #fffbeb;
+      color: #92400e;
+      border-color: #fde68a;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .stat {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 11px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 2px;
+    }
+
+    .stat strong {
+      color: var(--secondary);
+      font-size: 17px;
+      line-height: 1.2;
+    }
+
+    .transcript-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .interim-box {
+      min-height: 150px;
+      background: #f9fafb;
+      border: 1px dashed #c7d2fe;
+      border-radius: 18px;
+      padding: 15px;
+      color: #4b5563;
+      font-size: 18px;
+      line-height: 1.8;
+      white-space: pre-wrap;
+    }
+
+    .recording-badge {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      color: var(--red);
+      font-weight: 900;
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+      border-radius: 999px;
+      padding: 8px 12px;
+    }
+
+    .recording-badge.show {
+      display: inline-flex;
+    }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--red);
+      animation: pulse 1s infinite;
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.35); opacity: 0.45; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 18px;
+      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+      margin-top: 18px;
+    }
+
+    .panel h2 {
+      color: var(--secondary);
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    .panel p,
+    .panel li {
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .panel ul,
+    .panel ol {
+      padding-left: 22px;
+      display: grid;
+      gap: 7px;
+      margin-top: 8px;
+    }
+
+    .preset-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .preset {
+      background: var(--soft);
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 12px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .preset:hover {
+      background: white;
+      border-color: var(--primary);
+      transform: translateY(-2px);
+    }
+
+    .preset strong {
+      color: var(--secondary);
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .preset span {
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .info-sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 36px;
+    }
+
+    .info-card {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+    }
+
+    .info-card h2 {
+      color: var(--secondary);
+      font-size: 25px;
+      margin-bottom: 12px;
+    }
+
+    .info-card p,
+    .info-card li {
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .info-card ul,
+    .info-card ol {
+      padding-left: 22px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .related {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .related a {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 16px;
+      font-weight: 900;
+      color: var(--secondary);
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
+      transition: 0.2s ease;
+    }
+
+    .related a:hover {
+      transform: translateY(-3px);
+      color: var(--primary);
+      border-color: rgba(230, 106, 31, 0.45);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
+    }
+
+    .faq-q {
+      width: 100%;
+      border: 0;
+      background: white;
+      padding: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      text-align: left;
+      color: var(--secondary);
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .faq-a {
+      display: none;
+      padding: 0 17px 17px;
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .faq-item.active .faq-a {
+      display: block;
+    }
+
+    footer {
+      margin-top: 46px;
+      background: #151f3e;
+      color: white;
+      padding: 38px 0 20px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      gap: 26px;
+      margin-bottom: 26px;
+    }
+
+    .footer-brand {
+      font-size: 25px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    footer p,
+    footer a {
+      color: rgba(255,255,255,0.78);
+      font-size: 15px;
+    }
+
+    footer h3 {
+      color: white;
+      margin-bottom: 12px;
+      font-size: 17px;
+    }
+
+    footer ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 18px;
+      color: rgba(255,255,255,0.62);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 1120px) {
+      .hero-grid,
+      .info-sections,
+      .transcript-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .settings-row,
+      .range-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .preset-grid,
+      .related {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .menu-btn {
+        display: inline-flex;
+      }
+
+      .nav.open .nav-links {
+        display: flex;
+        position: absolute;
+        top: 74px;
+        left: 16px;
+        right: 16px;
+        background: white;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 20px;
+        padding: 14px;
+        box-shadow: var(--shadow);
+        border: 1px solid var(--border);
+      }
+
+      .nav.open .nav-links a {
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .top-strip {
+        font-size: 12px;
+      }
+
+      .hero {
+        padding-top: 28px;
+      }
+
+      .studio-shell {
+        padding: 16px;
+        border-radius: 24px;
+      }
+
+      .studio-top {
+        display: block;
+      }
+
+      .mode-pill {
+        margin-top: 12px;
+        width: 100%;
+      }
+
+      .mode-pill button {
+        flex: 1;
+      }
+
+      .settings-row,
+      .range-grid,
+      .stats-row,
+      .preset-grid,
+      .related,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .primary-btn,
+      .secondary-btn,
+      .danger-btn,
+      .ghost-btn {
+        width: 100%;
+      }
+
+      .hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="top-strip">
+    <div class="container">
+      <strong>Voice Studio</strong> — Hindi, Punjabi और English के लिए Text-to-Speech + Speech-to-Text.
+    </div>
+  </div>
+
+  <header>
+    <div class="container nav" id="nav">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">हि</span>
+        <span>HindiTools</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="punjabi-typing.html">Punjabi/Hindi Writer</a></li>
+        <li><a href="image-to-pdf-hi.html">Image to PDF</a></li>
+        <li><a href="merge-pdf-hi.html">Merge PDF</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+      </ul>
+
+      <a class="nav-cta" href="#voiceStudio">Voice Studio</a>
+
+      <button class="menu-btn" id="menuBtn" type="button">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> / Voice Tools / Text to Speech & Speech to Text
+      </div>
+    </div>
+
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge-row">
+            <span class="badge">🔊 Text to Speech</span>
+            <span class="badge">🎙️ Speech to Text</span>
+            <span class="badge">🇮🇳 Hindi</span>
+            <span class="badge">🇮🇳 Punjabi</span>
+            <span class="badge">🇬🇧 English</span>
+          </div>
+
+          <h1>HindiTools <span>Voice Studio</span></h1>
+
+          <p>
+            Text को natural voice में सुनें और microphone से speech को text में बदलें।
+            Hindi, Punjabi और English के लिए voice selection, speed, pitch, live transcript,
+            copy और download tools included.
+          </p>
+
+          <div class="hero-actions">
+            <a class="primary-btn" href="#voiceStudio">Start Voice Tool</a>
+            <a class="ghost-btn" href="punjabi-typing.html">Open Writer</a>
+          </div>
+
+          <div class="status-box warn show">
+            Note: Voice quality और speech recognition support आपके browser/device पर depend करता है.
+            Chrome/Edge में speech recognition usually better रहता है.
+          </div>
+        </div>
+
+        <div class="studio-shell" id="voiceStudio">
+          <div class="studio-top">
+            <div>
+              <h2>Professional Voice Tool</h2>
+              <p>Choose mode: Text-to-Speech or Speech-to-Text.</p>
+            </div>
+
+            <div class="mode-pill">
+              <button type="button" class="active" id="ttsTabBtn">Text → Speech</button>
+              <button type="button" id="sttTabBtn">Speech → Text</button>
+            </div>
+          </div>
+
+          <div class="tool-panel active" id="ttsPanel">
+            <div class="settings-row">
+              <div class="setting">
+                <label for="ttsLanguage">Language</label>
+                <select id="ttsLanguage">
+                  <option value="auto" selected>Auto Detect</option>
+                  <option value="en-US">English</option>
+                  <option value="hi-IN">Hindi</option>
+                  <option value="pa-IN">Punjabi</option>
+                </select>
+              </div>
+
+              <div class="setting">
+                <label for="voiceFilter">Voice Filter</label>
+                <select id="voiceFilter">
+                  <option value="best" selected>Best Natural Voice</option>
+                  <option value="language">Language Match</option>
+                  <option value="all">Show All Voices</option>
+                </select>
+              </div>
+
+              <div class="setting">
+                <label for="chunkMode">Reading Mode</label>
+                <select id="chunkMode">
+                  <option value="sentence" selected>Sentence by Sentence</option>
+                  <option value="paragraph">Paragraph by Paragraph</option>
+                  <option value="all">Whole Text</option>
+                </select>
+              </div>
+
+              <div class="setting">
+                <label for="ttsOutputName">Download Name</label>
+                <input id="ttsOutputName" type="text" value="voice-text" />
+              </div>
+            </div>
+
+            <div class="editor-card">
+              <div class="editor-head">
+                <h3>Text to Speak</h3>
+                <span id="ttsCount">0 words</span>
+              </div>
+
+              <textarea id="ttsText" class="indic-text" placeholder="Type Hindi, Punjabi or English text here..."></textarea>
+
+              <div class="toolbar">
+                <button class="btn small primary" type="button" id="speakBtn">▶ Speak</button>
+                <button class="btn small" type="button" id="pauseBtn">⏸ Pause</button>
+                <button class="btn small" type="button" id="resumeBtn">▶ Resume</button>
+                <button class="btn small danger" type="button" id="stopBtn">■ Stop</button>
+                <button class="btn small" type="button" id="previewVoiceBtn">Voice Preview</button>
+              </div>
+
+              <div class="toolbar">
+                <button class="btn small" type="button" id="sampleEnglishBtn">English Sample</button>
+                <button class="btn small" type="button" id="sampleHindiBtn">Hindi Sample</button>
+                <button class="btn small" type="button" id="samplePunjabiBtn">Punjabi Sample</button>
+                <button class="btn small" type="button" id="pasteTtsBtn">Paste</button>
+                <button class="btn small danger" type="button" id="clearTtsBtn">Clear</button>
+              </div>
+            </div>
+
+            <div class="voice-card">
+              <h3>Voice Selection</h3>
+              <p id="voiceHelp">Available voices will load from your browser/device.</p>
+
+              <div class="settings-row" style="margin-top:12px;margin-bottom:0;">
+                <div class="setting" style="grid-column: 1 / -1;">
+                  <label for="voiceSelect">Voice</label>
+                  <select id="voiceSelect"></select>
+                </div>
+              </div>
+
+              <div class="range-grid">
+                <div class="range-box">
+                  <label for="rateRange">Speed <span id="rateValue">1.00</span></label>
+                  <input type="range" id="rateRange" min="0.5" max="2" step="0.05" value="1" />
+                </div>
+
+                <div class="range-box">
+                  <label for="pitchRange">Pitch <span id="pitchValue">1.00</span></label>
+                  <input type="range" id="pitchRange" min="0" max="2" step="0.05" value="1" />
+                </div>
+
+                <div class="range-box">
+                  <label for="volumeRange">Volume <span id="volumeValue">1.00</span></label>
+                  <input type="range" id="volumeRange" min="0" max="1" step="0.05" value="1" />
+                </div>
+              </div>
+            </div>
+
+            <div class="read-view indic-text" id="readView">
+              Spoken words will highlight here where the browser supports boundary events.
+            </div>
+
+            <div class="progress-wrap" id="ttsProgressWrap">
+              <div class="progress-bar" id="ttsProgressBar"></div>
+            </div>
+
+            <div class="stats-row">
+              <div class="stat">
+                <span>Detected</span>
+                <strong id="detectedLang">Auto</strong>
+              </div>
+              <div class="stat">
+                <span>Chunks</span>
+                <strong id="chunkCount">0</strong>
+              </div>
+              <div class="stat">
+                <span>Current</span>
+                <strong id="currentChunk">0</strong>
+              </div>
+              <div class="stat">
+                <span>Voice</span>
+                <strong id="voiceQuality">Ready</strong>
+              </div>
+              <div class="stat">
+                <span>Status</span>
+                <strong id="ttsStatusMini">Idle</strong>
+              </div>
+            </div>
+
+            <div class="toolbar">
+              <button class="btn small dark" type="button" id="copyTtsTextBtn">Copy Text</button>
+              <button class="btn small" type="button" id="downloadTtsTextBtn">Download Text</button>
+              <button class="btn small" type="button" id="saveTtsDraftBtn">Save Draft</button>
+              <button class="btn small" type="button" id="loadTtsDraftBtn">Load Draft</button>
+            </div>
+
+            <div class="status-box warn show">
+              Browser SpeechSynthesis does not reliably allow direct MP3/WAV export of generated voice.
+              For real audio download, you need a backend TTS service. This page gives high-quality browser playback and text export.
+            </div>
+
+            <div class="status-box" id="ttsStatus"></div>
+          </div>
+
+          <div class="tool-panel" id="sttPanel">
+            <div class="settings-row">
+              <div class="setting">
+                <label for="sttLanguage">Recognition Language</label>
+                <select id="sttLanguage">
+                  <option value="en-US">English</option>
+                  <option value="hi-IN" selected>Hindi</option>
+                  <option value="pa-IN">Punjabi</option>
+                </select>
+              </div>
+
+              <div class="setting">
+                <label for="sttMode">Listening Mode</label>
+                <select id="sttMode">
+                  <option value="continuous" selected>Continuous</option>
+                  <option value="single">Single Phrase</option>
+                </select>
+              </div>
+
+              <div class="setting">
+                <label for="interimSelect">Live Interim Text</label>
+                <select id="interimSelect">
+                  <option value="on" selected>On</option>
+                  <option value="off">Off</option>
+                </select>
+              </div>
+
+              <div class="setting">
+                <label for="transcriptName">Download Name</label>
+                <input id="transcriptName" type="text" value="voice-transcript" />
+              </div>
+            </div>
+
+            <div class="editor-card">
+              <div class="editor-head">
+                <h3>Speech to Text</h3>
+                <span class="recording-badge" id="recordingBadge"><span class="dot"></span> Listening</span>
+              </div>
+
+              <div class="toolbar">
+                <button class="btn small primary" type="button" id="startListenBtn">🎙️ Start Listening</button>
+                <button class="btn small danger" type="button" id="stopListenBtn">■ Stop</button>
+                <button class="btn small" type="button" id="copyTranscriptBtn">Copy Transcript</button>
+                <button class="btn small" type="button" id="downloadTranscriptBtn">Download TXT</button>
+                <button class="btn small danger" type="button" id="clearTranscriptBtn">Clear</button>
+              </div>
+
+              <div class="transcript-grid">
+                <div>
+                  <div class="editor-head" style="margin-top:14px;">
+                    <h3>Final Transcript</h3>
+                    <span id="transcriptCount">0 words</span>
+                  </div>
+                  <textarea id="finalTranscript" class="indic-text" placeholder="Final recognised speech will appear here. You can edit it."></textarea>
+                </div>
+
+                <div>
+                  <div class="editor-head" style="margin-top:14px;">
+                    <h3>Live Interim</h3>
+                    <span id="interimCount">0 words</span>
+                  </div>
+                  <div class="interim-box indic-text" id="interimBox">Interim speech will appear here while you speak.</div>
+                </div>
+              </div>
+
+              <div class="toolbar">
+                <button class="btn small green" type="button" id="sendTranscriptToTtsBtn">Send to Text-to-Speech</button>
+                <button class="btn small" type="button" id="appendTimeBtn">Insert Timestamp</button>
+                <button class="btn small" type="button" id="cleanTranscriptBtn">Clean Spaces</button>
+                <button class="btn small" type="button" id="saveTranscriptDraftBtn">Save Draft</button>
+                <button class="btn small" type="button" id="loadTranscriptDraftBtn">Load Draft</button>
+              </div>
+            </div>
+
+            <div class="stats-row">
+              <div class="stat">
+                <span>Words</span>
+                <strong id="sttWords">0</strong>
+              </div>
+              <div class="stat">
+                <span>Characters</span>
+                <strong id="sttChars">0</strong>
+              </div>
+              <div class="stat">
+                <span>Session</span>
+                <strong id="sessionTime">0s</strong>
+              </div>
+              <div class="stat">
+                <span>Confidence</span>
+                <strong id="confidenceScore">--</strong>
+              </div>
+              <div class="stat">
+                <span>Status</span>
+                <strong id="sttStatusMini">Idle</strong>
+              </div>
+            </div>
+
+            <div class="status-box warn show" id="recognitionSupportBox">
+              Speech recognition needs microphone permission. Browser support varies; if it does not work, try Chrome or Edge.
+            </div>
+
+            <div class="status-box" id="sttStatus"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container">
+      <div class="panel">
+        <h2>Quick Samples</h2>
+        <p>Try these examples to test voices and recognition language behaviour.</p>
+
+        <div class="preset-grid">
+          <button class="preset" type="button" data-sample="Hello, welcome to HindiTools Voice Studio. This is an English text to speech sample." data-lang="en-US">
+            <strong>English TTS</strong>
+            <span>Clear English voice sample</span>
+          </button>
+
+          <button class="preset" type="button" data-sample="नमस्ते, आपका स्वागत है। यह हिंदी टेक्स्ट टू स्पीच का उदाहरण है।" data-lang="hi-IN">
+            <strong>Hindi TTS</strong>
+            <span>Hindi voice sample</span>
+          </button>
+
+          <button class="preset" type="button" data-sample="ਸਤ ਸ੍ਰੀ ਅਕਾਲ ਜੀ। ਇਹ ਪੰਜਾਬੀ ਟੈਕਸਟ ਟੂ ਸਪੀਚ ਦਾ ਉਦਾਹਰਨ ਹੈ।" data-lang="pa-IN">
+            <strong>Punjabi TTS</strong>
+            <span>Punjabi voice sample</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="container info-sections">
+      <article class="info-card">
+        <h2>Text-to-Speech कैसे use करें?</h2>
+        <ol>
+          <li>Text box में Hindi, Punjabi या English text लिखें।</li>
+          <li>Language select करें या Auto Detect रखें।</li>
+          <li>Voice choose करें और speed/pitch/volume adjust करें।</li>
+          <li><strong>Speak</strong> दबाएं। Pause, Resume और Stop controls use करें।</li>
+          <li>Text copy या download कर सकते हैं।</li>
+        </ol>
+      </article>
+
+      <article class="info-card">
+        <h2>Speech-to-Text कैसे use करें?</h2>
+        <ol>
+          <li>Speech → Text tab खोलें।</li>
+          <li>Recognition language choose करें।</li>
+          <li><strong>Start Listening</strong> दबाएं और microphone permission allow करें।</li>
+          <li>Final transcript edit, copy या download करें।</li>
+          <li>Transcript को Text-to-Speech में भेजकर सुन भी सकते हैं।</li>
+        </ol>
+      </article>
+    </section>
+
+    <section class="container" style="margin-top:28px;">
+      <div class="info-card">
+        <h2>Related Tools</h2>
+        <div class="related">
+          <a href="punjabi-typing.html">✍️ Punjabi & Hindi Writer</a>
+          <a href="image-to-pdf-hi.html">🖼️ Image to PDF</a>
+          <a href="merge-pdf-hi.html">📎 PDF जोड़ें</a>
+          <a href="compress-pdf-hi.html">📉 PDF छोटा करें</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" style="margin-top:28px;">
+      <div class="info-card">
+        <h2>FAQ</h2>
+
+        <div class="faq-list">
+          <div class="faq-item active">
+            <button class="faq-q" type="button">
+              क्या यह Hindi, Punjabi और English support करता है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              हाँ। Text-to-Speech और Speech-to-Text दोनों में Hindi, Punjabi और English options दिए गए हैं। Voice availability browser/device पर depend करती है।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या Punjabi voice हमेशा available होगी?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              जरूरी नहीं। Punjabi voice availability device और browser पर depend करती है। अगर Punjabi voice नहीं है, tool fallback voice show करेगा।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              Speech-to-Text किस browser में best काम करता है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              Speech recognition support limited है। Chrome/Edge usually better support देते हैं। Safari/Firefox में results vary हो सकते हैं।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या generated speech audio download हो सकती है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              Browser SpeechSynthesis से direct MP3/WAV export reliably possible नहीं है। Real audio download के लिए backend/cloud TTS service चाहिए।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या मेरा voice/text server पर जाता है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              Text-to-Speech browser voice engine से चलता है। Speech recognition browser/platform recognition service use कर सकता है। Microphone permission browser द्वारा manage होती है।
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">HindiTools.com</div>
+          <p>
+            PDF, Image, Language और Voice tools के लिए Hindi-first website.
+            Simple design, mobile-friendly workflow और practical online utilities.
+          </p>
+        </div>
+
+        <div>
+          <h3>Voice & Language</h3>
+          <ul>
+            <li><a href="voice-tools-hi.html">Voice Studio</a></li>
+            <li><a href="punjabi-typing.html">Punjabi & Hindi Writer</a></li>
+            <li><a href="index.html">HindiTools Home</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>PDF Tools</h3>
+          <ul>
+            <li><a href="merge-pdf-hi.html">Merge PDF</a></li>
+            <li><a href="compress-pdf-hi.html">Compress PDF</a></li>
+            <li><a href="image-to-pdf-hi.html">Image to PDF</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const synth = window.speechSynthesis;
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    const ttsTabBtn = document.getElementById("ttsTabBtn");
+    const sttTabBtn = document.getElementById("sttTabBtn");
+    const ttsPanel = document.getElementById("ttsPanel");
+    const sttPanel = document.getElementById("sttPanel");
+
+    const ttsLanguage = document.getElementById("ttsLanguage");
+    const voiceFilter = document.getElementById("voiceFilter");
+    const chunkMode = document.getElementById("chunkMode");
+    const ttsOutputName = document.getElementById("ttsOutputName");
+    const ttsText = document.getElementById("ttsText");
+    const voiceSelect = document.getElementById("voiceSelect");
+    const rateRange = document.getElementById("rateRange");
+    const pitchRange = document.getElementById("pitchRange");
+    const volumeRange = document.getElementById("volumeRange");
+    const rateValue = document.getElementById("rateValue");
+    const pitchValue = document.getElementById("pitchValue");
+    const volumeValue = document.getElementById("volumeValue");
+    const readView = document.getElementById("readView");
+    const ttsStatus = document.getElementById("ttsStatus");
+    const ttsProgressWrap = document.getElementById("ttsProgressWrap");
+    const ttsProgressBar = document.getElementById("ttsProgressBar");
+
+    const ttsCount = document.getElementById("ttsCount");
+    const detectedLang = document.getElementById("detectedLang");
+    const chunkCount = document.getElementById("chunkCount");
+    const currentChunk = document.getElementById("currentChunk");
+    const voiceQuality = document.getElementById("voiceQuality");
+    const ttsStatusMini = document.getElementById("ttsStatusMini");
+    const voiceHelp = document.getElementById("voiceHelp");
+
+    const speakBtn = document.getElementById("speakBtn");
+    const pauseBtn = document.getElementById("pauseBtn");
+    const resumeBtn = document.getElementById("resumeBtn");
+    const stopBtn = document.getElementById("stopBtn");
+    const previewVoiceBtn = document.getElementById("previewVoiceBtn");
+
+    const sttLanguage = document.getElementById("sttLanguage");
+    const sttMode = document.getElementById("sttMode");
+    const interimSelect = document.getElementById("interimSelect");
+    const transcriptName = document.getElementById("transcriptName");
+    const startListenBtn = document.getElementById("startListenBtn");
+    const stopListenBtn = document.getElementById("stopListenBtn");
+    const finalTranscript = document.getElementById("finalTranscript");
+    const interimBox = document.getElementById("interimBox");
+    const recordingBadge = document.getElementById("recordingBadge");
+    const sttStatus = document.getElementById("sttStatus");
+    const recognitionSupportBox = document.getElementById("recognitionSupportBox");
+
+    const transcriptCount = document.getElementById("transcriptCount");
+    const interimCount = document.getElementById("interimCount");
+    const sttWords = document.getElementById("sttWords");
+    const sttChars = document.getElementById("sttChars");
+    const sessionTime = document.getElementById("sessionTime");
+    const confidenceScore = document.getElementById("confidenceScore");
+    const sttStatusMini = document.getElementById("sttStatusMini");
+
+    let voices = [];
+    let filteredVoices = [];
+    let currentUtterance = null;
+    let ttsChunks = [];
+    let activeChunkIndex = 0;
+    let activeWordIndex = -1;
+    let isTtsPlaying = false;
+    let recognition = null;
+    let isListening = false;
+    let sessionStart = null;
+    let sessionTimer = null;
+
+    function showStatus(el, message, type = "normal") {
+      el.textContent = message;
+      el.className = "status-box show";
+      if (type === "success") el.classList.add("success");
+      if (type === "error") el.classList.add("error");
+      if (type === "warn") el.classList.add("warn");
+    }
+
+    function hideStatus(el) {
+      el.className = "status-box";
+      el.textContent = "";
+    }
+
+    function countWords(text) {
+      const words = String(text || "").trim().match(/\S+/g);
+      return words ? words.length : 0;
+    }
+
+    function sanitizeName(name) {
+      return String(name || "file")
+        .replace(/[^\u0900-\u097F\u0A00-\u0A7Fa-zA-Z0-9-_ ]/g, "")
+        .trim()
+        .replace(/\s+/g, "-") || "file";
+    }
+
+    function detectLanguage(text) {
+      const value = String(text || "");
+
+      if (/[\u0A00-\u0A7F]/.test(value)) {
+        return "pa-IN";
+      }
+
+      if (/[\u0900-\u097F]/.test(value)) {
+        return "hi-IN";
+      }
+
+      return "en-US";
+    }
+
+    function languageLabel(lang) {
+      const map = {
+        "en-US": "English",
+        "hi-IN": "Hindi",
+        "pa-IN": "Punjabi",
+        "auto": "Auto"
+      };
+
+      return map[lang] || lang;
+    }
+
+    function getActiveTtsLanguage() {
+      if (ttsLanguage.value === "auto") {
+        return detectLanguage(ttsText.value);
+      }
+
+      return ttsLanguage.value;
+    }
+
+    function isNaturalVoiceName(name) {
+      return /natural|neural|online|google|microsoft|zira|aria|guy|jenny|sonia|libby|ravi|heera|kalpana|swara|madhur|prabhat|harjot|gurpreet/i.test(name || "");
+    }
+
+    function voiceScore(voice, lang) {
+      let score = 0;
+      const voiceLang = (voice.lang || "").toLowerCase();
+      const target = String(lang || "").toLowerCase();
+
+      if (voiceLang === target) score += 50;
+      if (voiceLang.startsWith(target.split("-")[0])) score += 30;
+      if (isNaturalVoiceName(voice.name)) score += 25;
+      if (voice.localService === false) score += 10;
+
+      return score;
+    }
+
+    function loadVoices() {
+      voices = synth ? synth.getVoices() : [];
+      refreshVoiceList();
+    }
+
+    function refreshVoiceList() {
+      const lang = getActiveTtsLanguage();
+
+      if (!voiceSelect) return;
+
+      let list = voices.slice();
+
+      if (voiceFilter.value === "language" || voiceFilter.value === "best") {
+        list = list.filter(v => {
+          const vLang = (v.lang || "").toLowerCase();
+          const target = lang.toLowerCase();
+          return vLang === target || vLang.startsWith(target.split("-")[0]);
+        });
+      }
+
+      if (voiceFilter.value === "best") {
+        list.sort((a, b) => voiceScore(b, lang) - voiceScore(a, lang));
+      }
+
+      if (!list.length) {
+        list = voices.slice().sort((a, b) => voiceScore(b, lang) - voiceScore(a, lang));
+      }
+
+      filteredVoices = list;
+      voiceSelect.innerHTML = "";
+
+      if (!filteredVoices.length) {
+        const option = document.createElement("option");
+        option.value = "";
+        option.textContent = "No browser voices found";
+        voiceSelect.appendChild(option);
+        voiceHelp.textContent = "No voices found. Try refreshing the page or using Chrome/Edge.";
+        voiceQuality.textContent = "No voice";
+        return;
+      }
+
+      filteredVoices.forEach((voice, index) => {
+        const option = document.createElement("option");
+        option.value = String(index);
+        option.textContent = `${voice.name} (${voice.lang})${voice.localService ? " • local" : " • online/device"}`;
+        voiceSelect.appendChild(option);
+      });
+
+      const best = filteredVoices[0];
+      voiceSelect.value = "0";
+
+      if ((best.lang || "").toLowerCase().startsWith(lang.split("-")[0].toLowerCase())) {
+        voiceHelp.textContent = `Best available voice selected for ${languageLabel(lang)}.`;
+        voiceQuality.textContent = isNaturalVoiceName(best.name) ? "Natural" : "Matched";
+      } else {
+        voiceHelp.textContent = `${languageLabel(lang)} voice was not found. A fallback voice is selected.`;
+        voiceQuality.textContent = "Fallback";
+      }
+    }
+
+    function getSelectedVoice() {
+      const index = Number(voiceSelect.value);
+      return filteredVoices[index] || null;
+    }
+
+    function splitIntoChunks(text) {
+      const value = String(text || "").trim();
+
+      if (!value) return [];
+
+      if (chunkMode.value === "all") {
+        return [value];
+      }
+
+      if (chunkMode.value === "paragraph") {
+        return value.split(/\n{2,}/).map(x => x.trim()).filter(Boolean);
+      }
+
+      return value
+        .split(/(?<=[।.!?])\s+|\n+/)
+        .map(x => x.trim())
+        .filter(Boolean);
+    }
+
+    function renderReadView(text) {
+      const words = String(text || "").split(/(\s+)/);
+      readView.innerHTML = "";
+
+      words.forEach(part => {
+        if (/^\s+$/.test(part)) {
+          readView.appendChild(document.createTextNode(part));
+        } else {
+          const span = document.createElement("span");
+          span.className = "word";
+          span.textContent = part;
+          readView.appendChild(span);
+        }
+      });
+    }
+
+    function highlightApproxWordFromChar(charIndex) {
+      const text = ttsChunks[activeChunkIndex] || "";
+      const before = text.slice(0, charIndex);
+      const approximateIndex = Math.max(0, countWords(before) - 1);
+      const words = readView.querySelectorAll(".word");
+
+      words.forEach(item => item.classList.remove("active"));
+
+      if (words[approximateIndex]) {
+        words[approximateIndex].classList.add("active");
+        words[approximateIndex].scrollIntoView({ block: "nearest", behavior: "smooth" });
+      }
+    }
+
+    function updateTtsStats() {
+      const text = ttsText.value;
+      const lang = getActiveTtsLanguage();
+
+      ttsCount.textContent = `${countWords(text)} words`;
+      detectedLang.textContent = languageLabel(lang);
+
+      const chunks = splitIntoChunks(text);
+      chunkCount.textContent = chunks.length;
+      currentChunk.textContent = chunks.length ? `${Math.min(activeChunkIndex + 1, chunks.length)}/${chunks.length}` : "0";
+    }
+
+    function setTtsProgress(percent) {
+      ttsProgressWrap.classList.add("show");
+      ttsProgressBar.style.width = `${Math.max(0, Math.min(100, percent))}%`;
+    }
+
+    function resetTtsProgress() {
+      ttsProgressWrap.classList.remove("show");
+      ttsProgressBar.style.width = "0%";
+    }
+
+    function speakChunk(index) {
+      if (!synth) {
+        showStatus(ttsStatus, "Your browser does not support Text-to-Speech.", "error");
+        return;
+      }
+
+      if (index >= ttsChunks.length) {
+        isTtsPlaying = false;
+        ttsStatusMini.textContent = "Finished";
+        currentChunk.textContent = `${ttsChunks.length}/${ttsChunks.length}`;
+        setTtsProgress(100);
+        showStatus(ttsStatus, "Speech finished.", "success");
+        return;
+      }
+
+      activeChunkIndex = index;
+      activeWordIndex = -1;
+
+      const text = ttsChunks[index];
+      const lang = getActiveTtsLanguage();
+      const voice = getSelectedVoice();
+
+      renderReadView(text);
+
+      currentUtterance = new SpeechSynthesisUtterance(text);
+      currentUtterance.lang = lang;
+      currentUtterance.rate = Number(rateRange.value);
+      currentUtterance.pitch = Number(pitchRange.value);
+      currentUtterance.volume = Number(volumeRange.value);
+
+      if (voice) currentUtterance.voice = voice;
+
+      currentUtterance.onstart = () => {
+        isTtsPlaying = true;
+        ttsStatusMini.textContent = "Speaking";
+        showStatus(ttsStatus, `Speaking chunk ${index + 1} of ${ttsChunks.length}.`, "success");
+        currentChunk.textContent = `${index + 1}/${ttsChunks.length}`;
+        setTtsProgress((index / ttsChunks.length) * 100);
+      };
+
+      currentUtterance.onboundary = event => {
+        if (typeof event.charIndex === "number") {
+          highlightApproxWordFromChar(event.charIndex);
+        }
+      };
+
+      currentUtterance.onend = () => {
+        setTtsProgress(((index + 1) / ttsChunks.length) * 100);
+        speakChunk(index + 1);
+      };
+
+      currentUtterance.onerror = event => {
+        isTtsPlaying = false;
+        ttsStatusMini.textContent = "Error";
+        showStatus(ttsStatus, `Speech error: ${event.error || "unknown error"}`, "error");
+      };
+
+      synth.speak(currentUtterance);
+    }
+
+    function startSpeaking() {
+      const text = ttsText.value.trim();
+
+      if (!text) {
+        showStatus(ttsStatus, "Please enter text to speak.", "error");
+        return;
+      }
+
+      if (synth.speaking || synth.pending) {
+        synth.cancel();
+      }
+
+      hideStatus(ttsStatus);
+
+      ttsChunks = splitIntoChunks(text);
+      activeChunkIndex = 0;
+
+      if (!ttsChunks.length) {
+        showStatus(ttsStatus, "No readable text found.", "error");
+        return;
+      }
+
+      updateTtsStats();
+      refreshVoiceList();
+      speakChunk(0);
+    }
+
+    function pauseSpeaking() {
+      if (synth && synth.speaking && !synth.paused) {
+        synth.pause();
+        ttsStatusMini.textContent = "Paused";
+        showStatus(ttsStatus, "Speech paused.", "warn");
+      }
+    }
+
+    function resumeSpeaking() {
+      if (synth && synth.paused) {
+        synth.resume();
+        ttsStatusMini.textContent = "Speaking";
+        showStatus(ttsStatus, "Speech resumed.", "success");
+      }
+    }
+
+    function stopSpeaking() {
+      if (synth) {
+        synth.cancel();
+      }
+
+      isTtsPlaying = false;
+      ttsStatusMini.textContent = "Stopped";
+      resetTtsProgress();
+      showStatus(ttsStatus, "Speech stopped.", "warn");
+    }
+
+    function previewVoice() {
+      const lang = getActiveTtsLanguage();
+      const sampleMap = {
+        "en-US": "This is a voice preview from HindiTools.",
+        "hi-IN": "यह HindiTools की आवाज़ का नमूना है।",
+        "pa-IN": "ਇਹ HindiTools ਦੀ ਆਵਾਜ਼ ਦਾ ਨਮੂਨਾ ਹੈ।"
+      };
+
+      const oldText = ttsText.value;
+      const oldChunk = chunkMode.value;
+
+      ttsText.value = sampleMap[lang] || sampleMap["en-US"];
+      chunkMode.value = "all";
+      startSpeaking();
+
+      setTimeout(() => {
+        ttsText.value = oldText;
+        chunkMode.value = oldChunk;
+        updateTtsStats();
+      }, 500);
+    }
+
+    function downloadTextFile(filename, content) {
+      const blob = new Blob([content], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `${sanitizeName(filename)}.txt`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    async function pasteTo(el, callback) {
+      try {
+        const text = await navigator.clipboard.readText();
+        el.value += text;
+        if (callback) callback();
+      } catch {
+        alert("Paste permission not available. Please paste manually.");
+      }
+    }
+
+    function cleanText(text) {
+      return String(text || "")
+        .replace(/[ \t]+/g, " ")
+        .replace(/\n{3,}/g, "\n\n")
+        .replace(/[ \t]+\n/g, "\n")
+        .trim();
+    }
+
+    function saveLocal(key, data) {
+      localStorage.setItem(key, JSON.stringify(data));
+    }
+
+    function loadLocal(key) {
+      const raw = localStorage.getItem(key);
+      if (!raw) return null;
+
+      try {
+        return JSON.parse(raw);
+      } catch {
+        return null;
+      }
+    }
+
+    function updateSttStats() {
+      const text = finalTranscript.value;
+      const interim = interimBox.textContent || "";
+
+      transcriptCount.textContent = `${countWords(text)} words`;
+      interimCount.textContent = `${countWords(interim)} words`;
+      sttWords.textContent = countWords(text);
+      sttChars.textContent = text.length;
+    }
+
+    function createRecognition() {
+      if (!SpeechRecognition) {
+        recognitionSupportBox.className = "status-box error show";
+        recognitionSupportBox.textContent = "Speech Recognition is not supported in this browser. Try Chrome or Edge.";
+        startListenBtn.disabled = true;
+        return null;
+      }
+
+      const rec = new SpeechRecognition();
+      rec.lang = sttLanguage.value;
+      rec.continuous = sttMode.value === "continuous";
+      rec.interimResults = interimSelect.value === "on";
+      rec.maxAlternatives = 3;
+
+      rec.onstart = () => {
+        isListening = true;
+        sessionStart = Date.now();
+        recordingBadge.classList.add("show");
+        sttStatusMini.textContent = "Listening";
+        interimBox.textContent = "";
+        showStatus(sttStatus, "Listening started. Speak clearly near your microphone.", "success");
+        startSessionTimer();
+      };
+
+      rec.onresult = event => {
+        let interimText = "";
+        let finalTextChunk = "";
+
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const result = event.results[i];
+          const transcript = result[0].transcript;
+          const confidence = result[0].confidence;
+
+          if (result.isFinal) {
+            finalTextChunk += transcript + " ";
+
+            if (typeof confidence === "number" && confidence > 0) {
+              confidenceScore.textContent = `${Math.round(confidence * 100)}%`;
+            }
+          } else {
+            interimText += transcript;
+          }
+        }
+
+        if (finalTextChunk) {
+          const spacer = finalTranscript.value.trim() ? " " : "";
+          finalTranscript.value += spacer + finalTextChunk.trim();
+        }
+
+        interimBox.textContent = interimText || "Listening...";
+        updateSttStats();
+      };
+
+      rec.onerror = event => {
+        isListening = false;
+        recordingBadge.classList.remove("show");
+        sttStatusMini.textContent = "Error";
+
+        let message = event.error || "unknown error";
+
+        if (event.error === "not-allowed") {
+          message = "Microphone permission denied. Please allow microphone access.";
+        }
+
+        if (event.error === "no-speech") {
+          message = "No speech detected. Try again and speak clearly.";
+        }
+
+        showStatus(sttStatus, `Speech recognition error: ${message}`, "error");
+        stopSessionTimer();
+      };
+
+      rec.onend = () => {
+        isListening = false;
+        recordingBadge.classList.remove("show");
+        sttStatusMini.textContent = "Stopped";
+        stopSessionTimer();
+
+        if (!finalTranscript.value.trim()) {
+          showStatus(sttStatus, "Listening stopped. No final transcript captured.", "warn");
+        } else {
+          showStatus(sttStatus, "Listening stopped. Transcript is ready.", "success");
+        }
+      };
+
+      return rec;
+    }
+
+    function startListening() {
+      if (!SpeechRecognition) {
+        showStatus(sttStatus, "Speech Recognition is not supported in this browser. Try Chrome or Edge.", "error");
+        return;
+      }
+
+      if (isListening && recognition) {
+        recognition.stop();
+      }
+
+      recognition = createRecognition();
+
+      if (!recognition) return;
+
+      try {
+        recognition.start();
+      } catch {
+        showStatus(sttStatus, "Could not start recognition. Please stop and try again.", "error");
+      }
+    }
+
+    function stopListening() {
+      if (recognition && isListening) {
+        recognition.stop();
+      }
+
+      isListening = false;
+      recordingBadge.classList.remove("show");
+      sttStatusMini.textContent = "Stopped";
+      stopSessionTimer();
+    }
+
+    function startSessionTimer() {
+      stopSessionTimer();
+
+      sessionTimer = setInterval(() => {
+        if (!sessionStart) return;
+
+        const seconds = Math.floor((Date.now() - sessionStart) / 1000);
+        sessionTime.textContent = `${seconds}s`;
+      }, 500);
+    }
+
+    function stopSessionTimer() {
+      if (sessionTimer) {
+        clearInterval(sessionTimer);
+        sessionTimer = null;
+      }
+    }
+
+    function switchTab(mode) {
+      const isTts = mode === "tts";
+
+      ttsTabBtn.classList.toggle("active", isTts);
+      sttTabBtn.classList.toggle("active", !isTts);
+      ttsPanel.classList.toggle("active", isTts);
+      sttPanel.classList.toggle("active", !isTts);
+
+      if (!isTts && synth) synth.cancel();
+    }
+
+    function setSample(text, lang) {
+      switchTab("tts");
+      ttsText.value = text;
+      ttsLanguage.value = lang;
+      refreshVoiceList();
+      updateTtsStats();
+      showStatus(ttsStatus, `${languageLabel(lang)} sample loaded.`, "success");
+    }
+
+    ttsTabBtn.addEventListener("click", () => switchTab("tts"));
+    sttTabBtn.addEventListener("click", () => switchTab("stt"));
+
+    speakBtn.addEventListener("click", startSpeaking);
+    pauseBtn.addEventListener("click", pauseSpeaking);
+    resumeBtn.addEventListener("click", resumeSpeaking);
+    stopBtn.addEventListener("click", stopSpeaking);
+    previewVoiceBtn.addEventListener("click", previewVoice);
+
+    ttsText.addEventListener("input", () => {
+      updateTtsStats();
+      refreshVoiceList();
+    });
+
+    [ttsLanguage, voiceFilter, chunkMode].forEach(el => {
+      el.addEventListener("change", () => {
+        updateTtsStats();
+        refreshVoiceList();
+      });
+    });
+
+    [rateRange, pitchRange, volumeRange].forEach(el => {
+      el.addEventListener("input", () => {
+        rateValue.textContent = Number(rateRange.value).toFixed(2);
+        pitchValue.textContent = Number(pitchRange.value).toFixed(2);
+        volumeValue.textContent = Number(volumeRange.value).toFixed(2);
+      });
+    });
+
+    document.getElementById("sampleEnglishBtn").addEventListener("click", () => {
+      setSample("Hello, welcome to HindiTools Voice Studio. This is an English text to speech sample.", "en-US");
+    });
+
+    document.getElementById("sampleHindiBtn").addEventListener("click", () => {
+      setSample("नमस्ते, आपका स्वागत है। यह हिंदी टेक्स्ट टू स्पीच का उदाहरण है।", "hi-IN");
+    });
+
+    document.getElementById("samplePunjabiBtn").addEventListener("click", () => {
+      setSample("ਸਤ ਸ੍ਰੀ ਅਕਾਲ ਜੀ। ਇਹ ਪੰਜਾਬੀ ਟੈਕਸਟ ਟੂ ਸਪੀਚ ਦਾ ਉਦਾਹਰਨ ਹੈ।", "pa-IN");
+    });
+
+    document.getElementById("pasteTtsBtn").addEventListener("click", () => pasteTo(ttsText, () => {
+      updateTtsStats();
+      refreshVoiceList();
+    }));
+
+    document.getElementById("clearTtsBtn").addEventListener("click", () => {
+      ttsText.value = "";
+      updateTtsStats();
+      renderReadView("");
+      hideStatus(ttsStatus);
+    });
+
+    document.getElementById("copyTtsTextBtn").addEventListener("click", () => {
+      navigator.clipboard.writeText(ttsText.value);
+      showStatus(ttsStatus, "Text copied.", "success");
+    });
+
+    document.getElementById("downloadTtsTextBtn").addEventListener("click", () => {
+      downloadTextFile(ttsOutputName.value, ttsText.value);
+      showStatus(ttsStatus, "Text file downloaded.", "success");
+    });
+
+    document.getElementById("saveTtsDraftBtn").addEventListener("click", () => {
+      saveLocal("hinditools_voice_tts_draft", {
+        text: ttsText.value,
+        lang: ttsLanguage.value,
+        voiceFilter: voiceFilter.value,
+        chunkMode: chunkMode.value,
+        rate: rateRange.value,
+        pitch: pitchRange.value,
+        volume: volumeRange.value
+      });
+
+      showStatus(ttsStatus, "TTS draft saved in this browser.", "success");
+    });
+
+    document.getElementById("loadTtsDraftBtn").addEventListener("click", () => {
+      const data = loadLocal("hinditools_voice_tts_draft");
+
+      if (!data) {
+        showStatus(ttsStatus, "No TTS draft found.", "warn");
+        return;
+      }
+
+      ttsText.value = data.text || "";
+      ttsLanguage.value = data.lang || "auto";
+      voiceFilter.value = data.voiceFilter || "best";
+      chunkMode.value = data.chunkMode || "sentence";
+      rateRange.value = data.rate || "1";
+      pitchRange.value = data.pitch || "1";
+      volumeRange.value = data.volume || "1";
+
+      rateValue.textContent = Number(rateRange.value).toFixed(2);
+      pitchValue.textContent = Number(pitchRange.value).toFixed(2);
+      volumeValue.textContent = Number(volumeRange.value).toFixed(2);
+
+      updateTtsStats();
+      refreshVoiceList();
+      showStatus(ttsStatus, "TTS draft loaded.", "success");
+    });
+
+    startListenBtn.addEventListener("click", startListening);
+    stopListenBtn.addEventListener("click", stopListening);
+
+    [sttLanguage, sttMode, interimSelect].forEach(el => {
+      el.addEventListener("change", () => {
+        if (isListening) {
+          stopListening();
+          showStatus(sttStatus, "Recognition setting changed. Start listening again.", "warn");
+        }
+      });
+    });
+
+    finalTranscript.addEventListener("input", updateSttStats);
+
+    document.getElementById("copyTranscriptBtn").addEventListener("click", () => {
+      navigator.clipboard.writeText(finalTranscript.value);
+      showStatus(sttStatus, "Transcript copied.", "success");
+    });
+
+    document.getElementById("downloadTranscriptBtn").addEventListener("click", () => {
+      downloadTextFile(transcriptName.value, finalTranscript.value);
+      showStatus(sttStatus, "Transcript downloaded.", "success");
+    });
+
+    document.getElementById("clearTranscriptBtn").addEventListener("click", () => {
+      finalTranscript.value = "";
+      interimBox.textContent = "Interim speech will appear here while you speak.";
+      confidenceScore.textContent = "--";
+      sessionTime.textContent = "0s";
+      updateSttStats();
+      hideStatus(sttStatus);
+    });
+
+    document.getElementById("sendTranscriptToTtsBtn").addEventListener("click", () => {
+      const text = finalTranscript.value.trim();
+
+      if (!text) {
+        showStatus(sttStatus, "Transcript is empty.", "error");
+        return;
+      }
+
+      ttsText.value = text;
+      ttsLanguage.value = sttLanguage.value;
+      switchTab("tts");
+      updateTtsStats();
+      refreshVoiceList();
+      showStatus(ttsStatus, "Transcript sent to Text-to-Speech.", "success");
+    });
+
+    document.getElementById("appendTimeBtn").addEventListener("click", () => {
+      const now = new Date();
+      const stamp = `[${now.toLocaleTimeString()}] `;
+      const spacer = finalTranscript.value.trim() ? "\n" : "";
+      finalTranscript.value += spacer + stamp;
+      updateSttStats();
+    });
+
+    document.getElementById("cleanTranscriptBtn").addEventListener("click", () => {
+      finalTranscript.value = cleanText(finalTranscript.value);
+      updateSttStats();
+      showStatus(sttStatus, "Transcript cleaned.", "success");
+    });
+
+    document.getElementById("saveTranscriptDraftBtn").addEventListener("click", () => {
+      saveLocal("hinditools_voice_stt_draft", {
+        transcript: finalTranscript.value,
+        lang: sttLanguage.value,
+        mode: sttMode.value,
+        interim: interimSelect.value
+      });
+
+      showStatus(sttStatus, "Transcript draft saved in this browser.", "success");
+    });
+
+    document.getElementById("loadTranscriptDraftBtn").addEventListener("click", () => {
+      const data = loadLocal("hinditools_voice_stt_draft");
+
+      if (!data) {
+        showStatus(sttStatus, "No transcript draft found.", "warn");
+        return;
+      }
+
+      finalTranscript.value = data.transcript || "";
+      sttLanguage.value = data.lang || "hi-IN";
+      sttMode.value = data.mode || "continuous";
+      interimSelect.value = data.interim || "on";
+      updateSttStats();
+      showStatus(sttStatus, "Transcript draft loaded.", "success");
+    });
+
+    document.querySelectorAll(".preset").forEach(btn => {
+      btn.addEventListener("click", () => {
+        setSample(btn.dataset.sample || "", btn.dataset.lang || "en-US");
+      });
+    });
+
+    document.getElementById("menuBtn").addEventListener("click", () => {
+      document.getElementById("nav").classList.toggle("open");
+    });
+
+    document.querySelectorAll(".faq-q").forEach(btn => {
+      btn.addEventListener("click", () => {
+        btn.parentElement.classList.toggle("active");
+      });
+    });
+
+    if (synth) {
+      loadVoices();
+      synth.onvoiceschanged = loadVoices;
+    } else {
+      showStatus(ttsStatus, "Text-to-Speech is not supported in this browser.", "error");
+      speakBtn.disabled = true;
+    }
+
+    if (!SpeechRecognition) {
+      recognitionSupportBox.className = "status-box error show";
+      recognitionSupportBox.textContent = "Speech Recognition is not supported in this browser. Try Chrome or Edge.";
+      startListenBtn.disabled = true;
+    }
+
+    updateTtsStats();
+    updateSttStats();
+    rateValue.textContent = Number(rateRange.value).toFixed(2);
+    pitchValue.textContent = Number(pitchRange.value).toFixed(2);
+    volumeValue.textContent = Number(volumeRange.value).toFixed(2);
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "क्या यह Hindi, Punjabi और English support करता है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "हाँ। Text-to-Speech और Speech-to-Text दोनों में Hindi, Punjabi और English options दिए गए हैं। Voice availability browser/device पर depend करती है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या Punjabi voice हमेशा available होगी?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Punjabi voice availability device और browser पर depend करती है। अगर Punjabi voice नहीं है, tool fallback voice show करेगा।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Speech-to-Text किस browser में best काम करता है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Speech recognition support limited है। Chrome/Edge usually better support देते हैं। Safari/Firefox में results vary हो सकते हैं।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या generated speech audio download हो सकती है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Browser SpeechSynthesis से direct MP3/WAV export reliably possible नहीं है। Real audio download के लिए backend/cloud TTS service चाहिए।"
+          }
+        }
+      ]
+    };
+
+    const schemaScript = document.createElement("script");
+    schemaScript.type = "application/ld+json";
+    schemaScript.textContent = JSON.stringify(faqSchema);
+    document.head.appendChild(schemaScript);
+  </script>
+</body>
+</html>
