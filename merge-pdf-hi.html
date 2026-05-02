@@ -28,7 +28,6 @@
   <style>
     :root {
       --bg: #fff8f0;
-      --bg-soft: #fff1df;
       --card: #ffffff;
       --text: #1f2937;
       --muted: #6b7280;
@@ -38,7 +37,6 @@
       --secondary: #273c75;
       --green: #12805c;
       --red: #dc2626;
-      --yellow: #f59e0b;
       --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
       --radius: 22px;
     }
@@ -475,7 +473,12 @@
       transition: 0.2s ease;
     }
 
-    .icon-btn:hover {
+    .icon-btn:disabled {
+      opacity: 0.35;
+      cursor: not-allowed;
+    }
+
+    .icon-btn:hover:not(:disabled) {
       border-color: var(--primary);
       color: var(--primary);
     }
@@ -894,7 +897,7 @@
         </div>
 
         <div class="tool-shell" id="merge-tool">
-          <label class="dropzone" id="dropzone">
+          <div class="dropzone" id="dropzone">
             <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple />
             <div>
               <div class="drop-icon">📄</div>
@@ -903,7 +906,7 @@
               <button class="upload-btn" type="button" id="selectFilesBtn">PDF Files चुनें</button>
               <div class="privacy-note">🔐 Files browser में process करने की कोशिश की जाती है।</div>
             </div>
-          </label>
+          </div>
 
           <div class="panel" id="filePanel" style="display:none;">
             <div class="panel-head">
@@ -963,6 +966,7 @@
         <h2>इस tool की खास बातें</h2>
         <ul>
           <li>Multiple PDF files support</li>
+          <li>एक बार में कई files या बाद में और files add करने का option</li>
           <li>File order बदलने का option</li>
           <li>Page count और file size display</li>
           <li>Simple Hindi instructions</li>
@@ -1005,7 +1009,7 @@
               <span>+</span>
             </button>
             <div class="faq-a">
-              हाँ, आप एक साथ कई PDF files upload करके उन्हें एक PDF में merge कर सकते हैं।
+              हाँ, आप एक साथ कई PDF files upload कर सकते हैं। आप एक PDF upload करने के बाद दोबारा button दबाकर और PDF भी add कर सकते हैं।
             </div>
           </div>
 
@@ -1148,11 +1152,19 @@
       downloadLink.href = "#";
     }
 
+    function isDuplicateFile(file) {
+      return pdfFiles.some(item =>
+        item.file.name === file.name &&
+        item.file.size === file.size &&
+        item.file.lastModified === file.lastModified
+      );
+    }
+
     async function addFiles(files) {
       clearStatus();
       resetDownload();
 
-      const incoming = Array.from(files).filter(file => {
+      const incoming = Array.from(files || []).filter(file => {
         return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
       });
 
@@ -1163,10 +1175,23 @@
 
       setStatus("PDF files पढ़ी जा रही हैं...");
 
+      let addedCount = 0;
+      let duplicateCount = 0;
+      let failedCount = 0;
+
       for (const file of incoming) {
+        if (isDuplicateFile(file)) {
+          duplicateCount++;
+          continue;
+        }
+
         try {
           const arrayBuffer = await file.arrayBuffer();
-          const doc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: false });
+
+          const doc = await PDFDocument.load(arrayBuffer, {
+            ignoreEncryption: false
+          });
+
           const pageCount = doc.getPageCount();
 
           pdfFiles.push({
@@ -1176,15 +1201,35 @@
             pageCount,
             size: file.size
           });
+
+          addedCount++;
         } catch (error) {
-          setStatus(`"${file.name}" read नहीं हो सकी। यह encrypted, damaged या unsupported PDF हो सकती है।`, "error");
+          console.error(error);
+          failedCount++;
         }
       }
 
       renderFiles();
 
       if (pdfFiles.length) {
-        setStatus(`${pdfFiles.length} PDF file(s) ready हैं। Order check करके merge करें।`, "success");
+        const totalPages = pdfFiles.reduce((sum, item) => sum + item.pageCount, 0);
+        let message = `${pdfFiles.length} PDF files ready हैं • Total pages: ${totalPages}. Order check करके merge करें।`;
+
+        if (addedCount) {
+          message += ` ${addedCount} नई file add हुई।`;
+        }
+
+        if (duplicateCount) {
+          message += ` ${duplicateCount} duplicate file skip हुई।`;
+        }
+
+        if (failedCount) {
+          message += ` ${failedCount} file read नहीं हो सकी।`;
+        }
+
+        setStatus(message, failedCount ? "error" : "success");
+      } else {
+        setStatus("कोई valid PDF add नहीं हुई। File encrypted, damaged या unsupported हो सकती है।", "error");
       }
     }
 
@@ -1240,6 +1285,9 @@
 
       if (!pdfFiles.length) {
         setStatus("सभी files remove कर दी गई हैं। नई PDF files upload करें।");
+      } else {
+        const totalPages = pdfFiles.reduce((sum, item) => sum + item.pageCount, 0);
+        setStatus(`${pdfFiles.length} PDF files ready हैं • Total pages: ${totalPages}.`, "success");
       }
     }
 
@@ -1262,9 +1310,11 @@
         const total = pdfFiles.length;
 
         for (const item of pdfFiles) {
-          const sourcePdf = await PDFDocument.load(item.arrayBuffer, { ignoreEncryption: false });
-          const copiedPages = await mergedPdf.copyPages(sourcePdf, sourcePdf.getPageIndices());
+          const sourcePdf = await PDFDocument.load(item.arrayBuffer, {
+            ignoreEncryption: false
+          });
 
+          const copiedPages = await mergedPdf.copyPages(sourcePdf, sourcePdf.getPageIndices());
           copiedPages.forEach(page => mergedPdf.addPage(page));
 
           processed++;
@@ -1274,7 +1324,11 @@
         setStatus("Final PDF बनाई जा रही है...");
         setProgress(90);
 
-        const mergedPdfBytes = await mergedPdf.save();
+        const mergedPdfBytes = await mergedPdf.save({
+          useObjectStreams: true,
+          objectsPerTick: 50
+        });
+
         const blob = new Blob([mergedPdfBytes], { type: "application/pdf" });
 
         currentDownloadUrl = URL.createObjectURL(blob);
@@ -1307,21 +1361,35 @@
       setStatus("Files clear कर दी गई हैं। नई PDF files upload करें।");
     }
 
-    selectFilesBtn.addEventListener("click", () => fileInput.click());
+    function openFilePicker() {
+      fileInput.value = "";
+      fileInput.click();
+    }
 
-    dropzone.addEventListener("click", event => {
-      if (event.target.id !== "selectFilesBtn") {
-        fileInput.click();
-      }
+    selectFilesBtn.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      openFilePicker();
     });
 
-    fileInput.addEventListener("change", event => {
-      addFiles(event.target.files);
+    dropzone.addEventListener("click", event => {
+      if (event.target.closest("button")) return;
+      openFilePicker();
+    });
+
+    fileInput.addEventListener("change", async event => {
+      const selectedFiles = Array.from(event.target.files || []);
+      if (!selectedFiles.length) return;
+
+      await addFiles(selectedFiles);
+
+      fileInput.value = "";
     });
 
     ["dragenter", "dragover"].forEach(eventName => {
       dropzone.addEventListener(eventName, event => {
         event.preventDefault();
+        event.stopPropagation();
         dropzone.classList.add("dragover");
       });
     });
@@ -1329,12 +1397,14 @@
     ["dragleave", "drop"].forEach(eventName => {
       dropzone.addEventListener(eventName, event => {
         event.preventDefault();
+        event.stopPropagation();
         dropzone.classList.remove("dragover");
       });
     });
 
     dropzone.addEventListener("drop", event => {
-      addFiles(event.dataTransfer.files);
+      const droppedFiles = Array.from(event.dataTransfer.files || []);
+      addFiles(droppedFiles);
     });
 
     mergeBtn.addEventListener("click", mergePDFs);
@@ -1367,7 +1437,7 @@
           "name": "क्या मैं multiple PDFs जोड़ सकता हूँ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "हाँ, आप एक साथ कई PDF files upload करके उन्हें एक PDF में merge कर सकते हैं।"
+            "text": "हाँ, आप एक साथ कई PDF files upload कर सकते हैं। आप एक PDF upload करने के बाद दोबारा button दबाकर और PDF भी add कर सकते हैं।"
           }
         },
         {
