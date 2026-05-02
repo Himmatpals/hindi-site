@@ -6,13 +6,13 @@
 
   <title>PDF Lock Online | PDF Password लगाएं हिंदी में - HindiTools</title>
 
-  <meta name="description" content="PDF पर password protection लगाने के लिए HindiTools PDF Lock tool. Password strength checker, permissions options और secure workflow के साथ easy Hindi interface." />
+  <meta name="description" content="PDF पर password लगाने के लिए HindiTools PDF Lock tool. कोई password complexity restriction नहीं। Simple password field, confirm password, permissions options और backend-ready secure workflow." />
   <meta name="keywords" content="PDF lock Hindi, PDF password protect, PDF पर password लगाएं, lock PDF online, HindiTools" />
   <meta name="author" content="HindiTools.com" />
   <meta name="robots" content="index, follow" />
 
   <meta property="og:title" content="PDF Lock Online - PDF पर Password लगाएं" />
-  <meta property="og:description" content="PDF को password से protect करने के लिए Hindi interface और secure workflow." />
+  <meta property="og:description" content="PDF को password से protect करने के लिए आसान Hindi interface." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.hinditools.com/pdf-lock-hi.html" />
 
@@ -28,18 +28,16 @@
   <style>
     :root {
       --bg: #fff8f0;
-      --card: #ffffff;
       --text: #1f2937;
       --muted: #6b7280;
-      --border: #f1d7bd;
       --primary: #e66a1f;
       --primary-dark: #bf4e13;
       --secondary: #273c75;
       --green: #12805c;
       --red: #dc2626;
       --yellow: #b45309;
+      --border: #f1d7bd;
       --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
-      --radius: 22px;
     }
 
     * {
@@ -944,7 +942,7 @@
 <body>
   <div class="top-strip">
     <div class="container">
-      <strong>PDF Lock</strong> — password workflow ready. Real encryption needs backend/API support.
+      <strong>PDF Lock</strong> — कोई password length या complexity restriction नहीं।
     </div>
   </div>
 
@@ -981,7 +979,7 @@
         <div>
           <div class="badge-row">
             <span class="badge">🔒 Password Protection</span>
-            <span class="badge">💪 Strength Check</span>
+            <span class="badge">✅ Any Password Accepted</span>
             <span class="badge">🛡️ Permissions UI</span>
             <span class="badge">🇮🇳 Hindi Interface</span>
           </div>
@@ -989,8 +987,8 @@
           <h1>PDF पर <span>Password लगाएं</span></h1>
 
           <p>
-            PDF को password से protect करने के लिए professional workflow।
-            Password strength, confirm password और permission settings के साथ।
+            PDF को password से protect करने के लिए simple workflow।
+            Password strength meter केवल guidance के लिए है — weak password भी accept होगा।
           </p>
 
           <div class="hero-actions">
@@ -1005,9 +1003,9 @@
             <div>
               <div class="drop-icon">🔒</div>
               <h2>PDF file यहाँ drop करें</h2>
-              <p>PDF upload करें और password settings तैयार करें।</p>
+              <p>PDF upload करें और कोई भी password set करें।</p>
               <button class="upload-btn" type="button" id="selectFileBtn">PDF File चुनें</button>
-              <div class="privacy-note">🔐 Password कभी URL में न भेजें। Strong password use करें।</div>
+              <div class="privacy-note">🔐 आपका चुना हुआ password exactly इसी तरह use किया जाएगा।</div>
             </div>
           </div>
 
@@ -1015,7 +1013,7 @@
             <div class="panel-head">
               <div>
                 <h2>Password Settings</h2>
-                <p>Password strong रखें। अगर backend endpoint connected होगा तो encrypted PDF download होगी।</p>
+                <p>कोई length या complexity rule नहीं है। बस password और confirm password match होना चाहिए।</p>
               </div>
               <button class="danger-btn" type="button" id="clearBtn">Remove</button>
             </div>
@@ -1036,8 +1034,8 @@
 
             <div class="summary-strip">
               <div class="summary-item">
-                <span>Password</span>
-                <strong id="summaryStrength">Weak</strong>
+                <span>Password Guide</span>
+                <strong id="summaryStrength">Not Set</strong>
               </div>
               <div class="summary-item">
                 <span>Printing</span>
@@ -1063,8 +1061,8 @@
                 <div class="strength-wrap">
                   <div class="strength-bar" id="strengthBar"></div>
                 </div>
-                <div class="strength-label" id="strengthLabel">Password strength: Weak</div>
-                <small>कम से कम 8 characters, number, symbol और capital letter use करें।</small>
+                <div class="strength-label" id="strengthLabel">Password guide: Not set</div>
+                <small>यह सिर्फ guide है। Weak, short या simple password भी accept होगा।</small>
               </div>
 
               <div class="setting-card">
@@ -1079,7 +1077,7 @@
               <div class="setting-card">
                 <label for="ownerPasswordInput">Owner Password Optional</label>
                 <div class="password-row">
-                  <input id="ownerPasswordInput" type="password" placeholder="Permissions control password" autocomplete="new-password" />
+                  <input id="ownerPasswordInput" type="password" placeholder="Optional owner password" autocomplete="new-password" />
                   <button type="button" class="show-pass-btn" data-target="ownerPasswordInput">Show</button>
                 </div>
                 <small>Optional. खाली छोड़ने पर open password ही owner password की तरह भेजा जाएगा।</small>
@@ -1091,7 +1089,7 @@
                   <option value="aes-256" selected>AES-256 recommended</option>
                   <option value="aes-128">AES-128 compatibility</option>
                 </select>
-                <small>AES-256 modern PDF viewers के लिए recommended है।</small>
+                <small>Backend connect होने पर यह setting encryption service को भेजी जाएगी।</small>
               </div>
 
               <div class="setting-card full">
@@ -1101,7 +1099,7 @@
                   <button class="permission-btn blocked" type="button" data-permission="copy">📋 Copying Blocked</button>
                   <button class="permission-btn blocked" type="button" data-permission="edit">✏️ Editing Blocked</button>
                 </div>
-                <small>Some PDF readers may ignore permission restrictions. Password encryption is the main protection.</small>
+                <small>Some PDF readers may ignore permission restrictions. Open password is the main protection.</small>
               </div>
 
               <div class="setting-card full">
@@ -1153,20 +1151,20 @@
         <h2>PDF lock कैसे करें?</h2>
         <ol>
           <li>ऊपर PDF file upload करें।</li>
-          <li>Open password और confirm password लिखें।</li>
-          <li>Password strength check करें।</li>
+          <li>अपना password लिखें। कोई length या complexity restriction नहीं है।</li>
+          <li>Confirm password में वही password दोबारा लिखें।</li>
           <li>Printing, copying और editing permissions choose करें।</li>
           <li>Backend connected होने पर locked PDF download करें।</li>
         </ol>
       </article>
 
       <article class="info-card">
-        <h2>Strong password tips</h2>
+        <h2>Password guidance</h2>
         <ul>
-          <li>कम से कम 10–12 characters रखें।</li>
-          <li>Capital letter, small letter, number और symbol use करें।</li>
-          <li>नाम, birthday या phone number password में न रखें।</li>
-          <li>Password भूलने पर PDF unlock करना मुश्किल या impossible हो सकता है।</li>
+          <li>Tool कोई password reject नहीं करेगा सिर्फ इसलिए कि वह short या simple है।</li>
+          <li>Strength meter केवल आपकी जानकारी के लिए है।</li>
+          <li>Simple password याद रखना आसान होता है, लेकिन security कम हो सकती है।</li>
+          <li>Password भूलने पर protected PDF recover करना मुश्किल हो सकता है।</li>
         </ul>
       </article>
     </section>
@@ -1190,6 +1188,26 @@
         <div class="faq-list">
           <div class="faq-item active">
             <button class="faq-q" type="button">
+              क्या password की minimum length है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              नहीं। इस page में password length की कोई restriction नहीं है।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या weak password accept होगा?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              हाँ। Weak, short या simple password भी accept होगा। Strength meter केवल guidance के लिए है।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
               क्या यह page अभी real PDF password encryption करता है?
               <span>+</span>
             </button>
@@ -1210,31 +1228,11 @@
 
           <div class="faq-item">
             <button class="faq-q" type="button">
-              क्या permissions पूरी तरह enforce होती हैं?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              PDF permissions कुछ readers ignore कर सकते हैं। Main protection open password encryption होती है।
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">
               Password भूल गया तो क्या होगा?
               <span>+</span>
             </button>
             <div class="faq-a">
               Strong encryption में password भूलने पर PDF recover करना मुश्किल या impossible हो सकता है। Password safe जगह रखें।
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">
-              क्या मेरी PDF server पर upload होगी?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              जब तक backend endpoint connected नहीं है, file upload नहीं होती। Backend connect करने पर privacy policy में processing details clearly बतानी चाहिए।
             </div>
           </div>
         </div>
@@ -1394,19 +1392,24 @@
     }
 
     function scorePassword(password) {
-      let score = 0;
+      if (!password) return 0;
 
+      let score = 10;
+
+      if (password.length >= 2) score += 10;
+      if (password.length >= 4) score += 15;
       if (password.length >= 8) score += 20;
-      if (password.length >= 12) score += 20;
-      if (/[a-z]/.test(password)) score += 15;
-      if (/[A-Z]/.test(password)) score += 15;
-      if (/[0-9]/.test(password)) score += 15;
-      if (/[^a-zA-Z0-9]/.test(password)) score += 15;
+      if (password.length >= 12) score += 15;
+      if (/[a-z]/.test(password)) score += 10;
+      if (/[A-Z]/.test(password)) score += 10;
+      if (/[0-9]/.test(password)) score += 10;
+      if (/[^a-zA-Z0-9]/.test(password)) score += 10;
 
       return Math.min(score, 100);
     }
 
-    function getStrengthLabel(score) {
+    function getStrengthLabel(score, password) {
+      if (!password) return "Not Set";
       if (score >= 85) return "Very Strong";
       if (score >= 65) return "Strong";
       if (score >= 45) return "Medium";
@@ -1417,7 +1420,7 @@
       const password = passwordInput.value;
       const confirm = confirmPasswordInput.value;
       const score = scorePassword(password);
-      const label = getStrengthLabel(score);
+      const label = getStrengthLabel(score, password);
 
       strengthBar.style.width = `${score}%`;
 
@@ -1431,7 +1434,7 @@
         strengthBar.style.background = "var(--red)";
       }
 
-      strengthLabel.textContent = `Password strength: ${label}`;
+      strengthLabel.textContent = `Password guide: ${label} — यह केवल guidance है, blocker नहीं।`;
       summaryStrength.textContent = label;
 
       if (!confirm) {
@@ -1498,7 +1501,7 @@
         filePanel.style.display = "block";
         lockBtn.disabled = false;
 
-        setStatus(`PDF ready है। Total pages: ${pageCount}. Password settings set करें।`, "success");
+        setStatus(`PDF ready है। Total pages: ${pageCount}. अब password set करें।`, "success");
       } catch (error) {
         console.error(error);
         selectedFile = null;
@@ -1518,23 +1521,15 @@
       const password = passwordInput.value;
       const confirm = confirmPasswordInput.value;
 
-      if (!password) {
-        throw new Error("Open password लिखें।");
-      }
-
-      if (password.length < 8) {
-        throw new Error("Password कम से कम 8 characters का होना चाहिए।");
+      if (password === "") {
+        throw new Error("Password खाली नहीं हो सकता। कोई भी password लिखें।");
       }
 
       if (password !== confirm) {
         throw new Error("Confirm password match नहीं कर रहा।");
       }
 
-      const score = scorePassword(password);
-
-      if (score < 45) {
-        throw new Error("Password बहुत weak है। Capital letter, number और symbol add करें।");
-      }
+      return true;
     }
 
     async function lockWithBackend() {
@@ -1569,12 +1564,12 @@
         validateBeforeLock();
 
         setProgress(10);
-        setStatus("Password settings validate हो गई हैं...");
+        setStatus("Password accepted है। कोई length/complexity restriction apply नहीं की गई।");
 
         if (!LOCK_API_ENDPOINT) {
           setProgress(100);
           setStatus(
-            "यह static version real PDF encryption नहीं कर सकता। Backend/API endpoint connect करने के बाद यह button locked PDF download करेगा।",
+            "यह static version real PDF encryption नहीं कर सकता। Backend/API endpoint connect करने के बाद यही password use करके locked PDF download होगी।",
             "error"
           );
           return;
@@ -1727,6 +1722,22 @@
       "mainEntity": [
         {
           "@type": "Question",
+          "name": "क्या password की minimum length है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "नहीं। इस page में password length की कोई restriction नहीं है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या weak password accept होगा?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "हाँ। Weak, short या simple password भी accept होगा। Strength meter केवल guidance के लिए है।"
+          }
+        },
+        {
+          "@type": "Question",
           "name": "क्या यह page अभी real PDF password encryption करता है?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -1739,22 +1750,6 @@
           "acceptedAnswer": {
             "@type": "Answer",
             "text": "Browser-only PDF libraries में reliable AES PDF encryption support limited होता है। इसलिए strong PDF password protection के लिए backend better है।"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "क्या permissions पूरी तरह enforce होती हैं?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "PDF permissions कुछ readers ignore कर सकते हैं। Main protection open password encryption होती है।"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "Password भूल गया तो क्या होगा?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Strong encryption में password भूलने पर PDF recover करना मुश्किल या impossible हो सकता है। Password safe जगह रखें।"
           }
         }
       ]
