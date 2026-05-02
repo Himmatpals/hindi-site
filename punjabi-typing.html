@@ -4,24 +4,25 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Punjabi Typing Online | Hinglish to Punjabi Gurmukhi Writer - HindiTools</title>
+  <title>Punjabi & Hindi Writer | Hinglish to Punjabi Hindi Typing - HindiTools</title>
 
-  <meta name="description" content="Hinglish/Roman Punjabi लिखें और उसे Punjabi Gurmukhi में बदलें। Live Punjabi typing, word alternatives, editable output, Punjabi keyboard, copy, download और local draft save के साथ." />
-  <meta name="keywords" content="Punjabi typing, Hinglish to Punjabi, English to Punjabi typing, Punjabi writer, Gurmukhi typing, Roman Punjabi to Gurmukhi, HindiTools" />
+  <meta name="description" content="Punjabi और Hindi writer online. Hinglish/Roman text लिखें और Punjabi Gurmukhi या Hindi Devanagari में बदलें। Editable final text, word alternatives, manual keyboard, copy, print और download tools के साथ." />
+  <meta name="keywords" content="Punjabi typing, Hindi typing, Hinglish to Punjabi, Hinglish to Hindi, Roman Punjabi to Gurmukhi, Roman Hindi to Devanagari, Gurmukhi writer, Devanagari writer, HindiTools" />
   <meta name="author" content="HindiTools.com" />
   <meta name="robots" content="index, follow" />
 
-  <meta property="og:title" content="Punjabi Typing Online - Hinglish to Punjabi Writer" />
-  <meta property="og:description" content="Roman Punjabi/Hinglish लिखें और Punjabi Gurmukhi output पाएं। Edit, copy, download और word suggestions के साथ." />
+  <meta property="og:title" content="Punjabi & Hindi Writer - Hinglish to Punjabi Hindi Typing" />
+  <meta property="og:description" content="Roman/Hinglish text को Punjabi Gurmukhi या Hindi Devanagari में बदलें। Edit, alternatives, keyboard, copy, print और download." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.hinditools.com/punjabi-typing.html" />
 
+  <link rel="canonical" href="https://www.hinditools.com/punjabi-typing.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gurmukhi:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800;900&family=Noto+Sans+Gurmukhi:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
 
   <style>
     :root {
@@ -33,8 +34,10 @@
       --secondary: #273c75;
       --green: #12805c;
       --red: #dc2626;
+      --purple: #6d28d9;
       --border: #f1d7bd;
       --soft: #fffaf5;
+      --card: #ffffff;
       --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
     }
 
@@ -72,7 +75,7 @@
     }
 
     .container {
-      width: min(1200px, calc(100% - 32px));
+      width: min(1220px, calc(100% - 32px));
       margin: auto;
     }
 
@@ -156,6 +159,7 @@
       border-radius: 999px;
       font-weight: 900;
       box-shadow: 0 12px 25px rgba(230, 106, 31, 0.25);
+      white-space: nowrap;
     }
 
     .menu-btn {
@@ -186,9 +190,9 @@
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 0.88fr 1.12fr;
+      grid-template-columns: 0.82fr 1.18fr;
       gap: 32px;
-      align-items: center;
+      align-items: start;
     }
 
     .badge-row {
@@ -239,7 +243,8 @@
     .primary-btn,
     .secondary-btn,
     .danger-btn,
-    .ghost-btn {
+    .ghost-btn,
+    .small-btn {
       border: 0;
       border-radius: 16px;
       padding: 13px 18px;
@@ -321,6 +326,7 @@
       padding: 4px;
       border-radius: 999px;
       gap: 4px;
+      flex-wrap: wrap;
     }
 
     .mode-pill button {
@@ -339,9 +345,48 @@
       color: white;
     }
 
-    .editor-grid {
+    .settings-row {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .setting {
+      background: var(--soft);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    .setting label {
+      display: block;
+      color: var(--secondary);
+      font-weight: 900;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .setting select,
+    .setting input {
+      width: 100%;
+      border: 1px solid #ead6c2;
+      background: white;
+      border-radius: 13px;
+      padding: 10px 11px;
+      font-size: 14px;
+      outline: 0;
+      font-weight: 700;
+    }
+
+    .setting select:focus,
+    .setting input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.1);
+    }
+
+    .editor-stack {
+      display: grid;
       gap: 14px;
     }
 
@@ -374,7 +419,6 @@
 
     textarea {
       width: 100%;
-      min-height: 260px;
       border: 1px solid #ead6c2;
       border-radius: 18px;
       padding: 15px;
@@ -391,45 +435,34 @@
       box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.1);
     }
 
-    #punjabiOutput {
+    #romanInput {
+      min-height: 160px;
+    }
+
+    #convertedDraft {
+      min-height: 150px;
+      background: #f9fafb;
+    }
+
+    #finalText {
+      min-height: 230px;
+      font-size: 22px;
+      line-height: 1.9;
+    }
+
+    .punjabi-font {
       font-family: "Noto Sans Gurmukhi", "Noto Sans Devanagari", system-ui, sans-serif;
-      font-size: 21px;
-      line-height: 1.95;
     }
 
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .stat {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 17px;
-      padding: 11px;
-    }
-
-    .stat span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-      margin-bottom: 2px;
-    }
-
-    .stat strong {
-      color: var(--secondary);
-      font-size: 17px;
-      line-height: 1.2;
+    .hindi-font {
+      font-family: "Noto Sans Devanagari", "Noto Sans Gurmukhi", system-ui, sans-serif;
     }
 
     .toolbar {
       display: flex;
       flex-wrap: wrap;
       gap: 9px;
-      margin-top: 14px;
+      margin-top: 12px;
     }
 
     .small-btn {
@@ -440,8 +473,7 @@
       padding: 10px 12px;
       font-size: 13px;
       font-weight: 900;
-      cursor: pointer;
-      transition: 0.2s ease;
+      box-shadow: none;
     }
 
     .small-btn:hover {
@@ -466,6 +498,40 @@
       background: #fff1f2;
       color: var(--red);
       border-color: #fecdd3;
+    }
+
+    .small-btn.green {
+      background: #ecfdf5;
+      color: var(--green);
+      border-color: #bbf7d0;
+    }
+
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      margin-top: 14px;
+    }
+
+    .stat {
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 11px;
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 900;
+      margin-bottom: 2px;
+    }
+
+    .stat strong {
+      color: var(--secondary);
+      font-size: 17px;
+      line-height: 1.2;
     }
 
     .panel {
@@ -527,7 +593,6 @@
       border-radius: 999px;
       padding: 9px 13px;
       cursor: pointer;
-      font-family: "Noto Sans Gurmukhi", system-ui, sans-serif;
       font-weight: 900;
       font-size: 16px;
     }
@@ -568,7 +633,7 @@
 
     .keyboard-grid {
       display: grid;
-      grid-template-columns: repeat(10, 1fr);
+      grid-template-columns: repeat(12, 1fr);
       gap: 8px;
       margin-top: 14px;
     }
@@ -580,7 +645,6 @@
       color: var(--secondary);
       border-radius: 13px;
       cursor: pointer;
-      font-family: "Noto Sans Gurmukhi", system-ui, sans-serif;
       font-size: 18px;
       font-weight: 900;
       transition: 0.2s ease;
@@ -590,38 +654,6 @@
       background: var(--secondary);
       color: white;
       border-color: var(--secondary);
-    }
-
-    .settings-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-top: 14px;
-    }
-
-    .setting-card {
-      background: #fffaf5;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 14px;
-    }
-
-    .setting-card label {
-      display: block;
-      color: var(--secondary);
-      font-weight: 900;
-      margin-bottom: 8px;
-    }
-
-    .setting-card select,
-    .setting-card input {
-      width: 100%;
-      border: 1px solid #ead6c2;
-      border-radius: 14px;
-      padding: 11px 12px;
-      font-size: 14px;
-      outline: 0;
-      background: white;
     }
 
     .notice {
@@ -796,15 +828,18 @@
       font-size: 14px;
     }
 
-    @media (max-width: 1040px) {
+    @media (max-width: 1120px) {
       .hero-grid,
-      .editor-grid,
       .info-sections {
         grid-template-columns: 1fr;
       }
 
-      .settings-grid {
+      .settings-row {
         grid-template-columns: repeat(2, 1fr);
+      }
+
+      .keyboard-grid {
+        grid-template-columns: repeat(8, 1fr);
       }
 
       .related {
@@ -867,12 +902,8 @@
         flex: 1;
       }
 
-      textarea {
-        min-height: 220px;
-      }
-
+      .settings-row,
       .stats-row,
-      .settings-grid,
       .related,
       .footer-grid {
         grid-template-columns: 1fr;
@@ -900,7 +931,7 @@
 <body>
   <div class="top-strip">
     <div class="container">
-      <strong>Punjabi Writer</strong> — Hinglish/Roman Punjabi लिखें और Gurmukhi output edit करके copy/download करें।
+      <strong>Punjabi & Hindi Writer</strong> — Roman/Hinglish input से Punjabi Gurmukhi या Hindi Devanagari लिखें।
     </div>
   </div>
 
@@ -919,7 +950,7 @@
         <li><a href="privacy.html">Privacy</a></li>
       </ul>
 
-      <a class="nav-cta" href="#writer">Punjabi Writer</a>
+      <a class="nav-cta" href="#writer">Start Writing</a>
 
       <button class="menu-btn" id="menuBtn" type="button">☰</button>
     </div>
@@ -928,7 +959,7 @@
   <main>
     <div class="container">
       <div class="breadcrumb">
-        <a href="index.html">Home</a> / Language Tools / Punjabi Writer
+        <a href="index.html">Home</a> / Language Tools / Punjabi & Hindi Writer
       </div>
     </div>
 
@@ -936,48 +967,89 @@
       <div class="container hero-grid">
         <div>
           <div class="badge-row">
-            <span class="badge">✍️ Hinglish to Punjabi</span>
-            <span class="badge">🔤 Gurmukhi Output</span>
-            <span class="badge">🛠️ Word Alternatives</span>
-            <span class="badge">⬇️ Copy / Download</span>
+            <span class="badge">✍️ Punjabi Writer</span>
+            <span class="badge">📝 Hindi Writer</span>
+            <span class="badge">🔤 Roman Input</span>
+            <span class="badge">🛠️ Safe Editing</span>
           </div>
 
-          <h1>Punjabi <span>Writer</span></h1>
+          <h1>Punjabi & Hindi <span>Writer</span></h1>
 
           <p>
-            Roman Punjabi/Hinglish जैसे “sat sri akal ji” लिखें और Gurmukhi output पाएं।
-            Output editable है, word alternatives मिलते हैं, और manual Punjabi keyboard भी included है।
+            Roman/Hinglish में लिखें और Punjabi Gurmukhi या Hindi Devanagari में output पाएं।
+            Converted draft अलग है और final editable text अलग, इसलिए आपकी manual corrections सुरक्षित रहती हैं।
           </p>
 
           <div class="hero-actions">
             <a class="primary-btn" href="#writer">अभी लिखना शुरू करें</a>
-            <a class="ghost-btn" href="#keyboard">Punjabi Keyboard देखें</a>
+            <a class="ghost-btn" href="#keyboardPanel">Keyboard देखें</a>
+          </div>
+
+          <div class="notice">
+            This is a browser-based transliteration editor. Punjabi/Hindi spellings context के अनुसार बदल सकते हैं, इसलिए alternatives और final editor दिए गए हैं।
           </div>
         </div>
 
         <div class="writer-shell" id="writer">
           <div class="writer-top">
             <div>
-              <h2>Live Punjabi Typing Editor</h2>
-              <p>Left में Hinglish/Roman Punjabi लिखें। Right में Gurmukhi output edit करें।</p>
+              <h2>Writing Studio</h2>
+              <p>Roman Input → Converted Draft → Final Editable Text</p>
             </div>
 
             <div class="mode-pill">
-              <button type="button" class="active" id="liveModeBtn">Live</button>
-              <button type="button" id="manualModeBtn">Manual</button>
+              <button type="button" class="active" id="langPunjabiBtn">Punjabi</button>
+              <button type="button" id="langHindiBtn">Hindi</button>
             </div>
           </div>
 
-          <div class="editor-grid">
+          <div class="settings-row">
+            <div class="setting">
+              <label for="conversionStyle">Conversion Style</label>
+              <select id="conversionStyle">
+                <option value="balanced" selected>Balanced</option>
+                <option value="phonetic">More Phonetic</option>
+                <option value="simple">Simple Mobile Style</option>
+              </select>
+            </div>
+
+            <div class="setting">
+              <label for="liveModeSelect">Live Conversion</label>
+              <select id="liveModeSelect">
+                <option value="on" selected>On</option>
+                <option value="off">Off</option>
+              </select>
+            </div>
+
+            <div class="setting">
+              <label for="convertOnSpaceSelect">Convert On Space</label>
+              <select id="convertOnSpaceSelect">
+                <option value="on" selected>On</option>
+                <option value="off">Off</option>
+              </select>
+            </div>
+
+            <div class="setting">
+              <label for="autoSaveSelect">Auto Save Draft</label>
+              <select id="autoSaveSelect">
+                <option value="on" selected>On</option>
+                <option value="off">Off</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="editor-stack">
             <div class="editor-card">
               <div class="editor-head">
-                <h3>Hinglish / Roman Punjabi</h3>
+                <h3>1. Roman / Hinglish Input</h3>
                 <span id="inputCount">0 words</span>
               </div>
-              <textarea id="romanInput" placeholder="Example: sat sri akal ji, tusi kiven ho? main theek haan."></textarea>
+              <textarea id="romanInput" placeholder="Punjabi example: sat sri akal ji, tusi kiven ho&#10;Hindi example: namaste aap kaise hain, main theek hoon"></textarea>
+
               <div class="toolbar">
                 <button class="small-btn primary" type="button" id="convertBtn">Convert Now</button>
-                <button class="small-btn" type="button" id="sampleBtn">Sample Text</button>
+                <button class="small-btn" type="button" id="samplePunjabiBtn">Punjabi Sample</button>
+                <button class="small-btn" type="button" id="sampleHindiBtn">Hindi Sample</button>
                 <button class="small-btn" type="button" id="pasteBtn">Paste</button>
                 <button class="small-btn danger" type="button" id="clearInputBtn">Clear Input</button>
               </div>
@@ -985,53 +1057,81 @@
 
             <div class="editor-card">
               <div class="editor-head">
-                <h3>Punjabi Gurmukhi Output</h3>
-                <span id="outputCount">0 words</span>
+                <h3>2. Converted Draft</h3>
+                <span id="draftCount">0 words</span>
               </div>
-              <textarea id="punjabiOutput" placeholder="ਇੱਥੇ ਪੰਜਾਬੀ output ਆਵੇਗਾ। ਤੁਸੀਂ ਇਸਨੂੰ edit ਕਰ ਸਕਦੇ ਹੋ।"></textarea>
+              <textarea id="convertedDraft" readonly placeholder="Converted draft यहाँ आएगा। यह read-only है ताकि accidental edit न हो।"></textarea>
+
               <div class="toolbar">
-                <button class="small-btn dark" type="button" id="copyBtn">Copy Punjabi</button>
-                <button class="small-btn" type="button" id="downloadBtn">Download .txt</button>
+                <button class="small-btn green" type="button" id="useDraftBtn">Use Draft in Final Editor</button>
+                <button class="small-btn" type="button" id="appendDraftBtn">Append to Final</button>
+                <button class="small-btn" type="button" id="copyDraftBtn">Copy Draft</button>
+              </div>
+            </div>
+
+            <div class="editor-card">
+              <div class="editor-head">
+                <h3>3. Final Editable Text</h3>
+                <span id="finalCount">0 words</span>
+              </div>
+              <textarea id="finalText" class="punjabi-font" placeholder="Final editable text यहाँ रखें। आपकी manual corrections यहाँ safe रहेंगी।"></textarea>
+
+              <div class="toolbar">
+                <button class="small-btn dark" type="button" id="copyFinalBtn">Copy Final</button>
+                <button class="small-btn" type="button" id="downloadTxtBtn">Download TXT</button>
+                <button class="small-btn" type="button" id="downloadHtmlBtn">Download HTML</button>
                 <button class="small-btn" type="button" id="printBtn">Print</button>
-                <button class="small-btn danger" type="button" id="clearOutputBtn">Clear Output</button>
+                <button class="small-btn danger" type="button" id="clearFinalBtn">Clear Final</button>
+              </div>
+
+              <div class="toolbar">
+                <button class="small-btn" type="button" id="undoBtn">Undo</button>
+                <button class="small-btn" type="button" id="redoBtn">Redo</button>
+                <button class="small-btn" type="button" id="cleanSpacesBtn">Clean Spaces</button>
+                <button class="small-btn" type="button" id="normalizePunctuationBtn">Normalize Punctuation</button>
+                <button class="small-btn" type="button" id="addDandaBtn">Add ।</button>
               </div>
             </div>
           </div>
 
           <div class="stats-row">
             <div class="stat">
-              <span>Roman Words</span>
-              <strong id="romanWords">0</strong>
-            </div>
-            <div class="stat">
-              <span>Punjabi Words</span>
-              <strong id="punjabiWords">0</strong>
+              <span>Final Words</span>
+              <strong id="wordCount">0</strong>
             </div>
             <div class="stat">
               <span>Characters</span>
               <strong id="charCount">0</strong>
             </div>
             <div class="stat">
+              <span>Sentences</span>
+              <strong id="sentenceCount">0</strong>
+            </div>
+            <div class="stat">
+              <span>Reading Time</span>
+              <strong id="readingTime">0 min</strong>
+            </div>
+            <div class="stat">
               <span>Draft</span>
-              <strong id="draftStatus">Saved</strong>
+              <strong id="draftStatus">Ready</strong>
             </div>
           </div>
 
           <div class="suggestion-box" id="suggestionBox">
-            <h3>Word alternatives</h3>
-            <div class="suggestion-meta" id="suggestionMeta">Select a word chip below to see alternatives.</div>
+            <h3>Word Alternatives</h3>
+            <div class="suggestion-meta" id="suggestionMeta">Word select करें।</div>
             <div class="suggestion-list" id="suggestionList"></div>
           </div>
 
           <div class="panel">
-            <h2>Word-by-word editing</h2>
-            <p>किसी converted word पर click करें। Alternatives दिखेंगे और आप one-click replace कर सकते हैं।</p>
+            <h2>Word-by-word alternatives</h2>
+            <p>Converted word chip पर click करें। Alternative choose करने पर draft update होगा। फिर draft final में use करें।</p>
             <div class="word-grid" id="wordGrid"></div>
           </div>
 
-          <div class="panel" id="keyboard">
-            <h2>Punjabi Keyboard</h2>
-            <p>Manual edit के लिए Punjabi letters पर click करें। Letters output box में insert होंगे।</p>
+          <div class="panel" id="keyboardPanel">
+            <h2 id="keyboardTitle">Punjabi Keyboard</h2>
+            <p>Manual edit के लिए character पर click करें। Character final editor में cursor position पर insert होगा।</p>
 
             <div class="keyboard-grid" id="keyboardGrid"></div>
 
@@ -1045,34 +1145,40 @@
           </div>
 
           <div class="panel">
-            <h2>Settings</h2>
+            <h2>Final Text Settings</h2>
 
-            <div class="settings-grid">
-              <div class="setting-card">
-                <label for="conversionStyle">Conversion Style</label>
-                <select id="conversionStyle">
-                  <option value="balanced" selected>Balanced Punjabi</option>
-                  <option value="phonetic">More phonetic</option>
-                  <option value="simple">Simple mobile style</option>
-                </select>
-              </div>
-
-              <div class="setting-card">
-                <label for="autoSaveSelect">Auto Save Draft</label>
-                <select id="autoSaveSelect">
-                  <option value="on" selected>On</option>
-                  <option value="off">Off</option>
-                </select>
-              </div>
-
-              <div class="setting-card">
-                <label for="fontSizeSelect">Output Font Size</label>
+            <div class="settings-row">
+              <div class="setting">
+                <label for="fontSizeSelect">Font Size</label>
                 <select id="fontSizeSelect">
-                  <option value="19">Small</option>
-                  <option value="21" selected>Medium</option>
-                  <option value="24">Large</option>
-                  <option value="28">Extra Large</option>
+                  <option value="18">Small</option>
+                  <option value="22" selected>Medium</option>
+                  <option value="26">Large</option>
+                  <option value="30">Extra Large</option>
                 </select>
+              </div>
+
+              <div class="setting">
+                <label for="lineSpacingSelect">Line Spacing</label>
+                <select id="lineSpacingSelect">
+                  <option value="1.6">Compact</option>
+                  <option value="1.9" selected>Comfortable</option>
+                  <option value="2.2">Spacious</option>
+                </select>
+              </div>
+
+              <div class="setting">
+                <label for="alignSelect">Text Alignment</label>
+                <select id="alignSelect">
+                  <option value="left" selected>Left</option>
+                  <option value="center">Center</option>
+                  <option value="right">Right</option>
+                </select>
+              </div>
+
+              <div class="setting">
+                <label for="draftNameInput">Draft Name</label>
+                <input id="draftNameInput" type="text" value="my-writing" />
               </div>
             </div>
 
@@ -1083,7 +1189,7 @@
             </div>
 
             <div class="notice">
-              Note: यह browser-based transliteration engine है। Punjabi words के कई correct spellings हो सकते हैं, इसलिए output editable रखा गया है और alternatives दिए गए हैं।
+              Final editor को live conversion auto-overwrite नहीं करेगा। इससे आपकी manual spelling corrections safe रहेंगी।
             </div>
 
             <div class="success" id="messageBox">Done.</div>
@@ -1096,21 +1202,22 @@
       <article class="info-card">
         <h2>कैसे use करें?</h2>
         <ol>
-          <li>Roman Punjabi/Hinglish लिखें, जैसे <strong>sat sri akal ji</strong>।</li>
-          <li>Live mode में output अपने आप बनेगा, या <strong>Convert Now</strong> दबाएं।</li>
-          <li>Output box में Punjabi text edit कर सकते हैं।</li>
-          <li>Word chips पर click करके alternatives choose करें।</li>
-          <li>Final text copy, print या .txt file में download करें।</li>
+          <li>Language choose करें: Punjabi या Hindi.</li>
+          <li>Roman/Hinglish input लिखें.</li>
+          <li>Converted Draft check करें.</li>
+          <li>Alternatives से spelling सुधारें.</li>
+          <li><strong>Use Draft in Final Editor</strong> दबाएं.</li>
+          <li>Final text edit, copy, print या download करें.</li>
         </ol>
       </article>
 
       <article class="info-card">
-        <h2>Typing examples</h2>
+        <h2>Examples</h2>
         <ul>
-          <li><strong>sat sri akal</strong> → ਸਤ ਸ੍ਰੀ ਅਕਾਲ</li>
-          <li><strong>tusi kiven ho</strong> → ਤੁਸੀ ਕਿਵੇਨ ਹੋ</li>
-          <li><strong>main theek haan</strong> → ਮੈਨ ਥੀਕ ਹਾਂ</li>
-          <li><strong>punjabi likhna asaan hai</strong> → ਪੰਜਾਬੀ ਲਿਖਣਾ ਅਸਾਨ ਹੈ</li>
+          <li><strong>Punjabi:</strong> sat sri akal ji → ਸਤ ਸ੍ਰੀ ਅਕਾਲ ਜੀ</li>
+          <li><strong>Punjabi:</strong> tusi kiven ho → ਤੁਸੀਂ ਕਿਵੇਂ ਹੋ</li>
+          <li><strong>Hindi:</strong> namaste aap kaise hain → नमस्ते आप कैसे हैं</li>
+          <li><strong>Hindi:</strong> main theek hoon → मैं ठीक हूँ</li>
         </ul>
       </article>
     </section>
@@ -1134,11 +1241,21 @@
         <div class="faq-list">
           <div class="faq-item active">
             <button class="faq-q" type="button">
-              क्या यह Hindi typing है या Punjabi typing?
+              क्या यह Punjabi और Hindi दोनों typing करता है?
               <span>+</span>
             </button>
             <div class="faq-a">
-              यह Punjabi Gurmukhi typing page है। आप Roman Punjabi/Hinglish लिखते हैं और output Punjabi script में आता है।
+              हाँ। आप language switch करके Punjabi Gurmukhi या Hindi Devanagari output बना सकते हैं।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              Final text auto-overwrite होगा?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              नहीं। Live conversion केवल Converted Draft update करता है। Final Editable Text आपकी manual corrections के लिए safe है।
             </div>
           </div>
 
@@ -1148,17 +1265,7 @@
               <span>+</span>
             </button>
             <div class="faq-a">
-              Roman-to-Gurmukhi conversion में कई words के multiple spellings हो सकते हैं। इसलिए output editable है और word alternatives दिए गए हैं।
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">
-              क्या मैं output edit कर सकता हूँ?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              हाँ। Output box fully editable है। Manual Punjabi keyboard से letters भी insert कर सकते हैं।
+              Roman-to-Indic conversion में context के अनुसार spellings बदल सकती हैं। इसलिए word alternatives, manual keyboard और final editor दिए गए हैं।
             </div>
           </div>
 
@@ -1168,7 +1275,7 @@
               <span>+</span>
             </button>
             <div class="faq-a">
-              यह page browser-side conversion करता है। Draft save option local browser storage में save करता है।
+              यह browser-side editor है। Draft save करने पर text आपके local browser storage में save होता है।
             </div>
           </div>
         </div>
@@ -1190,7 +1297,7 @@
         <div>
           <h3>Language Tools</h3>
           <ul>
-            <li><a href="punjabi-typing.html">Punjabi Writer</a></li>
+            <li><a href="punjabi-typing.html">Punjabi & Hindi Writer</a></li>
             <li><a href="index.html">HindiTools Home</a></li>
             <li><a href="image-to-pdf-hi.html">Image to PDF</a></li>
             <li><a href="pdf-to-image-hi.html">PDF to Image</a></li>
@@ -1215,71 +1322,100 @@
 
   <script>
     const romanInput = document.getElementById("romanInput");
-    const punjabiOutput = document.getElementById("punjabiOutput");
+    const convertedDraft = document.getElementById("convertedDraft");
+    const finalText = document.getElementById("finalText");
     const convertBtn = document.getElementById("convertBtn");
-    const sampleBtn = document.getElementById("sampleBtn");
+    const samplePunjabiBtn = document.getElementById("samplePunjabiBtn");
+    const sampleHindiBtn = document.getElementById("sampleHindiBtn");
     const pasteBtn = document.getElementById("pasteBtn");
     const clearInputBtn = document.getElementById("clearInputBtn");
-    const clearOutputBtn = document.getElementById("clearOutputBtn");
-    const copyBtn = document.getElementById("copyBtn");
-    const downloadBtn = document.getElementById("downloadBtn");
+    const useDraftBtn = document.getElementById("useDraftBtn");
+    const appendDraftBtn = document.getElementById("appendDraftBtn");
+    const copyDraftBtn = document.getElementById("copyDraftBtn");
+    const copyFinalBtn = document.getElementById("copyFinalBtn");
+    const downloadTxtBtn = document.getElementById("downloadTxtBtn");
+    const downloadHtmlBtn = document.getElementById("downloadHtmlBtn");
     const printBtn = document.getElementById("printBtn");
+    const clearFinalBtn = document.getElementById("clearFinalBtn");
+    const undoBtn = document.getElementById("undoBtn");
+    const redoBtn = document.getElementById("redoBtn");
+    const cleanSpacesBtn = document.getElementById("cleanSpacesBtn");
+    const normalizePunctuationBtn = document.getElementById("normalizePunctuationBtn");
+    const addDandaBtn = document.getElementById("addDandaBtn");
+
+    const langPunjabiBtn = document.getElementById("langPunjabiBtn");
+    const langHindiBtn = document.getElementById("langHindiBtn");
+    const conversionStyle = document.getElementById("conversionStyle");
+    const liveModeSelect = document.getElementById("liveModeSelect");
+    const convertOnSpaceSelect = document.getElementById("convertOnSpaceSelect");
+    const autoSaveSelect = document.getElementById("autoSaveSelect");
+
     const wordGrid = document.getElementById("wordGrid");
     const suggestionBox = document.getElementById("suggestionBox");
     const suggestionMeta = document.getElementById("suggestionMeta");
     const suggestionList = document.getElementById("suggestionList");
     const keyboardGrid = document.getElementById("keyboardGrid");
-    const messageBox = document.getElementById("messageBox");
+    const keyboardTitle = document.getElementById("keyboardTitle");
 
     const inputCount = document.getElementById("inputCount");
-    const outputCount = document.getElementById("outputCount");
-    const romanWords = document.getElementById("romanWords");
-    const punjabiWords = document.getElementById("punjabiWords");
+    const draftCount = document.getElementById("draftCount");
+    const finalCount = document.getElementById("finalCount");
+    const wordCount = document.getElementById("wordCount");
     const charCount = document.getElementById("charCount");
+    const sentenceCount = document.getElementById("sentenceCount");
+    const readingTime = document.getElementById("readingTime");
     const draftStatus = document.getElementById("draftStatus");
 
-    const liveModeBtn = document.getElementById("liveModeBtn");
-    const manualModeBtn = document.getElementById("manualModeBtn");
-    const conversionStyle = document.getElementById("conversionStyle");
-    const autoSaveSelect = document.getElementById("autoSaveSelect");
     const fontSizeSelect = document.getElementById("fontSizeSelect");
+    const lineSpacingSelect = document.getElementById("lineSpacingSelect");
+    const alignSelect = document.getElementById("alignSelect");
+    const draftNameInput = document.getElementById("draftNameInput");
     const saveDraftBtn = document.getElementById("saveDraftBtn");
     const loadDraftBtn = document.getElementById("loadDraftBtn");
     const deleteDraftBtn = document.getElementById("deleteDraftBtn");
     const backspaceBtn = document.getElementById("backspaceBtn");
+    const messageBox = document.getElementById("messageBox");
 
-    let liveMode = true;
-    let lastConvertedWords = [];
+    let currentLanguage = "punjabi";
+    let convertedWords = [];
     let selectedWordIndex = null;
     let saveTimer = null;
+    let undoStack = [];
+    let redoStack = [];
+    let isApplyingHistory = false;
 
-    const dictionary = {
+    const commonPunctuationMap = {
+      "?": "?",
+      "!": "!",
+      ",": ",",
+      ".": "।"
+    };
+
+    const punjabiDictionary = {
       "sat": "ਸਤ",
       "sri": "ਸ੍ਰੀ",
       "shri": "ਸ਼੍ਰੀ",
       "akal": "ਅਕਾਲ",
       "ji": "ਜੀ",
-      "tusi": "ਤੁਸੀ",
-      "tussi": "ਤੁਸੀ",
+      "tusi": "ਤੁਸੀਂ",
+      "tussi": "ਤੁਸੀਂ",
       "kiven": "ਕਿਵੇਂ",
       "kive": "ਕਿਵੇਂ",
       "kiwen": "ਕਿਵੇਂ",
       "ho": "ਹੋ",
       "haan": "ਹਾਂ",
       "han": "ਹਾਂ",
-      "ha": "ਹਾਂ",
       "main": "ਮੈਂ",
       "mein": "ਮੈਂ",
       "mai": "ਮੈਂ",
       "theek": "ਠੀਕ",
       "thik": "ਠੀਕ",
-      "tik": "ਠੀਕ",
       "punjabi": "ਪੰਜਾਬੀ",
       "panjabi": "ਪੰਜਾਬੀ",
       "likhna": "ਲਿਖਣਾ",
       "likh": "ਲਿਖ",
-      "asaan": "ਅਸਾਨ",
-      "asan": "ਅਸਾਨ",
+      "asaan": "ਆਸਾਨ",
+      "asan": "ਆਸਾਨ",
       "hai": "ਹੈ",
       "ne": "ਨੇ",
       "nu": "ਨੂੰ",
@@ -1331,17 +1467,105 @@
       "thanks": "ਥੈਂਕਸ"
     };
 
-    const vowels = {
+    const hindiDictionary = {
+      "namaste": "नमस्ते",
+      "namaskar": "नमस्कार",
+      "aap": "आप",
+      "ap": "आप",
+      "kaise": "कैसे",
+      "kaisi": "कैसी",
+      "kaisa": "कैसा",
+      "hain": "हैं",
+      "hai": "है",
+      "ho": "हो",
+      "main": "मैं",
+      "mein": "मैं",
+      "mai": "मैं",
+      "theek": "ठीक",
+      "thik": "ठीक",
+      "hoon": "हूँ",
+      "hun": "हूँ",
+      "hu": "हूँ",
+      "mera": "मेरा",
+      "meri": "मेरी",
+      "mere": "मेरे",
+      "tum": "तुम",
+      "tumhara": "तुम्हारा",
+      "kya": "क्या",
+      "kyun": "क्यों",
+      "kyon": "क्यों",
+      "kab": "कब",
+      "kahan": "कहाँ",
+      "kaun": "कौन",
+      "nahi": "नहीं",
+      "nahin": "नहीं",
+      "haan": "हाँ",
+      "han": "हाँ",
+      "dhanyavaad": "धन्यवाद",
+      "shukriya": "शुक्रिया",
+      "ghar": "घर",
+      "kaam": "काम",
+      "kam": "काम",
+      "din": "दिन",
+      "raat": "रात",
+      "subah": "सुबह",
+      "shaam": "शाम",
+      "pyaar": "प्यार",
+      "pyar": "प्यार",
+      "dil": "दिल",
+      "khushi": "खुशी",
+      "dukh": "दुख",
+      "sukh": "सुख",
+      "hindi": "हिन्दी",
+      "likhna": "लिखना",
+      "likh": "लिख",
+      "asaan": "आसान",
+      "asan": "आसान",
+      "bharat": "भारत",
+      "india": "इंडिया",
+      "maa": "माँ",
+      "pita": "पिता",
+      "bhai": "भाई",
+      "behen": "बहन",
+      "dost": "दोस्त",
+      "school": "स्कूल",
+      "doctor": "डॉक्टर",
+      "nurse": "नर्स",
+      "hello": "हेलो",
+      "thanks": "थैंक्स"
+    };
+
+    const hindiVowels = {
+      "aa": "आ", "ai": "ऐ", "au": "औ", "ee": "ई", "ii": "ई", "oo": "ऊ", "uu": "ऊ",
+      "a": "अ", "i": "इ", "u": "उ", "e": "ए", "o": "ओ"
+    };
+
+    const hindiSigns = {
+      "aa": "ा", "ai": "ै", "au": "ौ", "ee": "ी", "ii": "ी", "oo": "ू", "uu": "ू",
+      "a": "", "i": "ि", "u": "ु", "e": "े", "o": "ो"
+    };
+
+    const hindiConsonants = {
+      "ksh": "क्ष", "gy": "ज्ञ", "tr": "त्र",
+      "kh": "ख", "gh": "घ", "chh": "छ", "ch": "च", "jh": "झ",
+      "th": "थ", "dh": "ध", "ph": "फ", "bh": "भ", "sh": "श",
+      "k": "क", "g": "ग", "c": "क", "j": "ज", "t": "त", "d": "द",
+      "n": "न", "p": "प", "b": "ब", "m": "म", "y": "य", "r": "र",
+      "l": "ल", "v": "व", "w": "व", "s": "स", "h": "ह", "f": "फ",
+      "z": "ज़", "q": "क", "x": "क्स"
+    };
+
+    const punjabiVowels = {
       "aa": "ਆ", "ai": "ਐ", "au": "ਔ", "ee": "ਈ", "ii": "ਈ", "oo": "ਊ", "uu": "ਊ",
       "a": "ਅ", "i": "ਇ", "u": "ਉ", "e": "ਏ", "o": "ਓ"
     };
 
-    const vowelSigns = {
+    const punjabiSigns = {
       "aa": "ਾ", "ai": "ੈ", "au": "ੌ", "ee": "ੀ", "ii": "ੀ", "oo": "ੂ", "uu": "ੂ",
       "a": "", "i": "ਿ", "u": "ੁ", "e": "ੇ", "o": "ੋ"
     };
 
-    const consonants = {
+    const punjabiConsonants = {
       "khh": "ਖ਼", "ghh": "ਗ਼", "chh": "ਛ", "sh": "ਸ਼", "kh": "ਖ", "gh": "ਘ",
       "ch": "ਚ", "jh": "ਝ", "th": "ਥ", "dh": "ਧ", "ph": "ਫ", "bh": "ਭ",
       "ng": "ਙ", "ny": "ਞ",
@@ -1350,23 +1574,6 @@
       "l": "ਲ", "v": "ਵ", "w": "ਵ", "s": "ਸ", "h": "ਹ", "f": "ਫ",
       "z": "ਜ਼", "q": "ਕ", "x": "ਕਸ"
     };
-
-    const independentMap = {
-      ...vowels,
-      "ka": "ਕ", "kha": "ਖ", "ga": "ਗ", "gha": "ਘ",
-      "cha": "ਚ", "chha": "ਛ", "ja": "ਜ", "jha": "ਝ",
-      "ta": "ਤ", "tha": "ਥ", "da": "ਦ", "dha": "ਧ", "na": "ਨ",
-      "pa": "ਪ", "pha": "ਫ", "ba": "ਬ", "bha": "ਭ", "ma": "ਮ",
-      "ya": "ਯ", "ra": "ਰ", "la": "ਲ", "va": "ਵ", "wa": "ਵ",
-      "sa": "ਸ", "sha": "ਸ਼", "ha": "ਹ"
-    };
-
-    const nasalEndings = [
-      { pattern: /aan$/i, replacement: "ਾਂ" },
-      { pattern: /an$/i, replacement: "ੰ" },
-      { pattern: /en$/i, replacement: "ੇਂ" },
-      { pattern: /on$/i, replacement: "ੋਂ" }
-    ];
 
     function showMessage(text) {
       messageBox.textContent = text;
@@ -1379,12 +1586,18 @@
       return words ? words.length : 0;
     }
 
-    function isRomanWord(token) {
-      return /^[a-zA-Z]+[a-zA-Z']*$/.test(token);
+    function countSentences(text) {
+      const matches = text.trim().match(/[^।.!?]+[।.!?]+/g);
+      if (matches) return matches.length;
+      return text.trim() ? 1 : 0;
     }
 
     function tokenize(text) {
-      return text.match(/[a-zA-Z']+|[0-9]+|[\u0A00-\u0A7F]+|\s+|[^\s]/g) || [];
+      return text.match(/[a-zA-Z']+|[0-9]+|[\u0900-\u097F]+|[\u0A00-\u0A7F]+|\s+|[^\s]/g) || [];
+    }
+
+    function isRomanWord(token) {
+      return /^[a-zA-Z]+[a-zA-Z']*$/.test(token);
     }
 
     function startsWithAny(str, map, index) {
@@ -1397,7 +1610,7 @@
       return null;
     }
 
-    function convertRomanWord(rawWord) {
+    function convertWithMaps(rawWord, dictionary, vowels, signs, consonants, language) {
       const original = rawWord;
       const word = rawWord.toLowerCase().replace(/'/g, "");
 
@@ -1409,9 +1622,10 @@
 
       while (i < word.length) {
         const vowelKey = startsWithAny(word, vowels, i);
+
         if (vowelKey) {
           if (lastWasConsonant) {
-            output += vowelSigns[vowelKey];
+            output += signs[vowelKey];
           } else {
             output += vowels[vowelKey];
           }
@@ -1421,6 +1635,7 @@
         }
 
         const consonantKey = startsWithAny(word, consonants, i);
+
         if (consonantKey) {
           output += consonants[consonantKey];
           i += consonantKey.length;
@@ -1434,34 +1649,48 @@
       }
 
       if (conversionStyle.value !== "simple") {
-        output = output
-          .replace(/ਨੂ$/, "ਨੂੰ")
-          .replace(/ਹਾਨ$/, "ਹਾਂ")
-          .replace(/ਮੈਨ$/, "ਮੈਂ")
-          .replace(/ਕਿਵੇਨ$/, "ਕਿਵੇਂ");
-      }
-
-      if (/^[A-Z]/.test(original) && output.length > 0) {
-        return output;
+        if (language === "punjabi") {
+          output = output
+            .replace(/ਨੂ$/, "ਨੂੰ")
+            .replace(/ਹਾਨ$/, "ਹਾਂ")
+            .replace(/ਮੈਨ$/, "ਮੈਂ")
+            .replace(/ਕਿਵੇਨ$/, "ਕਿਵੇਂ");
+        } else {
+          output = output
+            .replace(/हून$/, "हूँ")
+            .replace(/हूं$/, "हूँ")
+            .replace(/नही$/, "नहीं")
+            .replace(/मै$/, "मैं")
+            .replace(/कहा$/, "कहाँ");
+        }
       }
 
       return output || original;
     }
 
+    function convertRomanWord(rawWord) {
+      if (currentLanguage === "punjabi") {
+        return convertWithMaps(rawWord, punjabiDictionary, punjabiVowels, punjabiSigns, punjabiConsonants, "punjabi");
+      }
+
+      return convertWithMaps(rawWord, hindiDictionary, hindiVowels, hindiSigns, hindiConsonants, "hindi");
+    }
+
     function convertText(text) {
       const tokens = tokenize(text);
       const converted = [];
-      lastConvertedWords = [];
+      convertedWords = [];
 
       tokens.forEach(token => {
         if (isRomanWord(token)) {
-          const punjabi = convertRomanWord(token);
-          converted.push(punjabi);
-          lastConvertedWords.push({
+          const output = convertRomanWord(token);
+          converted.push(output);
+          convertedWords.push({
             roman: token,
-            punjabi,
-            startIndex: converted.join("").length - punjabi.length
+            output
           });
+        } else if (token === ".") {
+          converted.push("।");
         } else {
           converted.push(token);
         }
@@ -1470,55 +1699,71 @@
       return converted.join("");
     }
 
+    function doConvert() {
+      convertedDraft.value = convertText(romanInput.value);
+      renderWordChips();
+      updateStats();
+      saveDraftDebounced();
+    }
+
     function generateAlternatives(roman, current) {
       const lower = roman.toLowerCase();
       const alternatives = new Set();
 
-      if (dictionary[lower]) alternatives.add(dictionary[lower]);
       alternatives.add(current);
-      alternatives.add(convertRomanWord(lower.replace(/v/g, "w")));
-      alternatives.add(convertRomanWord(lower.replace(/w/g, "v")));
-      alternatives.add(convertRomanWord(lower.replace(/sh/g, "s")));
-      alternatives.add(convertRomanWord(lower.replace(/s/g, "sh")));
-      alternatives.add(convertRomanWord(lower.replace(/aa/g, "a")));
-      alternatives.add(convertRomanWord(lower.replace(/a/g, "aa")));
-      alternatives.add(convertRomanWord(lower.replace(/ee/g, "i")));
-      alternatives.add(convertRomanWord(lower.replace(/oo/g, "u")));
 
-      const special = {
-        "sat": ["ਸਤ", "ਸੱਤ"],
-        "sri": ["ਸ੍ਰੀ", "ਸ਼੍ਰੀ"],
-        "akal": ["ਅਕਾਲ"],
-        "tusi": ["ਤੁਸੀ", "ਤੁਸੀਂ"],
-        "kiven": ["ਕਿਵੇਂ", "ਕਿਵੇਨ"],
-        "main": ["ਮੈਂ", "ਮੈਨ"],
-        "haan": ["ਹਾਂ", "ਹਾਨ"],
-        "punjabi": ["ਪੰਜਾਬੀ", "ਪੰਜਾਬੀ"],
-        "likhna": ["ਲਿਖਣਾ"],
-        "theek": ["ਠੀਕ", "ਥੀਕ"],
-        "shukar": ["ਸ਼ੁਕਰ", "ਸੁਕਰ"]
-      };
+      if (currentLanguage === "punjabi") {
+        if (punjabiDictionary[lower]) alternatives.add(punjabiDictionary[lower]);
+        alternatives.add(convertWithMaps(lower.replace(/v/g, "w"), punjabiDictionary, punjabiVowels, punjabiSigns, punjabiConsonants, "punjabi"));
+        alternatives.add(convertWithMaps(lower.replace(/w/g, "v"), punjabiDictionary, punjabiVowels, punjabiSigns, punjabiConsonants, "punjabi"));
+        alternatives.add(convertWithMaps(lower.replace(/sh/g, "s"), punjabiDictionary, punjabiVowels, punjabiSigns, punjabiConsonants, "punjabi"));
 
-      if (special[lower]) {
-        special[lower].forEach(item => alternatives.add(item));
+        const special = {
+          "sat": ["ਸਤ", "ਸੱਤ"],
+          "sri": ["ਸ੍ਰੀ", "ਸ਼੍ਰੀ"],
+          "tusi": ["ਤੁਸੀਂ", "ਤੁਸੀ"],
+          "kiven": ["ਕਿਵੇਂ", "ਕਿਵੇਨ"],
+          "main": ["ਮੈਂ", "ਮੈਨ"],
+          "haan": ["ਹਾਂ", "ਹਾਨ"],
+          "theek": ["ਠੀਕ", "ਥੀਕ"]
+        };
+
+        if (special[lower]) special[lower].forEach(item => alternatives.add(item));
+      } else {
+        if (hindiDictionary[lower]) alternatives.add(hindiDictionary[lower]);
+        alternatives.add(convertWithMaps(lower.replace(/v/g, "w"), hindiDictionary, hindiVowels, hindiSigns, hindiConsonants, "hindi"));
+        alternatives.add(convertWithMaps(lower.replace(/w/g, "v"), hindiDictionary, hindiVowels, hindiSigns, hindiConsonants, "hindi"));
+        alternatives.add(convertWithMaps(lower.replace(/sh/g, "s"), hindiDictionary, hindiVowels, hindiSigns, hindiConsonants, "hindi"));
+
+        const special = {
+          "main": ["मैं", "मेँ"],
+          "hoon": ["हूँ", "हूं"],
+          "hain": ["हैं", "है"],
+          "nahi": ["नहीं", "नही"],
+          "kahan": ["कहाँ", "कहा"],
+          "theek": ["ठीक", "थीक"],
+          "hindi": ["हिन्दी", "हिंदी"]
+        };
+
+        if (special[lower]) special[lower].forEach(item => alternatives.add(item));
       }
 
-      return [...alternatives].filter(Boolean).slice(0, 8);
+      return [...alternatives].filter(Boolean).slice(0, 10);
     }
 
     function renderWordChips() {
       wordGrid.innerHTML = "";
 
-      lastConvertedWords.forEach((item, index) => {
+      convertedWords.forEach((item, index) => {
         const chip = document.createElement("button");
         chip.className = "word-chip";
         chip.type = "button";
-        chip.textContent = `${item.roman} → ${item.punjabi}`;
+        chip.textContent = `${item.roman} → ${item.output}`;
         chip.addEventListener("click", () => showAlternatives(index));
         wordGrid.appendChild(chip);
       });
 
-      if (!lastConvertedWords.length) {
+      if (!convertedWords.length) {
         const empty = document.createElement("span");
         empty.style.color = "#6b7280";
         empty.style.fontWeight = "800";
@@ -1529,11 +1774,11 @@
 
     function showAlternatives(index) {
       selectedWordIndex = index;
-      const item = lastConvertedWords[index];
-      const alternatives = generateAlternatives(item.roman, item.punjabi);
+      const item = convertedWords[index];
+      const alternatives = generateAlternatives(item.roman, item.output);
 
       suggestionBox.classList.add("show");
-      suggestionMeta.textContent = `Roman word: "${item.roman}" — current output: "${item.punjabi}"`;
+      suggestionMeta.textContent = `Roman word: "${item.roman}" — current output: "${item.output}"`;
       suggestionList.innerHTML = "";
 
       alternatives.forEach(alt => {
@@ -1541,139 +1786,182 @@
         btn.className = "suggestion-chip";
         btn.type = "button";
         btn.textContent = alt;
-        btn.addEventListener("click", () => replaceWord(index, alt));
+        btn.addEventListener("click", () => replaceWordInDraft(index, alt));
         suggestionList.appendChild(btn);
       });
     }
 
-    function replaceWord(index, replacement) {
-      const item = lastConvertedWords[index];
-      const output = punjabiOutput.value;
-      const escaped = item.punjabi.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    function replaceWordInDraft(index, replacement) {
+      const item = convertedWords[index];
+      const escaped = item.output.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
       const regex = new RegExp(escaped);
-      punjabiOutput.value = output.replace(regex, replacement);
-      lastConvertedWords[index].punjabi = replacement;
+      convertedDraft.value = convertedDraft.value.replace(regex, replacement);
+      convertedWords[index].output = replacement;
       renderWordChips();
       updateStats();
       saveDraftDebounced();
-      showMessage("Word replaced.");
+      showMessage("Draft word replaced.");
     }
 
-    function doConvert() {
-      const output = convertText(romanInput.value);
-      punjabiOutput.value = output;
-      renderWordChips();
+    function pushHistory() {
+      if (isApplyingHistory) return;
+
+      const current = finalText.value;
+      if (undoStack.length === 0 || undoStack[undoStack.length - 1] !== current) {
+        undoStack.push(current);
+        if (undoStack.length > 60) undoStack.shift();
+      }
+
+      redoStack = [];
+    }
+
+    function undo() {
+      if (undoStack.length <= 1) return;
+
+      isApplyingHistory = true;
+      const current = undoStack.pop();
+      redoStack.push(current);
+      finalText.value = undoStack[undoStack.length - 1] || "";
+      isApplyingHistory = false;
       updateStats();
       saveDraftDebounced();
     }
 
-    function updateStats() {
-      const inputWords = countWords(romanInput.value);
-      const outputWords = countWords(punjabiOutput.value);
+    function redo() {
+      if (!redoStack.length) return;
 
-      inputCount.textContent = `${inputWords} words`;
-      outputCount.textContent = `${outputWords} words`;
-      romanWords.textContent = inputWords;
-      punjabiWords.textContent = outputWords;
-      charCount.textContent = punjabiOutput.value.length;
+      isApplyingHistory = true;
+      const next = redoStack.pop();
+      finalText.value = next;
+      undoStack.push(next);
+      isApplyingHistory = false;
+      updateStats();
+      saveDraftDebounced();
     }
 
-    function saveDraft() {
-      if (autoSaveSelect.value === "off") return;
-
-      const data = {
-        roman: romanInput.value,
-        punjabi: punjabiOutput.value,
-        style: conversionStyle.value,
-        savedAt: new Date().toISOString()
-      };
-
-      localStorage.setItem("hinditools_punjabi_writer_draft", JSON.stringify(data));
-      draftStatus.textContent = "Saved";
+    function useDraftInFinal() {
+      finalText.value = convertedDraft.value;
+      pushHistory();
+      updateStats();
+      saveDraftDebounced();
+      showMessage("Draft copied to final editor.");
     }
 
-    function saveDraftDebounced() {
-      draftStatus.textContent = "Saving...";
-      clearTimeout(saveTimer);
-      saveTimer = setTimeout(saveDraft, 500);
+    function appendDraftToFinal() {
+      const prefix = finalText.value.trim() ? "\n" : "";
+      finalText.value += prefix + convertedDraft.value;
+      pushHistory();
+      updateStats();
+      saveDraftDebounced();
+      showMessage("Draft appended to final editor.");
     }
 
-    function loadDraft() {
-      const raw = localStorage.getItem("hinditools_punjabi_writer_draft");
-
-      if (!raw) {
-        showMessage("No saved draft found.");
-        return;
-      }
-
-      try {
-        const data = JSON.parse(raw);
-        romanInput.value = data.roman || "";
-        punjabiOutput.value = data.punjabi || "";
-        if (data.style) conversionStyle.value = data.style;
-        doConvert();
-        showMessage("Draft loaded.");
-      } catch {
-        showMessage("Draft load नहीं हो सका।");
-      }
-    }
-
-    function deleteDraft() {
-      localStorage.removeItem("hinditools_punjabi_writer_draft");
-      draftStatus.textContent = "Deleted";
-      showMessage("Draft deleted.");
-    }
-
-    function copyText() {
-      navigator.clipboard.writeText(punjabiOutput.value).then(() => {
-        showMessage("Punjabi text copied.");
+    function copyText(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showMessage("Copied.");
       }).catch(() => {
-        punjabiOutput.select();
-        document.execCommand("copy");
-        showMessage("Punjabi text copied.");
+        showMessage("Copy failed. Please select and copy manually.");
       });
     }
 
-    function downloadText() {
-      const blob = new Blob([punjabiOutput.value], { type: "text/plain;charset=utf-8" });
+    function downloadFile(filename, content, type) {
+      const blob = new Blob([content], { type });
       const url = URL.createObjectURL(blob);
       const a = document.createElement("a");
-      const date = new Date().toISOString().slice(0, 10);
       a.href = url;
-      a.download = `punjabi-writing-${date}.txt`;
+      a.download = filename;
       a.click();
       URL.revokeObjectURL(url);
-      showMessage("Text file downloaded.");
+    }
+
+    function downloadTxt() {
+      const name = sanitizeName(draftNameInput.value || "writing");
+      downloadFile(`${name}.txt`, finalText.value, "text/plain;charset=utf-8");
+      showMessage("TXT downloaded.");
+    }
+
+    function downloadHtml() {
+      const name = sanitizeName(draftNameInput.value || "writing");
+      const lang = currentLanguage === "punjabi" ? "pa" : "hi";
+      const font = currentLanguage === "punjabi" ? "Noto Sans Gurmukhi" : "Noto Sans Devanagari";
+      const safeText = escapeHtml(finalText.value).replace(/\n/g, "<br>");
+      const html = `<!doctype html>
+<html lang="${lang}">
+<head>
+<meta charset="utf-8">
+<title>${escapeHtml(name)}</title>
+<style>
+body{font-family:"${font}",Arial,sans-serif;padding:40px;line-height:1.9;font-size:22px;}
+</style>
+</head>
+<body>${safeText}</body>
+</html>`;
+      downloadFile(`${name}.html`, html, "text/html;charset=utf-8");
+      showMessage("HTML downloaded.");
     }
 
     function printText() {
+      const lang = currentLanguage === "punjabi" ? "pa" : "hi";
+      const font = currentLanguage === "punjabi" ? "Noto Sans Gurmukhi" : "Noto Sans Devanagari";
+      const safeText = escapeHtml(finalText.value).replace(/\n/g, "<br>");
+
       const printWindow = window.open("", "_blank");
-      const safeText = punjabiOutput.value
-        .replace(/&/g, "&amp;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .replace(/\n/g, "<br>");
-
-      printWindow.document.write(`
-        <!doctype html>
-        <html>
-        <head>
-          <title>Punjabi Text</title>
-          <style>
-            body {
-              font-family: "Noto Sans Gurmukhi", Arial, sans-serif;
-              padding: 40px;
-              line-height: 1.9;
-              font-size: 22px;
-            }
-          </style>
-        </head>
-        <body>${safeText}</body>
-        </html>
-      `);
-
+      printWindow.document.write(`<!doctype html>
+<html lang="${lang}">
+<head>
+<title>Print Text</title>
+<style>
+body{font-family:"${font}",Arial,sans-serif;padding:40px;line-height:${lineSpacingSelect.value};font-size:${fontSizeSelect.value}px;text-align:${alignSelect.value};}
+</style>
+</head>
+<body>${safeText}</body>
+</html>`);
       printWindow.document.close();
       printWindow.print();
+    }
+
+    function escapeHtml(text) {
+      return String(text)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;");
+    }
+
+    function sanitizeName(name) {
+      return String(name || "writing")
+        .replace(/[^\u0900-\u097F\u0A00-\u0A7Fa-zA-Z0-9-_ ]/g, "")
+        .trim()
+        .replace(/\s+/g, "-") || "writing";
+    }
+
+    function cleanSpaces() {
+      finalText.value = finalText.value
+        .replace(/[ \t]+/g, " ")
+        .replace(/\n{3,}/g, "\n\n")
+        .replace(/[ \t]+\n/g, "\n")
+        .trim();
+      pushHistory();
+      updateStats();
+      saveDraftDebounced();
+      showMessage("Spaces cleaned.");
+    }
+
+    function normalizePunctuation() {
+      finalText.value = finalText.value
+        .replace(/\s+([।,.!?;:])/g, "$1")
+        .replace(/([।,.!?;:])([^\s\n])/g, "$1 $2")
+        .replace(/\./g, "।")
+        .replace(/\s+/g, " ")
+        .replace(/\s*\n\s*/g, "\n")
+        .trim();
+      pushHistory();
+      updateStats();
+      saveDraftDebounced();
+      showMessage("Punctuation normalized.");
+    }
+
+    function addDanda() {
+      insertAtCursor(finalText, "।");
     }
 
     function insertAtCursor(textarea, text) {
@@ -1686,37 +1974,69 @@
       const pos = start + actual.length;
       textarea.focus();
       textarea.setSelectionRange(pos, pos);
+      pushHistory();
       updateStats();
       saveDraftDebounced();
     }
 
     function backspaceOutput() {
-      const start = punjabiOutput.selectionStart;
-      const end = punjabiOutput.selectionEnd;
+      const start = finalText.selectionStart;
+      const end = finalText.selectionEnd;
 
       if (start !== end) {
-        punjabiOutput.value = punjabiOutput.value.slice(0, start) + punjabiOutput.value.slice(end);
-        punjabiOutput.setSelectionRange(start, start);
+        finalText.value = finalText.value.slice(0, start) + finalText.value.slice(end);
+        finalText.setSelectionRange(start, start);
       } else if (start > 0) {
-        punjabiOutput.value = punjabiOutput.value.slice(0, start - 1) + punjabiOutput.value.slice(start);
-        punjabiOutput.setSelectionRange(start - 1, start - 1);
+        finalText.value = finalText.value.slice(0, start - 1) + finalText.value.slice(start);
+        finalText.setSelectionRange(start - 1, start - 1);
       }
 
-      punjabiOutput.focus();
+      finalText.focus();
+      pushHistory();
+      updateStats();
+      saveDraftDebounced();
+    }
+
+    function setLanguage(language) {
+      currentLanguage = language;
+
+      langPunjabiBtn.classList.toggle("active", language === "punjabi");
+      langHindiBtn.classList.toggle("active", language === "hindi");
+
+      finalText.classList.toggle("punjabi-font", language === "punjabi");
+      finalText.classList.toggle("hindi-font", language === "hindi");
+      convertedDraft.classList.toggle("punjabi-font", language === "punjabi");
+      convertedDraft.classList.toggle("hindi-font", language === "hindi");
+
+      keyboardTitle.textContent = language === "punjabi" ? "Punjabi Keyboard" : "Hindi Keyboard";
+      renderKeyboard();
+
+      if (liveModeSelect.value === "on") doConvert();
+
       updateStats();
       saveDraftDebounced();
     }
 
     function renderKeyboard() {
-      const keys = [
-        "ੳ","ਅ","ੲ","ਸ","ਹ","ਕ","ਖ","ਗ","ਘ","ਙ",
-        "ਚ","ਛ","ਜ","ਝ","ਞ","ਟ","ਠ","ਡ","ਢ","ਣ",
-        "ਤ","ਥ","ਦ","ਧ","ਨ","ਪ","ਫ","ਬ","ਭ","ਮ",
-        "ਯ","ਰ","ਲ","ਵ","ੜ","ਸ਼","ਖ਼","ਗ਼","ਜ਼","ਫ਼",
-        "ਾ","ਿ","ੀ","ੁ","ੂ","ੇ","ੈ","ੋ","ੌ","ੰ",
-        "ੱ","ਂ","੍","ੴ","।","॥","੦","੧","੨","੩",
-        "੪","੫","੬","੭","੮","੯"
+      const punjabiKeys = [
+        "ੳ","ਅ","ੲ","ਸ","ਹ","ਕ","ਖ","ਗ","ਘ","ਙ","ਚ","ਛ",
+        "ਜ","ਝ","ਞ","ਟ","ਠ","ਡ","ਢ","ਣ","ਤ","ਥ","ਦ","ਧ",
+        "ਨ","ਪ","ਫ","ਬ","ਭ","ਮ","ਯ","ਰ","ਲ","ਵ","ੜ","ਸ਼",
+        "ਖ਼","ਗ਼","ਜ਼","ਫ਼","ਾ","ਿ","ੀ","ੁ","ੂ","ੇ","ੈ","ੋ",
+        "ੌ","ੰ","ੱ","ਂ","੍","ੴ","੦","੧","੨","੩","੪","੫",
+        "੬","੭","੮","੯"
       ];
+
+      const hindiKeys = [
+        "अ","आ","इ","ई","उ","ऊ","ऋ","ए","ऐ","ओ","औ","अं",
+        "क","ख","ग","घ","ङ","च","छ","ज","झ","ञ","ट","ठ",
+        "ड","ढ","ण","त","थ","द","ध","न","प","फ","ब","भ",
+        "म","य","र","ल","व","श","ष","स","ह","क्ष","त्र","ज्ञ",
+        "ा","ि","ी","ु","ू","ृ","े","ै","ो","ौ","ं","ँ","्","़",
+        "०","१","२","३","४","५","६","७","८","९"
+      ];
+
+      const keys = currentLanguage === "punjabi" ? punjabiKeys : hindiKeys;
 
       keyboardGrid.innerHTML = "";
 
@@ -1725,28 +2045,131 @@
         btn.className = "key-btn";
         btn.type = "button";
         btn.textContent = key;
-        btn.addEventListener("click", () => insertAtCursor(punjabiOutput, key));
+        btn.addEventListener("click", () => insertAtCursor(finalText, key));
         keyboardGrid.appendChild(btn);
       });
     }
 
-    romanInput.addEventListener("input", () => {
+    function updateStats() {
+      inputCount.textContent = `${countWords(romanInput.value)} words`;
+      draftCount.textContent = `${countWords(convertedDraft.value)} words`;
+      finalCount.textContent = `${countWords(finalText.value)} words`;
+
+      const words = countWords(finalText.value);
+      wordCount.textContent = words;
+      charCount.textContent = finalText.value.length;
+      sentenceCount.textContent = countSentences(finalText.value);
+      readingTime.textContent = `${Math.max(0, Math.ceil(words / 180))} min`;
+    }
+
+    function applyFinalStyles() {
+      finalText.style.fontSize = `${fontSizeSelect.value}px`;
+      finalText.style.lineHeight = lineSpacingSelect.value;
+      finalText.style.textAlign = alignSelect.value;
+    }
+
+    function saveDraft() {
+      if (autoSaveSelect.value === "off") return;
+
+      const data = {
+        language: currentLanguage,
+        roman: romanInput.value,
+        converted: convertedDraft.value,
+        final: finalText.value,
+        conversionStyle: conversionStyle.value,
+        fontSize: fontSizeSelect.value,
+        lineSpacing: lineSpacingSelect.value,
+        align: alignSelect.value,
+        name: draftNameInput.value,
+        savedAt: new Date().toISOString()
+      };
+
+      localStorage.setItem("hinditools_bilingual_writer_draft", JSON.stringify(data));
+      draftStatus.textContent = "Saved";
+    }
+
+    function saveDraftDebounced() {
+      if (autoSaveSelect.value === "off") {
+        draftStatus.textContent = "Off";
+        return;
+      }
+
+      draftStatus.textContent = "Saving...";
+      clearTimeout(saveTimer);
+      saveTimer = setTimeout(saveDraft, 500);
+    }
+
+    function loadDraft() {
+      const raw = localStorage.getItem("hinditools_bilingual_writer_draft");
+
+      if (!raw) {
+        showMessage("No saved draft found.");
+        return;
+      }
+
+      try {
+        const data = JSON.parse(raw);
+        setLanguage(data.language || "punjabi");
+        romanInput.value = data.roman || "";
+        convertedDraft.value = data.converted || "";
+        finalText.value = data.final || "";
+        conversionStyle.value = data.conversionStyle || "balanced";
+        fontSizeSelect.value = data.fontSize || "22";
+        lineSpacingSelect.value = data.lineSpacing || "1.9";
+        alignSelect.value = data.align || "left";
+        draftNameInput.value = data.name || "my-writing";
+        applyFinalStyles();
+        updateStats();
+        renderWordChips();
+        pushHistory();
+        showMessage("Draft loaded.");
+      } catch {
+        showMessage("Draft load नहीं हो सका।");
+      }
+    }
+
+    function deleteDraft() {
+      localStorage.removeItem("hinditools_bilingual_writer_draft");
+      draftStatus.textContent = "Deleted";
+      showMessage("Draft deleted.");
+    }
+
+    romanInput.addEventListener("input", event => {
+      if (liveModeSelect.value === "on") {
+        doConvert();
+      } else if (convertOnSpaceSelect.value === "on" && /\s$/.test(romanInput.value)) {
+        doConvert();
+      } else {
+        updateStats();
+        saveDraftDebounced();
+      }
+    });
+
+    finalText.addEventListener("input", () => {
+      pushHistory();
       updateStats();
-      if (liveMode) doConvert();
       saveDraftDebounced();
     });
 
-    punjabiOutput.addEventListener("input", () => {
+    convertedDraft.addEventListener("input", () => {
       updateStats();
       saveDraftDebounced();
     });
 
     convertBtn.addEventListener("click", doConvert);
 
-    sampleBtn.addEventListener("click", () => {
+    samplePunjabiBtn.addEventListener("click", () => {
+      setLanguage("punjabi");
       romanInput.value = "sat sri akal ji\n\ntusi kiven ho? main theek haan.\n\npunjabi likhna asaan hai. waheguru ji ka khalsa, waheguru ji ki fateh.";
       doConvert();
-      showMessage("Sample added.");
+      showMessage("Punjabi sample added.");
+    });
+
+    sampleHindiBtn.addEventListener("click", () => {
+      setLanguage("hindi");
+      romanInput.value = "namaste aap kaise hain?\n\nmain theek hoon. hindi likhna aasaan hai.\n\naapka din shubh ho.";
+      doConvert();
+      showMessage("Hindi sample added.");
     });
 
     pasteBtn.addEventListener("click", async () => {
@@ -1766,56 +2189,63 @@
       showMessage("Input cleared.");
     });
 
-    clearOutputBtn.addEventListener("click", () => {
-      punjabiOutput.value = "";
-      updateStats();
-      saveDraftDebounced();
-      showMessage("Output cleared.");
-    });
-
-    copyBtn.addEventListener("click", copyText);
-    downloadBtn.addEventListener("click", downloadText);
+    useDraftBtn.addEventListener("click", useDraftInFinal);
+    appendDraftBtn.addEventListener("click", appendDraftToFinal);
+    copyDraftBtn.addEventListener("click", () => copyText(convertedDraft.value));
+    copyFinalBtn.addEventListener("click", () => copyText(finalText.value));
+    downloadTxtBtn.addEventListener("click", downloadTxt);
+    downloadHtmlBtn.addEventListener("click", downloadHtml);
     printBtn.addEventListener("click", printText);
 
-    liveModeBtn.addEventListener("click", () => {
-      liveMode = true;
-      liveModeBtn.classList.add("active");
-      manualModeBtn.classList.remove("active");
-      doConvert();
-    });
-
-    manualModeBtn.addEventListener("click", () => {
-      liveMode = false;
-      manualModeBtn.classList.add("active");
-      liveModeBtn.classList.remove("active");
-      showMessage("Manual mode on. Output will not auto-change.");
-    });
-
-    conversionStyle.addEventListener("change", () => {
-      if (liveMode) doConvert();
+    clearFinalBtn.addEventListener("click", () => {
+      finalText.value = "";
+      pushHistory();
+      updateStats();
       saveDraftDebounced();
+      showMessage("Final text cleared.");
     });
 
-    autoSaveSelect.addEventListener("change", () => {
-      if (autoSaveSelect.value === "on") saveDraft();
-      showMessage(`Auto save ${autoSaveSelect.value === "on" ? "on" : "off"}.`);
+    undoBtn.addEventListener("click", undo);
+    redoBtn.addEventListener("click", redo);
+    cleanSpacesBtn.addEventListener("click", cleanSpaces);
+    normalizePunctuationBtn.addEventListener("click", normalizePunctuation);
+    addDandaBtn.addEventListener("click", addDanda);
+
+    langPunjabiBtn.addEventListener("click", () => setLanguage("punjabi"));
+    langHindiBtn.addEventListener("click", () => setLanguage("hindi"));
+
+    [conversionStyle, liveModeSelect, convertOnSpaceSelect].forEach(el => {
+      el.addEventListener("change", () => {
+        if (liveModeSelect.value === "on") doConvert();
+        saveDraftDebounced();
+      });
     });
 
-    fontSizeSelect.addEventListener("change", () => {
-      punjabiOutput.style.fontSize = `${fontSizeSelect.value}px`;
+    [fontSizeSelect, lineSpacingSelect, alignSelect].forEach(el => {
+      el.addEventListener("change", () => {
+        applyFinalStyles();
+        saveDraftDebounced();
+      });
     });
+
+    draftNameInput.addEventListener("input", saveDraftDebounced);
+    autoSaveSelect.addEventListener("change", saveDraftDebounced);
 
     saveDraftBtn.addEventListener("click", () => {
+      const old = autoSaveSelect.value;
+      autoSaveSelect.value = "on";
       saveDraft();
+      autoSaveSelect.value = old;
       showMessage("Draft saved.");
     });
 
     loadDraftBtn.addEventListener("click", loadDraft);
     deleteDraftBtn.addEventListener("click", deleteDraft);
+
     backspaceBtn.addEventListener("click", backspaceOutput);
 
     document.querySelectorAll("[data-insert]").forEach(btn => {
-      btn.addEventListener("click", () => insertAtCursor(punjabiOutput, btn.dataset.insert));
+      btn.addEventListener("click", () => insertAtCursor(finalText, btn.dataset.insert));
     });
 
     document.getElementById("menuBtn").addEventListener("click", () => {
@@ -1830,12 +2260,12 @@
 
     renderKeyboard();
     renderWordChips();
+    applyFinalStyles();
     updateStats();
+    pushHistory();
 
-    const saved = localStorage.getItem("hinditools_punjabi_writer_draft");
-    if (saved) {
-      draftStatus.textContent = "Found";
-    }
+    const saved = localStorage.getItem("hinditools_bilingual_writer_draft");
+    if (saved) draftStatus.textContent = "Found";
 
     const faqSchema = {
       "@context": "https://schema.org",
@@ -1843,10 +2273,18 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "क्या यह Hindi typing है या Punjabi typing?",
+          "name": "क्या यह Punjabi और Hindi दोनों typing करता है?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "यह Punjabi Gurmukhi typing page है। आप Roman Punjabi/Hinglish लिखते हैं और output Punjabi script में आता है।"
+            "text": "हाँ। आप language switch करके Punjabi Gurmukhi या Hindi Devanagari output बना सकते हैं।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Final text auto-overwrite होगा?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "नहीं। Live conversion केवल Converted Draft update करता है। Final Editable Text आपकी manual corrections के लिए safe है।"
           }
         },
         {
@@ -1854,15 +2292,7 @@
           "name": "क्या output हमेशा perfect होगा?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Roman-to-Gurmukhi conversion में कई words के multiple spellings हो सकते हैं। इसलिए output editable है और word alternatives दिए गए हैं।"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "क्या मैं output edit कर सकता हूँ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "हाँ। Output box fully editable है। Manual Punjabi keyboard से letters भी insert कर सकते हैं।"
+            "text": "Roman-to-Indic conversion में context के अनुसार spellings बदल सकती हैं। इसलिए word alternatives, manual keyboard और final editor दिए गए हैं।"
           }
         },
         {
@@ -1870,7 +2300,7 @@
           "name": "क्या मेरा text server पर जाता है?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "यह page browser-side conversion करता है। Draft save option local browser storage में save करता है।"
+            "text": "यह browser-side editor है। Draft save करने पर text आपके local browser storage में save होता है।"
           }
         }
       ]
