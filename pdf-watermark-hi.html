@@ -1,1161 +1,2170 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PDF वॉटरमार्कर — इंटरैक्टिव विज़ार्ड</title>
-  <meta name="description" content="PDF में वॉटरमार्क जोड़ें — टेक्स्ट या इमेज, पोजीशन, ओपेसिटी, रोटेशन, सभी ब्राउज़र में।">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>PDF Watermark Online | PDF पर Watermark लगाएं हिंदी में - HindiTools</title>
+
+  <meta name="description" content="PDF पर text watermark online लगाएं। Custom text, color, opacity, rotation, position, repeat watermark और selected pages support के साथ easy Hindi interface." />
+  <meta name="keywords" content="PDF watermark Hindi, PDF पर watermark, add watermark to PDF, PDF text watermark, HindiTools" />
+  <meta name="author" content="HindiTools.com" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="PDF Watermark Online - PDF पर Watermark लगाएं" />
+  <meta property="og:description" content="PDF पर text watermark लगाएं। Position, opacity, color, rotation और selected pages support." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.hinditools.com/pdf-watermark-hi.html" />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
   <style>
     :root {
-      --bg: #f5f7f5;
+      --bg: #fff8f0;
       --card: #ffffff;
-      --muted: #d4d4d4;
-      --accent: #3b82f6; /* Blue */
-      --accent-2: #8b5cf6; /* Purple */
       --text: #1f2937;
-      --text-dim: #6b7280;
-      --ok: #10b981; /* Green */
-      --warn: #f59e0b; /* Yellow */
-      --err: #ef4444; /* Red */
-      --shadow: rgba(0, 0, 0, 0.1);
+      --muted: #6b7280;
+      --border: #f1d7bd;
+      --primary: #e66a1f;
+      --primary-dark: #bf4e13;
+      --secondary: #273c75;
+      --green: #12805c;
+      --red: #dc2626;
+      --purple: #6d28d9;
+      --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
+      --radius: 22px;
     }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; font: 16px/1.5 system-ui, -apple-system, Roboto, sans-serif; color: var(--text); background: linear-gradient(180deg, #e6f0fa, var(--bg)); }
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 1.5rem; }
-    header { display: flex; align-items: center; gap: 0.875rem; margin: 0.75rem 0 1.375rem; }
-    header .logo { width: 2.375rem; height: 2.375rem; border-radius: 0.625rem; background: radial-gradient(120% 120% at 20% 10%, var(--accent) 0%, var(--accent-2) 70%, transparent 71%), conic-gradient(from 200deg at 60% 60%, #e5e7eb 0 60deg, var(--card) 60deg 360deg); box-shadow: 0 0 0 2px var(--muted), 0 0.625rem 1.875rem var(--shadow); }
-    h1 { font-size: clamp(1.375rem, 4vw, 2rem); margin: 0; }
 
-    .wizard { display: grid; grid-template-columns: 17.5rem 1fr; gap: 1.125rem; }
-    @media (max-width: 900px) { .wizard { grid-template-columns: 1fr; } }
-    .steps { background: var(--card); border: 1px solid var(--muted); border-radius: 1rem; padding: 0.625rem; box-shadow: 0 2px 8px var(--shadow); }
-    .step-item { display: flex; align-items: center; gap: 0.625rem; padding: 0.75rem; border-radius: 0.75rem; cursor: pointer; color: var(--text-dim); transition: all 0.2s; }
-    .step-item.active { background: linear-gradient(135deg, rgba(59,130,246,0.2), rgba(139,92,246,0.2)); color: var(--text); box-shadow: inset 0 0 0 1px var(--accent); }
-    .step-item:hover { background: rgba(59,130,246,0.1); }
-    .step-index { width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border-radius: 0.625rem; background: var(--muted); font-weight: 700; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    .panel { background: var(--card); border: 1px solid var(--muted); border-radius: 1rem; padding: 1.125rem; min-height: 30rem; box-shadow: 0 2px 8px var(--shadow); }
-    .drop { border: 2px dashed var(--muted); border-radius: 1.125rem; padding: 1.75rem; text-align: center; transition: all 0.25s; cursor: pointer; }
-    .drop:hover, .drop.dragover { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(59,130,246,0.15); }
-    .btn { border: none; border-radius: 0.75rem; padding: 0.625rem 0.875rem; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: white; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-    .btn:hover, .btn:focus { transform: translateY(-1px); filter: brightness(1.1); outline: none; }
-    .btn.secondary { background: linear-gradient(135deg, #e5e7eb, #d1d5db); color: var(--text); }
-    .btn.ghost { background: transparent; border: 1px solid var(--muted); color: var(--text); }
-    .btn-row { display: flex; flex-wrap: wrap; gap: 0.625rem; }
+    html {
+      scroll-behavior: smooth;
+    }
 
-    .grid { display: grid; gap: 0.875rem; }
-    .grid-2 { grid-template-columns: 1fr 1fr; }
-    .grid-3 { grid-template-columns: repeat(3, 1fr); }
-    @media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
-    label { display: flex; align-items: center; justify-content: space-between; gap: 0.875rem; background: #f9fafb; border: 1px solid var(--muted); padding: 0.75rem 0.875rem; border-radius: 0.75rem; }
-    label .lbl { font-weight: 700; }
-    input[type=range] { width: 100%; accent-color: var(--accent); }
-    input[type=text], input[type=number], input[type=color] { width: 100%; background: #f9fafb; border: 1px solid var(--muted); color: var(--text); padding: 0.625rem; border-radius: 0.625rem; }
-    select { background: #f9fafb; border: 1px solid var(--muted); color: var(--text); padding: 0.625rem; border-radius: 0.625rem; }
-    textarea { width: 100%; background: #f9fafb; border: 1px solid var(--muted); color: var(--text); padding: 0.625rem; border-radius: 0.625rem; min-height: 80px; resize: vertical; }
+    body {
+      font-family: "Noto Sans Devanagari", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(230, 106, 31, 0.15), transparent 28%),
+        radial-gradient(circle at top right, rgba(39, 60, 117, 0.12), transparent 32%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-    .switch { position: relative; display: inline-block; width: 3.125rem; height: 1.75rem; }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--muted); transition: all 0.2s; border-radius: 2rem; }
-    .slider:before { position: absolute; content: ""; height: 1.375rem; width: 1.375rem; left: 0.25rem; top: 0.1875rem; background: white; transition: transform 0.2s; border-radius: 50%; }
-    input:checked + .slider { background: var(--accent); }
-    input:checked + .slider:before { transform: translateX(1.375rem); }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-    .pulse { animation: pulse 1.6s infinite; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(59,130,246,0.6); } 70% { box-shadow: 0 0 0 0.75rem rgba(59,130,246,0); } 100% { box-shadow: 0 0 0 0 rgba(59,130,246,0); } }
+    button,
+    input,
+    select,
+    textarea {
+      font-family: inherit;
+    }
 
-    .thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.875rem, 1fr)); gap: 0.5rem; margin-top: 0.75rem; }
-    .thumb { background: var(--card); border: 1px solid var(--muted); border-radius: 0.625rem; padding: 0.375rem; text-align: center; }
-    .thumb canvas { width: 100%; height: auto; border-radius: 0.375rem; }
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: auto;
+    }
 
-    .progress { height: 0.875rem; background: #e5e7eb; border: 1px solid var(--muted); border-radius: 6.25rem; overflow: hidden; }
-    .bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.15s; }
+    .top-strip {
+      background: linear-gradient(90deg, var(--secondary), #4457b5);
+      color: white;
+      padding: 9px 0;
+      font-size: 14px;
+      text-align: center;
+    }
 
-    .stat { display: flex; align-items: center; gap: 0.625rem; background: #f9fafb; border: 1px solid var(--muted); border-radius: 0.75rem; padding: 0.625rem 0.75rem; }
-    .stat .value { font-weight: 800; }
+    .top-strip strong {
+      color: #ffe5bf;
+    }
 
-    .k { color: var(--accent); }
-    .hint { color: var(--text-dim); font-size: 0.95rem; }
-    .danger { color: var(--err); font-weight: 700; }
-    .success { color: var(--ok); font-weight: 700; }
-    .warn { color: var(--warn); font-weight: 700; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 248, 240, 0.9);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(241, 215, 189, 0.9);
+    }
 
-    footer { opacity: 0.8; margin-top: 1rem; font-size: 0.9rem; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    
-    /* New styles for watermark tool */
-    .loading { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .file-info-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .file-info-item { display: flex; align-items: center; gap: 5px; }
-    .file-info-badge { background: var(--accent); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; }
-    .preview-container { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .preview-canvas { max-width: 100%; border: 1px solid var(--muted); border-radius: 8px; }
-    .watermark-preview { position: relative; width: 100%; height: 300px; border: 1px solid var(--muted); border-radius: 8px; margin-top: 10px; overflow: hidden; background: white; }
-    .watermark-preview-page { width: 100%; height: 100%; position: relative; background: linear-gradient(45deg, #f9fafb 25%, transparent 25%), linear-gradient(-45deg, #f9fafb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #f9fafb 75%), linear-gradient(-45deg, transparent 75%, #f9fafb 75%); background-size: 20px 20px; background-position: 0 0, 0 10px, 10px -10px, -10px 0px; }
-    .watermark-preview-content { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; color: var(--text-dim); }
-    .watermark-preview-watermark { position: absolute; padding: 10px; border-radius: 4px; pointer-events: none; }
-    .position-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-top: 10px; }
-    .position-btn { padding: 10px; text-align: center; border: 1px solid var(--muted); border-radius: 4px; cursor: pointer; background: #f9fafb; font-size: 0.9rem; }
-    .position-btn.active { background: var(--accent); color: white; }
-    .font-preview { font-size: 24px; margin-top: 10px; padding: 10px; border: 1px solid var(--muted); border-radius: 4px; text-align: center; background: white; }
-    .option-group { background: #f9fafb; border: 1px solid var(--muted); border-radius: 8px; padding: 15px; margin-bottom: 15px; }
-    .option-group-title { font-weight: bold; margin-bottom: 10px; color: var(--accent); display: flex; align-items: center; gap: 8px; }
-    .option-group-title:before { content: "▶"; font-size: 0.8em; }
-    .image-preview-container { text-align: center; margin: 10px 0; }
-    .image-preview { max-width: 200px; max-height: 150px; border: 1px solid var(--muted); border-radius: 4px; }
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--secondary);
+      font-size: 22px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), #ffbd59);
+      color: white;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 24px rgba(230, 106, 31, 0.28);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      padding: 10px 13px;
+      border-radius: 999px;
+      color: #3f4655;
+      font-size: 15px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.08);
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: white;
+      padding: 11px 16px;
+      border-radius: 999px;
+      font-weight: 900;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.25);
+    }
+
+    .menu-btn {
+      display: none;
+      border: 0;
+      background: white;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 21px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+      cursor: pointer;
+    }
+
+    .breadcrumb {
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .breadcrumb a {
+      color: var(--primary);
+    }
+
+    .hero {
+      padding: 38px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(241, 215, 189, 0.95);
+      color: #71401c;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.06);
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 4.7vw, 58px);
+      line-height: 1.08;
+      letter-spacing: -1.6px;
+      color: var(--secondary);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero p {
+      color: #4b5563;
+      font-size: 18px;
+      max-width: 650px;
+      margin-bottom: 20px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 22px;
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .danger-btn,
+    .ghost-btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .primary-btn {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.23);
+    }
+
+    .primary-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .primary-btn:disabled {
+      background: #c7c7c7;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .secondary-btn {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .secondary-btn:hover {
+      background: #1d2b5c;
+    }
+
+    .danger-btn {
+      background: #fff1f2;
+      color: var(--red);
+      border: 1px solid #fecdd3;
+    }
+
+    .ghost-btn {
+      background: white;
+      color: #4b5563;
+      border: 1px solid #ead6c2;
+    }
+
+    .ghost-btn:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .tool-shell {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(241, 215, 189, 0.95);
+      border-radius: 34px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .dropzone {
+      border: 2px dashed #efb276;
+      border-radius: 26px;
+      background:
+        linear-gradient(180deg, rgba(255,248,240,0.95), rgba(255,255,255,0.95));
+      min-height: 255px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 28px;
+      transition: 0.2s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dropzone.dragover {
+      border-color: var(--secondary);
+      background: #eef2ff;
+      transform: scale(1.01);
+    }
+
+    .dropzone input {
+      display: none;
+    }
+
+    .drop-icon {
+      font-size: 58px;
+      margin-bottom: 12px;
+    }
+
+    .dropzone h2 {
+      color: var(--secondary);
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .dropzone p {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 18px;
+    }
+
+    .upload-btn {
+      background: var(--primary);
+      color: white;
+      border: 0;
+      padding: 14px 20px;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.22);
+    }
+
+    .privacy-note {
+      margin-top: 12px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+      margin-top: 18px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .panel-head h2 {
+      color: var(--secondary);
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    .panel-head p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .file-summary {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      background: #fffaf5;
+      border: 1px solid #f1d7bd;
+      border-radius: 20px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .file-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: var(--secondary);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+    }
+
+    .file-name {
+      color: var(--secondary);
+      font-weight: 900;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .summary-item {
+      background: #fffaf5;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    .summary-item span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .summary-item strong {
+      display: block;
+      color: var(--secondary);
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .setting-card {
+      background: #fffaf5;
+      border: 1px solid #f1d7bd;
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .setting-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .setting-card.wide {
+      grid-column: span 2;
+    }
+
+    .setting-card label,
+    .input-group label {
+      display: block;
+      color: var(--secondary);
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .setting-card small {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .setting-card select,
+    .setting-card input,
+    .setting-card textarea,
+    .input-group input {
+      width: 100%;
+      border: 1px solid #ead6c2;
+      border-radius: 15px;
+      padding: 12px 13px;
+      font-size: 15px;
+      outline: 0;
+      background: white;
+    }
+
+    .setting-card textarea {
+      min-height: 82px;
+      resize: vertical;
+      font-weight: 800;
+      color: var(--secondary);
+    }
+
+    .setting-card select:focus,
+    .setting-card input:focus,
+    .setting-card textarea:focus,
+    .input-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.1);
+    }
+
+    .range-wrap {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+    }
+
+    .range-value {
+      background: white;
+      border: 1px solid #ead6c2;
+      border-radius: 999px;
+      padding: 7px 10px;
+      min-width: 62px;
+      text-align: center;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .color-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+
+    input[type="color"] {
+      width: 52px;
+      height: 43px;
+      padding: 4px;
+      border: 1px solid #ead6c2;
+      border-radius: 14px;
+      background: white;
+      cursor: pointer;
+    }
+
+    .position-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .position-btn {
+      height: 42px;
+      border: 1px solid #ead6c2;
+      background: white;
+      border-radius: 13px;
+      cursor: pointer;
+      color: #4b5563;
+      font-weight: 900;
+      transition: 0.2s ease;
+    }
+
+    .position-btn.active,
+    .position-btn:hover {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+    }
+
+    .toggle-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .toggle-btn {
+      flex: 1;
+      min-width: 120px;
+      border: 1px solid #ead6c2;
+      background: white;
+      color: #4b5563;
+      border-radius: 15px;
+      padding: 12px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .toggle-btn.active,
+    .toggle-btn:hover {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+    }
+
+    .example-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .chip-btn {
+      border: 1px solid #ead6c2;
+      background: white;
+      color: #4b5563;
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .chip-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .preview-grid {
+      display: none;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .preview-grid.show {
+      display: grid;
+    }
+
+    .preview-card {
+      background: white;
+      border: 1px solid #ead6c2;
+      border-radius: 18px;
+      padding: 10px;
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .preview-canvas-wrap {
+      flex: 1;
+      background: #f3f4f6;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+      position: relative;
+    }
+
+    .preview-canvas-wrap canvas {
+      max-width: 100%;
+      max-height: 210px;
+      display: block;
+    }
+
+    .preview-watermark {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(var(--wm-rotation, -35deg));
+      font-weight: 900;
+      pointer-events: none;
+      white-space: pre-line;
+      text-align: center;
+      color: var(--wm-color, #e66a1f);
+      opacity: var(--wm-opacity, 0.28);
+      font-size: var(--wm-font-size, 28px);
+      max-width: 90%;
+      word-break: break-word;
+    }
+
+    .preview-card strong {
+      color: var(--secondary);
+      font-size: 14px;
+    }
+
+    .notice {
+      margin-top: 14px;
+      background: #eef2ff;
+      color: #243b86;
+      border: 1px solid #c7d2fe;
+      border-radius: 18px;
+      padding: 13px 14px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: end;
+      margin-top: 18px;
+    }
+
+    .status-box {
+      display: none;
+      margin-top: 18px;
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-weight: 800;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #4b5563;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .status-box.success {
+      background: #ecfdf5;
+      color: var(--green);
+      border-color: #bbf7d0;
+    }
+
+    .status-box.error {
+      background: #fff1f2;
+      color: var(--red);
+      border-color: #fecdd3;
+    }
+
+    .progress-wrap {
+      display: none;
+      margin-top: 16px;
+      background: #f3f4f6;
+      border-radius: 999px;
+      overflow: hidden;
+      height: 12px;
+    }
+
+    .progress-wrap.show {
+      display: block;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #ffbd59);
+      transition: width 0.25s ease;
+    }
+
+    .download-card {
+      display: none;
+      margin-top: 18px;
+      background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+      border: 1px solid #bbf7d0;
+      border-radius: 24px;
+      padding: 20px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .download-card.show {
+      display: flex;
+    }
+
+    .download-card h3 {
+      color: var(--green);
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .download-card p {
+      color: #166534;
+      font-size: 14px;
+    }
+
+    .info-sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 36px;
+    }
+
+    .info-card {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+    }
+
+    .info-card h2 {
+      color: var(--secondary);
+      font-size: 25px;
+      margin-bottom: 12px;
+    }
+
+    .info-card p,
+    .info-card li {
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .info-card ul,
+    .info-card ol {
+      padding-left: 22px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .related {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .related a {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      padding: 16px;
+      font-weight: 900;
+      color: var(--secondary);
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
+      transition: 0.2s ease;
+    }
+
+    .related a:hover {
+      transform: translateY(-3px);
+      color: var(--primary);
+      border-color: rgba(230, 106, 31, 0.45);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
+    }
+
+    .faq-q {
+      width: 100%;
+      border: 0;
+      background: white;
+      padding: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      text-align: left;
+      color: var(--secondary);
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .faq-a {
+      display: none;
+      padding: 0 17px 17px;
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .faq-item.active .faq-a {
+      display: block;
+    }
+
+    footer {
+      margin-top: 46px;
+      background: #151f3e;
+      color: white;
+      padding: 38px 0 20px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      gap: 26px;
+      margin-bottom: 26px;
+    }
+
+    .footer-brand {
+      font-size: 25px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    footer p,
+    footer a {
+      color: rgba(255,255,255,0.78);
+      font-size: 15px;
+    }
+
+    footer h3 {
+      color: white;
+      margin-bottom: 12px;
+      font-size: 17px;
+    }
+
+    footer ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 18px;
+      color: rgba(255,255,255,0.62);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 1040px) {
+      .hero-grid,
+      .info-sections {
+        grid-template-columns: 1fr;
+      }
+
+      .settings-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .setting-card.wide {
+        grid-column: span 1;
+      }
+
+      .related {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .menu-btn {
+        display: inline-flex;
+      }
+
+      .nav.open .nav-links {
+        display: flex;
+        position: absolute;
+        top: 74px;
+        left: 16px;
+        right: 16px;
+        background: white;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 20px;
+        padding: 14px;
+        box-shadow: var(--shadow);
+        border: 1px solid #f1d7bd;
+      }
+
+      .nav.open .nav-links a {
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .top-strip {
+        font-size: 12px;
+      }
+
+      .hero {
+        padding-top: 28px;
+      }
+
+      .tool-shell {
+        padding: 16px;
+        border-radius: 24px;
+      }
+
+      .dropzone {
+        min-height: 235px;
+        padding: 22px 16px;
+      }
+
+      .dropzone h2 {
+        font-size: 23px;
+      }
+
+      .file-summary {
+        grid-template-columns: auto 1fr;
+      }
+
+      .file-summary .danger-btn {
+        grid-column: 1 / -1;
+      }
+
+      .summary-strip,
+      .settings-grid,
+      .controls-grid,
+      .related,
+      .preview-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .download-card {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .primary-btn,
+      .secondary-btn,
+      .danger-btn,
+      .ghost-btn {
+        width: 100%;
+      }
+
+      .hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .panel-head {
+        display: block;
+      }
+
+      .panel-head .danger-btn {
+        margin-top: 14px;
+      }
+
+      .position-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <div class="logo" aria-hidden="true"></div>
-      <div>
-        <h1>PDF वॉटरमार्कर — विज़ार्ड</h1>
-        <div class="hint">निजी, तेज़ और शक्तिशाली। आपकी फ़ाइल आपके डिवाइस पर ही रहती है।</div>
-      </div>
-    </header>
-
-    <div class="wizard" role="application" aria-label="PDF वॉटरमार्क विज़ार्ड">
-      <nav class="steps" aria-label="कदम">
-        <div class="step-item active" data-step="1"><div class="step-index">1</div><div>फ़ाइल चुनें</div></div>
-        <div class="step-item" data-step="2"><div class="step-index">2</div><div>वॉटरमार्क सेटिंग</div></div>
-        <div class="step-item" data-step="3"><div class="step-index">3</div><div>पोजीशन और स्टाइल</div></div>
-        <div class="step-item" data-step="4"><div class="step-index">4</div><div>प्रीव्यू और एप्लाई</div></div>
-      </nav>
-      <section class="panel" id="panel"></section>
+  <div class="top-strip">
+    <div class="container">
+      <strong>PDF Watermark</strong> — custom text, opacity, position और selected pages support.
     </div>
-
-    <footer>
-      सुझाव: <span class="k">टेक्स्ट वॉटरमार्क</span> सबसे हल्का होता है। <span class="k">इमेज वॉटरमार्क</span> लोगो या सिग्नेचर के लिए बेहतर है।
-    </footer>
   </div>
 
-  <!-- PDF Libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@pdf-lib/fontkit@1.1.1/dist/fontkit.umd.min.js"></script>
-  
-  <script>
-    (function () {
-      // Set PDF.js worker
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-      
-      const $ = (sel, el = document) => el.querySelector(sel);
-      const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
+  <header>
+    <div class="container nav" id="nav">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">हि</span>
+        <span>HindiTools</span>
+      </a>
 
-      const state = {
-        file: null,
-        fileBytes: null,
-        pdfDoc: null,
-        numPages: 0,
-        watermarkType: 'text', // 'text' or 'image'
-        watermarkText: 'कॉन्फिडेंशियल',
-        watermarkImage: null,
-        watermarkImageBytes: null,
-        fontSize: 48,
-        fontColor: '#888888',
-        opacity: 0.6,
-        rotation: -45,
-        position: 'center',
-        pageRange: 'all',
-        applyTo: 'all', // 'all', 'first', 'last', 'custom'
-        isProcessing: false,
-        abortController: null
-      };
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="merge-pdf-hi.html">Merge PDF</a></li>
+        <li><a href="compress-pdf-hi.html">Compress PDF</a></li>
+        <li><a href="split-pdf-hi.html">Split PDF</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+      </ul>
 
-      const steps = $$('.step-item');
-      steps.forEach(s => s.addEventListener('click', () => !state.isProcessing && goStep(parseInt(s.dataset.step))));
-      const panel = $('#panel');
+      <a class="nav-cta" href="#watermark-tool">Watermark लगाएं</a>
 
-      const humanBytes = n => {
-        if (n == null || n === 0) return '—';
-        const units = ['B', 'KB', 'MB', 'GB'];
-        let value = n;
-        let unitIndex = 0;
-        
-        while (value >= 1024 && unitIndex < units.length - 1) {
-          value /= 1024;
-          unitIndex++;
-        }
-        
-        return `${value.toFixed(unitIndex > 0 ? 2 : 0)} ${units[unitIndex]}`;
-      };
+      <button class="menu-btn" id="menuBtn" type="button">☰</button>
+    </div>
+  </header>
 
-      // Step 1: File Selection
-      function renderStep1() {
-        setActive(1);
-        panel.innerHTML = `
-          <div class="grid" style="gap:1rem">
-            <div class="drop" id="drop" aria-label="यहाँ PDF छोड़ें या फ़ाइल चुनें" tabindex="0">
-              <h2>अपना PDF यहाँ छोड़ें</h2>
-              <div class="hint">या</div>
-              <div class="btn-row" style="justify-content:center;margin-top:0.625rem">
-                <label class="btn pulse" for="fileInput">PDF चुनें</label>
-                <input id="fileInput" type="file" accept=".pdf,application/pdf" hidden>
-              </div>
-              <div class="hint" style="margin-top:0.75rem">आपकी फ़ाइल पूरी तरह सुरक्षित — कोई अपलोड नहीं।</div>
-            </div>
-            <div id="fileInfo" class="stat" style="display:none">
-              <div class="file-info-row">
-                <div class="file-info-item">
-                  <span class="value" id="fileName"></span>
-                </div>
-                <div class="file-info-item">
-                  <span class="file-info-badge" id="fileSize"></span>
-                </div>
-                <div class="file-info-item">
-                  <span class="file-info-badge" id="filePages">—</span>
-                </div>
-                <div class="btn-row" style="margin-left:auto">
-                  <button class="btn ghost" id="clearFile">हटाएँ</button>
-                </div>
-              </div>
-            </div>
-            <div id="thumbWrap" style="display:none">
-              <div class="hint">त्वरित थंबनेल</div>
-              <div class="thumbs" id="thumbs"></div>
-            </div>
-            <div id="uploadError" class="hint danger" style="display:none"></div>
-            <div class="btn-row" style="justify-content:flex-end">
-              <button class="btn secondary" disabled id="to2">अगला: वॉटरमार्क सेटिंग →</button>
-            </div>
-          </div>`;
+  <main>
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> / PDF Tools / PDF Watermark
+      </div>
+    </div>
 
-        const drop = $('#drop'), fileInput = $('#fileInput'), to2 = $('#to2'), clearFile = $('#clearFile');
-        
-        const onFile = async f => {
-          if (!f || !(f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'))) {
-            showError('कृपया केवल PDF फ़ाइल चुनें।');
-            return;
-          }
-          
-          try {
-            // Reset state
-            state.file = f;
-            state.fileBytes = await fileToBytes(f);
-            state.pdfDoc = null;
-            state.numPages = 0;
-            
-            $('#fileInfo').style.display = 'flex';
-            $('#fileName').textContent = f.name;
-            $('#fileSize').textContent = humanBytes(f.size);
-            $('#uploadError').style.display = 'none';
-            to2.disabled = true;
-            $('#thumbWrap').style.display = 'none';
-            $('#thumbs').innerHTML = '';
-
-            // Try to load with PDF.js
-            try {
-              state.pdfDoc = await openWithPDFJS(state.fileBytes);
-              state.numPages = state.pdfDoc.numPages;
-              $('#filePages').textContent = `${state.numPages} पेज`;
-              await renderThumbs();
-              to2.disabled = false;
-              $('#thumbWrap').style.display = 'block';
-            } catch (err) {
-              console.warn('PDF.js failed:', err);
-              // Fallback to PDF-lib for page count
-              await fallbackPageCount();
-              if (state.numPages > 0) to2.disabled = false;
-            }
-          } catch (e) {
-            console.error(e);
-            showError('फ़ाइल पढ़ने में त्रुटि। फ़ाइल पासवर्ड-प्रोटेक्टेड या दूषित हो सकती है।');
-          }
-        };
-
-        // Setup event listeners
-        drop.addEventListener('dragover', e => { 
-          e.preventDefault(); 
-          e.stopPropagation();
-          drop.classList.add('dragover'); 
-        });
-        
-        drop.addEventListener('dragleave', e => {
-          e.preventDefault();
-          e.stopPropagation();
-          drop.classList.remove('dragover');
-        });
-        
-        drop.addEventListener('drop', e => {
-          e.preventDefault(); 
-          e.stopPropagation();
-          drop.classList.remove('dragover'); 
-          if (e.dataTransfer.files.length > 0) {
-            onFile(e.dataTransfer.files[0]);
-          }
-        });
-        
-        drop.addEventListener('click', () => fileInput.click());
-        drop.addEventListener('keydown', e => { 
-          if (e.key === 'Enter' || e.key === ' ') {
-            fileInput.click(); 
-          }
-        });
-        
-        fileInput.addEventListener('change', e => {
-          if (e.target.files.length > 0) {
-            onFile(e.target.files[0]);
-          }
-        });
-        
-        to2.addEventListener('click', () => goStep(2));
-        
-        if (clearFile) {
-          clearFile.addEventListener('click', () => {
-            state.file = state.fileBytes = state.pdfDoc = null;
-            state.numPages = 0;
-            fileInput.value = '';
-            renderStep1();
-          });
-        }
-
-        function showError(msg) { 
-          const el = $('#uploadError'); 
-          el.textContent = msg; 
-          el.style.display = 'block'; 
-        }
-      }
-
-      async function fileToBytes(file) {
-        return new Uint8Array(await file.arrayBuffer());
-      }
-
-      async function openWithPDFJS(bytes) {
-        try {
-          return await pdfjsLib.getDocument({ data: bytes }).promise;
-        } catch (e) {
-          if (e.name === 'PasswordException') {
-            const pwd = prompt('यह PDF पासवर्ड-प्रोटेक्टेड है। पासवर्ड दर्ज करें:');
-            if (!pwd) throw new Error('पासवर्ड नहीं दिया गया');
-            return await pdfjsLib.getDocument({ data: bytes, password: pwd }).promise;
-          }
-          throw e;
-        }
-      }
-
-      async function fallbackPageCount() {
-        try {
-          const doc = await PDFLib.PDFDocument.load(state.fileBytes);
-          state.numPages = doc.getPageCount();
-          $('#filePages').textContent = `${state.numPages} पेज`;
-          $('#thumbWrap').style.display = 'none';
-        } catch (e) {
-          $('#uploadError').textContent = 'PDF पढ़ने में त्रुटि (पासवर्ड-प्रोटेक्टेड या दूषित?)।';
-          $('#uploadError').style.display = 'block';
-        }
-      }
-
-      async function renderThumbs() {
-        const thumbs = $('#thumbs');
-        thumbs.innerHTML = '';
-        
-        // Show loading indicator
-        const loadingDiv = document.createElement('div');
-        loadingDiv.className = 'hint';
-        loadingDiv.textContent = 'थंबनेल लोड हो रहे हैं...';
-        thumbs.appendChild(loadingDiv);
-        
-        const maxThumbs = Math.min(6, state.numPages);
-        
-        for (let i = 1; i <= maxThumbs; i++) {
-          try {
-            const page = await state.pdfDoc.getPage(i);
-            const viewport = page.getViewport({ scale: 0.15 });
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = Math.ceil(viewport.width);
-            canvas.height = Math.ceil(viewport.height);
-            
-            await page.render({ 
-              canvasContext: ctx, 
-              viewport,
-              intent: 'print'
-            }).promise;
-            
-            const d = document.createElement('div');
-            d.className = 'thumb';
-            d.innerHTML = `<div style="font-weight:800;margin-bottom:0.375rem">पेज ${i}</div>`;
-            d.appendChild(canvas);
-            
-            // Replace loading message with first thumbnail
-            if (i === 1 && loadingDiv.parentNode) {
-              thumbs.removeChild(loadingDiv);
-            }
-            
-            thumbs.appendChild(d);
-          } catch (err) {
-            console.error(`Error rendering thumbnail for page ${i}:`, err);
-          }
-        }
-        
-        if (state.numPages > maxThumbs) {
-          const more = document.createElement('div');
-          more.className = 'hint';
-          more.textContent = `(+ ${state.numPages - maxThumbs} और पेज)`;
-          thumbs.appendChild(more);
-        }
-      }
-
-      // Step 2: Watermark Settings
-      function renderStep2() {
-        if (!state.file) return renderStep1();
-        setActive(2);
-        panel.innerHTML = `
-          <div class="grid" style="gap:1rem">
-            <div class="btn-row" style="justify-content:space-between;align-items:center">
-              <button class="btn ghost" id="back1">← वापस</button>
-              <div class="hint">वॉटरमार्क का प्रकार चुनें</div>
-            </div>
-            
-            <div class="option-group">
-              <div class="option-group-title">वॉटरमार्क प्रकार</div>
-              <div class="grid grid-2">
-                <label>
-                  <div class="lbl">टाइप</div>
-                  <select id="watermarkType" aria-label="वॉटरमार्क प्रकार चुनें">
-                    <option value="text">टेक्स्ट वॉटरमार्क</option>
-                    <option value="image">इमेज वॉटरमार्क</option>
-                  </select>
-                </label>
-                <label id="applyToLabel">
-                  <div class="lbl">लागू करें</div>
-                  <select id="applyTo" aria-label="किन पेजों पर लागू करें">
-                    <option value="all">सभी पेज</option>
-                    <option value="first">केवल पहला पेज</option>
-                    <option value="last">केवल आखिरी पेज</option>
-                    <option value="custom">कस्टम रेंज</option>
-                  </select>
-                </label>
-              </div>
-              <div id="pageRangeContainer" style="display:none; margin-top:10px;">
-                <label>
-                  <div class="lbl">पेज रेंज</div>
-                  <input id="pageRange" type="text" placeholder="उदा. 1-3,5,7-" value="${state.pageRange}" aria-label="पेज रेंज दर्ज करें">
-                </label>
-              </div>
-            </div>
-            
-            <div id="textWatermarkOptions">
-              <div class="option-group">
-                <div class="option-group-title">टेक्स्ट वॉटरमार्क</div>
-                <label>
-                  <div class="lbl">टेक्स्ट</div>
-                  <textarea id="watermarkText" placeholder="वॉटरमार्क टेक्स्ट दर्ज करें">${state.watermarkText}</textarea>
-                </label>
-                <div class="grid grid-3">
-                  <label>
-                    <div class="lbl">फ़ॉन्ट साइज</div>
-                    <input id="fontSize" type="number" min="10" max="200" value="${state.fontSize}" aria-label="फ़ॉन्ट साइज दर्ज करें">
-                  </label>
-                  <label>
-                    <div class="lbl">रंग</div>
-                    <input id="fontColor" type="color" value="${state.fontColor}" aria-label="फ़ॉन्ट रंग चुनें">
-                  </label>
-                  <label>
-                    <div class="lbl">ओपेसिटी <span class="hint">(${Math.round(state.opacity * 100)}%)</span></div>
-                    <input id="opacity" type="range" min="0.1" max="1" step="0.05" value="${state.opacity}" aria-label="ओपेसिटी समायोजित करें">
-                  </label>
-                </div>
-                <div class="font-preview" id="fontPreview" style="font-size: ${state.fontSize}px; color: ${state.fontColor}; opacity: ${state.opacity};">
-                  ${state.watermarkText}
-                </div>
-              </div>
-            </div>
-            
-            <div id="imageWatermarkOptions" style="display:none">
-              <div class="option-group">
-                <div class="option-group-title">इमेज वॉटरमार्क</div>
-                <div class="drop" id="imageDrop" style="padding:1rem">
-                  <div class="hint">वॉटरमार्क इमेज यहाँ छोड़ें</div>
-                  <div class="hint">या</div>
-                  <div class="btn-row" style="justify-content:center;margin-top:0.625rem">
-                    <label class="btn secondary" for="imageInput">इमेज चुनें</label>
-                    <input id="imageInput" type="file" accept="image/*" hidden>
-                  </div>
-                  <div class="hint" style="margin-top:0.75rem">PNG, JPG, SVG (पारदर्शी PNG बेहतर)</div>
-                </div>
-                <div id="imagePreview" class="image-preview-container" style="display:none;">
-                  <div class="hint">चुनी गई इमेज:</div>
-                  <img id="previewImg" class="image-preview">
-                </div>
-                <div class="grid grid-2" style="margin-top:10px;">
-                  <label>
-                    <div class="lbl">ओपेसिटी <span class="hint">(${Math.round(state.opacity * 100)}%)</span></div>
-                    <input id="imageOpacity" type="range" min="0.1" max="1" step="0.05" value="${state.opacity}" aria-label="ओपेसिटी समायोजित करें">
-                  </label>
-                  <label>
-                    <div class="lbl">स्केल (%)</div>
-                    <input id="imageScale" type="number" min="10" max="200" value="50" aria-label="इमेज स्केल दर्ज करें">
-                  </label>
-                </div>
-              </div>
-            </div>
-            
-            <div class="btn-row" style="justify-content:flex-end">
-              <button class="btn secondary" id="to1">← पीछे</button>
-              <button class="btn" id="to3">अगला: पोजीशन और स्टाइल →</button>
-            </div>
-          </div>`;
-
-        $('#back1').addEventListener('click', () => goStep(1));
-        $('#to1').addEventListener('click', () => goStep(1));
-        $('#to3').addEventListener('click', () => {
-          if (state.watermarkType === 'image' && !state.watermarkImageBytes) {
-            alert('कृपया वॉटरमार्क के लिए एक इमेज चुनें।');
-            return;
-          }
-          if (state.applyTo === 'custom' && !validateRange(state.pageRange, state.numPages)) {
-            alert('अमान्य पेज रेंज। कृपया सही प्रारूप (उदा. 1-3,5,7-) दर्ज करें।');
-            return;
-          }
-          goStep(3);
-        });
-
-        const watermarkType = $('#watermarkType');
-        const applyTo = $('#applyTo');
-        const pageRangeContainer = $('#pageRangeContainer');
-        const pageRange = $('#pageRange');
-        const textWatermarkOptions = $('#textWatermarkOptions');
-        const imageWatermarkOptions = $('#imageWatermarkOptions');
-        const watermarkText = $('#watermarkText');
-        const fontSize = $('#fontSize');
-        const fontColor = $('#fontColor');
-        const opacity = $('#opacity');
-        const fontPreview = $('#fontPreview');
-        const imageDrop = $('#imageDrop');
-        const imageInput = $('#imageInput');
-        const imagePreview = $('#imagePreview');
-        const previewImg = $('#previewImg');
-        const imageOpacity = $('#imageOpacity');
-
-        // Set initial values
-        watermarkType.value = state.watermarkType;
-        applyTo.value = state.applyTo;
-        if (state.applyTo === 'custom') pageRangeContainer.style.display = 'block';
-
-        // Event listeners
-        watermarkType.addEventListener('change', () => {
-          state.watermarkType = watermarkType.value;
-          if (state.watermarkType === 'text') {
-            textWatermarkOptions.style.display = 'block';
-            imageWatermarkOptions.style.display = 'none';
-          } else {
-            textWatermarkOptions.style.display = 'none';
-            imageWatermarkOptions.style.display = 'block';
-          }
-        });
-
-        applyTo.addEventListener('change', () => {
-          state.applyTo = applyTo.value;
-          if (state.applyTo === 'custom') {
-            pageRangeContainer.style.display = 'block';
-          } else {
-            pageRangeContainer.style.display = 'none';
-          }
-        });
-
-        pageRange.addEventListener('input', () => state.pageRange = pageRange.value.trim());
-
-        watermarkText.addEventListener('input', () => {
-          state.watermarkText = watermarkText.value;
-          updateFontPreview();
-        });
-
-        fontSize.addEventListener('input', () => {
-          state.fontSize = parseInt(fontSize.value);
-          updateFontPreview();
-        });
-
-        fontColor.addEventListener('input', () => {
-          state.fontColor = fontColor.value;
-          updateFontPreview();
-        });
-
-        opacity.addEventListener('input', () => {
-          state.opacity = parseFloat(opacity.value);
-          opacity.previousElementSibling.querySelector('.hint').textContent = `(${Math.round(state.opacity * 100)}%)`;
-          updateFontPreview();
-        });
-
-        imageOpacity.addEventListener('input', () => {
-          state.opacity = parseFloat(imageOpacity.value);
-          imageOpacity.previousElementSibling.querySelector('.hint').textContent = `(${Math.round(state.opacity * 100)}%)`;
-        });
-
-        // Image upload handling
-        imageDrop.addEventListener('dragover', e => { 
-          e.preventDefault(); 
-          e.stopPropagation();
-          imageDrop.classList.add('dragover'); 
-        });
-        
-        imageDrop.addEventListener('dragleave', e => {
-          e.preventDefault();
-          e.stopPropagation();
-          imageDrop.classList.remove('dragover');
-        });
-        
-        imageDrop.addEventListener('drop', e => {
-          e.preventDefault(); 
-          e.stopPropagation();
-          imageDrop.classList.remove('dragover'); 
-          if (e.dataTransfer.files.length > 0) {
-            handleImageUpload(e.dataTransfer.files[0]);
-          }
-        });
-        
-        imageDrop.addEventListener('click', () => imageInput.click());
-        
-        imageInput.addEventListener('change', e => {
-          if (e.target.files.length > 0) {
-            handleImageUpload(e.target.files[0]);
-          }
-        });
-
-        function handleImageUpload(file) {
-          if (!file.type.startsWith('image/')) {
-            alert('कृपया केवल इमेज फ़ाइल चुनें।');
-            return;
-          }
-          
-          const reader = new FileReader();
-          reader.onload = function(e) {
-            state.watermarkImage = file;
-            state.watermarkImageBytes = e.target.result;
-            previewImg.src = e.target.result;
-            imagePreview.style.display = 'block';
-          };
-          reader.readAsDataURL(file);
-        }
-
-        function updateFontPreview() {
-          fontPreview.textContent = state.watermarkText || 'वॉटरमार्क टेक्स्ट';
-          fontPreview.style.fontSize = `${state.fontSize}px`;
-          fontPreview.style.color = state.fontColor;
-          fontPreview.style.opacity = state.opacity;
-        }
-
-        // Initialize display
-        if (state.watermarkType === 'text') {
-          textWatermarkOptions.style.display = 'block';
-          imageWatermarkOptions.style.display = 'none';
-        } else {
-          textWatermarkOptions.style.display = 'none';
-          imageWatermarkOptions.style.display = 'block';
-        }
-        updateFontPreview();
-      }
-
-      function validateRange(input, total) {
-        if (!input || input === 'all') return true;
-        const parts = input.split(/\s*,\s*/);
-        for (const p of parts) {
-          if (!p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/)) return false;
-          const [_, a, b] = p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/);
-          const start = a ? parseInt(a) : 1;
-          const end = b ? parseInt(b) : total;
-          if (start < 1 || end > total || start > end) return false;
-        }
-        return true;
-      }
-
-      // Step 3: Position and Style
-      function renderStep3() {
-        if (!state.file) return renderStep1();
-        setActive(3);
-        panel.innerHTML = `
-          <div class="btn-row" style="justify-content:space-between;align-items:center;margin-bottom:0.5rem">
-            <button class="btn ghost" id="back2">← वापस</button>
-            <div class="hint">वॉटरमार्क की पोजीशन और स्टाइल सेट करें</div>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge-row">
+            <span class="badge">💧 Text Watermark</span>
+            <span class="badge">🎨 Color + Opacity</span>
+            <span class="badge">📍 9 Positions</span>
+            <span class="badge">🔁 Repeat Pattern</span>
           </div>
-          
-          <div class="grid grid-2" style="align-items:start">
+
+          <h1>PDF पर <span>Watermark लगाएं</span></h1>
+
+          <p>
+            PDF documents पर confidential, draft, sample, company name या custom text watermark लगाएं।
+            Opacity, rotation, position और selected pages control करें।
+          </p>
+
+          <div class="hero-actions">
+            <a class="primary-btn" href="#watermark-tool">अभी Watermark लगाएं</a>
+            <a class="ghost-btn" href="pdf-rotate-hi.html">PDF Rotate करें</a>
+          </div>
+        </div>
+
+        <div class="tool-shell" id="watermark-tool">
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" accept="application/pdf,.pdf" />
             <div>
-              <div class="option-group">
-                <div class="option-group-title">पोजीशन</div>
+              <div class="drop-icon">💧</div>
+              <h2>PDF file यहाँ drop करें</h2>
+              <p>PDF upload करें और custom watermark add करें।</p>
+              <button class="upload-btn" type="button" id="selectFileBtn">PDF File चुनें</button>
+              <div class="privacy-note">🔐 PDF आपके browser में process करने की कोशिश की जाती है।</div>
+            </div>
+          </div>
+
+          <div class="panel" id="filePanel" style="display:none;">
+            <div class="panel-head">
+              <div>
+                <h2>Watermark Settings</h2>
+                <p>Text, color, opacity, position और pages चुनें। Preview से look check करें।</p>
+              </div>
+              <button class="danger-btn" type="button" id="clearBtn">Remove</button>
+            </div>
+
+            <div class="file-summary">
+              <div class="file-icon">📄</div>
+
+              <div>
+                <div class="file-name" id="fileName">document.pdf</div>
+                <div class="file-meta">
+                  <span id="fileSize">0 KB</span>
+                  <span id="pageCount">0 pages</span>
+                </div>
+              </div>
+
+              <button class="ghost-btn" type="button" id="previewBtn">Preview</button>
+            </div>
+
+            <div class="summary-strip">
+              <div class="summary-item">
+                <span>Target Pages</span>
+                <strong id="summaryPages">All</strong>
+              </div>
+              <div class="summary-item">
+                <span>Position</span>
+                <strong id="summaryPosition">Center</strong>
+              </div>
+              <div class="summary-item">
+                <span>Opacity</span>
+                <strong id="summaryOpacity">25%</strong>
+              </div>
+              <div class="summary-item">
+                <span>Style</span>
+                <strong id="summaryStyle">Single</strong>
+              </div>
+            </div>
+
+            <div class="settings-grid">
+              <div class="setting-card wide">
+                <label for="watermarkText">Watermark Text</label>
+                <textarea id="watermarkText">CONFIDENTIAL</textarea>
+                <small>Hindi/English दोनों text लिख सकते हैं। Example: DRAFT, SAMPLE, गोपनीय</small>
+              </div>
+
+              <div class="setting-card">
+                <label for="presetSelect">Quick Preset</label>
+                <select id="presetSelect">
+                  <option value="">Custom</option>
+                  <option value="CONFIDENTIAL">CONFIDENTIAL</option>
+                  <option value="DRAFT">DRAFT</option>
+                  <option value="SAMPLE">SAMPLE</option>
+                  <option value="COPY">COPY</option>
+                  <option value="गोपनीय">गोपनीय</option>
+                  <option value="नमूना">नमूना</option>
+                </select>
+                <small>Preset choose करने पर text जल्दी set हो जाएगा।</small>
+              </div>
+
+              <div class="setting-card">
+                <label for="fontSizeRange">Font Size</label>
+                <div class="range-wrap">
+                  <input type="range" id="fontSizeRange" min="12" max="120" value="54" />
+                  <div class="range-value" id="fontSizeValue">54</div>
+                </div>
+                <small>Large diagonal watermark के लिए 48–72 अच्छा है।</small>
+              </div>
+
+              <div class="setting-card">
+                <label for="opacityRange">Opacity</label>
+                <div class="range-wrap">
+                  <input type="range" id="opacityRange" min="5" max="90" value="25" />
+                  <div class="range-value" id="opacityValue">25%</div>
+                </div>
+                <small>Professional watermark के लिए 15–30% अच्छा रहता है।</small>
+              </div>
+
+              <div class="setting-card">
+                <label for="rotationRange">Rotation</label>
+                <div class="range-wrap">
+                  <input type="range" id="rotationRange" min="-90" max="90" value="-35" />
+                  <div class="range-value" id="rotationValue">-35°</div>
+                </div>
+                <small>Diagonal watermark के लिए -35° common है।</small>
+              </div>
+
+              <div class="setting-card">
+                <label for="colorText">Watermark Color</label>
+                <div class="color-row">
+                  <input type="text" id="colorText" value="#e66a1f" />
+                  <input type="color" id="colorPicker" value="#e66a1f" />
+                </div>
+                <small>Light grey या saffron usually clean दिखता है।</small>
+              </div>
+
+              <div class="setting-card">
+                <label for="pageModeSelect">Pages</label>
+                <select id="pageModeSelect">
+                  <option value="all" selected>All pages</option>
+                  <option value="range">Selected pages only</option>
+                </select>
+                <small>Selected mode में नीचे page range लिखें।</small>
+              </div>
+
+              <div class="setting-card" id="rangeCard" style="display:none;">
+                <label for="rangeInput">Page Range</label>
+                <input id="rangeInput" type="text" value="1-3" placeholder="जैसे 1-3, 5, 8-10" />
+                <div class="example-buttons">
+                  <button class="chip-btn" type="button" data-example="1">Page 1</button>
+                  <button class="chip-btn" type="button" data-example="1-3">1-3</button>
+                  <button class="chip-btn" type="button" data-example="1,3,5">1,3,5</button>
+                  <button class="chip-btn" type="button" data-example="2-">2 से last तक</button>
+                </div>
+              </div>
+
+              <div class="setting-card">
+                <label>Position</label>
                 <div class="position-grid">
-                  <div class="position-btn ${state.position === 'topleft' ? 'active' : ''}" data-pos="topleft">ऊपर बाएँ</div>
-                  <div class="position-btn ${state.position === 'topcenter' ? 'active' : ''}" data-pos="topcenter">ऊपर मध्य</div>
-                  <div class="position-btn ${state.position === 'topright' ? 'active' : ''}" data-pos="topright">ऊपर दाएँ</div>
-                  <div class="position-btn ${state.position === 'middleleft' ? 'active' : ''}" data-pos="middleleft">बीच बाएँ</div>
-                  <div class="position-btn ${state.position === 'center' ? 'active' : ''}" data-pos="center">केंद्र</div>
-                  <div class="position-btn ${state.position === 'middleright' ? 'active' : ''}" data-pos="middleright">बीच दाएँ</div>
-                  <div class="position-btn ${state.position === 'bottomleft' ? 'active' : ''}" data-pos="bottomleft">नीचे बाएँ</div>
-                  <div class="position-btn ${state.position === 'bottomcenter' ? 'active' : ''}" data-pos="bottomcenter">नीचे मध्य</div>
-                  <div class="position-btn ${state.position === 'bottomright' ? 'active' : ''}" data-pos="bottomright">नीचे दाएँ</div>
+                  <button class="position-btn" type="button" data-position="top-left">↖</button>
+                  <button class="position-btn" type="button" data-position="top-center">↑</button>
+                  <button class="position-btn" type="button" data-position="top-right">↗</button>
+                  <button class="position-btn" type="button" data-position="middle-left">←</button>
+                  <button class="position-btn active" type="button" data-position="center">●</button>
+                  <button class="position-btn" type="button" data-position="middle-right">→</button>
+                  <button class="position-btn" type="button" data-position="bottom-left">↙</button>
+                  <button class="position-btn" type="button" data-position="bottom-center">↓</button>
+                  <button class="position-btn" type="button" data-position="bottom-right">↘</button>
                 </div>
+                <small>Center diagonal watermark सबसे common है।</small>
               </div>
-              
-              <div class="option-group">
-                <div class="option-group-title">रोटेशन</div>
-                <label>
-                  <div class="lbl">कोण (डिग्री) <span class="hint">(${state.rotation}°)</span></div>
-                  <input id="rotation" type="range" min="-180" max="180" step="1" value="${state.rotation}" aria-label="रोटेशन कोण समायोजित करें">
-                </label>
-                <div class="hint">-45° डिफ़ॉल्ट है (तिरछा)। 0° सीधा टेक्स्ट देगा।</div>
+
+              <div class="setting-card">
+                <label>Watermark Style</label>
+                <div class="toggle-row">
+                  <button class="toggle-btn active" type="button" data-style="single">Single</button>
+                  <button class="toggle-btn" type="button" data-style="repeat">Repeat</button>
+                </div>
+                <small>Repeat mode पूरी page पर watermark pattern बनाता है।</small>
+              </div>
+
+              <div class="setting-card full">
+                <label for="outputName">Final PDF का नाम</label>
+                <input id="outputName" type="text" value="watermarked-pdf" placeholder="watermarked-pdf" />
+                <div class="notice">
+                  Tip: Confidential documents के लिए opacity 15–25%, rotation -35°, position center और repeat off अच्छा professional look देता है।
+                </div>
               </div>
             </div>
-            
-            <div>
-              <div class="option-group">
-                <div class="option-group-title">लाइव प्रीव्यू</div>
-                <div class="watermark-preview">
-                  <div class="watermark-preview-page">
-                    <div class="watermark-preview-content">
-                      <div>PDF पेज का प्रीव्यू</div>
-                      <div class="hint" style="margin-top:5px;">वॉटरमार्क यहाँ दिखेगा</div>
-                    </div>
-                    <div class="watermark-preview-watermark" id="watermarkPreview" 
-                         style="font-size: ${state.watermarkType === 'text' ? '24px' : 'auto'}; 
-                                color: ${state.fontColor}; 
-                                opacity: ${state.opacity}; 
-                                transform: rotate(${state.rotation}deg);">
-                      ${state.watermarkType === 'text' ? state.watermarkText : (state.watermarkImage ? 'इमेज वॉटरमार्क' : 'कोई इमेज नहीं')}
-                    </div>
-                  </div>
-                </div>
+
+            <div class="preview-grid" id="previewGrid"></div>
+
+            <div class="controls-grid">
+              <div></div>
+              <button class="primary-btn" type="button" id="watermarkBtn">
+                Watermark लगाएं
+              </button>
+            </div>
+
+            <div class="progress-wrap" id="progressWrap">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="status-box" id="statusBox"></div>
+
+            <div class="download-card" id="downloadCard">
+              <div>
+                <h3>✅ PDF तैयार है</h3>
+                <p id="downloadMeta">आपकी watermarked PDF download के लिए ready है।</p>
               </div>
+              <a class="secondary-btn" id="downloadLink" href="#" download="watermarked-pdf.pdf">
+                Download PDF
+              </a>
             </div>
           </div>
-          
-          <div class="btn-row" style="justify-content:flex-end; margin-top:1rem">
-            <button class="btn secondary" id="to2">← पीछे</button>
-            <button class="btn" id="to4">अगला: प्रीव्यू और एप्लाई →</button>
-          </div>`;
+        </div>
+      </div>
+    </section>
 
-        $('#back2').addEventListener('click', () => goStep(2));
-        $('#to2').addEventListener('click', () => goStep(2));
-        $('#to4').addEventListener('click', () => goStep(4));
+    <section class="container info-sections">
+      <article class="info-card">
+        <h2>PDF पर watermark कैसे लगाएं?</h2>
+        <ol>
+          <li>ऊपर PDF file upload करें।</li>
+          <li>Watermark text लिखें या preset चुनें।</li>
+          <li>Font size, opacity, color, rotation और position set करें।</li>
+          <li>All pages या selected pages choose करें।</li>
+          <li><strong>Watermark लगाएं</strong> button दबाएं और PDF download करें।</li>
+        </ol>
+      </article>
 
-        const positionBtns = $$('.position-btn');
-        const rotation = $('#rotation');
-        const watermarkPreview = $('#watermarkPreview');
+      <article class="info-card">
+        <h2>Best watermark settings</h2>
+        <ul>
+          <li><strong>Professional:</strong> Center, -35°, opacity 15–25%</li>
+          <li><strong>Strong protection:</strong> Repeat mode, opacity 20–35%</li>
+          <li><strong>Small note:</strong> Top-right या bottom-right position</li>
+          <li><strong>Hindi watermark:</strong> गोपनीय, नमूना, ड्राफ्ट जैसे शब्द use करें।</li>
+        </ul>
+      </article>
+    </section>
 
-        // Position buttons
-        positionBtns.forEach(btn => {
-          btn.addEventListener('click', () => {
-            positionBtns.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            state.position = btn.dataset.pos;
-            updateWatermarkPreview();
+    <section class="container" style="margin-top:28px;">
+      <div class="info-card">
+        <h2>Related PDF Tools</h2>
+        <div class="related">
+          <a href="pdf-rotate-hi.html">🔄 PDF Rotate</a>
+          <a href="merge-pdf-hi.html">📎 PDF जोड़ें</a>
+          <a href="compress-pdf-hi.html">📉 PDF छोटा करें</a>
+          <a href="split-pdf-hi.html">✂️ PDF अलग करें</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" style="margin-top:28px;">
+      <div class="info-card">
+        <h2>FAQ</h2>
+
+        <div class="faq-list">
+          <div class="faq-item active">
+            <button class="faq-q" type="button">
+              क्या मैं custom text watermark लगा सकता हूँ?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              हाँ, आप Hindi या English custom text लिखकर PDF पर watermark लगा सकते हैं।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या selected pages पर watermark लग सकता है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              हाँ, Selected pages mode चुनकर 1-3, 5, 8-10 जैसा page range लिखें।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              Repeat watermark क्या है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              Repeat mode में watermark पूरी page पर pattern की तरह कई जगह लगाया जाता है।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या watermark permanent होगा?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              यह watermark PDF content पर draw किया जाता है, लेकिन advanced PDF editors से कुछ cases में remove हो सकता है। High-security protection के लिए PDF lock भी use करें।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या मेरी PDF server पर upload होती है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              यह page browser-based PDF library का उपयोग करता है। फिर भी sensitive documents के लिए हमेशा सावधानी रखें।
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">HindiTools.com</div>
+          <p>
+            PDF, Image और Document कामों के लिए आसान हिंदी tools।
+            Simple interface, fast workflow और mobile-friendly design।
+          </p>
+        </div>
+
+        <div>
+          <h3>PDF Tools</h3>
+          <ul>
+            <li><a href="pdf-watermark-hi.html">PDF Watermark</a></li>
+            <li><a href="pdf-rotate-hi.html">PDF Rotate</a></li>
+            <li><a href="merge-pdf-hi.html">PDF जोड़ें</a></li>
+            <li><a href="compress-pdf-hi.html">PDF छोटा करें</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Website</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+    const {
+      PDFDocument,
+      StandardFonts,
+      rgb,
+      degrees
+    } = PDFLib;
+
+    const fileInput = document.getElementById("fileInput");
+    const selectFileBtn = document.getElementById("selectFileBtn");
+    const dropzone = document.getElementById("dropzone");
+    const filePanel = document.getElementById("filePanel");
+    const fileNameEl = document.getElementById("fileName");
+    const fileSizeEl = document.getElementById("fileSize");
+    const pageCountEl = document.getElementById("pageCount");
+    const clearBtn = document.getElementById("clearBtn");
+    const previewBtn = document.getElementById("previewBtn");
+
+    const watermarkText = document.getElementById("watermarkText");
+    const presetSelect = document.getElementById("presetSelect");
+    const fontSizeRange = document.getElementById("fontSizeRange");
+    const fontSizeValue = document.getElementById("fontSizeValue");
+    const opacityRange = document.getElementById("opacityRange");
+    const opacityValue = document.getElementById("opacityValue");
+    const rotationRange = document.getElementById("rotationRange");
+    const rotationValue = document.getElementById("rotationValue");
+    const colorText = document.getElementById("colorText");
+    const colorPicker = document.getElementById("colorPicker");
+    const pageModeSelect = document.getElementById("pageModeSelect");
+    const rangeCard = document.getElementById("rangeCard");
+    const rangeInput = document.getElementById("rangeInput");
+    const outputName = document.getElementById("outputName");
+
+    const summaryPages = document.getElementById("summaryPages");
+    const summaryPosition = document.getElementById("summaryPosition");
+    const summaryOpacity = document.getElementById("summaryOpacity");
+    const summaryStyle = document.getElementById("summaryStyle");
+
+    const previewGrid = document.getElementById("previewGrid");
+    const watermarkBtn = document.getElementById("watermarkBtn");
+    const statusBox = document.getElementById("statusBox");
+    const progressWrap = document.getElementById("progressWrap");
+    const progressBar = document.getElementById("progressBar");
+    const downloadCard = document.getElementById("downloadCard");
+    const downloadLink = document.getElementById("downloadLink");
+    const downloadMeta = document.getElementById("downloadMeta");
+
+    let selectedFile = null;
+    let selectedBuffer = null;
+    let pdfJsDocument = null;
+    let pageCount = 0;
+    let currentDownloadUrl = null;
+    let selectedPosition = "center";
+    let watermarkStyle = "single";
+
+    function formatBytes(bytes) {
+      if (!bytes) return "0 Bytes";
+      const k = 1024;
+      const sizes = ["Bytes", "KB", "MB", "GB"];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+    }
+
+    function sanitizeFileName(name) {
+      return (name || "watermarked-pdf")
+        .replace(/\.pdf$/i, "")
+        .replace(/[^\u0900-\u097Fa-zA-Z0-9-_ ]/g, "")
+        .trim()
+        .replace(/\s+/g, "-") || "watermarked-pdf";
+    }
+
+    function normalizeHex(hex) {
+      const clean = String(hex || "").trim();
+      if (/^#[0-9a-fA-F]{6}$/.test(clean)) return clean;
+      if (/^[0-9a-fA-F]{6}$/.test(clean)) return "#" + clean;
+      return "#e66a1f";
+    }
+
+    function hexToRgb01(hex) {
+      const clean = normalizeHex(hex).replace("#", "");
+      return rgb(
+        parseInt(clean.slice(0, 2), 16) / 255,
+        parseInt(clean.slice(2, 4), 16) / 255,
+        parseInt(clean.slice(4, 6), 16) / 255
+      );
+    }
+
+    function setStatus(message, type = "normal") {
+      statusBox.textContent = message;
+      statusBox.className = "status-box show";
+      if (type === "success") statusBox.classList.add("success");
+      if (type === "error") statusBox.classList.add("error");
+    }
+
+    function clearStatus() {
+      statusBox.className = "status-box";
+      statusBox.textContent = "";
+    }
+
+    function setProgress(percent) {
+      progressWrap.classList.add("show");
+      progressBar.style.width = `${percent}%`;
+    }
+
+    function resetProgress() {
+      progressWrap.classList.remove("show");
+      progressBar.style.width = "0%";
+    }
+
+    function resetDownload() {
+      if (currentDownloadUrl) {
+        URL.revokeObjectURL(currentDownloadUrl);
+        currentDownloadUrl = null;
+      }
+
+      downloadCard.classList.remove("show");
+      downloadLink.href = "#";
+    }
+
+    function resetPreview() {
+      previewGrid.innerHTML = "";
+      previewGrid.classList.remove("show");
+    }
+
+    function parsePageRanges(input, totalPages) {
+      const cleanInput = String(input || "").replace(/\s+/g, "");
+      if (!cleanInput) throw new Error("Page range खाली है।");
+
+      const parts = cleanInput.split(",").filter(Boolean);
+      const pages = [];
+
+      for (const part of parts) {
+        if (/^\d+$/.test(part)) {
+          const page = Number(part);
+          if (page < 1 || page > totalPages) throw new Error(`Page ${page} PDF में मौजूद नहीं है।`);
+          pages.push(page);
+          continue;
+        }
+
+        const match = part.match(/^(\d*)-(\d*)$/);
+        if (!match) throw new Error(`"${part}" valid range नहीं है।`);
+
+        let start = match[1] ? Number(match[1]) : 1;
+        let end = match[2] ? Number(match[2]) : totalPages;
+
+        if (start < 1) start = 1;
+        if (end > totalPages) end = totalPages;
+        if (start > end) throw new Error(`"${part}" में start page end page से बड़ा है।`);
+
+        for (let page = start; page <= end; page++) pages.push(page);
+      }
+
+      const uniquePages = [...new Set(pages)];
+      if (!uniquePages.length) throw new Error("कोई valid page नहीं मिला।");
+      return uniquePages;
+    }
+
+    function getTargetPages() {
+      if (!pageCount) return [];
+
+      if (pageModeSelect.value === "all") {
+        return Array.from({ length: pageCount }, (_, index) => index + 1);
+      }
+
+      return parsePageRanges(rangeInput.value, pageCount);
+    }
+
+    function getPositionLabel() {
+      const labels = {
+        "top-left": "Top Left",
+        "top-center": "Top",
+        "top-right": "Top Right",
+        "middle-left": "Left",
+        "center": "Center",
+        "middle-right": "Right",
+        "bottom-left": "Bottom Left",
+        "bottom-center": "Bottom",
+        "bottom-right": "Bottom Right"
+      };
+      return labels[selectedPosition] || "Center";
+    }
+
+    function updateSummary() {
+      let targetPages = [];
+
+      try {
+        targetPages = getTargetPages();
+      } catch {
+        targetPages = [];
+      }
+
+      summaryPages.textContent = pageModeSelect.value === "all" ? `All ${pageCount || 0}` : `${targetPages.length || "?"}`;
+      summaryPosition.textContent = getPositionLabel();
+      summaryOpacity.textContent = `${opacityRange.value}%`;
+      summaryStyle.textContent = watermarkStyle === "repeat" ? "Repeat" : "Single";
+
+      fontSizeValue.textContent = fontSizeRange.value;
+      opacityValue.textContent = `${opacityRange.value}%`;
+      rotationValue.textContent = `${rotationRange.value}°`;
+    }
+
+    async function loadFile(file) {
+      clearStatus();
+      resetProgress();
+      resetDownload();
+      resetPreview();
+
+      if (!file || !(file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"))) {
+        setStatus("कृपया केवल PDF file upload करें।", "error");
+        return;
+      }
+
+      try {
+        setStatus("PDF read की जा रही है...");
+
+        selectedFile = file;
+        selectedBuffer = await file.arrayBuffer();
+
+        const loadingTask = pdfjsLib.getDocument({ data: selectedBuffer.slice(0) });
+        pdfJsDocument = await loadingTask.promise;
+        pageCount = pdfJsDocument.numPages;
+
+        if (pageCount < 3) {
+          rangeInput.value = "1";
+        } else {
+          rangeInput.value = `1-${Math.min(3, pageCount)}`;
+        }
+
+        fileNameEl.textContent = file.name;
+        fileNameEl.title = file.name;
+        fileSizeEl.textContent = formatBytes(file.size);
+        pageCountEl.textContent = `${pageCount} page${pageCount > 1 ? "s" : ""}`;
+
+        filePanel.style.display = "block";
+        watermarkBtn.disabled = false;
+        updateSummary();
+
+        setStatus(`PDF ready है। Total pages: ${pageCount}. Watermark settings choose करें।`, "success");
+      } catch (error) {
+        console.error(error);
+        selectedFile = null;
+        selectedBuffer = null;
+        pdfJsDocument = null;
+        pageCount = 0;
+        filePanel.style.display = "none";
+        watermarkBtn.disabled = true;
+        setStatus("यह PDF read नहीं हो सकी। File encrypted, damaged या unsupported हो सकती है।", "error");
+      }
+    }
+
+    async function renderPreviewPage(pageNumber) {
+      const page = await pdfJsDocument.getPage(pageNumber);
+      const viewport = page.getViewport({ scale: 0.55 });
+
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d", { alpha: false });
+
+      canvas.width = Math.floor(viewport.width);
+      canvas.height = Math.floor(viewport.height);
+
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      await page.render({
+        canvasContext: context,
+        viewport
+      }).promise;
+
+      return canvas;
+    }
+
+    function positionPreviewWatermark(element) {
+      const pos = selectedPosition;
+
+      const map = {
+        "top-left": ["18%", "18%"],
+        "top-center": ["50%", "18%"],
+        "top-right": ["82%", "18%"],
+        "middle-left": ["18%", "50%"],
+        "center": ["50%", "50%"],
+        "middle-right": ["82%", "50%"],
+        "bottom-left": ["18%", "82%"],
+        "bottom-center": ["50%", "82%"],
+        "bottom-right": ["82%", "82%"]
+      };
+
+      const [left, top] = map[pos] || ["50%", "50%"];
+
+      element.style.left = left;
+      element.style.top = top;
+    }
+
+    async function showPreview() {
+      if (!pdfJsDocument) {
+        setStatus("पहले PDF upload करें।", "error");
+        return;
+      }
+
+      resetPreview();
+      clearStatus();
+
+      try {
+        const text = watermarkText.value.trim();
+
+        if (!text) {
+          throw new Error("Watermark text खाली है।");
+        }
+
+        const pages = getTargetPages().slice(0, 4);
+
+        if (!pages.length) {
+          throw new Error("Preview के लिए valid pages नहीं मिले।");
+        }
+
+        setStatus("Preview बनाई जा रही है...");
+        previewGrid.classList.add("show");
+
+        for (const pageNumber of pages) {
+          const canvas = await renderPreviewPage(pageNumber);
+
+          const card = document.createElement("div");
+          card.className = "preview-card";
+
+          const wrap = document.createElement("div");
+          wrap.className = "preview-canvas-wrap";
+          wrap.appendChild(canvas);
+
+          const watermark = document.createElement("div");
+          watermark.className = "preview-watermark";
+          watermark.textContent = watermarkStyle === "repeat"
+            ? `${text}\n${text}\n${text}`
+            : text;
+
+          watermark.style.setProperty("--wm-rotation", `${rotationRange.value}deg`);
+          watermark.style.setProperty("--wm-color", normalizeHex(colorText.value));
+          watermark.style.setProperty("--wm-opacity", String(Number(opacityRange.value) / 100));
+          watermark.style.setProperty("--wm-font-size", `${Math.max(14, Number(fontSizeRange.value) * 0.55)}px`);
+
+          if (watermarkStyle === "repeat") {
+            watermark.style.left = "50%";
+            watermark.style.top = "50%";
+            watermark.style.lineHeight = "2.4";
+            watermark.style.letterSpacing = "2px";
+          } else {
+            positionPreviewWatermark(watermark);
+          }
+
+          wrap.appendChild(watermark);
+
+          const label = document.createElement("strong");
+          label.textContent = `Page ${pageNumber} preview`;
+
+          card.appendChild(wrap);
+          card.appendChild(label);
+          previewGrid.appendChild(card);
+        }
+
+        setStatus("Preview ready है। अब watermark apply कर सकते हैं।", "success");
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || "Preview नहीं बन सकी।", "error");
+      }
+    }
+
+    function getWatermarkCoordinates(pageWidth, pageHeight, textWidth, fontSize) {
+      const margin = 50;
+
+      const map = {
+        "top-left": [margin, pageHeight - margin - fontSize],
+        "top-center": [(pageWidth - textWidth) / 2, pageHeight - margin - fontSize],
+        "top-right": [pageWidth - textWidth - margin, pageHeight - margin - fontSize],
+        "middle-left": [margin, pageHeight / 2],
+        "center": [(pageWidth - textWidth) / 2, pageHeight / 2],
+        "middle-right": [pageWidth - textWidth - margin, pageHeight / 2],
+        "bottom-left": [margin, margin],
+        "bottom-center": [(pageWidth - textWidth) / 2, margin],
+        "bottom-right": [pageWidth - textWidth - margin, margin]
+      };
+
+      return map[selectedPosition] || map.center;
+    }
+
+    function drawSingleWatermark(page, font, text, options) {
+      const { pageWidth, pageHeight, fontSize, color, opacity, rotation } = options;
+      const textWidth = font.widthOfTextAtSize(text, fontSize);
+      const [x, y] = getWatermarkCoordinates(pageWidth, pageHeight, textWidth, fontSize);
+
+      page.drawText(text, {
+        x,
+        y,
+        size: fontSize,
+        font,
+        color,
+        opacity,
+        rotate: degrees(rotation)
+      });
+    }
+
+    function drawRepeatWatermark(page, font, text, options) {
+      const { pageWidth, pageHeight, fontSize, color, opacity, rotation } = options;
+
+      const textWidth = font.widthOfTextAtSize(text, fontSize);
+      const stepX = Math.max(180, textWidth + 120);
+      const stepY = Math.max(140, fontSize + 90);
+
+      for (let y = -pageHeight * 0.15; y < pageHeight * 1.15; y += stepY) {
+        for (let x = -pageWidth * 0.15; x < pageWidth * 1.15; x += stepX) {
+          page.drawText(text, {
+            x,
+            y,
+            size: fontSize,
+            font,
+            color,
+            opacity,
+            rotate: degrees(rotation)
           });
+        }
+      }
+    }
+
+    async function addWatermark() {
+      if (!selectedBuffer) {
+        setStatus("पहले PDF upload करें।", "error");
+        return;
+      }
+
+      resetDownload();
+      resetProgress();
+      clearStatus();
+
+      watermarkBtn.disabled = true;
+
+      try {
+        const text = watermarkText.value.trim();
+
+        if (!text) {
+          throw new Error("Watermark text खाली है।");
+        }
+
+        const targetPages = getTargetPages();
+        const targetSet = new Set(targetPages);
+
+        if (!targetPages.length) {
+          throw new Error("कोई valid page selected नहीं है।");
+        }
+
+        setStatus("Watermark apply हो रहा है...");
+        setProgress(10);
+
+        const pdfDoc = await PDFDocument.load(selectedBuffer, { ignoreEncryption: false });
+        const font = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
+
+        const pages = pdfDoc.getPages();
+        const color = hexToRgb01(colorText.value);
+        const opacity = Number(opacityRange.value) / 100;
+        const fontSize = Number(fontSizeRange.value);
+        const rotation = Number(rotationRange.value);
+
+        pages.forEach((page, index) => {
+          const pageNumber = index + 1;
+
+          if (targetSet.has(pageNumber)) {
+            const { width: pageWidth, height: pageHeight } = page.getSize();
+
+            const options = {
+              pageWidth,
+              pageHeight,
+              fontSize,
+              color,
+              opacity,
+              rotation
+            };
+
+            if (watermarkStyle === "repeat") {
+              drawRepeatWatermark(page, font, text, options);
+            } else {
+              drawSingleWatermark(page, font, text, options);
+            }
+          }
+
+          setProgress(Math.round(((index + 1) / pages.length) * 80));
         });
 
-        // Rotation
-        rotation.addEventListener('input', () => {
-          state.rotation = parseInt(rotation.value);
-          rotation.previousElementSibling.querySelector('.hint').textContent = `(${state.rotation}°)`;
-          updateWatermarkPreview();
+        setStatus("Final PDF save की जा रही है...");
+        setProgress(92);
+
+        const watermarkedBytes = await pdfDoc.save({
+          useObjectStreams: true,
+          objectsPerTick: 50
         });
 
-        function updateWatermarkPreview() {
-          // Update rotation
-          watermarkPreview.style.transform = `rotate(${state.rotation}deg)`;
-          
-          // Update position based on selection
-          watermarkPreview.style.top = '';
-          watermarkPreview.style.left = '';
-          watermarkPreview.style.right = '';
-          watermarkPreview.style.bottom = '';
-          watermarkPreview.style.transform += ' translate(-50%, -50%)';
-          
-          switch(state.position) {
-            case 'topleft':
-              watermarkPreview.style.top = '20%';
-              watermarkPreview.style.left = '20%';
-              break;
-            case 'topcenter':
-              watermarkPreview.style.top = '20%';
-              watermarkPreview.style.left = '50%';
-              break;
-            case 'topright':
-              watermarkPreview.style.top = '20%';
-              watermarkPreview.style.right = '20%';
-              watermarkPreview.style.transform = watermarkPreview.style.transform.replace('translate(-50%, -50%)', 'translate(50%, -50%)');
-              break;
-            case 'middleleft':
-              watermarkPreview.style.top = '50%';
-              watermarkPreview.style.left = '20%';
-              break;
-            case 'center':
-              watermarkPreview.style.top = '50%';
-              watermarkPreview.style.left = '50%';
-              break;
-            case 'middleright':
-              watermarkPreview.style.top = '50%';
-              watermarkPreview.style.right = '20%';
-              watermarkPreview.style.transform = watermarkPreview.style.transform.replace('translate(-50%, -50%)', 'translate(50%, -50%)');
-              break;
-            case 'bottomleft':
-              watermarkPreview.style.bottom = '20%';
-              watermarkPreview.style.left = '20%';
-              watermarkPreview.style.transform = watermarkPreview.style.transform.replace('translate(-50%, -50%)', 'translate(-50%, 50%)');
-              break;
-            case 'bottomcenter':
-              watermarkPreview.style.bottom = '20%';
-              watermarkPreview.style.left = '50%';
-              watermarkPreview.style.transform = watermarkPreview.style.transform.replace('translate(-50%, -50%)', 'translate(-50%, 50%)');
-              break;
-            case 'bottomright':
-              watermarkPreview.style.bottom = '20%';
-              watermarkPreview.style.right = '20%';
-              watermarkPreview.style.transform = watermarkPreview.style.transform.replace('translate(-50%, -50%)', 'translate(50%, 50%)');
-              break;
-          }
-        }
+        const blob = new Blob([watermarkedBytes], { type: "application/pdf" });
+        currentDownloadUrl = URL.createObjectURL(blob);
 
-        // Initialize preview
-        updateWatermarkPreview();
+        const finalName = sanitizeFileName(outputName.value) + ".pdf";
+        downloadLink.href = currentDownloadUrl;
+        downloadLink.download = finalName;
+
+        downloadMeta.textContent = `Final file: ${finalName} • ${targetPages.length} page(s) watermarked • Size: ${formatBytes(blob.size)}`;
+        downloadCard.classList.add("show");
+
+        setProgress(100);
+        setStatus("PDF पर watermark successfully लग गया है। अब download करें।", "success");
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || "Watermark नहीं लग सका। File encrypted, damaged या unsupported हो सकती है।", "error");
+      } finally {
+        watermarkBtn.disabled = !selectedBuffer;
+        setTimeout(resetProgress, 1100);
       }
+    }
 
-      // Step 4: Preview and Apply
-      function renderStep4() {
-        if (!state.file) return renderStep1();
-        setActive(4);
-        panel.innerHTML = `
-          <div class="btn-row" style="justify-content:space-between;align-items:center;margin-bottom:0.5rem">
-            <button class="btn ghost" id="back3">← वापस</button>
-            <div class="hint">अंतिम प्रीव्यू और वॉटरमार्क एप्लाई करें</div>
-          </div>
-          
-          <div class="grid grid-2" style="align-items:start">
-            <div>
-              <div class="option-group">
-                <div class="option-group-title">सेटिंग्स सारांश</div>
-                <div class="stat">
-                  <div>वॉटरमार्क प्रकार:</div>
-                  <div class="value">${state.watermarkType === 'text' ? 'टेक्स्ट' : 'इमेज'}</div>
-                </div>
-                <div class="stat">
-                  <div>${state.watermarkType === 'text' ? 'टेक्स्ट:' : 'इमेज:'}</div>
-                  <div class="value">${state.watermarkType === 'text' ? (state.watermarkText || '—') : (state.watermarkImage ? state.watermarkImage.name : 'कोई नहीं')}</div>
-                </div>
-                <div class="stat">
-                  <div>पोजीशन:</div>
-                  <div class="value">${getPositionText(state.position)}</div>
-                </div>
-                <div class="stat">
-                  <div>रोटेशन:</div>
-                  <div class="value">${state.rotation}°</div>
-                </div>
-                <div class="stat">
-                  <div>ओपेसिटी:</div>
-                  <div class="value">${Math.round(state.opacity * 100)}%</div>
-                </div>
-                <div class="stat">
-                  <div>लागू करें:</div>
-                  <div class="value">${getApplyToText(state.applyTo)}</div>
-                </div>
-              </div>
-              
-              <div class="btn-row" style="justify-content:flex-end; margin-top:1rem">
-                <button class="btn" id="applyWatermark" ${state.isProcessing ? 'disabled' : ''}>
-                  ${state.isProcessing ? 'वॉटरमार्क एप्लाई हो रहा है...' : 'वॉटरमार्क एप्लाई करें'}
-                </button>
-              </div>
-            </div>
-            
-            <div>
-              <div class="option-group">
-                <div class="option-group-title">लाइव प्रीव्यू</div>
-                <div class="watermark-preview">
-                  <div class="watermark-preview-page">
-                    <div class="watermark-preview-content">
-                      <div>PDF पेज प्रीव्यू</div>
-                      <div class="hint" style="margin-top:5px;">यहाँ वॉटरमार्क दिखेगा</div>
-                    </div>
-                    <div class="watermark-preview-watermark" id="finalPreview" 
-                         style="font-size: ${state.watermarkType === 'text' ? '24px' : 'auto'}; 
-                                color: ${state.fontColor}; 
-                                opacity: ${state.opacity}; 
-                                transform: rotate(${state.rotation}deg);">
-                      ${state.watermarkType === 'text' ? state.watermarkText : (state.watermarkImage ? 'इमेज वॉटरमार्क' : 'कोई इमेज नहीं')}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div id="processingSection" style="display:none; margin-top:1rem">
-            <div class="progress"><div class="bar" id="bar"></div></div>
-            <div class="stat"><div>स्थिति:</div> <div class="value" id="status">प्रतीक्षा</div></div>
-            <div id="done" style="display:none" class="success">पूर्ण! डाउनलोड स्वतः शुरू होगा।</div>
-            <div class="btn-row" style="justify-content:flex-end;display:none" id="dlRow">
-              <a id="dl" class="btn" href="#" download>फिर से डाउनलोड</a>
-            </div>
-          </div>`;
+    function clearFile() {
+      selectedFile = null;
+      selectedBuffer = null;
+      pdfJsDocument = null;
+      pageCount = 0;
+      fileInput.value = "";
+      filePanel.style.display = "none";
+      watermarkBtn.disabled = true;
+      resetDownload();
+      resetProgress();
+      resetPreview();
+      clearStatus();
+      updateSummary();
+      setStatus("File remove कर दी गई है। नई PDF upload करें।");
+    }
 
-        $('#back3').addEventListener('click', () => goStep(3));
-        $('#applyWatermark').addEventListener('click', () => applyWatermark());
+    function updatePageModeUI() {
+      rangeCard.style.display = pageModeSelect.value === "range" ? "block" : "none";
+      resetDownload();
+      resetPreview();
+      clearStatus();
+      updateSummary();
+    }
 
-        // Set up final preview
-        updateFinalPreview();
+    function openFilePicker() {
+      fileInput.value = "";
+      fileInput.click();
+    }
 
-        function updateFinalPreview() {
-          const finalPreview = $('#finalPreview');
-          if (!finalPreview) return;
-          
-          finalPreview.style.transform = `rotate(${state.rotation}deg)`;
-          finalPreview.style.top = '';
-          finalPreview.style.left = '';
-          finalPreview.style.right = '';
-          finalPreview.style.bottom = '';
-          finalPreview.style.transform += ' translate(-50%, -50%)';
-          
-          switch(state.position) {
-            case 'topleft':
-              finalPreview.style.top = '20%';
-              finalPreview.style.left = '20%';
-              break;
-            case 'topcenter':
-              finalPreview.style.top = '20%';
-              finalPreview.style.left = '50%';
-              break;
-            case 'topright':
-              finalPreview.style.top = '20%';
-              finalPreview.style.right = '20%';
-              finalPreview.style.transform = finalPreview.style.transform.replace('translate(-50%, -50%)', 'translate(50%, -50%)');
-              break;
-            case 'middleleft':
-              finalPreview.style.top = '50%';
-              finalPreview.style.left = '20%';
-              break;
-            case 'center':
-              finalPreview.style.top = '50%';
-              finalPreview.style.left = '50%';
-              break;
-            case 'middleright':
-              finalPreview.style.top = '50%';
-              finalPreview.style.right = '20%';
-              finalPreview.style.transform = finalPreview.style.transform.replace('translate(-50%, -50%)', 'translate(50%, -50%)');
-              break;
-            case 'bottomleft':
-              finalPreview.style.bottom = '20%';
-              finalPreview.style.left = '20%';
-              finalPreview.style.transform = finalPreview.style.transform.replace('translate(-50%, -50%)', 'translate(-50%, 50%)');
-              break;
-            case 'bottomcenter':
-              finalPreview.style.bottom = '20%';
-              finalPreview.style.left = '50%';
-              finalPreview.style.transform = finalPreview.style.transform.replace('translate(-50%, -50%)', 'translate(-50%, 50%)');
-              break;
-            case 'bottomright':
-              finalPreview.style.bottom = '20%';
-              finalPreview.style.right = '20%';
-              finalPreview.style.transform = finalPreview.style.transform.replace('translate(-50%, -50%)', 'translate(50%, 50%)');
-              break;
-          }
-        }
+    selectFileBtn.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      openFilePicker();
+    });
 
-        function getPositionText(pos) {
-          const positions = {
-            'topleft': 'ऊपर बाएँ',
-            'topcenter': 'ऊपर मध्य',
-            'topright': 'ऊपर दाएँ',
-            'middleleft': 'बीच बाएँ',
-            'center': 'केंद्र',
-            'middleright': 'बीच दाएँ',
-            'bottomleft': 'नीचे बाएँ',
-            'bottomcenter': 'नीचे मध्य',
-            'bottomright': 'नीचे दाएँ'
-          };
-          return positions[pos] || pos;
-        }
+    dropzone.addEventListener("click", event => {
+      if (event.target.closest("button")) return;
+      openFilePicker();
+    });
 
-        function getApplyToText(apply) {
-          const applyTexts = {
-            'all': 'सभी पेज',
-            'first': 'केवल पहला पेज',
-            'last': 'केवल आखिरी पेज',
-            'custom': `कस्टम: ${state.pageRange}`
-          };
-          return applyTexts[apply] || apply;
-        }
+    fileInput.addEventListener("change", event => {
+      const file = event.target.files && event.target.files[0];
+      if (file) loadFile(file);
+      fileInput.value = "";
+    });
 
-        async function applyWatermark() {
-          if (state.isProcessing) return;
-          state.isProcessing = true;
-          $('#applyWatermark').disabled = true;
-          $('#applyWatermark').textContent = 'वॉटरमार्क एप्लाई हो रहा है...';
-          $('#processingSection').style.display = 'block';
-          
-          const status = $('#status'), bar = $('#bar');
-          const t0 = performance.now();
-          
-          try {
-            status.textContent = 'PDF लोड हो रहा है...';
-            const { PDFDocument, rgb } = PDFLib;
-            
-            // Load the PDF
-            const pdfDoc = await PDFDocument.load(state.fileBytes);
-            const pages = pdfDoc.getPages();
-            
-            // Determine which pages to watermark
-            let pagesToWatermark = [];
-            if (state.applyTo === 'all') {
-              pagesToWatermark = pages;
-            } else if (state.applyTo === 'first') {
-              pagesToWatermark = [pages[0]];
-            } else if (state.applyTo === 'last') {
-              pagesToWatermark = [pages[pages.length - 1]];
-            } else if (state.applyTo === 'custom') {
-              const selectedPages = parseRange(state.pageRange, pages.length);
-              pagesToWatermark = selectedPages.map(i => pages[i-1]);
-            }
-            
-            status.textContent = `वॉटरमार्क एप्लाई किया जा रहा है (${pagesToWatermark.length} पेज)...`;
-            
-            // Process each page
-            for (let i = 0; i < pagesToWatermark.length; i++) {
-              const page = pagesToWatermark[i];
-              const { width, height } = page.getSize();
-              
-              if (state.watermarkType === 'text') {
-                // Add text watermark
-                page.drawText(state.watermarkText, {
-                  x: getXPosition(state.position, width),
-                  y: getYPosition(state.position, height),
-                  size: state.fontSize,
-                  color: rgb(
-                    parseInt(state.fontColor.slice(1, 3), 16) / 255,
-                    parseInt(state.fontColor.slice(3, 5), 16) / 255,
-                    parseInt(state.fontColor.slice(5, 7), 16) / 255
-                  ),
-                  opacity: state.opacity,
-                  rotate: PDFLib.degrees(state.rotation)
-                });
-              } else {
-                // Add image watermark
-                if (state.watermarkImageBytes) {
-                  let image;
-                  const imageBytes = await fetch(state.watermarkImageBytes).then(res => res.arrayBuffer());
-                  
-                  if (state.watermarkImage.type.includes('png')) {
-                    image = await pdfDoc.embedPng(imageBytes);
-                  } else {
-                    image = await pdfDoc.embedJpg(imageBytes);
-                  }
-                  
-                  const scale = 0.3; // Scale down image
-                  const imgDims = image.scale(scale);
-                  
-                  page.drawImage(image, {
-                    x: getXPosition(state.position, width) - imgDims.width / 2,
-                    y: getYPosition(state.position, height) - imgDims.height / 2,
-                    width: imgDims.width,
-                    height: imgDims.height,
-                    opacity: state.opacity,
-                    rotate: PDFLib.degrees(state.rotation)
-                  });
-                }
-              }
-              
-              // Update progress
-              bar.style.width = `${Math.round(((i + 1) / pagesToWatermark.length) * 100)}%`;
-            }
-            
-            status.textContent = 'PDF सेव हो रहा है...';
-            const pdfBytes = await pdfDoc.save();
-            
-            // Finish up
-            const dt = (performance.now() - t0) / 1000;
-            $('#done').style.display = 'block';
-            const name = (state.file.name || 'document').replace(/\.pdf$/i, '');
-            const url = URL.createObjectURL(new Blob([pdfBytes], { type: 'application/pdf' }));
-            
-            // Auto-download
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${name}.watermarked.pdf`;
-            a.click();
-            
-            $('#dl').href = url;
-            $('#dl').download = `${name}.watermarked.pdf`;
-            $('#dlRow').style.display = 'flex';
-            status.innerHTML = `<span class="success">सम्पन्न • ${dt.toFixed(1)}s</span>`;
-            
-          } catch (e) {
-            console.error(e);
-            status.innerHTML = `<span class="danger">त्रुटि: ${e.message || 'वॉटरमार्क एप्लाई विफल'}</span>`;
-          } finally {
-            state.isProcessing = false;
-          }
-        }
+    ["dragenter", "dragover"].forEach(eventName => {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropzone.classList.add("dragover");
+      });
+    });
 
-        function getXPosition(pos, width) {
-          switch(pos) {
-            case 'topleft':
-            case 'middleleft':
-            case 'bottomleft':
-              return width * 0.2;
-            case 'topcenter':
-            case 'center':
-            case 'bottomcenter':
-              return width / 2;
-            case 'topright':
-            case 'middleright':
-            case 'bottomright':
-              return width * 0.8;
-            default:
-              return width / 2;
-          }
-        }
+    ["dragleave", "drop"].forEach(eventName => {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropzone.classList.remove("dragover");
+      });
+    });
 
-        function getYPosition(pos, height) {
-          switch(pos) {
-            case 'topleft':
-            case 'topcenter':
-            case 'topright':
-              return height * 0.8;
-            case 'middleleft':
-            case 'center':
-            case 'middleright':
-              return height / 2;
-            case 'bottomleft':
-            case 'bottomcenter':
-            case 'bottomright':
-              return height * 0.2;
-            default:
-              return height / 2;
-          }
-        }
+    dropzone.addEventListener("drop", event => {
+      const file = event.dataTransfer.files && event.dataTransfer.files[0];
+      if (file) loadFile(file);
+    });
 
-        function parseRange(input, total) {
-          if (!input || input === 'all') return Array.from({ length: total }, (_, i) => i + 1);
-          const parts = input.split(/\s*,\s*/);
-          const pages = new Set();
-          for (const p of parts) {
-            if (!p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/)) continue;
-            let [_, a, b] = p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/);
-            a = a ? parseInt(a) : 1;
-            b = b ? parseInt(b) : total;
-            if (a > b) [a, b] = [b, a];
-            for (let i = a; i <= b; i++) if (i >= 1 && i <= total) pages.add(i);
-          }
-          return [...pages].sort((x, y) => x - y);
-        }
+    presetSelect.addEventListener("change", () => {
+      if (presetSelect.value) {
+        watermarkText.value = presetSelect.value;
       }
+      resetDownload();
+      resetPreview();
+    });
 
-      function setActive(step) {
-        steps.forEach(el => el.classList.toggle('active', parseInt(el.dataset.step) === step));
-      }
+    [watermarkText, outputName].forEach(el => {
+      el.addEventListener("input", () => {
+        resetDownload();
+        resetPreview();
+      });
+    });
 
-      function goStep(n) {
-        switch (n) {
-          case 1: renderStep1(); break;
-          case 2: renderStep2(); break;
-          case 3: renderStep3(); break;
-          case 4: renderStep4(); break;
+    [fontSizeRange, opacityRange, rotationRange].forEach(el => {
+      el.addEventListener("input", () => {
+        resetDownload();
+        resetPreview();
+        updateSummary();
+      });
+    });
+
+    colorPicker.addEventListener("input", () => {
+      colorText.value = colorPicker.value;
+      resetDownload();
+      resetPreview();
+    });
+
+    colorText.addEventListener("input", () => {
+      const normal = normalizeHex(colorText.value);
+      colorPicker.value = normal;
+      resetDownload();
+      resetPreview();
+    });
+
+    pageModeSelect.addEventListener("change", updatePageModeUI);
+
+    rangeInput.addEventListener("input", () => {
+      resetDownload();
+      resetPreview();
+      updateSummary();
+    });
+
+    document.querySelectorAll(".chip-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        rangeInput.value = btn.dataset.example;
+        resetDownload();
+        resetPreview();
+        updateSummary();
+      });
+    });
+
+    document.querySelectorAll(".position-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".position-btn").forEach(item => item.classList.remove("active"));
+        btn.classList.add("active");
+        selectedPosition = btn.dataset.position;
+        resetDownload();
+        resetPreview();
+        updateSummary();
+      });
+    });
+
+    document.querySelectorAll(".toggle-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".toggle-btn").forEach(item => item.classList.remove("active"));
+        btn.classList.add("active");
+        watermarkStyle = btn.dataset.style;
+        resetDownload();
+        resetPreview();
+        updateSummary();
+      });
+    });
+
+    clearBtn.addEventListener("click", clearFile);
+    previewBtn.addEventListener("click", showPreview);
+    watermarkBtn.addEventListener("click", addWatermark);
+
+    document.getElementById("menuBtn").addEventListener("click", () => {
+      document.getElementById("nav").classList.toggle("open");
+    });
+
+    document.querySelectorAll(".faq-q").forEach(btn => {
+      btn.addEventListener("click", () => {
+        btn.parentElement.classList.toggle("active");
+      });
+    });
+
+    updatePageModeUI();
+    updateSummary();
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "क्या मैं custom text watermark लगा सकता हूँ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "हाँ, आप Hindi या English custom text लिखकर PDF पर watermark लगा सकते हैं।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या selected pages पर watermark लग सकता है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "हाँ, Selected pages mode चुनकर 1-3, 5, 8-10 जैसा page range लिखें।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Repeat watermark क्या है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Repeat mode में watermark पूरी page पर pattern की तरह कई जगह लगाया जाता है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या watermark permanent होगा?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "यह watermark PDF content पर draw किया जाता है, लेकिन advanced PDF editors से कुछ cases में remove हो सकता है। High-security protection के लिए PDF lock भी use करें।"
+          }
         }
-      }
+      ]
+    };
 
-      // Initialize
-      goStep(1);
-    })();
+    const schemaScript = document.createElement("script");
+    schemaScript.type = "application/ld+json";
+    schemaScript.textContent = JSON.stringify(faqSchema);
+    document.head.appendChild(schemaScript);
   </script>
 </body>
 </html>
