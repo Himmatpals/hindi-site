@@ -1,844 +1,1542 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PDF कंप्रेसर — इंटरैक्टिव विज़ार्ड</title>
-  <meta name="description" content="PDF का साइज घटाएँ — विज़ार्ड UI, क्वालिटी/DPI, ग्रेस्केल, पेज रेंज, लाइव प्रीव्यू। सब ब्राउज़र में।">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>PDF छोटा करें Online | Compress PDF Free in Hindi - HindiTools</title>
+
+  <meta name="description" content="PDF file size online छोटा करें। HindiTools PDF Compress tool में safe optimize और strong image compression mode, quality slider और instant download available है।" />
+  <meta name="keywords" content="PDF compress Hindi, PDF छोटा करें, compress PDF online, PDF size kam kare, Hindi PDF tool" />
+  <meta name="author" content="HindiTools.com" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="PDF छोटा करें Online - Compress PDF in Hindi" />
+  <meta property="og:description" content="PDF size कम करें। Quality slider और Hindi interface के साथ।" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.hinditools.com/compress-pdf-hi.html" />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
   <style>
     :root {
-      --bg: #f5f7f5;
+      --bg: #fff8f0;
       --card: #ffffff;
-      --muted: #d4d4d4;
-      --accent: #16a34a; /* Green */
-      --accent-2: #eab308; /* Yellow */
       --text: #1f2937;
-      --text-dim: #6b7280;
-      --ok: #16a34a; /* Green */
-      --warn: #eab308; /* Yellow */
-      --err: #dc2626; /* Red */
-      --shadow: rgba(0, 0, 0, 0.1);
+      --muted: #6b7280;
+      --border: #f1d7bd;
+      --primary: #e66a1f;
+      --primary-dark: #bf4e13;
+      --secondary: #273c75;
+      --green: #12805c;
+      --red: #dc2626;
+      --yellow: #b45309;
+      --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
+      --radius: 22px;
     }
-    * { box-sizing: border-box; }
-    html, body { height: 100%; margin: 0; font: 16px/1.5 system-ui, -apple-system, Roboto, sans-serif; color: var(--text); background: linear-gradient(180deg, #e6f0fa, var(--bg)); }
-    .wrap { max-width: 1080px; margin: 0 auto; padding: 1.5rem; }
-    header { display: flex; align-items: center; gap: 0.875rem; margin: 0.75rem 0 1.375rem; }
-    header .logo { width: 2.375rem; height: 2.375rem; border-radius: 0.625rem; background: radial-gradient(120% 120% at 20% 10%, var(--accent) 0%, var(--accent-2) 70%, transparent 71%), conic-gradient(from 200deg at 60% 60%, #e5e7eb 0 60deg, var(--card) 60deg 360deg); box-shadow: 0 0 0 2px var(--muted), 0 0.625rem 1.875rem var(--shadow); }
-    h1 { font-size: clamp(1.375rem, 4vw, 2rem); margin: 0; }
 
-    .wizard { display: grid; grid-template-columns: 17.5rem 1fr; gap: 1.125rem; }
-    @media (max-width: 900px) { .wizard { grid-template-columns: 1fr; } }
-    .steps { background: var(--card); border: 1px solid var(--muted); border-radius: 1rem; padding: 0.625rem; box-shadow: 0 2px 8px var(--shadow); }
-    .step-item { display: flex; align-items: center; gap: 0.625rem; padding: 0.75rem; border-radius: 0.75rem; cursor: pointer; color: var(--text-dim); transition: all 0.2s; }
-    .step-item.active { background: linear-gradient(135deg, rgba(22,163,74,0.2), rgba(234,179,8,0.2)); color: var(--text); box-shadow: inset 0 0 0 1px var(--accent); }
-    .step-item:hover { background: rgba(22,163,74,0.1); }
-    .step-index { width: 1.75rem; height: 1.75rem; display: grid; place-items: center; border-radius: 0.625rem; background: var(--muted); font-weight: 700; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    .panel { background: var(--card); border: 1px solid var(--muted); border-radius: 1rem; padding: 1.125rem; min-height: 30rem; box-shadow: 0 2px 8px var(--shadow); }
-    .drop { border: 2px dashed var(--muted); border-radius: 1.125rem; padding: 1.75rem; text-align: center; transition: all 0.25s; cursor: pointer; }
-    .drop:hover, .drop.dragover { border-color: var(--accent); box-shadow: 0 0 0 4px rgba(22,163,74,0.15); }
-    .btn { border: none; border-radius: 0.75rem; padding: 0.625rem 0.875rem; background: linear-gradient(135deg, var(--accent), var(--accent-2)); color: white; font-weight: 700; cursor: pointer; transition: all 0.2s; }
-    .btn:hover, .btn:focus { transform: translateY(-1px); filter: brightness(1.1); outline: none; }
-    .btn.secondary { background: linear-gradient(135deg, #e5e7eb, #d1d5db); color: var(--text); }
-    .btn.ghost { background: transparent; border: 1px solid var(--muted); color: var(--text); }
-    .btn-row { display: flex; flex-wrap: wrap; gap: 0.625rem; }
+    html {
+      scroll-behavior: smooth;
+    }
 
-    .grid { display: grid; gap: 0.875rem; }
-    .grid-2 { grid-template-columns: 1fr 1fr; }
-    .grid-3 { grid-template-columns: repeat(3, 1fr); }
-    @media (max-width: 900px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
-    label { display: flex; align-items: center; justify-content: space-between; gap: 0.875rem; background: #f9fafb; border: 1px solid var(--muted); padding: 0.75rem 0.875rem; border-radius: 0.75rem; }
-    label .lbl { font-weight: 700; }
-    input[type=range] { width: 100%; accent-color: var(--accent); }
-    input[type=text], input[type=number] { width: 100%; background: #f9fafb; border: 1px solid var(--muted); color: var(--text); padding: 0.625rem; border-radius: 0.625rem; }
-    select { background: #f9fafb; border: 1px solid var(--muted); color: var(--text); padding: 0.625rem; border-radius: 0.625rem; }
+    body {
+      font-family: "Noto Sans Devanagari", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(230, 106, 31, 0.15), transparent 28%),
+        radial-gradient(circle at top right, rgba(39, 60, 117, 0.12), transparent 32%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-    .switch { position: relative; display: inline-block; width: 3.125rem; height: 1.75rem; }
-    .switch input { opacity: 0; width: 0; height: 0; }
-    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background: var(--muted); transition: all 0.2s; border-radius: 2rem; }
-    .slider:before { position: absolute; content: ""; height: 1.375rem; width: 1.375rem; left: 0.25rem; top: 0.1875rem; background: white; transition: transform 0.2s; border-radius: 50%; }
-    input:checked + .slider { background: var(--accent); }
-    input:checked + .slider:before { transform: translateX(1.375rem); }
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-    .pulse { animation: pulse 1.6s infinite; }
-    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(22,163,74,0.6); } 70% { box-shadow: 0 0 0 0.75rem rgba(22,163,74,0); } 100% { box-shadow: 0 0 0 0 rgba(22,163,74,0); } }
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
 
-    .thumbs { display: grid; grid-template-columns: repeat(auto-fill, minmax(6.875rem, 1fr)); gap: 0.5rem; margin-top: 0.75rem; }
-    .thumb { background: var(--card); border: 1px solid var(--muted); border-radius: 0.625rem; padding: 0.375rem; text-align: center; }
-    .thumb canvas { width: 100%; height: auto; border-radius: 0.375rem; }
+    .container {
+      width: min(1160px, calc(100% - 32px));
+      margin: auto;
+    }
 
-    .progress { height: 0.875rem; background: #e5e7eb; border: 1px solid var(--muted); border-radius: 6.25rem; overflow: hidden; }
-    .bar { height: 100%; width: 0; background: linear-gradient(90deg, var(--accent), var(--accent-2)); transition: width 0.15s; }
+    .top-strip {
+      background: linear-gradient(90deg, var(--secondary), #4457b5);
+      color: white;
+      padding: 9px 0;
+      font-size: 14px;
+      text-align: center;
+    }
 
-    .stat { display: flex; align-items: center; gap: 0.625rem; background: #f9fafb; border: 1px solid var(--muted); border-radius: 0.75rem; padding: 0.625rem 0.75rem; }
-    .stat .value { font-weight: 800; }
+    .top-strip strong {
+      color: #ffe5bf;
+    }
 
-    .k { color: var(--accent); }
-    .hint { color: var(--text-dim); font-size: 0.95rem; }
-    .danger { color: var(--err); font-weight: 700; }
-    .success { color: var(--ok); font-weight: 700; }
-    .warn { color: var(--warn); font-weight: 700; }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 248, 240, 0.9);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(241, 215, 189, 0.9);
+    }
 
-    footer { opacity: 0.8; margin-top: 1rem; font-size: 0.9rem; }
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { text-decoration: underline; }
-    
-    /* New styles for improved UI */
-    .loading { display: inline-block; width: 20px; height: 20px; border: 3px solid rgba(255,255,255,.3); border-radius: 50%; border-top-color: #fff; animation: spin 1s ease-in-out infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .file-info-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .file-info-item { display: flex; align-items: center; gap: 5px; }
-    .file-info-badge { background: var(--accent); color: white; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; }
-    .preview-container { display: flex; flex-direction: column; align-items: center; gap: 10px; }
-    .preview-canvas { max-width: 100%; border: 1px solid var(--muted); border-radius: 8px; }
-    .compression-stats { display: flex; justify-content: space-between; margin: 15px 0; }
-    .stat-card { flex: 1; text-align: center; padding: 15px; background: #f9fafb; border-radius: 8px; border: 1px solid var(--muted); }
-    .stat-value { font-size: 1.5rem; font-weight: bold; color: var(--accent); }
-    .stat-label { font-size: 0.9rem; color: var(--text-dim); }
-    .size-comparison { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 10px; }
-    .size-better { color: var(--ok); font-weight: bold; }
-    .size-worse { color: var(--err); font-weight: bold; }
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--secondary);
+      font-size: 22px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), #ffbd59);
+      color: white;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 24px rgba(230, 106, 31, 0.28);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      padding: 10px 13px;
+      border-radius: 999px;
+      color: #3f4655;
+      font-size: 15px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.08);
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: white;
+      padding: 11px 16px;
+      border-radius: 999px;
+      font-weight: 900;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.25);
+    }
+
+    .menu-btn {
+      display: none;
+      border: 0;
+      background: white;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 21px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+      cursor: pointer;
+    }
+
+    .breadcrumb {
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .breadcrumb a {
+      color: var(--primary);
+    }
+
+    .hero {
+      padding: 38px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(241, 215, 189, 0.95);
+      color: #71401c;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.06);
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 4.7vw, 58px);
+      line-height: 1.08;
+      letter-spacing: -1.6px;
+      color: var(--secondary);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero p {
+      color: #4b5563;
+      font-size: 18px;
+      max-width: 650px;
+      margin-bottom: 20px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 22px;
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .danger-btn,
+    .ghost-btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .primary-btn {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.23);
+    }
+
+    .primary-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .primary-btn:disabled {
+      background: #c7c7c7;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .secondary-btn {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .danger-btn {
+      background: #fff1f2;
+      color: var(--red);
+      border: 1px solid #fecdd3;
+    }
+
+    .ghost-btn {
+      background: white;
+      color: #4b5563;
+      border: 1px solid #ead6c2;
+    }
+
+    .ghost-btn:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .tool-shell {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(241, 215, 189, 0.95);
+      border-radius: 34px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .dropzone {
+      border: 2px dashed #efb276;
+      border-radius: 26px;
+      background:
+        linear-gradient(180deg, rgba(255,248,240,0.95), rgba(255,255,255,0.95));
+      min-height: 255px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 28px;
+      transition: 0.2s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dropzone.dragover {
+      border-color: var(--secondary);
+      background: #eef2ff;
+      transform: scale(1.01);
+    }
+
+    .dropzone input {
+      display: none;
+    }
+
+    .drop-icon {
+      font-size: 58px;
+      margin-bottom: 12px;
+    }
+
+    .dropzone h2 {
+      color: var(--secondary);
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .dropzone p {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 18px;
+    }
+
+    .upload-btn {
+      background: var(--primary);
+      color: white;
+      border: 0;
+      padding: 14px 20px;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.22);
+    }
+
+    .privacy-note {
+      margin-top: 12px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+      margin-top: 18px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .panel-head h2 {
+      color: var(--secondary);
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    .panel-head p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .file-summary {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      background: #fffaf5;
+      border: 1px solid #f1d7bd;
+      border-radius: 20px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .file-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: var(--secondary);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+    }
+
+    .file-name {
+      color: var(--secondary);
+      font-weight: 900;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-top: 14px;
+    }
+
+    .setting-card {
+      background: #fffaf5;
+      border: 1px solid #f1d7bd;
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .setting-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .setting-card label,
+    .input-group label {
+      display: block;
+      color: var(--secondary);
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .setting-card small {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .setting-card select,
+    .input-group input {
+      width: 100%;
+      border: 1px solid #ead6c2;
+      border-radius: 15px;
+      padding: 12px 13px;
+      font-size: 15px;
+      outline: 0;
+      background: white;
+    }
+
+    .range-wrap {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      accent-color: var(--primary);
+    }
+
+    .range-value {
+      background: white;
+      border: 1px solid #ead6c2;
+      border-radius: 999px;
+      padding: 7px 10px;
+      min-width: 62px;
+      text-align: center;
+      font-weight: 900;
+      color: var(--primary);
+    }
+
+    .mode-warning {
+      display: none;
+      margin-top: 12px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      padding: 12px;
+      border-radius: 16px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .mode-warning.show {
+      display: block;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: end;
+      margin-top: 18px;
+    }
+
+    .status-box {
+      display: none;
+      margin-top: 18px;
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-weight: 800;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #4b5563;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .status-box.success {
+      background: #ecfdf5;
+      color: var(--green);
+      border-color: #bbf7d0;
+    }
+
+    .status-box.error {
+      background: #fff1f2;
+      color: var(--red);
+      border-color: #fecdd3;
+    }
+
+    .progress-wrap {
+      display: none;
+      margin-top: 16px;
+      background: #f3f4f6;
+      border-radius: 999px;
+      overflow: hidden;
+      height: 12px;
+    }
+
+    .progress-wrap.show {
+      display: block;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #ffbd59);
+      transition: width 0.25s ease;
+    }
+
+    .result-card {
+      display: none;
+      margin-top: 18px;
+      background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+      border: 1px solid #bbf7d0;
+      border-radius: 24px;
+      padding: 20px;
+    }
+
+    .result-card.show {
+      display: block;
+    }
+
+    .result-card h3 {
+      color: var(--green);
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .result-stat {
+      background: white;
+      border: 1px solid #bbf7d0;
+      border-radius: 16px;
+      padding: 13px;
+    }
+
+    .result-stat span {
+      display: block;
+      color: #166534;
+      font-size: 13px;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+
+    .result-stat strong {
+      color: var(--green);
+      font-size: 20px;
+    }
+
+    .info-sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 36px;
+    }
+
+    .info-card {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+    }
+
+    .info-card h2 {
+      color: var(--secondary);
+      font-size: 25px;
+      margin-bottom: 12px;
+    }
+
+    .info-card p,
+    .info-card li {
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .info-card ul,
+    .info-card ol {
+      padding-left: 22px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .related {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .related a {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      padding: 16px;
+      font-weight: 900;
+      color: var(--secondary);
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
+      transition: 0.2s ease;
+    }
+
+    .related a:hover {
+      transform: translateY(-3px);
+      color: var(--primary);
+      border-color: rgba(230, 106, 31, 0.45);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
+    }
+
+    .faq-q {
+      width: 100%;
+      border: 0;
+      background: white;
+      padding: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      text-align: left;
+      color: var(--secondary);
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .faq-a {
+      display: none;
+      padding: 0 17px 17px;
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .faq-item.active .faq-a {
+      display: block;
+    }
+
+    footer {
+      margin-top: 46px;
+      background: #151f3e;
+      color: white;
+      padding: 38px 0 20px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      gap: 26px;
+      margin-bottom: 26px;
+    }
+
+    .footer-brand {
+      font-size: 25px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    footer p,
+    footer a {
+      color: rgba(255,255,255,0.78);
+      font-size: 15px;
+    }
+
+    footer h3 {
+      color: white;
+      margin-bottom: 12px;
+      font-size: 17px;
+    }
+
+    footer ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 18px;
+      color: rgba(255,255,255,0.62);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .info-sections {
+        grid-template-columns: 1fr;
+      }
+
+      .related {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .menu-btn {
+        display: inline-flex;
+      }
+
+      .nav.open .nav-links {
+        display: flex;
+        position: absolute;
+        top: 74px;
+        left: 16px;
+        right: 16px;
+        background: white;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 20px;
+        padding: 14px;
+        box-shadow: var(--shadow);
+        border: 1px solid #f1d7bd;
+      }
+
+      .nav.open .nav-links a {
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .top-strip {
+        font-size: 12px;
+      }
+
+      .hero {
+        padding-top: 28px;
+      }
+
+      .tool-shell {
+        padding: 16px;
+        border-radius: 24px;
+      }
+
+      .dropzone {
+        min-height: 235px;
+        padding: 22px 16px;
+      }
+
+      .dropzone h2 {
+        font-size: 23px;
+      }
+
+      .file-summary {
+        grid-template-columns: auto 1fr;
+      }
+
+      .file-summary .danger-btn {
+        grid-column: 1 / -1;
+      }
+
+      .settings-grid,
+      .controls-grid,
+      .result-grid,
+      .related,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .primary-btn,
+      .secondary-btn,
+      .danger-btn,
+      .ghost-btn {
+        width: 100%;
+      }
+
+      .hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+    }
   </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <div class="logo" aria-hidden="true"></div>
-      <div>
-        <h1>PDF कंप्रेसर — विज़ार्ड</h1>
-        <div class="hint">निजी, तेज़ और शक्तिशाली। आपकी फ़ाइल आपके डिवाइस पर ही रहती है।</div>
-      </div>
-    </header>
-
-    <div class="wizard" role="application" aria-label="PDF कंप्रेशन विज़ार्ड">
-      <nav class="steps" aria-label="कदम">
-        <div class="step-item active" data-step="1"><div class="step-index">1</div><div>फ़ाइल चुनें</div></div>
-        <div class="step-item" data-step="2"><div class="step-index">2</div><div>विकल्प</div></div>
-        <div class="step-item" data-step="3"><div class="step-index">3</div><div>प्रीव्यू व अनुमान</div></div>
-        <div class="step-item" data-step="4"><div class="step-index">4</div><div>कंप्रेस व डाउनलोड</div></div>
-      </nav>
-      <section class="panel" id="panel"></section>
+  <div class="top-strip">
+    <div class="container">
+      <strong>PDF Compress</strong> — Safe optimize और strong image compression दोनों options available हैं।
     </div>
-
-    <footer>
-      सुझाव: <span class="k">इमेज फ्लैटन</span> स्कैन/इमेज-भारी PDF के लिए सबसे छोटा साइज देता है। <span class="k">सेफ कॉपी</span> टेक्स्ट/वेक्टर सुरक्षित रखता है।
-    </footer>
   </div>
 
-  <!-- Updated PDF.js to latest version -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
-  
-  <script>
-    (function () {
-      // Set PDF.js worker
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-      
-      const $ = (sel, el = document) => el.querySelector(sel);
-      const $$ = (sel, el = document) => Array.from(el.querySelectorAll(sel));
+  <header>
+    <div class="container nav" id="nav">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">हि</span>
+        <span>HindiTools</span>
+      </a>
 
-      const state = {
-        file: null,
-        fileBytes: null,
-        pdfDoc: null,
-        numPages: 0,
-        pagesMeta: [],
-        mode: 'image',
-        quality: 0.6,
-        dpi: 110,
-        grayscale: false,
-        pageRange: 'all',
-        format: 'jpeg',
-        estimate: null,
-        estPreviewBlob: null,
-        pdfjsAvailable: true, // Assume it's available with our fix
-        compressionLevel: 'balanced',
-        isCompressing: false,
-        abortController: null
-      };
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="merge-pdf-hi.html">Merge PDF</a></li>
+        <li><a href="split-pdf-hi.html">Split PDF</a></li>
+        <li><a href="image-to-pdf-hi.html">Image to PDF</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+      </ul>
 
-      const steps = $$('.step-item');
-      steps.forEach(s => s.addEventListener('click', () => !state.isCompressing && goStep(parseInt(s.dataset.step))));
-      const panel = $('#panel');
+      <a class="nav-cta" href="#compress-tool">PDF छोटा करें</a>
 
-      const humanBytes = n => {
-        if (n == null || n === 0) return '—';
-        const units = ['B', 'KB', 'MB', 'GB'];
-        let value = n;
-        let unitIndex = 0;
-        
-        while (value >= 1024 && unitIndex < units.length - 1) {
-          value /= 1024;
-          unitIndex++;
-        }
-        
-        return `${value.toFixed(unitIndex > 0 ? 2 : 0)} ${units[unitIndex]}`;
-      };
+      <button class="menu-btn" id="menuBtn" type="button">☰</button>
+    </div>
+  </header>
 
-      // Step 1: File Selection
-      function renderStep1() {
-        setActive(1);
-        panel.innerHTML = `
-          <div class="grid" style="gap:1rem">
-            <div class="drop" id="drop" aria-label="यहाँ PDF छोड़ें या फ़ाइल चुनें" tabindex="0">
-              <h2>अपना PDF यहाँ छोड़ें</h2>
-              <div class="hint">या</div>
-              <div class="btn-row" style="justify-content:center;margin-top:0.625rem">
-                <label class="btn pulse" for="fileInput">PDF चुनें</label>
-                <input id="fileInput" type="file" accept=".pdf,application/pdf" hidden>
-              </div>
-              <div class="hint" style="margin-top:0.75rem">आपकी फ़ाइल पूरी तरह सुरक्षित — कोई अपलोड नहीं।</div>
-            </div>
-            <div id="fileInfo" class="stat" style="display:none">
-              <div class="file-info-row">
-                <div class="file-info-item">
-                  <span class="value" id="fileName"></span>
-                </div>
-                <div class="file-info-item">
-                  <span class="file-info-badge" id="fileSize"></span>
-                </div>
-                <div class="file-info-item">
-                  <span class="file-info-badge" id="filePages">—</span>
-                </div>
-                <div class="btn-row" style="margin-left:auto">
-                  <button class="btn ghost" id="clearFile">हटाएँ</button>
-                </div>
-              </div>
-            </div>
-            <div id="thumbWrap" style="display:none">
-              <div class="hint">त्वरित थंबनेल</div>
-              <div class="thumbs" id="thumbs"></div>
-            </div>
-            <div id="uploadError" class="hint danger" style="display:none"></div>
-            <div class="btn-row" style="justify-content:flex-end">
-              <button class="btn secondary" disabled id="to2">अगला: विकल्प →</button>
-            </div>
-          </div>`;
+  <main>
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> / PDF Tools / PDF छोटा करें
+      </div>
+    </div>
 
-        const drop = $('#drop'), fileInput = $('#fileInput'), to2 = $('#to2'), clearFile = $('#clearFile');
-        
-        const onFile = async f => {
-          if (!f || !(f.type === 'application/pdf' || f.name.toLowerCase().endsWith('.pdf'))) {
-            showError('कृपया केवल PDF फ़ाइल चुनें।');
-            return;
-          }
-          
-          try {
-            // Reset state
-            state.file = f;
-            state.fileBytes = await fileToBytes(f);
-            state.pdfDoc = null;
-            state.numPages = 0;
-            state.pagesMeta = [];
-            
-            $('#fileInfo').style.display = 'flex';
-            $('#fileName').textContent = f.name;
-            $('#fileSize').textContent = humanBytes(f.size);
-            $('#uploadError').style.display = 'none';
-            to2.disabled = true;
-            $('#thumbWrap').style.display = 'none';
-            $('#thumbs').innerHTML = '';
-
-            // Try to load with PDF.js
-            try {
-              state.pdfDoc = await openWithPDFJS(state.fileBytes);
-              state.numPages = state.pdfDoc.numPages;
-              $('#filePages').textContent = `${state.numPages} पेज`;
-              await renderThumbs();
-              to2.disabled = false;
-              $('#thumbWrap').style.display = 'block';
-            } catch (err) {
-              console.warn('PDF.js failed:', err);
-              // Fallback to PDF-lib for page count
-              await fallbackPageCount();
-              if (state.numPages > 0) to2.disabled = false;
-            }
-          } catch (e) {
-            console.error(e);
-            showError('फ़ाइल पढ़ने में त्रुटि। फ़ाइल पासवर्ड-प्रोटेक्टेड या दूषित हो सकती है।');
-          }
-        };
-
-        // Setup event listeners
-        drop.addEventListener('dragover', e => { 
-          e.preventDefault(); 
-          e.stopPropagation();
-          drop.classList.add('dragover'); 
-        });
-        
-        drop.addEventListener('dragleave', e => {
-          e.preventDefault();
-          e.stopPropagation();
-          drop.classList.remove('dragover');
-        });
-        
-        drop.addEventListener('drop', e => {
-          e.preventDefault(); 
-          e.stopPropagation();
-          drop.classList.remove('dragover'); 
-          if (e.dataTransfer.files.length > 0) {
-            onFile(e.dataTransfer.files[0]);
-          }
-        });
-        
-        drop.addEventListener('click', () => fileInput.click());
-        drop.addEventListener('keydown', e => { 
-          if (e.key === 'Enter' || e.key === ' ') {
-            fileInput.click(); 
-          }
-        });
-        
-        fileInput.addEventListener('change', e => {
-          if (e.target.files.length > 0) {
-            onFile(e.target.files[0]);
-          }
-        });
-        
-        to2.addEventListener('click', () => goStep(2));
-        
-        if (clearFile) {
-          clearFile.addEventListener('click', () => {
-            state.file = state.fileBytes = state.pdfDoc = null;
-            state.numPages = 0;
-            state.pagesMeta = [];
-            fileInput.value = '';
-            renderStep1();
-          });
-        }
-
-        function showError(msg) { 
-          const el = $('#uploadError'); 
-          el.textContent = msg; 
-          el.style.display = 'block'; 
-        }
-      }
-
-      async function fileToBytes(file) {
-        return new Uint8Array(await file.arrayBuffer());
-      }
-
-      async function openWithPDFJS(bytes) {
-        try {
-          return await pdfjsLib.getDocument({ data: bytes }).promise;
-        } catch (e) {
-          if (e.name === 'PasswordException') {
-            const pwd = prompt('यह PDF पासवर्ड-प्रोटेक्टेड है। पासवर्ड दर्ज करें:');
-            if (!pwd) throw new Error('पासवर्ड नहीं दिया गया');
-            return await pdfjsLib.getDocument({ data: bytes, password: pwd }).promise;
-          }
-          throw e;
-        }
-      }
-
-      async function fallbackPageCount() {
-        try {
-          const doc = await PDFLib.PDFDocument.load(state.fileBytes);
-          state.numPages = doc.getPageCount();
-          $('#filePages').textContent = `${state.numPages} पेज`;
-          $('#thumbWrap').style.display = 'none';
-        } catch (e) {
-          $('#uploadError').textContent = 'PDF पढ़ने में त्रुटि (पासवर्ड-प्रोटेक्टेड या दूषित?)।';
-          $('#uploadError').style.display = 'block';
-        }
-      }
-
-      async function renderThumbs() {
-        const thumbs = $('#thumbs');
-        thumbs.innerHTML = '';
-        state.pagesMeta = [];
-        
-        // Show loading indicator
-        const loadingDiv = document.createElement('div');
-        loadingDiv.className = 'hint';
-        loadingDiv.textContent = 'थंबनेल लोड हो रहे हैं...';
-        thumbs.appendChild(loadingDiv);
-        
-        const maxThumbs = Math.min(6, state.numPages);
-        
-        for (let i = 1; i <= maxThumbs; i++) {
-          try {
-            const page = await state.pdfDoc.getPage(i);
-            const viewport = page.getViewport({ scale: 0.2 });
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            canvas.width = Math.ceil(viewport.width);
-            canvas.height = Math.ceil(viewport.height);
-            
-            await page.render({ 
-              canvasContext: ctx, 
-              viewport,
-              intent: 'print'
-            }).promise;
-            
-            const d = document.createElement('div');
-            d.className = 'thumb';
-            d.innerHTML = `<div style="font-weight:800;margin-bottom:0.375rem">पेज ${i}</div>`;
-            d.appendChild(canvas);
-            
-            // Replace loading message with first thumbnail
-            if (i === 1 && loadingDiv.parentNode) {
-              loadingDiv.remove();
-            }
-            
-            thumbs.appendChild(d);
-            state.pagesMeta.push({ w: viewport.width, h: viewport.height });
-          } catch (err) {
-            console.error(`Error rendering thumbnail for page ${i}:`, err);
-          }
-        }
-        
-        if (state.numPages > maxThumbs) {
-          const more = document.createElement('div');
-          more.className = 'hint';
-          more.textContent = `(+ ${state.numPages - maxThumbs} और पेज)`;
-          $('#thumbWrap').appendChild(more);
-        }
-      }
-
-      // Step 2: Options
-      function renderStep2() {
-        if (!state.file) return renderStep1();
-        setActive(2);
-        panel.innerHTML = `
-          <div class="grid" style="gap:1rem">
-            <div class="btn-row" style="justify-content:space-between;align-items:center">
-              <button class="btn ghost" id="back1">← वापस</button>
-              <div class="btn-row">
-                <button class="btn ${state.compressionLevel === 'strong' ? 'pulse' : 'secondary'}" id="presetStrong" title="सबसे अधिक कंप्रेशन">प्रीसेट: स्ट्रॉन्ग</button>
-                <button class="btn ${state.compressionLevel === 'balanced' ? 'pulse' : 'secondary'}" id="presetBalanced" title="संतुलित गुणवत्ता/साइज">प्रीसेट: बैलेंस्ड</button>
-                <button class="btn ${state.compressionLevel === 'safe' ? 'pulse' : 'secondary'}" id="presetSafe" title="टेक्स्ट सुरक्षित रखें">प्रीसेट: सेफ</button>
-              </div>
-            </div>
-            <div class="grid grid-2">
-              <label>
-                <div class="lbl">मोड</div>
-                <select id="mode" aria-label="कंप्रेशन मोड चुनें">
-                  <option value="image" ${state.pdfjsAvailable ? '' : 'disabled'}>इमेज फ्लैटन (अधिकतम कमी)</option>
-                  <option value="safe">सेफ कॉपी (टेक्स्ट सुरक्षित)</option>
-                </select>
-              </label>
-              <label>
-                <div class="lbl">पेज रेंज</div>
-                <input id="range" type="text" placeholder="उदा. 1-3,5,7-" value="${state.pageRange}" aria-label="पेज रेंज दर्ज करें">
-              </label>
-            </div>
-            <div class="grid grid-3" id="imageControls" style="display:${state.mode === 'image' ? 'grid' : 'none'}">
-              <label>
-                <div class="lbl">JPEG क्वालिटी <span class="hint">(${Math.round(state.quality * 100)}%)</span></div>
-                <input id="quality" type="range" min="0.2" max="0.95" step="0.01" value="${state.quality}" aria-label="JPEG क्वालिटी समायोजित करें">
-              </label>
-              <label>
-                <div class="lbl">रेंडर DPI <span class="hint">(${state.dpi} dpi)</span></div>
-                <input id="dpi" type="range" min="72" max="200" step="1" value="${state.dpi}" aria-label="रेंडर DPI समायोजित करें">
-              </label>
-              <label>
-                <div class="lbl">ग्रेस्केल</div>
-                <span class="switch"><input id="gray" type="checkbox" ${state.grayscale ? 'checked' : ''} aria-label="ग्रेस्केल चालू/बंद करें"><span class="slider"></span></span>
-              </label>
-            </div>
-            <div class="stat">
-              <div>मूल फ़ाइल: <span class="value">${humanBytes(state.file.size)}</span></div>
-              <div>•</div>
-              <div>मोड: <span class="value" id="modeTag">${state.mode === 'image' ? 'इमेज फ्लैटन' : 'सेफ कॉपी'}</span></div>
-            </div>
-            <div class="hint warn" id="noPdfJsNote" style="display:${state.pdfjsAvailable ? 'none' : 'block'}">नोट: PDF.js उपलब्ध नहीं — <b>इमेज फ्लैटन</b> अक्षम। <b>सेफ कॉपी</b> मोड का उपयोग करें।</div>
-            <div class="btn-row" style="justify-content:flex-end">
-              <button class="btn secondary" id="to1">← पीछे</button>
-              <button class="btn" id="to3">अगला: प्रीव्यू →</button>
-            </div>
-          </div>`;
-
-        $('#back1').addEventListener('click', () => goStep(1));
-        $('#to1').addEventListener('click', () => goStep(1));
-        $('#to3').addEventListener('click', () => {
-          if (!validateRange(state.pageRange, state.numPages)) {
-            alert('अमान्य पेज रेंज। कृपया सही प्रारूप (उदा. 1-3,5,7-) दर्ज करें।');
-            return;
-          }
-          goStep(3);
-        });
-
-        const modeSel = $('#mode'), range = $('#range'), quality = $('#quality'), dpi = $('#dpi'), gray = $('#gray'), imageControls = $('#imageControls');
-        modeSel.value = state.pdfjsAvailable ? state.mode : 'safe';
-        state.mode = state.pdfjsAvailable ? state.mode : 'safe';
-
-        modeSel.addEventListener('change', () => {
-          state.mode = modeSel.value;
-          $('#modeTag').textContent = state.mode === 'image' ? 'इमेज फ्लैटन' : 'सेफ कॉपी';
-          imageControls.style.display = state.mode === 'image' ? 'grid' : 'none';
-        });
-
-        range.addEventListener('input', () => state.pageRange = range.value.trim());
-        quality.addEventListener('input', () => {
-          state.quality = parseFloat(quality.value);
-          quality.previousElementSibling.querySelector('.hint').textContent = `(${Math.round(state.quality * 100)}%)`;
-        });
-        dpi.addEventListener('input', () => {
-          state.dpi = parseInt(dpi.value, 10);
-          dpi.previousElementSibling.querySelector('.hint').textContent = `(${state.dpi} dpi)`;
-        });
-        gray.addEventListener('change', () => state.grayscale = gray.checked);
-
-        $('#presetStrong').addEventListener('click', () => {
-          if (!state.pdfjsAvailable) return pulsateWarn();
-          state.mode = 'image';
-          state.compressionLevel = 'strong';
-          state.quality = 0.5;
-          state.dpi = 96;
-          state.grayscale = true;
-          updateSliders();
-          pulsate('#presetStrong');
-        });
-        $('#presetBalanced').addEventListener('click', () => {
-          if (!state.pdfjsAvailable) return pulsateWarn();
-          state.mode = 'image';
-          state.compressionLevel = 'balanced';
-          state.quality = 0.65;
-          state.dpi = 110;
-          state.grayscale = false;
-          updateSliders();
-          pulsate('#presetBalanced');
-        });
-        $('#presetSafe').addEventListener('click', () => {
-          state.mode = 'safe';
-          state.compressionLevel = 'safe';
-          updateSliders();
-          pulsate('#presetSafe');
-        });
-
-        function updateSliders() {
-          imageControls.style.display = state.mode === 'image' ? 'grid' : 'none';
-          if (state.mode === 'image') {
-            quality.value = state.quality;
-            dpi.value = state.dpi;
-            gray.checked = state.grayscale;
-            quality.previousElementSibling.querySelector('.hint').textContent = `(${Math.round(state.quality * 100)}%)`;
-            dpi.previousElementSibling.querySelector('.hint').textContent = `(${state.dpi} dpi)`;
-          }
-          $('#modeTag').textContent = state.mode === 'image' ? 'इमेज फ्लैटन' : 'सेफ कॉपी';
-          $$('.btn[id^="preset"]').forEach(btn => btn.classList.toggle('pulse', btn.id === `preset${state.compressionLevel.charAt(0).toUpperCase() + state.compressionLevel.slice(1)}`));
-        }
-
-        function pulsate(sel) {
-          const b = $(sel);
-          b.classList.add('pulse');
-          setTimeout(() => b.classList.remove('pulse'), 1600);
-        }
-
-        function pulsateWarn() {
-          alert('इमेज मोड के लिए PDF.js आवश्यक है। कृपया यह पेज https/localhost से चलाएँ या इंटरनेट कनेक्शन जाँचें।');
-        }
-      }
-
-      function validateRange(input, total) {
-        if (!input || input === 'all') return true;
-        const parts = input.split(/\s*,\s*/);
-        for (const p of parts) {
-          if (!p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/)) return false;
-          const [_, a, b] = p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/);
-          const start = a ? parseInt(a) : 1;
-          const end = b ? parseInt(b) : total;
-          if (start < 1 || end > total || start > end) return false;
-        }
-        return true;
-      }
-
-      // Step 3: Preview
-      async function renderStep3() {
-        if (!state.file) return renderStep1();
-        setActive(3);
-        panel.innerHTML = `
-          <div class="btn-row" style="justify-content:space-between;align-items:center;margin-bottom:0.5rem">
-            <button class="btn ghost" id="back2">← वापस</button>
-            <button class="btn" id="to4">सब ठीक — कंप्रेस करें →</button>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge-row">
+            <span class="badge">📉 Size कम करें</span>
+            <span class="badge">🎚️ Quality Slider</span>
+            <span class="badge">⚡ Browser-based</span>
+            <span class="badge">🇮🇳 Hindi Interface</span>
           </div>
-          <div class="grid grid-2" style="align-items:start">
+
+          <h1>PDF छोटा करें <span>Online</span></h1>
+
+          <p>
+            बड़ी PDF file को छोटा करें ताकि email, WhatsApp, forms और online portals पर आसानी से upload हो सके।
+            जरूरत के अनुसार safe या strong compression mode चुनें।
+          </p>
+
+          <div class="hero-actions">
+            <a class="primary-btn" href="#compress-tool">अभी PDF Compress करें</a>
+            <a class="ghost-btn" href="merge-pdf-hi.html">PDF Merge करें</a>
+          </div>
+        </div>
+
+        <div class="tool-shell" id="compress-tool">
+          <label class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" accept="application/pdf,.pdf" />
             <div>
-              <div class="hint" id="estLbl">त्वरित अनुमान बनाया जा रहा है…</div>
-              <div class="compression-stats">
-                <div class="stat-card">
-                  <div class="stat-value">${humanBytes(state.file.size)}</div>
-                  <div class="stat-label">मूल फ़ाइल</div>
-                </div>
-                <div class="stat-card">
-                  <div class="stat-value" id="estSize">—</div>
-                  <div class="stat-label">अनुमानित आउटपुट</div>
+              <div class="drop-icon">📉</div>
+              <h2>PDF file यहाँ drop करें</h2>
+              <p>या button दबाकर अपने device से PDF file चुनें</p>
+              <button class="upload-btn" type="button" id="selectFileBtn">PDF File चुनें</button>
+              <div class="privacy-note">🔐 Compression आपके browser में करने की कोशिश की जाती है।</div>
+            </div>
+          </label>
+
+          <div class="panel" id="filePanel" style="display:none;">
+            <div class="panel-head">
+              <div>
+                <h2>Compression Settings</h2>
+                <p>Strong compression size ज्यादा कम करता है, लेकिन text selectable नहीं रह सकता।</p>
+              </div>
+            </div>
+
+            <div class="file-summary">
+              <div class="file-icon">📄</div>
+
+              <div>
+                <div class="file-name" id="fileName">document.pdf</div>
+                <div class="file-meta">
+                  <span id="fileSize">0 KB</span>
+                  <span id="pageCount">0 pages</span>
                 </div>
               </div>
-              <div class="hint" style="margin-top:0.375rem">*अनुमान पहले पेज और सेटिंग्स पर आधारित।</div>
-              <div class="grid" style="margin-top:1rem">
-                <label>
-                  <div class="lbl">ग्रेस्केल प्रीव्यू</div>
-                  <span class="switch"><input id="prevGray" type="checkbox" ${state.grayscale ? 'checked' : ''} aria-label="ग्रेस्केल प्रीव्यू चालू/बंद करें"><span class="slider"></span></span>
-                </label>
+
+              <button class="danger-btn" type="button" id="clearBtn">Remove</button>
+            </div>
+
+            <div class="settings-grid">
+              <div class="setting-card full">
+                <label for="modeSelect">Compression Mode</label>
+                <select id="modeSelect">
+                  <option value="safe">Safe Optimize - text/selectable PDF को preserve करने की कोशिश</option>
+                  <option value="strong" selected>Strong Compress - pages को compressed images में बदलना</option>
+                </select>
+                <small>
+                  Safe mode में size बहुत कम न भी हो सकता है। Strong mode scanned/photo PDFs के लिए best है।
+                </small>
+                <div class="mode-warning show" id="modeWarning">
+                  ⚠️ Strong mode में PDF pages images में convert होंगे। Text selectable/searchable नहीं रह सकता।
+                </div>
               </div>
-              <div class="hint warn" style="margin-top:0.625rem; display:${state.pdfjsAvailable ? 'none' : 'block'}">प्रीव्यू उपलब्ध नहीं (PDF.js नहीं मिला)। फिर भी कंप्रेस करें।</div>
+
+              <div class="setting-card">
+                <label for="qualityRange">Image Quality</label>
+                <div class="range-wrap">
+                  <input type="range" id="qualityRange" min="35" max="95" value="65" />
+                  <div class="range-value" id="qualityValue">65%</div>
+                </div>
+                <small>कम quality = छोटा size, पर image clarity कम हो सकती है।</small>
+              </div>
+
+              <div class="setting-card">
+                <label for="scaleRange">Page Scale</label>
+                <div class="range-wrap">
+                  <input type="range" id="scaleRange" min="60" max="140" value="100" />
+                  <div class="range-value" id="scaleValue">100%</div>
+                </div>
+                <small>कम scale = छोटा size, पर text/image छोटी या कम sharp हो सकती है।</small>
+              </div>
             </div>
-            <div class="preview-container">
-              <div class="hint">प्रीव्यू</div>
-              <canvas id="preview" class="preview-canvas"></canvas>
+
+            <div class="controls-grid">
+              <div class="input-group">
+                <label for="outputName">Final PDF का नाम</label>
+                <input id="outputName" type="text" value="compressed-pdf" placeholder="compressed-pdf" />
+              </div>
+
+              <button class="primary-btn" type="button" id="compressBtn">
+                PDF Compress करें
+              </button>
             </div>
-          </div>`;
 
-        $('#back2').addEventListener('click', () => goStep(2));
-        $('#to4').addEventListener('click', () => goStep(4));
-        $('#prevGray').addEventListener('change', e => { 
-          state.grayscale = e.target.checked; 
-          if (state.pdfjsAvailable) doEstimate(); 
-        });
+            <div class="progress-wrap" id="progressWrap">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
 
-        if (state.pdfjsAvailable) await doEstimate(); 
-        else $('#estLbl').textContent = 'प्रीव्यू उपलब्ध नहीं — सेफ कॉपी मोड में आगे बढ़ें';
+            <div class="status-box" id="statusBox"></div>
 
-        async function doEstimate() {
-          $('#estLbl').textContent = 'अनुमान की गणना…';
-          try {
-            const page = await state.pdfDoc.getPage(1);
-            const scale = state.dpi / 72;
-            const viewport = page.getViewport({ scale });
-            const can = $('#preview');
-            can.width = Math.ceil(viewport.width);
-            can.height = Math.ceil(viewport.height);
-            const ctx = can.getContext('2d', { alpha: false });
-            await page.render({ 
-              canvasContext: ctx, 
-              viewport,
-              intent: 'print'
-            }).promise;
-            
-            if (state.grayscale) toGrayscale(ctx, can.width, can.height);
-            
-            const mime = state.format === 'png' ? 'image/png' : 'image/jpeg';
-            const quality = state.format === 'png' ? undefined : state.quality;
-            const blob = await new Promise(res => can.toBlob(res, mime, quality));
-            
-            state.estPreviewBlob = blob;
-            const selectedPages = parseRange(state.pageRange, state.numPages);
-            
-            // Better estimation logic
-            let est;
-            if (state.mode === 'safe') {
-              // For safe mode, estimate 80% of original size
-              est = state.file.size * 0.8;
-            } else {
-              // For image mode, use actual image size with adjustment
-              est = blob.size * selectedPages.length * 0.9; // 10% adjustment for PDF structure
-            }
-            
-            state.estimate = est;
-            $('#estSize').textContent = humanBytes(est);
-            $('#estLbl').innerHTML = `मोड: <b>${state.mode === 'image' ? 'इमेज फ्लैटन' : 'सेफ कॉपी'}</b> • पेज: <b>${selectedPages.length}</b>`;
-          } catch (e) {
-            console.error(e);
-            $('#estLbl').innerHTML = '<span class="danger">अनुमान नहीं हो सका। फिर भी कंप्रेस करें।</span>';
-          }
-        }
-      }
+            <div class="result-card" id="resultCard">
+              <h3>✅ Compressed PDF तैयार है</h3>
 
-      function toGrayscale(ctx, w, h) {
-        const imgData = ctx.getImageData(0, 0, w, h);
-        const d = imgData.data;
-        for (let i = 0; i < d.length; i += 4) {
-          const y = 0.2126 * d[i] + 0.7152 * d[i + 1] + 0.0722 * d[i + 2];
-          d[i] = d[i + 1] = d[i + 2] = y;
-        }
-        ctx.putImageData(imgData, 0, 0);
-      }
+              <div class="result-grid">
+                <div class="result-stat">
+                  <span>Original Size</span>
+                  <strong id="originalStat">0 KB</strong>
+                </div>
 
-      function parseRange(input, total) {
-        if (!input || input === 'all') return Array.from({ length: total }, (_, i) => i + 1);
-        const parts = input.split(/\s*,\s*/);
-        const pages = new Set();
-        for (const p of parts) {
-          if (!p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/)) continue;
-          let [_, a, b] = p.match(/^(\d+)?\s*(?:-\s*(\d+)?)?$/);
-          a = a ? parseInt(a) : 1;
-          b = b ? parseInt(b) : total;
-          if (a > b) [a, b] = [b, a];
-          for (let i = a; i <= b; i++) if (i >= 1 && i <= total) pages.add(i);
-        }
-        return [...pages].sort((x, y) => x - y);
-      }
+                <div class="result-stat">
+                  <span>New Size</span>
+                  <strong id="newStat">0 KB</strong>
+                </div>
 
-      // Step 4: Compress
-      async function renderStep4() {
-        if (!state.file) return renderStep1();
-        setActive(4);
-        panel.innerHTML = `
-          <div class="btn-row" style="justify-content:space-between;align-items:center;margin-bottom:0.5rem">
-            <button class="btn ghost" id="back3">← वापस</button>
-            <div class="hint">आपकी सेटिंग के साथ कंप्रेस करने के लिए तैयार।</div>
+                <div class="result-stat">
+                  <span>Reduction</span>
+                  <strong id="savingStat">0%</strong>
+                </div>
+              </div>
+
+              <a class="secondary-btn" id="downloadLink" href="#" download="compressed-pdf.pdf">
+                Download Compressed PDF
+              </a>
+            </div>
           </div>
-          <div class="grid" style="gap:0.875rem">
-            <div class="progress"><div class="bar" id="bar"></div></div>
-            <div class="stat"><div>स्थिति:</div> <div class="value" id="status">प्रतीक्षा</div></div>
-            <div class="stat"><div>आउटपुट:</div> <div class="value" id="outSize">—</div></div>
-            <div id="sizeComparison" style="display:none" class="size-comparison"></div>
-            <div class="btn-row" style="justify-content:flex-end">
-              <button class="btn" id="go" ${state.isCompressing ? 'disabled' : ''}>${state.isCompressing ? 'कंप्रेस हो रहा है...' : 'कंप्रेस शुरू करें'}</button>
-              <button class="btn secondary" id="cancel" style="display:${state.isCompressing ? 'inline-block' : 'none'}">रद्द करें</button>
-            </div>
-            <div id="done" style="display:none" class="success">पूर्ण! डाउनलोड स्वतः शुरू होगा। नहीं हुआ तो नीचे बटन क्लिक करें।</div>
-            <div class="btn-row" style="justify-content:flex-end;display:none" id="dlRow">
-              <a id="dl" class="btn" href="#" download>फिर से डाउनलोड</a>
-            </div>
-            <div class="hint">नोट: <b>इमेज फ्लैटन</b> पेज को इमेज में बदलता है (छोटा साइज; टेक्स्ट चयन हटाएगा)। <b>सेफ कॉपी</b> टेक्स्ट रखता है।</div>
-          </div>`;
+        </div>
+      </div>
+    </section>
 
-        $('#back3').addEventListener('click', () => goStep(3));
-        $('#go').addEventListener('click', () => doCompress());
-        $('#cancel').addEventListener('click', () => {
-          state.isCompressing = false;
-          if (state.abortController) {
-            state.abortController.abort();
-          }
-          renderStep4();
+    <section class="container info-sections">
+      <article class="info-card">
+        <h2>PDF compress कैसे करें?</h2>
+        <ol>
+          <li>ऊपर PDF file upload करें।</li>
+          <li>Compression mode चुनें।</li>
+          <li>Quality और scale adjust करें।</li>
+          <li><strong>PDF Compress करें</strong> button दबाएं।</li>
+          <li>Final compressed PDF download करें।</li>
+        </ol>
+      </article>
+
+      <article class="info-card">
+        <h2>कौन सा mode चुनें?</h2>
+        <ul>
+          <li><strong>Safe Optimize:</strong> Text PDF के लिए, लेकिन size reduction limited हो सकता है।</li>
+          <li><strong>Strong Compress:</strong> Scanned PDF, photo PDF और large image PDF के लिए best।</li>
+          <li>Strong mode में text selectable नहीं रह सकता।</li>
+          <li>Quality 60–75% usually अच्छा balance देती है।</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="container" style="margin-top:28px;">
+      <div class="info-card">
+        <h2>Related PDF Tools</h2>
+        <div class="related">
+          <a href="merge-pdf-hi.html">📎 PDF जोड़ें</a>
+          <a href="split-pdf-hi.html">✂️ PDF अलग करें</a>
+          <a href="image-to-pdf-hi.html">🖼️ Image to PDF</a>
+          <a href="pdf-to-image-hi.html">📷 PDF to Image</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" style="margin-top:28px;">
+      <div class="info-card">
+        <h2>FAQ</h2>
+
+        <div class="faq-list">
+          <div class="faq-item active">
+            <button class="faq-q" type="button">
+              क्या PDF compression हमेशा size कम करती है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              नहीं। कुछ PDFs पहले से optimized होती हैं। ऐसे cases में size कम न हो या थोड़ा बढ़ भी सकता है।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              Strong compression क्या करती है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              Strong mode PDF pages को image में render करके compressed PDF बनाता है। इससे size कम हो सकता है, लेकिन text selectable नहीं रह सकता।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              Safe Optimize क्या है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              Safe Optimize PDF को re-save करके unnecessary structure कम करने की कोशिश करता है। इससे quality और selectable text preserve रहने की संभावना ज्यादा होती है।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              कौन सी quality best है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              General documents के लिए 60–75% अच्छा balance है। Photos या detailed documents में 75–85% बेहतर हो सकता है।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या मेरी PDF server पर upload होती है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              यह page browser-side libraries use करता है। फिर भी sensitive documents के लिए हमेशा सावधानी रखें।
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">HindiTools.com</div>
+          <p>
+            PDF, Image और Document कामों के लिए आसान हिंदी tools।
+            Simple interface, fast workflow और mobile-friendly design।
+          </p>
+        </div>
+
+        <div>
+          <h3>PDF Tools</h3>
+          <ul>
+            <li><a href="merge-pdf-hi.html">PDF जोड़ें</a></li>
+            <li><a href="compress-pdf-hi.html">PDF छोटा करें</a></li>
+            <li><a href="split-pdf-hi.html">PDF अलग करें</a></li>
+            <li><a href="pdf-to-image-hi.html">PDF to Image</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Website</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
+    const { PDFDocument } = PDFLib;
+
+    const fileInput = document.getElementById("fileInput");
+    const selectFileBtn = document.getElementById("selectFileBtn");
+    const dropzone = document.getElementById("dropzone");
+    const filePanel = document.getElementById("filePanel");
+    const fileNameEl = document.getElementById("fileName");
+    const fileSizeEl = document.getElementById("fileSize");
+    const pageCountEl = document.getElementById("pageCount");
+    const clearBtn = document.getElementById("clearBtn");
+    const modeSelect = document.getElementById("modeSelect");
+    const modeWarning = document.getElementById("modeWarning");
+    const qualityRange = document.getElementById("qualityRange");
+    const qualityValue = document.getElementById("qualityValue");
+    const scaleRange = document.getElementById("scaleRange");
+    const scaleValue = document.getElementById("scaleValue");
+    const outputName = document.getElementById("outputName");
+    const compressBtn = document.getElementById("compressBtn");
+    const statusBox = document.getElementById("statusBox");
+    const progressWrap = document.getElementById("progressWrap");
+    const progressBar = document.getElementById("progressBar");
+    const resultCard = document.getElementById("resultCard");
+    const originalStat = document.getElementById("originalStat");
+    const newStat = document.getElementById("newStat");
+    const savingStat = document.getElementById("savingStat");
+    const downloadLink = document.getElementById("downloadLink");
+
+    let selectedFile = null;
+    let selectedBuffer = null;
+    let selectedPageCount = 0;
+    let currentDownloadUrl = null;
+
+    function formatBytes(bytes) {
+      if (!bytes) return "0 Bytes";
+      const k = 1024;
+      const sizes = ["Bytes", "KB", "MB", "GB"];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+    }
+
+    function sanitizeFileName(name) {
+      return (name || "compressed-pdf")
+        .replace(/\.pdf$/i, "")
+        .replace(/[^\u0900-\u097Fa-zA-Z0-9-_ ]/g, "")
+        .trim()
+        .replace(/\s+/g, "-") || "compressed-pdf";
+    }
+
+    function setStatus(message, type = "normal") {
+      statusBox.textContent = message;
+      statusBox.className = "status-box show";
+      if (type === "success") statusBox.classList.add("success");
+      if (type === "error") statusBox.classList.add("error");
+    }
+
+    function clearStatus() {
+      statusBox.className = "status-box";
+      statusBox.textContent = "";
+    }
+
+    function setProgress(percent) {
+      progressWrap.classList.add("show");
+      progressBar.style.width = `${percent}%`;
+    }
+
+    function resetProgress() {
+      progressWrap.classList.remove("show");
+      progressBar.style.width = "0%";
+    }
+
+    function resetDownload() {
+      if (currentDownloadUrl) {
+        URL.revokeObjectURL(currentDownloadUrl);
+        currentDownloadUrl = null;
+      }
+
+      resultCard.classList.remove("show");
+      downloadLink.href = "#";
+    }
+
+    async function loadFile(file) {
+      clearStatus();
+      resetProgress();
+      resetDownload();
+
+      if (!file || !(file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"))) {
+        setStatus("कृपया केवल PDF file upload करें।", "error");
+        return;
+      }
+
+      try {
+        setStatus("PDF read की जा रही है...");
+
+        selectedFile = file;
+        selectedBuffer = await file.arrayBuffer();
+
+        const pdf = await PDFDocument.load(selectedBuffer, { ignoreEncryption: false });
+        selectedPageCount = pdf.getPageCount();
+
+        fileNameEl.textContent = file.name;
+        fileNameEl.title = file.name;
+        fileSizeEl.textContent = formatBytes(file.size);
+        pageCountEl.textContent = `${selectedPageCount} page${selectedPageCount > 1 ? "s" : ""}`;
+
+        filePanel.style.display = "block";
+        setStatus("PDF ready है। Compression settings choose करें।", "success");
+      } catch (error) {
+        console.error(error);
+        selectedFile = null;
+        selectedBuffer = null;
+        selectedPageCount = 0;
+        setStatus("यह PDF read नहीं हो सकी। File encrypted, damaged या unsupported हो सकती है।", "error");
+      }
+    }
+
+    async function safeOptimizePDF() {
+      setStatus("Safe optimize mode चल रहा है...");
+      setProgress(20);
+
+      const pdfDoc = await PDFDocument.load(selectedBuffer, { ignoreEncryption: false });
+      setProgress(65);
+
+      const savedBytes = await pdfDoc.save({
+        useObjectStreams: true,
+        addDefaultPage: false,
+        objectsPerTick: 50
+      });
+
+      setProgress(100);
+      return new Blob([savedBytes], { type: "application/pdf" });
+    }
+
+    function canvasToJpegBlob(canvas, quality) {
+      return new Promise(resolve => {
+        canvas.toBlob(blob => resolve(blob), "image/jpeg", quality);
+      });
+    }
+
+    async function strongCompressPDF() {
+      const quality = Number(qualityRange.value) / 100;
+      const scalePercent = Number(scaleRange.value) / 100;
+
+      setStatus("PDF pages render की जा रही हैं...");
+      setProgress(5);
+
+      const loadingTask = pdfjsLib.getDocument({ data: selectedBuffer.slice(0) });
+      const pdf = await loadingTask.promise;
+      const outputPdf = await PDFDocument.create();
+
+      for (let pageNumber = 1; pageNumber <= pdf.numPages; pageNumber++) {
+        const page = await pdf.getPage(pageNumber);
+
+        const baseViewport = page.getViewport({ scale: 1 });
+        const renderScale = Math.max(0.6, Math.min(1.8, scalePercent * 1.25));
+        const viewport = page.getViewport({ scale: renderScale });
+
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d", { alpha: false });
+
+        canvas.width = Math.floor(viewport.width);
+        canvas.height = Math.floor(viewport.height);
+
+        context.fillStyle = "#ffffff";
+        context.fillRect(0, 0, canvas.width, canvas.height);
+
+        await page.render({
+          canvasContext: context,
+          viewport
+        }).promise;
+
+        const jpegBlob = await canvasToJpegBlob(canvas, quality);
+        const jpegBytes = await jpegBlob.arrayBuffer();
+
+        const jpgImage = await outputPdf.embedJpg(jpegBytes);
+
+        const pdfPage = outputPdf.addPage([baseViewport.width, baseViewport.height]);
+        pdfPage.drawImage(jpgImage, {
+          x: 0,
+          y: 0,
+          width: baseViewport.width,
+          height: baseViewport.height
         });
 
-        async function doCompress() {
-          if (state.isCompressing) return;
-          state.isCompressing = true;
-          state.abortController = new AbortController();
-          renderStep4();
-          
-          const status = $('#status'), bar = $('#bar'), outSize = $('#outSize'), sizeComparison = $('#sizeComparison');
-          const pages = parseRange(state.pageRange, state.numPages);
-          const t0 = performance.now();
-          
-          try {
-            status.textContent = 'तैयारी…';
-            const { PDFDocument } = PDFLib;
-            
-            if (state.mode === 'safe') {
-              // Safe mode - copy pages directly
-              const src = await PDFDocument.load(state.fileBytes);
-              const out = await PDFDocument.create();
-              const copied = await out.copyPages(src, pages.map(n => n - 1));
-              copied.forEach(p => out.addPage(p));
-              
-              // Use compression options for safe mode
-              const bytes = await out.save({ 
-                useObjectStreams: true, 
-                addDefaultPage: false,
-                objectsPerTick: 50 // Better performance
-              });
-              finish(new Blob([bytes], { type: 'application/pdf' }));
-            } else {
-              // Image mode - render pages as images
-              if (!state.pdfjsAvailable) {
-                status.innerHTML = '<span class="danger">इमेज मोड के लिए PDF.js आवश्यक है। कृपया यह पेज https/localhost से चलाएँ।</span>';
-                state.isCompressing = false;
-                renderStep4();
-                return;
-              }
-              
-              const out = await PDFDocument.create();
-              let i = 0;
-              
-              for (const n of pages) {
-                // Check for cancellation
-                if (state.abortController.signal.aborted) {
-                  throw new Error('कंप्रेशन रद्द किया गया');
-                }
-                
-                status.textContent = `रेंडरिंग पेज ${n}/${pages.length}…`;
-                const page = await state.pdfDoc.getPage(n);
-                const scale = state.dpi / 72;
-                const viewport = page.getViewport({ scale });
-                const can = document.createElement('canvas');
-                can.width = Math.ceil(viewport.width);
-                can.height = Math.ceil(viewport.height);
-                const ctx = can.getContext('2d', { alpha: false });
-                
-                await page.render({ 
-                  canvasContext: ctx, 
-                  viewport,
-                  intent: 'print'
-                }).promise;
-                
-                if (state.grayscale) toGrayscale(ctx, can.width, can.height);
-                
-                const mime = state.format === 'png' ? 'image/png' : 'image/jpeg';
-                const quality = state.format === 'png' ? undefined : state.quality;
-                const imgBlob = await new Promise(res => can.toBlob(res, mime, quality));
-                const imgBytes = new Uint8Array(await imgBlob.arrayBuffer());
-                
-                let img;
-                if (state.format === 'png') img = await out.embedPng(imgBytes);
-                else img = await out.embedJpg(imgBytes);
-                
-                const pageOut = out.addPage([can.width, can.height]);
-                pageOut.drawImage(img, { x: 0, y: 0, width: can.width, height: can.height });
-                i++;
-                bar.style.width = `${Math.round((i / pages.length) * 100)}%`;
-              }
-              
-              status.textContent = 'PDF लिखना…';
-              const bytes = await out.save({ 
-                useObjectStreams: true, 
-                addDefaultPage: false,
-                objectsPerTick: 50 // Better performance
-              });
-              finish(new Blob([bytes], { type: 'application/pdf' }));
-            }
-          } catch (e) {
-            console.error(e);
-            status.innerHTML = `<span class="danger">त्रुटि: ${e.message || 'कंप्रेशन विफल'}</span>`;
-            state.isCompressing = false;
-            renderStep4();
-          }
+        canvas.width = 1;
+        canvas.height = 1;
 
-          function finish(blob) {
-            state.isCompressing = false;
-            const dt = (performance.now() - t0) / 1000;
-            $('#done').style.display = 'block';
-            const name = (state.file.name || 'document').replace(/\.pdf$/i, '');
-            const url = URL.createObjectURL(blob);
-            
-            // Show size comparison
-            const originalSize = state.file.size;
-            const compressedSize = blob.size;
-            const reduction = ((originalSize - compressedSize) / originalSize * 100).toFixed(1);
-            
-            sizeComparison.style.display = 'flex';
-            if (compressedSize < originalSize) {
-              sizeComparison.innerHTML = `<span class="size-better">${reduction}% छोटा</span> <span class="hint">(${humanBytes(originalSize)} → ${humanBytes(compressedSize)})</span>`;
-            } else {
-              sizeComparison.innerHTML = `<span class="size-worse">${Math.abs(reduction)}% बड़ा</span> <span class="hint">(${humanBytes(originalSize)} → ${humanBytes(compressedSize)})</span>`;
-            }
-            
-            // Auto-download
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `${name}.compressed.pdf`;
-            a.click();
-            
-            $('#dl').href = url;
-            $('#dl').download = `${name}.compressed.pdf`;
-            $('#dlRow').style.display = 'flex';
-            outSize.textContent = `${humanBytes(blob.size)} • ${dt.toFixed(1)}s`;
-            status.innerHTML = '<span class="success">सम्पन्न</span>';
-            renderStep4();
+        const progress = Math.round((pageNumber / pdf.numPages) * 90);
+        setProgress(progress);
+        setStatus(`Page ${pageNumber} of ${pdf.numPages} compress हो रही है...`);
+      }
+
+      setStatus("Compressed PDF बनाई जा रही है...");
+      setProgress(95);
+
+      const compressedBytes = await outputPdf.save({
+        useObjectStreams: true,
+        objectsPerTick: 50
+      });
+
+      setProgress(100);
+      return new Blob([compressedBytes], { type: "application/pdf" });
+    }
+
+    async function compressPDF() {
+      if (!selectedFile || !selectedBuffer) {
+        setStatus("पहले PDF file upload करें।", "error");
+        return;
+      }
+
+      resetDownload();
+      resetProgress();
+      clearStatus();
+
+      compressBtn.disabled = true;
+
+      try {
+        const mode = modeSelect.value;
+        let outputBlob;
+
+        if (mode === "safe") {
+          outputBlob = await safeOptimizePDF();
+        } else {
+          outputBlob = await strongCompressPDF();
+        }
+
+        const originalSize = selectedFile.size;
+        const newSize = outputBlob.size;
+        const reduction = Math.round(((originalSize - newSize) / originalSize) * 100);
+
+        currentDownloadUrl = URL.createObjectURL(outputBlob);
+
+        const finalName = sanitizeFileName(outputName.value) + ".pdf";
+        downloadLink.href = currentDownloadUrl;
+        downloadLink.download = finalName;
+
+        originalStat.textContent = formatBytes(originalSize);
+        newStat.textContent = formatBytes(newSize);
+
+        if (reduction > 0) {
+          savingStat.textContent = `${reduction}%`;
+        } else {
+          savingStat.textContent = "0%";
+        }
+
+        resultCard.classList.add("show");
+
+        if (newSize < originalSize) {
+          setStatus("PDF successfully compress हो गई है। अब download करें।", "success");
+        } else {
+          setStatus("PDF बन गई है, लेकिन original से छोटी नहीं हुई। Safe mode या different settings try करें।", "error");
+        }
+      } catch (error) {
+        console.error(error);
+        setStatus("PDF compress नहीं हो सकी। File बहुत बड़ी, encrypted या unsupported हो सकती है।", "error");
+      } finally {
+        compressBtn.disabled = false;
+        setTimeout(resetProgress, 1200);
+      }
+    }
+
+    function clearFile() {
+      selectedFile = null;
+      selectedBuffer = null;
+      selectedPageCount = 0;
+      fileInput.value = "";
+      filePanel.style.display = "none";
+      resetDownload();
+      resetProgress();
+      clearStatus();
+      setStatus("File remove कर दी गई है। नई PDF upload करें।");
+    }
+
+    selectFileBtn.addEventListener("click", () => fileInput.click());
+
+    dropzone.addEventListener("click", event => {
+      if (event.target.id !== "selectFileBtn") {
+        fileInput.click();
+      }
+    });
+
+    fileInput.addEventListener("change", event => {
+      loadFile(event.target.files[0]);
+    });
+
+    ["dragenter", "dragover"].forEach(eventName => {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault();
+        dropzone.classList.add("dragover");
+      });
+    });
+
+    ["dragleave", "drop"].forEach(eventName => {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault();
+        dropzone.classList.remove("dragover");
+      });
+    });
+
+    dropzone.addEventListener("drop", event => {
+      loadFile(event.dataTransfer.files[0]);
+    });
+
+    clearBtn.addEventListener("click", clearFile);
+    compressBtn.addEventListener("click", compressPDF);
+
+    qualityRange.addEventListener("input", () => {
+      qualityValue.textContent = `${qualityRange.value}%`;
+      resetDownload();
+    });
+
+    scaleRange.addEventListener("input", () => {
+      scaleValue.textContent = `${scaleRange.value}%`;
+      resetDownload();
+    });
+
+    modeSelect.addEventListener("change", () => {
+      modeWarning.classList.toggle("show", modeSelect.value === "strong");
+      resetDownload();
+    });
+
+    document.getElementById("menuBtn").addEventListener("click", () => {
+      document.getElementById("nav").classList.toggle("open");
+    });
+
+    document.querySelectorAll(".faq-q").forEach(btn => {
+      btn.addEventListener("click", () => {
+        btn.parentElement.classList.toggle("active");
+      });
+    });
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "क्या PDF compression हमेशा size कम करती है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "नहीं। कुछ PDFs पहले से optimized होती हैं। ऐसे cases में size कम न हो या थोड़ा बढ़ भी सकता है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Strong compression क्या करती है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Strong mode PDF pages को image में render करके compressed PDF बनाता है। इससे size कम हो सकता है, लेकिन text selectable नहीं रह सकता।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Safe Optimize क्या है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Safe Optimize PDF को re-save करके unnecessary structure कम करने की कोशिश करता है। इससे quality और selectable text preserve रहने की संभावना ज्यादा होती है।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "कौन सी quality best है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "General documents के लिए 60–75% अच्छा balance है। Photos या detailed documents में 75–85% बेहतर हो सकता है।"
           }
         }
-      }
+      ]
+    };
 
-      function setActive(step) {
-        steps.forEach(el => el.classList.toggle('active', parseInt(el.dataset.step) === step));
-      }
-
-      function goStep(n) {
-        switch (n) {
-          case 1: renderStep1(); break;
-          case 2: renderStep2(); break;
-          case 3: renderStep3(); break;
-          case 4: renderStep4(); break;
-        }
-      }
-
-      // Initialize
-      goStep(1);
-    })();
+    const schemaScript = document.createElement("script");
+    schemaScript.type = "application/ld+json";
+    schemaScript.textContent = JSON.stringify(faqSchema);
+    document.head.appendChild(schemaScript);
   </script>
 </body>
 </html>
