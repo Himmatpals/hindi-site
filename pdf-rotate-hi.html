@@ -1,350 +1,1783 @@
-<!--
-File: pdf-rotate-hi.html
-Description: Client‑side Hindi (Bollywood‑style) "Rotate / Reorder / Delete Pages" tool for PDFs. No server upload.
-Tech: pdf.js (thumbnail render) + pdf-lib (rebuild). Features: per‑page rotate L/R, bulk rotate, drag‑to‑reorder, select/invert, delete selected, export.
-How to use: Save as a single HTML file and open in a modern browser. Keep next to index-hi.html.
--->
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PDF घुमाओ/रीऑर्डर करो — थम्बनेल से एडिट</title>
-  <meta name="description" content="PDF पेज घुमाओ (90°), डिलीट करो, ड्रैग-एंड-ड्रॉप से रीऑर्डर करो — सब ब्राउज़र में। कोई अपलोड नहीं।" />
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>PDF Rotate Online | PDF Pages घुमाएं हिंदी में - HindiTools</title>
+
+  <meta name="description" content="PDF pages को online rotate करें। All pages या selected pages को left, right या 180 degree rotate करें। Easy Hindi interface और instant download." />
+  <meta name="keywords" content="PDF rotate Hindi, PDF pages rotate, PDF घुमाएं, rotate PDF online, HindiTools" />
+  <meta name="author" content="HindiTools.com" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="PDF Rotate Online - PDF Pages घुमाएं" />
+  <meta property="og:description" content="PDF के all pages या selected pages को left, right या 180 degree rotate करें।" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.hinditools.com/pdf-rotate-hi.html" />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
   <style>
-    :root{ --bg:#0b1020; --card:#121935; --muted:#8ea0c9; --text:#e9eefb; --accent:#7c5cff; --accent-2:#23d3ac; --danger:#ff5c7c; --line: rgba(255,255,255,.10); }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; background:
-        radial-gradient(1200px 800px at 80% -10%, rgba(124,92,255,.25), transparent),
-        radial-gradient(900px 600px at 10% 110%, rgba(35,211,172,.18), transparent),
-        var(--bg);
-      color:var(--text); font-family:"Noto Sans Devanagari", system-ui, -apple-system, Segoe UI, Roboto, Arial; line-height:1.5;
+    :root {
+      --bg: #fff8f0;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #f1d7bd;
+      --primary: #e66a1f;
+      --primary-dark: #bf4e13;
+      --secondary: #273c75;
+      --green: #12805c;
+      --red: #dc2626;
+      --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
+      --radius: 22px;
     }
-    header{display:flex; align-items:center; justify-content:space-between; padding:16px 20px; position:sticky; top:0; backdrop-filter:blur(6px); background:rgba(11,16,32,.6); border-bottom:1px solid var(--line)}
-    .brand{display:flex; align-items:center; gap:10px; font-weight:800}
-    .brand svg{width:28px;height:28px}
-    .container{max-width:1180px; margin:28px auto; padding:0 16px}
-    .card{background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02)); border:1px solid var(--line); border-radius:18px; box-shadow:0 20px 70px rgba(0,0,0,.35); overflow:hidden}
-    .hero{padding:26px 22px 0}
-    h1{margin:0 0 8px; font-size:28px; font-weight:800}
-    .sub{margin:0; color:var(--muted)}
 
-    .uploader{border:1.5px dashed rgba(255,255,255,.18); border-radius:16px; padding:22px; margin:18px 22px; text-align:center; transition:.25s border-color}
-    .uploader.dragover{border-color:var(--accent)}
-    .uploader input[type=file]{display:none}
-    .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center}
-    .btn{appearance:none; border:none; border-radius:12px; padding:12px 14px; font-weight:700; cursor:pointer; color:#0b1020; background:var(--accent); box-shadow:0 8px 24px rgba(124,92,255,.35)}
-    .btn.secondary{background:#1f2752; color:var(--text); box-shadow:none}
-    .btn.ghost{background:transparent; color:var(--text); border:1px solid rgba(255,255,255,.18)}
-    .btn.danger{background:var(--danger); color:#fff}
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-    /* Toolbar */
-    .toolbar{display:flex; gap:8px; flex-wrap:wrap; align-items:center; padding:10px 22px 16px}
-    .chip{border:1px solid rgba(255,255,255,.18); background:#0f1630; color:var(--text); border-radius:10px; padding:8px 10px; font-size:13px}
+    html {
+      scroll-behavior: smooth;
+    }
 
-    /* Grid of thumbs */
-    .grid{display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:12px; padding:0 22px 18px}
-    @media (max-width:1180px){ .grid{grid-template-columns:repeat(5,1fr)} }
-    @media (max-width:980px){ .grid{grid-template-columns:repeat(4,1fr)} }
-    @media (max-width:820px){ .grid{grid-template-columns:repeat(3,1fr)} }
-    @media (max-width:560px){ .grid{grid-template-columns:repeat(2,1fr)} }
+    body {
+      font-family: "Noto Sans Devanagari", system-ui, sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(230, 106, 31, 0.15), transparent 28%),
+        radial-gradient(circle at top right, rgba(39, 60, 117, 0.12), transparent 32%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-    .thumb{position:relative; padding:8px; background:#0f1630; border:1px solid rgba(255,255,255,.08); border-radius:12px; cursor:grab; user-select:none}
-    .thumb.dragging{opacity:.6}
-    .thumb.selected{outline:2px solid var(--accent-2)}
-    .thumb.deleted{opacity:.35; filter:grayscale(1)}
-    .thumb .top{display:flex; align-items:center; justify-content:space-between; gap:6px; margin-bottom:6px}
-    .thumb .num{font-size:12px; color:var(--muted)}
-    .thumb .sel{display:flex; align-items:center; gap:6px}
-    .thumb .sel input{accent-color:#23d3ac}
-    .thumb canvas{width:100%; height:auto; background:#0b1020; border:1px solid rgba(255,255,255,.06); border-radius:8px}
-    .thumb .actions{display:flex; gap:6px; margin-top:6px}
-    .iconbtn{flex:1; background:#19204a; border:1px solid rgba(255,255,255,.12); color:var(--text); height:34px; border-radius:8px; display:grid; place-items:center; cursor:pointer}
-    .iconbtn:disabled{opacity:.45; cursor:not-allowed}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-    .actionsbar{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 22px 18px; border-top:1px solid rgba(255,255,255,.06); background:rgba(255,255,255,.02)}
-    .left,.right{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+    button,
+    input,
+    select {
+      font-family: inherit;
+    }
 
-    .progress{height:8px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,.12)}
-    .bar{height:100%; width:0; background:linear-gradient(90deg, var(--accent), var(--accent-2)); transition:width .2s}
+    .container {
+      width: min(1180px, calc(100% - 32px));
+      margin: auto;
+    }
 
-    .tiny{font-size:12px; color:var(--muted)}
-    .help{font-size:12px; color:var(--muted)}
+    .top-strip {
+      background: linear-gradient(90deg, var(--secondary), #4457b5);
+      color: white;
+      padding: 9px 0;
+      font-size: 14px;
+      text-align: center;
+    }
+
+    .top-strip strong {
+      color: #ffe5bf;
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 248, 240, 0.9);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(241, 215, 189, 0.9);
+    }
+
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--secondary);
+      font-size: 22px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), #ffbd59);
+      color: white;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 24px rgba(230, 106, 31, 0.28);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      padding: 10px 13px;
+      border-radius: 999px;
+      color: #3f4655;
+      font-size: 15px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.08);
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: white;
+      padding: 11px 16px;
+      border-radius: 999px;
+      font-weight: 900;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.25);
+    }
+
+    .menu-btn {
+      display: none;
+      border: 0;
+      background: white;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 21px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+      cursor: pointer;
+    }
+
+    .breadcrumb {
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .breadcrumb a {
+      color: var(--primary);
+    }
+
+    .hero {
+      padding: 38px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(241, 215, 189, 0.95);
+      color: #71401c;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.06);
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 4.7vw, 58px);
+      line-height: 1.08;
+      letter-spacing: -1.6px;
+      color: var(--secondary);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero p {
+      color: #4b5563;
+      font-size: 18px;
+      max-width: 650px;
+      margin-bottom: 20px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 22px;
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .danger-btn,
+    .ghost-btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .primary-btn {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.23);
+    }
+
+    .primary-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .primary-btn:disabled {
+      background: #c7c7c7;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .secondary-btn {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .secondary-btn:hover {
+      background: #1d2b5c;
+    }
+
+    .danger-btn {
+      background: #fff1f2;
+      color: var(--red);
+      border: 1px solid #fecdd3;
+    }
+
+    .ghost-btn {
+      background: white;
+      color: #4b5563;
+      border: 1px solid #ead6c2;
+    }
+
+    .ghost-btn:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .tool-shell {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(241, 215, 189, 0.95);
+      border-radius: 34px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .dropzone {
+      border: 2px dashed #efb276;
+      border-radius: 26px;
+      background:
+        linear-gradient(180deg, rgba(255,248,240,0.95), rgba(255,255,255,0.95));
+      min-height: 255px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 28px;
+      transition: 0.2s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dropzone.dragover {
+      border-color: var(--secondary);
+      background: #eef2ff;
+      transform: scale(1.01);
+    }
+
+    .dropzone input {
+      display: none;
+    }
+
+    .drop-icon {
+      font-size: 58px;
+      margin-bottom: 12px;
+    }
+
+    .dropzone h2 {
+      color: var(--secondary);
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .dropzone p {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 18px;
+    }
+
+    .upload-btn {
+      background: var(--primary);
+      color: white;
+      border: 0;
+      padding: 14px 20px;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.22);
+    }
+
+    .privacy-note {
+      margin-top: 12px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+      margin-top: 18px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .panel-head h2 {
+      color: var(--secondary);
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    .panel-head p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .file-summary {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      background: #fffaf5;
+      border: 1px solid #f1d7bd;
+      border-radius: 20px;
+      padding: 14px;
+      margin-bottom: 16px;
+    }
+
+    .file-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 16px;
+      background: var(--secondary);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 24px;
+    }
+
+    .file-name {
+      color: var(--secondary);
+      font-weight: 900;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .file-meta {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .summary-item {
+      background: #fffaf5;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    .summary-item span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 800;
+      margin-bottom: 3px;
+    }
+
+    .summary-item strong {
+      display: block;
+      color: var(--secondary);
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .setting-card {
+      background: #fffaf5;
+      border: 1px solid #f1d7bd;
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .setting-card.full {
+      grid-column: 1 / -1;
+    }
+
+    .setting-card label,
+    .input-group label {
+      display: block;
+      color: var(--secondary);
+      font-weight: 900;
+      margin-bottom: 8px;
+    }
+
+    .setting-card small {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    .setting-card select,
+    .setting-card input,
+    .input-group input {
+      width: 100%;
+      border: 1px solid #ead6c2;
+      border-radius: 15px;
+      padding: 12px 13px;
+      font-size: 15px;
+      outline: 0;
+      background: white;
+    }
+
+    .setting-card select:focus,
+    .setting-card input:focus,
+    .input-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.1);
+    }
+
+    .rotate-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 4px;
+    }
+
+    .rotate-choice {
+      border: 1px solid #ead6c2;
+      background: white;
+      border-radius: 16px;
+      padding: 14px 10px;
+      cursor: pointer;
+      font-weight: 900;
+      color: var(--secondary);
+      text-align: center;
+      transition: 0.2s ease;
+    }
+
+    .rotate-choice.active,
+    .rotate-choice:hover {
+      background: var(--secondary);
+      color: white;
+      border-color: var(--secondary);
+    }
+
+    .example-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .chip-btn {
+      border: 1px solid #ead6c2;
+      background: white;
+      color: #4b5563;
+      padding: 8px 11px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .chip-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .preview-grid {
+      display: none;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .preview-grid.show {
+      display: grid;
+    }
+
+    .preview-card {
+      background: white;
+      border: 1px solid #ead6c2;
+      border-radius: 18px;
+      padding: 10px;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .preview-canvas-wrap {
+      flex: 1;
+      background: #f3f4f6;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+
+    .preview-canvas-wrap canvas {
+      max-width: 100%;
+      max-height: 150px;
+      display: block;
+      transform: rotate(var(--preview-rotate, 0deg));
+    }
+
+    .preview-card strong {
+      color: var(--secondary);
+      font-size: 14px;
+    }
+
+    .notice {
+      margin-top: 14px;
+      background: #eef2ff;
+      color: #243b86;
+      border: 1px solid #c7d2fe;
+      border-radius: 18px;
+      padding: 13px 14px;
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: end;
+      margin-top: 18px;
+    }
+
+    .status-box {
+      display: none;
+      margin-top: 18px;
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-weight: 800;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #4b5563;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .status-box.success {
+      background: #ecfdf5;
+      color: var(--green);
+      border-color: #bbf7d0;
+    }
+
+    .status-box.error {
+      background: #fff1f2;
+      color: var(--red);
+      border-color: #fecdd3;
+    }
+
+    .progress-wrap {
+      display: none;
+      margin-top: 16px;
+      background: #f3f4f6;
+      border-radius: 999px;
+      overflow: hidden;
+      height: 12px;
+    }
+
+    .progress-wrap.show {
+      display: block;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #ffbd59);
+      transition: width 0.25s ease;
+    }
+
+    .download-card {
+      display: none;
+      margin-top: 18px;
+      background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+      border: 1px solid #bbf7d0;
+      border-radius: 24px;
+      padding: 20px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .download-card.show {
+      display: flex;
+    }
+
+    .download-card h3 {
+      color: var(--green);
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .download-card p {
+      color: #166534;
+      font-size: 14px;
+    }
+
+    .info-sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 36px;
+    }
+
+    .info-card {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+    }
+
+    .info-card h2 {
+      color: var(--secondary);
+      font-size: 25px;
+      margin-bottom: 12px;
+    }
+
+    .info-card p,
+    .info-card li {
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .info-card ul,
+    .info-card ol {
+      padding-left: 22px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .related {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .related a {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      padding: 16px;
+      font-weight: 900;
+      color: var(--secondary);
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
+      transition: 0.2s ease;
+    }
+
+    .related a:hover {
+      transform: translateY(-3px);
+      color: var(--primary);
+      border-color: rgba(230, 106, 31, 0.45);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
+    }
+
+    .faq-q {
+      width: 100%;
+      border: 0;
+      background: white;
+      padding: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      text-align: left;
+      color: var(--secondary);
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .faq-a {
+      display: none;
+      padding: 0 17px 17px;
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .faq-item.active .faq-a {
+      display: block;
+    }
+
+    footer {
+      margin-top: 46px;
+      background: #151f3e;
+      color: white;
+      padding: 38px 0 20px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      gap: 26px;
+      margin-bottom: 26px;
+    }
+
+    .footer-brand {
+      font-size: 25px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    footer p,
+    footer a {
+      color: rgba(255,255,255,0.78);
+      font-size: 15px;
+    }
+
+    footer h3 {
+      color: white;
+      margin-bottom: 12px;
+      font-size: 17px;
+    }
+
+    footer ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 18px;
+      color: rgba(255,255,255,0.62);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 1040px) {
+      .hero-grid,
+      .info-sections {
+        grid-template-columns: 1fr;
+      }
+
+      .related,
+      .preview-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .menu-btn {
+        display: inline-flex;
+      }
+
+      .nav.open .nav-links {
+        display: flex;
+        position: absolute;
+        top: 74px;
+        left: 16px;
+        right: 16px;
+        background: white;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 20px;
+        padding: 14px;
+        box-shadow: var(--shadow);
+        border: 1px solid #f1d7bd;
+      }
+
+      .nav.open .nav-links a {
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .top-strip {
+        font-size: 12px;
+      }
+
+      .hero {
+        padding-top: 28px;
+      }
+
+      .tool-shell {
+        padding: 16px;
+        border-radius: 24px;
+      }
+
+      .dropzone {
+        min-height: 235px;
+        padding: 22px 16px;
+      }
+
+      .dropzone h2 {
+        font-size: 23px;
+      }
+
+      .file-summary {
+        grid-template-columns: auto 1fr;
+      }
+
+      .file-summary .danger-btn {
+        grid-column: 1 / -1;
+      }
+
+      .summary-strip,
+      .settings-grid,
+      .controls-grid,
+      .related,
+      .preview-grid,
+      .footer-grid,
+      .rotate-options {
+        grid-template-columns: 1fr;
+      }
+
+      .download-card {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .primary-btn,
+      .secondary-btn,
+      .danger-btn,
+      .ghost-btn {
+        width: 100%;
+      }
+
+      .hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .panel-head {
+        display: block;
+      }
+
+      .panel-head .danger-btn {
+        margin-top: 14px;
+      }
+    }
   </style>
-  <!-- libs -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
-  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 </head>
+
 <body>
-  <header>
-    <div class="brand" aria-label="Brand">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-      <span>PDF घुमाओ/रीऑर्डर — <span style="color:var(--accent-2)">हिंदी</span> टूल</span>
+  <div class="top-strip">
+    <div class="container">
+      <strong>PDF Rotate</strong> — all pages या selected pages को left, right या 180° rotate करें।
     </div>
-    <div class="tiny">100% ब्राउज़र में • कोई अपलोड नहीं</div>
+  </div>
+
+  <header>
+    <div class="container nav" id="nav">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">हि</span>
+        <span>HindiTools</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="merge-pdf-hi.html">Merge PDF</a></li>
+        <li><a href="compress-pdf-hi.html">Compress PDF</a></li>
+        <li><a href="split-pdf-hi.html">Split PDF</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+      </ul>
+
+      <a class="nav-cta" href="#rotate-tool">PDF Rotate</a>
+
+      <button class="menu-btn" id="menuBtn" type="button">☰</button>
+    </div>
   </header>
 
-  <main class="container">
-    <section class="card" aria-labelledby="title">
-      <div class="hero">
-        <h1 id="title">थम्बनेल से एडिट — Rotate, Reorder, Delete</h1>
-        <p class="sub">Presentation उल्टा स्कैन हो गया? पेज गलत क्रम में हैं? Thumbnail पर ही सब सेट कर लो — फिर एक क्लिक में नई PDF।</p>
+  <main>
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> / PDF Tools / PDF Rotate
       </div>
+    </div>
 
-      <div class="uploader" id="drop" aria-label="फाइल जोड़ो" tabindex="0">
-        <p style="margin:0 0 10px">फाइल यहाँ <strong>Drag & Drop</strong> करो या</p>
-        <div class="row">
-          <label class="btn" for="file">PDF चुनो</label>
-          <button class="btn secondary" id="demoBtn" type="button">डेमो फाइल डालो</button>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge-row">
+            <span class="badge">↻ Rotate Right</span>
+            <span class="badge">↺ Rotate Left</span>
+            <span class="badge">🔁 180 Degree</span>
+            <span class="badge">📄 Selected Pages</span>
+          </div>
+
+          <h1>PDF Pages <span>घुमाएं</span></h1>
+
+          <p>
+            गलत direction में scan हुई PDF को ठीक करें। All pages rotate करें या केवल selected pages को
+            left, right या 180 degree घुमाएं।
+          </p>
+
+          <div class="hero-actions">
+            <a class="primary-btn" href="#rotate-tool">अभी PDF Rotate करें</a>
+            <a class="ghost-btn" href="split-pdf-hi.html">PDF Split करें</a>
+          </div>
         </div>
-        <input id="file" type="file" accept="application/pdf" />
-        <p class="help" style="margin-top:10px">टिप: बड़ी फाइलों में थम्बनेल धीरे-धीरे आएँगे (lazy render). पासवर्ड‑PDF अभी सपोर्ट में नहीं है।</p>
-      </div>
 
-      <!-- Bulk tools -->
-      <div class="toolbar" id="tools" hidden>
-        <button class="btn ghost" id="selAll">सब चुनो</button>
-        <button class="btn ghost" id="selNone">क्लियर</button>
-        <button class="btn ghost" id="selInvert">इन्वर्ट</button>
-        <span class="chip" id="selCount">0 चुने</span>
-        <span class="chip">Bulk:</span>
-        <button class="btn ghost" id="bulkL">⟲ 90° Left</button>
-        <button class="btn ghost" id="bulkR">⟳ 90° Right</button>
-        <button class="btn danger" id="bulkDel">डिलीट</button>
-      </div>
+        <div class="tool-shell" id="rotate-tool">
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" accept="application/pdf,.pdf" />
+            <div>
+              <div class="drop-icon">🔄</div>
+              <h2>PDF file यहाँ drop करें</h2>
+              <p>PDF upload करें और pages rotate करके download करें।</p>
+              <button class="upload-btn" type="button" id="selectFileBtn">PDF File चुनें</button>
+              <div class="privacy-note">🔐 PDF आपके browser में process करने की कोशिश की जाती है।</div>
+            </div>
+          </div>
 
-      <div class="grid" id="grid" aria-live="polite"></div>
+          <div class="panel" id="filePanel" style="display:none;">
+            <div class="panel-head">
+              <div>
+                <h2>Rotate Settings</h2>
+                <p>All pages या selected page range choose करें। Preview से direction check करें।</p>
+              </div>
+              <button class="danger-btn" type="button" id="clearBtn">Remove</button>
+            </div>
 
-      <div class="actionsbar">
-        <div class="left tiny" id="countLine">कोई फ़ाइल नहीं लोड हुई।</div>
-        <div class="right">
-          <button class="btn ghost" id="clearBtn" type="button" disabled>रीसेट</button>
-          <button class="btn" id="exportBtn" type="button" disabled>Export PDF</button>
+            <div class="file-summary">
+              <div class="file-icon">📄</div>
+
+              <div>
+                <div class="file-name" id="fileName">document.pdf</div>
+                <div class="file-meta">
+                  <span id="fileSize">0 KB</span>
+                  <span id="pageCount">0 pages</span>
+                </div>
+              </div>
+
+              <button class="ghost-btn" type="button" id="previewBtn">Preview</button>
+            </div>
+
+            <div class="summary-strip">
+              <div class="summary-item">
+                <span>Target Pages</span>
+                <strong id="summaryPages">All</strong>
+              </div>
+              <div class="summary-item">
+                <span>Rotation</span>
+                <strong id="summaryRotation">90° Right</strong>
+              </div>
+              <div class="summary-item">
+                <span>Total Pages</span>
+                <strong id="summaryTotal">0</strong>
+              </div>
+              <div class="summary-item">
+                <span>Output</span>
+                <strong>PDF</strong>
+              </div>
+            </div>
+
+            <div class="settings-grid">
+              <div class="setting-card full">
+                <label>Rotation Direction</label>
+                <div class="rotate-options">
+                  <button class="rotate-choice active" type="button" data-rotate="90">↻ Right 90°</button>
+                  <button class="rotate-choice" type="button" data-rotate="-90">↺ Left 90°</button>
+                  <button class="rotate-choice" type="button" data-rotate="180">🔁 180°</button>
+                </div>
+                <small>Right 90° सबसे common है जब scanned page sideways हो।</small>
+              </div>
+
+              <div class="setting-card">
+                <label for="pageModeSelect">Pages</label>
+                <select id="pageModeSelect">
+                  <option value="all" selected>All pages rotate करें</option>
+                  <option value="range">Selected pages only</option>
+                </select>
+                <small>Selected mode में नीचे range लिखें।</small>
+              </div>
+
+              <div class="setting-card" id="rangeCard" style="display:none;">
+                <label for="rangeInput">Page Range</label>
+                <input id="rangeInput" type="text" value="1-3" placeholder="जैसे 1-3, 5, 8-10" />
+                <div class="example-buttons">
+                  <button class="chip-btn" type="button" data-example="1">Page 1</button>
+                  <button class="chip-btn" type="button" data-example="1-3">1-3</button>
+                  <button class="chip-btn" type="button" data-example="1,3,5">1,3,5</button>
+                  <button class="chip-btn" type="button" data-example="2-">2 से last तक</button>
+                </div>
+              </div>
+
+              <div class="setting-card full">
+                <label for="outputName">Final PDF का नाम</label>
+                <input id="outputName" type="text" value="rotated-pdf" placeholder="rotated-pdf" />
+                <div class="notice">
+                  Tip: अगर पूरी PDF sideways है तो All pages रखें। अगर सिर्फ कुछ pages गलत हैं तो Selected pages choose करें।
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-grid" id="previewGrid"></div>
+
+            <div class="controls-grid">
+              <div></div>
+              <button class="primary-btn" type="button" id="rotateBtn">
+                PDF Rotate करें
+              </button>
+            </div>
+
+            <div class="progress-wrap" id="progressWrap">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="status-box" id="statusBox"></div>
+
+            <div class="download-card" id="downloadCard">
+              <div>
+                <h3>✅ PDF तैयार है</h3>
+                <p id="downloadMeta">आपकी rotated PDF download के लिए ready है।</p>
+              </div>
+              <a class="secondary-btn" id="downloadLink" href="#" download="rotated-pdf.pdf">
+                Download PDF
+              </a>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <div style="padding:0 22px 18px; display:none" id="progressWrap">
-        <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
-        <div class="tiny" id="status" style="margin-top:8px">तैयार हो रहे हैं…</div>
       </div>
     </section>
 
-    <section class="card" style="padding:0 22px 22px">
-      <h3 style="margin:16px 0 10px">कैसे इस्तेमाल करें?</h3>
-      <ol style="margin:0 0 0 18px">
-        <li>PDF चुनो/ड्रॉप करो — थम्बनेल भरते जाएँगे।</li>
-        <li>किसी पेज पर: ⟲/⟳ से घुमाओ, 🗑️ से हटाओ, टिकबॉक्स से मल्टी‑सेलेक्ट।</li>
-        <li>रीऑर्डर: थम्बनेल को ड्रैग करके नई जगह छोड़ दो।</li>
-        <li>ऊपर बुल्क टूल्स से चुने हुए पेजों पर एक साथ ऑपरेशन।</li>
-        <li>Export PDF दबाओ — नया PDF तैयार।</li>
-      </ol>
-      <p class="tiny">नोट: यह टूल पेजों की रोटेशन meta सेट करता है; कुछ रीडर में यह लॉसलेस होता है।</p>
+    <section class="container info-sections">
+      <article class="info-card">
+        <h2>PDF rotate कैसे करें?</h2>
+        <ol>
+          <li>ऊपर PDF file upload करें।</li>
+          <li>Rotation direction चुनें: right, left या 180°।</li>
+          <li>All pages या selected pages choose करें।</li>
+          <li><strong>PDF Rotate करें</strong> button दबाएं।</li>
+          <li>Ready PDF download करें।</li>
+        </ol>
+      </article>
+
+      <article class="info-card">
+        <h2>कब कौन सा option use करें?</h2>
+        <ul>
+          <li><strong>Right 90°:</strong> Page left side पड़ा है और clockwise घुमाना है।</li>
+          <li><strong>Left 90°:</strong> Page right side पड़ा है और anticlockwise घुमाना है।</li>
+          <li><strong>180°:</strong> Page उल्टा scan हुआ है।</li>
+          <li><strong>Selected pages:</strong> जब सिर्फ कुछ pages wrong direction में हों।</li>
+        </ul>
+      </article>
     </section>
 
-    <p class="tiny" style="margin-top:12px">गोपनीयता: आपकी फाइलें कहीं अपलोड नहीं होतीं — सब कुछ आपके ब्राउज़र में होता है।</p>
+    <section class="container" style="margin-top:28px;">
+      <div class="info-card">
+        <h2>Related PDF Tools</h2>
+        <div class="related">
+          <a href="merge-pdf-hi.html">📎 PDF जोड़ें</a>
+          <a href="split-pdf-hi.html">✂️ PDF अलग करें</a>
+          <a href="compress-pdf-hi.html">📉 PDF छोटा करें</a>
+          <a href="pdf-watermark-hi.html">💧 Watermark लगाएं</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" style="margin-top:28px;">
+      <div class="info-card">
+        <h2>FAQ</h2>
+
+        <div class="faq-list">
+          <div class="faq-item active">
+            <button class="faq-q" type="button">
+              क्या मैं पूरी PDF rotate कर सकता हूँ?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              हाँ, All pages mode में पूरी PDF के सभी pages rotate होंगे।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या मैं सिर्फ कुछ pages rotate कर सकता हूँ?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              हाँ, Selected pages mode चुनकर 1-3, 5, 8-10 जैसा range लिखें।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या file की quality change होगी?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              यह tool PDF pages की rotation property बदलता है, इसलिए normally quality loss नहीं होता।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या password-protected PDF rotate होगी?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              Password-protected या damaged PDFs rotate नहीं हो सकतीं। पहले PDF unlock करनी होगी।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या मेरी PDF server पर upload होती है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              यह page browser-based PDF library का उपयोग करता है। फिर भी sensitive documents के लिए हमेशा सावधानी रखें।
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   </main>
 
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">HindiTools.com</div>
+          <p>
+            PDF, Image और Document कामों के लिए आसान हिंदी tools।
+            Simple interface, fast workflow और mobile-friendly design।
+          </p>
+        </div>
+
+        <div>
+          <h3>PDF Tools</h3>
+          <ul>
+            <li><a href="pdf-rotate-hi.html">PDF Rotate</a></li>
+            <li><a href="merge-pdf-hi.html">PDF जोड़ें</a></li>
+            <li><a href="split-pdf-hi.html">PDF अलग करें</a></li>
+            <li><a href="compress-pdf-hi.html">PDF छोटा करें</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Website</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
+      </div>
+    </div>
+  </footer>
+
   <script>
-  // ====== Lib setup ======
-  const pdfjsLib = window['pdfjs-dist/build/pdf'];
-  if (pdfjsLib) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  }
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-  // ====== State ======
-  // pages: [{index:1..N, rotate:0|90|180|270, deleted:false, selected:false}]
-  const S = { file:null, name:'', size:0, pdf:null, pageCount:0, pages:[], order:[], thumbsRendered:0, srcBytes:null };
-  const fileEl = document.getElementById('file');
-  const dropEl = document.getElementById('drop');
-  const demoBtn = document.getElementById('demoBtn');
-  const grid = document.getElementById('grid');
-  const tools = document.getElementById('tools');
-  const selCount = document.getElementById('selCount');
-  const exportBtn = document.getElementById('exportBtn');
-  const clearBtn = document.getElementById('clearBtn');
-  const countEl = document.getElementById('countLine');
-  const progressWrap = document.getElementById('progressWrap');
-  const barEl = document.getElementById('bar');
-  const statusEl = document.getElementById('status');
+    const { PDFDocument, degrees } = PDFLib;
 
-  const btnSelAll = document.getElementById('selAll');
-  const btnSelNone = document.getElementById('selNone');
-  const btnSelInvert = document.getElementById('selInvert');
-  const btnBulkL = document.getElementById('bulkL');
-  const btnBulkR = document.getElementById('bulkR');
-  const btnBulkDel = document.getElementById('bulkDel');
+    const fileInput = document.getElementById("fileInput");
+    const selectFileBtn = document.getElementById("selectFileBtn");
+    const dropzone = document.getElementById("dropzone");
+    const filePanel = document.getElementById("filePanel");
+    const fileNameEl = document.getElementById("fileName");
+    const fileSizeEl = document.getElementById("fileSize");
+    const pageCountEl = document.getElementById("pageCount");
+    const clearBtn = document.getElementById("clearBtn");
+    const previewBtn = document.getElementById("previewBtn");
 
-  const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
+    const pageModeSelect = document.getElementById("pageModeSelect");
+    const rangeCard = document.getElementById("rangeCard");
+    const rangeInput = document.getElementById("rangeInput");
+    const outputName = document.getElementById("outputName");
+    const rotateBtn = document.getElementById("rotateBtn");
 
-  // File add
-  fileEl.addEventListener('change', async (e)=>{ if(e.target.files[0]){ await loadFile(e.target.files[0]); fileEl.value=''; }});
-  ;['dragenter','dragover'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.add('dragover');}));
-  ;['dragleave','drop'].forEach(ev=>dropEl.addEventListener(ev, e=>{e.preventDefault(); dropEl.classList.remove('dragover');}));
-  dropEl.addEventListener('drop', async (e)=>{ const f=[...e.dataTransfer.files].find(f=>f.type==='application/pdf'); if(f) await loadFile(f); });
+    const summaryPages = document.getElementById("summaryPages");
+    const summaryRotation = document.getElementById("summaryRotation");
+    const summaryTotal = document.getElementById("summaryTotal");
 
-  // Demo generator
-  demoBtn.addEventListener('click', async ()=>{
-    const { PDFDocument, StandardFonts } = PDFLib;
-    const doc = await PDFDocument.create();
-    const font = await doc.embedFont(StandardFonts.Helvetica);
-    for (let i=1;i<=10;i++){
-      const p = doc.addPage([420, 594]);
-      p.drawText(`Demo Page ${i}`, { x: 140, y: 300, size: 24, font });
+    const previewGrid = document.getElementById("previewGrid");
+    const statusBox = document.getElementById("statusBox");
+    const progressWrap = document.getElementById("progressWrap");
+    const progressBar = document.getElementById("progressBar");
+    const downloadCard = document.getElementById("downloadCard");
+    const downloadLink = document.getElementById("downloadLink");
+    const downloadMeta = document.getElementById("downloadMeta");
+
+    let selectedFile = null;
+    let selectedBuffer = null;
+    let pdfJsDocument = null;
+    let pageCount = 0;
+    let currentDownloadUrl = null;
+    let rotationDelta = 90;
+
+    function formatBytes(bytes) {
+      if (!bytes) return "0 Bytes";
+      const k = 1024;
+      const sizes = ["Bytes", "KB", "MB", "GB"];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
     }
-    const bytes = await doc.save();
-    const blob = new Blob([bytes], {type:'application/pdf'});
-    const file = new File([blob], 'Demo-Rotate.pdf', {type:'application/pdf'});
-    await loadFile(file);
-  });
 
-  async function loadFile(file){
-    resetUI();
-    S.file=file; S.name=file.name; S.size=file.size;
-    countEl.textContent = `${file.name} • ${fmtBytes(file.size)}`;
-    exportBtn.disabled=false; clearBtn.disabled=false; tools.hidden=false;
-    S.srcBytes = new Uint8Array(await file.arrayBuffer());
+    function sanitizeFileName(name) {
+      return (name || "rotated-pdf")
+        .replace(/\.pdf$/i, "")
+        .replace(/[^\u0900-\u097Fa-zA-Z0-9-_ ]/g, "")
+        .trim()
+        .replace(/\s+/g, "-") || "rotated-pdf";
+    }
 
-    // pdf.js
-    const pdf = await pdfjsLib.getDocument({data:S.srcBytes}).promise;
-    S.pdf=pdf; S.pageCount=pdf.numPages; S.pages=[]; S.order=[];
-    for (let i=1;i<=pdf.numPages;i++){ S.pages.push({index:i, rotate:0, deleted:false, selected:false}); S.order.push(i); }
-    renderGridSkeleton();
-    lazyRenderThumbs();
-  }
+    function setStatus(message, type = "normal") {
+      statusBox.textContent = message;
+      statusBox.className = "status-box show";
+      if (type === "success") statusBox.classList.add("success");
+      if (type === "error") statusBox.classList.add("error");
+    }
 
-  function resetUI(){ grid.innerHTML=''; tools.hidden=true; exportBtn.disabled=true; clearBtn.disabled=true; S.pages=[]; S.order=[]; S.thumbsRendered=0; }
+    function clearStatus() {
+      statusBox.className = "status-box";
+      statusBox.textContent = "";
+    }
 
-  function renderGridSkeleton(){
-    grid.innerHTML='';
-    for (const p of S.pages){ grid.appendChild(makeThumb(p)); }
-  }
+    function setProgress(percent) {
+      progressWrap.classList.add("show");
+      progressBar.style.width = `${percent}%`;
+    }
 
-  function makeThumb(p){
-    const wrap = document.createElement('div'); wrap.className='thumb'; wrap.draggable=true; wrap.dataset.page = String(p.index);
+    function resetProgress() {
+      progressWrap.classList.remove("show");
+      progressBar.style.width = "0%";
+    }
 
-    // Drag events
-    wrap.addEventListener('dragstart', e=>{ wrap.classList.add('dragging'); e.dataTransfer.setData('text/plain', p.index); });
-    wrap.addEventListener('dragend', ()=>wrap.classList.remove('dragging'));
-    wrap.addEventListener('dragover', e=>{ e.preventDefault(); });
-    wrap.addEventListener('drop', e=>{
-      e.preventDefault();
-      const from = parseInt(e.dataTransfer.getData('text/plain'),10);
-      const to = parseInt(wrap.dataset.page,10);
-      reorder(from, to);
+    function resetDownload() {
+      if (currentDownloadUrl) {
+        URL.revokeObjectURL(currentDownloadUrl);
+        currentDownloadUrl = null;
+      }
+      downloadCard.classList.remove("show");
+      downloadLink.href = "#";
+    }
+
+    function resetPreview() {
+      previewGrid.innerHTML = "";
+      previewGrid.classList.remove("show");
+    }
+
+    function parsePageRanges(input, totalPages) {
+      const cleanInput = String(input || "").replace(/\s+/g, "");
+      if (!cleanInput) throw new Error("Page range खाली है।");
+
+      const parts = cleanInput.split(",").filter(Boolean);
+      const pages = [];
+
+      for (const part of parts) {
+        if (/^\d+$/.test(part)) {
+          const page = Number(part);
+          if (page < 1 || page > totalPages) throw new Error(`Page ${page} PDF में मौजूद नहीं है।`);
+          pages.push(page);
+          continue;
+        }
+
+        const match = part.match(/^(\d*)-(\d*)$/);
+        if (!match) throw new Error(`"${part}" valid range नहीं है।`);
+
+        let start = match[1] ? Number(match[1]) : 1;
+        let end = match[2] ? Number(match[2]) : totalPages;
+
+        if (start < 1) start = 1;
+        if (end > totalPages) end = totalPages;
+        if (start > end) throw new Error(`"${part}" में start page end page से बड़ा है।`);
+
+        for (let page = start; page <= end; page++) pages.push(page);
+      }
+
+      const uniquePages = [...new Set(pages)];
+      if (!uniquePages.length) throw new Error("कोई valid page नहीं मिला।");
+      return uniquePages;
+    }
+
+    function getTargetPages() {
+      if (!pageCount) return [];
+
+      if (pageModeSelect.value === "all") {
+        return Array.from({ length: pageCount }, (_, index) => index + 1);
+      }
+
+      return parsePageRanges(rangeInput.value, pageCount);
+    }
+
+    function getRotationLabel() {
+      if (rotationDelta === 90) return "90° Right";
+      if (rotationDelta === -90) return "90° Left";
+      return "180°";
+    }
+
+    function updateSummary() {
+      let targetPages = [];
+
+      try {
+        targetPages = getTargetPages();
+      } catch {
+        targetPages = [];
+      }
+
+      summaryPages.textContent = pageModeSelect.value === "all" ? `All ${pageCount || 0}` : `${targetPages.length || "?"}`;
+      summaryRotation.textContent = getRotationLabel();
+      summaryTotal.textContent = String(pageCount || 0);
+    }
+
+    async function loadFile(file) {
+      clearStatus();
+      resetProgress();
+      resetDownload();
+      resetPreview();
+
+      if (!file || !(file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"))) {
+        setStatus("कृपया केवल PDF file upload करें।", "error");
+        return;
+      }
+
+      try {
+        setStatus("PDF read की जा रही है...");
+
+        selectedFile = file;
+        selectedBuffer = await file.arrayBuffer();
+
+        const loadingTask = pdfjsLib.getDocument({ data: selectedBuffer.slice(0) });
+        pdfJsDocument = await loadingTask.promise;
+        pageCount = pdfJsDocument.numPages;
+
+        if (pageCount < 3) {
+          rangeInput.value = "1";
+        } else {
+          rangeInput.value = `1-${Math.min(3, pageCount)}`;
+        }
+
+        fileNameEl.textContent = file.name;
+        fileNameEl.title = file.name;
+        fileSizeEl.textContent = formatBytes(file.size);
+        pageCountEl.textContent = `${pageCount} page${pageCount > 1 ? "s" : ""}`;
+
+        filePanel.style.display = "block";
+        rotateBtn.disabled = false;
+        updateSummary();
+
+        setStatus(`PDF ready है। Total pages: ${pageCount}. Rotation settings choose करें।`, "success");
+      } catch (error) {
+        console.error(error);
+        selectedFile = null;
+        selectedBuffer = null;
+        pdfJsDocument = null;
+        pageCount = 0;
+        filePanel.style.display = "none";
+        rotateBtn.disabled = true;
+        setStatus("यह PDF read नहीं हो सकी। File encrypted, damaged या unsupported हो सकती है।", "error");
+      }
+    }
+
+    async function renderPreviewPage(pageNumber) {
+      const page = await pdfJsDocument.getPage(pageNumber);
+      const viewport = page.getViewport({ scale: 0.45 });
+
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d", { alpha: false });
+
+      canvas.width = Math.floor(viewport.width);
+      canvas.height = Math.floor(viewport.height);
+
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      await page.render({
+        canvasContext: context,
+        viewport
+      }).promise;
+
+      return canvas;
+    }
+
+    async function showPreview() {
+      if (!pdfJsDocument) {
+        setStatus("पहले PDF upload करें।", "error");
+        return;
+      }
+
+      resetPreview();
+      clearStatus();
+
+      try {
+        const pages = getTargetPages().slice(0, 6);
+        if (!pages.length) {
+          setStatus("Preview के लिए valid pages नहीं मिले।", "error");
+          return;
+        }
+
+        setStatus("Preview बनाई जा रही है...");
+        previewGrid.classList.add("show");
+
+        for (const pageNumber of pages) {
+          const canvas = await renderPreviewPage(pageNumber);
+
+          const card = document.createElement("div");
+          card.className = "preview-card";
+
+          const wrap = document.createElement("div");
+          wrap.className = "preview-canvas-wrap";
+          wrap.style.setProperty("--preview-rotate", `${rotationDelta}deg`);
+          wrap.appendChild(canvas);
+
+          const label = document.createElement("strong");
+          label.textContent = `Page ${pageNumber} after ${getRotationLabel()}`;
+
+          card.appendChild(wrap);
+          card.appendChild(label);
+          previewGrid.appendChild(card);
+        }
+
+        const totalSelected = getTargetPages().length;
+        if (totalSelected > 6) {
+          const extra = document.createElement("div");
+          extra.className = "preview-card";
+          extra.innerHTML = `
+            <div class="preview-canvas-wrap">
+              <strong>+${totalSelected - 6} more</strong>
+            </div>
+            <strong>बाकी pages भी rotate होंगे</strong>
+          `;
+          previewGrid.appendChild(extra);
+        }
+
+        setStatus("Preview ready है। अब PDF rotate कर सकते हैं।", "success");
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || "Preview नहीं बन सकी।", "error");
+      }
+    }
+
+    async function rotatePDF() {
+      if (!selectedBuffer) {
+        setStatus("पहले PDF upload करें।", "error");
+        return;
+      }
+
+      resetDownload();
+      resetProgress();
+      clearStatus();
+
+      rotateBtn.disabled = true;
+
+      try {
+        const targetPages = getTargetPages();
+        const targetSet = new Set(targetPages);
+
+        if (!targetPages.length) {
+          throw new Error("कोई valid page selected नहीं है।");
+        }
+
+        setStatus("PDF rotate process शुरू हो गई है...");
+        setProgress(10);
+
+        const pdfDoc = await PDFDocument.load(selectedBuffer, { ignoreEncryption: false });
+        const pages = pdfDoc.getPages();
+
+        pages.forEach((page, index) => {
+          const pageNumber = index + 1;
+
+          if (targetSet.has(pageNumber)) {
+            const currentRotation = page.getRotation().angle || 0;
+            const newRotation = (currentRotation + rotationDelta + 360) % 360;
+            page.setRotation(degrees(newRotation));
+          }
+
+          setProgress(Math.round(((index + 1) / pages.length) * 80));
+        });
+
+        setStatus("Final PDF save की जा रही है...");
+        setProgress(92);
+
+        const rotatedBytes = await pdfDoc.save({
+          useObjectStreams: true,
+          objectsPerTick: 50
+        });
+
+        const blob = new Blob([rotatedBytes], { type: "application/pdf" });
+        currentDownloadUrl = URL.createObjectURL(blob);
+
+        const finalName = sanitizeFileName(outputName.value) + ".pdf";
+        downloadLink.href = currentDownloadUrl;
+        downloadLink.download = finalName;
+
+        downloadMeta.textContent = `Final file: ${finalName} • ${targetPages.length} page(s) rotated • Size: ${formatBytes(blob.size)}`;
+        downloadCard.classList.add("show");
+
+        setProgress(100);
+        setStatus("PDF successfully rotate हो गई है। अब download करें।", "success");
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || "PDF rotate नहीं हो सकी। File encrypted, damaged या unsupported हो सकती है।", "error");
+      } finally {
+        rotateBtn.disabled = !selectedBuffer;
+        setTimeout(resetProgress, 1100);
+      }
+    }
+
+    function clearFile() {
+      selectedFile = null;
+      selectedBuffer = null;
+      pdfJsDocument = null;
+      pageCount = 0;
+      fileInput.value = "";
+      filePanel.style.display = "none";
+      rotateBtn.disabled = true;
+      resetDownload();
+      resetProgress();
+      resetPreview();
+      clearStatus();
+      updateSummary();
+      setStatus("File remove कर दी गई है। नई PDF upload करें।");
+    }
+
+    function updatePageModeUI() {
+      rangeCard.style.display = pageModeSelect.value === "range" ? "block" : "none";
+      resetDownload();
+      resetPreview();
+      clearStatus();
+      updateSummary();
+    }
+
+    function openFilePicker() {
+      fileInput.value = "";
+      fileInput.click();
+    }
+
+    selectFileBtn.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      openFilePicker();
     });
 
-    const top = document.createElement('div'); top.className='top';
-    const num = document.createElement('div'); num.className='num'; num.textContent = `पेज ${p.index}`;
-    const sel = document.createElement('label'); sel.className='sel'; sel.innerHTML = `<input type="checkbox"> Select`;
-    const cb = sel.querySelector('input');
-    cb.addEventListener('change', ()=>{ p.selected = cb.checked; wrap.classList.toggle('selected', p.selected); updateSelCount(); });
+    dropzone.addEventListener("click", event => {
+      if (event.target.closest("button")) return;
+      openFilePicker();
+    });
 
-    top.append(num, sel);
+    fileInput.addEventListener("change", event => {
+      const file = event.target.files && event.target.files[0];
+      if (file) loadFile(file);
+      fileInput.value = "";
+    });
 
-    const canvas = document.createElement('canvas'); canvas.width=0; canvas.height=0; canvas.dataset.page = p.index;
-
-    const actions = document.createElement('div'); actions.className='actions';
-    const btnL = mkIconBtn('⟲'); const btnR = mkIconBtn('⟳'); const btnDel = mkIconBtn('🗑️');
-    btnL.addEventListener('click', ()=>rotatePage(p, -90));
-    btnR.addEventListener('click', ()=>rotatePage(p, +90));
-    btnDel.addEventListener('click', ()=>toggleDelete(p, wrap));
-    actions.append(btnL, btnR, btnDel);
-
-    wrap.append(top, canvas, actions);
-    return wrap;
-  }
-
-  function mkIconBtn(label){ const b=document.createElement('button'); b.className='iconbtn'; b.textContent=label; return b; }
-
-  async function lazyRenderThumbs(){
-    const pdf = S.pdf; if(!pdf) return;
-    const nodes = [...grid.querySelectorAll('canvas')];
-    let i=0;
-    for (const cv of nodes){
-      const n = parseInt(cv.dataset.page,10);
-      const page = await pdf.getPage(n);
-      await renderThumb(page, cv, 128); // target width
-      S.thumbsRendered++; i++;
-    }
-  }
-
-  async function renderThumb(page, canvas, targetW){
-    const vp1 = page.getViewport({scale:1});
-    const scale = targetW / vp1.width;
-    const viewport = page.getViewport({scale});
-    const ctx = canvas.getContext('2d', { willReadFrequently:true });
-    canvas.width = Math.floor(viewport.width); canvas.height = Math.floor(viewport.height);
-    await page.render({canvasContext: ctx, viewport}).promise;
-  }
-
-  function rotatePage(p, delta){
-    p.rotate = ( (p.rotate + delta) % 360 + 360 ) % 360; // normalize 0..359
-    const card = grid.querySelector(`.thumb[data-page="${p.index}"]`);
-    if (card){ card.style.transform = `rotate(${p.rotate}deg)`; }
-  }
-
-  function toggleDelete(p, wrap){ p.deleted = !p.deleted; wrap.classList.toggle('deleted', p.deleted); }
-
-  function reorder(fromIndex, toIndex){
-    if (fromIndex===toIndex) return;
-    const arr = S.order.slice();
-    const fromPos = arr.indexOf(fromIndex);
-    const toPos = arr.indexOf(toIndex);
-    const [moved] = arr.splice(fromPos,1);
-    arr.splice(toPos,0,moved);
-    S.order = arr;
-    // Reflow DOM in new order
-    const frag = document.createDocumentFragment();
-    for (const n of S.order){ const node = grid.querySelector(`.thumb[data-page="${n}"]`); if (node) frag.appendChild(node); }
-    grid.innerHTML=''; grid.appendChild(frag);
-  }
-
-  function updateSelCount(){ const n = S.pages.filter(p=>p.selected && !p.deleted).length; selCount.textContent = `${n} चुने`; }
-
-  // Bulk tools
-  btnSelAll.addEventListener('click', ()=>{ S.pages.forEach(p=>{ if(!p.deleted){ p.selected=true; const n=grid.querySelector(`.thumb[data-page="${p.index}"] input[type=checkbox]`); if(n) n.checked=true; grid.querySelector(`.thumb[data-page="${p.index}"]`).classList.add('selected'); }}); updateSelCount(); });
-  btnSelNone.addEventListener('click', ()=>{ S.pages.forEach(p=>{ p.selected=false; const n=grid.querySelector(`.thumb[data-page=\"${p.index}\"] input[type=checkbox]`); if(n) n.checked=false; grid.querySelector(`.thumb[data-page=\"${p.index}\"]`).classList.remove('selected'); }); updateSelCount(); });
-  btnSelInvert.addEventListener('click', ()=>{ S.pages.forEach(p=>{ if(!p.deleted){ p.selected = !p.selected; const n=grid.querySelector(`.thumb[data-page="${p.index}"] input[type=checkbox]`); if(n) n.checked=p.selected; grid.querySelector(`.thumb[data-page="${p.index}"]`).classList.toggle('selected', p.selected); }}); updateSelCount(); });
-  btnBulkL.addEventListener('click', ()=>{ S.pages.forEach(p=>{ if(p.selected && !p.deleted) rotatePage(p,-90); }); });
-  btnBulkR.addEventListener('click', ()=>{ S.pages.forEach(p=>{ if(p.selected && !p.deleted) rotatePage(p,+90); }); });
-  btnBulkDel.addEventListener('click', ()=>{ S.pages.forEach(p=>{ if(p.selected){ const w=grid.querySelector(`.thumb[data-page="${p.index}"]`); if(w) toggleDelete(p,w); } }); updateSelCount(); });
-
-  // Export
-  exportBtn.addEventListener('click', exportPdf);
-  clearBtn.addEventListener('click', ()=>{ S.file=null; S.pdf=null; resetUI(); countEl.textContent='कोई फ़ाइल नहीं लोड हुई।'; });
-
-  async function exportPdf(){
-    if(!S.pdf) return;
-    progressWrap.style.display='block'; barEl.style.width='0%'; statusEl.textContent='पेज कॉपी कर रहे…';
-    const { PDFDocument, degrees } = PDFLib;
-    try{
-      const out = await PDFDocument.create();
-      const src = await PDFDocument.load(S.srcBytes);
-      const keep = S.order.map(n=> S.pages.find(p=>p.index===n)).filter(p=> p && !p.deleted);
-      const idxs = keep.map(p=>p.index-1);
-      const copied = await out.copyPages(src, idxs);
-      copied.forEach((pg, i)=>{
-        out.addPage(pg);
-        const rot = keep[i].rotate || 0;
-        if (rot) pg.setRotation(degrees(rot));
+    ["dragenter", "dragover"].forEach(eventName => {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropzone.classList.add("dragover");
       });
-      statusEl.textContent = 'सेव कर रहे हैं…';
-      const bytes = await out.save({ updateFieldAppearances:false });
-      const blob = new Blob([bytes], {type:'application/pdf'});
-      const a = document.createElement('a');
-      const stamp = new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
-      const base = S.name.replace(/\.pdf$/i,'');
-      a.href = URL.createObjectURL(blob); a.download = `${base}-edited-${stamp}.pdf`; a.click();
-      URL.revokeObjectURL(a.href);
-      barEl.style.width='100%'; statusEl.textContent='Done ✅';
-    }catch(err){ console.error(err); alert('Export fail: '+(err?.message||err)); statusEl.textContent='एरर आया।'; }
-  }
+    });
+
+    ["dragleave", "drop"].forEach(eventName => {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropzone.classList.remove("dragover");
+      });
+    });
+
+    dropzone.addEventListener("drop", event => {
+      const file = event.dataTransfer.files && event.dataTransfer.files[0];
+      if (file) loadFile(file);
+    });
+
+    document.querySelectorAll(".rotate-choice").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".rotate-choice").forEach(item => item.classList.remove("active"));
+        btn.classList.add("active");
+        rotationDelta = Number(btn.dataset.rotate);
+        resetDownload();
+        resetPreview();
+        updateSummary();
+      });
+    });
+
+    document.querySelectorAll(".chip-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        rangeInput.value = btn.dataset.example;
+        resetDownload();
+        resetPreview();
+        updateSummary();
+      });
+    });
+
+    pageModeSelect.addEventListener("change", updatePageModeUI);
+
+    rangeInput.addEventListener("input", () => {
+      resetDownload();
+      resetPreview();
+      updateSummary();
+    });
+
+    outputName.addEventListener("input", resetDownload);
+
+    clearBtn.addEventListener("click", clearFile);
+    previewBtn.addEventListener("click", showPreview);
+    rotateBtn.addEventListener("click", rotatePDF);
+
+    document.getElementById("menuBtn").addEventListener("click", () => {
+      document.getElementById("nav").classList.toggle("open");
+    });
+
+    document.querySelectorAll(".faq-q").forEach(btn => {
+      btn.addEventListener("click", () => {
+        btn.parentElement.classList.toggle("active");
+      });
+    });
+
+    updatePageModeUI();
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "क्या मैं पूरी PDF rotate कर सकता हूँ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "हाँ, All pages mode में पूरी PDF के सभी pages rotate होंगे।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या मैं सिर्फ कुछ pages rotate कर सकता हूँ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "हाँ, Selected pages mode चुनकर 1-3, 5, 8-10 जैसा range लिखें।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या file की quality change होगी?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "यह tool PDF pages की rotation property बदलता है, इसलिए normally quality loss नहीं होता।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या password-protected PDF rotate होगी?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Password-protected या damaged PDFs rotate नहीं हो सकतीं। पहले PDF unlock करनी होगी।"
+          }
+        }
+      ]
+    };
+
+    const schemaScript = document.createElement("script");
+    schemaScript.type = "application/ld+json";
+    schemaScript.textContent = JSON.stringify(faqSchema);
+    document.head.appendChild(schemaScript);
   </script>
 </body>
 </html>
