@@ -1,605 +1,1398 @@
 <!DOCTYPE html>
-<html lang="hi" data-theme="dark">
+<html lang="hi">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>PDF जोड़ो (Merge) — चरण दर चरण • सुरक्षित</title>
-  <meta name="description" content="गिनती लिखो → उतने स्लॉट में PDFs अपलोड/रीऑर्डर → सेटिंग्स → मर्ज, प्रीव्यू, डाउनलोड — सब कुछ 100% ब्राउज़र में।" />
-  <meta name="color-scheme" content="dark light" />
-  <meta name="theme-color" content="#0b1020" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;600;800&family=Inter:wght@500;700;900&display=swap" rel="stylesheet">
+  <title>PDF जोड़ें Online | Merge PDF Free in Hindi - HindiTools</title>
+
+  <meta name="description" content="कई PDF files को online एक PDF में जोड़ें। HindiTools का Merge PDF tool आसान हिंदी interface, drag and drop upload, reorder और instant download के साथ।" />
+  <meta name="keywords" content="PDF merge Hindi, PDF जोड़ें, merge PDF online, combine PDF Hindi, PDF files जोड़ें" />
+  <meta name="author" content="HindiTools.com" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="PDF जोड़ें Online - Merge PDF in Hindi" />
+  <meta property="og:description" content="Multiple PDF files को एक PDF में जोड़ें। Easy Hindi interface और instant download." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.hinditools.com/merge-pdf-hi.html" />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
   <style>
-    :root{
-      --bg:#0b1020; --panel:#0f1630; --card:#121935; --line:rgba(255,255,255,.12);
-      --text:#e9eefb; --muted:#9fb0de; --ink:#0b1020;
-      --accent:#7c5cff; --accent2:#23d3ac; --sun:#ffd95c; --sun-2:#ffefb3; --rose:#ff5c7c; --rose-2:#ff98ab;
-      --shadow:0 22px 80px rgba(0,0,0,.38); --tile:linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+    :root {
+      --bg: #fff8f0;
+      --bg-soft: #fff1df;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #f1d7bd;
+      --primary: #e66a1f;
+      --primary-dark: #bf4e13;
+      --secondary: #273c75;
+      --green: #12805c;
+      --red: #dc2626;
+      --yellow: #f59e0b;
+      --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
+      --radius: 22px;
     }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0; color:var(--text);
-      font-family:"Noto Sans Devanagari", Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      line-height:1.5;
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: "Noto Sans Devanagari", system-ui, sans-serif;
       background:
-        radial-gradient(1400px 900px at 85% -15%, rgba(255,92,124,.18), transparent),
-        radial-gradient(1200px 700px at 10% 110%, rgba(255,217,92,.18), transparent),
-        radial-gradient(1200px 800px at 80% -10%, rgba(124,92,255,.22), transparent),
-        radial-gradient(900px 600px at 10% 110%, rgba(35,211,172,.18), transparent),
+        radial-gradient(circle at top left, rgba(230, 106, 31, 0.15), transparent 28%),
+        radial-gradient(circle at top right, rgba(39, 60, 117, 0.12), transparent 32%),
         var(--bg);
+      color: var(--text);
+      line-height: 1.6;
     }
-    a{color:inherit; text-decoration:none}
-    :focus-visible{outline:3px solid #94a3ff; outline-offset:3px; border-radius:12px}
-    .container{max-width:1180px; margin:0 auto; padding:0 16px}
-    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
-    /* Privacy ribbon */
-    .pp{position:sticky; top:0; z-index:90; background:rgba(11,16,32,.92); backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
-    .pp .inner{display:flex; gap:10px; align-items:center; justify-content:center; padding:8px 10px; font-weight:800}
-    .pp .shield{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;
-      background:conic-gradient(from 180deg,var(--accent),var(--accent2),var(--sun),var(--rose),var(--accent)); color:#1b1440}
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
 
-    /* Header */
-    header.site{position:sticky; top:48px; z-index:80; background:rgba(11,16,32,.86); border-bottom:1px solid var(--line); backdrop-filter:blur(10px)}
-    .nav{display:flex; align-items:center; justify-content:space-between; gap:12px; padding:10px 0}
-    .brand{display:flex; align-items:center; gap:10px; font-weight:900}
-    .brand svg{width:28px;height:28px;color:var(--sun)}
-    .stepper{display:flex; gap:8px; flex-wrap:wrap}
-    .step{display:flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px; font-size:13px; font-weight:800;
-      border:1px solid var(--line); background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02))}
-    .step.active{border-color:rgba(255,217,92,.5); box-shadow:0 0 0 1px rgba(255,217,92,.18) inset}
+    button,
+    input {
+      font-family: inherit;
+    }
 
-    /* Card + sections */
-    .card{background:var(--card); border:1px solid var(--line); border-radius:20px; box-shadow:var(--shadow); overflow:hidden}
-    .hero{padding:22px 22px 0}
-    h1{margin:0 0 6px; font-size:clamp(22px,3.6vw,30px); font-weight:900; background:linear-gradient(90deg,#fff, #ffe28f 40%, #ff8fa3 80%); -webkit-background-clip:text; background-clip:text; color:transparent}
-    .sub{margin:0; color:#f4f3d2}
+    .container {
+      width: min(1160px, calc(100% - 32px));
+      margin: auto;
+    }
 
-    /* Wizard */
-    .wizard{padding:0 22px 18px}
-    .page{display:none}
-    .page.show{display:block}
-    .row{display:flex; gap:12px; align-items:center; flex-wrap:wrap}
-    .center{justify-content:center}
-    .between{justify-content:space-between}
+    .top-strip {
+      background: linear-gradient(90deg, var(--secondary), #4457b5);
+      color: white;
+      padding: 9px 0;
+      font-size: 14px;
+      text-align: center;
+    }
 
-    /* Buttons */
-    .btn{appearance:none; border:none; border-radius:14px; padding:12px 16px; font-weight:900; cursor:pointer; min-height:44px; transition:transform .12s ease, box-shadow .2s ease}
-    .btn:active{transform:translateY(1px)}
-    .btn.primary{background:linear-gradient(90deg, var(--accent), var(--rose)); color:#120b1f; box-shadow:0 10px 28px rgba(124,92,255,.35)}
-    .btn.sun{background:linear-gradient(90deg, var(--sun), var(--sun-2)); color:#2a2100; box-shadow:0 10px 28px rgba(255,213,79,.28)}
-    .btn.ghost{background:transparent; color:var(--text); border:1px solid var(--line)}
-    .btn.ok{background:linear-gradient(90deg, var(--accent2), #8ef0d9); color:#06261e; box-shadow:0 10px 28px rgba(35,211,172,.30)}
-    .btn.danger{background:linear-gradient(90deg, var(--rose), var(--rose-2)); color:#fff}
-    .btn.slim{padding:8px 10px; border-radius:10px}
-    .tiny{font-size:12px; color:var(--muted)}
+    .top-strip strong {
+      color: #ffe5bf;
+    }
 
-    /* Pulsating CTA */
-    @keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(124,92,255,.55)} 50%{box-shadow:0 0 0 14px rgba(124,92,255,0)} 100%{box-shadow:0 0 0 0 rgba(124,92,255,0)} }
-    @keyframes pulse-green { 0%{box-shadow:0 0 0 0 rgba(35,211,172,.55)} 50%{box-shadow:0 0 0 14px rgba(35,211,172,0)} 100%{box-shadow:0 0 0 0 rgba(35,211,172,0)} }
-    .pulse{animation:pulse 1.8s ease-in-out infinite}
-    .pulse-green{animation:pulse-green 1.8s ease-in-out infinite}
-    @media (prefers-reduced-motion:reduce){ .pulse,.pulse-green{animation:none} }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 248, 240, 0.9);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid rgba(241, 215, 189, 0.9);
+    }
 
-    /* Page 1 */
-    .count-wrap{display:flex; gap:10px; align-items:center; justify-content:center; padding:16px 0}
-    .count-wrap input{width:130px; background:#121935; color:var(--text); border:1px solid var(--line); border-radius:12px; padding:12px 12px; font-weight:800; text-align:center}
+    .nav {
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
 
-    /* Page 2 */
-    .slots{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px}
-    @media (max-width:980px){ .slots{grid-template-columns:repeat(2,minmax(0,1fr))} }
-    @media (max-width:600px){ .slots{grid-template-columns:1fr} }
-    .slot{background:var(--panel); border:1px dashed rgba(255,255,255,.25); border-radius:16px; padding:12px; min-height:170px; display:grid; gap:10px}
-    .slot-header{display:flex; align-items:center; justify-content:space-between; gap:8px}
-    .slot-title{font-weight:800}
-    .slot-btns{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-    .slot input[type=file]{display:none}
-    .drop{display:grid; place-items:center; text-align:center; background:var(--tile); border:1px solid var(--line); border-radius:12px; min-height:120px; padding:12px; cursor:pointer}
-    .drop.dragover{border-color:var(--sun); box-shadow:0 0 0 3px rgba(255,217,92,.24) inset}
-    .thumb{width:100%; display:grid; place-items:center}
-    .thumb canvas{width:100%; height:auto; border-radius:10px; display:block}
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--secondary);
+      font-size: 22px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
 
-    /* Page 3 */
-    .panel{background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:12px}
-    .panel h4{margin:0 0 8px}
-    input[type=text], input[type=number], input[type=color], select{background:#121935; color:var(--text); border:1px solid var(--line); border-radius:10px; padding:10px 12px}
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), #ffbd59);
+      color: white;
+      display: grid;
+      place-items: center;
+      box-shadow: 0 10px 24px rgba(230, 106, 31, 0.28);
+      font-weight: 900;
+    }
 
-    /* Page 4 */
-    .viewer{position:relative; background:var(--panel); border:1px solid var(--line); border-radius:16px; padding:12px; overflow:auto; min-height:220px}
-    #preview{display:grid; grid-template-columns:repeat(auto-fill,minmax(140px,1fr)); gap:10px}
-    .pv{background:var(--tile); border:1px solid var(--line); border-radius:12px; padding:6px; display:grid; gap:6px}
-    .pv canvas{width:100%; height:auto; display:block; border-radius:8px}
-    .pv .cap{font-size:12px; color:#ffb3bf; text-align:center}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      list-style: none;
+    }
 
-    .progress{height:12px; background:#0c1330; border-radius:999px; overflow:hidden; border:1px solid var(--line)}
-    .bar{height:100%; width:0; background:linear-gradient(90deg, var(--rose), var(--accent), var(--sun)); transition:width .25s}
+    .nav-links a {
+      padding: 10px 13px;
+      border-radius: 999px;
+      color: #3f4655;
+      font-size: 15px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.08);
+    }
+
+    .nav-cta {
+      background: var(--primary);
+      color: white;
+      padding: 11px 16px;
+      border-radius: 999px;
+      font-weight: 900;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.25);
+    }
+
+    .menu-btn {
+      display: none;
+      border: 0;
+      background: white;
+      border-radius: 12px;
+      padding: 9px 12px;
+      font-size: 21px;
+      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
+      cursor: pointer;
+    }
+
+    .breadcrumb {
+      margin: 24px 0 0;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .breadcrumb a {
+      color: var(--primary);
+    }
+
+    .hero {
+      padding: 38px 0 28px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .badge-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .badge {
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(241, 215, 189, 0.95);
+      color: #71401c;
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 14px;
+      font-weight: 800;
+      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.06);
+    }
+
+    .hero h1 {
+      font-size: clamp(35px, 4.7vw, 58px);
+      line-height: 1.08;
+      letter-spacing: -1.6px;
+      color: var(--secondary);
+      margin-bottom: 16px;
+    }
+
+    .hero h1 span {
+      color: var(--primary);
+    }
+
+    .hero p {
+      color: #4b5563;
+      font-size: 18px;
+      max-width: 650px;
+      margin-bottom: 20px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      margin-top: 22px;
+    }
+
+    .primary-btn,
+    .secondary-btn,
+    .danger-btn,
+    .ghost-btn {
+      border: 0;
+      border-radius: 16px;
+      padding: 13px 18px;
+      font-size: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .primary-btn {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.23);
+    }
+
+    .primary-btn:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .primary-btn:disabled {
+      background: #c7c7c7;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    .secondary-btn {
+      background: var(--secondary);
+      color: white;
+    }
+
+    .secondary-btn:hover {
+      background: #1d2b5c;
+    }
+
+    .danger-btn {
+      background: #fff1f2;
+      color: var(--red);
+      border: 1px solid #fecdd3;
+    }
+
+    .ghost-btn {
+      background: white;
+      color: #4b5563;
+      border: 1px solid #ead6c2;
+    }
+
+    .ghost-btn:hover {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .tool-shell {
+      background: rgba(255,255,255,0.92);
+      border: 1px solid rgba(241, 215, 189, 0.95);
+      border-radius: 34px;
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .dropzone {
+      border: 2px dashed #efb276;
+      border-radius: 26px;
+      background:
+        linear-gradient(180deg, rgba(255,248,240,0.95), rgba(255,255,255,0.95));
+      min-height: 265px;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 28px;
+      transition: 0.2s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dropzone.dragover {
+      border-color: var(--secondary);
+      background: #eef2ff;
+      transform: scale(1.01);
+    }
+
+    .dropzone input {
+      display: none;
+    }
+
+    .drop-icon {
+      font-size: 58px;
+      margin-bottom: 12px;
+    }
+
+    .dropzone h2 {
+      color: var(--secondary);
+      font-size: 27px;
+      margin-bottom: 8px;
+    }
+
+    .dropzone p {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 18px;
+    }
+
+    .upload-btn {
+      background: var(--primary);
+      color: white;
+      border: 0;
+      padding: 14px 20px;
+      border-radius: 16px;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.22);
+    }
+
+    .privacy-note {
+      margin-top: 12px;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 800;
+    }
+
+    .panel {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 24px;
+      padding: 20px;
+      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+      margin-top: 18px;
+    }
+
+    .panel-head {
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+
+    .panel-head h2 {
+      color: var(--secondary);
+      font-size: 24px;
+      line-height: 1.25;
+    }
+
+    .panel-head p {
+      color: var(--muted);
+      font-size: 14px;
+      margin-top: 4px;
+    }
+
+    .file-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .file-card {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      align-items: center;
+      background: #fffaf5;
+      border: 1px solid #f1d7bd;
+      border-radius: 20px;
+      padding: 13px;
+      transition: 0.2s ease;
+    }
+
+    .file-card:hover {
+      border-color: rgba(230, 106, 31, 0.55);
+      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.08);
+    }
+
+    .file-order {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: var(--secondary);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .file-info {
+      min-width: 0;
+    }
+
+    .file-name {
+      font-weight: 900;
+      color: var(--secondary);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-bottom: 3px;
+    }
+
+    .file-meta {
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      font-weight: 700;
+    }
+
+    .file-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: end;
+      gap: 7px;
+    }
+
+    .icon-btn {
+      border: 1px solid #ecd6c2;
+      background: white;
+      color: #4b5563;
+      border-radius: 12px;
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+    }
+
+    .icon-btn.remove:hover {
+      border-color: var(--red);
+      color: var(--red);
+      background: #fff1f2;
+    }
+
+    .controls-grid {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: end;
+      margin-top: 18px;
+    }
+
+    .input-group label {
+      display: block;
+      color: var(--secondary);
+      font-weight: 900;
+      margin-bottom: 7px;
+    }
+
+    .input-group input {
+      width: 100%;
+      border: 1px solid #ead6c2;
+      border-radius: 16px;
+      padding: 13px 14px;
+      font-size: 15px;
+      outline: 0;
+      background: #fffaf5;
+    }
+
+    .input-group input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.1);
+    }
+
+    .status-box {
+      display: none;
+      margin-top: 18px;
+      border-radius: 18px;
+      padding: 14px 16px;
+      font-weight: 800;
+      border: 1px solid #e5e7eb;
+      background: #f9fafb;
+      color: #4b5563;
+    }
+
+    .status-box.show {
+      display: block;
+    }
+
+    .status-box.success {
+      background: #ecfdf5;
+      color: var(--green);
+      border-color: #bbf7d0;
+    }
+
+    .status-box.error {
+      background: #fff1f2;
+      color: var(--red);
+      border-color: #fecdd3;
+    }
+
+    .progress-wrap {
+      display: none;
+      margin-top: 16px;
+      background: #f3f4f6;
+      border-radius: 999px;
+      overflow: hidden;
+      height: 12px;
+    }
+
+    .progress-wrap.show {
+      display: block;
+    }
+
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), #ffbd59);
+      transition: width 0.25s ease;
+    }
+
+    .download-card {
+      display: none;
+      margin-top: 18px;
+      background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
+      border: 1px solid #bbf7d0;
+      border-radius: 24px;
+      padding: 20px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    .download-card.show {
+      display: flex;
+    }
+
+    .download-card h3 {
+      color: var(--green);
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .download-card p {
+      color: #166534;
+      font-size: 14px;
+    }
+
+    .info-sections {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-top: 36px;
+    }
+
+    .info-card {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 24px;
+      padding: 22px;
+      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+    }
+
+    .info-card h2 {
+      color: var(--secondary);
+      font-size: 25px;
+      margin-bottom: 12px;
+    }
+
+    .info-card p,
+    .info-card li {
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .info-card ul,
+    .info-card ol {
+      padding-left: 22px;
+      display: grid;
+      gap: 8px;
+    }
+
+    .related {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .related a {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      padding: 16px;
+      font-weight: 900;
+      color: var(--secondary);
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
+      transition: 0.2s ease;
+    }
+
+    .related a:hover {
+      transform: translateY(-3px);
+      color: var(--primary);
+      border-color: rgba(230, 106, 31, 0.45);
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .faq-item {
+      background: white;
+      border: 1px solid #f1d7bd;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
+    }
+
+    .faq-q {
+      width: 100%;
+      border: 0;
+      background: white;
+      padding: 17px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      text-align: left;
+      color: var(--secondary);
+      font-weight: 900;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .faq-a {
+      display: none;
+      padding: 0 17px 17px;
+      color: #5b6472;
+      font-size: 15px;
+    }
+
+    .faq-item.active .faq-a {
+      display: block;
+    }
+
+    footer {
+      margin-top: 46px;
+      background: #151f3e;
+      color: white;
+      padding: 38px 0 20px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      gap: 26px;
+      margin-bottom: 26px;
+    }
+
+    .footer-brand {
+      font-size: 25px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    footer p,
+    footer a {
+      color: rgba(255,255,255,0.78);
+      font-size: 15px;
+    }
+
+    footer h3 {
+      color: white;
+      margin-bottom: 12px;
+      font-size: 17px;
+    }
+
+    footer ul {
+      list-style: none;
+      display: grid;
+      gap: 8px;
+    }
+
+    .copyright {
+      border-top: 1px solid rgba(255,255,255,0.12);
+      padding-top: 18px;
+      color: rgba(255,255,255,0.62);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .info-sections {
+        grid-template-columns: 1fr;
+      }
+
+      .related {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .nav-links,
+      .nav-cta {
+        display: none;
+      }
+
+      .menu-btn {
+        display: inline-flex;
+      }
+
+      .nav.open .nav-links {
+        display: flex;
+        position: absolute;
+        top: 74px;
+        left: 16px;
+        right: 16px;
+        background: white;
+        flex-direction: column;
+        align-items: stretch;
+        border-radius: 20px;
+        padding: 14px;
+        box-shadow: var(--shadow);
+        border: 1px solid #f1d7bd;
+      }
+
+      .nav.open .nav-links a {
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .top-strip {
+        font-size: 12px;
+      }
+
+      .hero {
+        padding-top: 28px;
+      }
+
+      .tool-shell {
+        padding: 16px;
+        border-radius: 24px;
+      }
+
+      .dropzone {
+        min-height: 240px;
+        padding: 22px 16px;
+      }
+
+      .dropzone h2 {
+        font-size: 23px;
+      }
+
+      .file-card {
+        grid-template-columns: auto 1fr;
+      }
+
+      .file-actions {
+        grid-column: 1 / -1;
+        justify-content: start;
+      }
+
+      .controls-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .download-card {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .related,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .primary-btn,
+      .secondary-btn,
+      .danger-btn,
+      .ghost-btn {
+        width: 100%;
+      }
+
+      .hero-actions {
+        align-items: stretch;
+        flex-direction: column;
+      }
+    }
   </style>
-
-  <!-- libs -->
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js"></script>
-  <script defer src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 </head>
+
 <body>
-  <a class="sr-only" href="#main">मुख्य सामग्री पर जाएँ</a>
-
-  <!-- Privacy Promise -->
-  <section class="pp" role="region" aria-label="प्राइवेसी वादा">
-    <div class="container inner">
-      <div class="shield" aria-hidden="true">🔒</div>
-      <div><strong>प्राइवेसी वादा:</strong> सभी प्रोसेसिंग <strong>आपके ब्राउज़र</strong> में — <strong>फाइलें कहीं अपलोड नहीं</strong> होतीं।</div>
+  <div class="top-strip">
+    <div class="container">
+      <strong>Browser-based PDF merge</strong> — आपकी files जहाँ संभव हो आपके device पर ही process होती हैं।
     </div>
-  </section>
+  </div>
 
-  <!-- Header -->
-  <header class="site">
-    <div class="container nav">
-      <div class="brand">
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v10a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V7Z" stroke="currentColor" stroke-width="1.5"/><path d="M8 9h8M8 13h8M8 17h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
-        <span>PDF जोड़ो (Merge)</span>
-      </div>
-      <nav class="stepper" aria-label="चरण">
-        <span class="step active" data-step="1">1. गिनती</span>
-        <span class="step" data-step="2">2. अपलोड</span>
-        <span class="step" data-step="3">3. सेटिंग्स</span>
-        <span class="step" data-step="4">4. प्रीव्यू/डाउनलोड</span>
-      </nav>
+  <header>
+    <div class="container nav" id="nav">
+      <a class="brand" href="index.html">
+        <span class="brand-mark">हि</span>
+        <span>HindiTools</span>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="compress-pdf-hi.html">Compress PDF</a></li>
+        <li><a href="split-pdf-hi.html">Split PDF</a></li>
+        <li><a href="image-to-pdf-hi.html">Image to PDF</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+      </ul>
+
+      <a class="nav-cta" href="#merge-tool">PDF जोड़ें</a>
+
+      <button class="menu-btn" id="menuBtn" type="button">☰</button>
     </div>
   </header>
 
-  <main id="main" class="container" style="margin:18px auto">
-    <section class="card">
-      <div class="hero">
-        <h1>कई PDFs को जोड़कर एक बनाओ</h1>
-        <p class="sub">चार आसान पेज — पहले गिनती, फिर अपलोड/री-ऑर्डर, उसके बाद सेटिंग्स, और अंत में प्रीव्यू + डाउनलोड।</p>
+  <main>
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a> / PDF Tools / PDF जोड़ें
       </div>
+    </div>
 
-      <div class="wizard">
-        <!-- PAGE 1 -->
-        <section id="p1" class="page show" aria-labelledby="p1h">
-          <h3 id="p1h" style="margin:10px 0">कितनी PDF जोड़नी हैं?</h3>
-          <div class="count-wrap">
-            <label for="count" class="sr-only">Number of PDFs</label>
-            <input id="count" type="number" min="2" max="200" value="3" inputmode="numeric" />
-            <button id="toP2" class="btn primary pulse" type="button">अगला</button>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge-row">
+            <span class="badge">📎 Multiple PDFs</span>
+            <span class="badge">🔀 Reorder files</span>
+            <span class="badge">⬇️ Instant Download</span>
+            <span class="badge">🇮🇳 Hindi Interface</span>
           </div>
-          <p class="tiny">टिप: बड़े सेट परफॉर्मेंस के लिए 2–100 में रखें।</p>
-        </section>
 
-        <!-- PAGE 2 -->
-        <section id="p2" class="page" aria-labelledby="p2h">
-          <h3 id="p2h" style="margin:10px 0">PDF अपलोड करो</h3>
-          <div id="slots" class="slots" aria-live="polite"></div>
-          <div class="row between" style="margin-top:14px">
-            <button class="btn ghost" id="backP1" type="button">◀ वापस</button>
-            <div class="row">
-              <button class="btn slim ghost" id="addSlot" type="button">+ एक और स्लॉट</button>
-              <button class="btn ok" id="toP3" type="button" disabled>मर्ज सेटिंग्स</button>
+          <h1>PDF जोड़ें <span>Online</span></h1>
+
+          <p>
+            कई PDF files को एक single PDF में merge करें। Files upload करें,
+            order set करें और final PDF तुरंत download करें।
+          </p>
+
+          <div class="hero-actions">
+            <a class="primary-btn" href="#merge-tool">अभी PDF जोड़ें</a>
+            <a class="ghost-btn" href="compress-pdf-hi.html">PDF Compress करें</a>
+          </div>
+        </div>
+
+        <div class="tool-shell" id="merge-tool">
+          <label class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple />
+            <div>
+              <div class="drop-icon">📄</div>
+              <h2>PDF files यहाँ drop करें</h2>
+              <p>या button दबाकर अपने device से PDF files चुनें</p>
+              <button class="upload-btn" type="button" id="selectFilesBtn">PDF Files चुनें</button>
+              <div class="privacy-note">🔐 Files browser में process करने की कोशिश की जाती है।</div>
+            </div>
+          </label>
+
+          <div class="panel" id="filePanel" style="display:none;">
+            <div class="panel-head">
+              <div>
+                <h2>Selected PDFs</h2>
+                <p>Final PDF इसी order में बनेगी। Order बदलने के लिए ऊपर/नीचे buttons use करें।</p>
+              </div>
+              <button class="danger-btn" type="button" id="clearBtn">Clear All</button>
+            </div>
+
+            <div class="file-list" id="fileList"></div>
+
+            <div class="controls-grid">
+              <div class="input-group">
+                <label for="outputName">Final PDF का नाम</label>
+                <input id="outputName" type="text" value="merged-pdf" placeholder="merged-pdf" />
+              </div>
+
+              <button class="primary-btn" type="button" id="mergeBtn" disabled>
+                PDF Merge करें
+              </button>
+            </div>
+
+            <div class="progress-wrap" id="progressWrap">
+              <div class="progress-bar" id="progressBar"></div>
+            </div>
+
+            <div class="status-box" id="statusBox"></div>
+
+            <div class="download-card" id="downloadCard">
+              <div>
+                <h3>✅ PDF तैयार है</h3>
+                <p id="downloadMeta">आपकी merged PDF download के लिए ready है।</p>
+              </div>
+              <a class="secondary-btn" id="downloadLink" href="#" download="merged-pdf.pdf">
+                Download PDF
+              </a>
             </div>
           </div>
-        </section>
+        </div>
+      </div>
+    </section>
 
-        <!-- PAGE 3 -->
-        <section id="p3" class="page" aria-labelledby="p3h">
-          <h3 id="p3h" style="margin:10px 0">आउटपुट सेटिंग्स</h3>
-          <div class="panel">
-            <div class="row">
-              <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="normalizeA4"> A4 नॉर्मलाइज़</label>
-              <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="autoRotate" checked> Auto-Rotate</label>
+    <section class="container info-sections">
+      <article class="info-card">
+        <h2>PDF merge कैसे करें?</h2>
+        <ol>
+          <li>ऊपर PDF files upload करें।</li>
+          <li>Files का order check करें। जरूरत हो तो ऊपर/नीचे move करें।</li>
+          <li>Final PDF का नाम लिखें।</li>
+          <li><strong>PDF Merge करें</strong> button दबाएं।</li>
+          <li>Ready होने पर final PDF download करें।</li>
+        </ol>
+      </article>
+
+      <article class="info-card">
+        <h2>इस tool की खास बातें</h2>
+        <ul>
+          <li>Multiple PDF files support</li>
+          <li>File order बदलने का option</li>
+          <li>Page count और file size display</li>
+          <li>Simple Hindi instructions</li>
+          <li>Mobile-friendly layout</li>
+          <li>Instant download after merge</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="container" style="margin-top:28px;">
+      <div class="info-card">
+        <h2>Related PDF Tools</h2>
+        <div class="related">
+          <a href="compress-pdf-hi.html">📉 PDF छोटा करें</a>
+          <a href="split-pdf-hi.html">✂️ PDF अलग करें</a>
+          <a href="pdf-rotate-hi.html">🔄 PDF Rotate</a>
+          <a href="pdf-watermark-hi.html">💧 Watermark लगाएं</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="container" style="margin-top:28px;">
+      <div class="info-card">
+        <h2>FAQ</h2>
+
+        <div class="faq-list">
+          <div class="faq-item active">
+            <button class="faq-q" type="button">
+              क्या यह PDF merge tool free है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              हाँ, यह tool free है और basic PDF merge के लिए बनाया गया है।
             </div>
-            <div class="row" style="margin-top:8px">
-              <label style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="addNumbers"> पेज नंबरिंग</label>
-              <select id="numPos" style="max-width:220px" aria-label="नंबर पोज़िशन">
-                <option value="br" selected>नीचे-दायाँ</option>
-                <option value="bl">नीचे-बायाँ</option>
-                <option value="bc">नीचे-बीच</option>
-                <option value="tr">ऊपर-दायाँ</option>
-                <option value="tl">ऊपर-बायाँ</option>
-                <option value="tc">ऊपर-बीच</option>
-              </select>
-              <label style="display:flex;gap:6px;align-items:center">स्टार्ट नंबर <input id="startNum" type="number" value="1" min="0" style="width:90px"></label>
-              <label style="display:flex;gap:6px;align-items:center">मार्जिन (pt) <input id="marg" type="number" value="28" min="0" max="100" style="width:90px"></label>
-              <label style="display:flex;gap:6px;align-items:center">फ़ॉन्ट साइज़ <input id="numSize" type="number" value="10" min="6" max="24" style="width:90px"></label>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या मैं multiple PDFs जोड़ सकता हूँ?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              हाँ, आप एक साथ कई PDF files upload करके उन्हें एक PDF में merge कर सकते हैं।
             </div>
           </div>
 
-          <div class="row between" style="margin-top:14px">
-            <button class="btn ghost" id="backP2" type="button">◀ वापस</button>
-            <button class="btn primary pulse" id="toP4" type="button">मर्ज करो</button>
-          </div>
-        </section>
-
-        <!-- PAGE 4 -->
-        <section id="p4" class="page" aria-labelledby="p4h">
-          <h3 id="p4h" style="margin:10px 0">मर्ज पूरा — प्रीव्यू और डाउनलोड</h3>
-          <div class="progress" aria-label="प्रोग्रेस"><div class="bar" id="bar"></div></div>
-          <div class="tiny" id="status" style="margin:8px 0">तैयार…</div>
-
-          <div class="viewer" style="margin-top:10px">
-            <div id="preview"></div>
-          </div>
-
-          <div class="row between" style="margin-top:14px">
-            <button class="btn ghost" id="backP3" type="button">◀ सेटिंग्स बदलें</button>
-            <div class="row">
-              <button class="btn sun" id="downloadBtn" type="button" disabled>डाउनलोड</button>
-              <button class="btn ok" id="startOver" type="button">नई मर्ज</button>
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या PDF files का order बदल सकता हूँ?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              हाँ, हर file के साथ ऊपर और नीचे move करने के buttons दिए गए हैं।
             </div>
           </div>
-          <p class="tiny" style="margin-top:8px">गोपनीयता: कोई अपलोड नहीं — सब कुछ आपके ब्राउज़र में।</p>
-        </section>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या password-protected PDF merge होगी?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              Password-protected या damaged PDFs merge नहीं हो सकतीं। पहले PDF unlock या repair करनी पड़ेगी।
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-q" type="button">
+              क्या मेरी PDF server पर upload होती है?
+              <span>+</span>
+            </button>
+            <div class="faq-a">
+              यह page browser-based PDF library का उपयोग करता है। फिर भी बहुत sensitive documents के लिए हमेशा सावधानी रखें।
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   </main>
 
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">HindiTools.com</div>
+          <p>
+            PDF, Image और Document कामों के लिए आसान हिंदी tools।
+            Simple interface, fast workflow और mobile-friendly design।
+          </p>
+        </div>
+
+        <div>
+          <h3>PDF Tools</h3>
+          <ul>
+            <li><a href="merge-pdf-hi.html">PDF जोड़ें</a></li>
+            <li><a href="compress-pdf-hi.html">PDF छोटा करें</a></li>
+            <li><a href="split-pdf-hi.html">PDF अलग करें</a></li>
+            <li><a href="pdf-to-image-hi.html">PDF to Image</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3>Website</h3>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="privacy.html">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
+      </div>
+    </div>
+  </footer>
+
   <script>
-  // ===== pdf.js worker path =====
-  const pdfjsLib = window['pdfjs-dist/build/pdf'];
-  if (pdfjsLib) {
-    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-  }
+    const { PDFDocument } = PDFLib;
 
-  // ===== State =====
-  const S = { count:3, slots:[], _outBytes:null };
+    const fileInput = document.getElementById("fileInput");
+    const selectFilesBtn = document.getElementById("selectFilesBtn");
+    const dropzone = document.getElementById("dropzone");
+    const filePanel = document.getElementById("filePanel");
+    const fileList = document.getElementById("fileList");
+    const mergeBtn = document.getElementById("mergeBtn");
+    const clearBtn = document.getElementById("clearBtn");
+    const outputName = document.getElementById("outputName");
+    const statusBox = document.getElementById("statusBox");
+    const progressWrap = document.getElementById("progressWrap");
+    const progressBar = document.getElementById("progressBar");
+    const downloadCard = document.getElementById("downloadCard");
+    const downloadLink = document.getElementById("downloadLink");
+    const downloadMeta = document.getElementById("downloadMeta");
 
-  // ===== DOM helpers =====
-  function $(q){ return document.getElementById(q.replace('#','')); }
-  const steps = [...document.querySelectorAll('.step')];
-  const pages = { p1:$('#p1'), p2:$('#p2'), p3:$('#p3'), p4:$('#p4') };
+    let pdfFiles = [];
+    let currentDownloadUrl = null;
 
-  const countInput = $('#count');
-  const toP2 = $('#toP2'), backP1 = $('#backP1');
-  const toP3 = $('#toP3'), backP2 = $('#backP2');
-  const toP4 = $('#toP4'), backP3 = $('#backP3');
-
-  const slotsWrap = $('#slots'), addSlotBtn = $('#addSlot');
-
-  const normalizeA4 = $('#normalizeA4');
-  const autoRotate = $('#autoRotate');
-  const addNumbers = $('#addNumbers');
-  const numPos = $('#numPos');
-  const startNum = $('#startNum');
-  const marg = $('#marg');
-  const numSize = $('#numSize');
-
-  const barEl = $('#bar'), statusEl = $('#status'), pvWrap = $('#preview');
-  const downloadBtn = $('#downloadBtn');
-  const startOver = $('#startOver');
-
-  // ===== Utils =====
-  const sleep = (ms)=>new Promise(r=>setTimeout(r,ms));
-  const fmtBytes = b => { if (b < 1024) return b + ' B'; const u=['KB','MB','GB']; let i=-1; do{ b/=1024; i++; }while(b>=1024 && i<u.length-1); return b.toFixed(1)+' '+u[i]; };
-  function setBar(p){ barEl.style.width = Math.max(0, Math.min(100, Math.round(p))) + '%'; }
-  function setStep(n){
-    steps.forEach(s=>s.classList.toggle('active', s.dataset.step==n));
-    Object.values(pages).forEach(el=>el.classList.remove('show'));
-    pages['p'+n].classList.add('show');
-    document.querySelectorAll('.pulse,.pulse-green').forEach(el=>el.classList.remove('pulse','pulse-green'));
-    if (n==1) toP2.classList.add('pulse');
-    if (n==2) toP3.classList.add('pulse');
-    if (n==3) toP4.classList.add('pulse');
-    if (n==4) downloadBtn.classList.add('pulse-green');
-  }
-
-  // ===== Count <-> Slots: live sync =====
-  function clamp(n,min,max){ return Math.max(min, Math.min(max, n)); }
-  function makeSlotModel(n){ return { id:'slot_'+n, name:null, size:null, file:null, bytes:null, pageCount:null, thumbCanvas:null }; }
-
-  function syncSlotsToCount(){
-    const want = S.count;
-    if (want > S.slots.length){
-      const start = S.slots.length;
-      for (let i=start;i<want;i++) S.slots.push(makeSlotModel(i+1));
-    }else if (want < S.slots.length){
-      // Remove trailing empty first; if filled exist at tail, still remove from the end (user can reduce intentionally).
-      S.slots.length = want;
-    }
-    renderSlots();
-    updateNextEnabled();
-  }
-
-  countInput.addEventListener('input', ()=>{
-    let v = parseInt(countInput.value,10);
-    if (Number.isNaN(v)) v = 2;
-    v = clamp(v, 2, 200);
-    countInput.value = v; S.count = v;
-    // live sync slots while on p1 or later
-    syncSlotsToCount();
-  });
-
-  toP2.addEventListener('click', ()=>{ setStep(2); });
-
-  // ===== Page 2 (Slots) =====
-  addSlotBtn.addEventListener('click', ()=>{
-    S.count = clamp(S.count+1, 2, 200);
-    countInput.value = S.count;
-    syncSlotsToCount();
-  });
-
-  function renderSlots(){
-    slotsWrap.innerHTML = '';
-    S.slots.forEach((s, i) => slotsWrap.appendChild(makeSlotEl(s, i)));
-  }
-
-  function acceptAsPdf(file){
-    if (!file) return false;
-    const t = (file.type||'').toLowerCase();
-    const name = (file.name||'').toLowerCase();
-    return t.includes('pdf') || t==='application/x-pdf' || name.endsWith('.pdf');
-  }
-
-  function makeSlotEl(slot, idx){
-    const el = document.createElement('div'); el.className='slot'; el.dataset.id=slot.id;
-
-    const head = document.createElement('div'); head.className='slot-header';
-    const title = document.createElement('div'); title.className='slot-title'; title.textContent = `फाइल ${idx+1}`;
-    const btns = document.createElement('div'); btns.className='slot-btns';
-
-    const pickLbl = document.createElement('label'); pickLbl.className='btn sun'; pickLbl.textContent='अपलोड';
-    const inp = document.createElement('input'); inp.type='file'; inp.accept='.pdf,application/pdf,application/x-pdf';
-    pickLbl.appendChild(inp);
-
-    const clearBtn = document.createElement('button'); clearBtn.className='btn ghost slim'; clearBtn.type='button'; clearBtn.textContent='क्लियर';
-    const removeBtn = document.createElement('button'); removeBtn.className='btn danger slim'; removeBtn.type='button'; removeBtn.textContent='हटाएँ';
-    const leftBtn = document.createElement('button'); leftBtn.className='btn ghost slim'; leftBtn.type='button'; leftBtn.textContent='↤';
-    const rightBtn = document.createElement('button'); rightBtn.className='btn ghost slim'; rightBtn.type='button'; rightBtn.textContent='↦';
-
-    btns.append(pickLbl, clearBtn, removeBtn, leftBtn, rightBtn);
-    head.append(title, btns);
-
-    const drop = document.createElement('div'); drop.className='drop'; drop.tabIndex=0; drop.setAttribute('role','button');
-    drop.setAttribute('aria-label', `फाइल ${idx+1} अपलोड करें`);
-    drop.innerHTML = `<div><div style="font-weight:900; margin-bottom:6px">Drag & Drop या “अपलोड”</div><div class="tiny">${slot.name?slot.name:'PDF यहाँ छोड़ें'} (${idx+1}/${S.slots.length})</div></div>`;
-
-    const content = document.createElement('div'); content.className='thumb';
-    if (slot.thumbCanvas) {
-      const meta = document.createElement('div'); meta.className='tiny'; meta.style.margin='6px 0';
-      meta.textContent = `${slot.name} • ${fmtBytes(slot.size)} • ${slot.pageCount??'?'} पेज`;
-      content.append(slot.thumbCanvas, meta);
+    function formatBytes(bytes) {
+      if (bytes === 0) return "0 Bytes";
+      const k = 1024;
+      const sizes = ["Bytes", "KB", "MB", "GB"];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
     }
 
-    // Handlers
-    inp.addEventListener('change', async e=>{
-      const f = e.target.files?.[0];
-      if (!f) return;
-      await assignFileToSlot(slot, f, content, drop, inp);
-      updateNextEnabled();
-    });
-
-    ['dragenter','dragover'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault(); drop.classList.add('dragover');}));
-    ['dragleave','drop'].forEach(ev=>drop.addEventListener(ev, e=>{e.preventDefault(); drop.classList.remove('dragover');}));
-    drop.addEventListener('drop', async e=>{
-      const f = [...e.dataTransfer.files].find(x=>acceptAsPdf(x));
-      if (!f) { drop.innerHTML = `<div style="color:#ffb3bf;font-weight:800">PDF नहीं मिला</div>`; return; }
-      await assignFileToSlot(slot, f, content, drop, inp);
-      updateNextEnabled();
-    });
-    drop.addEventListener('keydown', (e)=>{ if (e.key==='Enter' || e.key===' ') { e.preventDefault(); inp.click(); } });
-    drop.addEventListener('click', ()=> inp.click());
-
-    clearBtn.addEventListener('click', ()=>{
-      clearSlotData(slot, content, drop, inp);
-      updateNextEnabled();
-    });
-    removeBtn.addEventListener('click', ()=>{
-      const i = S.slots.findIndex(x=>x.id===slot.id);
-      if (i>-1) { S.slots.splice(i,1); S.count = S.slots.length; countInput.value = S.count; renderSlots(); updateNextEnabled(); }
-    });
-    leftBtn.addEventListener('click', ()=>{
-      const i = S.slots.findIndex(x=>x.id===slot.id);
-      if (i>0){ const [m]=S.slots.splice(i,1); S.slots.splice(i-1,0,m); renderSlots(); updateNextEnabled(); }
-    });
-    rightBtn.addEventListener('click', ()=>{
-      const i = S.slots.findIndex(x=>x.id===slot.id);
-      if (i<S.slots.length-1){ const [m]=S.slots.splice(i,1); S.slots.splice(i+1,0,m); renderSlots(); updateNextEnabled(); }
-    });
-
-    el.append(head, drop, content);
-    return el;
-  }
-
-  async function assignFileToSlot(slot, file, contentEl, dropEl, inputEl){
-    if (!acceptAsPdf(file)) {
-      dropEl.innerHTML = `<div style="color:#ffb3bf;font-weight:800">यह PDF नहीं है</div>`;
-      return;
+    function sanitizeFileName(name) {
+      return (name || "merged-pdf")
+        .replace(/\.pdf$/i, "")
+        .replace(/[^\u0900-\u097Fa-zA-Z0-9-_ ]/g, "")
+        .trim()
+        .replace(/\s+/g, "-") || "merged-pdf";
     }
-    try{
-      slot.file = file; slot.name = file.name; slot.size = file.size;
-      const buf = await file.arrayBuffer();
-      slot.bytes = new Uint8Array(buf);
 
-      // Validate with pdf-lib first (independent of preview)
-      let doc;
-      try {
-        doc = await PDFLib.PDFDocument.load(slot.bytes);
-      } catch (e) {
-        console.error(e);
-        dropEl.innerHTML = `<div style="color:#ffb3bf;font-weight:800">PDF पढ़ा नहीं जा सका (संभवतः एन्क्रिप्टेड/करप्ट)</div>`;
-        clearSlotData(slot, contentEl, dropEl, inputEl);
+    function setStatus(message, type = "normal") {
+      statusBox.textContent = message;
+      statusBox.className = "status-box show";
+      if (type === "success") statusBox.classList.add("success");
+      if (type === "error") statusBox.classList.add("error");
+    }
+
+    function clearStatus() {
+      statusBox.className = "status-box";
+      statusBox.textContent = "";
+    }
+
+    function setProgress(percent) {
+      progressWrap.classList.add("show");
+      progressBar.style.width = `${percent}%`;
+    }
+
+    function resetProgress() {
+      progressWrap.classList.remove("show");
+      progressBar.style.width = "0%";
+    }
+
+    function resetDownload() {
+      if (currentDownloadUrl) {
+        URL.revokeObjectURL(currentDownloadUrl);
+        currentDownloadUrl = null;
+      }
+      downloadCard.classList.remove("show");
+      downloadLink.href = "#";
+    }
+
+    async function addFiles(files) {
+      clearStatus();
+      resetDownload();
+
+      const incoming = Array.from(files).filter(file => {
+        return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+      });
+
+      if (!incoming.length) {
+        setStatus("कृपया केवल PDF files upload करें।", "error");
         return;
       }
 
-      // Try preview with pdf.js (fallback if fails)
-      try{
-        const pdf = await pdfjsLib.getDocument({data:slot.bytes}).promise;
-        slot.pageCount = pdf.numPages;
-        const page = await pdf.getPage(1);
-        const vp = page.getViewport({scale:0.35});
-        const c = document.createElement('canvas'); c.width=Math.floor(vp.width); c.height=Math.floor(vp.height);
-        await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
-        slot.thumbCanvas = c;
-      }catch(previewErr){
-        console.warn('Preview unavailable, will still merge:', previewErr);
-        slot.pageCount = doc.getPageCount?.() || null;
-        slot.thumbCanvas = null; // still mergeable
+      setStatus("PDF files पढ़ी जा रही हैं...");
+
+      for (const file of incoming) {
+        try {
+          const arrayBuffer = await file.arrayBuffer();
+          const doc = await PDFDocument.load(arrayBuffer, { ignoreEncryption: false });
+          const pageCount = doc.getPageCount();
+
+          pdfFiles.push({
+            id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
+            file,
+            arrayBuffer,
+            pageCount,
+            size: file.size
+          });
+        } catch (error) {
+          setStatus(`"${file.name}" read नहीं हो सकी। यह encrypted, damaged या unsupported PDF हो सकती है।`, "error");
+        }
       }
 
-      // UI
-      contentEl.innerHTML='';
-      if (slot.thumbCanvas) contentEl.append(slot.thumbCanvas);
-      const meta = document.createElement('div'); meta.className='tiny'; meta.style.margin='6px 0';
-      meta.textContent = `${slot.name} • ${fmtBytes(slot.size)} • ${slot.pageCount??'?'} पेज${slot.thumbCanvas?'':' • (प्रीव्यू नहीं)'}`;
-      contentEl.append(meta);
-      dropEl.innerHTML = `<div style="color: var(--accent2); font-weight:800">अपलोड हो गया ✓</div>`;
+      renderFiles();
 
-      if (inputEl) inputEl.value = '';
-    }catch(e){
-      console.error(e);
-      dropEl.innerHTML = `<div style="color:#ffb3bf;font-weight:800">फाइल हैंडल नहीं हुई</div>`;
-      clearSlotData(slot, contentEl, dropEl, inputEl);
+      if (pdfFiles.length) {
+        setStatus(`${pdfFiles.length} PDF file(s) ready हैं। Order check करके merge करें।`, "success");
+      }
     }
-  }
 
-  function clearSlotData(slot, contentEl, dropEl, inputEl){
-    Object.assign(slot, { file:null, bytes:null, name:null, size:null, pageCount:null, thumbCanvas:null });
-    if (contentEl) contentEl.innerHTML='';
-    if (dropEl) dropEl.innerHTML = `<div><div style="font-weight:900; margin-bottom:6px">Drag & Drop या “अपलोड”</div><div class="tiny">PDF यहाँ छोड़ें</div></div>`;
-    if (inputEl) inputEl.value='';
-  }
+    function renderFiles() {
+      fileList.innerHTML = "";
 
-  function updateNextEnabled(){
-    const ok = S.slots.length>=2 && S.slots.every(s=>!!s.bytes);
-    toP3.disabled = !ok;
-    toP3.classList.toggle('pulse', ok);
-  }
+      pdfFiles.forEach((item, index) => {
+        const card = document.createElement("div");
+        card.className = "file-card";
 
-  // Navigation
-  $('#backP1')?.addEventListener('click', ()=> setStep(1));
-  toP3?.addEventListener('click', ()=> setStep(3));
-  $('#backP2')?.addEventListener('click', ()=> setStep(2));
-  $('#backP3')?.addEventListener('click', ()=> setStep(3));
+        card.innerHTML = `
+          <div class="file-order">${index + 1}</div>
 
-  // ===== Page 4: Merge =====
-  $('#toP4')?.addEventListener('click', async ()=>{
-    await mergeAndPreview();
-    setStep(4);
-  });
+          <div class="file-info">
+            <div class="file-name" title="${item.file.name}">${item.file.name}</div>
+            <div class="file-meta">
+              <span>${formatBytes(item.size)}</span>
+              <span>${item.pageCount} page${item.pageCount > 1 ? "s" : ""}</span>
+            </div>
+          </div>
 
-  downloadBtn?.addEventListener('click', ()=>{
-    if (!S._outBytes) return;
-    const a=document.createElement('a');
-    const stamp=new Date().toISOString().replace(/[:T]/g,'-').slice(0,19);
-    a.href=URL.createObjectURL(new Blob([S._outBytes],{type:'application/pdf'}));
-    a.download=`Merged-${stamp}.pdf`;
-    a.click(); URL.revokeObjectURL(a.href);
-  });
+          <div class="file-actions">
+            <button class="icon-btn" type="button" title="ऊपर करें" ${index === 0 ? "disabled" : ""} onclick="moveFile(${index}, -1)">↑</button>
+            <button class="icon-btn" type="button" title="नीचे करें" ${index === pdfFiles.length - 1 ? "disabled" : ""} onclick="moveFile(${index}, 1)">↓</button>
+            <button class="icon-btn remove" type="button" title="हटाएँ" onclick="removeFile(${index})">×</button>
+          </div>
+        `;
 
-  startOver?.addEventListener('click', ()=>{
-    S._outBytes = null; pvWrap.innerHTML=''; statusEl.textContent='तैयार…'; setBar(0);
-    // keep theme + keep count, but reset slots to that count
-    S.slots = [];
-    syncSlotsToCount();
-    setStep(1);
-  });
+        fileList.appendChild(card);
+      });
 
-  // ===== Merge core =====
-  async function mergeAndPreview(){
-    const allOK = S.slots.length>=2 && S.slots.every(s=>!!s.bytes);
-    if(!allOK){ alert('कृपया कम से कम 2 स्लॉट भरें।'); return; }
+      filePanel.style.display = pdfFiles.length ? "block" : "none";
+      mergeBtn.disabled = pdfFiles.length < 2;
+    }
 
-    setBar(1); statusEl.textContent='मर्ज हो रहा है…';
-    try{
-      const { PDFDocument, StandardFonts, rgb } = PDFLib;
-      const out = await PDFDocument.create();
-      const font = await out.embedFont(StandardFonts.Helvetica);
-      const A4 = { w:595.28, h:841.89 };
+    function moveFile(index, direction) {
+      const newIndex = index + direction;
+      if (newIndex < 0 || newIndex >= pdfFiles.length) return;
 
-      // Load all src docs with pdf-lib (preview independence)
-      const loaded = await Promise.all(S.slots.map(async s => ({ s, doc: await PDFDocument.load(s.bytes) })));
+      const temp = pdfFiles[index];
+      pdfFiles[index] = pdfFiles[newIndex];
+      pdfFiles[newIndex] = temp;
 
-      // Copy all pages by slot order
-      let total = loaded.reduce((a,{doc})=>a+doc.getPageCount(), 0);
-      let done = 0;
-      for (const {doc} of loaded){
-        const count = doc.getPageCount();
-        const idxs = Array.from({length:count}, (_,i)=>i);
-        const pages = await out.copyPages(doc, idxs);
-        for (const p of pages) { out.addPage(p); done++; if (done%3===0) await sleep(0); setBar((done/Math.max(1,total))*60); }
+      resetDownload();
+      renderFiles();
+    }
+
+    function removeFile(index) {
+      pdfFiles.splice(index, 1);
+      resetDownload();
+      clearStatus();
+      renderFiles();
+
+      if (!pdfFiles.length) {
+        setStatus("सभी files remove कर दी गई हैं। नई PDF files upload करें।");
+      }
+    }
+
+    async function mergePDFs() {
+      if (pdfFiles.length < 2) {
+        setStatus("Merge करने के लिए कम से कम 2 PDF files चाहिए।", "error");
+        return;
       }
 
-      // Normalize / rotate
-      const normalizeA4El = normalizeA4, autoRotateEl = autoRotate;
-      if (normalizeA4El.checked || autoRotateEl.checked){
-        const n = out.getPageCount();
-        for (let i=0;i<n;i++){
-          const pg = out.getPage(i);
-          const { width:W, height:H } = pg.getSize();
-          let targetW=A4.w, targetH=A4.h;
-          const isLandscape = W>H; if (autoRotateEl.checked && isLandscape){ targetW=A4.h; targetH=A4.w; }
-          if (normalizeA4El.checked){
-            pg.setSize(targetW, targetH);
-            const m = Math.max(0, parseFloat(marg.value)||28);
-            const boxW=targetW-2*m, boxH=targetH-2*m;
-            const s = Math.min(boxW/W, boxH/H);
-            pg.scale(s, s);
-            pg.moveTo(m, m);
+      resetDownload();
+      resetProgress();
+      clearStatus();
+
+      mergeBtn.disabled = true;
+      setStatus("PDF merge process शुरू हो गई है...");
+
+      try {
+        const mergedPdf = await PDFDocument.create();
+        let processed = 0;
+        const total = pdfFiles.length;
+
+        for (const item of pdfFiles) {
+          const sourcePdf = await PDFDocument.load(item.arrayBuffer, { ignoreEncryption: false });
+          const copiedPages = await mergedPdf.copyPages(sourcePdf, sourcePdf.getPageIndices());
+
+          copiedPages.forEach(page => mergedPdf.addPage(page));
+
+          processed++;
+          setProgress(Math.round((processed / total) * 80));
+        }
+
+        setStatus("Final PDF बनाई जा रही है...");
+        setProgress(90);
+
+        const mergedPdfBytes = await mergedPdf.save();
+        const blob = new Blob([mergedPdfBytes], { type: "application/pdf" });
+
+        currentDownloadUrl = URL.createObjectURL(blob);
+
+        const finalName = sanitizeFileName(outputName.value) + ".pdf";
+        downloadLink.href = currentDownloadUrl;
+        downloadLink.download = finalName;
+
+        downloadMeta.textContent = `Final file: ${finalName} • Size: ${formatBytes(blob.size)}`;
+        downloadCard.classList.add("show");
+
+        setProgress(100);
+        setStatus("PDF successfully merge हो गई है। अब download करें।", "success");
+      } catch (error) {
+        console.error(error);
+        setStatus("PDF merge नहीं हो सकी। कोई file encrypted, damaged या बहुत बड़ी हो सकती है।", "error");
+      } finally {
+        mergeBtn.disabled = pdfFiles.length < 2;
+        setTimeout(resetProgress, 1000);
+      }
+    }
+
+    function clearAll() {
+      pdfFiles = [];
+      fileInput.value = "";
+      resetDownload();
+      resetProgress();
+      clearStatus();
+      renderFiles();
+      setStatus("Files clear कर दी गई हैं। नई PDF files upload करें।");
+    }
+
+    selectFilesBtn.addEventListener("click", () => fileInput.click());
+
+    dropzone.addEventListener("click", event => {
+      if (event.target.id !== "selectFilesBtn") {
+        fileInput.click();
+      }
+    });
+
+    fileInput.addEventListener("change", event => {
+      addFiles(event.target.files);
+    });
+
+    ["dragenter", "dragover"].forEach(eventName => {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault();
+        dropzone.classList.add("dragover");
+      });
+    });
+
+    ["dragleave", "drop"].forEach(eventName => {
+      dropzone.addEventListener(eventName, event => {
+        event.preventDefault();
+        dropzone.classList.remove("dragover");
+      });
+    });
+
+    dropzone.addEventListener("drop", event => {
+      addFiles(event.dataTransfer.files);
+    });
+
+    mergeBtn.addEventListener("click", mergePDFs);
+    clearBtn.addEventListener("click", clearAll);
+
+    document.getElementById("menuBtn").addEventListener("click", () => {
+      document.getElementById("nav").classList.toggle("open");
+    });
+
+    document.querySelectorAll(".faq-q").forEach(btn => {
+      btn.addEventListener("click", () => {
+        btn.parentElement.classList.toggle("active");
+      });
+    });
+
+    const faqSchema = {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "क्या यह PDF merge tool free है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "हाँ, यह tool free है और basic PDF merge के लिए बनाया गया है।"
           }
-          if (i%4===0) setBar(60 + (i/n)*20);
+        },
+        {
+          "@type": "Question",
+          "name": "क्या मैं multiple PDFs जोड़ सकता हूँ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "हाँ, आप एक साथ कई PDF files upload करके उन्हें एक PDF में merge कर सकते हैं।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या PDF files का order बदल सकता हूँ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "हाँ, हर file के साथ ऊपर और नीचे move करने के buttons दिए गए हैं।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या password-protected PDF merge होगी?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Password-protected या damaged PDFs merge नहीं हो सकतीं। पहले PDF unlock या repair करनी पड़ेगी।"
+          }
         }
-      }
+      ]
+    };
 
-      // Numbering
-      if (addNumbers.checked){
-        const start = Math.max(0, parseInt(startNum.value,10)||0);
-        const size  = Math.max(6, Math.min(24, parseInt(numSize.value,10)||10));
-        const m     = Math.max(0, parseInt(marg.value,10)||28);
-        const pos   = numPos.value;
-        const n     = out.getPageCount();
-        for (let i=0;i<n;i++){
-          const pg = out.getPage(i);
-          const { width:W, height:H } = pg.getSize();
-          const text = String(start + i + 1);
-          let x=m, y=m;
-          if (pos==='br'){ x=W-m; y=m; }
-          if (pos==='bl'){ x=m; y=m; }
-          if (pos==='bc'){ x=W/2; y=m; }
-          if (pos==='tr'){ x=W-m; y=H-m; }
-          if (pos==='tl'){ x=m; y=H-m; }
-          if (pos==='tc'){ x=W/2; y=H-m; }
-          const opts = { size, font, color: rgb(0,0,0) };
-          if (pos.endsWith('c')) pg.drawText(text, { ...opts, x: x - (size*text.length*0.25), y });
-          else if (pos.endsWith('r')) pg.drawText(text, { ...opts, x: x - (size*text.length*0.5), y });
-          else pg.drawText(text, { ...opts, x, y });
-          if (i%6===0) setBar(80 + (i/n)*20);
-        }
-      }
-
-      const outBytes = await out.save({ updateFieldAppearances:false });
-      S._outBytes = outBytes; downloadBtn.disabled=true;
-      await renderPreview(outBytes);
-      downloadBtn.disabled=false; statusEl.textContent='तैयार — डाउनलोड कर लो!'; setBar(100);
-    }catch(err){
-      console.error(err);
-      statusEl.textContent='एरर।'; alert('मर्ज नहीं हो पाया: '+(err?.message||err));
-    }
-  }
-
-  async function renderPreview(bytes){
-    pvWrap.innerHTML='';
-    try{
-      const pdf = await pdfjsLib.getDocument({data:bytes}).promise;
-      const n=Math.min(8,pdf.numPages);
-      for (let i=1;i<=n;i++){
-        const page = await pdf.getPage(i);
-        const vp = page.getViewport({scale:0.6});
-        const c = document.createElement('canvas'); c.width=Math.floor(vp.width); c.height=Math.floor(vp.height);
-        await page.render({canvasContext:c.getContext('2d'), viewport:vp}).promise;
-        const box=document.createElement('div'); box.className='pv';
-        box.appendChild(c); const cap=document.createElement('div'); cap.className='cap'; cap.textContent='पेज '+i; box.appendChild(cap);
-        pvWrap.appendChild(box);
-      }
-    }catch(e){ console.warn('Preview render failed, but file is ready:', e); }
-  }
-
-  // ===== Init =====
-  // Start with slots for default count
-  syncSlotsToCount();
-  setStep(1);
+    const schemaScript = document.createElement("script");
+    schemaScript.type = "application/ld+json";
+    schemaScript.textContent = JSON.stringify(faqSchema);
+    document.head.appendChild(schemaScript);
   </script>
 </body>
 </html>
