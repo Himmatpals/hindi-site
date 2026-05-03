@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <!-- Google AdSense (same as your index) -->
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4192195409142944"
+     crossorigin="anonymous"></script>
+
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>QR Code Generator | HindiTools</title>
+  <meta name="description" content="Bulk QR Code Generator | एक साथ कई QR codes बनाएं, रंग बदलें, ZIP में डाउनलोड करें – मुफ्त और हिंदी में।" />
+  <meta name="keywords" content="QR code generator Hindi, bulk QR code, free QR code, HindiTools QR" />
+  <meta name="author" content="HindiTools.com" />
+  <meta name="theme-color" content="#e66a1f" />
+
+  <!-- Fonts & Styles (match your index) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gurmukhi:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
+  <!-- QR Code Library (pure JS canvas) -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+  <!-- JSZip for ZIP downloads -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <style>
+    /* Reset & variables - reuse from your index */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #fefaf5;
+      --surface: #ffffff;
+      --text-primary: #1e2a3e;
+      --text-secondary: #475569;
+      --accent: #e66a1f;
+      --accent-dark: #c2410c;
+      --accent-soft: #ffedd5;
+      --secondary: #1e3a8a;
+      --border-light: #f1e1cf;
+      --green: #12805c;
+      --shadow-sm: 0 12px 30px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    body.dark {
+      --bg: #0f172a;
+      --surface: #1e293b;
+      --text-primary: #f1f5f9;
+      --text-secondary: #cbd5e1;
+      --border-light: #334155;
+      --accent-soft: #422006;
+      --shadow-sm: 0 12px 30px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 20px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Inter', 'Noto Sans Devanagari', system-ui, sans-serif;
+      line-height: 1.5;
+      transition: background 0.2s, color 0.2s;
+    }
+
+    /* Container (same as index) */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Navbar (mirror index) */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(254, 250, 245, 0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-light);
+    }
+    body.dark .navbar {
+      background: rgba(15, 23, 42, 0.88);
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 14px 0;
+      gap: 12px;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.7rem;
+      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+    }
+    .logo-icon {
+      background: var(--accent);
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      color: white;
+      font-weight: 900;
+      font-size: 1.5rem;
+      box-shadow: 0 8px 18px rgba(230, 106, 31, 0.3);
+    }
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--text-primary);
+      padding: 8px 13px;
+      border-radius: 40px;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+    .nav-links a:hover {
+      background: var(--accent);
+      color: white;
+    }
+    .theme-toggle {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+      border-radius: 40px;
+      padding: 8px 14px;
+      cursor: pointer;
+      font-weight: 700;
+      transition: var(--transition);
+    }
+    .mobile-menu {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 8px 12px;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+    /* Hero / page header */
+    .page-header {
+      padding: 40px 0 20px;
+    }
+    .badge {
+      background: var(--accent-soft);
+      padding: 6px 14px;
+      border-radius: 60px;
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #c2410c;
+      display: inline-block;
+      margin-bottom: 16px;
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 2.8rem);
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+    .tool-card {
+      background: var(--surface);
+      border-radius: 28px;
+      padding: 28px;
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: 32px;
+    }
+    .tool-card h2 {
+      font-size: 1.8rem;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    textarea, input, select {
+      width: 100%;
+      padding: 14px 18px;
+      border: 1px solid var(--border-light);
+      background: var(--bg);
+      border-radius: 20px;
+      font-size: 1rem;
+      color: var(--text-primary);
+      font-family: inherit;
+      transition: var(--transition);
+      margin-bottom: 16px;
+    }
+    textarea:focus, input:focus, select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.12);
+    }
+    .btn-primary, .btn-secondary {
+      padding: 12px 24px;
+      border-radius: 40px;
+      font-weight: 800;
+      font-size: 0.95rem;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 5px 12px rgba(230,106,31,0.3);
+    }
+    .btn-primary:hover {
+      background: var(--accent-dark);
+      transform: translateY(-2px);
+    }
+    .btn-secondary {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      color: var(--text-primary);
+    }
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .flex-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      margin: 16px 0;
+    }
+    .color-input {
+      width: 60px;
+      height: 44px;
+      padding: 4px;
+      border-radius: 12px;
+      border: 1px solid var(--border-light);
+      background: var(--surface);
+    }
+    .qr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+      gap: 20px;
+      margin-top: 24px;
+    }
+    .qr-item {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 14px;
+      text-align: center;
+      transition: var(--transition);
+    }
+    .qr-item canvas, .qr-item img {
+      max-width: 100%;
+      height: auto;
+      background: white;
+      border-radius: 12px;
+    }
+    .qr-label {
+      font-size: 12px;
+      margin-top: 10px;
+      word-break: break-all;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+    .download-single {
+      margin-top: 10px;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      border: none;
+      border-radius: 30px;
+      padding: 6px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .status {
+      margin-top: 12px;
+      font-weight: 700;
+      color: var(--green);
+    }
+    hr {
+      margin: 20px 0;
+      border-color: var(--border-light);
+    }
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border-light);
+      padding: 32px 0 20px;
+      margin-top: 48px;
+    }
+    .footer-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      text-align: center;
+    }
+    /* Ad container */
+    .ad-container {
+      margin: 24px 0;
+      text-align: center;
+    }
+    @media (max-width: 740px) {
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        background: var(--surface);
+        border-radius: 22px;
+        padding: 14px;
+      }
+      .nav-links.open {
+        display: flex;
+      }
+      .mobile-menu {
+        display: block;
+      }
+      .container {
+        padding: 0 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="navbar">
+  <div class="container nav-inner">
+    <a class="logo" href="index.html" aria-label="HindiTools Home">
+      <div class="logo-icon">हि</div>
+      <span>HindiTools</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html#tools">Tools</a>
+      <a href="index.html#pdf">PDF</a>
+      <a href="index.html#image">इमेज</a>
+      <a href="index.html#language">भाषा</a>
+      <a href="about.html">About</a>
+      <a href="privacy.html">Privacy</a>
+      <a href="voice-tools-hi.html" style="background: var(--accent); color: white;">🎙️ वॉइस टूल्स</a>
+    </div>
+    <button class="theme-toggle" id="darkModeToggle">🌙 डार्क</button>
+    <button class="mobile-menu" id="mobileMenuBtn">☰</button>
+  </div>
+</div>
+
+<main class="container">
+  <div class="page-header">
+    <span class="badge">📱 नया टूल</span>
+    <h1>बल्क QR Code जेनरेटर <span style="color: var(--accent);">| Bulk QR Code</span></h1>
+    <p style="color: var(--text-secondary); font-size: 1.1rem;">एक साथ कई URL या टेक्स्ट के QR codes बनाएं, रंग बदलें, और सभी को ZIP फोल्डर में डाउनलोड करें।</p>
+  </div>
+
+  <!-- AdSense Banner (responsive) -->
+  <div class="ad-container">
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-4192195409142944"
+         data-ad-slot="1234567890"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+    <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+  </div>
+
+  <div class="tool-card">
+    <h2>✍️ डेटा दर्ज करें</h2>
+    <p>एक लाइन में एक URL / टेक्स्ट (जैसे: https://hinditools.com, नमस्ते, etc.)</p>
+    <textarea id="bulkInput" rows="5" placeholder="https://hinditools.com&#10;https://google.com&#10;नमस्ते दुनिया&#10;हिंदी टूल्स"></textarea>
+
+    <div class="flex-row">
+      <div>
+        <label>QR फोरग्राउंड रंग</label>
+        <input type="color" id="qrColorDark" value="#000000" class="color-input">
+      </div>
+      <div>
+        <label>बैकग्राउंड रंग</label>
+        <input type="color" id="qrColorLight" value="#ffffff" class="color-input">
+      </div>
+      <div>
+        <label>साइज़ (px)</label>
+        <select id="qrSize">
+          <option value="120">120px</option>
+          <option value="160" selected>160px</option>
+          <option value="200">200px</option>
+        </select>
+      </div>
+    </div>
+
+    <button id="generateBtn" class="btn-primary">✨ QR Codes जेनरेट करें</button>
+    <div id="generateStatus" class="status"></div>
+  </div>
+
+  <!-- Results area -->
+  <div id="qrResultsContainer" class="qr-grid"></div>
+
+  <!-- ZIP Download section (appears after generation) -->
+  <div id="zipSection" style="display: none;" class="tool-card">
+    <h2>📦 सभी QR कोड डाउनलोड करें (ZIP)</h2>
+    <button id="downloadZipBtn" class="btn-primary" style="background: var(--secondary);">⬇️ सभी QR को ZIP में सेव करें</button>
+    <div id="zipStatus" class="status"></div>
+  </div>
+
+  <!-- Info / Privacy note -->
+  <div class="tool-card" style="background: var(--accent-soft);">
+    <p>🔒 सभी QR codes आपके ब्राउज़र में जनरेट होते हैं — कोई डेटा सर्वर पर नहीं जाता। निजी और सुरक्षित।</p>
+  </div>
+</main>
+
+<footer>
+  <div class="container">
+    <div class="footer-text">
+      © 2026 HindiTools.com — QR Code Generator, PDF, Image & Voice Tools
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function() {
+    // DOM Elements
+    const bulkInput = document.getElementById('bulkInput');
+    const generateBtn = document.getElementById('generateBtn');
+    const qrColorDark = document.getElementById('qrColorDark');
+    const qrColorLight = document.getElementById('qrColorLight');
+    const qrSize = document.getElementById('qrSize');
+    const resultsContainer = document.getElementById('qrResultsContainer');
+    const zipSection = document.getElementById('zipSection');
+    const downloadZipBtn = document.getElementById('downloadZipBtn');
+    const zipStatusDiv = document.getElementById('zipStatus');
+    const generateStatus = document.getElementById('generateStatus');
+
+    let currentQRCodes = []; // store { element: div, label: string, canvas: canvas }
+
+    // Helper to clear previous results
+    function clearResults() {
+      resultsContainer.innerHTML = '';
+      zipSection.style.display = 'none';
+      currentQRCodes = [];
+    }
+
+    // Generate QR using QRCode.js library (supports custom colors via canvas manipulation after creation)
+    // QRCode.js doesn't directly support dynamic colors, so we'll override after creation
+    function createQRCode(containerDiv, text, darkColor, lightColor, size) {
+      // clear container
+      containerDiv.innerHTML = '';
+      const qrDiv = document.createElement('div');
+      qrDiv.id = 'qr_' + Math.random().toString(36).substr(2, 8);
+      containerDiv.appendChild(qrDiv);
+      
+      // Generate with default colors
+      new QRCode(qrDiv, {
+        text: text,
+        width: size,
+        height: size,
+        colorDark: "#000000",
+        colorLight: "#ffffff",
+        correctLevel: QRCode.CorrectLevel.M
+      });
+      
+      // After generation, find canvas and override colors
+      const canvas = qrDiv.querySelector('canvas');
+      if (canvas) {
+        const ctx = canvas.getContext('2d');
+        const imageData = ctx.getImageData(0, 0, size, size);
+        const data = imageData.data;
+        const darkRGB = hexToRgb(darkColor);
+        const lightRGB = hexToRgb(lightColor);
+        
+        for (let i = 0; i < data.length; i += 4) {
+          // Assuming black/dark pixels are (0,0,0) or dark near, white/light are (255,255,255)
+          const r = data[i];
+          const g = data[i+1];
+          const b = data[i+2];
+          if (r + g + b < 384) { // dark pixel threshold
+            data[i] = darkRGB.r;
+            data[i+1] = darkRGB.g;
+            data[i+2] = darkRGB.b;
+          } else {
+            data[i] = lightRGB.r;
+            data[i+1] = lightRGB.g;
+            data[i+2] = lightRGB.b;
+          }
+        }
+        ctx.putImageData(imageData, 0, 0);
+      }
+      return canvas;
+    }
+    
+    function hexToRgb(hex) {
+      let r = 0, g = 0, b = 0;
+      if (hex.startsWith('#')) hex = hex.slice(1);
+      if (hex.length === 3) {
+        r = parseInt(hex[0]+hex[0], 16);
+        g = parseInt(hex[1]+hex[1], 16);
+        b = parseInt(hex[2]+hex[2], 16);
+      } else if (hex.length === 6) {
+        r = parseInt(hex.substring(0,2), 16);
+        g = parseInt(hex.substring(2,4), 16);
+        b = parseInt(hex.substring(4,6), 16);
+      }
+      return { r, g, b };
+    }
+
+    // Main generate
+    function generateCodes() {
+      const raw = bulkInput.value;
+      const lines = raw.split(/\r?\n/).filter(line => line.trim().length > 0);
+      if (lines.length === 0) {
+        generateStatus.innerText = '❌ कृपया कम से कम एक लाइन डालें (URL या टेक्स्ट)';
+        generateStatus.style.color = '#dc2626';
+        return;
+      }
+      generateStatus.innerText = `⏳ ${lines.length} QR कोड जेनरेट हो रहे हैं...`;
+      generateStatus.style.color = 'var(--green)';
+      clearResults();
+      
+      const size = parseInt(qrSize.value);
+      const darkColor = qrColorDark.value;
+      const lightColor = qrColorLight.value;
+      
+      lines.forEach((text, idx) => {
+        const card = document.createElement('div');
+        card.className = 'qr-item';
+        
+        const canvasContainer = document.createElement('div');
+        canvasContainer.style.display = 'flex';
+        canvasContainer.style.justifyContent = 'center';
+        card.appendChild(canvasContainer);
+        
+        const canvas = createQRCode(canvasContainer, text, darkColor, lightColor, size);
+        
+        const labelSpan = document.createElement('div');
+        labelSpan.className = 'qr-label';
+        labelSpan.innerText = text.length > 45 ? text.substring(0, 45) + '...' : text;
+        card.appendChild(labelSpan);
+        
+        // Download single button
+        const downloadBtn = document.createElement('button');
+        downloadBtn.innerText = '⬇️ PNG डाउनलोड';
+        downloadBtn.className = 'download-single';
+        downloadBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const canvasElem = canvasContainer.querySelector('canvas');
+          if (canvasElem) {
+            const link = document.createElement('a');
+            link.download = `qrcode_${idx+1}.png`;
+            link.href = canvasElem.toDataURL('image/png');
+            link.click();
+          } else {
+            alert('QR code not ready');
+          }
+        });
+        card.appendChild(downloadBtn);
+        
+        resultsContainer.appendChild(card);
+        currentQRCodes.push({ element: card, text: text, canvasContainer: canvasContainer });
+      });
+      
+      generateStatus.innerText = `✅ ${lines.length} QR कोड तैयार! नीचे दिख रहे हैं।`;
+      zipSection.style.display = 'block';
+    }
+    
+    // Download all as ZIP
+    async function downloadAllAsZip() {
+      if (currentQRCodes.length === 0) {
+        zipStatusDiv.innerText = '❌ कोई QR code नहीं मिला, पहले जेनरेट करें।';
+        return;
+      }
+      zipStatusDiv.innerText = '📦 ZIP बन रहा है, कृपया प्रतीक्षा करें...';
+      const zip = new JSZip();
+      let pending = 0;
+      
+      for (let i = 0; i < currentQRCodes.length; i++) {
+        const item = currentQRCodes[i];
+        const canvasElem = item.canvasContainer.querySelector('canvas');
+        if (canvasElem) {
+          pending++;
+          const dataURL = canvasElem.toDataURL('image/png');
+          const base64 = dataURL.split(',')[1];
+          let filename = `QR_${i+1}.png`;
+          const labelText = item.text.replace(/[^a-z0-9]/gi, '_').substring(0, 30);
+          if (labelText) filename = `QR_${labelText}.png`;
+          zip.file(filename, base64, { base64: true });
+          pending--;
+        }
+      }
+      
+      if (pending === 0) {
+        const content = await zip.generateAsync({ type: 'blob' });
+        const link = document.createElement('a');
+        const url = URL.createObjectURL(content);
+        link.href = url;
+        link.download = 'hinditools_qrcodes.zip';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+        zipStatusDiv.innerText = '✅ ZIP डाउनलोड शुरू हो गया!';
+      } else {
+        zipStatusDiv.innerText = '⚠️ कुछ QR codes तैयार नहीं थे, फिर से जेनरेट करें।';
+      }
+    }
+    
+    generateBtn.addEventListener('click', generateCodes);
+    downloadZipBtn.addEventListener('click', downloadAllAsZip);
+    
+    // Dark mode toggle (mirror index)
+    const darkToggle = document.getElementById('darkModeToggle');
+    if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
+    function updateDarkButton() {
+      darkToggle.innerText = document.body.classList.contains('dark') ? '☀️ लाइट' : '🌙 डार्क';
+    }
+    darkToggle.addEventListener('click', () => {
+      document.body.classList.toggle('dark');
+      localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+      updateDarkButton();
+    });
+    updateDarkButton();
+    
+    // Mobile menu
+    const mobileBtn = document.getElementById('mobileMenuBtn');
+    const navLinks = document.getElementById('navLinks');
+    mobileBtn.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+  })();
+</script>
+</body>
+</html>
