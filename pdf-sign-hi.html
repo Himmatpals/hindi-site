@@ -15,6 +15,8 @@
   <script src="https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/signature_pad@5.1.3/dist/signature_pad.umd.min.js"></script>
 
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='20' fill='%23e66a1f'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' font-size='30' font-family='Arial, sans-serif' font-weight='900' fill='white'%3Eहि%3C/text%3E%3C/svg%3E" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
@@ -191,6 +193,34 @@
       .dropzone { padding: 22px 16px; }
       .stage-top { align-items: stretch; }
       .page-nav, .zoom-row { width: 100%; justify-content: center; }
+    }
+
+
+    /* Navbar logo visibility fix: keep gradient only on brand text, not on the icon */
+    .logo {
+      background: none !important;
+      -webkit-background-clip: border-box !important;
+      background-clip: border-box !important;
+      color: var(--text-primary) !important;
+      -webkit-text-fill-color: initial !important;
+    }
+    .logo > span {
+      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    .logo-icon {
+      background: var(--accent) !important;
+      background-image: none !important;
+      -webkit-background-clip: border-box !important;
+      background-clip: border-box !important;
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+      flex: 0 0 42px;
+      line-height: 1;
+      overflow: visible;
     }
   </style>
 </head>
