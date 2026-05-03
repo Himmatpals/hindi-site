@@ -1,152 +1,1137 @@
 <!DOCTYPE html>
 <html lang="hi">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>PDF to Word | HindiTools</title>
-    <!-- External Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
-    <!-- Using docx library for actual Word generation -->
-    <script src="https://unpkg.com/docx@7.1.0/build/index.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PDF to Word | HindiTools</title>
+  <meta name="description" content="Convert PDF to editable Word DOCX, visual DOCX, or OCR Word document in your browser. Private, client-side PDF conversion." />
+  <style>
+    :root {
+      --bg: #fff8f0;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --border: #f1d7bd;
+      --primary: #e66a1f;
+      --primary-dark: #bf4e13;
+      --secondary: #273c75;
+      --secondary-dark: #182854;
+      --green: #12805c;
+      --red: #dc2626;
+      --amber: #b45309;
+      --blue-soft: #eff6ff;
+      --orange-soft: #fff2e4;
+      --green-soft: #ecfdf5;
+      --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
+      --radius: 24px;
+    }
 
-    <style>
-        /* ... Your existing CSS remains the same ... */
-        :root {
-            --bg: #fff8f0; --card: #ffffff; --text: #1f2937; --muted: #6b7280;
-            --border: #f1d7bd; --primary: #e66a1f; --primary-dark: #bf4e13;
-            --secondary: #273c75; --green: #12805c; --red: #dc2626; --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
-        }
-        body { font-family: system-ui, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; margin: 0; }
-        .container { width: min(1180px, calc(100% - 32px)); margin: auto; }
-        
-        /* Added the missing button style from your prototype */
-        .primary-btn {
-            background: var(--secondary); color: white; border: none; padding: 16px 32px;
-            border-radius: 14px; font-weight: 800; cursor: pointer; width: 100%;
-            transition: transform 0.2s; margin-top: 10px;
-        }
-        .primary-btn:disabled { background: #ccc; cursor: not-allowed; }
-        .primary-btn:hover:not(:disabled) { transform: translateY(-2px); background: #1a2a56; }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(230, 106, 31, 0.16), transparent 32rem),
+        linear-gradient(180deg, #fff8f0 0%, #fff 48%, #fff8f0 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
 
-        /* The rest of your styles provided in the prompt */
-        header { background: white; border-bottom: 1px solid var(--border); padding: 15px 0; }
-        .tool-shell { background: white; padding: 30px; border-radius: 24px; box-shadow: var(--shadow); margin-top: 30px; }
-        .dropzone { border: 2px dashed #efb276; padding: 40px; text-align: center; border-radius: 20px; background: #fffaf5; }
-        .upload-btn { background: var(--primary); color: white; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-weight: bold; }
-        .setting-card { background: #fefefe; border: 1px solid #eee; padding: 15px; border-radius: 12px; margin-bottom: 10px; }
-        .status-box { display: none; margin-top: 20px; padding: 15px; border-radius: 10px; text-align: center; font-weight: bold; }
-        .status-box.show { display: block; background: #e0f2fe; color: #0369a1; }
-        .download-card { display: none; margin-top: 20px; padding: 20px; background: #ecfdf5; border-radius: 15px; text-align: center; }
-        .download-card.show { display: block; }
-        .download-btn { display: inline-block; background: var(--green); color: white; padding: 12px 25px; border-radius: 10px; text-decoration: none; font-weight: bold; }
-    </style>
+    a { color: inherit; }
+    button, input, select { font: inherit; }
+    .container { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav {
+      min-height: 72px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 900;
+      color: var(--secondary);
+      font-size: 25px;
+      letter-spacing: -0.03em;
+    }
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary), #ffb86b);
+      display: grid;
+      place-items: center;
+      color: white;
+      box-shadow: 0 10px 22px rgba(230, 106, 31, 0.28);
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .nav-pill {
+      padding: 9px 14px;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      background: white;
+      color: var(--secondary);
+    }
+
+    .hero {
+      padding: 54px 0 26px;
+      text-align: center;
+    }
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--primary-dark);
+      background: var(--orange-soft);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-weight: 800;
+      font-size: 13px;
+      margin-bottom: 18px;
+    }
+    h1 {
+      font-size: clamp(36px, 7vw, 70px);
+      line-height: 0.98;
+      margin: 0;
+      letter-spacing: -0.06em;
+      color: var(--secondary);
+    }
+    .hero p {
+      max-width: 780px;
+      margin: 20px auto 0;
+      color: var(--muted);
+      font-size: 18px;
+    }
+
+    .tool-shell {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(320px, 0.72fr);
+      gap: 22px;
+      align-items: start;
+      margin: 24px 0 60px;
+    }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+    .card-inner { padding: clamp(20px, 4vw, 34px); }
+    .dropzone {
+      border: 2px dashed #efb276;
+      border-radius: 22px;
+      background:
+        linear-gradient(135deg, rgba(255, 250, 245, 0.92), rgba(255, 255, 255, 0.92)),
+        repeating-linear-gradient(45deg, transparent 0 16px, rgba(230, 106, 31, 0.04) 16px 32px);
+      padding: 34px 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    }
+    .dropzone:hover, .dropzone.dragover {
+      border-color: var(--primary);
+      transform: translateY(-2px);
+      background: #fff7ee;
+    }
+    .drop-icon {
+      width: 72px;
+      height: 72px;
+      border-radius: 24px;
+      background: var(--orange-soft);
+      display: grid;
+      place-items: center;
+      margin: 0 auto 16px;
+      color: var(--primary);
+      font-size: 34px;
+    }
+    .dropzone h2 {
+      margin: 0;
+      color: var(--secondary);
+      font-size: 27px;
+      letter-spacing: -0.03em;
+    }
+    .dropzone p { margin: 8px 0 18px; color: var(--muted); }
+    .upload-btn, .primary-btn, .secondary-btn {
+      border: none;
+      border-radius: 15px;
+      font-weight: 900;
+      cursor: pointer;
+      transition: transform 0.18s, opacity 0.18s, background 0.18s;
+    }
+    .upload-btn {
+      background: var(--primary);
+      color: white;
+      padding: 12px 22px;
+      box-shadow: 0 14px 28px rgba(230, 106, 31, 0.24);
+    }
+    .primary-btn {
+      width: 100%;
+      background: var(--secondary);
+      color: white;
+      padding: 16px 24px;
+      box-shadow: 0 16px 30px rgba(39, 60, 117, 0.22);
+    }
+    .primary-btn:hover:not(:disabled), .upload-btn:hover, .secondary-btn:hover { transform: translateY(-2px); }
+    .primary-btn:hover:not(:disabled) { background: var(--secondary-dark); }
+    .primary-btn:disabled { background: #cbd5e1; cursor: not-allowed; box-shadow: none; }
+    .secondary-btn {
+      width: 100%;
+      background: #fff;
+      color: var(--secondary);
+      border: 1px solid var(--border);
+      padding: 13px 18px;
+    }
+
+    .file-chip {
+      margin-top: 16px;
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      text-align: left;
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid var(--border);
+    }
+    .file-chip.show { display: flex; }
+    .file-title { font-weight: 900; color: var(--secondary); word-break: break-word; }
+    .file-meta { color: var(--muted); font-size: 13px; }
+    .remove-btn {
+      background: #fff1f2;
+      color: var(--red);
+      border: 1px solid #fecdd3;
+      border-radius: 12px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-weight: 900;
+      flex: 0 0 auto;
+    }
+
+    .section-title {
+      margin: 26px 0 12px;
+      font-size: 18px;
+      color: var(--secondary);
+      letter-spacing: -0.02em;
+    }
+    .mode-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+    }
+    .mode-card {
+      position: relative;
+      border: 1px solid #ead6c2;
+      border-radius: 18px;
+      padding: 16px;
+      cursor: pointer;
+      background: #fffdfb;
+      transition: border-color 0.18s, box-shadow 0.18s, transform 0.18s;
+      min-height: 150px;
+    }
+    .mode-card:hover { transform: translateY(-2px); }
+    .mode-card input { position: absolute; opacity: 0; pointer-events: none; }
+    .mode-card.selected {
+      border-color: var(--primary);
+      box-shadow: 0 14px 28px rgba(230, 106, 31, 0.14);
+      background: #fff7ed;
+    }
+    .mode-card strong { display: block; color: var(--secondary); font-size: 16px; margin-bottom: 6px; }
+    .mode-card span { color: var(--muted); font-size: 13px; display: block; line-height: 1.45; }
+    .badge {
+      display: inline-flex;
+      margin-top: 10px;
+      padding: 5px 9px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      background: white;
+      border: 1px solid var(--border);
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 12px;
+    }
+    .setting-card {
+      background: #fffdfb;
+      border: 1px solid #ead6c2;
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .setting-card label {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      color: var(--secondary);
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+    .setting-card small { color: var(--muted); display: block; margin-top: 8px; }
+    input[type="range"] { width: 100%; accent-color: var(--primary); }
+    select {
+      width: 100%;
+      border: 1px solid var(--border);
+      background: white;
+      border-radius: 14px;
+      padding: 12px 12px;
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .status-box {
+      display: none;
+      margin-top: 18px;
+      border: 1px solid #bfdbfe;
+      background: var(--blue-soft);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .status-box.show { display: block; }
+    .status-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 16px 16px 10px;
+      color: #1d4ed8;
+      font-weight: 900;
+    }
+    .progress-wrap {
+      margin: 0 16px 12px;
+      height: 11px;
+      border-radius: 999px;
+      background: rgba(29, 78, 216, 0.15);
+      overflow: hidden;
+    }
+    .progress-bar {
+      width: 0%;
+      height: 100%;
+      background: #2563eb;
+      transition: width 0.2s ease;
+    }
+    .status-detail {
+      padding: 0 16px 16px;
+      color: #1e40af;
+      font-size: 14px;
+    }
+    .status-box.error {
+      border-color: #fecaca;
+      background: #fff1f2;
+    }
+    .status-box.error .status-head, .status-box.error .status-detail { color: #b91c1c; }
+    .status-box.error .progress-bar { background: var(--red); }
+
+    .download-card {
+      display: none;
+      margin-top: 18px;
+      padding: 20px;
+      border-radius: 20px;
+      background: var(--green-soft);
+      border: 1px solid #bbf7d0;
+      text-align: center;
+    }
+    .download-card.show { display: block; }
+    .download-card h3 { margin: 0 0 6px; color: var(--green); font-size: 22px; }
+    .download-card p { margin: 0 0 16px; color: #166534; }
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--green);
+      color: white;
+      padding: 13px 22px;
+      border-radius: 14px;
+      font-weight: 900;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    .side-card + .side-card { margin-top: 16px; }
+    .side-card h3 {
+      margin: 0 0 10px;
+      color: var(--secondary);
+      font-size: 19px;
+      letter-spacing: -0.02em;
+    }
+    .side-card p { color: var(--muted); margin: 0; }
+    .feature-list {
+      display: grid;
+      gap: 12px;
+      padding: 0;
+      list-style: none;
+      margin: 16px 0 0;
+    }
+    .feature-list li {
+      display: flex;
+      gap: 10px;
+      color: var(--muted);
+      align-items: flex-start;
+    }
+    .tick {
+      width: 24px;
+      height: 24px;
+      flex: 0 0 24px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      background: var(--green-soft);
+      color: var(--green);
+      font-weight: 900;
+    }
+    .warning {
+      padding: 14px 15px;
+      border-radius: 16px;
+      background: #fffbeb;
+      border: 1px solid #fde68a;
+      color: #92400e;
+      font-size: 14px;
+      margin-top: 14px;
+    }
+    .preview {
+      display: none;
+      margin-top: 14px;
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 14px;
+      border-radius: 16px;
+      max-height: 220px;
+      overflow: auto;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+    }
+    .preview.show { display: block; }
+
+    footer {
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      padding: 22px 0 34px;
+      font-size: 14px;
+    }
+
+    @media (max-width: 920px) {
+      .tool-shell { grid-template-columns: 1fr; }
+      .mode-grid { grid-template-columns: 1fr; }
+      .settings-grid { grid-template-columns: 1fr; }
+      .nav { align-items: flex-start; flex-direction: column; padding: 14px 0; }
+      .nav-links { flex-wrap: wrap; }
+    }
+  </style>
 </head>
 <body>
+  <header>
+    <div class="container nav">
+      <div class="brand"><span class="brand-mark">ह</span> HindiTools</div>
+      <nav class="nav-links" aria-label="Main navigation">
+        <span>PDF Tools</span>
+        <span>Word Tools</span>
+        <span class="nav-pill">100% browser-side</span>
+      </nav>
+    </div>
+  </header>
 
-    <header>
-        <div class="container" style="display:flex; justify-content: space-between; align-items:center;">
-            <strong style="font-size: 24px; color: var(--secondary);">HindiTools</strong>
-            <nav>PDF to Word | Privacy</nav>
-        </div>
-    </header>
+  <main class="container">
+    <section class="hero">
+      <div class="kicker">🔒 Private conversion • No upload to server</div>
+      <h1>PDF को Word में बदलें</h1>
+      <p>Editable Word, visual layout copy, or OCR Word for scanned PDFs. Choose the mode that matches your document and download a real <strong>.docx</strong> file.</p>
+    </section>
 
-    <main class="container">
-        <div style="text-align:center; padding: 40px 0;">
-            <h1>PDF को Word में बदलें</h1>
-            <p>High-quality conversion with client-side processing.</p>
-        </div>
-
-        <div class="tool-shell">
-            <div class="dropzone" id="dropzone">
-                <input type="file" id="fileInput" accept="application/pdf" style="display:none" />
-                <h2>PDF यहाँ चुनें</h2>
-                <button class="upload-btn" onclick="document.getElementById('fileInput').click()">Select File</button>
-                <div id="fileName" style="margin-top:10px; color: #666;">No file selected</div>
+    <section class="tool-shell">
+      <div class="card">
+        <div class="card-inner">
+          <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Choose PDF file">
+            <input type="file" id="fileInput" accept="application/pdf,.pdf" hidden />
+            <div class="drop-icon">📄</div>
+            <h2>PDF यहाँ डालें या चुनें</h2>
+            <p>Drag & drop your PDF here, or click to select a file.</p>
+            <button class="upload-btn" type="button" id="chooseBtn">Select PDF</button>
+            <div class="file-chip" id="fileChip">
+              <div>
+                <div class="file-title" id="fileName">No file selected</div>
+                <div class="file-meta" id="fileMeta">—</div>
+              </div>
+              <button class="remove-btn" type="button" id="removeBtn">Remove</button>
             </div>
+          </div>
 
-            <div style="margin-top:25px;">
-                <div class="setting-card">
-                    <label>Extraction Quality: <span id="qv">90%</span></label>
-                    <input type="range" id="quality" style="width:100%" min="50" max="100" value="90" oninput="document.getElementById('qv').innerText=this.value+'%'">
-                </div>
-                
-                <button class="primary-btn" id="createWordBtn" disabled>Create Word Document</button>
+          <h3 class="section-title">1. Conversion mode</h3>
+          <div class="mode-grid" id="modeGrid">
+            <label class="mode-card selected" data-mode="editable">
+              <input type="radio" name="mode" value="editable" checked />
+              <strong>Editable Word</strong>
+              <span>Best for normal text PDFs. Creates editable paragraphs and tries to preserve line spacing.</span>
+              <em class="badge">Most useful</em>
+            </label>
+            <label class="mode-card" data-mode="visual">
+              <input type="radio" name="mode" value="visual" />
+              <strong>Visual Word</strong>
+              <span>Best for forms, flyers, certificates, complex tables. Page becomes an image inside Word.</span>
+              <em class="badge">Best layout</em>
+            </label>
+            <label class="mode-card" data-mode="ocr">
+              <input type="radio" name="mode" value="ocr" />
+              <strong>OCR Word</strong>
+              <span>Best for scanned/image PDFs. Uses OCR in the browser, then exports editable text.</span>
+              <em class="badge">For scans</em>
+            </label>
+          </div>
+
+          <h3 class="section-title">2. Settings</h3>
+          <div class="settings-grid">
+            <div class="setting-card">
+              <label>Visual quality <span id="qualityValue">90%</span></label>
+              <input type="range" id="quality" min="55" max="100" value="90" />
+              <small>Used for Visual Word and OCR page rendering. Higher quality creates larger files.</small>
             </div>
-
-            <div id="statusBox" class="status-box"></div>
-
-            <div id="downloadCard" class="download-card">
-                <h3>✅ File Ready!</h3>
-                <p>आपका Word दस्तावेज़ तैयार है।</p>
-                <button id="downloadAction" class="download-btn">Download .DOCX</button>
+            <div class="setting-card">
+              <label for="renderScale">Speed / detail</label>
+              <select id="renderScale">
+                <option value="1.35">Fast</option>
+                <option value="1.8" selected>Balanced</option>
+                <option value="2.4">High detail</option>
+              </select>
+              <small>High detail is better for small text, but takes longer.</small>
             </div>
+            <div class="setting-card">
+              <label for="ocrLang">OCR language</label>
+              <select id="ocrLang">
+                <option value="eng" selected>English</option>
+                <option value="hin">Hindi</option>
+                <option value="eng+hin">English + Hindi</option>
+              </select>
+              <small>Only used when OCR Word mode is selected.</small>
+            </div>
+            <div class="setting-card">
+              <label for="pageLimit">Page limit</label>
+              <select id="pageLimit">
+                <option value="0" selected>All pages</option>
+                <option value="5">First 5 pages</option>
+                <option value="10">First 10 pages</option>
+                <option value="25">First 25 pages</option>
+              </select>
+              <small>Useful on very large PDFs to avoid browser freezing.</small>
+            </div>
+          </div>
+
+          <div class="warning" id="scanWarning" style="display:none;">
+            This PDF looks like a scanned/image PDF. Editable mode may return little text. Use <strong>OCR Word</strong> or <strong>Visual Word</strong> for better results.
+          </div>
+
+          <div style="margin-top:22px; display:grid; gap:10px;">
+            <button class="primary-btn" id="convertBtn" disabled>Convert to Word Document</button>
+            <button class="secondary-btn" id="textBtn" disabled>Download extracted text only</button>
+          </div>
+
+          <div id="statusBox" class="status-box" aria-live="polite">
+            <div class="status-head"><span id="statusTitle">Preparing…</span><span id="statusPercent">0%</span></div>
+            <div class="progress-wrap"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="status-detail" id="statusDetail">Please wait.</div>
+          </div>
+
+          <pre id="preview" class="preview"></pre>
+
+          <div id="downloadCard" class="download-card">
+            <h3>✅ File Ready</h3>
+            <p id="downloadInfo">Your Word document is ready.</p>
+            <a id="downloadLink" class="download-btn" href="#" download>Download .DOCX</a>
+          </div>
         </div>
-    </main>
+      </div>
 
-    <script>
-        pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js';
+      <aside>
+        <div class="card side-card">
+          <div class="card-inner">
+            <h3>Which mode should you use?</h3>
+            <ul class="feature-list">
+              <li><span class="tick">✓</span><span><strong>Editable Word:</strong> use for invoices, letters, reports, and typed documents.</span></li>
+              <li><span class="tick">✓</span><span><strong>Visual Word:</strong> use when layout matters more than editable text.</span></li>
+              <li><span class="tick">✓</span><span><strong>OCR Word:</strong> use when the PDF is made from photos or scanned pages.</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="card side-card">
+          <div class="card-inner">
+            <h3>Important truth</h3>
+            <p>Free browser tools cannot perfectly rebuild every PDF into a fully editable Word file because PDFs store fixed page instructions, not clean Word paragraphs. This tool gives users the best practical options without uploading their files.</p>
+          </div>
+        </div>
+        <div class="card side-card">
+          <div class="card-inner">
+            <h3>Privacy</h3>
+            <p>The PDF is processed inside the browser. Your file is not sent to HindiTools or any server. External libraries are loaded from CDN, but the selected PDF stays on the user’s device.</p>
+          </div>
+        </div>
+      </aside>
+    </section>
+  </main>
 
-        let selectedFile = null;
-        const fileInput = document.getElementById('fileInput');
-        const createBtn = document.getElementById('createWordBtn');
-        const statusBox = document.getElementById('statusBox');
-        const downloadCard = document.getElementById('downloadCard');
+  <footer>
+    <div class="container">© HindiTools • PDF to Word converter • Client-side tool</div>
+  </footer>
 
-        fileInput.addEventListener('change', (e) => {
-            if(e.target.files[0]) {
-                selectedFile = e.target.files[0];
-                document.getElementById('fileName').innerText = selectedFile.name;
-                createBtn.disabled = false;
-            }
-        });
+  <script src="https://cdn.jsdelivr.net/npm/tesseract.js@6.0.0/dist/tesseract.min.js"></script>
+  <script type="module">
+    import * as pdfjsLib from "https://cdn.jsdelivr.net/npm/pdfjs-dist@5.7.284/build/pdf.mjs";
+    import {
+      Document,
+      Packer,
+      Paragraph,
+      TextRun,
+      HeadingLevel,
+      AlignmentType,
+      PageBreak,
+      ImageRun
+    } from "https://cdn.jsdelivr.net/npm/docx@9.6.1/+esm";
 
-        createBtn.addEventListener('click', async () => {
-            statusBox.innerText = "Reading PDF content...";
-            statusBox.className = "status-box show";
-            createBtn.disabled = true;
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "https://cdn.jsdelivr.net/npm/pdfjs-dist@5.7.284/build/pdf.worker.mjs";
 
-            try {
-                const arrayBuffer = await selectedFile.arrayBuffer();
-                const pdf = await pdfjsLib.getDocument({data: arrayBuffer}).promise;
-                let fullText = [];
+    const els = {
+      dropzone: document.getElementById("dropzone"),
+      chooseBtn: document.getElementById("chooseBtn"),
+      fileInput: document.getElementById("fileInput"),
+      fileChip: document.getElementById("fileChip"),
+      fileName: document.getElementById("fileName"),
+      fileMeta: document.getElementById("fileMeta"),
+      removeBtn: document.getElementById("removeBtn"),
+      convertBtn: document.getElementById("convertBtn"),
+      textBtn: document.getElementById("textBtn"),
+      quality: document.getElementById("quality"),
+      qualityValue: document.getElementById("qualityValue"),
+      renderScale: document.getElementById("renderScale"),
+      ocrLang: document.getElementById("ocrLang"),
+      pageLimit: document.getElementById("pageLimit"),
+      statusBox: document.getElementById("statusBox"),
+      statusTitle: document.getElementById("statusTitle"),
+      statusPercent: document.getElementById("statusPercent"),
+      progressBar: document.getElementById("progressBar"),
+      statusDetail: document.getElementById("statusDetail"),
+      downloadCard: document.getElementById("downloadCard"),
+      downloadLink: document.getElementById("downloadLink"),
+      downloadInfo: document.getElementById("downloadInfo"),
+      preview: document.getElementById("preview"),
+      scanWarning: document.getElementById("scanWarning"),
+      modeGrid: document.getElementById("modeGrid")
+    };
 
-                for (let i = 1; i <= pdf.numPages; i++) {
-                    statusBox.innerText = `Processing Page ${i} of ${pdf.numPages}...`;
-                    const page = await pdf.getPage(i);
-                    const content = await page.getTextContent();
-                    const strings = content.items.map(item => item.str);
-                    fullText.push(strings.join(" "));
-                }
+    let selectedFile = null;
+    let selectedArrayBuffer = null;
+    let lastExtractedText = "";
+    let currentDownloadUrl = null;
 
-                generateDocx(fullText);
-            } catch (err) {
-                statusBox.innerText = "Error: " + err.message;
-            }
-        });
+    els.quality.addEventListener("input", () => {
+      els.qualityValue.textContent = `${els.quality.value}%`;
+    });
 
-        function generateDocx(textArray) {
-            const { Document, Packer, Paragraph, TextRun } = docx;
+    els.chooseBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      els.fileInput.click();
+    });
+    els.dropzone.addEventListener("click", () => els.fileInput.click());
+    els.dropzone.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") els.fileInput.click();
+    });
+    els.fileInput.addEventListener("change", (event) => {
+      const file = event.target.files?.[0];
+      if (file) setFile(file);
+    });
 
-            const doc = new Document({
-                sections: [{
-                    properties: {},
-                    children: textArray.map(text => new Paragraph({
-                        children: [new TextRun(text)],
-                        spacing: { after: 200 }
-                    })),
-                }],
-            });
+    ["dragenter", "dragover"].forEach((name) => {
+      els.dropzone.addEventListener(name, (event) => {
+        event.preventDefault();
+        els.dropzone.classList.add("dragover");
+      });
+    });
+    ["dragleave", "drop"].forEach((name) => {
+      els.dropzone.addEventListener(name, (event) => {
+        event.preventDefault();
+        els.dropzone.classList.remove("dragover");
+      });
+    });
+    els.dropzone.addEventListener("drop", (event) => {
+      const file = event.dataTransfer.files?.[0];
+      if (file) setFile(file);
+    });
 
-            Packer.toBlob(doc).then(blob => {
-                statusBox.innerText = "Conversion Complete!";
-                downloadCard.classList.add('show');
-                
-                document.getElementById('downloadAction').onclick = () => {
-                    saveAs(blob, selectedFile.name.replace(".pdf", "") + ".docx");
-                };
-            });
+    els.removeBtn.addEventListener("click", (event) => {
+      event.stopPropagation();
+      resetTool();
+    });
+
+    els.modeGrid.addEventListener("change", () => syncModeCards());
+    els.convertBtn.addEventListener("click", () => runConversion());
+    els.textBtn.addEventListener("click", () => downloadTextOnly());
+
+    function getMode() {
+      return document.querySelector("input[name='mode']:checked")?.value || "editable";
+    }
+
+    function syncModeCards() {
+      const mode = getMode();
+      document.querySelectorAll(".mode-card").forEach((card) => {
+        card.classList.toggle("selected", card.dataset.mode === mode);
+      });
+    }
+
+    async function setFile(file) {
+      if (file.type !== "application/pdf" && !file.name.toLowerCase().endsWith(".pdf")) {
+        showError("Please select a PDF file.");
+        return;
+      }
+      selectedFile = file;
+      selectedArrayBuffer = await file.arrayBuffer();
+      lastExtractedText = "";
+      clearDownload();
+      els.preview.classList.remove("show");
+      els.scanWarning.style.display = "none";
+      els.fileName.textContent = file.name;
+      els.fileMeta.textContent = `${formatBytes(file.size)} • Ready`;
+      els.fileChip.classList.add("show");
+      els.convertBtn.disabled = false;
+      els.textBtn.disabled = false;
+      hideStatus();
+      await quickScanPdf();
+    }
+
+    function resetTool() {
+      selectedFile = null;
+      selectedArrayBuffer = null;
+      lastExtractedText = "";
+      els.fileInput.value = "";
+      els.fileChip.classList.remove("show");
+      els.convertBtn.disabled = true;
+      els.textBtn.disabled = true;
+      els.scanWarning.style.display = "none";
+      els.preview.classList.remove("show");
+      clearDownload();
+      hideStatus();
+    }
+
+    async function quickScanPdf() {
+      try {
+        setStatus("Checking PDF", 3, "Looking for selectable text…");
+        const pdf = await openPdf();
+        const pagesToCheck = Math.min(pdf.numPages, 2);
+        let chars = 0;
+        for (let i = 1; i <= pagesToCheck; i++) {
+          const page = await pdf.getPage(i);
+          const content = await page.getTextContent();
+          chars += content.items.map((item) => item.str || "").join(" ").trim().length;
         }
-    </script>
+        const pageLabel = pdf.numPages === 1 ? "1 page" : `${pdf.numPages} pages`;
+        els.fileMeta.textContent = `${formatBytes(selectedFile.size)} • ${pageLabel}`;
+        if (chars < 20) els.scanWarning.style.display = "block";
+        hideStatus();
+      } catch (error) {
+        showError(`Unable to read PDF: ${error.message}`);
+      }
+    }
+
+    async function openPdf() {
+      if (!selectedArrayBuffer) throw new Error("No PDF selected.");
+      return pdfjsLib.getDocument({ data: selectedArrayBuffer.slice(0) }).promise;
+    }
+
+    async function runConversion() {
+      if (!selectedFile) return;
+      clearDownload();
+      els.convertBtn.disabled = true;
+      els.textBtn.disabled = true;
+      try {
+        const mode = getMode();
+        if (mode === "editable") await convertEditable();
+        if (mode === "visual") await convertVisual();
+        if (mode === "ocr") await convertOcr();
+      } catch (error) {
+        console.error(error);
+        showError(error.message || "Conversion failed.");
+      } finally {
+        els.convertBtn.disabled = false;
+        els.textBtn.disabled = false;
+      }
+    }
+
+    async function convertEditable() {
+      const pdf = await openPdf();
+      const pageCount = getTargetPageCount(pdf.numPages);
+      const pages = [];
+      let combinedText = "";
+
+      for (let pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+        setStatus("Extracting text", pct(pageNumber - 1, pageCount, 5, 75), `Processing page ${pageNumber} of ${pageCount}…`);
+        const page = await pdf.getPage(pageNumber);
+        const lines = await extractLinesFromPage(page);
+        pages.push({ pageNumber, lines });
+        combinedText += `\n\n--- Page ${pageNumber} ---\n` + lines.join("\n");
+      }
+
+      lastExtractedText = combinedText.trim();
+      showPreview(lastExtractedText);
+      setStatus("Building Word file", 85, "Creating editable DOCX paragraphs…");
+      const doc = buildTextDocx(pages, "Editable PDF to Word");
+      const blob = await Packer.toBlob(doc);
+      finishDownload(blob, makeOutputName("editable.docx"), "Editable Word document created.");
+    }
+
+    async function convertVisual() {
+      const pdf = await openPdf();
+      const pageCount = getTargetPageCount(pdf.numPages);
+      const children = [
+        titleParagraph("Visual PDF to Word"),
+        metaParagraph(`Source: ${selectedFile.name} • ${pageCount} page${pageCount === 1 ? "" : "s"}`)
+      ];
+      const scale = Number(els.renderScale.value);
+      const quality = Number(els.quality.value) / 100;
+
+      for (let pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+        setStatus("Rendering pages", pct(pageNumber - 1, pageCount, 5, 82), `Rendering page ${pageNumber} of ${pageCount}…`);
+        const page = await pdf.getPage(pageNumber);
+        const image = await renderPageToImage(page, scale, quality);
+        const size = fitInside(image.width, image.height, 590, 760);
+        children.push(new Paragraph({ text: `Page ${pageNumber}`, heading: HeadingLevel.HEADING_2 }));
+        children.push(new Paragraph({
+          alignment: AlignmentType.CENTER,
+          children: [new ImageRun({ data: image.bytes, transformation: size, type: "jpg" })]
+        }));
+        if (pageNumber < pageCount) children.push(new Paragraph({ children: [new PageBreak()] }));
+      }
+
+      setStatus("Building Word file", 90, "Creating visual DOCX…");
+      const doc = new Document({ sections: [{ properties: defaultSectionProperties(), children }] });
+      const blob = await Packer.toBlob(doc);
+      finishDownload(blob, makeOutputName("visual.docx"), "Visual Word document created. Layout is preserved as page images.");
+    }
+
+    async function convertOcr() {
+      if (!window.Tesseract) throw new Error("OCR library did not load. Please refresh and try again.");
+      const pdf = await openPdf();
+      const pageCount = getTargetPageCount(pdf.numPages);
+      const scale = Math.max(Number(els.renderScale.value), 1.8);
+      const lang = els.ocrLang.value;
+      const pages = [];
+      let combinedText = "";
+
+      for (let pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+        setStatus("Preparing OCR", pct(pageNumber - 1, pageCount, 5, 20), `Rendering page ${pageNumber} of ${pageCount} for OCR…`);
+        const page = await pdf.getPage(pageNumber);
+        const canvas = await renderPageToCanvas(page, scale);
+        setStatus("Recognising text", pct(pageNumber - 1, pageCount, 20, 86), `OCR running on page ${pageNumber} of ${pageCount}…`);
+        const result = await window.Tesseract.recognize(canvas, lang, {
+          logger: (message) => {
+            if (message.status === "recognizing text" && typeof message.progress === "number") {
+              const local = message.progress;
+              setStatus("Recognising text", pct(pageNumber - 1 + local, pageCount, 20, 86), `OCR page ${pageNumber}: ${Math.round(local * 100)}%`);
+            }
+          }
+        });
+        const lines = cleanText(result.data.text).split("\n").filter(Boolean);
+        pages.push({ pageNumber, lines });
+        combinedText += `\n\n--- Page ${pageNumber} ---\n` + lines.join("\n");
+      }
+
+      lastExtractedText = combinedText.trim();
+      showPreview(lastExtractedText);
+      setStatus("Building Word file", 92, "Creating OCR DOCX…");
+      const doc = buildTextDocx(pages, "OCR PDF to Word");
+      const blob = await Packer.toBlob(doc);
+      finishDownload(blob, makeOutputName("ocr.docx"), "OCR Word document created.");
+    }
+
+    async function extractLinesFromPage(page) {
+      const content = await page.getTextContent({ disableCombineTextItems: false });
+      const rawItems = content.items
+        .filter((item) => item.str && item.str.trim().length)
+        .map((item) => {
+          const t = item.transform || [1, 0, 0, 1, 0, 0];
+          const height = Math.abs(t[3] || item.height || 10);
+          const width = item.width || Math.max(item.str.length * height * 0.45, 1);
+          return {
+            str: item.str,
+            x: t[4] || 0,
+            y: t[5] || 0,
+            width,
+            height,
+            endX: (t[4] || 0) + width,
+            hasEOL: Boolean(item.hasEOL)
+          };
+        });
+
+      if (!rawItems.length) return ["No selectable text was found on this page. Try OCR Word mode."];
+
+      const medianHeight = median(rawItems.map((i) => i.height).filter(Boolean)) || 10;
+      const medianChar = median(rawItems.map((i) => i.width / Math.max(i.str.length, 1)).filter(Boolean)) || medianHeight * 0.45;
+      const tolerance = Math.max(3, medianHeight * 0.65);
+      const sorted = rawItems.sort((a, b) => b.y - a.y || a.x - b.x);
+      const groups = [];
+
+      for (const item of sorted) {
+        let group = groups.find((g) => Math.abs(g.y - item.y) <= tolerance);
+        if (!group) {
+          group = { y: item.y, items: [] };
+          groups.push(group);
+        }
+        group.items.push(item);
+        group.y = (group.y * (group.items.length - 1) + item.y) / group.items.length;
+      }
+
+      groups.sort((a, b) => b.y - a.y);
+      const lines = groups.map((group) => {
+        group.items.sort((a, b) => a.x - b.x);
+        let line = "";
+        let lastEnd = null;
+        for (const item of group.items) {
+          const text = item.str.replace(/\s+/g, " ");
+          if (lastEnd !== null) {
+            const gap = item.x - lastEnd;
+            if (gap > medianChar * 1.8) {
+              line += " ".repeat(Math.min(12, Math.max(1, Math.round(gap / medianChar))));
+            } else if (gap > medianChar * 0.45 && !line.endsWith(" ") && !text.startsWith(" ")) {
+              line += " ";
+            }
+          }
+          line += text;
+          lastEnd = Math.max(item.endX, lastEnd ?? item.endX);
+          if (item.hasEOL && !line.endsWith(" ")) line += " ";
+        }
+        return line.replace(/[ \t]+/g, " ").trimEnd();
+      }).filter((line) => line.trim().length);
+
+      return mergeParagraphLikeLines(lines);
+    }
+
+    function mergeParagraphLikeLines(lines) {
+      const output = [];
+      for (const line of lines) {
+        const trimmed = line.trim();
+        if (!trimmed) continue;
+        const previous = output[output.length - 1];
+        const looksLikeContinuation = previous &&
+          previous.length < 120 &&
+          !/[.:;!?।]$/.test(previous) &&
+          /^[a-zà-ÿ0-9(]/i.test(trimmed) &&
+          trimmed.length < 130;
+        if (looksLikeContinuation) output[output.length - 1] = `${previous} ${trimmed}`;
+        else output.push(trimmed);
+      }
+      return output;
+    }
+
+    function buildTextDocx(pages, title) {
+      const children = [
+        titleParagraph(title),
+        metaParagraph(`Source: ${selectedFile.name} • Created in browser by HindiTools`)
+      ];
+
+      for (const page of pages) {
+        children.push(new Paragraph({ text: `Page ${page.pageNumber}`, heading: HeadingLevel.HEADING_2 }));
+        if (!page.lines.length) {
+          children.push(new Paragraph({ children: [new TextRun("No text found on this page.")] }));
+        }
+        for (const line of page.lines) {
+          children.push(new Paragraph({
+            children: [new TextRun({ text: line, size: 22 })],
+            spacing: { after: 110 },
+          }));
+        }
+        if (page.pageNumber < pages[pages.length - 1].pageNumber) {
+          children.push(new Paragraph({ children: [new PageBreak()] }));
+        }
+      }
+
+      return new Document({
+        creator: "HindiTools",
+        title,
+        description: "Converted from PDF to DOCX in browser",
+        sections: [{ properties: defaultSectionProperties(), children }]
+      });
+    }
+
+    function titleParagraph(text) {
+      return new Paragraph({
+        text,
+        heading: HeadingLevel.TITLE,
+        spacing: { after: 220 }
+      });
+    }
+
+    function metaParagraph(text) {
+      return new Paragraph({
+        children: [new TextRun({ text, italics: true, color: "6B7280", size: 20 })],
+        spacing: { after: 260 }
+      });
+    }
+
+    function defaultSectionProperties() {
+      return {
+        page: {
+          margin: { top: 720, right: 720, bottom: 720, left: 720 }
+        }
+      };
+    }
+
+    async function renderPageToImage(page, scale, quality) {
+      const canvas = await renderPageToCanvas(page, scale);
+      const dataUrl = canvas.toDataURL("image/jpeg", quality);
+      return { bytes: dataUrlToUint8Array(dataUrl), width: canvas.width, height: canvas.height };
+    }
+
+    async function renderPageToCanvas(page, scale) {
+      const viewport = page.getViewport({ scale });
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d", { alpha: false });
+      canvas.width = Math.ceil(viewport.width);
+      canvas.height = Math.ceil(viewport.height);
+      await page.render({ canvasContext: context, viewport }).promise;
+      return canvas;
+    }
+
+    function dataUrlToUint8Array(dataUrl) {
+      const base64 = dataUrl.split(",")[1];
+      const binary = atob(base64);
+      const bytes = new Uint8Array(binary.length);
+      for (let i = 0; i < binary.length; i++) bytes[i] = binary.charCodeAt(i);
+      return bytes;
+    }
+
+    function fitInside(width, height, maxWidth, maxHeight) {
+      const ratio = Math.min(maxWidth / width, maxHeight / height, 1);
+      return { width: Math.round(width * ratio), height: Math.round(height * ratio) };
+    }
+
+    async function downloadTextOnly() {
+      if (!selectedFile) return;
+      try {
+        if (!lastExtractedText) {
+          const pdf = await openPdf();
+          const pageCount = getTargetPageCount(pdf.numPages);
+          let text = "";
+          for (let pageNumber = 1; pageNumber <= pageCount; pageNumber++) {
+            setStatus("Extracting text", pct(pageNumber - 1, pageCount, 10, 90), `Reading page ${pageNumber} of ${pageCount}…`);
+            const page = await pdf.getPage(pageNumber);
+            const lines = await extractLinesFromPage(page);
+            text += `\n\n--- Page ${pageNumber} ---\n` + lines.join("\n");
+          }
+          lastExtractedText = text.trim();
+          showPreview(lastExtractedText);
+        }
+        const blob = new Blob([lastExtractedText || "No text found."], { type: "text/plain;charset=utf-8" });
+        finishDownload(blob, makeOutputName("extracted.txt"), "Extracted text file created.");
+      } catch (error) {
+        showError(error.message || "Text extraction failed.");
+      }
+    }
+
+    function getTargetPageCount(totalPages) {
+      const limit = Number(els.pageLimit.value);
+      return limit > 0 ? Math.min(totalPages, limit) : totalPages;
+    }
+
+    function setStatus(title, percent, detail) {
+      els.statusBox.classList.add("show");
+      els.statusBox.classList.remove("error");
+      const safePercent = Math.max(0, Math.min(100, Math.round(percent)));
+      els.statusTitle.textContent = title;
+      els.statusPercent.textContent = `${safePercent}%`;
+      els.progressBar.style.width = `${safePercent}%`;
+      els.statusDetail.textContent = detail;
+    }
+
+    function hideStatus() {
+      els.statusBox.classList.remove("show", "error");
+    }
+
+    function showError(message) {
+      els.statusBox.classList.add("show", "error");
+      els.statusTitle.textContent = "Error";
+      els.statusPercent.textContent = "!";
+      els.progressBar.style.width = "100%";
+      els.statusDetail.textContent = message;
+    }
+
+    function finishDownload(blob, filename, message) {
+      if (currentDownloadUrl) URL.revokeObjectURL(currentDownloadUrl);
+      currentDownloadUrl = URL.createObjectURL(blob);
+      els.downloadLink.href = currentDownloadUrl;
+      els.downloadLink.download = filename;
+      els.downloadLink.textContent = filename.endsWith(".txt") ? "Download .TXT" : "Download .DOCX";
+      els.downloadInfo.textContent = `${message} File size: ${formatBytes(blob.size)}.`;
+      els.downloadCard.classList.add("show");
+      setStatus("Complete", 100, "Your file is ready to download.");
+    }
+
+    function clearDownload() {
+      if (currentDownloadUrl) URL.revokeObjectURL(currentDownloadUrl);
+      currentDownloadUrl = null;
+      els.downloadCard.classList.remove("show");
+      els.downloadLink.removeAttribute("href");
+    }
+
+    function showPreview(text) {
+      if (!text) return;
+      els.preview.textContent = text.length > 6000 ? `${text.slice(0, 6000)}\n\n… preview shortened …` : text;
+      els.preview.classList.add("show");
+    }
+
+    function makeOutputName(suffix) {
+      const base = selectedFile.name.replace(/\.pdf$/i, "").replace(/[^a-z0-9\-_ ]+/gi, "").trim() || "converted";
+      return `${base}-${suffix}`;
+    }
+
+    function formatBytes(bytes) {
+      if (!Number.isFinite(bytes)) return "0 B";
+      const units = ["B", "KB", "MB", "GB"];
+      let value = bytes;
+      let index = 0;
+      while (value >= 1024 && index < units.length - 1) {
+        value /= 1024;
+        index++;
+      }
+      return `${value.toFixed(value >= 10 || index === 0 ? 0 : 1)} ${units[index]}`;
+    }
+
+    function pct(done, total, start, end) {
+      if (!total) return start;
+      return start + (done / total) * (end - start);
+    }
+
+    function median(values) {
+      const clean = values.filter((v) => Number.isFinite(v)).sort((a, b) => a - b);
+      if (!clean.length) return 0;
+      const mid = Math.floor(clean.length / 2);
+      return clean.length % 2 ? clean[mid] : (clean[mid - 1] + clean[mid]) / 2;
+    }
+
+    function cleanText(value) {
+      return String(value || "")
+        .replace(/\r\n/g, "\n")
+        .replace(/[\t ]+\n/g, "\n")
+        .replace(/\n{3,}/g, "\n\n")
+        .trim();
+    }
+  </script>
 </body>
 </html>
