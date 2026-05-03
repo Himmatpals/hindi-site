@@ -6,14 +6,14 @@
 
   <title>संपर्क करें | HindiTools.com</title>
 
-  <meta name="description" content="HindiTools.com से संपर्क करें। Tool suggestion, bug report, feedback, advertising या privacy questions के लिए हमें message भेजें।" />
+  <meta name="description" content="HindiTools.com से संपर्क करें। Tool suggestion, bug report, feedback, advertising या privacy questions के लिए contact form के माध्यम से message भेजें।" />
   <meta name="keywords" content="HindiTools contact, HindiTools support, PDF tools contact, Hindi tools feedback" />
   <meta name="author" content="HindiTools.com" />
   <meta name="robots" content="index, follow" />
   <meta name="theme-color" content="#e66a1f" />
 
   <meta property="og:title" content="संपर्क करें | HindiTools.com" />
-  <meta property="og:description" content="HindiTools.com पर feedback, bug report, tool request या privacy questions के लिए संपर्क करें।" />
+  <meta property="og:description" content="HindiTools.com पर feedback, bug report, tool request या privacy questions के लिए contact form इस्तेमाल करें।" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.hinditools.com/contact.html" />
 
@@ -226,30 +226,28 @@
       margin-bottom: 12px;
     }
 
-    .contact-list {
+    .reason-list {
       display: grid;
       gap: 14px;
       margin-top: 16px;
     }
 
-    .contact-item {
+    .reason-item {
       background: #fffaf5;
       border: 1px solid var(--border-light);
       border-radius: 20px;
       padding: 16px;
     }
 
-    .contact-item strong {
+    .reason-item strong {
       display: block;
       margin-bottom: 4px;
       color: var(--text-primary);
     }
 
-    .contact-item a {
-      color: var(--accent);
-      text-decoration: none;
-      font-weight: 800;
-      word-break: break-word;
+    .reason-item p {
+      margin: 0;
+      font-size: 0.95rem;
     }
 
     .form-grid {
@@ -281,7 +279,7 @@
     }
 
     textarea {
-      min-height: 160px;
+      min-height: 170px;
       resize: vertical;
     }
 
@@ -475,7 +473,7 @@
           <h1>Contact HindiTools.com</h1>
           <p class="hero-text">
             कोई bug मिला, नया tool suggest करना है, privacy question है या advertising/collaboration enquiry है?
-            नीचे form भरें और message directly हमें भेजें।
+            नीचे form भरें और अपना message भेजें।
           </p>
         </div>
       </div>
@@ -483,43 +481,43 @@
 
     <section class="container content-grid">
       <aside class="info-card">
-        <h2>संपर्क जानकारी</h2>
+        <h2>किस लिए contact कर सकते हैं?</h2>
         <p>
-          हम हर message को ध्यान से पढ़ते हैं। Response time traffic और enquiry type पर depend कर सकता है।
+          HindiTools.com को बेहतर बनाने के लिए आपका feedback बहुत valuable है। कृपया नीचे दिए गए form से message भेजें।
         </p>
 
-        <div class="contact-list">
-          <div class="contact-item">
-            <strong>General Email</strong>
-            <a href="mailto:info@hinditools.com">info@hinditools.com</a>
+        <div class="reason-list">
+          <div class="reason-item">
+            <strong>🐞 Bug Report</strong>
+            <p>किसी tool में error, upload issue, download issue या mobile layout problem मिला हो।</p>
           </div>
 
-          <div class="contact-item">
-            <strong>Tool Suggestion</strong>
-            <a href="mailto:info@hinditools.com?subject=Tool%20Suggestion%20for%20HindiTools.com">Tool idea भेजें</a>
+          <div class="reason-item">
+            <strong>💡 Tool Suggestion</strong>
+            <p>कोई नया PDF, image, Hindi, Punjabi या voice tool चाहिए हो।</p>
           </div>
 
-          <div class="contact-item">
-            <strong>Bug Report</strong>
-            <a href="mailto:info@hinditools.com?subject=Bug%20Report%20-%20HindiTools.com">Bug report करें</a>
+          <div class="reason-item">
+            <strong>🔒 Privacy Question</strong>
+            <p>Files, browser processing, cookies, analytics या ads के बारे में सवाल हो।</p>
           </div>
 
-          <div class="contact-item">
-            <strong>Privacy Question</strong>
-            <a href="mailto:info@hinditools.com?subject=Privacy%20Question%20-%20HindiTools.com">Privacy enquiry भेजें</a>
+          <div class="reason-item">
+            <strong>🤝 Advertising / Collaboration</strong>
+            <p>Business, advertising, partnership या collaboration enquiry के लिए।</p>
           </div>
         </div>
 
         <div class="warning-box">
-          <strong>Note:</strong> कृपया message में highly sensitive documents, passwords, ID documents,
-          financial documents या private medical/legal files attach न करें।
+          <strong>Important:</strong> कृपया message में passwords, ID documents, financial documents,
+          medical/legal files या कोई highly sensitive private information न भेजें।
         </div>
       </aside>
 
       <section class="info-card">
         <h2>Message भेजें</h2>
         <p>
-          यह form आपके message को सीधे email inbox में भेजने के लिए बनाया गया है।
+          Form भरकर submit करें। आपका message HindiTools.com team तक पहुँच जाएगा।
         </p>
 
         <form
@@ -556,6 +554,11 @@
           </div>
 
           <div>
+            <label for="page">Related page / tool</label>
+            <input id="page" name="related_page" type="text" placeholder="जैसे merge-pdf-hi.html या Image to PDF" />
+          </div>
+
+          <div>
             <label for="message">Message *</label>
             <textarea id="message" name="message" required placeholder="अपना message यहाँ लिखें..."></textarea>
           </div>
@@ -566,7 +569,7 @@
         </form>
 
         <div class="note-box">
-          Bug report भेजते समय page name, device/browser और क्या issue आया — यह जरूर लिखें।
+          Bug report भेजते समय page name, device/browser और issue कब आया — यह जरूर लिखें।
         </div>
       </section>
     </section>
@@ -659,21 +662,8 @@
           statusBox.textContent = "Thanks — आपका message receive हो गया है।";
           form.reset();
         } catch (error) {
-          const topic = document.getElementById("topic").value;
-
-          const body = encodeURIComponent(
-            "HindiTools.com contact form\n\n" +
-            "Name: " + name + "\n" +
-            "Email: " + email + "\n" +
-            "Topic: " + topic + "\n\n" +
-            "Message:\n" + message
-          );
-
-          window.location.href =
-            "mailto:info@hinditools.com?subject=HindiTools.com%20contact%20form&body=" + body;
-
-          statusBox.className = "status";
-          statusBox.textContent = "Email app open हो रही है...";
+          statusBox.className = "status error";
+          statusBox.textContent = "Message send नहीं हो पाया। कृपया थोड़ी देर बाद दोबारा try करें।";
         } finally {
           submitBtn.disabled = false;
           submitBtn.textContent = "Send message →";
@@ -691,11 +681,6 @@
         "@type": "WebSite",
         "name": "HindiTools.com",
         "url": "https://www.hinditools.com/"
-      },
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "email": "info@hinditools.com",
-        "contactType": "customer support"
       }
     };
 
