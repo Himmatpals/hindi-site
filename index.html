@@ -3,14 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>HindiTools | premium PDF · Image · Voice tools</title>
-  <meta name="description" content="सुपरफास्ट PDF मर्ज, कंप्रेस, स्प्लिट, इमेज टू पीडीएफ, पीडीएफ टू इमेज, पंजाबी टाइपिंग और अत्याधुनिक voice tools (स्पीच-टू-टेक्स्ट & टेक्स्ट-टू-स्पीच) हिंदी में।" />
-  <meta name="keywords" content="Hindi voice tools, text to speech Hindi, speech to text Hindi, PDF tools Hindi, Punjabi typing, Gurmukhi writer" />
+  <title>HindiTools | Premium PDF · Image · Voice Tools</title>
+
+  <meta name="description" content="सुपरफास्ट PDF मर्ज, कंप्रेस, स्प्लिट, इमेज टू पीडीएफ, पीडीएफ टू इमेज, पंजाबी टाइपिंग और अत्याधुनिक voice tools हिंदी में।" />
+  <meta name="keywords" content="Hindi voice tools, text to speech Hindi, speech to text Hindi, PDF tools Hindi, Punjabi typing, Gurmukhi writer, Image to PDF Hindi, PDF compress Hindi" />
   <meta name="author" content="HindiTools.com" />
   <meta name="theme-color" content="#e66a1f" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="HindiTools.com - PDF, Image और Voice Tools हिंदी में" />
+  <meta property="og:description" content="PDF मर्ज, कंप्रेस, स्प्लिट, Image to PDF, PDF to Image और Hindi/Punjabi tools आसान हिंदी interface में।" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.hinditools.com/" />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gurmukhi:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gurmukhi:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
     * {
       margin: 0;
@@ -28,6 +43,7 @@
       --accent-soft: #ffedd5;
       --secondary: #1e3a8a;
       --border-light: #f1e1cf;
+      --green: #12805c;
       --shadow-sm: 0 12px 30px rgba(0, 0, 0, 0.05);
       --shadow-md: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
       --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
@@ -41,14 +57,26 @@
       --border-light: #334155;
       --accent-soft: #422006;
       --shadow-sm: 0 12px 30px rgba(0, 0, 0, 0.4);
+      --shadow-md: 0 20px 40px rgba(0, 0, 0, 0.45);
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      background: var(--bg);
+      background:
+        radial-gradient(circle at top left, rgba(230, 106, 31, 0.10), transparent 30%),
+        radial-gradient(circle at top right, rgba(30, 58, 138, 0.08), transparent 28%),
+        var(--bg);
       color: var(--text-primary);
       font-family: 'Inter', 'Noto Sans Devanagari', system-ui, sans-serif;
       line-height: 1.5;
       transition: background 0.2s, color 0.2s;
+    }
+
+    a {
+      color: inherit;
     }
 
     .container {
@@ -57,18 +85,19 @@
       padding: 0 24px;
     }
 
-    /* glass navbar */
     .navbar {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(254, 250, 245, 0.85);
+      background: rgba(254, 250, 245, 0.88);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid var(--border-light);
     }
+
     body.dark .navbar {
-      background: rgba(15, 23, 42, 0.85);
+      background: rgba(15, 23, 42, 0.88);
     }
+
     .nav-inner {
       display: flex;
       align-items: center;
@@ -76,7 +105,9 @@
       flex-wrap: wrap;
       padding: 14px 0;
       gap: 12px;
+      position: relative;
     }
+
     .logo {
       display: flex;
       align-items: center;
@@ -87,7 +118,9 @@
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
+      text-decoration: none;
     }
+
     .logo-icon {
       background: var(--accent);
       width: 42px;
@@ -100,24 +133,30 @@
       font-size: 1.5rem;
       box-shadow: 0 8px 18px rgba(230, 106, 31, 0.3);
     }
+
     .nav-links {
       display: flex;
-      gap: 12px;
+      gap: 8px;
       align-items: center;
       flex-wrap: wrap;
     }
+
     .nav-links a {
       text-decoration: none;
-      font-weight: 600;
+      font-weight: 700;
       color: var(--text-primary);
-      padding: 8px 16px;
+      padding: 8px 13px;
       border-radius: 40px;
       transition: var(--transition);
+      font-size: 0.95rem;
     }
-    .nav-links a:hover, .voice-btn {
+
+    .nav-links a:hover,
+    .voice-btn {
       background: var(--accent);
-      color: white;
+      color: white !important;
     }
+
     .voice-btn {
       background: var(--accent);
       color: white;
@@ -126,80 +165,120 @@
       gap: 8px;
       box-shadow: 0 5px 12px rgba(230,106,31,0.3);
     }
+
     .theme-toggle {
       background: var(--surface);
       border: 1px solid var(--border-light);
+      color: var(--text-primary);
       border-radius: 40px;
       padding: 8px 14px;
       cursor: pointer;
-      font-weight: 600;
+      font-weight: 700;
       transition: var(--transition);
     }
+
     .mobile-menu {
       display: none;
+      background: var(--surface);
+      color: var(--text-primary);
+      border: 1px solid var(--border-light);
+      border-radius: 14px;
+      padding: 8px 12px;
+      font-size: 1.2rem;
+      cursor: pointer;
     }
+
     .hero {
-      padding: 48px 0 32px;
+      padding: 56px 0 36px;
     }
+
     .hero-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 40px;
       align-items: center;
     }
+
     .badge-group {
       display: flex;
       flex-wrap: wrap;
       gap: 12px;
       margin-bottom: 24px;
     }
+
     .badge {
       background: var(--accent-soft);
       padding: 6px 14px;
       border-radius: 60px;
       font-size: 0.85rem;
-      font-weight: 700;
+      font-weight: 800;
       color: var(--accent-dark);
     }
+
+    body.dark .badge {
+      color: #fed7aa;
+    }
+
     h1 {
       font-size: clamp(2.2rem, 5vw, 3.8rem);
       line-height: 1.2;
       font-weight: 800;
       margin-bottom: 18px;
+      letter-spacing: -0.04em;
     }
+
     .highlight {
       color: var(--accent);
     }
+
+    .hero-text {
+      color: var(--text-secondary);
+      font-size: 1.15rem;
+      max-width: 680px;
+    }
+
     .hero-buttons {
       display: flex;
       flex-wrap: wrap;
       gap: 16px;
       margin-top: 28px;
     }
-    .btn-primary, .btn-secondary {
+
+    .btn-primary,
+    .btn-secondary {
       padding: 12px 28px;
       border-radius: 40px;
-      font-weight: 700;
+      font-weight: 800;
       text-decoration: none;
       transition: var(--transition);
       display: inline-flex;
       align-items: center;
       gap: 10px;
     }
+
     .btn-primary {
       background: var(--accent);
       color: white;
       box-shadow: 0 8px 18px rgba(230,106,31,0.25);
     }
+
     .btn-primary:hover {
       background: var(--accent-dark);
       transform: translateY(-2px);
     }
+
     .btn-secondary {
       background: var(--surface);
       border: 1px solid var(--border-light);
       color: var(--text-primary);
     }
+
+    .btn-secondary:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+      transform: translateY(-2px);
+    }
+
     .voice-card {
       background: var(--surface);
       border-radius: 32px;
@@ -207,23 +286,44 @@
       border: 1px solid var(--border-light);
       box-shadow: var(--shadow-sm);
     }
+
+    .voice-card p {
+      color: var(--text-secondary);
+    }
+
     .search-input {
       width: 100%;
-      padding: 14px 18px 14px 44px;
+      padding: 14px 18px;
       border: 1px solid var(--border-light);
       background: var(--bg);
       border-radius: 60px;
       font-size: 1rem;
       color: var(--text-primary);
+      outline: none;
+      transition: var(--transition);
     }
+
+    .search-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.12);
+    }
+
     .tools-section {
       padding: 48px 0;
     }
+
     .section-title {
-      font-size: 2rem;
+      font-size: clamp(1.8rem, 4vw, 2.4rem);
       font-weight: 800;
       margin-bottom: 8px;
+      letter-spacing: -0.03em;
     }
+
+    .section-subtitle {
+      color: var(--text-secondary);
+      font-size: 1rem;
+    }
+
     .filter-bar {
       display: flex;
       flex-wrap: wrap;
@@ -232,31 +332,38 @@
       gap: 20px;
       margin: 28px 0 24px;
     }
+
     .tabs {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
     }
+
     .tab {
       background: var(--surface);
       border: 1px solid var(--border-light);
+      color: var(--text-primary);
       padding: 8px 18px;
       border-radius: 40px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
       transition: var(--transition);
     }
-    .tab.active, .tab:hover {
+
+    .tab.active,
+    .tab:hover {
       background: var(--accent);
       border-color: var(--accent);
       color: white;
     }
+
     .tools-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
       gap: 24px;
       margin-top: 16px;
     }
+
     .tool-card {
       background: var(--surface);
       border-radius: 28px;
@@ -266,242 +373,235 @@
       text-decoration: none;
       color: inherit;
       display: block;
+      min-height: 210px;
     }
+
     .tool-card:hover {
       transform: translateY(-6px);
       box-shadow: var(--shadow-md);
       border-color: var(--accent);
     }
+
     .tool-icon {
       font-size: 2.4rem;
       margin-bottom: 14px;
     }
+
     .tool-tag {
       display: inline-block;
-      background: #eef2ff;
-      font-size: 0.7rem;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      font-size: 0.72rem;
       padding: 4px 10px;
       border-radius: 20px;
-      font-weight: 700;
+      font-weight: 800;
       margin-bottom: 12px;
     }
+
+    body.dark .tool-tag {
+      color: #fed7aa;
+    }
+
+    .tool-card h3 {
+      font-size: 1.4rem;
+      margin: 8px 0 4px;
+    }
+
+    .tool-card p {
+      color: var(--text-secondary);
+    }
+
     .stats {
       font-size: 0.85rem;
       color: var(--text-secondary);
       margin-top: 12px;
+      font-weight: 700;
     }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+      gap: 28px;
+      margin-top: 48px;
+    }
+
+    .feature-item {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 28px;
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .feature-item h3 {
+      margin-bottom: 8px;
+    }
+
+    .feature-item p {
+      color: var(--text-secondary);
+    }
+
     footer {
       background: var(--surface);
       border-top: 1px solid var(--border-light);
-      padding: 40px 0 24px;
+      padding: 44px 0 24px;
       margin-top: 48px;
     }
-    @media (max-width: 880px) {
-      .hero-grid { grid-template-columns: 1fr; }
-      .nav-links { display: none; }
-      .mobile-menu { display: block; }
-      .nav-inner { position: relative; }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 32px;
+      align-items: start;
     }
+
+    .footer-title {
+      font-size: 1.5rem;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .footer-text {
+      color: var(--text-secondary);
+      margin-top: 8px;
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition);
+      font-weight: 600;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+      transform: translateX(2px);
+    }
+
+    .copyright {
+      border-top: 1px solid var(--border-light);
+      margin-top: 32px;
+      padding-top: 18px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
     .no-results {
       text-align: center;
       padding: 48px;
       background: var(--surface);
       border-radius: 40px;
+      border: 1px solid var(--border-light);
+      color: var(--text-secondary);
+      font-weight: 700;
     }
-    .sr-only {
-      position: absolute;
-      width: 1px;
-      height: 1px;
-      padding: 0;
-      margin: -1px;
-      overflow: hidden;
+
+    @media (max-width: 980px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+        background: var(--surface);
+        border: 1px solid var(--border-light);
+        border-radius: 22px;
+        padding: 14px;
+        box-shadow: var(--shadow-sm);
+      }
+
+      .nav-links.open {
+        display: flex;
+      }
+
+      .nav-links a {
+        text-align: center;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .theme-toggle {
+        margin-left: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .hero {
+        padding-top: 36px;
+      }
+
+      .voice-card {
+        border-radius: 24px;
+        padding: 22px;
+      }
+
+      .filter-bar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .search-input {
+        max-width: none !important;
+      }
+
+      .hero-buttons {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        justify-content: center;
+      }
     }
   </style>
 </head>
+
 <body>
   <div class="navbar">
     <div class="container nav-inner">
-      <div class="logo">
+      <a class="logo" href="index.html" aria-label="HindiTools Home">
         <div class="logo-icon">हि</div>
         <span>HindiTools</span>
-      </div>
-      <div class="nav-links">
+      </a>
+
+      <div class="nav-links" id="navLinks">
         <a href="#tools">Tools</a>
         <a href="#pdf">PDF</a>
         <a href="#image">इमेज</a>
         <a href="#language">भाषा</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
         <a href="voice-tools-hi.html" class="voice-btn">🎙️ वॉइस टूल्स</a>
       </div>
+
       <button class="theme-toggle" id="darkModeToggle" aria-label="Dark mode">🌙 डार्क</button>
-      <button class="mobile-menu" id="mobileMenuBtn">☰</button>
+      <button class="mobile-menu" id="mobileMenuBtn" aria-label="Menu">☰</button>
     </div>
   </div>
 
   <main>
-    <div class="container hero">
+    <section class="container hero">
       <div class="hero-grid">
         <div>
           <div class="badge-group">
             <span class="badge">📄 PDF सुइट</span>
-            <span class="badge">🖼️ इमेज कन्वर्ट</span>
-            <span class="badge">🎤 स्पीच टूल्स</span>
-            <span class="badge">✍️ पंजाबी राइटर</span>
-          </div>
-          <h1>हर रोज के कामों के लिए <span class="highlight">सुपरफास्ट टूल्स</span> + आवाज़ से काम</h1>
-          <p style="color: var(--text-secondary); font-size: 1.15rem;">PDF मर्ज, कम्प्रेस, स्प्लिट, इमेज टू पीडीएफ, पंजाबी टाइपिंग और अब <strong>स्पीच-टू-टेक्स्ट & टेक्स्ट-टू-स्पीच</strong> — सब हिंदी में।</p>
-          <div class="hero-buttons">
-            <a href="#tools" class="btn-primary">✨ सभी टूल्स देखें</a>
-            <a href="voice-tools-hi.html" class="btn-secondary">🎙️ वॉइस टूल खोलें →</a>
-          </div>
-        </div>
-        <div class="voice-card">
-          <div style="display: flex; gap: 12px; align-items: center; margin-bottom: 18px;">
-            <span style="font-size: 2rem;">🎤🗣️</span>
-            <span style="font-weight: 800;">वॉइस असिस्टेंट</span>
-          </div>
-          <p style="margin-bottom: 20px;">बोलकर लिखवाएं (Speech to Text) या टेक्स्ट को आवाज़ दें। पूरा सपोर्ट हिंदी & इंग्लिश में।</p>
-          <a href="voice-tools-hi.html" class="btn-primary" style="background: #1e3a8a; width: fit-content;">🎙️ वॉइस टूल्स पर जाएं →</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="container tools-section" id="tools">
-      <div class="section-title">🔧 शक्तिशाली टूल्स <span style="color: var(--accent);">| HindiTools सुपीरियर एडिशन</span></div>
-      <div class="filter-bar">
-        <div class="tabs" id="filterTabs">
-          <button class="tab active" data-filter="all">सभी</button>
-          <button class="tab" data-filter="pdf">PDF टूल्स</button>
-          <button class="tab" data-filter="image">इमेज टूल्स</button>
-          <button class="tab" data-filter="language">भाषा टूल्स</button>
-          <button class="tab" data-filter="security">सुरक्षा</button>
-        </div>
-        <input type="text" id="searchTools" placeholder="🔍 मर्ज, कंप्रेस, पंजाबी, वॉइस..." class="search-input" style="max-width: 280px;">
-      </div>
-      <div id="toolsContainer" class="tools-grid"></div>
-      <div id="noResultsMsg" class="no-results" style="display: none;">🤷 कोई टूल नहीं मिला, कृपया दूसरा कीवर्ड ट्राई करें।</div>
-    </div>
-
-    <div class="container" id="pdf">
-      <div class="voice-card" style="background: linear-gradient(145deg, var(--accent-soft), var(--surface));">
-        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; gap: 24px; align-items: center;">
-          <div><h2 style="font-size: 1.9rem;">🎙️ नया: स्मार्ट वॉइस टूल्स पेज</h2><p>स्पीच टू टेक्स्ट (हिंदी/इंग्लिश) और टेक्स्ट टू स्पीच — रीयल टाइम, नो ऐप डाउनलोड।</p></div>
-          <a href="voice-tools-hi.html" class="btn-primary" style="background: var(--secondary);">🚀 वॉइस टूल्स लॉन्च करें</a>
-        </div>
-      </div>
-    </div>
-
-    <div class="container" style="margin-top: 48px;">
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px,1fr)); gap: 28px;">
-        <div><h3>⭐ सुपीरियर फीचर्स</h3><p>डार्क मोड, सुपरफास्ट सर्च, एडवांस फ़िल्टर, बटर-स्मूथ एनिमेशन और वॉइस इंटीग्रेशन।</p></div>
-        <div><h3>📄 ब्राउज़र-फर्स्ट</h3><p>PDF मर्ज, रोटेट, वाटरमार्क, स्प्लिट — सारे क्लाइंट साइड, आपका डाटा सुरक्षित।</p></div>
-        <div><h3>🗣️ हिंदी + पंजाबी</h3><p>पूरा हिंदी इंटरफेस, पंजाबी रोमन टू गुरमुखी और अब स्पीच रिकग्निशन हिंदी में।</p></div>
-      </div>
-    </div>
-  </main>
-
-  <footer>
-    <div class="container">
-      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px;">
-        <div><strong style="font-size: 1.5rem;">HindiTools.com</strong><br/>PDF · इमेज · वॉइस · पंजाबी टूल्स</div>
-        <div><a href="voice-tools-hi.html" style="color: var(--accent); text-decoration: none;">🎤 वॉइस टूल्स (TTS/STT)</a></div>
-        <div>© 2026 सुपीरियर रीइमेजिनेशन</div>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    (function() {
-      // TOOLS DATABASE — superior dynamic render
-      const toolsData = [
-        { name: "Punjabi Writer", icon: "✍️", desc: "Hinglish/Roman to Gurmukhi, editable output", category: "language", tags: "new punjabi typing", link: "punjabi-typing.html", badge: "🔥 New" },
-        { name: "Merge PDF", icon: "📎", desc: "एक से ज्यादा PDF को जोड़ें, reorder करें", category: "pdf", tags: "merge combine", link: "merge-pdf-hi.html", badge: "Popular" },
-        { name: "Compress PDF", icon: "📉", desc: "PDF साइज़ कम करें, क्वालिटी कंट्रोल", category: "pdf", tags: "compress reduce", link: "compress-pdf-hi.html", badge: "Popular" },
-        { name: "Split PDF", icon: "✂️", desc: "पेज रेंज से स्प्लिट या एक्सट्रैक्ट", category: "pdf", tags: "split extract", link: "split-pdf-hi.html", badge: "Advanced" },
-        { name: "Image to PDF", icon: "🖼️", desc: "JPG, PNG, WebP से PDF बनाएं", category: "image", tags: "image to pdf convert", link: "image-to-pdf-hi.html", badge: "Popular" },
-        { name: "PDF to Image", icon: "📷", desc: "PDF पेजेज को JPG/PNG में बदलें", category: "image", tags: "pdf to image", link: "pdf-to-image-hi.html", badge: "Advanced" },
-        { name: "Rotate PDF", icon: "🔄", desc: "पेजेज को 90°, 180° घुमाएं", category: "pdf", tags: "rotate", link: "pdf-rotate-hi.html", badge: "Useful" },
-        { name: "PDF Watermark", icon: "💧", desc: "टेक्स्ट वॉटरमार्क, ओपेसिटी, पोजीशन", category: "pdf", tags: "watermark", link: "pdf-watermark-hi.html", badge: "Pro" },
-        { name: "PDF Lock", icon: "🔒", desc: "पासवर्ड प्रोटेक्शन (बैकएंड रेडी)", category: "security", tags: "lock password", link: "pdf-lock-hi.html", badge: "Backend" },
-        { name: "PDF Unlock", icon: "🔓", desc: "पासवर्ड हटाएं (यदि पता हो)", category: "security", tags: "unlock", link: "pdf-unlock-hi.html", badge: "Backend" },
-        { name: "PDF to Word", icon: "📝", desc: "PDF को एडिटेबल वर्ड डॉक में", category: "pdf", tags: "word docx", link: "pdf-to-word-hi.html", badge: "Upgrade" },
-        { name: "Word to PDF", icon: "📄", desc: "DOC से PDF बनाएं", category: "pdf", tags: "word to pdf", link: "word-to-pdf-hi.html", badge: "Upgrade" },
-        { name: "PDF OCR", icon: "🔍", desc: "स्कैन PDF से टेक्स्ट निकाले", category: "image", tags: "ocr text", link: "pdf-ocr-hi.html", badge: "Needs Backend" },
-        { name: "PDF Sign", icon: "✒️", desc: "डिजिटल हस्ताक्षर जोड़ें", category: "pdf", tags: "sign signature", link: "pdf-sign-hi.html", badge: "Interactive" }
-      ];
-      
-      const container = document.getElementById('toolsContainer');
-      const searchInput = document.getElementById('searchTools');
-      const tabs = document.querySelectorAll('.tab');
-      const noResultsDiv = document.getElementById('noResultsMsg');
-      let activeFilter = 'all';
-      let searchQuery = '';
-
-      function renderTools() {
-        const filtered = toolsData.filter(tool => {
-          const matchFilter = activeFilter === 'all' ? true : tool.category === activeFilter;
-          const matchSearch = searchQuery === '' || tool.name.toLowerCase().includes(searchQuery) || tool.desc.toLowerCase().includes(searchQuery) || tool.tags.toLowerCase().includes(searchQuery);
-          return matchFilter && matchSearch;
-        });
-        if(filtered.length === 0) {
-          container.innerHTML = '';
-          noResultsDiv.style.display = 'block';
-          return;
-        }
-        noResultsDiv.style.display = 'none';
-        container.innerHTML = filtered.map(tool => `
-          <a class="tool-card" href="${tool.link}" data-category="${tool.category}">
-            <div class="tool-icon">${tool.icon}</div>
-            <span class="tool-tag" style="background: var(--accent-soft); color: var(--accent-dark);">${tool.badge}</span>
-            <h3 style="font-size: 1.4rem; margin: 8px 0 4px;">${tool.name}</h3>
-            <p style="color: var(--text-secondary);">${tool.desc}</p>
-            <div class="stats">➡️ उपयोग करें →</div>
-          </a>
-        `).join('');
-      }
-
-      function updateActiveTab() {
-        tabs.forEach(tab => {
-          if(tab.dataset.filter === activeFilter) tab.classList.add('active');
-          else tab.classList.remove('active');
-        });
-      }
-
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          activeFilter = tab.dataset.filter;
-          updateActiveTab();
-          renderTools();
-        });
-      });
-
-      searchInput.addEventListener('input', (e) => {
-        searchQuery = e.target.value.toLowerCase().trim();
-        renderTools();
-      });
-      
-      renderTools();
-
-      // dark mode
-      const darkToggle = document.getElementById('darkModeToggle');
-      if(localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
-      darkToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark');
-        localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-        darkToggle.innerText = document.body.classList.contains('dark') ? '☀️ लाइट' : '🌙 डार्क';
-      });
-      if(document.body.classList.contains('dark')) darkToggle.innerText = '☀️ लाइट';
-      else darkToggle.innerText = '🌙 डार्क';
-      
-      // mobile menu simple
-      const mobileBtn = document.getElementById('mobileMenuBtn');
-      const navLinksDiv = document.querySelector('.nav-links');
-      if(mobileBtn) {
-        mobileBtn.addEventListener('click', () => {
-          if(navLinksDiv.style.display === 'flex') navLinksDiv.style.display = 'none';
-          else navLinksDiv.style.display = 'flex';
-        });
-      }
-    })();
-  </script>
-</body>
-</html>
+            <span class="badge">🖼️ इमेज कन्वर्ट</span
