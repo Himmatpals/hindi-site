@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+  <title>संपर्क करें | HindiTools.com</title>
+
+  <meta name="description" content="HindiTools.com से संपर्क करें। Tool suggestion, bug report, feedback, advertising या privacy questions के लिए हमें message भेजें।" />
+  <meta name="keywords" content="HindiTools contact, HindiTools support, PDF tools contact, Hindi tools feedback" />
+  <meta name="author" content="HindiTools.com" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#e66a1f" />
+
+  <meta property="og:title" content="संपर्क करें | HindiTools.com" />
+  <meta property="og:description" content="HindiTools.com पर feedback, bug report, tool request या privacy questions के लिए संपर्क करें।" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.hinditools.com/contact.html" />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
+  <style>
+    :root {
+      --bg: #fefaf5;
+      --surface: #ffffff;
+      --text-primary: #1e2a3e;
+      --text-secondary: #475569;
+      --accent: #e66a1f;
+      --accent-dark: #c2410c;
+      --accent-soft: #ffedd5;
+      --secondary: #1e3a8a;
+      --border-light: #f1e1cf;
+      --green: #12805c;
+      --shadow-sm: 0 12px 30px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(230, 106, 31, 0.10), transparent 30%),
+        radial-gradient(circle at top right, rgba(30, 58, 138, 0.08), transparent 28%),
+        var(--bg);
+      color: var(--text-primary);
+      font-family: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(254, 250, 245, 0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 14px 0;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.6rem;
+      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      background: var(--accent);
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      color: white;
+      font-weight: 900;
+      font-size: 1.45rem;
+      box-shadow: 0 8px 18px rgba(230, 106, 31, 0.3);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--text-primary);
+      padding: 8px 13px;
+      border-radius: 40px;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .hero {
+      padding: 54px 0 24px;
+    }
+
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 34px;
+      padding: clamp(24px, 5vw, 46px);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      right: -90px;
+      top: -90px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: rgba(230, 106, 31, 0.12);
+    }
+
+    .badge {
+      display: inline-flex;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 5vw, 3.5rem);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+      margin-bottom: 16px;
+      color: var(--secondary);
+    }
+
+    .hero-text {
+      color: var(--text-secondary);
+      font-size: 1.12rem;
+      max-width: 820px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 22px;
+      padding: 24px 0 54px;
+      align-items: start;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .info-card h2 {
+      color: var(--secondary);
+      font-size: 1.45rem;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .info-card p {
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 14px;
+      margin-top: 16px;
+    }
+
+    .contact-item {
+      background: #fffaf5;
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .contact-item strong {
+      display: block;
+      margin-bottom: 4px;
+      color: var(--text-primary);
+    }
+
+    .contact-item a {
+      color: var(--accent);
+      text-decoration: none;
+      font-weight: 800;
+      word-break: break-word;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    label {
+      display: block;
+      font-weight: 800;
+      color: var(--secondary);
+      margin-bottom: 7px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      border: 1px solid var(--border-light);
+      background: #fffaf5;
+      color: var(--text-primary);
+      border-radius: 16px;
+      padding: 13px 14px;
+      font-family: inherit;
+      font-size: 1rem;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.12);
+      background: white;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .btn {
+      border: 0;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 13px 20px;
+      font-weight: 800;
+      transition: var(--transition);
+      box-shadow: 0 10px 22px rgba(230, 106, 31, 0.25);
+      font-size: 1rem;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: var(--accent-dark);
+    }
+
+    .note-box {
+      background: #eef2ff;
+      border: 1px solid #c7d2fe;
+      border-radius: 20px;
+      padding: 16px;
+      color: #243b86;
+      margin-top: 16px;
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .warning-box {
+      background: #fffaf5;
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 16px;
+      color: var(--text-secondary);
+      margin-top: 16px;
+      font-size: 0.95rem;
+    }
+
+    .warning-box strong {
+      color: var(--accent-dark);
+    }
+
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border-light);
+      padding: 36px 0 22px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 28px;
+      align-items: start;
+    }
+
+    .footer-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .footer-text {
+      color: var(--text-secondary);
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .copyright {
+      border-top: 1px solid var(--border-light);
+      margin-top: 28px;
+      padding-top: 18px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 860px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .two-col {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero {
+        padding-top: 34px;
+      }
+
+      .hero-card,
+      .info-card {
+        border-radius: 24px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="logo" href="index.html" aria-label="HindiTools Home">
+        <span class="logo-icon">हि</span>
+        <span>HindiTools</span>
+      </a>
+
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#tools">Tools</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html" class="active">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-card">
+          <span class="badge">📩 संपर्क करें</span>
+          <h1>Contact HindiTools.com</h1>
+          <p class="hero-text">
+            कोई bug मिला, नया tool suggest करना है, privacy question है या advertising/collaboration enquiry है?
+            हमें message भेजें। आपका feedback HindiTools.com को बेहतर बनाने में मदद करता है।
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container content-grid">
+      <aside class="info-card">
+        <h2>संपर्क जानकारी</h2>
+        <p>
+          हम हर message को ध्यान से पढ़ते हैं। Response time traffic और enquiry type पर depend कर सकता है।
+        </p>
+
+        <div class="contact-list">
+          <div class="contact-item">
+            <strong>General Email</strong>
+            <a href="mailto:info@hinditools.com">info@hinditools.com</a>
+          </div>
+
+          <div class="contact-item">
+            <strong>Tool Suggestion</strong>
+            <a href="mailto:info@hinditools.com?subject=Tool%20Suggestion%20for%20HindiTools.com">Tool idea भेजें</a>
+          </div>
+
+          <div class="contact-item">
+            <strong>Bug Report</strong>
+            <a href="mailto:info@hinditools.com?subject=Bug%20Report%20-%20HindiTools.com">Bug report करें</a>
+          </div>
+
+          <div class="contact-item">
+            <strong>Privacy Question</strong>
+            <a href="mailto:info@hinditools.com?subject=Privacy%20Question%20-%20HindiTools.com">Privacy enquiry भेजें</a>
+          </div>
+        </div>
+
+        <div class="warning-box">
+          <strong>Note:</strong> कृपया email में highly sensitive documents, passwords, ID documents,
+          financial documents या private medical/legal files attach न करें।
+        </div>
+      </aside>
+
+      <section class="info-card">
+        <h2>Quick Contact Form</h2>
+        <p>
+          यह form आपके email app को open करेगा। Static GitHub Pages site पर direct form submission के लिए
+          future में backend/form service जोड़ी जा सकती है।
+        </p>
+
+        <form class="form-grid" id="contactForm">
+          <div class="two-col">
+            <div>
+              <label for="name">आपका नाम</label>
+              <input id="name" name="name" type="text" placeholder="अपना नाम लिखें" />
+            </div>
+
+            <div>
+              <label for="email">आपका email</label>
+              <input id="email" name="email" type="email" placeholder="your@email.com" />
+            </div>
+          </div>
+
+          <div>
+            <label for="topic">Message type</label>
+            <select id="topic" name="topic">
+              <option value="General Enquiry">General Enquiry</option>
+              <option value="Bug Report">Bug Report</option>
+              <option value="Tool Suggestion">Tool Suggestion</option>
+              <option value="Privacy Question">Privacy Question</option>
+              <option value="Advertising / Collaboration">Advertising / Collaboration</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="message">Message</label>
+            <textarea id="message" name="message" placeholder="अपना message यहाँ लिखें..."></textarea>
+          </div>
+
+          <button class="btn" type="submit">Email message भेजें →</button>
+        </form>
+
+        <div class="note-box">
+          Tip: Bug report भेजते समय page name, device/browser और क्या issue आया — यह जरूर लिखें।
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <span class="footer-title">HindiTools.com</span>
+          <p class="footer-text">
+            PDF · Image · Voice · Hindi/Punjabi tools — आसान हिंदी interface में।
+          </p>
+        </div>
+
+        <div>
+          <strong>मुख्य पेज</strong>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+
+        <div>
+          <strong>Popular Tools</strong>
+          <div class="footer-links">
+            <a href="merge-pdf-hi.html">PDF Merge</a>
+            <a href="compress-pdf-hi.html">PDF Compress</a>
+            <a href="split-pdf-hi.html">PDF Split</a>
+            <a href="image-to-pdf-hi.html">Image to PDF</a>
+            <a href="pdf-to-image-hi.html">PDF to Image</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("contactForm").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const name = document.getElementById("name").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const topic = document.getElementById("topic").value;
+      const message = document.getElementById("message").value.trim();
+
+      const subject = encodeURIComponent(topic + " - HindiTools.com");
+
+      const body = encodeURIComponent(
+        "Name: " + (name || "Not provided") + "\n" +
+        "Email: " + (email || "Not provided") + "\n" +
+        "Topic: " + topic + "\n\n" +
+        "Message:\n" + (message || "Not provided") + "\n\n" +
+        "Page: contact.html"
+      );
+
+      window.location.href = "mailto:info@hinditools.com?subject=" + subject + "&body=" + body;
+    });
+
+    const contactSchema = {
+      "@context": "https://schema.org",
+      "@type": "ContactPage",
+      "name": "संपर्क करें | HindiTools.com",
+      "url": "https://www.hinditools.com/contact.html",
+      "description": "HindiTools.com से संपर्क करें — feedback, bug report, tool suggestion और privacy enquiries के लिए।",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "HindiTools.com",
+        "url": "https://www.hinditools.com/"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "info@hinditools.com",
+        "contactType": "customer support"
+      }
+    };
+
+    const schemaScript = document.createElement("script");
+    schemaScript.type = "application/ld+json";
+    schemaScript.textContent = JSON.stringify(contactSchema);
+    document.head.appendChild(schemaScript);
+  </script>
+</body>
+</html>
