@@ -2,53 +2,524 @@
 <html lang="hi">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
   <title>गोपनीयता नीति | HindiTools.com</title>
-  <meta name="description" content="HindiTools.com की गोपनीयता नीति — आपकी फाइलें हमेशा सुरक्षित हैं। हम कोई भी फाइल सर्वर पर अपलोड नहीं करते।">
+
+  <meta name="description" content="HindiTools.com की गोपनीयता नीति — हम आपकी privacy को महत्व देते हैं। जानें कि files, analytics, cookies, ads और contact information कैसे handle की जाती है।" />
+  <meta name="keywords" content="HindiTools privacy policy, Hindi PDF tools privacy, AdSense privacy policy, cookies policy Hindi" />
+  <meta name="author" content="HindiTools.com" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#e66a1f" />
+
+  <meta property="og:title" content="गोपनीयता नीति | HindiTools.com" />
+  <meta property="og:description" content="HindiTools.com की privacy policy — files, cookies, analytics, ads और contact data के बारे में जानकारी।" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.hinditools.com/privacy.html" />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
-    :root{
-      --bg:#f8fafc;--text:#0b1020;--accent:#7c5cff;--accent2:#23d3ac;--line:rgba(2,6,23,.12);
-      --font:"Noto Sans Devanagari","Poppins",system-ui;
+    :root {
+      --bg: #fefaf5;
+      --surface: #ffffff;
+      --text-primary: #1e2a3e;
+      --text-secondary: #475569;
+      --accent: #e66a1f;
+      --accent-dark: #c2410c;
+      --accent-soft: #ffedd5;
+      --secondary: #1e3a8a;
+      --border-light: #f1e1cf;
+      --green: #12805c;
+      --shadow-sm: 0 12px 30px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
     }
-    body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;}
-    header{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;padding:20px;text-align:center;font-weight:800;}
-    main{max-width:900px;margin:0 auto;padding:24px;}
-    h1{font-size:1.8rem;margin-bottom:0.5rem;}
-    h2{margin-top:1.6rem;}
-    a{color:var(--accent);text-decoration:none;}
-    footer{text-align:center;padding:20px;font-size:14px;color:#555;border-top:1px solid var(--line);}
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(230, 106, 31, 0.10), transparent 30%),
+        radial-gradient(circle at top right, rgba(30, 58, 138, 0.08), transparent 28%),
+        var(--bg);
+      color: var(--text-primary);
+      font-family: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(254, 250, 245, 0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 14px 0;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.6rem;
+      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      background: var(--accent);
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      color: white;
+      font-weight: 900;
+      font-size: 1.45rem;
+      box-shadow: 0 8px 18px rgba(230, 106, 31, 0.3);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--text-primary);
+      padding: 8px 13px;
+      border-radius: 40px;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .hero {
+      padding: 54px 0 24px;
+    }
+
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 34px;
+      padding: clamp(24px, 5vw, 46px);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      right: -90px;
+      top: -90px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: rgba(230, 106, 31, 0.12);
+    }
+
+    .badge {
+      display: inline-flex;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 5vw, 3.5rem);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+      margin-bottom: 16px;
+      color: var(--secondary);
+    }
+
+    .hero-text {
+      color: var(--text-secondary);
+      font-size: 1.12rem;
+      max-width: 820px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+      padding: 24px 0 54px;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .info-card h2 {
+      color: var(--secondary);
+      font-size: 1.45rem;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .info-card p {
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .info-card ul {
+      padding-left: 22px;
+      display: grid;
+      gap: 10px;
+      color: var(--text-secondary);
+    }
+
+    .info-card strong {
+      color: var(--text-primary);
+    }
+
+    .note-box {
+      background: #fffaf5;
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 18px;
+      color: var(--text-secondary);
+      margin-top: 12px;
+    }
+
+    .note-box strong {
+      color: var(--accent-dark);
+    }
+
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border-light);
+      padding: 36px 0 22px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 28px;
+      align-items: start;
+    }
+
+    .footer-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .footer-text {
+      color: var(--text-secondary);
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .copyright {
+      border-top: 1px solid var(--border-light);
+      margin-top: 28px;
+      padding-top: 18px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero {
+        padding-top: 34px;
+      }
+
+      .hero-card,
+      .info-card {
+        border-radius: 24px;
+      }
+    }
   </style>
 </head>
+
 <body>
-<header>
-  🔒 गोपनीयता नीति (Privacy Policy)
-</header>
-<main>
-  <h1>HindiTools.com में आपका स्वागत है</h1>
-  <p>हम आपकी गोपनीयता को अत्यंत गंभीरता से लेते हैं। यह नीति बताती है कि हम आपकी जानकारी का उपयोग कैसे करते हैं और आपकी फाइलों की सुरक्षा कैसे सुनिश्चित करते हैं।</p>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="logo" href="index.html" aria-label="HindiTools Home">
+        <span class="logo-icon">हि</span>
+        <span>HindiTools</span>
+      </a>
 
-  <h2>1️⃣ आपकी फाइलें — केवल आपके ब्राउज़र में</h2>
-  <p>हमारे सभी टूल (जैसे PDF Merge, PDF Lock, Image → PDF) पूरी तरह से <strong>आपके ब्राउज़र</strong> में चलते हैं। किसी भी फाइल को हमारे सर्वर पर अपलोड, स्टोर या प्रोसेस नहीं किया जाता।</p>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#tools">Tools</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html" class="active">Privacy</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-  <h2>2️⃣ लॉग और विश्लेषण</h2>
-  <p>हम केवल सीमित <strong>वेब विश्लेषण</strong> (जैसे Plausible या Google Analytics) का उपयोग करते हैं ताकि हमें यह समझने में मदद मिले कि साइट कैसे उपयोग की जा रही है। यह किसी भी व्यक्तिगत या निजी डेटा से नहीं जुड़ा होता।</p>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-card">
+          <span class="badge">🔒 गोपनीयता नीति</span>
+          <h1>Privacy Policy</h1>
+          <p class="hero-text">
+            HindiTools.com आपकी privacy को महत्व देता है। यह policy बताती है कि हमारी website पर files,
+            analytics, cookies, ads और contact information कैसे handle की जाती है।
+          </p>
+        </div>
+      </div>
+    </section>
 
-  <h2>3️⃣ विज्ञापन (Adsense)</h2>
-  <p>हम भविष्य में Google AdSense जैसे तृतीय-पक्ष विज्ञापन नेटवर्क का उपयोग कर सकते हैं। ये नेटवर्क केवल कुकीज़ का उपयोग करते हैं ताकि वे आपके लिए उपयोगी विज्ञापन दिखा सकें। आप अपने ब्राउज़र की सेटिंग्स में कुकीज़ बंद कर सकते हैं।</p>
+    <section class="container content-grid">
+      <article class="info-card">
+        <h2>1. हमारी website का उपयोग</h2>
+        <p>
+          HindiTools.com PDF, image, voice और language tools provide करता है। कई tools browser-based libraries
+          का उपयोग करके आपके device/browser में process करने की कोशिश करते हैं।
+        </p>
+        <p>
+          कुछ advanced features, जैसे OCR, AI-supported tools, voice tools, Word/PDF conversion या third-party
+          browser APIs, external services, APIs या server-side processing की जरूरत रख सकते हैं।
+        </p>
+        <div class="note-box">
+          <strong>Important:</strong> बहुत sensitive, confidential, legal, medical, financial या private documents
+          process करने से पहले tool की instructions ध्यान से पढ़ें।
+        </div>
+      </article>
 
-  <h2>4️⃣ कोई व्यक्तिगत डेटा संग्रह नहीं</h2>
-  <p>हम किसी प्रकार की व्यक्तिगत जानकारी (नाम, ईमेल, संपर्क) संग्रह नहीं करते जब तक आप स्वयं हमें संपर्क पेज के माध्यम से न भेजें।</p>
+      <article class="info-card">
+        <h2>2. Files और document processing</h2>
+        <p>
+          जहाँ संभव हो, हम tools को browser में run करने के लिए design करते हैं, ताकि files आपके device पर ही
+          process हो सकें। फिर भी हम यह guarantee नहीं देते कि website का हर tool हमेशा 100% local/browser-only
+          processing ही करेगा।
+        </p>
+        <p>
+          Future या advanced tools में file, text या document को processing के लिए third-party service/API या
+          server पर भेजा जा सकता है। ऐसे tools में जहाँ practical हो, हम notice देने की कोशिश करेंगे।
+        </p>
+      </article>
 
-  <h2>5️⃣ सुरक्षा</h2>
-  <p>साइट HTTPS (SSL) एन्क्रिप्शन का उपयोग करती है। आपके द्वारा अपलोड की गई फाइलें आपके डिवाइस की मेमोरी में रहती हैं और पेज बंद होते ही हट जाती हैं।</p>
+      <article class="info-card">
+        <h2>3. Personal information</h2>
+        <p>
+          हम सामान्य tool usage के लिए आपका नाम, address या phone number नहीं मांगते।
+          अगर आप contact form या email के माध्यम से हमें message भेजते हैं, तो आपका नाम, email address और message
+          केवल reply देने और support purpose के लिए use किया जा सकता है।
+        </p>
+      </article>
 
-  <h2>6️⃣ नीति में बदलाव</h2>
-  <p>हम समय-समय पर इस नीति में बदलाव कर सकते हैं। नई नीति इस पेज पर अपडेट की जाएगी और तिथि बदली जाएगी।</p>
+      <article class="info-card">
+        <h2>4. Analytics और usage data</h2>
+        <p>
+          हम website improvement के लिए analytics tools, जैसे Google Analytics या similar services, का उपयोग कर सकते हैं।
+          इससे हमें समझने में मदद मिलती है कि कौन से pages/tools useful हैं, errors कहाँ आते हैं और website performance कैसी है।
+        </p>
+        <p>
+          Analytics data में browser type, device type, approximate location, visited pages, time on site और referral source जैसी
+          सामान्य जानकारी शामिल हो सकती है।
+        </p>
+      </article>
 
-  <p><strong>अंतिम अपडेट:</strong> अक्टूबर 2025</p>
+      <article class="info-card">
+        <h2>5. Cookies</h2>
+        <p>
+          Cookies छोटी files होती हैं जो आपके browser में save हो सकती हैं। HindiTools.com cookies का उपयोग settings,
+          analytics, website performance और advertising purposes के लिए कर सकता है।
+        </p>
+        <p>
+          आप अपने browser settings में cookies block या delete कर सकते हैं। Cookies disable करने पर कुछ features ठीक से काम न करें।
+        </p>
+      </article>
 
-  <p>अगर आपके कोई प्रश्न हों, कृपया हमसे संपर्क करें: <a href="mailto:info@hinditools.com">info@hinditools.com</a></p>
-</main>
-<footer>© 2025 HindiTools.com — “सब कुछ आपके ब्राउज़र में, कोई अपलोड नहीं।”</footer>
+      <article class="info-card">
+        <h2>6. Advertising और Google AdSense</h2>
+        <p>
+          HindiTools.com Google AdSense या अन्य third-party advertising networks का उपयोग कर सकता है।
+          ये services cookies और similar technologies का उपयोग करके ads दिखा सकती हैं और ad performance measure कर सकती हैं।
+        </p>
+        <p>
+          Third-party vendors, including Google, cookies का उपयोग आपकी previous visits के आधार पर ads serve करने के लिए कर सकते हैं।
+          आप अपने Google ad settings में personalized ads manage कर सकते हैं।
+        </p>
+      </article>
+
+      <article class="info-card">
+        <h2>7. Third-party libraries और links</h2>
+        <p>
+          हमारी website PDF, image, voice और अन्य features के लिए third-party JavaScript libraries, browser APIs या external links
+          का उपयोग कर सकती है। External websites की अपनी privacy policies होती हैं, और उनके content या practices के लिए
+          HindiTools.com जिम्मेदार नहीं है।
+        </p>
+      </article>
+
+      <article class="info-card">
+        <h2>8. Data security</h2>
+        <p>
+          हम website को सुरक्षित रखने और HTTPS जैसे standard protections use करने की कोशिश करते हैं।
+          हालांकि, internet पर कोई भी website या transmission method 100% secure guarantee नहीं कर सकता।
+        </p>
+      </article>
+
+      <article class="info-card">
+        <h2>9. Children’s privacy</h2>
+        <p>
+          HindiTools.com general audience tools provide करता है। हम knowingly बच्चों से personal information collect नहीं करते।
+          अगर आपको लगता है कि किसी बच्चे ने personal information भेजी है, तो हमसे contact करें।
+        </p>
+      </article>
+
+      <article class="info-card">
+        <h2>10. Policy updates</h2>
+        <p>
+          हम इस privacy policy को समय-समय पर update कर सकते हैं। Updated version इसी page पर publish किया जाएगा।
+        </p>
+        <p><strong>अंतिम अपडेट:</strong> May 2026</p>
+      </article>
+
+      <article class="info-card">
+        <h2>11. Contact</h2>
+        <p>
+          Privacy policy या website के बारे में कोई प्रश्न हो तो आप हमें email कर सकते हैं:
+          <a href="mailto:info@hinditools.com" style="color: var(--accent); text-decoration: none; font-weight: 800;">
+            info@hinditools.com
+          </a>
+        </p>
+      </article>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <span class="footer-title">HindiTools.com</span>
+          <p class="footer-text">
+            PDF · Image · Voice · Hindi/Punjabi tools — आसान हिंदी interface में।
+          </p>
+        </div>
+
+        <div>
+          <strong>मुख्य पेज</strong>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+
+        <div>
+          <strong>Popular Tools</strong>
+          <div class="footer-links">
+            <a href="merge-pdf-hi.html">PDF Merge</a>
+            <a href="compress-pdf-hi.html">PDF Compress</a>
+            <a href="split-pdf-hi.html">PDF Split</a>
+            <a href="image-to-pdf-hi.html">Image to PDF</a>
+            <a href="pdf-to-image-hi.html">PDF to Image</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const privacySchema = {
+      "@context": "https://schema.org",
+      "@type": "PrivacyPolicy",
+      "name": "गोपनीयता नीति | HindiTools.com",
+      "url": "https://www.hinditools.com/privacy.html",
+      "description": "HindiTools.com की privacy policy — files, cookies, analytics, ads और contact data के बारे में जानकारी।",
+      "publisher": {
+        "@type": "Organization",
+        "name": "HindiTools.com",
+        "url": "https://www.hinditools.com/"
+      }
+    };
+
+    const schemaScript = document.createElement("script");
+    schemaScript.type = "application/ld+json";
+    schemaScript.textContent = JSON.stringify(privacySchema);
+    document.head.appendChild(schemaScript);
+  </script>
 </body>
 </html>
