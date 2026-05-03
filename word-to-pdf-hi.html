@@ -17,6 +17,8 @@
   <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.3.6/dist/docx-preview.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='20' fill='%23e66a1f'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' font-size='30' font-family='Arial, sans-serif' font-weight='900' fill='white'%3Eहि%3C/text%3E%3C/svg%3E" />
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -386,6 +388,34 @@
       .segmented, .segmented.three { grid-template-columns: 1fr; }
       .toolbar-actions { width: 100%; }
       .icon-btn { flex: 1; }
+    }
+
+
+    /* Navbar logo visibility fix: keep gradient only on brand text, not on the icon */
+    .logo {
+      background: none !important;
+      -webkit-background-clip: border-box !important;
+      background-clip: border-box !important;
+      color: var(--text-primary) !important;
+      -webkit-text-fill-color: initial !important;
+    }
+    .logo > span {
+      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
+    .logo-icon {
+      background: var(--accent) !important;
+      background-image: none !important;
+      -webkit-background-clip: border-box !important;
+      background-clip: border-box !important;
+      color: #ffffff !important;
+      -webkit-text-fill-color: #ffffff !important;
+      flex: 0 0 42px;
+      line-height: 1;
+      overflow: visible;
     }
   </style>
 </head>
