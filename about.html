@@ -2,52 +2,549 @@
 <html lang="hi">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
   <title>हमारे बारे में | HindiTools.com</title>
-  <meta name="description" content="HindiTools.com — भारत का पहला 100% ब्राउज़र-आधारित हिंदी PDF टूल प्लेटफ़ॉर्म।">
+
+  <meta name="description" content="HindiTools.com के बारे में जानें — PDF, Image, Voice और Hindi/Punjabi tools का आसान हिंदी प्लेटफ़ॉर्म। Fast, simple और privacy-first digital tools." />
+  <meta name="keywords" content="HindiTools about, Hindi PDF tools, Hindi image tools, PDF tools Hindi, voice tools Hindi" />
+  <meta name="author" content="HindiTools.com" />
+  <meta name="robots" content="index, follow" />
+  <meta name="theme-color" content="#e66a1f" />
+
+  <meta property="og:title" content="हमारे बारे में | HindiTools.com" />
+  <meta property="og:description" content="HindiTools.com — PDF, Image, Voice और Hindi/Punjabi tools आसान हिंदी interface में।" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.hinditools.com/about.html" />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
+
   <style>
-    :root{
-      --bg:#f8fafc;--text:#0b1020;--accent:#ff5c7c;--accent2:#ffd95c;--line:rgba(2,6,23,.12);
-      --font:"Noto Sans Devanagari","Poppins",system-ui;
+    :root {
+      --bg: #fefaf5;
+      --surface: #ffffff;
+      --text-primary: #1e2a3e;
+      --text-secondary: #475569;
+      --accent: #e66a1f;
+      --accent-dark: #c2410c;
+      --accent-soft: #ffedd5;
+      --secondary: #1e3a8a;
+      --border-light: #f1e1cf;
+      --green: #12805c;
+      --shadow-sm: 0 12px 30px rgba(0, 0, 0, 0.05);
+      --shadow-md: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
+      --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
     }
-    body{margin:0;font-family:var(--font);background:var(--bg);color:var(--text);line-height:1.6;}
-    header{background:linear-gradient(90deg,var(--accent),var(--accent2));color:#fff;padding:20px;text-align:center;font-weight:800;}
-    main{max-width:900px;margin:0 auto;padding:24px;}
-    h1{font-size:1.8rem;margin-bottom:0.5rem;}
-    h2{margin-top:1.6rem;}
-    a{color:var(--accent);text-decoration:none;}
-    footer{text-align:center;padding:20px;font-size:14px;color:#555;border-top:1px solid var(--line);}
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at top left, rgba(230, 106, 31, 0.10), transparent 30%),
+        radial-gradient(circle at top right, rgba(30, 58, 138, 0.08), transparent 28%),
+        var(--bg);
+      color: var(--text-primary);
+      font-family: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(254, 250, 245, 0.9);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-light);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 14px 0;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 1.6rem;
+      background: linear-gradient(135deg, var(--accent), #f59e0b);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-decoration: none;
+    }
+
+    .logo-icon {
+      background: var(--accent);
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      color: white;
+      font-weight: 900;
+      font-size: 1.45rem;
+      box-shadow: 0 8px 18px rgba(230, 106, 31, 0.3);
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      font-weight: 700;
+      color: var(--text-primary);
+      padding: 8px 13px;
+      border-radius: 40px;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a:hover,
+    .nav-links a.active {
+      background: var(--accent);
+      color: white;
+    }
+
+    .hero {
+      padding: 54px 0 24px;
+    }
+
+    .hero-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 34px;
+      padding: clamp(24px, 5vw, 46px);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-card::before {
+      content: "";
+      position: absolute;
+      right: -90px;
+      top: -90px;
+      width: 220px;
+      height: 220px;
+      border-radius: 999px;
+      background: rgba(230, 106, 31, 0.12);
+    }
+
+    .badge {
+      display: inline-flex;
+      background: var(--accent-soft);
+      color: var(--accent-dark);
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      font-size: clamp(2.1rem, 5vw, 3.5rem);
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+      margin-bottom: 16px;
+      color: var(--secondary);
+    }
+
+    .highlight {
+      color: var(--accent);
+    }
+
+    .hero-text {
+      color: var(--text-secondary);
+      font-size: 1.12rem;
+      max-width: 820px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 22px;
+      padding: 24px 0 54px;
+    }
+
+    .info-card {
+      background: var(--surface);
+      border: 1px solid var(--border-light);
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .info-card h2 {
+      color: var(--secondary);
+      font-size: 1.6rem;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .info-card p {
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+
+    .info-card ul {
+      padding-left: 22px;
+      display: grid;
+      gap: 10px;
+      color: var(--text-secondary);
+    }
+
+    .info-card strong {
+      color: var(--text-primary);
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-top: 14px;
+    }
+
+    .mini-feature {
+      background: #fffaf5;
+      border: 1px solid var(--border-light);
+      border-radius: 20px;
+      padding: 18px;
+    }
+
+    .mini-feature h3 {
+      margin-bottom: 6px;
+      color: var(--accent-dark);
+      font-size: 1.05rem;
+    }
+
+    .mini-feature p {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    .cta-box {
+      background: linear-gradient(135deg, var(--secondary), #304db3);
+      color: white;
+      border-radius: 28px;
+      padding: 28px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: var(--shadow-md);
+    }
+
+    .cta-box h2 {
+      color: white;
+      margin-bottom: 6px;
+    }
+
+    .cta-box p {
+      color: rgba(255,255,255,0.82);
+      margin: 0;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--accent);
+      color: white;
+      text-decoration: none;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font-weight: 800;
+      transition: var(--transition);
+      box-shadow: 0 10px 22px rgba(230, 106, 31, 0.25);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      background: var(--accent-dark);
+    }
+
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border-light);
+      padding: 36px 0 22px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 28px;
+      align-items: start;
+    }
+
+    .footer-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .footer-text {
+      color: var(--text-secondary);
+    }
+
+    .footer-links {
+      display: grid;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .footer-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .footer-links a:hover {
+      color: var(--accent);
+    }
+
+    .copyright {
+      border-top: 1px solid var(--border-light);
+      margin-top: 28px;
+      padding-top: 18px;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 760px) {
+      .container {
+        padding: 0 16px;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .hero {
+        padding-top: 34px;
+      }
+
+      .hero-card,
+      .info-card,
+      .cta-box {
+        border-radius: 24px;
+      }
+    }
   </style>
 </head>
+
 <body>
-<header>
-  ℹ️ हमारे बारे में (About Us)
-</header>
-<main>
-  <h1>HindiTools.com क्या है?</h1>
-  <p><strong>HindiTools.com</strong> भारत का पहला <strong>100% ब्राउज़र-आधारित हिंदी टूल प्लेटफ़ॉर्म</strong> है, जो आपको PDF और इमेज से जुड़े रोज़मर्रा के काम हिंदी में और बिना इंटरनेट अपलोड के करने देता है।</p>
+  <header class="navbar">
+    <div class="container nav-inner">
+      <a class="logo" href="index.html" aria-label="HindiTools Home">
+        <span class="logo-icon">हि</span>
+        <span>HindiTools</span>
+      </a>
 
-  <h2>हमारा मिशन</h2>
-  <p>हम चाहते हैं कि हर भारतीय यूज़र को <strong>सरल, तेज़ और सुरक्षित</strong> डिजिटल टूल्स अपनी भाषा में मिलें — ताकि उन्हें अंग्रेज़ी वेबसाइटों या ऐप्स पर निर्भर न रहना पड़े।</p>
+      <nav class="nav-links" aria-label="Main navigation">
+        <a href="index.html">Home</a>
+        <a href="index.html#tools">Tools</a>
+        <a href="about.html" class="active">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
 
-  <h2>मुख्य विशेषताएँ</h2>
-  <ul>
-    <li>🔒 100% ब्राउज़र-आधारित — कोई फाइल अपलोड नहीं</li>
-    <li>📄 PDF Merge, Split, Lock, Unlock, Image→PDF, Compress आदि</li>
-    <li>🌈 पूरी तरह हिंदी इंटरफ़ेस — उपयोग में आसान</li>
-    <li>⚡ Instant Processing — तेज़ और हल्का कोड</li>
-    <li>🧠 Privacy-First Approach — आपकी फाइल, आपका डिवाइस</li>
-  </ul>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-card">
+          <span class="badge">ℹ️ हमारे बारे में</span>
+          <h1>HindiTools.com क्या है?</h1>
+          <p class="hero-text">
+            <strong>HindiTools.com</strong> एक Hindi-first digital tools platform है, जहाँ users PDF, image,
+            voice और language से जुड़े रोज़मर्रा के काम आसान हिंदी interface में कर सकते हैं।
+            हमारा focus simple design, fast workflow और privacy-first experience पर है।
+          </p>
+        </div>
+      </div>
+    </section>
 
-  <h2>भविष्य की दिशा</h2>
-  <p>हम आने वाले महीनों में हिंदी OCR, PDF Translator, और Word→PDF कन्वर्टर जैसे नए टूल्स जोड़ने जा रहे हैं।</p>
+    <section class="container content-grid">
+      <article class="info-card">
+        <h2>हमारा मिशन</h2>
+        <p>
+          हमारा लक्ष्य है कि हर user को useful digital tools अपनी भाषा में मिलें — बिना confusing menus,
+          complicated software या unnecessary technical language के।
+        </p>
+        <p>
+          HindiTools.com खास तौर पर उन users के लिए बनाया गया है जो PDF merge, PDF compress, image to PDF,
+          PDF to image, Hindi/Punjabi typing और voice tools जैसे काम जल्दी और आसानी से करना चाहते हैं।
+        </p>
+      </article>
 
-  <h2>संपर्क करें</h2>
-  <p>आपके सुझाव हमारे लिए अमूल्य हैं। अगर कोई विचार या प्रश्न हो तो हमें ईमेल करें:</p>
-  <p><a href="mailto:info@hinditools.com">info@hinditools.com</a></p>
+      <article class="info-card">
+        <h2>हम क्या बनाते हैं?</h2>
+        <ul>
+          <li>📄 <strong>PDF Tools:</strong> Merge PDF, Compress PDF, Split PDF, Rotate PDF, Watermark, Lock/Unlock और अन्य tools।</li>
+          <li>🖼️ <strong>Image Tools:</strong> Image to PDF, PDF to Image, image conversion और future image utilities।</li>
+          <li>🎙️ <strong>Voice Tools:</strong> Speech to Text और Text to Speech जैसे useful voice-based tools।</li>
+          <li>✍️ <strong>Language Tools:</strong> Hindi और Punjabi typing/conversion tools।</li>
+        </ul>
+      </article>
 
-  <p class="tiny"><strong>HindiTools.com — क्योंकि अब टेक्नोलॉजी आपकी भाषा में।</strong></p>
-</main>
-<footer>© 2025 HindiTools.com — Made with ❤️ in India.</footer>
+      <article class="info-card">
+        <h2>Privacy-first approach</h2>
+        <p>
+          हम tools को जहाँ संभव हो browser-based बनाने की कोशिश करते हैं, ताकि files आपके device पर ही process हो सकें।
+          कुछ advanced tools, जैसे OCR, AI, Word/PDF conversion या voice features, browser limitations के कारण external
+          libraries, browser APIs या server/API processing की जरूरत रख सकते हैं।
+        </p>
+        <p>
+          इसलिए हम users को सलाह देते हैं कि बहुत sensitive, confidential या private documents process करने से पहले
+          tool की instructions और privacy notice ध्यान से पढ़ें।
+        </p>
+      </article>
+
+      <article class="info-card">
+        <h2>मुख्य विशेषताएँ</h2>
+        <div class="feature-grid">
+          <div class="mini-feature">
+            <h3>🌈 हिंदी interface</h3>
+            <p>Simple Hindi wording और clear steps, ताकि हर user आसानी से tool use कर सके।</p>
+          </div>
+
+          <div class="mini-feature">
+            <h3>⚡ Fast workflow</h3>
+            <p>Upload, settings, preview और download — पूरा process quick और practical रखा गया है।</p>
+          </div>
+
+          <div class="mini-feature">
+            <h3>📱 Mobile-friendly</h3>
+            <p>Tools को phone, tablet और desktop पर usable बनाने पर focus है।</p>
+          </div>
+
+          <div class="mini-feature">
+            <h3>🔐 Safer wording</h3>
+            <p>हम exaggerated claims से बचते हैं और हर tool में realistic privacy information देने की कोशिश करते हैं।</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="info-card">
+        <h2>भविष्य की दिशा</h2>
+        <p>
+          आने वाले समय में HindiTools.com पर और advanced tools जोड़े जाएंगे, जैसे Hindi OCR, PDF Translator,
+          Hindi typing improvements, document helper tools, better image utilities और AI-supported productivity tools।
+        </p>
+        <p>
+          हमारा long-term goal है कि HindiTools.com Hindi-speaking users के लिए एक trusted, easy और useful online tools hub बने।
+        </p>
+      </article>
+
+      <section class="cta-box">
+        <div>
+          <h2>आपका सुझाव हमारे लिए जरूरी है</h2>
+          <p>कोई tool चाहिए, कोई bug मिला या कोई improvement idea है? हमें contact करें।</p>
+        </div>
+
+        <a class="btn" href="contact.html">Contact करें →</a>
+      </section>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <span class="footer-title">HindiTools.com</span>
+          <p class="footer-text">
+            PDF · Image · Voice · Hindi/Punjabi tools — आसान हिंदी interface में।
+          </p>
+        </div>
+
+        <div>
+          <strong>मुख्य पेज</strong>
+          <div class="footer-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="privacy.html">Privacy Policy</a>
+            <a href="contact.html">Contact</a>
+          </div>
+        </div>
+
+        <div>
+          <strong>Popular Tools</strong>
+          <div class="footer-links">
+            <a href="merge-pdf-hi.html">PDF Merge</a>
+            <a href="compress-pdf-hi.html">PDF Compress</a>
+            <a href="split-pdf-hi.html">PDF Split</a>
+            <a href="image-to-pdf-hi.html">Image to PDF</a>
+            <a href="pdf-to-image-hi.html">PDF to Image</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="copyright">
+        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const aboutSchema = {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "name": "हमारे बारे में | HindiTools.com",
+      "url": "https://www.hinditools.com/about.html",
+      "description": "HindiTools.com PDF, Image, Voice और Hindi/Punjabi tools का Hindi-first digital tools platform है।",
+      "isPartOf": {
+        "@type": "WebSite",
+        "name": "HindiTools.com",
+        "url": "https://www.hinditools.com/"
+      }
+    };
+
+    const schemaScript = document.createElement("script");
+    schemaScript.type = "application/ld+json";
+    schemaScript.textContent = JSON.stringify(aboutSchema);
+    document.head.appendChild(schemaScript);
+  </script>
 </body>
 </html>
