@@ -4,44 +4,70 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4192195409142944"
      crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
   <title>Image to PDF Online | JPG PNG को PDF बनाएं हिंदी में - HindiTools</title>
 
-  <meta name="description" content="JPG, PNG, WebP images को online PDF में बदलें। Multiple images upload करें, order बदलें, page size, margin, orientation और fit mode चुनें। Easy Hindi interface." />
-  <meta name="keywords" content="image to PDF Hindi, JPG to PDF Hindi, PNG to PDF, photo to PDF, images ko PDF banaye, HindiTools" />
+  <meta name="description" content="JPG, PNG, WebP images को online PDF में बदलें। Multiple images upload करें, order बदलें, page size, margin, orientation, background और fit mode चुनें। Easy Hindi + Hinglish interface." />
+  <meta name="keywords" content="image to PDF Hindi, JPG to PDF Hindi, PNG to PDF, photo to PDF, images ko PDF banaye, photo se PDF, image se PDF, HindiTools" />
   <meta name="author" content="HindiTools.com" />
+  <meta name="theme-color" content="#ff9933" />
   <meta name="robots" content="index, follow" />
 
   <meta property="og:title" content="Image to PDF Online - JPG PNG को PDF बनाएं" />
-  <meta property="og:description" content="Images को PDF में बदलें। Multiple upload, reorder, margin, page size और instant download." />
+  <meta property="og:description" content="Images को PDF में बदलें। Multiple upload, reorder, margin, page size, background और instant download." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.hinditools.com/image-to-pdf-hi.html" />
+
+  <link rel="canonical" href="https://www.hinditools.com/image-to-pdf-hi.html" />
+  <link rel="alternate" hreflang="hi-IN" href="https://www.hinditools.com/image-to-pdf-hi.html" />
+  <link rel="alternate" hreflang="en-IN" href="https://www.hinditools.com/image-to-pdf-hi.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.hinditools.com/image-to-pdf-hi.html" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
 
   <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
 
   <style>
     :root {
-      --bg: #fff8f0;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --border: #f1d7bd;
-      --primary: #e66a1f;
-      --primary-dark: #bf4e13;
-      --secondary: #273c75;
-      --green: #12805c;
+      --bg: #fffaf2;
+      --surface: #ffffff;
+      --surface-2: #fff7ed;
+      --text: #1e2a3e;
+      --muted: #64748b;
+      --muted-2: #475569;
+
+      --saffron: #ff9933;
+      --primary: #ff7a1a;
+      --primary-dark: #c2410c;
+      --primary-soft: #fff0df;
+
+      --chakra: #000080;
+      --secondary: #0b3d91;
+      --secondary-soft: #dbeafe;
+
+      --green: #138808;
+      --green-soft: #e7f8e4;
+
       --red: #dc2626;
+      --red-soft: #fff1f2;
+
       --purple: #6d28d9;
-      --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
-      --radius: 22px;
+      --purple-soft: #f3e8ff;
+
+      --border: #f1dec8;
+      --shadow-sm: 0 12px 30px rgba(120, 72, 20, 0.07);
+      --shadow-md: 0 20px 45px rgba(120, 72, 20, 0.13);
+      --shadow-lg: 0 28px 70px rgba(15, 23, 42, 0.15);
+      --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
     }
 
     * {
@@ -55,11 +81,13 @@
     }
 
     body {
-      font-family: "Noto Sans Devanagari", system-ui, sans-serif;
+      font-family: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(230, 106, 31, 0.15), transparent 28%),
-        radial-gradient(circle at top right, rgba(39, 60, 117, 0.12), transparent 32%),
+        radial-gradient(circle at top left, rgba(255, 153, 51, 0.16), transparent 30%),
+        radial-gradient(circle at top right, rgba(19, 136, 8, 0.10), transparent 28%),
+        radial-gradient(circle at center top, rgba(11, 61, 145, 0.08), transparent 36%),
         radial-gradient(circle at 85% 70%, rgba(109, 40, 217, 0.08), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,0.34), transparent 360px),
         var(--bg);
       color: var(--text);
       line-height: 1.6;
@@ -76,13 +104,35 @@
       font-family: inherit;
     }
 
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 10px;
+      background: var(--primary);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 14px;
+      z-index: 999;
+      font-weight: 800;
+    }
+
+    .skip-link:focus {
+      left: 12px;
+    }
+
+    .tricolour-line {
+      height: 5px;
+      background: linear-gradient(90deg, var(--saffron) 0 33.33%, #ffffff 33.33% 66.66%, var(--green) 66.66% 100%);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
     .container {
       width: min(1180px, calc(100% - 32px));
       margin: auto;
     }
 
     .top-strip {
-      background: linear-gradient(90deg, var(--secondary), #4457b5);
+      background: linear-gradient(90deg, var(--secondary), #1e40af);
       color: white;
       padding: 9px 0;
       font-size: 14px;
@@ -90,24 +140,25 @@
     }
 
     .top-strip strong {
-      color: #ffe5bf;
+      color: #ffe7c2;
     }
 
     header {
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255, 248, 240, 0.9);
+      background: rgba(255, 250, 242, 0.90);
       backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(241, 215, 189, 0.9);
+      border-bottom: 1px solid rgba(241, 222, 200, 0.95);
     }
 
     .nav {
-      min-height: 74px;
+      min-height: 76px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 18px;
+      position: relative;
     }
 
     .brand {
@@ -115,7 +166,7 @@
       align-items: center;
       gap: 11px;
       color: var(--secondary);
-      font-size: 22px;
+      font-size: 23px;
       font-weight: 900;
       white-space: nowrap;
     }
@@ -123,13 +174,34 @@
     .brand-mark {
       width: 42px;
       height: 42px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--primary), #ffbd59);
-      color: white;
+      border-radius: 16px;
+      background: linear-gradient(180deg, var(--saffron) 0 34%, #ffffff 34% 66%, var(--green) 66% 100%);
+      color: var(--chakra);
       display: grid;
       place-items: center;
-      box-shadow: 0 10px 24px rgba(230, 106, 31, 0.28);
+      box-shadow: 0 10px 24px rgba(255, 153, 51, 0.26);
       font-weight: 900;
+      border: 1px solid rgba(15, 23, 42, 0.10);
+    }
+
+    .flag-pill {
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--saffron) 0 33.33%, #ffffff 33.33% 66.66%, var(--green) 66.66% 100%);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.10);
+      font-size: 0;
+      position: relative;
+    }
+
+    .flag-pill::after {
+      content: "☸";
+      color: var(--chakra);
+      font-size: 13px;
+      line-height: 1;
     }
 
     .nav-links {
@@ -137,15 +209,16 @@
       align-items: center;
       gap: 8px;
       list-style: none;
+      flex-wrap: wrap;
     }
 
     .nav-links a {
-      padding: 10px 13px;
+      padding: 9px 13px;
       border-radius: 999px;
       color: #3f4655;
       font-size: 15px;
-      font-weight: 700;
-      transition: 0.2s ease;
+      font-weight: 800;
+      transition: var(--transition);
     }
 
     .nav-links a:hover {
@@ -160,7 +233,13 @@
       padding: 11px 16px;
       border-radius: 999px;
       font-weight: 900;
-      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.25);
+      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.25);
+      transition: var(--transition);
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
     }
 
     .menu-btn {
@@ -178,7 +257,7 @@
       margin: 24px 0 0;
       color: var(--muted);
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .breadcrumb a {
@@ -186,12 +265,12 @@
     }
 
     .hero {
-      padding: 38px 0 28px;
+      padding: 38px 0 30px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
+      grid-template-columns: 0.92fr 1.08fr;
       gap: 32px;
       align-items: center;
     }
@@ -204,30 +283,39 @@
     }
 
     .badge {
-      background: rgba(255,255,255,0.88);
-      border: 1px solid rgba(241, 215, 189, 0.95);
+      background: rgba(255,255,255,0.90);
+      border: 1px solid rgba(241, 222, 200, 0.95);
       color: #71401c;
       padding: 8px 12px;
       border-radius: 999px;
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 900;
       box-shadow: 0 10px 22px rgba(120, 72, 20, 0.06);
+    }
+
+    .india-badge {
+      background: linear-gradient(90deg, rgba(255,153,51,0.22), rgba(255,255,255,0.94), rgba(19,136,8,0.16));
+      border: 1px solid rgba(11,61,145,0.12);
+      color: var(--secondary);
     }
 
     .hero h1 {
       font-size: clamp(35px, 4.7vw, 58px);
       line-height: 1.08;
-      letter-spacing: -1.6px;
+      letter-spacing: -1.7px;
       color: var(--secondary);
       margin-bottom: 16px;
     }
 
     .hero h1 span {
-      color: var(--primary);
+      background: linear-gradient(90deg, var(--saffron), var(--secondary), var(--green));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .hero p {
-      color: #4b5563;
+      color: var(--muted-2);
       font-size: 18px;
       max-width: 650px;
       margin-bottom: 20px;
@@ -244,14 +332,15 @@
     .primary-btn,
     .secondary-btn,
     .danger-btn,
-    .ghost-btn {
+    .ghost-btn,
+    .green-btn {
       border: 0;
       border-radius: 16px;
       padding: 13px 18px;
       font-size: 15px;
       font-weight: 900;
       cursor: pointer;
-      transition: 0.2s ease;
+      transition: var(--transition);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -261,7 +350,7 @@
     .primary-btn {
       background: var(--primary);
       color: white;
-      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.23);
+      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.23);
     }
 
     .primary-btn:hover {
@@ -282,11 +371,17 @@
     }
 
     .secondary-btn:hover {
-      background: #1d2b5c;
+      background: #072f72;
+      transform: translateY(-1px);
+    }
+
+    .green-btn {
+      background: var(--green);
+      color: white;
     }
 
     .danger-btn {
-      background: #fff1f2;
+      background: var(--red-soft);
       color: var(--red);
       border: 1px solid #fecdd3;
     }
@@ -294,41 +389,111 @@
     .ghost-btn {
       background: white;
       color: #4b5563;
-      border: 1px solid #ead6c2;
+      border: 1px solid var(--border);
     }
 
     .ghost-btn:hover {
       color: var(--primary);
       border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .hero-hints {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--muted-2);
+      font-size: 14px;
+      font-weight: 800;
     }
 
     .tool-shell {
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(241, 215, 189, 0.95);
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(241, 222, 200, 0.95);
       border-radius: 34px;
       padding: 24px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--saffron), #ffffff, var(--green));
+    }
+
+    .tool-intro {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+
+    .intro-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 14px;
+      min-height: 105px;
+    }
+
+    .intro-box strong {
+      display: block;
+      color: var(--secondary);
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .intro-box span {
+      color: var(--muted-2);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .arrow-box {
+      width: 40px;
+      display: grid;
+      place-items: center;
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 24px;
     }
 
     .dropzone {
       border: 2px dashed #efb276;
       border-radius: 26px;
       background:
+        radial-gradient(circle at top right, rgba(255,153,51,0.12), transparent 34%),
         linear-gradient(180deg, rgba(255,248,240,0.95), rgba(255,255,255,0.95));
-      min-height: 255px;
+      min-height: 275px;
       display: grid;
       place-items: center;
       text-align: center;
       padding: 28px;
-      transition: 0.2s ease;
+      transition: var(--transition);
       cursor: pointer;
       position: relative;
       overflow: hidden;
     }
 
     .dropzone.dragover {
-      border-color: var(--secondary);
-      background: #eef2ff;
+      border-color: var(--green);
+      background: #f0fdf4;
       transform: scale(1.01);
     }
 
@@ -362,22 +527,22 @@
       font-size: 16px;
       font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.22);
+      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.22);
     }
 
     .privacy-note {
       margin-top: 12px;
       color: var(--green);
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .panel {
       background: white;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 24px;
       padding: 20px;
-      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+      box-shadow: var(--shadow-sm);
       margin-top: 18px;
     }
 
@@ -399,6 +564,7 @@
       color: var(--muted);
       font-size: 14px;
       margin-top: 4px;
+      font-weight: 700;
     }
 
     .summary-strip {
@@ -410,7 +576,7 @@
 
     .summary-item {
       background: #fffaf5;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 18px;
       padding: 12px;
     }
@@ -419,7 +585,7 @@
       display: block;
       font-size: 12px;
       color: var(--muted);
-      font-weight: 800;
+      font-weight: 900;
       margin-bottom: 3px;
     }
 
@@ -442,14 +608,14 @@
       gap: 14px;
       align-items: center;
       background: #fffaf5;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 20px;
       padding: 13px;
-      transition: 0.2s ease;
+      transition: var(--transition);
     }
 
     .image-card:hover {
-      border-color: rgba(230, 106, 31, 0.55);
+      border-color: rgba(255, 122, 26, 0.55);
       box-shadow: 0 10px 22px rgba(120, 72, 20, 0.08);
     }
 
@@ -507,7 +673,7 @@
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .image-actions {
@@ -528,7 +694,7 @@
       place-items: center;
       font-size: 16px;
       cursor: pointer;
-      transition: 0.2s ease;
+      transition: var(--transition);
     }
 
     .icon-btn:disabled {
@@ -544,7 +710,7 @@
     .icon-btn.remove:hover {
       border-color: var(--red);
       color: var(--red);
-      background: #fff1f2;
+      background: var(--red-soft);
     }
 
     .settings-grid {
@@ -556,7 +722,7 @@
 
     .setting-card {
       background: #fffaf5;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 20px;
       padding: 16px;
     }
@@ -578,6 +744,7 @@
       color: var(--muted);
       font-size: 13px;
       margin-top: 6px;
+      font-weight: 700;
     }
 
     .setting-card select,
@@ -596,7 +763,7 @@
     .setting-card input:focus,
     .input-group input:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.1);
+      box-shadow: 0 0 0 4px rgba(255, 153, 51, 0.14);
     }
 
     .range-wrap {
@@ -652,7 +819,7 @@
       margin-top: 18px;
       border-radius: 18px;
       padding: 14px 16px;
-      font-weight: 800;
+      font-weight: 900;
       border: 1px solid #e5e7eb;
       background: #f9fafb;
       color: #4b5563;
@@ -669,7 +836,7 @@
     }
 
     .status-box.error {
-      background: #fff1f2;
+      background: var(--red-soft);
       color: var(--red);
       border-color: #fecdd3;
     }
@@ -690,7 +857,7 @@
     .progress-bar {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, var(--primary), #ffbd59);
+      background: linear-gradient(90deg, var(--saffron), var(--primary), var(--green));
       transition: width 0.25s ease;
     }
 
@@ -719,6 +886,7 @@
     .download-card p {
       color: #166534;
       font-size: 14px;
+      font-weight: 700;
     }
 
     .notice {
@@ -729,7 +897,7 @@
       border-radius: 18px;
       padding: 13px 14px;
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .info-sections {
@@ -741,10 +909,20 @@
 
     .info-card {
       background: white;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 24px;
       padding: 22px;
-      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--saffron), #ffffff, var(--green));
     }
 
     .info-card h2 {
@@ -757,6 +935,7 @@
     .info-card li {
       color: #5b6472;
       font-size: 15px;
+      font-weight: 600;
     }
 
     .info-card ul,
@@ -775,19 +954,19 @@
 
     .related a {
       background: white;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 18px;
       padding: 16px;
       font-weight: 900;
       color: var(--secondary);
       box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
-      transition: 0.2s ease;
+      transition: var(--transition);
     }
 
     .related a:hover {
       transform: translateY(-3px);
       color: var(--primary);
-      border-color: rgba(230, 106, 31, 0.45);
+      border-color: rgba(255, 122, 26, 0.45);
     }
 
     .faq-list {
@@ -798,7 +977,7 @@
 
     .faq-item {
       background: white;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 18px;
       overflow: hidden;
       box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
@@ -825,6 +1004,7 @@
       padding: 0 17px 17px;
       color: #5b6472;
       font-size: 15px;
+      font-weight: 600;
     }
 
     .faq-item.active .faq-a {
@@ -836,6 +1016,15 @@
       background: #151f3e;
       color: white;
       padding: 38px 0 20px;
+      position: relative;
+    }
+
+    footer::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--saffron), #ffffff, var(--green));
     }
 
     .footer-grid {
@@ -869,12 +1058,22 @@
       gap: 8px;
     }
 
+    footer a:hover {
+      color: #ffd7a8;
+    }
+
     .copyright {
       border-top: 1px solid rgba(255,255,255,0.12);
       padding-top: 18px;
       color: rgba(255,255,255,0.62);
       text-align: center;
       font-size: 14px;
+    }
+
+    :focus-visible {
+      outline: 4px solid rgba(255, 153, 51, 0.28);
+      outline-offset: 3px;
+      border-radius: 12px;
     }
 
     @media (max-width: 1040px) {
@@ -903,16 +1102,16 @@
       .nav.open .nav-links {
         display: flex;
         position: absolute;
-        top: 74px;
-        left: 16px;
-        right: 16px;
+        top: 76px;
+        left: 0;
+        right: 0;
         background: white;
         flex-direction: column;
         align-items: stretch;
         border-radius: 20px;
         padding: 14px;
-        box-shadow: var(--shadow);
-        border: 1px solid #f1d7bd;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border);
       }
 
       .nav.open .nav-links a {
@@ -920,7 +1119,7 @@
       }
     }
 
-    @media (max-width: 680px) {
+    @media (max-width: 700px) {
       .top-strip {
         font-size: 12px;
       }
@@ -934,8 +1133,17 @@
         border-radius: 24px;
       }
 
+      .tool-intro {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow-box {
+        width: 100%;
+        transform: rotate(90deg);
+      }
+
       .dropzone {
-        min-height: 235px;
+        min-height: 240px;
         padding: 22px 16px;
       }
 
@@ -968,7 +1176,8 @@
       .primary-btn,
       .secondary-btn,
       .danger-btn,
-      .ghost-btn {
+      .ghost-btn,
+      .green-btn {
         width: 100%;
       }
 
@@ -984,11 +1193,32 @@
       .panel-head .danger-btn {
         margin-top: 14px;
       }
+
+      .brand {
+        font-size: 20px;
+      }
+
+      .flag-pill {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
+      }
     }
   </style>
 </head>
 
 <body>
+  <div class="tricolour-line" aria-hidden="true"></div>
+  <a class="skip-link" href="#image-tool">सीधे Image to PDF tool पर जाएं</a>
+
   <div class="top-strip">
     <div class="container">
       <strong>Image to PDF</strong> — JPG, PNG, WebP photos को सुंदर PDF document में बदलें।
@@ -997,9 +1227,10 @@
 
   <header>
     <div class="container nav" id="nav">
-      <a class="brand" href="index.html">
+      <a class="brand" href="index.html" aria-label="HindiTools Home">
         <span class="brand-mark">हि</span>
         <span>HindiTools</span>
+        <span class="flag-pill" aria-label="Indian tricolour inspired design"></span>
       </a>
 
       <ul class="nav-links">
@@ -1012,7 +1243,7 @@
 
       <a class="nav-cta" href="#image-tool">Image to PDF</a>
 
-      <button class="menu-btn" id="menuBtn" type="button">☰</button>
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu">☰</button>
     </div>
   </header>
 
@@ -1027,26 +1258,44 @@
       <div class="container hero-grid">
         <div>
           <div class="badge-row">
+            <span class="badge india-badge">🇮🇳 Hindi + Hinglish Interface</span>
             <span class="badge">🖼️ JPG / PNG / WebP</span>
             <span class="badge">🔀 Reorder Images</span>
             <span class="badge">📄 A4 / Letter / Auto</span>
-            <span class="badge">🎚️ Quality Control</span>
           </div>
 
           <h1>Image को <span>PDF बनाएं</span></h1>
 
           <p>
             Photos, documents, screenshots और scanned images को एक clean PDF में बदलें।
-            Images upload करें, order set करें, page size/margin चुनें और PDF download करें।
+            Users के लिए: <strong>photo se PDF, image se PDF, JPG to PDF</strong> — सब इसी tool से होगा।
           </p>
 
           <div class="hero-actions">
-            <a class="primary-btn" href="#image-tool">अभी PDF बनाएं</a>
-            <a class="ghost-btn" href="pdf-to-image-hi.html">PDF to Image करें</a>
+            <a class="primary-btn" href="#image-tool">🖼️ अभी PDF बनाएं</a>
+            <a class="ghost-btn" href="pdf-to-image-hi.html">📷 PDF to Image करें</a>
+          </div>
+
+          <div class="hero-hints">
+            <span class="hint">✅ Multiple images</span>
+            <span class="hint">🔀 Order + rotate</span>
+            <span class="hint">🎚️ Margin, quality, page size</span>
           </div>
         </div>
 
         <div class="tool-shell" id="image-tool">
+          <div class="tool-intro">
+            <div class="intro-box">
+              <strong>आप देंगे</strong>
+              <span>JPG, PNG या WebP photos — जैसे documents, ID, receipts, screenshots.</span>
+            </div>
+            <div class="arrow-box">→</div>
+            <div class="intro-box">
+              <strong>Result मिलेगा</strong>
+              <span>एक clean PDF file, selected image order और page settings के साथ.</span>
+            </div>
+          </div>
+
           <div class="dropzone" id="dropzone">
             <input type="file" id="fileInput" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" multiple />
             <div>
@@ -1152,7 +1401,7 @@
                 <label for="outputName">Final PDF का नाम</label>
                 <input id="outputName" type="text" value="images-to-pdf" placeholder="images-to-pdf" />
                 <div class="notice">
-                  Tip: अगर आप documents/forms की photos PDF बना रहे हैं, तो Page Size A4, Fit Contain और Margin 12–24 रखें।
+                  Tip: Documents/forms की photos PDF बना रहे हैं तो Page Size A4, Fit Contain और Margin 12–24 रखें।
                 </div>
               </div>
             </div>
@@ -1283,9 +1532,9 @@
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="footer-brand">HindiTools.com</div>
+          <div class="footer-brand">HindiTools.com 🇮🇳</div>
           <p>
-            PDF, Image और Document कामों के लिए आसान हिंदी tools।
+            PDF, Image और Document कामों के लिए आसान Hindi + Hinglish tools।
             Simple interface, fast workflow और mobile-friendly design।
           </p>
         </div>
@@ -1941,6 +2190,17 @@
 
     updateSummary();
 
+    const webApplicationSchema = {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "HindiTools Image to PDF",
+      "url": "https://www.hinditools.com/image-to-pdf-hi.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "inLanguage": ["hi-IN", "en-IN"],
+      "description": "JPG, PNG और WebP images को PDF में बदलने वाला Hindi + Hinglish image to PDF tool."
+    };
+
     const faqSchema = {
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -1976,14 +2236,24 @@
             "@type": "Answer",
             "text": "Page Size में A4 चुनें, Orientation portrait रखें और Fit Mode contain चुनें।"
           }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या मेरी images server पर upload होती हैं?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "यह page browser-side PDF library का उपयोग करता है। फिर भी sensitive images/documents के लिए हमेशा सावधानी रखें।"
+          }
         }
       ]
     };
 
-    const schemaScript = document.createElement("script");
-    schemaScript.type = "application/ld+json";
-    schemaScript.textContent = JSON.stringify(faqSchema);
-    document.head.appendChild(schemaScript);
+    [webApplicationSchema, faqSchema].forEach(schema => {
+      const schemaScript = document.createElement("script");
+      schemaScript.type = "application/ld+json";
+      schemaScript.textContent = JSON.stringify(schema);
+      document.head.appendChild(schemaScript);
+    });
   </script>
 </body>
 </html>
