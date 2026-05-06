@@ -3,46 +3,74 @@
 <head>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4192195409142944"
      crossorigin="anonymous"></script>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
   <title>PDF अलग करें Online | Split PDF Free in Hindi - HindiTools</title>
 
-  <meta name="description" content="PDF को online split करें। Selected pages extract करें, pages remove करें, page ranges से अलग PDFs बनाएं या हर N pages में PDF split करें। Easy Hindi interface." />
-  <meta name="keywords" content="PDF split Hindi, PDF अलग करें, split PDF online, extract PDF pages Hindi, PDF pages remove" />
+  <meta name="description" content="PDF file को online अलग करें। Selected pages extract करें, page range split करें, हर page अलग PDF बनाएं और ZIP download करें। Easy Hindi + Hinglish interface." />
+  <meta name="keywords" content="Split PDF Hindi, PDF अलग करें, PDF pages extract, PDF se page nikalna, PDF split online, PDF todna, PDF page alag karna, HindiTools" />
   <meta name="author" content="HindiTools.com" />
+  <meta name="theme-color" content="#ff9933" />
   <meta name="robots" content="index, follow" />
 
   <meta property="og:title" content="PDF अलग करें Online - Split PDF in Hindi" />
-  <meta property="og:description" content="PDF pages extract, remove और split करें। आसान हिंदी interface के साथ।" />
+  <meta property="og:description" content="PDF pages को अलग करें। Selected pages extract करें, range split करें या हर page अलग PDF बनाएं।" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.hinditools.com/split-pdf-hi.html" />
+
+  <link rel="canonical" href="https://www.hinditools.com/split-pdf-hi.html" />
+  <link rel="alternate" hreflang="hi-IN" href="https://www.hinditools.com/split-pdf-hi.html" />
+  <link rel="alternate" hreflang="en-IN" href="https://www.hinditools.com/split-pdf-hi.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.hinditools.com/split-pdf-hi.html" />
 
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  />
 
   <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
   <style>
     :root {
-      --bg: #fff8f0;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --border: #f1d7bd;
-      --primary: #e66a1f;
-      --primary-dark: #bf4e13;
-      --secondary: #273c75;
-      --green: #12805c;
+      --bg: #fffaf2;
+      --surface: #ffffff;
+      --surface-2: #fff7ed;
+      --text: #1e2a3e;
+      --muted: #64748b;
+      --muted-2: #475569;
+
+      --saffron: #ff9933;
+      --primary: #ff7a1a;
+      --primary-dark: #c2410c;
+      --primary-soft: #fff0df;
+
+      --chakra: #000080;
+      --secondary: #0b3d91;
+      --secondary-soft: #dbeafe;
+
+      --green: #138808;
+      --green-soft: #e7f8e4;
+
       --red: #dc2626;
-      --yellow: #b45309;
-      --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
-      --radius: 22px;
+      --red-soft: #fff1f2;
+
+      --purple: #6d28d9;
+      --purple-soft: #f3e8ff;
+
+      --border: #f1dec8;
+      --shadow-sm: 0 12px 30px rgba(120, 72, 20, 0.07);
+      --shadow-md: 0 20px 45px rgba(120, 72, 20, 0.13);
+      --shadow-lg: 0 28px 70px rgba(15, 23, 42, 0.15);
+      --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
     }
 
     * {
@@ -56,10 +84,13 @@
     }
 
     body {
-      font-family: "Noto Sans Devanagari", system-ui, sans-serif;
+      font-family: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
       background:
-        radial-gradient(circle at top left, rgba(230, 106, 31, 0.15), transparent 28%),
-        radial-gradient(circle at top right, rgba(39, 60, 117, 0.12), transparent 32%),
+        radial-gradient(circle at top left, rgba(255, 153, 51, 0.16), transparent 30%),
+        radial-gradient(circle at top right, rgba(19, 136, 8, 0.10), transparent 28%),
+        radial-gradient(circle at center top, rgba(11, 61, 145, 0.08), transparent 36%),
+        radial-gradient(circle at 85% 70%, rgba(109, 40, 217, 0.08), transparent 30%),
+        linear-gradient(180deg, rgba(255,255,255,0.34), transparent 360px),
         var(--bg);
       color: var(--text);
       line-height: 1.6;
@@ -76,13 +107,35 @@
       font-family: inherit;
     }
 
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 10px;
+      background: var(--primary);
+      color: white;
+      padding: 10px 14px;
+      border-radius: 14px;
+      z-index: 999;
+      font-weight: 800;
+    }
+
+    .skip-link:focus {
+      left: 12px;
+    }
+
+    .tricolour-line {
+      height: 5px;
+      background: linear-gradient(90deg, var(--saffron) 0 33.33%, #ffffff 33.33% 66.66%, var(--green) 66.66% 100%);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    }
+
     .container {
-      width: min(1160px, calc(100% - 32px));
+      width: min(1180px, calc(100% - 32px));
       margin: auto;
     }
 
     .top-strip {
-      background: linear-gradient(90deg, var(--secondary), #4457b5);
+      background: linear-gradient(90deg, var(--secondary), #1e40af);
       color: white;
       padding: 9px 0;
       font-size: 14px;
@@ -90,24 +143,25 @@
     }
 
     .top-strip strong {
-      color: #ffe5bf;
+      color: #ffe7c2;
     }
 
     header {
       position: sticky;
       top: 0;
       z-index: 50;
-      background: rgba(255, 248, 240, 0.9);
+      background: rgba(255, 250, 242, 0.90);
       backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(241, 215, 189, 0.9);
+      border-bottom: 1px solid rgba(241, 222, 200, 0.95);
     }
 
     .nav {
-      min-height: 74px;
+      min-height: 76px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 18px;
+      position: relative;
     }
 
     .brand {
@@ -115,7 +169,7 @@
       align-items: center;
       gap: 11px;
       color: var(--secondary);
-      font-size: 22px;
+      font-size: 23px;
       font-weight: 900;
       white-space: nowrap;
     }
@@ -123,13 +177,34 @@
     .brand-mark {
       width: 42px;
       height: 42px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--primary), #ffbd59);
-      color: white;
+      border-radius: 16px;
+      background: linear-gradient(180deg, var(--saffron) 0 34%, #ffffff 34% 66%, var(--green) 66% 100%);
+      color: var(--chakra);
       display: grid;
       place-items: center;
-      box-shadow: 0 10px 24px rgba(230, 106, 31, 0.28);
+      box-shadow: 0 10px 24px rgba(255, 153, 51, 0.26);
       font-weight: 900;
+      border: 1px solid rgba(15, 23, 42, 0.10);
+    }
+
+    .flag-pill {
+      display: inline-grid;
+      place-items: center;
+      width: 30px;
+      height: 30px;
+      border-radius: 999px;
+      background: linear-gradient(180deg, var(--saffron) 0 33.33%, #ffffff 33.33% 66.66%, var(--green) 66.66% 100%);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.10);
+      font-size: 0;
+      position: relative;
+    }
+
+    .flag-pill::after {
+      content: "☸";
+      color: var(--chakra);
+      font-size: 13px;
+      line-height: 1;
     }
 
     .nav-links {
@@ -137,15 +212,16 @@
       align-items: center;
       gap: 8px;
       list-style: none;
+      flex-wrap: wrap;
     }
 
     .nav-links a {
-      padding: 10px 13px;
+      padding: 9px 13px;
       border-radius: 999px;
       color: #3f4655;
       font-size: 15px;
-      font-weight: 700;
-      transition: 0.2s ease;
+      font-weight: 800;
+      transition: var(--transition);
     }
 
     .nav-links a:hover {
@@ -160,7 +236,13 @@
       padding: 11px 16px;
       border-radius: 999px;
       font-weight: 900;
-      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.25);
+      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.25);
+      transition: var(--transition);
+    }
+
+    .nav-cta:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
     }
 
     .menu-btn {
@@ -178,7 +260,7 @@
       margin: 24px 0 0;
       color: var(--muted);
       font-size: 14px;
-      font-weight: 700;
+      font-weight: 800;
     }
 
     .breadcrumb a {
@@ -186,12 +268,12 @@
     }
 
     .hero {
-      padding: 38px 0 28px;
+      padding: 38px 0 30px;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
+      grid-template-columns: 0.92fr 1.08fr;
       gap: 32px;
       align-items: center;
     }
@@ -204,30 +286,39 @@
     }
 
     .badge {
-      background: rgba(255,255,255,0.88);
-      border: 1px solid rgba(241, 215, 189, 0.95);
+      background: rgba(255,255,255,0.90);
+      border: 1px solid rgba(241, 222, 200, 0.95);
       color: #71401c;
       padding: 8px 12px;
       border-radius: 999px;
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 900;
       box-shadow: 0 10px 22px rgba(120, 72, 20, 0.06);
+    }
+
+    .india-badge {
+      background: linear-gradient(90deg, rgba(255,153,51,0.22), rgba(255,255,255,0.94), rgba(19,136,8,0.16));
+      border: 1px solid rgba(11,61,145,0.12);
+      color: var(--secondary);
     }
 
     .hero h1 {
       font-size: clamp(35px, 4.7vw, 58px);
       line-height: 1.08;
-      letter-spacing: -1.6px;
+      letter-spacing: -1.7px;
       color: var(--secondary);
       margin-bottom: 16px;
     }
 
     .hero h1 span {
-      color: var(--primary);
+      background: linear-gradient(90deg, var(--saffron), var(--secondary), var(--green));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
     }
 
     .hero p {
-      color: #4b5563;
+      color: var(--muted-2);
       font-size: 18px;
       max-width: 650px;
       margin-bottom: 20px;
@@ -244,14 +335,15 @@
     .primary-btn,
     .secondary-btn,
     .danger-btn,
-    .ghost-btn {
+    .ghost-btn,
+    .green-btn {
       border: 0;
       border-radius: 16px;
       padding: 13px 18px;
       font-size: 15px;
       font-weight: 900;
       cursor: pointer;
-      transition: 0.2s ease;
+      transition: var(--transition);
       display: inline-flex;
       align-items: center;
       justify-content: center;
@@ -261,7 +353,7 @@
     .primary-btn {
       background: var(--primary);
       color: white;
-      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.23);
+      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.23);
     }
 
     .primary-btn:hover {
@@ -282,11 +374,17 @@
     }
 
     .secondary-btn:hover {
-      background: #1d2b5c;
+      background: #072f72;
+      transform: translateY(-1px);
+    }
+
+    .green-btn {
+      background: var(--green);
+      color: white;
     }
 
     .danger-btn {
-      background: #fff1f2;
+      background: var(--red-soft);
       color: var(--red);
       border: 1px solid #fecdd3;
     }
@@ -294,41 +392,111 @@
     .ghost-btn {
       background: white;
       color: #4b5563;
-      border: 1px solid #ead6c2;
+      border: 1px solid var(--border);
     }
 
     .ghost-btn:hover {
       color: var(--primary);
       border-color: var(--primary);
+      transform: translateY(-1px);
+    }
+
+    .hero-hints {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .hint {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 999px;
+      color: var(--muted-2);
+      font-size: 14px;
+      font-weight: 800;
     }
 
     .tool-shell {
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(241, 215, 189, 0.95);
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(241, 222, 200, 0.95);
       border-radius: 34px;
       padding: 24px;
-      box-shadow: var(--shadow);
+      box-shadow: var(--shadow-lg);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .tool-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--saffron), #ffffff, var(--green));
+    }
+
+    .tool-intro {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 12px;
+      align-items: stretch;
+      margin-bottom: 18px;
+    }
+
+    .intro-box {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 14px;
+      min-height: 105px;
+    }
+
+    .intro-box strong {
+      display: block;
+      color: var(--secondary);
+      margin-bottom: 8px;
+      font-size: 15px;
+    }
+
+    .intro-box span {
+      color: var(--muted-2);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .arrow-box {
+      width: 40px;
+      display: grid;
+      place-items: center;
+      color: var(--primary);
+      font-weight: 900;
+      font-size: 24px;
     }
 
     .dropzone {
       border: 2px dashed #efb276;
       border-radius: 26px;
       background:
+        radial-gradient(circle at top right, rgba(255,153,51,0.12), transparent 34%),
         linear-gradient(180deg, rgba(255,248,240,0.95), rgba(255,255,255,0.95));
-      min-height: 255px;
+      min-height: 275px;
       display: grid;
       place-items: center;
       text-align: center;
       padding: 28px;
-      transition: 0.2s ease;
+      transition: var(--transition);
       cursor: pointer;
       position: relative;
       overflow: hidden;
     }
 
     .dropzone.dragover {
-      border-color: var(--secondary);
-      background: #eef2ff;
+      border-color: var(--green);
+      background: #f0fdf4;
       transform: scale(1.01);
     }
 
@@ -362,22 +530,22 @@
       font-size: 16px;
       font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.22);
+      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.22);
     }
 
     .privacy-note {
       margin-top: 12px;
       color: var(--green);
       font-size: 14px;
-      font-weight: 800;
+      font-weight: 900;
     }
 
     .panel {
       background: white;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 24px;
       padding: 20px;
-      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+      box-shadow: var(--shadow-sm);
       margin-top: 18px;
     }
 
@@ -399,6 +567,7 @@
       color: var(--muted);
       font-size: 14px;
       margin-top: 4px;
+      font-weight: 700;
     }
 
     .file-summary {
@@ -407,10 +576,16 @@
       gap: 14px;
       align-items: center;
       background: #fffaf5;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 20px;
       padding: 14px;
       margin-bottom: 16px;
+      transition: var(--transition);
+    }
+
+    .file-summary:hover {
+      border-color: rgba(255, 122, 26, 0.50);
+      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.08);
     }
 
     .file-icon {
@@ -438,19 +613,86 @@
       flex-wrap: wrap;
       color: var(--muted);
       font-size: 13px;
+      font-weight: 800;
+    }
+
+    .summary-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .summary-item {
+      background: #fffaf5;
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 12px;
+    }
+
+    .summary-item span {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 900;
+      margin-bottom: 3px;
+    }
+
+    .summary-item strong {
+      display: block;
+      color: var(--secondary);
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .mode-tabs {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .mode-card {
+      background: #fffaf5;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      text-align: left;
+    }
+
+    .mode-card.active,
+    .mode-card:hover {
+      border-color: var(--primary);
+      box-shadow: 0 10px 22px rgba(255, 122, 26, 0.12);
+      transform: translateY(-1px);
+    }
+
+    .mode-card strong {
+      color: var(--secondary);
+      display: block;
+      margin-bottom: 4px;
+      font-size: 15px;
+    }
+
+    .mode-card span {
+      display: block;
+      color: var(--muted);
+      font-size: 13px;
       font-weight: 700;
     }
 
     .settings-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, 1fr);
       gap: 14px;
-      margin-top: 14px;
+      margin-top: 16px;
     }
 
     .setting-card {
       background: #fffaf5;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 20px;
       padding: 16px;
     }
@@ -472,6 +714,7 @@
       color: var(--muted);
       font-size: 13px;
       margin-top: 6px;
+      font-weight: 700;
     }
 
     .setting-card select,
@@ -490,7 +733,7 @@
     .setting-card input:focus,
     .input-group input:focus {
       border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.1);
+      box-shadow: 0 0 0 4px rgba(255, 153, 51, 0.14);
     }
 
     .example-buttons {
@@ -507,24 +750,70 @@
       padding: 8px 11px;
       border-radius: 999px;
       font-size: 13px;
-      font-weight: 800;
+      font-weight: 900;
       cursor: pointer;
+      transition: var(--transition);
     }
 
     .chip-btn:hover {
       border-color: var(--primary);
       color: var(--primary);
+      transform: translateY(-1px);
     }
 
-    .help-box {
-      margin-top: 12px;
-      background: #fffbeb;
-      border: 1px solid #fde68a;
-      color: #92400e;
-      padding: 12px;
-      border-radius: 16px;
+    .preview-grid {
+      display: none;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 14px;
+    }
+
+    .preview-grid.show {
+      display: grid;
+    }
+
+    .preview-card {
+      background: white;
+      border: 1px solid #ead6c2;
+      border-radius: 18px;
+      padding: 10px;
+      min-height: 190px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 8px 18px rgba(120, 72, 20, 0.05);
+    }
+
+    .preview-canvas-wrap {
+      flex: 1;
+      background: #f3f4f6;
+      border-radius: 14px;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      border: 1px solid #e5e7eb;
+    }
+
+    .preview-canvas-wrap canvas {
+      max-width: 100%;
+      max-height: 150px;
+      display: block;
+    }
+
+    .preview-card strong {
+      color: var(--secondary);
       font-size: 14px;
-      font-weight: 700;
+    }
+
+    .notice {
+      margin-top: 14px;
+      background: #eef2ff;
+      color: #243b86;
+      border: 1px solid #c7d2fe;
+      border-radius: 18px;
+      padding: 13px 14px;
+      font-size: 14px;
+      font-weight: 900;
     }
 
     .controls-grid {
@@ -540,7 +829,7 @@
       margin-top: 18px;
       border-radius: 18px;
       padding: 14px 16px;
-      font-weight: 800;
+      font-weight: 900;
       border: 1px solid #e5e7eb;
       background: #f9fafb;
       color: #4b5563;
@@ -557,7 +846,7 @@
     }
 
     .status-box.error {
-      background: #fff1f2;
+      background: var(--red-soft);
       color: var(--red);
       border-color: #fecdd3;
     }
@@ -578,11 +867,11 @@
     .progress-bar {
       width: 0%;
       height: 100%;
-      background: linear-gradient(90deg, var(--primary), #ffbd59);
+      background: linear-gradient(90deg, var(--saffron), var(--primary), var(--green));
       transition: width 0.25s ease;
     }
 
-    .result-card {
+    .download-card {
       display: none;
       margin-top: 18px;
       background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
@@ -594,19 +883,20 @@
       gap: 18px;
     }
 
-    .result-card.show {
+    .download-card.show {
       display: flex;
     }
 
-    .result-card h3 {
+    .download-card h3 {
       color: var(--green);
       font-size: 22px;
       margin-bottom: 4px;
     }
 
-    .result-card p {
+    .download-card p {
       color: #166534;
       font-size: 14px;
+      font-weight: 700;
     }
 
     .info-sections {
@@ -618,10 +908,20 @@
 
     .info-card {
       background: white;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 24px;
       padding: 22px;
-      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .info-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 4px;
+      background: linear-gradient(90deg, var(--saffron), #ffffff, var(--green));
     }
 
     .info-card h2 {
@@ -634,6 +934,7 @@
     .info-card li {
       color: #5b6472;
       font-size: 15px;
+      font-weight: 600;
     }
 
     .info-card ul,
@@ -652,19 +953,19 @@
 
     .related a {
       background: white;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 18px;
       padding: 16px;
       font-weight: 900;
       color: var(--secondary);
       box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
-      transition: 0.2s ease;
+      transition: var(--transition);
     }
 
     .related a:hover {
       transform: translateY(-3px);
       color: var(--primary);
-      border-color: rgba(230, 106, 31, 0.45);
+      border-color: rgba(255, 122, 26, 0.45);
     }
 
     .faq-list {
@@ -675,7 +976,7 @@
 
     .faq-item {
       background: white;
-      border: 1px solid #f1d7bd;
+      border: 1px solid var(--border);
       border-radius: 18px;
       overflow: hidden;
       box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
@@ -702,6 +1003,7 @@
       padding: 0 17px 17px;
       color: #5b6472;
       font-size: 15px;
+      font-weight: 600;
     }
 
     .faq-item.active .faq-a {
@@ -713,6 +1015,15 @@
       background: #151f3e;
       color: white;
       padding: 38px 0 20px;
+      position: relative;
+    }
+
+    footer::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--saffron), #ffffff, var(--green));
     }
 
     .footer-grid {
@@ -746,6 +1057,10 @@
       gap: 8px;
     }
 
+    footer a:hover {
+      color: #ffd7a8;
+    }
+
     .copyright {
       border-top: 1px solid rgba(255,255,255,0.12);
       padding-top: 18px;
@@ -754,13 +1069,20 @@
       font-size: 14px;
     }
 
-    @media (max-width: 980px) {
+    :focus-visible {
+      outline: 4px solid rgba(255, 153, 51, 0.28);
+      outline-offset: 3px;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 1040px) {
       .hero-grid,
       .info-sections {
         grid-template-columns: 1fr;
       }
 
-      .related {
+      .related,
+      .preview-grid {
         grid-template-columns: repeat(2, 1fr);
       }
 
@@ -776,16 +1098,16 @@
       .nav.open .nav-links {
         display: flex;
         position: absolute;
-        top: 74px;
-        left: 16px;
-        right: 16px;
+        top: 76px;
+        left: 0;
+        right: 0;
         background: white;
         flex-direction: column;
         align-items: stretch;
         border-radius: 20px;
         padding: 14px;
-        box-shadow: var(--shadow);
-        border: 1px solid #f1d7bd;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--border);
       }
 
       .nav.open .nav-links a {
@@ -793,7 +1115,7 @@
       }
     }
 
-    @media (max-width: 640px) {
+    @media (max-width: 700px) {
       .top-strip {
         font-size: 12px;
       }
@@ -807,8 +1129,17 @@
         border-radius: 24px;
       }
 
+      .tool-intro {
+        grid-template-columns: 1fr;
+      }
+
+      .arrow-box {
+        width: 100%;
+        transform: rotate(90deg);
+      }
+
       .dropzone {
-        min-height: 235px;
+        min-height: 240px;
         padding: 22px 16px;
       }
 
@@ -820,21 +1151,31 @@
         grid-template-columns: auto 1fr;
       }
 
-      .file-summary .danger-btn {
+      .file-summary .danger-btn,
+      .file-summary .ghost-btn {
         grid-column: 1 / -1;
       }
 
+      .summary-strip,
       .settings-grid,
       .controls-grid,
       .related,
-      .footer-grid {
+      .preview-grid,
+      .footer-grid,
+      .mode-tabs {
         grid-template-columns: 1fr;
+      }
+
+      .download-card {
+        align-items: stretch;
+        flex-direction: column;
       }
 
       .primary-btn,
       .secondary-btn,
       .danger-btn,
-      .ghost-btn {
+      .ghost-btn,
+      .green-btn {
         width: 100%;
       }
 
@@ -843,26 +1184,51 @@
         flex-direction: column;
       }
 
-      .result-card {
-        align-items: stretch;
-        flex-direction: column;
+      .panel-head {
+        display: block;
+      }
+
+      .panel-head .danger-btn {
+        margin-top: 14px;
+      }
+
+      .brand {
+        font-size: 20px;
+      }
+
+      .flag-pill {
+        width: 28px;
+        height: 28px;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        scroll-behavior: auto !important;
+        transition: none !important;
       }
     }
   </style>
 </head>
 
 <body>
+  <div class="tricolour-line" aria-hidden="true"></div>
+  <a class="skip-link" href="#split-tool">सीधे Split PDF tool पर जाएं</a>
+
   <div class="top-strip">
     <div class="container">
-      <strong>Split PDF</strong> — pages extract करें, remove करें या ranges के हिसाब से अलग PDFs बनाएं।
+      <strong>Split PDF</strong> — PDF से pages निकालें, ranges अलग करें या हर page अलग PDF बनाएं।
     </div>
   </div>
 
   <header>
     <div class="container nav" id="nav">
-      <a class="brand" href="index.html">
+      <a class="brand" href="index.html" aria-label="HindiTools Home">
         <span class="brand-mark">हि</span>
         <span>HindiTools</span>
+        <span class="flag-pill" aria-label="Indian tricolour inspired design"></span>
       </a>
 
       <ul class="nav-links">
@@ -875,7 +1241,7 @@
 
       <a class="nav-cta" href="#split-tool">PDF अलग करें</a>
 
-      <button class="menu-btn" id="menuBtn" type="button">☰</button>
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu">☰</button>
     </div>
   </header>
 
@@ -890,34 +1256,52 @@
       <div class="container hero-grid">
         <div>
           <div class="badge-row">
+            <span class="badge india-badge">🇮🇳 Hindi + Hinglish Interface</span>
             <span class="badge">✂️ Split PDF</span>
             <span class="badge">📄 Extract Pages</span>
-            <span class="badge">🗑️ Remove Pages</span>
             <span class="badge">📦 ZIP Download</span>
           </div>
 
           <h1>PDF अलग करें <span>Online</span></h1>
 
           <p>
-            PDF से selected pages निकालें, unwanted pages हटाएं, custom page ranges से अलग PDFs बनाएं
-            या हर N pages में file split करें।
+            PDF से selected pages निकालें, page range अलग करें या हर page को अलग PDF बनाएं।
+            Users के लिए: <strong>PDF se page nikalna, PDF todna, PDF page alag karna</strong> — सब इसी tool से होगा।
           </p>
 
           <div class="hero-actions">
-            <a class="primary-btn" href="#split-tool">अभी PDF Split करें</a>
-            <a class="ghost-btn" href="merge-pdf-hi.html">PDF Merge करें</a>
+            <a class="primary-btn" href="#split-tool">✂️ अभी PDF अलग करें</a>
+            <a class="ghost-btn" href="merge-pdf-hi.html">📎 PDF जोड़ें</a>
+          </div>
+
+          <div class="hero-hints">
+            <span class="hint">✅ Selected pages extract</span>
+            <span class="hint">📄 हर page अलग PDF</span>
+            <span class="hint">📦 Multiple PDFs as ZIP</span>
           </div>
         </div>
 
         <div class="tool-shell" id="split-tool">
+          <div class="tool-intro">
+            <div class="intro-box">
+              <strong>आप देंगे</strong>
+              <span>एक PDF file — जैसे long report, scanned form, notes, certificate bundle.</span>
+            </div>
+            <div class="arrow-box">→</div>
+            <div class="intro-box">
+              <strong>Result मिलेगा</strong>
+              <span>Selected pages की PDF, multiple range PDFs या हर page की अलग PDF ZIP में.</span>
+            </div>
+          </div>
+
           <div class="dropzone" id="dropzone">
             <input type="file" id="fileInput" accept="application/pdf,.pdf" />
             <div>
               <div class="drop-icon">✂️</div>
               <h2>PDF file यहाँ drop करें</h2>
-              <p>या button दबाकर अपने device से PDF file चुनें</p>
+              <p>PDF upload करें और pages/ranges अलग करें।</p>
               <button class="upload-btn" type="button" id="selectFileBtn">PDF File चुनें</button>
-              <div class="privacy-note">🔐 PDF आपके browser में process करने की कोशिश की जाती है।</div>
+              <div class="privacy-note">🔐 PDF browser में process करने की कोशिश की जाती है।</div>
             </div>
           </div>
 
@@ -925,8 +1309,9 @@
             <div class="panel-head">
               <div>
                 <h2>Split Settings</h2>
-                <p>Page numbers 1 से शुरू होते हैं। Example: 1-3, 5, 8-10</p>
+                <p>आप pages extract कर सकते हैं, multiple ranges बना सकते हैं या हर page अलग PDF बना सकते हैं।</p>
               </div>
+              <button class="danger-btn" type="button" id="clearBtn">Remove</button>
             </div>
 
             <div class="file-summary">
@@ -940,53 +1325,98 @@
                 </div>
               </div>
 
-              <button class="danger-btn" type="button" id="clearBtn">Remove</button>
+              <button class="ghost-btn" type="button" id="previewBtn">Preview</button>
+            </div>
+
+            <div class="summary-strip">
+              <div class="summary-item">
+                <span>Mode</span>
+                <strong id="summaryMode">Extract</strong>
+              </div>
+              <div class="summary-item">
+                <span>Pages</span>
+                <strong id="summaryPages">-</strong>
+              </div>
+              <div class="summary-item">
+                <span>Output</span>
+                <strong id="summaryOutput">PDF</strong>
+              </div>
+              <div class="summary-item">
+                <span>Total Pages</span>
+                <strong id="summaryTotal">0</strong>
+              </div>
+            </div>
+
+            <div class="mode-tabs">
+              <button class="mode-card active" type="button" data-mode="extract">
+                <strong>📄 Extract pages</strong>
+                <span>Selected pages को एक PDF में निकालें। जैसे 1-3,5.</span>
+              </button>
+
+              <button class="mode-card" type="button" data-mode="ranges">
+                <strong>📚 Split by ranges</strong>
+                <span>Multiple PDFs बनाएं। जैसे 1-3 | 4-7 | 8-10.</span>
+              </button>
+
+              <button class="mode-card" type="button" data-mode="each">
+                <strong>✂️ Every page</strong>
+                <span>हर page अलग PDF बनेगी और ZIP download होगी।</span>
+              </button>
             </div>
 
             <div class="settings-grid">
-              <div class="setting-card full">
-                <label for="modeSelect">Split Mode</label>
-                <select id="modeSelect">
-                  <option value="extract" selected>Selected pages extract करके single PDF बनाएं</option>
-                  <option value="remove">Selected pages remove करके बाकी PDF बनाएं</option>
-                  <option value="ranges">Page ranges से multiple PDFs बनाएं ZIP में</option>
-                  <option value="every">हर N pages में PDF split करें ZIP में</option>
-                </select>
-                <small id="modeHelp">
-                  Example: 1-3, 5, 8-10 लिखें। Selected pages final PDF में आएंगे।
-                </small>
-              </div>
-
-              <div class="setting-card" id="rangeCard">
-                <label for="rangeInput">Page Range</label>
-                <input id="rangeInput" type="text" value="1-3" placeholder="जैसे 1-3, 5, 8-10" />
+              <div class="setting-card full" id="extractCard">
+                <label for="extractInput">Extract Pages</label>
+                <input id="extractInput" type="text" value="1-3" placeholder="जैसे 1-3, 5, 8-10" />
+                <small>Selected pages एक single PDF में आएंगी। Range examples नीचे दिए हैं।</small>
                 <div class="example-buttons">
-                  <button class="chip-btn" type="button" data-example="1">Page 1</button>
-                  <button class="chip-btn" type="button" data-example="1-3">1-3</button>
-                  <button class="chip-btn" type="button" data-example="1,3,5">1,3,5</button>
-                  <button class="chip-btn" type="button" data-example="2-">2 से last तक</button>
+                  <button class="chip-btn" type="button" data-target="extractInput" data-example="1">Page 1</button>
+                  <button class="chip-btn" type="button" data-target="extractInput" data-example="1-3">1-3</button>
+                  <button class="chip-btn" type="button" data-target="extractInput" data-example="1,3,5">1,3,5</button>
+                  <button class="chip-btn" type="button" data-target="extractInput" data-example="2-">2 से last तक</button>
                 </div>
               </div>
 
-              <div class="setting-card" id="everyCard" style="display:none;">
-                <label for="everyInput">हर कितने pages में split करें?</label>
-                <input id="everyInput" type="number" min="1" value="1" />
-                <small>Example: 2 लिखने पर PDF हर 2 pages की अलग file बनेगी।</small>
+              <div class="setting-card full" id="rangesCard" style="display:none;">
+                <label for="rangesInput">Split Ranges</label>
+                <input id="rangesInput" type="text" value="1-3 | 4-6 | 7-" placeholder="जैसे 1-3 | 4-6 | 7-" />
+                <small>हर range से अलग PDF बनेगी। Ranges को | से अलग करें। Example: 1-2 | 3-5 | 6-</small>
+                <div class="example-buttons">
+                  <button class="chip-btn" type="button" data-target="rangesInput" data-example="1-2 | 3-4 | 5-">Small groups</button>
+                  <button class="chip-btn" type="button" data-target="rangesInput" data-example="1 | 2 | 3">First 3 separate</button>
+                  <button class="chip-btn" type="button" data-target="rangesInput" data-example="1-5 | 6-10">1-5 / 6-10</button>
+                  <button class="chip-btn" type="button" data-target="rangesInput" data-example="1-">Full PDF copy</button>
+                </div>
+              </div>
+
+              <div class="setting-card">
+                <label for="outputName">Output file name</label>
+                <input id="outputName" type="text" value="split-pdf" placeholder="split-pdf" />
+                <small>Single output हो तो PDF, multiple output हो तो ZIP file बनेगी।</small>
+              </div>
+
+              <div class="setting-card">
+                <label for="fileNameMode">File naming</label>
+                <select id="fileNameMode">
+                  <option value="simple" selected>Simple names - split-pdf-1.pdf</option>
+                  <option value="pages">Include pages - split-pdf-pages-1-3.pdf</option>
+                </select>
+                <small>Multiple files में नाम readable रखने के लिए page range include कर सकते हैं।</small>
               </div>
 
               <div class="setting-card full">
-                <label for="outputName">Output file name</label>
-                <input id="outputName" type="text" value="split-pdf" placeholder="split-pdf" />
-                <div class="help-box" id="helpBox">
-                  Tip: Extract/remove mode में single PDF download होगी। Ranges/every mode में ZIP download होगी।
+                <div class="notice">
+                  Tip: अगर आपको सिर्फ कुछ pages चाहिए तो <strong>Extract pages</strong> use करें। अगर PDF को sections में तोड़ना है तो <strong>Split by ranges</strong> best है।
                 </div>
               </div>
             </div>
+
+            <div class="preview-grid" id="previewGrid"></div>
 
             <div class="controls-grid">
               <div></div>
               <button class="primary-btn" type="button" id="splitBtn">
-                PDF Split करें
+                PDF अलग करें
               </button>
             </div>
 
@@ -996,10 +1426,10 @@
 
             <div class="status-box" id="statusBox"></div>
 
-            <div class="result-card" id="resultCard">
+            <div class="download-card" id="downloadCard">
               <div>
-                <h3>✅ Output तैयार है</h3>
-                <p id="resultMeta">आपकी file download के लिए ready है।</p>
+                <h3>✅ PDF तैयार है</h3>
+                <p id="downloadMeta">आपकी file download के लिए ready है।</p>
               </div>
               <a class="secondary-btn" id="downloadLink" href="#" download="split-pdf.pdf">
                 Download
@@ -1012,36 +1442,35 @@
 
     <section class="container info-sections">
       <article class="info-card">
-        <h2>PDF split कैसे करें?</h2>
+        <h2>PDF अलग कैसे करें?</h2>
         <ol>
           <li>ऊपर PDF file upload करें।</li>
-          <li>Split mode चुनें।</li>
-          <li>Page range लिखें, जैसे <strong>1-3, 5, 8-10</strong>।</li>
-          <li><strong>PDF Split करें</strong> button दबाएं।</li>
-          <li>Output PDF या ZIP download करें।</li>
+          <li>Mode चुनें: Extract, Split by ranges, या Every page.</li>
+          <li>Page range लिखें जैसे <strong>1-3, 5, 8-10</strong>.</li>
+          <li><strong>PDF अलग करें</strong> button दबाएं।</li>
+          <li>Single PDF या ZIP download करें।</li>
         </ol>
       </article>
 
       <article class="info-card">
-        <h2>Range कैसे लिखें?</h2>
+        <h2>कौन सा mode कब use करें?</h2>
         <ul>
-          <li><strong>1-3</strong> = page 1 से 3 तक</li>
-          <li><strong>1,3,5</strong> = केवल page 1, 3 और 5</li>
-          <li><strong>2-</strong> = page 2 से last page तक</li>
-          <li><strong>1-2, 6-8</strong> = multiple ranges</li>
-          <li>गलत या page limit से बाहर numbers automatically reject होंगे।</li>
+          <li><strong>Extract pages:</strong> PDF से कुछ pages निकालकर एक नई PDF बनानी हो।</li>
+          <li><strong>Split by ranges:</strong> PDF को sections में तोड़ना हो, जैसे chapter-wise.</li>
+          <li><strong>Every page:</strong> हर page को अलग PDF file बनाना हो।</li>
+          <li><strong>Preview:</strong> Pages check करने के लिए split करने से पहले preview देखें।</li>
         </ul>
       </article>
     </section>
 
     <section class="container" style="margin-top:28px;">
       <div class="info-card">
-        <h2>Related PDF Tools</h2>
+        <h2>Related Tools</h2>
         <div class="related">
           <a href="merge-pdf-hi.html">📎 PDF जोड़ें</a>
           <a href="compress-pdf-hi.html">📉 PDF छोटा करें</a>
+          <a href="pdf-to-image-hi.html">📷 PDF to Image</a>
           <a href="pdf-rotate-hi.html">🔄 PDF Rotate</a>
-          <a href="pdf-watermark-hi.html">💧 Watermark लगाएं</a>
         </div>
       </div>
     </section>
@@ -1053,41 +1482,41 @@
         <div class="faq-list">
           <div class="faq-item active">
             <button class="faq-q" type="button">
-              क्या मैं PDF से specific pages निकाल सकता हूँ?
+              क्या मैं PDF से सिर्फ 1 page निकाल सकता हूँ?
               <span>+</span>
             </button>
             <div class="faq-a">
-              हाँ, Extract mode चुनकर page range लिखें और selected pages की single PDF download करें।
+              हाँ, Extract pages mode में सिर्फ page number लिखें, जैसे 3. इससे सिर्फ page 3 की PDF बनेगी।
             </div>
           </div>
 
           <div class="faq-item">
             <button class="faq-q" type="button">
-              क्या मैं PDF से pages delete कर सकता हूँ?
+              Page range कैसे लिखना है?
               <span>+</span>
             </button>
             <div class="faq-a">
-              हाँ, Remove mode चुनें और हटाने वाले pages लिखें। बाकी pages की नई PDF बनेगी।
+              आप 1-3, 5, 8-10 जैसा लिख सकते हैं। इसका मतलब pages 1,2,3,5,8,9,10 होंगे।
             </div>
           </div>
 
           <div class="faq-item">
             <button class="faq-q" type="button">
-              ZIP कब download होती है?
+              Split by ranges में | क्यों है?
               <span>+</span>
             </button>
             <div class="faq-a">
-              जब आप ranges mode या हर N pages split mode use करते हैं, तब multiple PDFs को ZIP में दिया जाता है।
+              | अलग-अलग output PDF बनाने के लिए है। जैसे 1-3 | 4-6 से दो अलग PDFs बनेंगी।
             </div>
           </div>
 
           <div class="faq-item">
             <button class="faq-q" type="button">
-              क्या password-protected PDF split होगी?
+              ZIP कब download होगी?
               <span>+</span>
             </button>
             <div class="faq-a">
-              Password-protected या damaged PDFs split नहीं हो सकतीं। पहले PDF unlock करनी होगी।
+              जब output एक से ज्यादा PDFs होंगी, जैसे Split by ranges या Every page mode में, तो ZIP download होगी।
             </div>
           </div>
 
@@ -1097,7 +1526,7 @@
               <span>+</span>
             </button>
             <div class="faq-a">
-              यह page browser-based PDF library का उपयोग करता है। फिर भी sensitive documents के लिए हमेशा सावधानी रखें।
+              यह page browser-side libraries का उपयोग करता है। फिर भी sensitive documents के लिए हमेशा सावधानी रखें।
             </div>
           </div>
         </div>
@@ -1109,9 +1538,9 @@
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="footer-brand">HindiTools.com</div>
+          <div class="footer-brand">HindiTools.com 🇮🇳</div>
           <p>
-            PDF, Image और Document कामों के लिए आसान हिंदी tools।
+            PDF, Image और Document कामों के लिए आसान Hindi + Hinglish tools।
             Simple interface, fast workflow और mobile-friendly design।
           </p>
         </div>
@@ -1119,9 +1548,9 @@
         <div>
           <h3>PDF Tools</h3>
           <ul>
+            <li><a href="split-pdf-hi.html">PDF अलग करें</a></li>
             <li><a href="merge-pdf-hi.html">PDF जोड़ें</a></li>
             <li><a href="compress-pdf-hi.html">PDF छोटा करें</a></li>
-            <li><a href="split-pdf-hi.html">PDF अलग करें</a></li>
             <li><a href="pdf-to-image-hi.html">PDF to Image</a></li>
           </ul>
         </div>
@@ -1143,6 +1572,9 @@
   </footer>
 
   <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+
     const { PDFDocument } = PDFLib;
 
     const fileInput = document.getElementById("fileInput");
@@ -1153,24 +1585,35 @@
     const fileSizeEl = document.getElementById("fileSize");
     const pageCountEl = document.getElementById("pageCount");
     const clearBtn = document.getElementById("clearBtn");
-    const modeSelect = document.getElementById("modeSelect");
-    const modeHelp = document.getElementById("modeHelp");
-    const rangeCard = document.getElementById("rangeCard");
-    const everyCard = document.getElementById("everyCard");
-    const rangeInput = document.getElementById("rangeInput");
-    const everyInput = document.getElementById("everyInput");
+    const previewBtn = document.getElementById("previewBtn");
+
+    const summaryMode = document.getElementById("summaryMode");
+    const summaryPages = document.getElementById("summaryPages");
+    const summaryOutput = document.getElementById("summaryOutput");
+    const summaryTotal = document.getElementById("summaryTotal");
+
+    const modeCards = document.querySelectorAll(".mode-card");
+    const extractCard = document.getElementById("extractCard");
+    const rangesCard = document.getElementById("rangesCard");
+    const extractInput = document.getElementById("extractInput");
+    const rangesInput = document.getElementById("rangesInput");
     const outputName = document.getElementById("outputName");
+    const fileNameMode = document.getElementById("fileNameMode");
+
+    const previewGrid = document.getElementById("previewGrid");
     const splitBtn = document.getElementById("splitBtn");
     const statusBox = document.getElementById("statusBox");
     const progressWrap = document.getElementById("progressWrap");
     const progressBar = document.getElementById("progressBar");
-    const resultCard = document.getElementById("resultCard");
-    const resultMeta = document.getElementById("resultMeta");
+    const downloadCard = document.getElementById("downloadCard");
     const downloadLink = document.getElementById("downloadLink");
+    const downloadMeta = document.getElementById("downloadMeta");
 
     let selectedFile = null;
     let selectedBuffer = null;
-    let pageCount = 0;
+    let pdfForPreview = null;
+    let totalPages = 0;
+    let activeMode = "extract";
     let currentDownloadUrl = null;
 
     function formatBytes(bytes) {
@@ -1183,7 +1626,7 @@
 
     function sanitizeFileName(name) {
       return (name || "split-pdf")
-        .replace(/\.pdf$/i, "")
+        .replace(/\.(zip|pdf)$/i, "")
         .replace(/[^\u0900-\u097Fa-zA-Z0-9-_ ]/g, "")
         .trim()
         .replace(/\s+/g, "-") || "split-pdf";
@@ -1217,64 +1660,41 @@
         currentDownloadUrl = null;
       }
 
-      resultCard.classList.remove("show");
+      downloadCard.classList.remove("show");
       downloadLink.href = "#";
     }
 
-    function showResult(blob, filename, description) {
-      resetDownload();
-
-      currentDownloadUrl = URL.createObjectURL(blob);
-      downloadLink.href = currentDownloadUrl;
-      downloadLink.download = filename;
-      resultMeta.textContent = `${description} • Size: ${formatBytes(blob.size)}`;
-      downloadLink.textContent = filename.toLowerCase().endsWith(".zip") ? "Download ZIP" : "Download PDF";
-      resultCard.classList.add("show");
+    function resetPreview() {
+      previewGrid.innerHTML = "";
+      previewGrid.classList.remove("show");
     }
 
-    async function loadFile(file) {
-      clearStatus();
-      resetProgress();
-      resetDownload();
+    function rangeLabelFromPages(pages) {
+      if (!pages.length) return "-";
+      if (pages.length === 1) return String(pages[0]);
 
-      if (!file || !(file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"))) {
-        setStatus("कृपया केवल PDF file upload करें।", "error");
-        return;
-      }
+      const sorted = [...pages].sort((a, b) => a - b);
+      const ranges = [];
+      let start = sorted[0];
+      let prev = sorted[0];
 
-      try {
-        setStatus("PDF read की जा रही है...");
+      for (let i = 1; i < sorted.length; i++) {
+        const current = sorted[i];
 
-        selectedFile = file;
-        selectedBuffer = await file.arrayBuffer();
-
-        const pdf = await PDFDocument.load(selectedBuffer, { ignoreEncryption: false });
-        pageCount = pdf.getPageCount();
-
-        fileNameEl.textContent = file.name;
-        fileNameEl.title = file.name;
-        fileSizeEl.textContent = formatBytes(file.size);
-        pageCountEl.textContent = `${pageCount} page${pageCount > 1 ? "s" : ""}`;
-
-        filePanel.style.display = "block";
-        setStatus(`PDF ready है। Total pages: ${pageCount}. Split settings choose करें।`, "success");
-
-        if (pageCount >= 3 && rangeInput.value === "1-3") {
-          rangeInput.value = `1-${Math.min(3, pageCount)}`;
-        } else if (pageCount < 3) {
-          rangeInput.value = "1";
+        if (current === prev + 1) {
+          prev = current;
+        } else {
+          ranges.push(start === prev ? String(start) : `${start}-${prev}`);
+          start = current;
+          prev = current;
         }
-      } catch (error) {
-        console.error(error);
-        selectedFile = null;
-        selectedBuffer = null;
-        pageCount = 0;
-        filePanel.style.display = "none";
-        setStatus("यह PDF read नहीं हो सकी। File encrypted, damaged या unsupported हो सकती है।", "error");
       }
+
+      ranges.push(start === prev ? String(start) : `${start}-${prev}`);
+      return ranges.join(",");
     }
 
-    function parsePageRanges(input, totalPages) {
+    function parsePageRanges(input, pageTotal) {
       const cleanInput = String(input || "").replace(/\s+/g, "");
       if (!cleanInput) {
         throw new Error("Page range खाली है।");
@@ -1286,7 +1706,7 @@
       for (const part of parts) {
         if (/^\d+$/.test(part)) {
           const page = Number(part);
-          if (page < 1 || page > totalPages) {
+          if (page < 1 || page > pageTotal) {
             throw new Error(`Page ${page} PDF में मौजूद नहीं है।`);
           }
           pages.push(page);
@@ -1295,14 +1715,14 @@
 
         const match = part.match(/^(\d*)-(\d*)$/);
         if (!match) {
-          throw new Error(`"${part}" valid range नहीं है।`);
+          throw new Error(`"${part}" valid page range नहीं है।`);
         }
 
         let start = match[1] ? Number(match[1]) : 1;
-        let end = match[2] ? Number(match[2]) : totalPages;
+        let end = match[2] ? Number(match[2]) : pageTotal;
 
         if (start < 1) start = 1;
-        if (end > totalPages) end = totalPages;
+        if (end > pageTotal) end = pageTotal;
 
         if (start > end) {
           throw new Error(`"${part}" में start page end page से बड़ा है।`);
@@ -1322,167 +1742,244 @@
       return uniquePages;
     }
 
-    function parseRangeGroups(input, totalPages) {
-      const cleanInput = String(input || "").replace(/\s+/g, "");
-      if (!cleanInput) {
-        throw new Error("Page range खाली है।");
+    function parseRangeGroups(input, pageTotal) {
+      const rawGroups = String(input || "")
+        .split("|")
+        .map(part => part.trim())
+        .filter(Boolean);
+
+      if (!rawGroups.length) {
+        throw new Error("Split ranges खाली हैं।");
       }
 
-      const parts = cleanInput.split(",").filter(Boolean);
-      const groups = [];
-
-      for (const part of parts) {
-        let pages = [];
-
-        if (/^\d+$/.test(part)) {
-          const page = Number(part);
-          if (page < 1 || page > totalPages) {
-            throw new Error(`Page ${page} PDF में मौजूद नहीं है।`);
-          }
-          pages = [page];
-        } else {
-          const match = part.match(/^(\d*)-(\d*)$/);
-          if (!match) {
-            throw new Error(`"${part}" valid range नहीं है।`);
-          }
-
-          let start = match[1] ? Number(match[1]) : 1;
-          let end = match[2] ? Number(match[2]) : totalPages;
-
-          if (start < 1) start = 1;
-          if (end > totalPages) end = totalPages;
-
-          if (start > end) {
-            throw new Error(`"${part}" में start page end page से बड़ा है।`);
-          }
-
-          for (let page = start; page <= end; page++) {
-            pages.push(page);
-          }
-        }
-
-        groups.push({
-          label: part.replace(/-/g, "_to_"),
-          pages
-        });
-      }
-
-      if (!groups.length) {
-        throw new Error("कोई valid range नहीं मिला।");
-      }
-
-      return groups;
-    }
-
-    async function createPdfFromPages(sourcePdf, pageNumbers) {
-      const outputPdf = await PDFDocument.create();
-      const indices = pageNumbers.map(page => page - 1);
-      const copiedPages = await outputPdf.copyPages(sourcePdf, indices);
-      copiedPages.forEach(page => outputPdf.addPage(page));
-      return outputPdf.save({
-        useObjectStreams: true,
-        objectsPerTick: 50
+      return rawGroups.map((group, index) => {
+        const pages = parsePageRanges(group, pageTotal);
+        return {
+          label: group.replace(/\s+/g, ""),
+          pages,
+          index: index + 1
+        };
       });
     }
 
-    async function extractSelectedPages() {
-      const pages = parsePageRanges(rangeInput.value, pageCount);
-      const sourcePdf = await PDFDocument.load(selectedBuffer, { ignoreEncryption: false });
-      const bytes = await createPdfFromPages(sourcePdf, pages);
-      const blob = new Blob([bytes], { type: "application/pdf" });
+    function getPlannedOutputs() {
+      if (!totalPages) return [];
 
-      const filename = sanitizeFileName(outputName.value) + "-extracted.pdf";
-      showResult(blob, filename, `${pages.length} page(s) extract किए गए`);
+      if (activeMode === "extract") {
+        const pages = parsePageRanges(extractInput.value, totalPages);
+        return [{ label: rangeLabelFromPages(pages), pages, index: 1 }];
+      }
+
+      if (activeMode === "ranges") {
+        return parseRangeGroups(rangesInput.value, totalPages);
+      }
+
+      return Array.from({ length: totalPages }, (_, index) => ({
+        label: String(index + 1),
+        pages: [index + 1],
+        index: index + 1
+      }));
     }
 
-    async function removeSelectedPages() {
-      const removePages = parsePageRanges(rangeInput.value, pageCount);
-      const removeSet = new Set(removePages);
-      const keepPages = [];
+    function updateSummary() {
+      summaryTotal.textContent = String(totalPages || 0);
 
-      for (let page = 1; page <= pageCount; page++) {
-        if (!removeSet.has(page)) keepPages.push(page);
+      if (!totalPages) {
+        summaryMode.textContent = "Extract";
+        summaryPages.textContent = "-";
+        summaryOutput.textContent = "PDF";
+        return;
       }
 
-      if (!keepPages.length) {
-        throw new Error("आपने सभी pages remove कर दिए। Output PDF खाली नहीं हो सकती।");
+      let outputs = [];
+
+      try {
+        outputs = getPlannedOutputs();
+      } catch {
+        outputs = [];
       }
 
-      const sourcePdf = await PDFDocument.load(selectedBuffer, { ignoreEncryption: false });
-      const bytes = await createPdfFromPages(sourcePdf, keepPages);
-      const blob = new Blob([bytes], { type: "application/pdf" });
-
-      const filename = sanitizeFileName(outputName.value) + "-removed-pages.pdf";
-      showResult(blob, filename, `${removePages.length} page(s) remove किए गए`);
+      if (activeMode === "extract") {
+        summaryMode.textContent = "Extract";
+        summaryPages.textContent = outputs[0] ? rangeLabelFromPages(outputs[0].pages) : "?";
+        summaryOutput.textContent = "PDF";
+      } else if (activeMode === "ranges") {
+        summaryMode.textContent = "Ranges";
+        summaryPages.textContent = `${outputs.length || "?"} file(s)`;
+        summaryOutput.textContent = "ZIP";
+      } else {
+        summaryMode.textContent = "Every page";
+        summaryPages.textContent = `${totalPages} file(s)`;
+        summaryOutput.textContent = "ZIP";
+      }
     }
 
-    async function splitByRanges() {
-      const groups = parseRangeGroups(rangeInput.value, pageCount);
-      const sourcePdf = await PDFDocument.load(selectedBuffer, { ignoreEncryption: false });
-      const zip = new JSZip();
-      const baseName = sanitizeFileName(outputName.value);
+    async function loadFile(file) {
+      clearStatus();
+      resetProgress();
+      resetDownload();
+      resetPreview();
 
-      for (let i = 0; i < groups.length; i++) {
-        const group = groups[i];
-        const bytes = await createPdfFromPages(sourcePdf, group.pages);
-        zip.file(`${baseName}-range-${i + 1}-${group.label}.pdf`, bytes);
-
-        setProgress(Math.round(((i + 1) / groups.length) * 85));
-        setStatus(`Range ${i + 1} of ${groups.length} बनाई जा रही है...`);
+      if (!file || !(file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"))) {
+        setStatus("कृपया केवल PDF file upload करें।", "error");
+        return;
       }
 
-      setStatus("ZIP file बनाई जा रही है...");
-      setProgress(92);
+      try {
+        setStatus("PDF read की जा रही है...");
 
-      const zipBlob = await zip.generateAsync({ type: "blob" });
-      showResult(zipBlob, `${baseName}-ranges.zip`, `${groups.length} PDF files ZIP में ready हैं`);
+        selectedFile = file;
+        selectedBuffer = await file.arrayBuffer();
+
+        const loadingTask = pdfjsLib.getDocument({ data: selectedBuffer.slice(0) });
+        pdfForPreview = await loadingTask.promise;
+        totalPages = pdfForPreview.numPages;
+
+        fileNameEl.textContent = file.name;
+        fileNameEl.title = file.name;
+        fileSizeEl.textContent = formatBytes(file.size);
+        pageCountEl.textContent = `${totalPages} page${totalPages > 1 ? "s" : ""}`;
+
+        extractInput.value = totalPages >= 3 ? "1-3" : "1";
+        rangesInput.value = totalPages >= 6 ? "1-3 | 4-6 | 7-" : "1 | 2-";
+
+        filePanel.style.display = "block";
+        splitBtn.disabled = false;
+        updateSummary();
+        setStatus(`PDF ready है। Total pages: ${totalPages}. अब split mode choose करें।`, "success");
+      } catch (error) {
+        console.error(error);
+        selectedFile = null;
+        selectedBuffer = null;
+        pdfForPreview = null;
+        totalPages = 0;
+        filePanel.style.display = "none";
+        splitBtn.disabled = true;
+        setStatus("यह PDF read नहीं हो सकी। File encrypted, damaged या unsupported हो सकती है।", "error");
+      }
     }
 
-    async function splitEveryNPages() {
-      const n = Number(everyInput.value);
+    async function renderPreviewPage(pageNumber, scale = 0.48) {
+      if (!pdfForPreview) throw new Error("PDF load नहीं हुई।");
 
-      if (!Number.isInteger(n) || n < 1) {
-        throw new Error("हर N pages के लिए valid number लिखें।");
+      const page = await pdfForPreview.getPage(pageNumber);
+      const viewport = page.getViewport({ scale });
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d", { alpha: false });
+
+      canvas.width = Math.floor(viewport.width);
+      canvas.height = Math.floor(viewport.height);
+
+      context.fillStyle = "#ffffff";
+      context.fillRect(0, 0, canvas.width, canvas.height);
+
+      await page.render({
+        canvasContext: context,
+        viewport
+      }).promise;
+
+      return canvas;
+    }
+
+    async function showPreview() {
+      if (!pdfForPreview) {
+        setStatus("पहले PDF upload करें।", "error");
+        return;
       }
 
-      if (n > pageCount) {
-        throw new Error(`N value total pages (${pageCount}) से ज्यादा नहीं हो सकती।`);
-      }
+      resetPreview();
+      clearStatus();
 
-      const sourcePdf = await PDFDocument.load(selectedBuffer, { ignoreEncryption: false });
-      const zip = new JSZip();
-      const baseName = sanitizeFileName(outputName.value);
-      const groups = [];
+      try {
+        const outputs = getPlannedOutputs();
+        const pagesToPreview = [];
 
-      for (let start = 1; start <= pageCount; start += n) {
-        const end = Math.min(start + n - 1, pageCount);
-        const pages = [];
+        outputs.forEach(output => {
+          output.pages.forEach(page => {
+            if (!pagesToPreview.includes(page)) pagesToPreview.push(page);
+          });
+        });
 
-        for (let page = start; page <= end; page++) {
-          pages.push(page);
+        const previewPages = pagesToPreview.slice(0, 8);
+
+        if (!previewPages.length) {
+          setStatus("Preview के लिए valid pages नहीं मिले।", "error");
+          return;
         }
 
-        groups.push({ start, end, pages });
+        setStatus("Preview बनाई जा रही है...");
+        previewGrid.classList.add("show");
+
+        for (const pageNumber of previewPages) {
+          const canvas = await renderPreviewPage(pageNumber);
+
+          const card = document.createElement("div");
+          card.className = "preview-card";
+
+          const wrap = document.createElement("div");
+          wrap.className = "preview-canvas-wrap";
+          wrap.appendChild(canvas);
+
+          const label = document.createElement("strong");
+          label.textContent = `Page ${pageNumber}`;
+
+          card.appendChild(wrap);
+          card.appendChild(label);
+          previewGrid.appendChild(card);
+        }
+
+        if (pagesToPreview.length > 8) {
+          const extra = document.createElement("div");
+          extra.className = "preview-card";
+          extra.innerHTML = `
+            <div class="preview-canvas-wrap">
+              <strong>+${pagesToPreview.length - 8} more</strong>
+            </div>
+            <strong>बाकी pages output में शामिल होंगे</strong>
+          `;
+          previewGrid.appendChild(extra);
+        }
+
+        setStatus("Preview ready है। अब PDF अलग कर सकते हैं।", "success");
+      } catch (error) {
+        console.error(error);
+        setStatus(error.message || "Preview नहीं बन सकी।", "error");
       }
-
-      for (let i = 0; i < groups.length; i++) {
-        const group = groups[i];
-        const bytes = await createPdfFromPages(sourcePdf, group.pages);
-        zip.file(`${baseName}-pages-${group.start}-to-${group.end}.pdf`, bytes);
-
-        setProgress(Math.round(((i + 1) / groups.length) * 85));
-        setStatus(`Part ${i + 1} of ${groups.length} बनाई जा रही है...`);
-      }
-
-      setStatus("ZIP file बनाई जा रही है...");
-      setProgress(92);
-
-      const zipBlob = await zip.generateAsync({ type: "blob" });
-      showResult(zipBlob, `${baseName}-split.zip`, `${groups.length} PDF files ZIP में ready हैं`);
     }
 
-    async function runSplit() {
-      if (!selectedFile || !selectedBuffer) {
+    function getOutputFileName(baseName, output, totalOutputCount) {
+      const cleanBase = sanitizeFileName(baseName);
+      const mode = fileNameMode.value;
+
+      if (totalOutputCount === 1) {
+        return `${cleanBase}.pdf`;
+      }
+
+      if (mode === "pages") {
+        const label = rangeLabelFromPages(output.pages).replace(/,/g, "_");
+        return `${cleanBase}-pages-${label}.pdf`;
+      }
+
+      return `${cleanBase}-${String(output.index).padStart(2, "0")}.pdf`;
+    }
+
+    async function createPdfForPages(sourcePdf, pages) {
+      const newPdf = await PDFDocument.create();
+      const zeroBased = pages.map(page => page - 1);
+      const copiedPages = await newPdf.copyPages(sourcePdf, zeroBased);
+
+      copiedPages.forEach(page => newPdf.addPage(page));
+
+      const bytes = await newPdf.save({
+        useObjectStreams: true,
+        objectsPerTick: 50
+      });
+
+      return new Blob([bytes], { type: "application/pdf" });
+    }
+
+    async function splitPDF() {
+      if (!selectedBuffer) {
         setStatus("पहले PDF file upload करें।", "error");
         return;
       }
@@ -1490,31 +1987,80 @@
       resetDownload();
       resetProgress();
       clearStatus();
+
       splitBtn.disabled = true;
 
       try {
-        setStatus("PDF process शुरू हो गई है...");
-        setProgress(8);
+        const outputs = getPlannedOutputs();
 
-        const mode = modeSelect.value;
-
-        if (mode === "extract") {
-          await extractSelectedPages();
-        } else if (mode === "remove") {
-          await removeSelectedPages();
-        } else if (mode === "ranges") {
-          await splitByRanges();
-        } else if (mode === "every") {
-          await splitEveryNPages();
+        if (!outputs.length) {
+          throw new Error("Output plan खाली है।");
         }
 
+        setStatus("PDF split process शुरू हो गई है...");
+        setProgress(5);
+
+        const sourcePdf = await PDFDocument.load(selectedBuffer, {
+          ignoreEncryption: false
+        });
+
+        const baseName = sanitizeFileName(outputName.value);
+        const outputFiles = [];
+
+        for (let i = 0; i < outputs.length; i++) {
+          const output = outputs[i];
+
+          setStatus(`Output ${i + 1} of ${outputs.length} बन रही है...`);
+
+          const blob = await createPdfForPages(sourcePdf, output.pages);
+          const fileName = getOutputFileName(baseName, output, outputs.length);
+
+          outputFiles.push({
+            fileName,
+            blob,
+            pages: output.pages
+          });
+
+          setProgress(Math.round(((i + 1) / outputs.length) * 85));
+        }
+
+        let finalBlob;
+        let finalName;
+        let description;
+
+        if (outputFiles.length === 1) {
+          finalBlob = outputFiles[0].blob;
+          finalName = outputFiles[0].fileName;
+          description = `Single PDF ready • Pages: ${rangeLabelFromPages(outputFiles[0].pages)}`;
+        } else {
+          setStatus("ZIP file बनाई जा रही है...");
+          setProgress(92);
+
+          const zip = new JSZip();
+
+          outputFiles.forEach(file => {
+            zip.file(file.fileName, file.blob);
+          });
+
+          finalBlob = await zip.generateAsync({ type: "blob" });
+          finalName = `${baseName}-split-files.zip`;
+          description = `${outputFiles.length} PDF files ZIP में ready हैं`;
+        }
+
+        currentDownloadUrl = URL.createObjectURL(finalBlob);
+        downloadLink.href = currentDownloadUrl;
+        downloadLink.download = finalName;
+        downloadLink.textContent = finalName.toLowerCase().endsWith(".zip") ? "Download ZIP" : "Download PDF";
+        downloadMeta.textContent = `${description} • Size: ${formatBytes(finalBlob.size)}`;
+        downloadCard.classList.add("show");
+
         setProgress(100);
-        setStatus("PDF successfully process हो गई है। अब download करें।", "success");
+        setStatus("PDF successfully अलग हो गई है। अब download करें।", "success");
       } catch (error) {
         console.error(error);
-        setStatus(error.message || "PDF split नहीं हो सकी। File encrypted, damaged या unsupported हो सकती है।", "error");
+        setStatus(error.message || "PDF split नहीं हो सकी। File encrypted, damaged या बहुत बड़ी हो सकती है।", "error");
       } finally {
-        splitBtn.disabled = false;
+        splitBtn.disabled = !selectedBuffer;
         setTimeout(resetProgress, 1100);
       }
     }
@@ -1522,33 +2068,33 @@
     function clearFile() {
       selectedFile = null;
       selectedBuffer = null;
-      pageCount = 0;
+      pdfForPreview = null;
+      totalPages = 0;
       fileInput.value = "";
       filePanel.style.display = "none";
+      splitBtn.disabled = true;
       resetDownload();
       resetProgress();
+      resetPreview();
       clearStatus();
+      updateSummary();
       setStatus("File remove कर दी गई है। नई PDF upload करें।");
     }
 
-    function updateModeUI() {
-      const mode = modeSelect.value;
+    function setMode(mode) {
+      activeMode = mode;
 
-      rangeCard.style.display = mode === "every" ? "none" : "block";
-      everyCard.style.display = mode === "every" ? "block" : "none";
+      modeCards.forEach(card => {
+        card.classList.toggle("active", card.dataset.mode === activeMode);
+      });
 
-      if (mode === "extract") {
-        modeHelp.textContent = "Example: 1-3, 5, 8-10 लिखें। Selected pages final PDF में आएंगे।";
-      } else if (mode === "remove") {
-        modeHelp.textContent = "जो pages लिखेंगे, वे remove होंगे। बाकी pages की नई PDF बनेगी।";
-      } else if (mode === "ranges") {
-        modeHelp.textContent = "हर range की अलग PDF बनेगी और सब ZIP में download होंगे। Example: 1-3, 4-6, 7-10";
-      } else {
-        modeHelp.textContent = "हर N pages में PDF अलग parts में split होगी और ZIP download होगी।";
-      }
+      extractCard.style.display = activeMode === "extract" ? "block" : "none";
+      rangesCard.style.display = activeMode === "ranges" ? "block" : "none";
 
       resetDownload();
+      resetPreview();
       clearStatus();
+      updateSummary();
     }
 
     function openFilePicker() {
@@ -1594,20 +2140,40 @@
       if (file) loadFile(file);
     });
 
-    document.querySelectorAll(".chip-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        rangeInput.value = btn.dataset.example;
-        resetDownload();
+    modeCards.forEach(card => {
+      card.addEventListener("click", () => {
+        setMode(card.dataset.mode);
       });
     });
 
-    modeSelect.addEventListener("change", updateModeUI);
-    rangeInput.addEventListener("input", resetDownload);
-    everyInput.addEventListener("input", resetDownload);
-    outputName.addEventListener("input", resetDownload);
+    document.querySelectorAll(".chip-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const target = document.getElementById(btn.dataset.target);
+        if (!target) return;
+        target.value = btn.dataset.example;
+        resetDownload();
+        resetPreview();
+        updateSummary();
+      });
+    });
+
+    [extractInput, rangesInput, outputName, fileNameMode].forEach(el => {
+      el.addEventListener("input", () => {
+        resetDownload();
+        resetPreview();
+        updateSummary();
+      });
+
+      el.addEventListener("change", () => {
+        resetDownload();
+        resetPreview();
+        updateSummary();
+      });
+    });
 
     clearBtn.addEventListener("click", clearFile);
-    splitBtn.addEventListener("click", runSplit);
+    previewBtn.addEventListener("click", showPreview);
+    splitBtn.addEventListener("click", splitPDF);
 
     document.getElementById("menuBtn").addEventListener("click", () => {
       document.getElementById("nav").classList.toggle("open");
@@ -1619,7 +2185,19 @@
       });
     });
 
-    updateModeUI();
+    setMode("extract");
+    splitBtn.disabled = true;
+
+    const webApplicationSchema = {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "HindiTools Split PDF",
+      "url": "https://www.hinditools.com/split-pdf-hi.html",
+      "applicationCategory": "UtilitiesApplication",
+      "operatingSystem": "Any",
+      "inLanguage": ["hi-IN", "en-IN"],
+      "description": "PDF pages extract करने, page ranges split करने और हर page अलग PDF बनाने वाला Hindi + Hinglish Split PDF tool."
+    };
 
     const faqSchema = {
       "@context": "https://schema.org",
@@ -1627,43 +2205,53 @@
       "mainEntity": [
         {
           "@type": "Question",
-          "name": "क्या मैं PDF से specific pages निकाल सकता हूँ?",
+          "name": "क्या मैं PDF से सिर्फ 1 page निकाल सकता हूँ?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "हाँ, Extract mode चुनकर page range लिखें और selected pages की single PDF download करें।"
+            "text": "हाँ, Extract pages mode में सिर्फ page number लिखें, जैसे 3. इससे सिर्फ page 3 की PDF बनेगी।"
           }
         },
         {
           "@type": "Question",
-          "name": "क्या मैं PDF से pages delete कर सकता हूँ?",
+          "name": "Page range कैसे लिखना है?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "हाँ, Remove mode चुनें और हटाने वाले pages लिखें। बाकी pages की नई PDF बनेगी।"
+            "text": "आप 1-3, 5, 8-10 जैसा लिख सकते हैं। इसका मतलब pages 1,2,3,5,8,9,10 होंगे।"
           }
         },
         {
           "@type": "Question",
-          "name": "ZIP कब download होती है?",
+          "name": "Split by ranges में | क्यों है?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "जब आप ranges mode या हर N pages split mode use करते हैं, तब multiple PDFs को ZIP में दिया जाता है।"
+            "text": "| अलग-अलग output PDF बनाने के लिए है। जैसे 1-3 | 4-6 से दो अलग PDFs बनेंगी।"
           }
         },
         {
           "@type": "Question",
-          "name": "क्या password-protected PDF split होगी?",
+          "name": "ZIP कब download होगी?",
           "acceptedAnswer": {
             "@type": "Answer",
-            "text": "Password-protected या damaged PDFs split नहीं हो सकतीं। पहले PDF unlock करनी होगी।"
+            "text": "जब output एक से ज्यादा PDFs होंगी, जैसे Split by ranges या Every page mode में, तो ZIP download होगी।"
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या मेरी PDF server पर upload होती है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "यह page browser-side libraries का उपयोग करता है। फिर भी sensitive documents के लिए हमेशा सावधानी रखें।"
           }
         }
       ]
     };
 
-    const schemaScript = document.createElement("script");
-    schemaScript.type = "application/ld+json";
-    schemaScript.textContent = JSON.stringify(faqSchema);
-    document.head.appendChild(schemaScript);
+    [webApplicationSchema, faqSchema].forEach(schema => {
+      const schemaScript = document.createElement("script");
+      schemaScript.type = "application/ld+json";
+      schemaScript.textContent = JSON.stringify(schema);
+      document.head.appendChild(schemaScript);
+    });
   </script>
 </body>
 </html>
