@@ -1064,6 +1064,8 @@
           <button class="suggestion-chip" data-suggest="appointment">Appointment</button>
           <button class="suggestion-chip" data-suggest="vid">VID</button>
           <button class="suggestion-chip" data-suggest="lock">Lock / Unlock</button>
+          <button class="suggestion-chip" data-suggest="validity">Validity</button>
+          <button class="suggestion-chip" data-suggest="update centre">Update Centre</button>
         </div>
       </div>
 
@@ -1265,11 +1267,55 @@
           icon: "📝",
           category: "update",
           badge: "Update",
-          desc: "Aadhaar documents update / demographic update related services के लिए official myAadhaar portal. Charges और eligibility official site पर check करें।",
-          input: "Official myAadhaar update service",
-          output: "Document / demographic update options",
+          desc: "Aadhaar document update के लिए official myAadhaar direct service. Charges, eligibility और login requirements official site पर ही check करें।",
+          input: "Official myAadhaar document update page",
+          output: "Document update service",
+          link: "https://myaadhaar.uidai.gov.in/du/en",
+          tags: "document update demographic update aadhaar update name dob address mobile uidai direct link"
+        },
+        {
+          name: "Check Aadhaar Update Status",
+          icon: "📌",
+          category: "update",
+          badge: "Update Status",
+          desc: "Aadhaar update request submit करने के बाद उसका status official myAadhaar page पर check करें।",
+          input: "Official update status page पर required details",
+          output: "Aadhaar update request status",
+          link: "https://myaadhaar.uidai.gov.in/CheckAadhaarStatus/en",
+          tags: "check aadhaar update status update request status urn srn myaadhaar uidai"
+        },
+        {
+          name: "Update Demographics Data & Check Status",
+          icon: "👤",
+          category: "update",
+          badge: "Demographics",
+          desc: "Name, date of birth, gender, address या mobile/email related update options के लिए official myAadhaar portal खोलें।",
+          input: "Official myAadhaar portal login",
+          output: "Demographic update and status options",
           link: "https://myaadhaar.uidai.gov.in/",
-          tags: "document update demographic update aadhaar update name dob address mobile uidai"
+          tags: "demographic update name dob gender address mobile email update check status myaadhaar"
+        },
+        {
+          name: "Aadhaar Update History",
+          icon: "🕘",
+          category: "update",
+          badge: "History",
+          desc: "Past Aadhaar update history देखने के लिए official myAadhaar login portal. Personal details केवल official portal पर enter करें।",
+          input: "Official myAadhaar portal login",
+          output: "Aadhaar update history option",
+          link: "https://myaadhaar.uidai.gov.in/",
+          tags: "aadhaar update history past update history myaadhaar uidai"
+        },
+        {
+          name: "Update Aadhaar at Enrolment/Update Centre",
+          icon: "🏢",
+          category: "update",
+          badge: "Centre Update",
+          desc: "Aadhaar enrolment/update centre search करके centre-based update करवाने के लिए official UIDAI appointment/search page खोलें।",
+          input: "Official centre search / appointment page",
+          output: "Nearby Aadhaar update centre options",
+          link: "https://appointments.uidai.gov.in/easearch.aspx",
+          tags: "update aadhaar at enrolment update center centre appointment search uidai easearch"
         },
         {
           name: "Enrolment & Update Forms",
@@ -1314,6 +1360,17 @@
           output: "Aadhaar verification result",
           link: "https://myaadhaar.uidai.gov.in/verifyAadhaar",
           tags: "verify aadhaar number validity uidai valid deactivated check आधार verify"
+        },
+        {
+          name: "Check Aadhaar Validity",
+          icon: "☑️",
+          category: "verify",
+          badge: "Validity",
+          desc: "Aadhaar number active/valid है या नहीं, यह official myAadhaar validity service से check करें।",
+          input: "Official validity page पर details",
+          output: "Aadhaar validity status",
+          link: "https://myaadhaar.uidai.gov.in/check-aadhaar-validity/en",
+          tags: "check aadhaar validity aadhaar valid active inactive status uidai myaadhaar"
         },
         {
           name: "Verify Email / Mobile",
