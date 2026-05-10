@@ -1,400 +1,453 @@
-<!DOCTYPE html>
-<html lang="hi">
+<!DOCTYPE html><html lang="hi">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-  <title>PDF Rotate Online | PDF Pages घुमाएं हिंदी में - HindiTools</title>
-
-  <meta name="description" content="PDF pages को online rotate करें। All pages या selected pages को left, right या 180 degree rotate करें। Easy Hindi interface और instant download." />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />  <title>PDF Rotate Online | PDF Pages घुमाएं हिंदी में - HindiTools</title>  <meta name="description" content="PDF pages को online rotate करें। All pages या selected pages को left, right या 180 degree rotate करें। Easy Hindi interface और instant download." />
   <meta name="keywords" content="PDF rotate Hindi, PDF pages rotate, PDF घुमाएं, rotate PDF online, HindiTools" />
   <meta name="author" content="HindiTools.com" />
-  <meta name="robots" content="index, follow" />
-
-  <meta property="og:title" content="PDF Rotate Online - PDF Pages घुमाएं" />
+  <meta name="theme-color" content="#ff9933" />
+  <meta name="robots" content="index, follow" />  <meta property="og:title" content="PDF Rotate Online - PDF Pages घुमाएं" />
   <meta property="og:description" content="PDF के all pages या selected pages को left, right या 180 degree rotate करें।" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.hinditools.com/pdf-rotate-hi.html" />
-
+  <meta property="og:url" content="https://www.hinditools.com/pdf-rotate-hi.html" />  <link rel="canonical" href="https://www.hinditools.com/pdf-rotate-hi.html" />
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-
-  <style>
     :root {
-      --bg: #fff8f0;
-      --card: #ffffff;
-      --text: #1f2937;
-      --muted: #6b7280;
-      --border: #f1d7bd;
-      --primary: #e66a1f;
-      --primary-dark: #bf4e13;
-      --secondary: #273c75;
-      --green: #12805c;
+      --bg: #fff8ed;
+      --bg-2: #fff3df;
+      --surface: #ffffff;
+      --surface-soft: #fffaf2;
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --text-muted: #64748b;
+      --accent: #ff7a1a;
+      --accent-2: #ff9933;
+      --accent-dark: #c2410c;
+      --accent-soft: #fff0df;
+      --secondary: #0b3d91;
+      --secondary-soft: #dbeafe;
+      --green: #138808;
+      --green-soft: #e7f8e4;
       --red: #dc2626;
-      --shadow: 0 18px 45px rgba(120, 72, 20, 0.12);
-      --radius: 22px;
+      --red-soft: #fee2e2;
+      --chakra: #000080;
+      --border: #f0dcc2;
+      --border-strong: #e7c49e;
+      --shadow-xs: 0 6px 16px rgba(15, 23, 42, 0.06);
+      --shadow-sm: 0 12px 30px rgba(15, 23, 42, 0.08);
+      --shadow-md: 0 22px 50px rgba(15, 23, 42, 0.12);
+      --shadow-lg: 0 32px 90px rgba(15, 23, 42, 0.16);
+      --transition: all 0.23s cubic-bezier(0.2, 0, 0, 1);
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
-      font-family: "Noto Sans Devanagari", system-ui, sans-serif;
+      min-height: 100vh;
+      color: var(--text-primary);
       background:
-        radial-gradient(circle at top left, rgba(230, 106, 31, 0.15), transparent 28%),
-        radial-gradient(circle at top right, rgba(39, 60, 117, 0.12), transparent 32%),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+        radial-gradient(circle at 5% 0%, rgba(255, 153, 51, 0.22), transparent 32%),
+        radial-gradient(circle at 95% 0%, rgba(19, 136, 8, 0.13), transparent 30%),
+        radial-gradient(circle at 50% 4%, rgba(11, 61, 145, 0.08), transparent 34%),
+        linear-gradient(180deg, var(--bg), var(--bg-2));
+      font-family: 'Inter', 'Noto Sans Devanagari', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.55;
     }
 
-    a {
-      color: inherit;
-      text-decoration: none;
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+
+    .container { max-width: 1220px; margin: 0 auto; padding: 0 24px; }
+
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: 12px;
+      z-index: 999;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 14px;
+      padding: 10px 14px;
+      font-weight: 900;
     }
 
-    button,
-    input,
-    select {
-      font-family: inherit;
-    }
+    .skip-link:focus { left: 12px; }
 
-    .container {
-      width: min(1180px, calc(100% - 32px));
-      margin: auto;
+    .tricolour-line {
+      height: 5px;
+      background: linear-gradient(90deg, #ff9933 0 33.33%, #fff 33.33% 66.66%, #138808 66.66% 100%);
+      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
     }
 
     .top-strip {
-      background: linear-gradient(90deg, var(--secondary), #4457b5);
-      color: white;
-      padding: 9px 0;
-      font-size: 14px;
+      background: linear-gradient(90deg, var(--secondary), #203b91, var(--green));
+      color: #fff;
+      padding: 8px 0;
       text-align: center;
+      font-size: 0.9rem;
+      font-weight: 700;
     }
 
-    .top-strip strong {
-      color: #ffe5bf;
-    }
+    .top-strip strong { color: #ffe5bf; }
 
     header {
       position: sticky;
       top: 0;
-      z-index: 50;
-      background: rgba(255, 248, 240, 0.9);
+      z-index: 80;
+      background: rgba(255, 248, 237, 0.9);
       backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(241, 215, 189, 0.9);
+      border-bottom: 1px solid var(--border);
     }
 
     .nav {
-      min-height: 74px;
+      min-height: 76px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 18px;
+      gap: 14px;
+      position: relative;
     }
 
     .brand {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 11px;
-      color: var(--secondary);
-      font-size: 22px;
-      font-weight: 900;
-      white-space: nowrap;
+      min-width: max-content;
     }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: linear-gradient(135deg, var(--primary), #ffbd59);
-      color: white;
+      width: 46px;
+      height: 46px;
       display: grid;
       place-items: center;
-      box-shadow: 0 10px 24px rgba(230, 106, 31, 0.28);
+      border-radius: 17px;
+      background: linear-gradient(180deg, #ff9933 0 34%, #fff 34% 66%, #138808 66% 100%);
+      color: var(--chakra);
       font-weight: 900;
+      box-shadow: 0 10px 22px rgba(255, 122, 26, 0.22);
+      border: 1px solid rgba(15, 23, 42, 0.12);
+    }
+
+    .brand-text strong {
+      display: block;
+      font-size: 1.45rem;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--secondary), var(--green));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .brand-text span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 0.74rem;
+      font-weight: 800;
+      margin-top: 3px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
     }
 
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 8px;
+      justify-content: center;
+      gap: 5px;
       list-style: none;
+      flex: 1;
     }
 
     .nav-links a {
-      padding: 10px 13px;
+      display: inline-flex;
+      align-items: center;
+      padding: 9px 12px;
       border-radius: 999px;
-      color: #3f4655;
-      font-size: 15px;
-      font-weight: 700;
-      transition: 0.2s ease;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
+      font-weight: 800;
+      transition: var(--transition);
     }
 
-    .nav-links a:hover {
-      background: white;
-      color: var(--primary);
-      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.08);
+    .nav-links a:hover { background: var(--accent-soft); color: var(--accent-dark); }
+
+    .nav-actions { display: flex; align-items: center; gap: 9px; }
+
+    .nav-cta, .menu-btn {
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 900;
+      white-space: nowrap;
     }
 
     .nav-cta {
-      background: var(--primary);
-      color: white;
-      padding: 11px 16px;
-      border-radius: 999px;
-      font-weight: 900;
-      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.25);
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      padding: 10px 15px;
+      box-shadow: 0 8px 18px rgba(255, 122, 26, 0.24);
     }
 
     .menu-btn {
       display: none;
-      border: 0;
-      background: white;
-      border-radius: 12px;
-      padding: 9px 12px;
-      font-size: 21px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-      cursor: pointer;
+      width: 43px;
+      height: 43px;
+      background: var(--surface);
+      color: var(--text-primary);
+      font-size: 1.15rem;
     }
+
+    .nav-cta:hover, .menu-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-xs); }
 
     .breadcrumb {
-      margin: 24px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 700;
+      margin-top: 24px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      font-weight: 800;
     }
 
-    .breadcrumb a {
-      color: var(--primary);
+    .breadcrumb a { color: var(--accent-dark); }
+
+    .hero { padding: 36px 0 28px; }
+
+    .hero-shell {
+      background:
+        linear-gradient(135deg, rgba(255,255,255,0.82), rgba(255,244,231,0.84)),
+        radial-gradient(circle at 76% 20%, rgba(255,153,51,0.22), transparent 32%),
+        radial-gradient(circle at 84% 84%, rgba(19,136,8,0.13), transparent 30%);
+      border: 1px solid var(--border);
+      border-radius: 44px;
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+      position: relative;
     }
 
-    .hero {
-      padding: 38px 0 28px;
+    .hero-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 6px;
+      background: linear-gradient(90deg, #ff9933 0 33.33%, #fff 33.33% 66.66%, #138808 66.66% 100%);
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 0.9fr 1.1fr;
-      gap: 32px;
+      grid-template-columns: minmax(0, 0.92fr) minmax(430px, 1.08fr);
+      gap: 30px;
       align-items: center;
+      padding: 40px;
+      position: relative;
+      z-index: 1;
     }
 
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
+    .badge-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
 
     .badge {
-      background: rgba(255,255,255,0.88);
-      border: 1px solid rgba(241, 215, 189, 0.95);
-      color: #71401c;
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
       padding: 8px 12px;
       border-radius: 999px;
-      font-size: 14px;
-      font-weight: 800;
-      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.06);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.82rem;
+      font-weight: 900;
+      box-shadow: var(--shadow-xs);
     }
 
-    .hero h1 {
-      font-size: clamp(35px, 4.7vw, 58px);
-      line-height: 1.08;
-      letter-spacing: -1.6px;
+    .badge.primary {
+      background: linear-gradient(90deg, rgba(255,153,51,0.18), rgba(255,255,255,0.92), rgba(19,136,8,0.14));
       color: var(--secondary);
-      margin-bottom: 16px;
     }
 
-    .hero h1 span {
-      color: var(--primary);
+    h1 {
+      font-size: clamp(2.35rem, 5vw, 4.45rem);
+      line-height: 1.04;
+      letter-spacing: -0.06em;
+      font-weight: 900;
+      margin-bottom: 18px;
+      color: var(--text-primary);
     }
 
-    .hero p {
-      color: #4b5563;
-      font-size: 18px;
+    .gradient-text {
+      background: linear-gradient(90deg, var(--accent), var(--secondary), var(--green));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero-text {
+      color: var(--text-secondary);
+      font-size: 1.08rem;
       max-width: 650px;
-      margin-bottom: 20px;
+      margin-bottom: 24px;
     }
 
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      margin-top: 22px;
-    }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
 
-    .primary-btn,
-    .secondary-btn,
-    .danger-btn,
-    .ghost-btn {
-      border: 0;
-      border-radius: 16px;
-      padding: 13px 18px;
-      font-size: 15px;
+    .btn, .primary-btn, .secondary-btn, .danger-btn, .ghost-btn {
+      min-height: 46px;
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-size: 0.95rem;
       font-weight: 900;
       cursor: pointer;
-      transition: 0.2s ease;
+      transition: var(--transition);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
+      border: 1px solid var(--border);
     }
 
-    .primary-btn {
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.23);
+    .primary-btn, .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+      box-shadow: 0 10px 22px rgba(255, 122, 26, 0.24);
     }
 
-    .primary-btn:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
+    .secondary-btn { background: var(--secondary); color: #fff; border-color: var(--secondary); }
+    .ghost-btn { background: var(--surface); color: var(--text-primary); }
+    .danger-btn { background: var(--red-soft); color: var(--red); border-color: #fecdd3; }
+
+    .primary-btn:hover, .secondary-btn:hover, .ghost-btn:hover, .danger-btn:hover, .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-sm);
     }
 
     .primary-btn:disabled {
       background: #c7c7c7;
-      cursor: not-allowed;
+      border-color: #c7c7c7;
+      color: #fff;
       box-shadow: none;
+      cursor: not-allowed;
       transform: none;
     }
 
-    .secondary-btn {
-      background: var(--secondary);
-      color: white;
+    .mini-trust {
+      display: grid;
+      gap: 10px;
+      margin-top: 24px;
     }
 
-    .secondary-btn:hover {
-      background: #1d2b5c;
-    }
-
-    .danger-btn {
-      background: #fff1f2;
-      color: var(--red);
-      border: 1px solid #fecdd3;
-    }
-
-    .ghost-btn {
-      background: white;
-      color: #4b5563;
-      border: 1px solid #ead6c2;
-    }
-
-    .ghost-btn:hover {
-      color: var(--primary);
-      border-color: var(--primary);
+    .trust-line {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--text-secondary);
+      font-weight: 800;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 10px 12px;
     }
 
     .tool-shell {
-      background: rgba(255,255,255,0.92);
-      border: 1px solid rgba(241, 215, 189, 0.95);
-      border-radius: 34px;
-      padding: 24px;
-      box-shadow: var(--shadow);
-    }
-
-    .dropzone {
-      border: 2px dashed #efb276;
-      border-radius: 26px;
-      background:
-        linear-gradient(180deg, rgba(255,248,240,0.95), rgba(255,255,255,0.95));
-      min-height: 255px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 28px;
-      transition: 0.2s ease;
-      cursor: pointer;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 36px;
+      padding: 22px;
+      box-shadow: var(--shadow-md);
       position: relative;
       overflow: hidden;
     }
 
+    .tool-shell::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, #ff9933, #fff, #138808);
+    }
+
+    .dropzone {
+      min-height: 270px;
+      border: 2px dashed var(--border-strong);
+      border-radius: 28px;
+      background:
+        radial-gradient(circle at top left, rgba(255,153,51,0.10), transparent 34%),
+        linear-gradient(180deg, var(--surface-soft), #fff);
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 28px;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+
     .dropzone.dragover {
       border-color: var(--secondary);
-      background: #eef2ff;
+      background: var(--secondary-soft);
       transform: scale(1.01);
     }
 
-    .dropzone input {
-      display: none;
-    }
-
-    .drop-icon {
-      font-size: 58px;
-      margin-bottom: 12px;
-    }
+    .dropzone input { display: none; }
+    .drop-icon { font-size: 3.8rem; margin-bottom: 10px; }
 
     .dropzone h2 {
       color: var(--secondary);
-      font-size: 27px;
+      font-size: 1.7rem;
+      line-height: 1.15;
       margin-bottom: 8px;
+      letter-spacing: -0.03em;
     }
 
-    .dropzone p {
-      color: var(--muted);
-      font-size: 16px;
-      margin-bottom: 18px;
-    }
+    .dropzone p { color: var(--text-secondary); margin-bottom: 18px; }
 
     .upload-btn {
-      background: var(--primary);
-      color: white;
       border: 0;
-      padding: 14px 20px;
-      border-radius: 16px;
-      font-size: 16px;
+      background: var(--accent);
+      color: #fff;
+      border-radius: 999px;
+      padding: 14px 22px;
       font-weight: 900;
       cursor: pointer;
-      box-shadow: 0 12px 25px rgba(230, 106, 31, 0.22);
+      box-shadow: 0 10px 22px rgba(255, 122, 26, 0.24);
     }
 
     .privacy-note {
-      margin-top: 12px;
+      margin-top: 13px;
       color: var(--green);
-      font-size: 14px;
-      font-weight: 800;
+      font-size: 0.9rem;
+      font-weight: 900;
     }
 
     .panel {
-      background: white;
-      border: 1px solid #f1d7bd;
-      border-radius: 24px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 28px;
       padding: 20px;
-      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+      box-shadow: var(--shadow-xs);
       margin-top: 18px;
     }
 
     .panel-head {
       display: flex;
-      align-items: start;
+      align-items: flex-start;
       justify-content: space-between;
       gap: 16px;
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     .panel-head h2 {
       color: var(--secondary);
-      font-size: 24px;
-      line-height: 1.25;
+      font-size: 1.55rem;
+      line-height: 1.18;
+      letter-spacing: -0.03em;
     }
 
     .panel-head p {
-      color: var(--muted);
-      font-size: 14px;
+      color: var(--text-muted);
+      font-size: 0.9rem;
       margin-top: 4px;
     }
 
@@ -403,22 +456,23 @@
       grid-template-columns: auto 1fr auto;
       gap: 14px;
       align-items: center;
-      background: #fffaf5;
-      border: 1px solid #f1d7bd;
-      border-radius: 20px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 22px;
       padding: 14px;
       margin-bottom: 16px;
     }
 
     .file-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
+      width: 50px;
+      height: 50px;
+      border-radius: 18px;
       background: var(--secondary);
-      color: white;
+      color: #fff;
       display: grid;
       place-items: center;
-      font-size: 24px;
+      font-size: 1.5rem;
+      box-shadow: 0 8px 18px rgba(11, 61, 145, 0.18);
     }
 
     .file-name {
@@ -427,15 +481,17 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      max-width: 100%;
     }
 
     .file-meta {
       display: flex;
-      gap: 10px;
       flex-wrap: wrap;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 700;
+      gap: 10px;
+      color: var(--text-muted);
+      font-size: 0.84rem;
+      font-weight: 800;
+      margin-top: 3px;
     }
 
     .summary-strip {
@@ -446,24 +502,24 @@
     }
 
     .summary-item {
-      background: #fffaf5;
-      border: 1px solid #f1d7bd;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
       border-radius: 18px;
       padding: 12px;
     }
 
     .summary-item span {
       display: block;
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 800;
+      font-size: 0.74rem;
+      color: var(--text-muted);
+      font-weight: 900;
       margin-bottom: 3px;
     }
 
     .summary-item strong {
       display: block;
       color: var(--secondary);
-      font-size: 18px;
+      font-size: 1.05rem;
       line-height: 1.2;
     }
 
@@ -475,18 +531,15 @@
     }
 
     .setting-card {
-      background: #fffaf5;
-      border: 1px solid #f1d7bd;
-      border-radius: 20px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 22px;
       padding: 16px;
     }
 
-    .setting-card.full {
-      grid-column: 1 / -1;
-    }
+    .setting-card.full { grid-column: 1 / -1; }
 
-    .setting-card label,
-    .input-group label {
+    .setting-card label, .input-group label {
       display: block;
       color: var(--secondary);
       font-weight: 900;
@@ -495,28 +548,26 @@
 
     .setting-card small {
       display: block;
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 6px;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      margin-top: 7px;
+      font-weight: 700;
     }
 
-    .setting-card select,
-    .setting-card input,
-    .input-group input {
+    .setting-card select, .setting-card input, .input-group input {
       width: 100%;
-      border: 1px solid #ead6c2;
-      border-radius: 15px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
       padding: 12px 13px;
-      font-size: 15px;
+      font-size: 0.95rem;
       outline: 0;
-      background: white;
+      background: var(--surface);
+      color: var(--text-primary);
     }
 
-    .setting-card select:focus,
-    .setting-card input:focus,
-    .input-group input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(230, 106, 31, 0.1);
+    .setting-card select:focus, .setting-card input:focus, .input-group input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(255, 153, 51, 0.16);
     }
 
     .rotate-options {
@@ -527,45 +578,49 @@
     }
 
     .rotate-choice {
-      border: 1px solid #ead6c2;
-      background: white;
-      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 18px;
       padding: 14px 10px;
       cursor: pointer;
       font-weight: 900;
       color: var(--secondary);
       text-align: center;
-      transition: 0.2s ease;
+      transition: var(--transition);
     }
 
-    .rotate-choice.active,
-    .rotate-choice:hover {
+    .rotate-choice.active, .rotate-choice:hover {
       background: var(--secondary);
-      color: white;
+      color: #fff;
       border-color: var(--secondary);
+      transform: translateY(-1px);
     }
 
-    .example-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 10px;
-    }
+    .example-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
 
     .chip-btn {
-      border: 1px solid #ead6c2;
-      background: white;
-      color: #4b5563;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text-secondary);
       padding: 8px 11px;
       border-radius: 999px;
-      font-size: 13px;
-      font-weight: 800;
+      font-size: 0.82rem;
+      font-weight: 900;
       cursor: pointer;
+      transition: var(--transition);
     }
 
-    .chip-btn:hover {
-      border-color: var(--primary);
-      color: var(--primary);
+    .chip-btn:hover { border-color: var(--accent); color: var(--accent-dark); transform: translateY(-1px); }
+
+    .notice {
+      margin-top: 14px;
+      background: var(--secondary-soft);
+      color: var(--secondary);
+      border: 1px solid #c7d2fe;
+      border-radius: 18px;
+      padding: 13px 14px;
+      font-size: 0.9rem;
+      font-weight: 800;
     }
 
     .preview-grid {
@@ -575,25 +630,24 @@
       margin-top: 14px;
     }
 
-    .preview-grid.show {
-      display: grid;
-    }
+    .preview-grid.show { display: grid; }
 
     .preview-card {
-      background: white;
-      border: 1px solid #ead6c2;
-      border-radius: 18px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
       padding: 10px;
       min-height: 190px;
       display: flex;
       flex-direction: column;
       gap: 8px;
+      box-shadow: var(--shadow-xs);
     }
 
     .preview-canvas-wrap {
       flex: 1;
       background: #f3f4f6;
-      border-radius: 14px;
+      border-radius: 15px;
       display: grid;
       place-items: center;
       overflow: hidden;
@@ -607,21 +661,7 @@
       transform: rotate(var(--preview-rotate, 0deg));
     }
 
-    .preview-card strong {
-      color: var(--secondary);
-      font-size: 14px;
-    }
-
-    .notice {
-      margin-top: 14px;
-      background: #eef2ff;
-      color: #243b86;
-      border: 1px solid #c7d2fe;
-      border-radius: 18px;
-      padding: 13px 14px;
-      font-size: 14px;
-      font-weight: 800;
-    }
+    .preview-card strong { color: var(--secondary); font-size: 0.88rem; }
 
     .controls-grid {
       display: grid;
@@ -639,24 +679,12 @@
       font-weight: 800;
       border: 1px solid #e5e7eb;
       background: #f9fafb;
-      color: #4b5563;
+      color: var(--text-secondary);
     }
 
-    .status-box.show {
-      display: block;
-    }
-
-    .status-box.success {
-      background: #ecfdf5;
-      color: var(--green);
-      border-color: #bbf7d0;
-    }
-
-    .status-box.error {
-      background: #fff1f2;
-      color: var(--red);
-      border-color: #fecdd3;
-    }
+    .status-box.show { display: block; }
+    .status-box.success { background: #ecfdf5; color: var(--green); border-color: #bbf7d0; }
+    .status-box.error { background: var(--red-soft); color: var(--red); border-color: #fecdd3; }
 
     .progress-wrap {
       display: none;
@@ -667,16 +695,8 @@
       height: 12px;
     }
 
-    .progress-wrap.show {
-      display: block;
-    }
-
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--primary), #ffbd59);
-      transition: width 0.25s ease;
-    }
+    .progress-wrap.show { display: block; }
+    .progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--accent), #ffbd59); transition: width 0.25s ease; }
 
     .download-card {
       display: none;
@@ -690,97 +710,98 @@
       gap: 18px;
     }
 
-    .download-card.show {
-      display: flex;
-    }
+    .download-card.show { display: flex; }
+    .download-card h3 { color: var(--green); font-size: 1.3rem; margin-bottom: 4px; }
+    .download-card p { color: #166534; font-size: 0.9rem; }
 
-    .download-card h3 {
-      color: var(--green);
-      font-size: 22px;
-      margin-bottom: 4px;
-    }
+    .section { padding: 36px 0; }
 
-    .download-card p {
-      color: #166534;
-      font-size: 14px;
-    }
-
-    .info-sections {
+    .info-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
-      margin-top: 36px;
     }
 
-    .info-card {
-      background: white;
-      border: 1px solid #f1d7bd;
-      border-radius: 24px;
-      padding: 22px;
-      box-shadow: 0 12px 30px rgba(120, 72, 20, 0.06);
+    .info-card, .related-card, .faq-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+      position: relative;
+      overflow: hidden;
     }
 
-    .info-card h2 {
-      color: var(--secondary);
-      font-size: 25px;
+    .info-card::before, .related-card::before, .faq-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, #ff9933, #fff, #138808);
+    }
+
+    .eyebrow {
+      color: var(--accent-dark);
+      font-weight: 900;
+      text-transform: uppercase;
+      font-size: 0.78rem;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .section-title, .info-card h2, .related-card h2, .faq-card h2 {
+      color: var(--text-primary);
+      font-size: clamp(1.55rem, 3vw, 2.25rem);
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+      font-weight: 900;
       margin-bottom: 12px;
     }
 
-    .info-card p,
-    .info-card li {
-      color: #5b6472;
-      font-size: 15px;
+    .info-card p, .info-card li {
+      color: var(--text-secondary);
+      font-size: 0.96rem;
     }
 
-    .info-card ul,
-    .info-card ol {
+    .info-card ul, .info-card ol {
       padding-left: 22px;
       display: grid;
       gap: 8px;
     }
 
     .related {
-      margin-top: 18px;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 14px;
-    }
-
-    .related a {
-      background: white;
-      border: 1px solid #f1d7bd;
-      border-radius: 18px;
-      padding: 16px;
-      font-weight: 900;
-      color: var(--secondary);
-      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
-      transition: 0.2s ease;
-    }
-
-    .related a:hover {
-      transform: translateY(-3px);
-      color: var(--primary);
-      border-color: rgba(230, 106, 31, 0.45);
-    }
-
-    .faq-list {
-      display: grid;
-      gap: 12px;
       margin-top: 18px;
     }
 
+    .related a {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 16px;
+      font-weight: 900;
+      color: var(--secondary);
+      box-shadow: var(--shadow-xs);
+      transition: var(--transition);
+    }
+
+    .related a:hover { transform: translateY(-3px); color: var(--accent-dark); border-color: var(--accent); }
+
+    .faq-list { display: grid; gap: 12px; margin-top: 18px; }
+
     .faq-item {
-      background: white;
-      border: 1px solid #f1d7bd;
-      border-radius: 18px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 20px;
       overflow: hidden;
-      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
     }
 
     .faq-q {
       width: 100%;
       border: 0;
-      background: white;
+      background: transparent;
       padding: 17px;
       display: flex;
       align-items: center;
@@ -789,489 +810,410 @@
       text-align: left;
       color: var(--secondary);
       font-weight: 900;
-      font-size: 16px;
+      font-size: 1rem;
       cursor: pointer;
     }
 
     .faq-a {
       display: none;
       padding: 0 17px 17px;
-      color: #5b6472;
-      font-size: 15px;
+      color: var(--text-secondary);
+      font-size: 0.95rem;
     }
 
-    .faq-item.active .faq-a {
-      display: block;
-    }
+    .faq-item.active .faq-a { display: block; }
 
     footer {
-      margin-top: 46px;
-      background: #151f3e;
-      color: white;
-      padding: 38px 0 20px;
+      margin-top: 44px;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 44px 0 24px;
+      position: relative;
+    }
+
+    footer::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 5px;
+      background: linear-gradient(90deg, #ff9933, #fff, #138808);
     }
 
     .footer-grid {
       display: grid;
-      grid-template-columns: 1.2fr 0.8fr 0.8fr;
-      gap: 26px;
-      margin-bottom: 26px;
+      grid-template-columns: 1.2fr repeat(3, 1fr);
+      gap: 28px;
+      align-items: start;
     }
 
-    .footer-brand {
-      font-size: 25px;
-      font-weight: 900;
-      margin-bottom: 10px;
-    }
-
-    footer p,
-    footer a {
-      color: rgba(255,255,255,0.78);
-      font-size: 15px;
-    }
-
-    footer h3 {
-      color: white;
-      margin-bottom: 12px;
-      font-size: 17px;
-    }
-
-    footer ul {
-      list-style: none;
-      display: grid;
-      gap: 8px;
-    }
+    .footer-title { display: block; font-size: 1.45rem; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 8px; }
+    .footer-text { color: var(--text-secondary); }
+    .footer-links { display: grid; gap: 8px; margin-top: 12px; }
+    .footer-links a { color: var(--text-secondary); font-weight: 700; transition: var(--transition); }
+    .footer-links a:hover { color: var(--accent-dark); transform: translateX(2px); }
 
     .copyright {
-      border-top: 1px solid rgba(255,255,255,0.12);
+      margin-top: 30px;
       padding-top: 18px;
-      color: rgba(255,255,255,0.62);
+      border-top: 1px solid var(--border);
       text-align: center;
-      font-size: 14px;
+      color: var(--text-secondary);
+      font-size: 0.92rem;
     }
 
-    @media (max-width: 1040px) {
-      .hero-grid,
-      .info-sections {
-        grid-template-columns: 1fr;
-      }
+    :focus-visible { outline: 4px solid rgba(255, 153, 51, 0.28); outline-offset: 3px; border-radius: 14px; }
 
-      .related,
-      .preview-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
+    @media (max-width: 1100px) {
+      .hero-grid, .info-grid { grid-template-columns: 1fr; }
+      .related, .preview-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
 
-      .nav-links,
-      .nav-cta {
+    @media (max-width: 980px) {
+      .nav { flex-wrap: wrap; }
+      .nav-links {
+        order: 3;
         display: none;
-      }
-
-      .menu-btn {
-        display: inline-flex;
-      }
-
-      .nav.open .nav-links {
-        display: flex;
-        position: absolute;
-        top: 74px;
-        left: 16px;
-        right: 16px;
-        background: white;
+        flex-basis: 100%;
         flex-direction: column;
         align-items: stretch;
-        border-radius: 20px;
-        padding: 14px;
-        box-shadow: var(--shadow);
-        border: 1px solid #f1d7bd;
-      }
-
-      .nav.open .nav-links a {
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 680px) {
-      .top-strip {
-        font-size: 12px;
-      }
-
-      .hero {
-        padding-top: 28px;
-      }
-
-      .tool-shell {
-        padding: 16px;
+        background: var(--surface);
+        border: 1px solid var(--border);
         border-radius: 24px;
+        padding: 12px;
+        box-shadow: var(--shadow-sm);
       }
-
-      .dropzone {
-        min-height: 235px;
-        padding: 22px 16px;
-      }
-
-      .dropzone h2 {
-        font-size: 23px;
-      }
-
-      .file-summary {
-        grid-template-columns: auto 1fr;
-      }
-
-      .file-summary .danger-btn {
-        grid-column: 1 / -1;
-      }
-
-      .summary-strip,
-      .settings-grid,
-      .controls-grid,
-      .related,
-      .preview-grid,
-      .footer-grid,
-      .rotate-options {
-        grid-template-columns: 1fr;
-      }
-
-      .download-card {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      .primary-btn,
-      .secondary-btn,
-      .danger-btn,
-      .ghost-btn {
-        width: 100%;
-      }
-
-      .hero-actions {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      .panel-head {
-        display: block;
-      }
-
-      .panel-head .danger-btn {
-        margin-top: 14px;
-      }
+      .nav.open .nav-links { display: flex; }
+      .nav-links a { justify-content: center; }
+      .nav-cta { display: none; }
+      .menu-btn { display: grid; place-items: center; }
     }
-  </style>
-</head>
 
-<body>
-  <div class="top-strip">
+    @media (max-width: 700px) {
+      .container { padding: 0 16px; }
+      .top-strip { font-size: 0.78rem; }
+      .breadcrumb { margin-top: 18px; }
+      .hero { padding-top: 26px; }
+      .hero-shell { border-radius: 30px; }
+      .hero-grid { padding: 26px 18px; }
+      .tool-shell, .info-card, .related-card, .faq-card { border-radius: 26px; padding: 18px; }
+      .dropzone { min-height: 238px; padding: 22px 16px; }
+      .dropzone h2 { font-size: 1.35rem; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .primary-btn, .secondary-btn, .danger-btn, .ghost-btn, .btn { width: 100%; }
+      .panel-head { display: block; }
+      .panel-head .danger-btn { margin-top: 12px; }
+      .file-summary { grid-template-columns: auto 1fr; }
+      .file-summary .ghost-btn { grid-column: 1 / -1; }
+      .summary-strip, .settings-grid, .controls-grid, .related, .preview-grid, .rotate-options, .footer-grid { grid-template-columns: 1fr; }
+      .download-card { flex-direction: column; align-items: stretch; }
+      h1 { letter-spacing: -0.045em; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    }
+  </style></head><body>
+  <div class="tricolour-line" aria-hidden="true"></div>
+  <a class="skip-link" href="#rotate-tool">सीधे PDF rotate tool पर जाएं</a>  <div class="top-strip">
     <div class="container">
       <strong>PDF Rotate</strong> — all pages या selected pages को left, right या 180° rotate करें।
     </div>
-  </div>
-
-  <header>
+  </div>  <header>
     <div class="container nav" id="nav">
-      <a class="brand" href="index.html">
+      <a class="brand" href="index.html" aria-label="HindiTools Home">
         <span class="brand-mark">हि</span>
-        <span>HindiTools</span>
-      </a>
+        <span class="brand-text">
+          <strong>HindiTools</strong>
+          <span>PDF Rotate</span>
+        </span>
+      </a><ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="merge-pdf-hi.html">Merge PDF</a></li>
+    <li><a href="compress-pdf-hi.html">Compress PDF</a></li>
+    <li><a href="split-pdf-hi.html">Split PDF</a></li>
+    <li><a href="image-to-pdf-hi.html">Image to PDF</a></li>
+    <li><a href="privacy.html">Privacy</a></li>
+  </ul>
 
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="merge-pdf-hi.html">Merge PDF</a></li>
-        <li><a href="compress-pdf-hi.html">Compress PDF</a></li>
-        <li><a href="split-pdf-hi.html">Split PDF</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-      </ul>
+  <div class="nav-actions">
+    <a class="nav-cta" href="#rotate-tool">🔄 Rotate PDF</a>
+    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu">☰</button>
+  </div>
+</div>
 
-      <a class="nav-cta" href="#rotate-tool">PDF Rotate</a>
-
-      <button class="menu-btn" id="menuBtn" type="button">☰</button>
-    </div>
-  </header>
-
-  <main>
+  </header>  <main>
     <div class="container">
       <div class="breadcrumb">
         <a href="index.html">Home</a> / PDF Tools / PDF Rotate
       </div>
-    </div>
+    </div><section class="container hero">
+  <div class="hero-shell">
+    <div class="hero-grid">
+      <div>
+        <div class="badge-row">
+          <span class="badge primary">🇮🇳 Hindi-friendly PDF tool</span>
+          <span class="badge">↻ Rotate Right</span>
+          <span class="badge">↺ Rotate Left</span>
+          <span class="badge">🔁 180 Degree</span>
+          <span class="badge">📄 Selected Pages</span>
+        </div>
 
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <div class="badge-row">
-            <span class="badge">↻ Rotate Right</span>
-            <span class="badge">↺ Rotate Left</span>
-            <span class="badge">🔁 180 Degree</span>
-            <span class="badge">📄 Selected Pages</span>
-          </div>
+        <h1>PDF Pages <span class="gradient-text">घुमाएं और direction ठीक करें</span></h1>
 
-          <h1>PDF Pages <span>घुमाएं</span></h1>
+        <p class="hero-text">
+          गलत direction में scan हुई PDF को ठीक करें। पूरी PDF rotate करें या केवल selected pages को
+          left, right या 180 degree घुमाकर final PDF download करें।
+        </p>
 
-          <p>
-            गलत direction में scan हुई PDF को ठीक करें। All pages rotate करें या केवल selected pages को
-            left, right या 180 degree घुमाएं।
-          </p>
+        <div class="hero-actions">
+          <a class="primary-btn" href="#rotate-tool">🔄 अभी PDF Rotate करें</a>
+          <a class="ghost-btn" href="split-pdf-hi.html">✂️ PDF Split करें</a>
+          <a class="ghost-btn" href="compress-pdf-hi.html">📉 PDF Compress करें</a>
+        </div>
 
-          <div class="hero-actions">
-            <a class="primary-btn" href="#rotate-tool">अभी PDF Rotate करें</a>
-            <a class="ghost-btn" href="split-pdf-hi.html">PDF Split करें</a>
+        <div class="mini-trust" aria-label="Tool benefits">
+          <div class="trust-line">✅ All pages या selected pages दोनों options</div>
+          <div class="trust-line">✅ Page range: 1-3, 5, 8-10 जैसे formats support</div>
+          <div class="trust-line">✅ Preview से direction check करने की सुविधा</div>
+        </div>
+      </div>
+
+      <div class="tool-shell" id="rotate-tool">
+        <div class="dropzone" id="dropzone">
+          <input type="file" id="fileInput" accept="application/pdf,.pdf" />
+          <div>
+            <div class="drop-icon">🔄</div>
+            <h2>PDF file यहाँ drop करें</h2>
+            <p>PDF upload करें, rotation choose करें और ready file download करें।</p>
+            <button class="upload-btn" type="button" id="selectFileBtn">PDF File चुनें</button>
+            <div class="privacy-note">🔐 PDF आपके browser में process करने की कोशिश की जाती है।</div>
           </div>
         </div>
 
-        <div class="tool-shell" id="rotate-tool">
-          <div class="dropzone" id="dropzone">
-            <input type="file" id="fileInput" accept="application/pdf,.pdf" />
+        <div class="panel" id="filePanel" style="display:none;">
+          <div class="panel-head">
             <div>
-              <div class="drop-icon">🔄</div>
-              <h2>PDF file यहाँ drop करें</h2>
-              <p>PDF upload करें और pages rotate करके download करें।</p>
-              <button class="upload-btn" type="button" id="selectFileBtn">PDF File चुनें</button>
-              <div class="privacy-note">🔐 PDF आपके browser में process करने की कोशिश की जाती है।</div>
+              <h2>Rotate Settings</h2>
+              <p>All pages या selected page range choose करें। Preview से direction check करें।</p>
+            </div>
+            <button class="danger-btn" type="button" id="clearBtn">Remove</button>
+          </div>
+
+          <div class="file-summary">
+            <div class="file-icon">📄</div>
+
+            <div>
+              <div class="file-name" id="fileName">document.pdf</div>
+              <div class="file-meta">
+                <span id="fileSize">0 KB</span>
+                <span id="pageCount">0 pages</span>
+              </div>
+            </div>
+
+            <button class="ghost-btn" type="button" id="previewBtn">Preview</button>
+          </div>
+
+          <div class="summary-strip">
+            <div class="summary-item">
+              <span>Target Pages</span>
+              <strong id="summaryPages">All</strong>
+            </div>
+            <div class="summary-item">
+              <span>Rotation</span>
+              <strong id="summaryRotation">90° Right</strong>
+            </div>
+            <div class="summary-item">
+              <span>Total Pages</span>
+              <strong id="summaryTotal">0</strong>
+            </div>
+            <div class="summary-item">
+              <span>Output</span>
+              <strong>PDF</strong>
             </div>
           </div>
 
-          <div class="panel" id="filePanel" style="display:none;">
-            <div class="panel-head">
-              <div>
-                <h2>Rotate Settings</h2>
-                <p>All pages या selected page range choose करें। Preview से direction check करें।</p>
+          <div class="settings-grid">
+            <div class="setting-card full">
+              <label>Rotation Direction</label>
+              <div class="rotate-options">
+                <button class="rotate-choice active" type="button" data-rotate="90">↻ Right 90°</button>
+                <button class="rotate-choice" type="button" data-rotate="-90">↺ Left 90°</button>
+                <button class="rotate-choice" type="button" data-rotate="180">🔁 180°</button>
               </div>
-              <button class="danger-btn" type="button" id="clearBtn">Remove</button>
+              <small>Right 90° सबसे common है जब scanned page sideways हो।</small>
             </div>
 
-            <div class="file-summary">
-              <div class="file-icon">📄</div>
-
-              <div>
-                <div class="file-name" id="fileName">document.pdf</div>
-                <div class="file-meta">
-                  <span id="fileSize">0 KB</span>
-                  <span id="pageCount">0 pages</span>
-                </div>
-              </div>
-
-              <button class="ghost-btn" type="button" id="previewBtn">Preview</button>
+            <div class="setting-card">
+              <label for="pageModeSelect">Pages</label>
+              <select id="pageModeSelect">
+                <option value="all" selected>All pages rotate करें</option>
+                <option value="range">Selected pages only</option>
+              </select>
+              <small>Selected mode में नीचे range लिखें।</small>
             </div>
 
-            <div class="summary-strip">
-              <div class="summary-item">
-                <span>Target Pages</span>
-                <strong id="summaryPages">All</strong>
-              </div>
-              <div class="summary-item">
-                <span>Rotation</span>
-                <strong id="summaryRotation">90° Right</strong>
-              </div>
-              <div class="summary-item">
-                <span>Total Pages</span>
-                <strong id="summaryTotal">0</strong>
-              </div>
-              <div class="summary-item">
-                <span>Output</span>
-                <strong>PDF</strong>
+            <div class="setting-card" id="rangeCard" style="display:none;">
+              <label for="rangeInput">Page Range</label>
+              <input id="rangeInput" type="text" value="1-3" placeholder="जैसे 1-3, 5, 8-10" />
+              <div class="example-buttons">
+                <button class="chip-btn" type="button" data-example="1">Page 1</button>
+                <button class="chip-btn" type="button" data-example="1-3">1-3</button>
+                <button class="chip-btn" type="button" data-example="1,3,5">1,3,5</button>
+                <button class="chip-btn" type="button" data-example="2-">2 से last तक</button>
               </div>
             </div>
 
-            <div class="settings-grid">
-              <div class="setting-card full">
-                <label>Rotation Direction</label>
-                <div class="rotate-options">
-                  <button class="rotate-choice active" type="button" data-rotate="90">↻ Right 90°</button>
-                  <button class="rotate-choice" type="button" data-rotate="-90">↺ Left 90°</button>
-                  <button class="rotate-choice" type="button" data-rotate="180">🔁 180°</button>
-                </div>
-                <small>Right 90° सबसे common है जब scanned page sideways हो।</small>
-              </div>
-
-              <div class="setting-card">
-                <label for="pageModeSelect">Pages</label>
-                <select id="pageModeSelect">
-                  <option value="all" selected>All pages rotate करें</option>
-                  <option value="range">Selected pages only</option>
-                </select>
-                <small>Selected mode में नीचे range लिखें।</small>
-              </div>
-
-              <div class="setting-card" id="rangeCard" style="display:none;">
-                <label for="rangeInput">Page Range</label>
-                <input id="rangeInput" type="text" value="1-3" placeholder="जैसे 1-3, 5, 8-10" />
-                <div class="example-buttons">
-                  <button class="chip-btn" type="button" data-example="1">Page 1</button>
-                  <button class="chip-btn" type="button" data-example="1-3">1-3</button>
-                  <button class="chip-btn" type="button" data-example="1,3,5">1,3,5</button>
-                  <button class="chip-btn" type="button" data-example="2-">2 से last तक</button>
-                </div>
-              </div>
-
-              <div class="setting-card full">
-                <label for="outputName">Final PDF का नाम</label>
-                <input id="outputName" type="text" value="rotated-pdf" placeholder="rotated-pdf" />
-                <div class="notice">
-                  Tip: अगर पूरी PDF sideways है तो All pages रखें। अगर सिर्फ कुछ pages गलत हैं तो Selected pages choose करें।
-                </div>
+            <div class="setting-card full">
+              <label for="outputName">Final PDF का नाम</label>
+              <input id="outputName" type="text" value="rotated-pdf" placeholder="rotated-pdf" />
+              <div class="notice">
+                Tip: अगर पूरी PDF sideways है तो All pages रखें। अगर सिर्फ कुछ pages गलत हैं तो Selected pages choose करें।
               </div>
             </div>
+          </div>
 
-            <div class="preview-grid" id="previewGrid"></div>
+          <div class="preview-grid" id="previewGrid"></div>
 
-            <div class="controls-grid">
-              <div></div>
-              <button class="primary-btn" type="button" id="rotateBtn">
-                PDF Rotate करें
-              </button>
+          <div class="controls-grid">
+            <div></div>
+            <button class="primary-btn" type="button" id="rotateBtn">PDF Rotate करें</button>
+          </div>
+
+          <div class="progress-wrap" id="progressWrap">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+
+          <div class="status-box" id="statusBox"></div>
+
+          <div class="download-card" id="downloadCard">
+            <div>
+              <h3>✅ PDF तैयार है</h3>
+              <p id="downloadMeta">आपकी rotated PDF download के लिए ready है।</p>
             </div>
-
-            <div class="progress-wrap" id="progressWrap">
-              <div class="progress-bar" id="progressBar"></div>
-            </div>
-
-            <div class="status-box" id="statusBox"></div>
-
-            <div class="download-card" id="downloadCard">
-              <div>
-                <h3>✅ PDF तैयार है</h3>
-                <p id="downloadMeta">आपकी rotated PDF download के लिए ready है।</p>
-              </div>
-              <a class="secondary-btn" id="downloadLink" href="#" download="rotated-pdf.pdf">
-                Download PDF
-              </a>
-            </div>
+            <a class="secondary-btn" id="downloadLink" href="#" download="rotated-pdf.pdf">Download PDF</a>
           </div>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
-    <section class="container info-sections">
-      <article class="info-card">
-        <h2>PDF rotate कैसे करें?</h2>
-        <ol>
-          <li>ऊपर PDF file upload करें।</li>
-          <li>Rotation direction चुनें: right, left या 180°।</li>
-          <li>All pages या selected pages choose करें।</li>
-          <li><strong>PDF Rotate करें</strong> button दबाएं।</li>
-          <li>Ready PDF download करें।</li>
-        </ol>
-      </article>
+<section class="container section">
+  <div class="info-grid">
+    <article class="info-card">
+      <div class="eyebrow">How it works</div>
+      <h2>PDF rotate कैसे करें?</h2>
+      <ol>
+        <li>ऊपर PDF file upload करें।</li>
+        <li>Rotation direction चुनें: right, left या 180°।</li>
+        <li>All pages या selected pages choose करें।</li>
+        <li><strong>PDF Rotate करें</strong> button दबाएं।</li>
+        <li>Ready PDF download करें।</li>
+      </ol>
+    </article>
 
-      <article class="info-card">
-        <h2>कब कौन सा option use करें?</h2>
-        <ul>
-          <li><strong>Right 90°:</strong> Page left side पड़ा है और clockwise घुमाना है।</li>
-          <li><strong>Left 90°:</strong> Page right side पड़ा है और anticlockwise घुमाना है।</li>
-          <li><strong>180°:</strong> Page उल्टा scan हुआ है।</li>
-          <li><strong>Selected pages:</strong> जब सिर्फ कुछ pages wrong direction में हों।</li>
-        </ul>
-      </article>
-    </section>
+    <article class="info-card">
+      <div class="eyebrow">Simple guide</div>
+      <h2>कब कौन सा option use करें?</h2>
+      <ul>
+        <li><strong>Right 90°:</strong> Page left side पड़ा है और clockwise घुमाना है।</li>
+        <li><strong>Left 90°:</strong> Page right side पड़ा है और anticlockwise घुमाना है।</li>
+        <li><strong>180°:</strong> Page उल्टा scan हुआ है।</li>
+        <li><strong>Selected pages:</strong> जब सिर्फ कुछ pages wrong direction में हों।</li>
+      </ul>
+    </article>
+  </div>
+</section>
 
-    <section class="container" style="margin-top:28px;">
-      <div class="info-card">
-        <h2>Related PDF Tools</h2>
-        <div class="related">
-          <a href="merge-pdf-hi.html">📎 PDF जोड़ें</a>
-          <a href="split-pdf-hi.html">✂️ PDF अलग करें</a>
-          <a href="compress-pdf-hi.html">📉 PDF छोटा करें</a>
-          <a href="pdf-watermark-hi.html">💧 Watermark लगाएं</a>
-        </div>
+<section class="container section">
+  <div class="related-card">
+    <div class="eyebrow">More PDF tools</div>
+    <h2>Related PDF Tools</h2>
+    <div class="related">
+      <a href="merge-pdf-hi.html">📎 PDF जोड़ें</a>
+      <a href="split-pdf-hi.html">✂️ PDF अलग करें</a>
+      <a href="compress-pdf-hi.html">📉 PDF छोटा करें</a>
+      <a href="pdf-watermark-hi.html">💧 Watermark लगाएं</a>
+    </div>
+  </div>
+</section>
+
+<section class="container section">
+  <div class="faq-card">
+    <div class="eyebrow">Common questions</div>
+    <h2>FAQ</h2>
+
+    <div class="faq-list">
+      <div class="faq-item active">
+        <button class="faq-q" type="button">क्या मैं पूरी PDF rotate कर सकता हूँ?<span>+</span></button>
+        <div class="faq-a">हाँ, All pages mode में पूरी PDF के सभी pages rotate होंगे।</div>
       </div>
-    </section>
 
-    <section class="container" style="margin-top:28px;">
-      <div class="info-card">
-        <h2>FAQ</h2>
-
-        <div class="faq-list">
-          <div class="faq-item active">
-            <button class="faq-q" type="button">
-              क्या मैं पूरी PDF rotate कर सकता हूँ?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              हाँ, All pages mode में पूरी PDF के सभी pages rotate होंगे।
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">
-              क्या मैं सिर्फ कुछ pages rotate कर सकता हूँ?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              हाँ, Selected pages mode चुनकर 1-3, 5, 8-10 जैसा range लिखें।
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">
-              क्या file की quality change होगी?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              यह tool PDF pages की rotation property बदलता है, इसलिए normally quality loss नहीं होता।
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">
-              क्या password-protected PDF rotate होगी?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              Password-protected या damaged PDFs rotate नहीं हो सकतीं। पहले PDF unlock करनी होगी।
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">
-              क्या मेरी PDF server पर upload होती है?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              यह page browser-based PDF library का उपयोग करता है। फिर भी sensitive documents के लिए हमेशा सावधानी रखें।
-            </div>
-          </div>
-        </div>
+      <div class="faq-item">
+        <button class="faq-q" type="button">क्या मैं सिर्फ कुछ pages rotate कर सकता हूँ?<span>+</span></button>
+        <div class="faq-a">हाँ, Selected pages mode चुनकर 1-3, 5, 8-10 जैसा range लिखें।</div>
       </div>
-    </section>
-  </main>
 
-  <footer>
+      <div class="faq-item">
+        <button class="faq-q" type="button">क्या file की quality change होगी?<span>+</span></button>
+        <div class="faq-a">यह tool PDF pages की rotation property बदलता है, इसलिए normally quality loss नहीं होता।</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button">क्या password-protected PDF rotate होगी?<span>+</span></button>
+        <div class="faq-a">Password-protected या damaged PDFs rotate नहीं हो सकतीं। पहले PDF unlock करनी होगी।</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-q" type="button">क्या मेरी PDF server पर upload होती है?<span>+</span></button>
+        <div class="faq-a">यह page browser-based PDF library का उपयोग करता है। फिर भी sensitive documents के लिए हमेशा सावधानी रखें।</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  </main>  <footer>
     <div class="container">
       <div class="footer-grid">
         <div>
-          <div class="footer-brand">HindiTools.com</div>
-          <p>
-            PDF, Image और Document कामों के लिए आसान हिंदी tools।
-            Simple interface, fast workflow और mobile-friendly design।
-          </p>
-        </div>
-
-        <div>
-          <h3>PDF Tools</h3>
-          <ul>
-            <li><a href="pdf-rotate-hi.html">PDF Rotate</a></li>
-            <li><a href="merge-pdf-hi.html">PDF जोड़ें</a></li>
-            <li><a href="split-pdf-hi.html">PDF अलग करें</a></li>
-            <li><a href="compress-pdf-hi.html">PDF छोटा करें</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3>Website</h3>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="privacy.html">Privacy Policy</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="copyright">
-        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
+          <span class="footer-title">HindiTools.com 🇮🇳</span>
+          <p class="footer-text">PDF, Image और Document कामों के लिए आसान हिंदी tools। Simple interface, fast workflow और mobile-friendly design।</p>
+        </div><div>
+      <strong>PDF Tools</strong>
+      <div class="footer-links">
+        <a href="pdf-rotate-hi.html">PDF Rotate</a>
+        <a href="merge-pdf-hi.html">PDF जोड़ें</a>
+        <a href="split-pdf-hi.html">PDF अलग करें</a>
+        <a href="compress-pdf-hi.html">PDF छोटा करें</a>
       </div>
     </div>
-  </footer>
 
-  <script>
+    <div>
+      <strong>More Tools</strong>
+      <div class="footer-links">
+        <a href="image-to-pdf-hi.html">Image to PDF</a>
+        <a href="pdf-to-image-hi.html">PDF to Image</a>
+        <a href="pdf-sign-hi.html">PDF Sign</a>
+        <a href="pdf-lock-hi.html">PDF Lock</a>
+      </div>
+    </div>
+
+    <div>
+      <strong>Website</strong>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy Policy</a>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="copyright">© 2026 HindiTools.com — सभी अधिकार सुरक्षित।</div>
+</div>
+
+  </footer>  <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
@@ -1727,6 +1669,10 @@
       document.getElementById("nav").classList.toggle("open");
     });
 
+    document.querySelectorAll("#navLinks a").forEach(link => {
+      link.addEventListener("click", () => document.getElementById("nav").classList.remove("open"));
+    });
+
     document.querySelectorAll(".faq-q").forEach(btn => {
       btn.addEventListener("click", () => {
         btn.parentElement.classList.toggle("active");
@@ -1770,14 +1716,36 @@
             "@type": "Answer",
             "text": "Password-protected या damaged PDFs rotate नहीं हो सकतीं। पहले PDF unlock करनी होगी।"
           }
+        },
+        {
+          "@type": "Question",
+          "name": "क्या मेरी PDF server पर upload होती है?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "यह page browser-based PDF library का उपयोग करता है। फिर भी sensitive documents के लिए हमेशा सावधानी रखें।"
+          }
         }
       ]
     };
 
-    const schemaScript = document.createElement("script");
-    schemaScript.type = "application/ld+json";
-    schemaScript.textContent = JSON.stringify(faqSchema);
-    document.head.appendChild(schemaScript);
-  </script>
-</body>
+    const howToSchema = {
+      "@context": "https://schema.org",
+      "@type": "HowTo",
+      "name": "PDF pages rotate कैसे करें",
+      "description": "PDF pages को right, left या 180 degree rotate करने का simple तरीका।",
+      "step": [
+        { "@type": "HowToStep", "name": "PDF upload करें", "text": "PDF file select करें या dropzone में drop करें।" },
+        { "@type": "HowToStep", "name": "Rotation choose करें", "text": "Right 90°, Left 90° या 180° option select करें।" },
+        { "@type": "HowToStep", "name": "Pages choose करें", "text": "All pages या selected page range choose करें।" },
+        { "@type": "HowToStep", "name": "Rotate और download करें", "text": "PDF Rotate button दबाएं और final PDF download करें।" }
+      ]
+    };
+
+    [faqSchema, howToSchema].forEach(schema => {
+      const schemaScript = document.createElement("script");
+      schemaScript.type = "application/ld+json";
+      schemaScript.textContent = JSON.stringify(schema);
+      document.head.appendChild(schemaScript);
+    });
+  </script></body>
 </html>
