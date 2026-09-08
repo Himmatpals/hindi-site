@@ -7,14 +7,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-  <title>HindiTools | PDF Tools हिंदी में – Merge, Split, Compress & Convert</title>
-  <meta name="description" content="PDF जोड़ें, pages अलग करें, PDF size/MB कम करें, Hindi PDF को Word में बदलें और image/PDF tools इस्तेमाल करें — आसान Hindi + Hinglish interface में।" />
+  <title>Free PDF Tools हिंदी में — Split, Compress, Merge | HindiTools</title>
+  <meta name="description" content="PDF के काम आसान हिंदी में: pages अलग करें, size कम करें, PDFs जोड़ें या JPG/PNG बनाएं। अपना tool चुनें और शुरू करें।" />
   <meta name="author" content="HindiTools.com" />
   <meta name="theme-color" content="#ff9933" />
   <meta name="robots" content="index, follow" />
 
-  <meta property="og:title" content="HindiTools – PDF Tools आसान Hindi + Hinglish में" />
-  <meta property="og:description" content="PDF merge करें, pages अलग करें, size कम करें, PDF to Word और दूसरे useful document tools एक जगह।" />
+  <meta property="og:title" content="Free PDF Tools हिंदी में — Split, Compress, Merge | HindiTools" />
+  <meta property="og:description" content="PDF के काम आसान हिंदी में: pages अलग करें, size कम करें, PDFs जोड़ें या JPG/PNG बनाएं। अपना tool चुनें और शुरू करें।" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.hinditools.com/" />
 
@@ -631,9 +631,10 @@
       *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
     }
   </style>
+  <link rel="stylesheet" href="hinditools-refresh.css" />
 </head>
 
-<body>
+<body class="ht-home">
   <div class="tricolour-line" aria-hidden="true"></div>
   <a class="skip-link" href="#tools">सीधे tools पर जाएं</a>
 
@@ -667,105 +668,52 @@
   </header>
 
   <main>
-    <section class="container hero">
-      <div class="hero-shell">
-        <div class="hero-grid">
-          <div class="hero-content">
-            <div class="badge-row">
-              <span class="badge primary">🇮🇳 Hindi + Hinglish users के लिए</span>
-              <span class="badge">✂️ PDF अलग करें</span>
-              <span class="badge">📉 Size कम करें</span>
-              <span class="badge">📝 PDF to Word</span>
-            </div>
-
-            <h1>PDF के रोज़मर्रा के काम <span class="gradient-text">आसान Hindi में</span></h1>
-
-            <p class="hero-text">
-              <strong>PDF जोड़ें, PDF pages अलग करें, size या MB कम करें और PDF को Word में बदलें।</strong>
-              HindiTools common document कामों के लिए simple Hindi + Hinglish interface देता है — mobile और desktop दोनों पर।
-            </p>
-
-            <div class="hero-actions">
-              <a class="btn btn-primary" href="split-pdf-hi.html">✂️ PDF अलग करें</a>
-              <a class="btn btn-secondary" href="compress-pdf-hi.html">📉 PDF Size कम करें</a>
-              <a class="btn btn-green" href="#tools">✨ सभी tools देखें</a>
-            </div>
-
-            <div class="search-card" aria-label="Search HindiTools tools">
-              <div class="search-wrap">
-                <input id="heroSearch" class="search-input" type="search" placeholder="🔍 जैसे: pdf alag karna, size kam, pdf jodna, hindi pdf to word..." autocomplete="off" />
-                <a id="heroSearchBtn" class="btn btn-primary" href="#tools">Search</a>
-              </div>
-              <div class="suggestions" aria-label="Suggested searches">
-                <button class="chip" type="button" data-suggest="pdf alag">PDF alag karna</button>
-                <button class="chip" type="button" data-suggest="size kam">PDF size kam</button>
-                <button class="chip" type="button" data-suggest="pdf jodna">PDF jodna</button>
-                <button class="chip" type="button" data-suggest="pdf to word">PDF to Word</button>
-                <button class="chip" type="button" data-suggest="photo se pdf">Photo se PDF</button>
-              </div>
-            </div>
+    <section class="container hero" aria-labelledby="home-title">
+      <div class="hero-grid">
+        <div class="hero-content">
+          <p class="ht-kicker">PDF, Image &amp; Language Tools</p>
+          <h1 id="home-title">आपकी PDF का काम,<br><span class="gradient-text">अब आसान।</span></h1>
+          <p class="hero-text">Pages अलग करने हों, file छोटी करनी हो या PDFs जोड़नी हों — अपना tool चुनें और शुरू करें।</p>
+          <a class="ht-browse" href="#tools">सभी tools देखें <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="search-card" role="search" aria-label="Tools खोजें">
+          <label for="heroSearch" class="ht-search-label">आज आपको क्या करना है?</label>
+          <div class="search-wrap">
+            <input id="heroSearch" class="search-input" type="search" placeholder="जैसे: PDF size kam, merge, photo…" autocomplete="off" />
+            <a id="heroSearchBtn" class="btn btn-primary" href="#tools">खोजें →</a>
           </div>
-
-          <aside class="hero-panel" aria-label="Important HindiTools shortcuts">
-            <div class="panel-head">
-              <div class="panel-title">
-                <div class="panel-icon">☸</div>
-                <div>
-                  <h2>Popular PDF काम</h2>
-                  <span>सीधे सही tool खोलें</span>
-                </div>
-              </div>
-              <span class="status-pill">Hindi-first</span>
-            </div>
-
-            <div class="mini-tools">
-              <a class="mini-tool" href="split-pdf-hi.html">
-                <span class="mini-emoji">✂️</span>
-                <span><strong>PDF अलग करें / Split PDF</strong><span>एक page, selected pages या ranges निकालें</span></span>
-                <span class="mini-arrow">→</span>
-              </a>
-              <a class="mini-tool" href="compress-pdf-hi.html">
-                <span class="mini-emoji">📉</span>
-                <span><strong>PDF Size कम करें</strong><span>Upload, email और forms के लिए PDF छोटा करें</span></span>
-                <span class="mini-arrow">→</span>
-              </a>
-              <a class="mini-tool" href="merge-pdf-hi.html">
-                <span class="mini-emoji">📎</span>
-                <span><strong>PDF जोड़ें / Merge PDF</strong><span>2 या ज्यादा PDFs को एक file में जोड़ें</span></span>
-                <span class="mini-arrow">→</span>
-              </a>
-              <a class="mini-tool" href="pdf-to-word-hi.html">
-                <span class="mini-emoji">📝</span>
-                <span><strong>PDF to Word</strong><span>PDF text को editable Word document में बदलें</span></span>
-                <span class="mini-arrow">→</span>
-              </a>
-            </div>
-          </aside>
+          <div class="suggestions" aria-label="Suggested searches">
+            <button class="chip" type="button" data-suggest="pdf alag">PDF अलग करना</button>
+            <button class="chip" type="button" data-suggest="size kam">Size कम करना</button>
+            <button class="chip" type="button" data-suggest="photo se pdf">Photo से PDF</button>
+          </div>
         </div>
       </div>
     </section>
 
-    <section class="container popular-strip" id="popular">
+    <section class="container popular-strip" id="popular" aria-labelledby="quick-tools-title">
+      <h2 class="ht-quick-title" id="quick-tools-title">सीधे अपना काम शुरू करें</h2>
       <div class="popular-grid">
         <a class="popular-card" href="split-pdf-hi.html">
           <div class="emoji">✂️</div>
-          <strong>PDF alag karna</strong>
+          <strong>PDF अलग करें</strong>
           <span>PDF से एक page, selected pages या page range अलग करें।</span>
-        </a>
+        <span class="ht-card-action">Split PDF <span aria-hidden="true">↗</span></span></a>
         <a class="popular-card" href="compress-pdf-hi.html">
           <div class="emoji">📉</div>
           <strong>PDF size / MB कम करें</strong>
           <span>Forms, email और uploads के लिए PDF file छोटी करें।</span>
-        </a>
+        <span class="ht-card-action">Compress PDF <span aria-hidden="true">↗</span></span></a>
         <a class="popular-card" href="merge-pdf-hi.html">
           <div class="emoji">📎</div>
-          <strong>PDF जोड़ कर एक बनाएं</strong>
+          <strong>PDF जोड़ें</strong>
           <span>Multiple PDF files का order चुनकर एक combined PDF बनाएं।</span>
-        </a>
-        <a class="popular-card" href="pdf-to-word-hi.html">
-          <div class="emoji">📝</div>
-          <strong>Hindi PDF to Word</strong>
-          <span>PDF को editable Word file में convert करें; scanned files के लिए OCR options देखें।</span>
+        <span class="ht-card-action">Merge PDF <span aria-hidden="true">↗</span></span></a>
+        <a class="popular-card" href="pdf-to-image-hi.html">
+          <div class="emoji" aria-hidden="true">▧</div>
+          <strong>PDF से Image बनाएं</strong>
+          <span>Pages को JPG या PNG में बदलें।</span>
+          <span class="ht-card-action">PDF to Image <span aria-hidden="true">↗</span></span>
         </a>
       </div>
     </section>
@@ -790,16 +738,16 @@
             <button class="tab" type="button" data-filter="language">Language</button>
             <button class="tab" type="button" data-filter="security">Security / Official</button>
           </div>
-          <input id="searchTools" class="search-input" type="search" placeholder="🔍 merge, alag, size kam, word, photo, voice..." autocomplete="off" />
+          <input aria-label="सभी tools में खोजें" id="searchTools" class="search-input" type="search" placeholder="🔍 merge, alag, size kam, word, photo, voice..." autocomplete="off" />
         </div>
       </div>
 
+      <p id="toolResultsStatus" class="ht-results-status" role="status" aria-live="polite"></p>
       <div id="toolsContainer" class="tools-grid">
         <a class="tool-card" href="split-pdf-hi.html" data-category="pdf" data-search="split pdf alag अलग pages nikalna निकालना page range todna separate pdf alag karna pdf page alag karna">
           <div class="tool-top"><div class="tool-icon">✂️</div><span class="tool-tag">Priority</span></div>
           <h3>Split PDF / PDF अलग करें</h3>
           <p>PDF से एक page, selected pages या page ranges अलग करें। जरूरत हो तो हर page की अलग PDF बनाएं।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> Multi-page PDF</div><div class="meta-line"><strong>Result:</strong> अलग PDF pages / files</div></div>
           <div class="use-link">PDF अलग करें →</div>
         </a>
 
@@ -807,7 +755,6 @@
           <div class="tool-top"><div class="tool-icon">📉</div><span class="tool-tag">Popular</span></div>
           <h3>Compress PDF / Size कम करें</h3>
           <p>PDF file का size या MB कम करें ताकि form upload, email और sharing आसान हो।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> Large PDF</div><div class="meta-line"><strong>Result:</strong> Smaller PDF</div></div>
           <div class="use-link">PDF छोटा करें →</div>
         </a>
 
@@ -815,7 +762,6 @@
           <div class="tool-top"><div class="tool-icon">📎</div><span class="tool-tag">Popular</span></div>
           <h3>Merge PDF / PDF जोड़ें</h3>
           <p>2 या ज्यादा PDF files को सही order में लगाकर एक combined PDF बनाएं।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> 2+ PDF files</div><div class="meta-line"><strong>Result:</strong> One combined PDF</div></div>
           <div class="use-link">PDF जोड़ें →</div>
         </a>
 
@@ -823,7 +769,6 @@
           <div class="tool-top"><div class="tool-icon">📝</div><span class="tool-tag">Hindi</span></div>
           <h3>PDF to Word</h3>
           <p>PDF को editable Word document में बदलें। Hindi text और scanned PDF के लिए available conversion options देखें।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> PDF file</div><div class="meta-line"><strong>Result:</strong> Editable Word / DOCX</div></div>
           <div class="use-link">PDF to Word →</div>
         </a>
 
@@ -831,7 +776,6 @@
           <div class="tool-top"><div class="tool-icon">🖼️</div><span class="tool-tag">Popular</span></div>
           <h3>Image to PDF</h3>
           <p>JPG, PNG, WebP और photos को एक clean PDF document में convert करें।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> Photos / images</div><div class="meta-line"><strong>Result:</strong> PDF document</div></div>
           <div class="use-link">Photo से PDF →</div>
         </a>
 
@@ -839,7 +783,6 @@
           <div class="tool-top"><div class="tool-icon">📷</div><span class="tool-tag">Convert</span></div>
           <h3>PDF to Image</h3>
           <p>PDF pages को JPG या PNG images में बदलें ताकि preview और sharing आसान हो।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> PDF file</div><div class="meta-line"><strong>Result:</strong> JPG / PNG images</div></div>
           <div class="use-link">PDF to Image →</div>
         </a>
 
@@ -847,7 +790,6 @@
           <div class="tool-top"><div class="tool-icon">🔄</div><span class="tool-tag">Useful</span></div>
           <h3>Rotate PDF</h3>
           <p>उल्टे या sideways PDF pages को 90° या 180° rotate करके सही direction में करें।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> PDF</div><div class="meta-line"><strong>Result:</strong> Rotated PDF</div></div>
           <div class="use-link">Rotate PDF →</div>
         </a>
 
@@ -855,7 +797,6 @@
           <div class="tool-top"><div class="tool-icon">💧</div><span class="tool-tag">PDF</span></div>
           <h3>PDF Watermark</h3>
           <p>PDF पर text watermark लगाएं और position, opacity तथा style चुनें।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> PDF + text</div><div class="meta-line"><strong>Result:</strong> Watermarked PDF</div></div>
           <div class="use-link">Watermark लगाएं →</div>
         </a>
 
@@ -863,7 +804,6 @@
           <div class="tool-top"><div class="tool-icon">✒️</div><span class="tool-tag">Interactive</span></div>
           <h3>Sign PDF</h3>
           <p>PDF पर signature जोड़ें — draw, type या signature image option के साथ।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> PDF + signature</div><div class="meta-line"><strong>Result:</strong> Signed PDF</div></div>
           <div class="use-link">PDF Sign करें →</div>
         </a>
 
@@ -871,7 +811,6 @@
           <div class="tool-top"><div class="tool-icon">🔒</div><span class="tool-tag">Security</span></div>
           <h3>PDF Lock</h3>
           <p>PDF पर password protection लगाकर document को secure करें।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> PDF + password</div><div class="meta-line"><strong>Result:</strong> Protected PDF</div></div>
           <div class="use-link">PDF Lock करें →</div>
         </a>
 
@@ -879,7 +818,6 @@
           <div class="tool-top"><div class="tool-icon">🔓</div><span class="tool-tag">Security</span></div>
           <h3>PDF Unlock</h3>
           <p>यदि सही password पता है, protected PDF को unlock करके usable file बनाएं।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> Locked PDF + password</div><div class="meta-line"><strong>Result:</strong> Unlocked PDF</div></div>
           <div class="use-link">PDF Unlock करें →</div>
         </a>
 
@@ -887,7 +825,6 @@
           <div class="tool-top"><div class="tool-icon">📄</div><span class="tool-tag">Office</span></div>
           <h3>Word to PDF</h3>
           <p>DOC या DOCX Word document को PDF format में बदलें।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> Word file</div><div class="meta-line"><strong>Result:</strong> PDF file</div></div>
           <div class="use-link">Word to PDF →</div>
         </a>
 
@@ -895,7 +832,6 @@
           <div class="tool-top"><div class="tool-icon">🔍</div><span class="tool-tag">OCR</span></div>
           <h3>Hindi PDF OCR</h3>
           <p>Scanned PDF या image-based PDF से Hindi/English text निकालने के लिए OCR tool इस्तेमाल करें।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> Scanned PDF</div><div class="meta-line"><strong>Result:</strong> Extracted text</div></div>
           <div class="use-link">PDF OCR →</div>
         </a>
 
@@ -903,7 +839,6 @@
           <div class="tool-top"><div class="tool-icon">🎙️</div><span class="tool-tag">Voice</span></div>
           <h3>Voice Tools</h3>
           <p>Speech to Text से बोलकर लिखें या Text to Speech से text को आवाज़ में सुनें।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> Voice या text</div><div class="meta-line"><strong>Result:</strong> Text या audio</div></div>
           <div class="use-link">Voice Tools →</div>
         </a>
 
@@ -911,7 +846,6 @@
           <div class="tool-top"><div class="tool-icon">✍️</div><span class="tool-tag">Language</span></div>
           <h3>Punjabi Writer</h3>
           <p>Roman Punjabi / Hinglish में लिखें और Gurmukhi editable text पाएं।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> Roman Punjabi</div><div class="meta-line"><strong>Result:</strong> Gurmukhi text</div></div>
           <div class="use-link">Punjabi Writer →</div>
         </a>
 
@@ -919,7 +853,6 @@
           <div class="tool-top"><div class="tool-icon">🆔</div><span class="tool-tag">Official Links</span></div>
           <h3>Aadhaar Official Links</h3>
           <p>Download, PVC card, status, update और दूसरी Aadhaar services के लिए official UIDAI links खोजें।</p>
-          <div class="tool-meta"><div class="meta-line"><strong>आप देंगे:</strong> HindiTools पर personal details नहीं</div><div class="meta-line"><strong>Result:</strong> UIDAI official page</div></div>
           <div class="use-link">Official links देखें →</div>
         </a>
       </div>
@@ -1098,14 +1031,21 @@
         });
 
         noResultsDiv.style.display = visibleCount ? "none" : "block";
+        document.getElementById("toolResultsStatus").textContent = visibleCount + " tools उपलब्ध";
       }
 
       function updateActiveTab() {
-        tabs.forEach(tab => tab.classList.toggle("active", tab.dataset.filter === activeFilter));
+        tabs.forEach(tab => {
+          const active = tab.dataset.filter === activeFilter;
+          tab.classList.toggle("active", active);
+          tab.setAttribute("aria-pressed", String(active));
+        });
       }
 
       function syncSearch(value) {
         searchQuery = value || "";
+        activeFilter = "all";
+        updateActiveTab();
         if (searchInput) searchInput.value = searchQuery;
         if (heroSearch) heroSearch.value = searchQuery;
         filterTools();
@@ -1156,7 +1096,9 @@
 
       function updateDarkButton() {
         if (!darkToggle) return;
-        darkToggle.textContent = document.body.classList.contains("dark") ? "☀️" : "🌙";
+        const dark = document.body.classList.contains("dark");
+        darkToggle.textContent = dark ? "☀️" : "🌙";
+        darkToggle.setAttribute("aria-pressed", String(dark));
       }
 
       if (darkToggle) {
@@ -1184,6 +1126,7 @@
       }
 
       updateDarkButton();
+      updateActiveTab();
       filterTools();
     })();
   </script>
