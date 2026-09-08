@@ -6,16 +6,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-  <title>PDF to Image Online | PDF को JPG PNG बनाएं हिंदी में - HindiTools</title>
+  <title>PDF to JPG / PNG — PDF से Photo बनाएं | HindiTools</title>
 
-  <meta name="description" content="PDF pages को JPG या PNG images में बदलें। All pages या selected page range convert करें। Easy Hindi + Hinglish interface, preview, quality control और ZIP download." />
+  <meta name="description" content="PDF pages को JPG या PNG images में बदलें। Pages और quality चुनें, फिर एक image या सभी images की ZIP download करें।" />
   <meta name="keywords" content="PDF to image Hindi, PDF to JPG Hindi, PDF to PNG, PDF pages image banaye, PDF se photo, PDF ko JPG banaye, PDF image converter HindiTools" />
   <meta name="author" content="HindiTools.com" />
   <meta name="theme-color" content="#ff9933" />
   <meta name="robots" content="index, follow" />
 
-  <meta property="og:title" content="PDF to Image Online - PDF को JPG PNG बनाएं" />
-  <meta property="og:description" content="PDF pages को images में convert करें। JPG/PNG, page range, preview, quality और ZIP download के साथ।" />
+  <meta property="og:title" content="PDF to JPG / PNG — PDF से Photo बनाएं | HindiTools" />
+  <meta property="og:description" content="PDF pages को JPG या PNG images में बदलें। Pages और quality चुनें, फिर एक image या सभी images की ZIP download करें।" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.hinditools.com/pdf-to-image-hi.html" />
 
@@ -1186,9 +1186,10 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="hinditools-refresh.css" />
 </head>
 
-<body>
+<body class="ht-tool">
   <div class="tricolour-line" aria-hidden="true"></div>
   <a class="skip-link" href="#pdf-image-tool">सीधे PDF to Image tool पर जाएं</a>
 
@@ -1230,44 +1231,21 @@
     <section class="hero">
       <div class="container hero-grid">
         <div>
-          <div class="badge-row">
-            <span class="badge india-badge">🇮🇳 Hindi + Hinglish Interface</span>
-            <span class="badge">📷 PDF to JPG</span>
-            <span class="badge">🖼️ PDF to PNG</span>
-            <span class="badge">📦 ZIP Download</span>
-          </div>
+          <p class="ht-kicker">PDF to JPG / PNG · हिंदी में</p>
 
-          <h1>PDF को <span>Image बनाएं</span></h1>
-
-          <p>
-            PDF pages को high-quality JPG या PNG images में convert करें।
-            Users के लिए: <strong>PDF se photo, PDF ko JPG, PDF to PNG</strong> — सब इसी tool से होगा।
-          </p>
+          <h1>PDF से Image बनाएं</h1>
+          <p>PDF के pages को JPG या PNG में बदलें। एक page की image लें या कई images एक ZIP में download करें।</p>
 
           <div class="hero-actions">
             <a class="primary-btn" href="#pdf-image-tool">📷 अभी Convert करें</a>
             <a class="ghost-btn" href="image-to-pdf-hi.html">🖼️ Image to PDF करें</a>
           </div>
 
-          <div class="hero-hints">
-            <span class="hint">✅ All pages या range</span>
-            <span class="hint">🎚️ Scale + quality control</span>
-            <span class="hint">📦 Single image या ZIP</span>
-          </div>
+          
         </div>
 
         <div class="tool-shell" id="pdf-image-tool">
-          <div class="tool-intro">
-            <div class="intro-box">
-              <strong>आप देंगे</strong>
-              <span>एक PDF file — जैसे form, notes, presentation, scanned document.</span>
-            </div>
-            <div class="arrow-box">→</div>
-            <div class="intro-box">
-              <strong>Result मिलेगा</strong>
-              <span>JPG/PNG images — single page image या multiple pages की ZIP file.</span>
-            </div>
-          </div>
+          <ol class="ht-steps" aria-label="तीन आसान steps"><li><span>1</span> PDF चुनें</li><li><span>2</span> Format चुनें</li><li><span>3</span> Images पाएं</li></ol>
 
           <div class="dropzone" id="dropzone">
             <input type="file" id="fileInput" accept="application/pdf,.pdf" />
@@ -1276,7 +1254,7 @@
               <h2>PDF file यहाँ drop करें</h2>
               <p>PDF upload करें और JPG/PNG images download करें।</p>
               <button class="upload-btn" type="button" id="selectFileBtn">PDF File चुनें</button>
-              <div class="privacy-note">🔐 PDF आपके browser में render करने की कोशिश की जाती है।</div>
+              <div class="privacy-note">PDF की processing आपके browser में होती है।</div>
             </div>
           </div>
 
