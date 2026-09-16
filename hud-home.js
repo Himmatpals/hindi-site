@@ -33,7 +33,7 @@
     const light = document.documentElement.dataset.theme === 'light';
     theme.setAttribute('aria-pressed', String(light));
     theme.setAttribute('aria-label', light ? 'Dark theme चालू करें' : 'Light theme चालू करें');
-    document.querySelector('meta[name="theme-color"]').content = light ? '#f4f7fb' : '#050a12';
+    document.querySelector('meta[name="theme-color"]').content = light ? '#fffdf9' : '#09111d';
   }
   theme.addEventListener('click', () => {
     const next = document.documentElement.dataset.theme === 'light' ? 'dark' : 'light';
