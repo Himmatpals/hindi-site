@@ -1,1716 +1,792 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" data-theme="dark">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4192195409142944"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4192195409142944" crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-
-  <title>PDF जोड़ें Free — Merge PDF Online | HindiTools</title>
-
-  <meta name="description" content="दो या ज्यादा PDFs को एक file में जोड़ें। Files का order बदलें और merged PDF download करें। आसान हिंदी में, आपके browser में processing।" />
-  <meta name="keywords" content="PDF merge Hindi, PDF जोड़ें, merge PDF online, combine PDF Hindi, PDF files जोड़ें, pdf jodna, pdf combine, pdf ek banana" />
+  <title>Merge PDF — Pages देखकर जोड़ें | HindiTools</title>
+  <meta name="description" content="Multiple PDFs upload करें, हर page का thumbnail देखें, जरूरी pages चुनें, rotate या reorder करें और एक final PDF बनाएं। Visual Hindi + Hinglish Merge PDF tool." />
   <meta name="author" content="HindiTools.com" />
-  <meta name="theme-color" content="#ff9933" />
+  <meta name="theme-color" content="#061018" />
   <meta name="robots" content="index, follow" />
-
-  <meta property="og:title" content="PDF जोड़ें Free — Merge PDF Online | HindiTools" />
-  <meta property="og:description" content="दो या ज्यादा PDFs को एक file में जोड़ें। Files का order बदलें और merged PDF download करें। आसान हिंदी में, आपके browser में processing।" />
+  <meta property="og:title" content="Merge PDF — Pages देखकर जोड़ें | HindiTools" />
+  <meta property="og:description" content="PDF files ही नहीं, individual pages भी देखकर choose, rotate और reorder करें। फिर एक final PDF download करें." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.hinditools.com/merge-pdf-hi.html" />
-
   <link rel="canonical" href="https://www.hinditools.com/merge-pdf-hi.html" />
-  <link rel="alternate" hreflang="hi-IN" href="https://www.hinditools.com/merge-pdf-hi.html" />
-  <link rel="alternate" hreflang="en-IN" href="https://www.hinditools.com/merge-pdf-hi.html" />
-  <link rel="alternate" hreflang="x-default" href="https://www.hinditools.com/merge-pdf-hi.html" />
-
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
-    rel="stylesheet"
-  />
-
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
-
-  <style>
-    :root {
-      --bg: #fffaf2;
-      --surface: #ffffff;
-      --surface-2: #fff7ed;
-      --text: #1e2a3e;
-      --muted: #64748b;
-      --muted-2: #475569;
-
-      --saffron: #ff9933;
-      --primary: #ff7a1a;
-      --primary-dark: #c2410c;
-      --primary-soft: #fff0df;
-
-      --chakra: #000080;
-      --secondary: #0b3d91;
-      --secondary-soft: #dbeafe;
-
-      --green: #138808;
-      --green-soft: #e7f8e4;
-
-      --red: #dc2626;
-      --red-soft: #fff1f2;
-
-      --border: #f1dec8;
-      --shadow-sm: 0 12px 30px rgba(120, 72, 20, 0.07);
-      --shadow-md: 0 20px 45px rgba(120, 72, 20, 0.13);
-      --shadow-lg: 0 28px 70px rgba(15, 23, 42, 0.15);
-      --radius: 26px;
-      --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(255, 153, 51, 0.16), transparent 30%),
-        radial-gradient(circle at top right, rgba(19, 136, 8, 0.10), transparent 28%),
-        radial-gradient(circle at center top, rgba(11, 61, 145, 0.08), transparent 36%),
-        linear-gradient(180deg, rgba(255,255,255,0.34), transparent 360px),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    button,
-    input {
-      font-family: inherit;
-    }
-
-    .skip-link {
-      position: absolute;
-      left: -999px;
-      top: 10px;
-      background: var(--primary);
-      color: white;
-      padding: 10px 14px;
-      border-radius: 14px;
-      z-index: 999;
-      font-weight: 800;
-    }
-
-    .skip-link:focus {
-      left: 12px;
-    }
-
-    .tricolour-line {
-      height: 5px;
-      background: linear-gradient(90deg, var(--saffron) 0 33.33%, #ffffff 33.33% 66.66%, var(--green) 66.66% 100%);
-      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-    }
-
-    .container {
-      width: min(1180px, calc(100% - 32px));
-      margin: auto;
-    }
-
-    .top-strip {
-      background: linear-gradient(90deg, var(--secondary), #1e40af);
-      color: white;
-      padding: 9px 0;
-      font-size: 14px;
-      text-align: center;
-    }
-
-    .top-strip strong {
-      color: #ffe7c2;
-    }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(255, 250, 242, 0.90);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(241, 222, 200, 0.95);
-    }
-
-    .nav {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      position: relative;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      color: var(--secondary);
-      font-size: 23px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, var(--saffron) 0 34%, #ffffff 34% 66%, var(--green) 66% 100%);
-      color: var(--chakra);
-      display: grid;
-      place-items: center;
-      box-shadow: 0 10px 24px rgba(255, 153, 51, 0.26);
-      font-weight: 900;
-      border: 1px solid rgba(15, 23, 42, 0.10);
-    }
-
-    .flag-pill {
-      display: inline-grid;
-      place-items: center;
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, var(--saffron) 0 33.33%, #ffffff 33.33% 66.66%, var(--green) 66.66% 100%);
-      border: 1px solid rgba(15, 23, 42, 0.12);
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.10);
-      font-size: 0;
-      position: relative;
-    }
-
-    .flag-pill::after {
-      content: "☸";
-      color: var(--chakra);
-      font-size: 13px;
-      line-height: 1;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      list-style: none;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      padding: 9px 13px;
-      border-radius: 999px;
-      color: #3f4655;
-      font-size: 15px;
-      font-weight: 800;
-      transition: var(--transition);
-    }
-
-    .nav-links a:hover {
-      background: white;
-      color: var(--primary);
-      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.08);
-    }
-
-    .nav-cta {
-      background: var(--primary);
-      color: white;
-      padding: 11px 16px;
-      border-radius: 999px;
-      font-weight: 900;
-      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.25);
-      transition: var(--transition);
-    }
-
-    .nav-cta:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    .menu-btn {
-      display: none;
-      border: 0;
-      background: white;
-      border-radius: 12px;
-      padding: 9px 12px;
-      font-size: 21px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-      cursor: pointer;
-    }
-
-    .breadcrumb {
-      margin: 24px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .breadcrumb a {
-      color: var(--primary);
-    }
-
-    .hero {
-      padding: 38px 0 30px;
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 0.92fr 1.08fr;
-      gap: 32px;
-      align-items: center;
-    }
-
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .badge {
-      background: rgba(255,255,255,0.90);
-      border: 1px solid rgba(241, 222, 200, 0.95);
-      color: #71401c;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 900;
-      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.06);
-    }
-
-    .india-badge {
-      background: linear-gradient(90deg, rgba(255,153,51,0.22), rgba(255,255,255,0.94), rgba(19,136,8,0.16));
-      border: 1px solid rgba(11,61,145,0.12);
-      color: var(--secondary);
-    }
-
-    .hero h1 {
-      font-size: clamp(35px, 4.7vw, 58px);
-      line-height: 1.08;
-      letter-spacing: -1.7px;
-      color: var(--secondary);
-      margin-bottom: 16px;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(90deg, var(--saffron), var(--secondary), var(--green));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero p {
-      color: var(--muted-2);
-      font-size: 18px;
-      max-width: 650px;
-      margin-bottom: 20px;
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      margin-top: 22px;
-    }
-
-    .primary-btn,
-    .secondary-btn,
-    .danger-btn,
-    .ghost-btn,
-    .green-btn {
-      border: 0;
-      border-radius: 16px;
-      padding: 13px 18px;
-      font-size: 15px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .primary-btn {
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.23);
-    }
-
-    .primary-btn:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    .primary-btn:disabled {
-      background: #c7c7c7;
-      cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
-    }
-
-    .secondary-btn {
-      background: var(--secondary);
-      color: white;
-    }
-
-    .secondary-btn:hover {
-      background: #072f72;
-      transform: translateY(-1px);
-    }
-
-    .green-btn {
-      background: var(--green);
-      color: white;
-    }
-
-    .danger-btn {
-      background: var(--red-soft);
-      color: var(--red);
-      border: 1px solid #fecdd3;
-    }
-
-    .ghost-btn {
-      background: white;
-      color: #4b5563;
-      border: 1px solid var(--border);
-    }
-
-    .ghost-btn:hover {
-      color: var(--primary);
-      border-color: var(--primary);
-      transform: translateY(-1px);
-    }
-
-    .hero-hints {
-      margin-top: 22px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid var(--border);
-      padding: 8px 12px;
-      border-radius: 999px;
-      color: var(--muted-2);
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .tool-shell {
-      background: rgba(255,255,255,0.94);
-      border: 1px solid rgba(241, 222, 200, 0.95);
-      border-radius: 34px;
-      padding: 24px;
-      box-shadow: var(--shadow-lg);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tool-shell::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 5px;
-      background: linear-gradient(90deg, var(--saffron), #ffffff, var(--green));
-    }
-
-    .tool-intro {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 12px;
-      align-items: stretch;
-      margin-bottom: 18px;
-    }
-
-    .intro-box {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 14px;
-      min-height: 105px;
-    }
-
-    .intro-box strong {
-      display: block;
-      color: var(--secondary);
-      margin-bottom: 8px;
-      font-size: 15px;
-    }
-
-    .intro-box span {
-      color: var(--muted-2);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .arrow-box {
-      width: 40px;
-      display: grid;
-      place-items: center;
-      color: var(--primary);
-      font-weight: 900;
-      font-size: 24px;
-    }
-
-    .dropzone {
-      border: 2px dashed #efb276;
-      border-radius: 26px;
-      background:
-        radial-gradient(circle at top right, rgba(255,153,51,0.12), transparent 34%),
-        linear-gradient(180deg, rgba(255,248,240,0.95), rgba(255,255,255,0.95));
-      min-height: 275px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 28px;
-      transition: var(--transition);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .dropzone.dragover {
-      border-color: var(--green);
-      background: #f0fdf4;
-      transform: scale(1.01);
-    }
-
-    .dropzone input {
-      display: none;
-    }
-
-    .drop-icon {
-      font-size: 58px;
-      margin-bottom: 12px;
-    }
-
-    .dropzone h2 {
-      color: var(--secondary);
-      font-size: 27px;
-      margin-bottom: 8px;
-    }
-
-    .dropzone p {
-      color: var(--muted);
-      font-size: 16px;
-      margin-bottom: 18px;
-    }
-
-    .upload-btn {
-      background: var(--primary);
-      color: white;
-      border: 0;
-      padding: 14px 20px;
-      border-radius: 16px;
-      font-size: 16px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.22);
-    }
-
-    .privacy-note {
-      margin-top: 12px;
-      color: var(--green);
-      font-size: 14px;
-      font-weight: 900;
-    }
-
-    .panel {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 20px;
-      box-shadow: var(--shadow-sm);
-      margin-top: 18px;
-    }
-
-    .panel-head {
-      display: flex;
-      align-items: start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 14px;
-    }
-
-    .panel-head h2 {
-      color: var(--secondary);
-      font-size: 24px;
-      line-height: 1.25;
-    }
-
-    .panel-head p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 4px;
-      font-weight: 700;
-    }
-
-    .file-list {
-      display: grid;
-      gap: 12px;
-      margin-top: 12px;
-    }
-
-    .file-card {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 14px;
-      align-items: center;
-      background: #fffaf5;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 13px;
-      transition: var(--transition);
-    }
-
-    .file-card:hover {
-      border-color: rgba(255, 122, 26, 0.55);
-      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.08);
-    }
-
-    .file-order {
-      width: 42px;
-      height: 42px;
-      border-radius: 14px;
-      background: var(--secondary);
-      color: white;
-      display: grid;
-      place-items: center;
-      font-weight: 900;
-    }
-
-    .file-info {
-      min-width: 0;
-    }
-
-    .file-name {
-      font-weight: 900;
-      color: var(--secondary);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      margin-bottom: 3px;
-    }
-
-    .file-meta {
-      color: var(--muted);
-      font-size: 13px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      font-weight: 800;
-    }
-
-    .file-actions {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: end;
-      gap: 7px;
-    }
-
-    .icon-btn {
-      border: 1px solid #ecd6c2;
-      background: white;
-      color: #4b5563;
-      border-radius: 12px;
-      width: 38px;
-      height: 38px;
-      display: grid;
-      place-items: center;
-      font-size: 16px;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .icon-btn:disabled {
-      opacity: 0.35;
-      cursor: not-allowed;
-    }
-
-    .icon-btn:hover:not(:disabled) {
-      border-color: var(--primary);
-      color: var(--primary);
-    }
-
-    .icon-btn.remove:hover {
-      border-color: var(--red);
-      color: var(--red);
-      background: var(--red-soft);
-    }
-
-    .controls-grid {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 14px;
-      align-items: end;
-      margin-top: 18px;
-    }
-
-    .input-group label {
-      display: block;
-      color: var(--secondary);
-      font-weight: 900;
-      margin-bottom: 7px;
-    }
-
-    .input-group input {
-      width: 100%;
-      border: 1px solid #ead6c2;
-      border-radius: 16px;
-      padding: 13px 14px;
-      font-size: 15px;
-      outline: 0;
-      background: #fffaf5;
-    }
-
-    .input-group input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(255, 153, 51, 0.14);
-    }
-
-    .status-box {
-      display: none;
-      margin-top: 18px;
-      border-radius: 18px;
-      padding: 14px 16px;
-      font-weight: 900;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-      color: #4b5563;
-    }
-
-    .status-box.show {
-      display: block;
-    }
-
-    .status-box.success {
-      background: #ecfdf5;
-      color: var(--green);
-      border-color: #bbf7d0;
-    }
-
-    .status-box.error {
-      background: var(--red-soft);
-      color: var(--red);
-      border-color: #fecdd3;
-    }
-
-    .progress-wrap {
-      display: none;
-      margin-top: 16px;
-      background: #f3f4f6;
-      border-radius: 999px;
-      overflow: hidden;
-      height: 12px;
-    }
-
-    .progress-wrap.show {
-      display: block;
-    }
-
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--saffron), var(--primary), var(--green));
-      transition: width 0.25s ease;
-    }
-
-    .download-card {
-      display: none;
-      margin-top: 18px;
-      background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
-      border: 1px solid #bbf7d0;
-      border-radius: 24px;
-      padding: 20px;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    .download-card.show {
-      display: flex;
-    }
-
-    .download-card h3 {
-      color: var(--green);
-      font-size: 22px;
-      margin-bottom: 4px;
-    }
-
-    .download-card p {
-      color: #166534;
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .info-sections {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 36px;
-    }
-
-    .info-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 22px;
-      box-shadow: var(--shadow-sm);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .info-card::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--saffron), #ffffff, var(--green));
-    }
-
-    .info-card h2 {
-      color: var(--secondary);
-      font-size: 25px;
-      margin-bottom: 12px;
-    }
-
-    .info-card p,
-    .info-card li {
-      color: #5b6472;
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .info-card ul,
-    .info-card ol {
-      padding-left: 22px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .related {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-
-    .related a {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 16px;
-      font-weight: 900;
-      color: var(--secondary);
-      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
-      transition: var(--transition);
-    }
-
-    .related a:hover {
-      transform: translateY(-3px);
-      color: var(--primary);
-      border-color: rgba(255, 122, 26, 0.45);
-    }
-
-    .faq-list {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .faq-item {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
-    }
-
-    .faq-q {
-      width: 100%;
-      border: 0;
-      background: white;
-      padding: 17px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      text-align: left;
-      color: var(--secondary);
-      font-weight: 900;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .faq-a {
-      display: none;
-      padding: 0 17px 17px;
-      color: #5b6472;
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .faq-item.active .faq-a {
-      display: block;
-    }
-
-    footer {
-      margin-top: 46px;
-      background: #151f3e;
-      color: white;
-      padding: 38px 0 20px;
-      position: relative;
-    }
-
-    footer::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 5px;
-      background: linear-gradient(90deg, var(--saffron), #ffffff, var(--green));
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.2fr 0.8fr 0.8fr;
-      gap: 26px;
-      margin-bottom: 26px;
-    }
-
-    .footer-brand {
-      font-size: 25px;
-      font-weight: 900;
-      margin-bottom: 10px;
-    }
-
-    footer p,
-    footer a {
-      color: rgba(255,255,255,0.78);
-      font-size: 15px;
-    }
-
-    footer h3 {
-      color: white;
-      margin-bottom: 12px;
-      font-size: 17px;
-    }
-
-    footer ul {
-      list-style: none;
-      display: grid;
-      gap: 8px;
-    }
-
-    footer a:hover {
-      color: #ffd7a8;
-    }
-
-    .copyright {
-      border-top: 1px solid rgba(255,255,255,0.12);
-      padding-top: 18px;
-      color: rgba(255,255,255,0.62);
-      text-align: center;
-      font-size: 14px;
-    }
-
-    :focus-visible {
-      outline: 4px solid rgba(255, 153, 51, 0.28);
-      outline-offset: 3px;
-      border-radius: 12px;
-    }
-
-    @media (max-width: 980px) {
-      .hero-grid,
-      .info-sections {
-        grid-template-columns: 1fr;
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"HindiTools Visual Merge PDF",
+    "alternateName":"PDF जोड़ें",
+    "url":"https://www.hinditools.com/merge-pdf-hi.html",
+    "applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any",
+    "inLanguage":["hi-IN","en-IN"],
+    "description":"Multiple PDFs के pages को thumbnails में देखकर choose, rotate, remove, drag-reorder और एक PDF में merge करने वाला Hindi + Hinglish browser tool.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},
+    "featureList":[
+      "Multiple PDF upload",
+      "Visual page thumbnails",
+      "Choose pages from each PDF",
+      "Drag and drop page reordering",
+      "Rotate pages",
+      "Duplicate pages",
+      "Add blank page",
+      "Interleave two PDFs",
+      "Final sequence preview",
+      "Browser-side PDF processing"
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {
+        "@type":"Question",
+        "name":"PDF files को एक PDF में कैसे जोड़ें?",
+        "acceptedAnswer":{"@type":"Answer","text":"दो या ज्यादा PDF upload करें. HindiTools हर page का thumbnail दिखाएगा. Pages का order बदलें, जरूरत न होने वाले pages untick करें और Merge PDF दबाएं."}
+      },
+      {
+        "@type":"Question",
+        "name":"क्या अलग PDFs के individual pages को mix कर सकते हैं?",
+        "acceptedAnswer":{"@type":"Answer","text":"हाँ. Page cards को drag करके एक PDF के pages को दूसरी PDF के pages के बीच रख सकते हैं. केवल tick किए हुए pages final PDF में जाएंगे."}
+      },
+      {
+        "@type":"Question",
+        "name":"क्या pages rotate या remove कर सकते हैं?",
+        "acceptedAnswer":{"@type":"Answer","text":"हाँ. Selected pages को left या right rotate कर सकते हैं. किसी page को untick करके output से exclude कर सकते हैं या workspace से remove कर सकते हैं."}
+      },
+      {
+        "@type":"Question",
+        "name":"Mix two scans क्या करता है?",
+        "acceptedAnswer":{"@type":"Answer","text":"पहली दो PDFs के pages को alternate order में arrange करता है. Reverse second PDF option double-sided scans के लिए useful हो सकता है."}
+      },
+      {
+        "@type":"Question",
+        "name":"क्या PDF files server पर upload होती हैं?",
+        "acceptedAnswer":{"@type":"Answer","text":"इस tool में PDF file content browser-side JavaScript libraries से आपके device पर process होता है और HindiTools PDF processing server पर upload नहीं किया जाता."}
       }
-
-      .related {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .nav-links,
-      .nav-cta {
-        display: none;
-      }
-
-      .menu-btn {
-        display: inline-flex;
-      }
-
-      .nav.open .nav-links {
-        display: flex;
-        position: absolute;
-        top: 76px;
-        left: 0;
-        right: 0;
-        background: white;
-        flex-direction: column;
-        align-items: stretch;
-        border-radius: 20px;
-        padding: 14px;
-        box-shadow: var(--shadow-md);
-        border: 1px solid var(--border);
-      }
-
-      .nav.open .nav-links a {
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .top-strip {
-        font-size: 12px;
-      }
-
-      .hero {
-        padding-top: 28px;
-      }
-
-      .tool-shell {
-        padding: 16px;
-        border-radius: 24px;
-      }
-
-      .tool-intro {
-        grid-template-columns: 1fr;
-      }
-
-      .arrow-box {
-        width: 100%;
-        transform: rotate(90deg);
-      }
-
-      .dropzone {
-        min-height: 240px;
-        padding: 22px 16px;
-      }
-
-      .dropzone h2 {
-        font-size: 23px;
-      }
-
-      .file-card {
-        grid-template-columns: auto 1fr;
-      }
-
-      .file-actions {
-        grid-column: 1 / -1;
-        justify-content: start;
-      }
-
-      .controls-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .download-card {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      .related,
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .primary-btn,
-      .secondary-btn,
-      .danger-btn,
-      .ghost-btn,
-      .green-btn {
-        width: 100%;
-      }
-
-      .hero-actions {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      .brand {
-        font-size: 20px;
-      }
-
-      .flag-pill {
-        width: 28px;
-        height: 28px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        transition: none !important;
-      }
-    }
-  </style>
-  <link rel="stylesheet" href="hinditools-refresh.css" />
-</head>
-
-<body class="ht-tool">
-  <div class="tricolour-line" aria-hidden="true"></div>
-  <a class="skip-link" href="#merge-tool">सीधे PDF merge tool पर जाएं</a>
-
-  <div class="top-strip">
-    <div class="container">
-      <strong>Browser-based PDF merge</strong> — जहाँ possible हो, आपकी files आपके device/browser में ही process होती हैं।
-    </div>
-  </div>
-
-  <header>
-    <div class="container nav" id="nav">
-      <a class="brand" href="index.html" aria-label="HindiTools Home">
-        <span class="brand-mark">हि</span>
-        <span>HindiTools</span>
-        <span class="flag-pill" aria-label="Indian tricolour inspired design"></span>
-      </a>
-
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="compress-pdf-hi.html">Compress PDF</a></li>
-        <li><a href="split-pdf-hi.html">Split PDF</a></li>
-        <li><a href="image-to-pdf-hi.html">Image to PDF</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-      </ul>
-
-      <a class="nav-cta" href="#merge-tool">PDF जोड़ें</a>
-
-      <button class="menu-btn" id="menuBtn" type="button" aria-label="Menu">☰</button>
-    </div>
-  </header>
-
-  <main>
-    <div class="container">
-      <div class="breadcrumb">
-        <a href="index.html">Home</a> / PDF Tools / PDF जोड़ें
-      </div>
-    </div>
-
-    <section class="hero">
-      <div class="container hero-grid">
-        <div>
-          <p class="ht-kicker">Merge PDF · हिंदी में</p>
-
-          <h1>PDF जोड़ें</h1>
-          <p>दो या ज्यादा PDF चुनें, उनका order तय करें और एक PDF download करें। Certificates, notes और documents एक जगह।</p>
-
-          <div class="hero-actions">
-            <a class="primary-btn" href="#merge-tool">📎 अभी PDF जोड़ें</a>
-            <a class="ghost-btn" href="compress-pdf-hi.html">📉 PDF Compress करें</a>
-          </div>
-
-          
-        </div>
-
-        <div class="tool-shell" id="merge-tool">
-          <ol class="ht-steps" aria-label="तीन आसान steps"><li><span>1</span> PDF चुनें</li><li><span>2</span> Order तय करें</li><li><span>3</span> एक PDF पाएं</li></ol>
-
-          <div class="dropzone" id="dropzone">
-            <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple />
-            <div>
-              <div class="drop-icon">📄</div>
-              <h2>PDF files यहाँ drop करें</h2>
-              <p>या button दबाकर अपने device से PDF files चुनें</p>
-              <button class="upload-btn" type="button" id="selectFilesBtn">PDF Files चुनें</button>
-              <div class="privacy-note">PDF की processing आपके browser में होती है।</div>
-            </div>
-          </div>
-
-          <div class="panel" id="filePanel" style="display:none;">
-            <div class="panel-head">
-              <div>
-                <h2>Selected PDFs</h2>
-                <p>Final PDF इसी order में बनेगी। Order बदलने के लिए ऊपर/नीचे buttons use करें।</p>
-              </div>
-              <button class="danger-btn" type="button" id="clearBtn">Clear All</button>
-            </div>
-
-            <div class="file-list" id="fileList"></div>
-
-            <div class="controls-grid">
-              <div class="input-group">
-                <label for="outputName">Final PDF का नाम</label>
-                <input id="outputName" type="text" value="merged-pdf" placeholder="merged-pdf" />
-              </div>
-
-              <button class="primary-btn" type="button" id="mergeBtn" disabled>
-                PDF Merge करें
-              </button>
-            </div>
-
-            <div class="progress-wrap" id="progressWrap">
-              <div class="progress-bar" id="progressBar"></div>
-            </div>
-
-            <div class="status-box" id="statusBox"></div>
-
-            <div class="download-card" id="downloadCard">
-              <div>
-                <h3>✅ PDF तैयार है</h3>
-                <p id="downloadMeta">आपकी merged PDF download के लिए ready है।</p>
-              </div>
-              <a class="secondary-btn" id="downloadLink" href="#" download="merged-pdf.pdf">
-                Download PDF
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="container info-sections">
-      <article class="info-card">
-        <h2>PDF merge कैसे करें?</h2>
-        <ol>
-          <li>ऊपर PDF files upload करें।</li>
-          <li>Files का order check करें। जरूरत हो तो ऊपर/नीचे move करें।</li>
-          <li>Final PDF का नाम लिखें।</li>
-          <li><strong>PDF Merge करें</strong> button दबाएं।</li>
-          <li>Ready होने पर final PDF download करें।</li>
-        </ol>
-      </article>
-
-      <article class="info-card">
-        <h2>इस tool की खास बातें</h2>
-        <ul>
-          <li>Multiple PDF files support</li>
-          <li>एक बार में कई files या बाद में और files add करने का option</li>
-          <li>File order बदलने का option</li>
-          <li>Page count और file size display</li>
-          <li>Simple Hindi + Hinglish instructions</li>
-          <li>Mobile-friendly layout</li>
-          <li>Instant download after merge</li>
-        </ul>
-      </article>
-    </section>
-
-    <section class="container" style="margin-top:28px;">
-      <div class="info-card">
-        <h2>Related PDF Tools</h2>
-        <div class="related">
-          <a href="compress-pdf-hi.html">📉 PDF छोटा करें</a>
-          <a href="split-pdf-hi.html">✂️ PDF अलग करें</a>
-          <a href="pdf-rotate-hi.html">🔄 PDF Rotate</a>
-          <a href="pdf-watermark-hi.html">💧 Watermark लगाएं</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="container" style="margin-top:28px;">
-      <div class="info-card">
-        <h2>FAQ</h2>
-
-        <div class="faq-list">
-          <div class="faq-item active">
-            <button class="faq-q" type="button">
-              क्या यह PDF merge tool free है?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              हाँ, यह tool free है और basic PDF merge के लिए बनाया गया है।
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">
-              क्या मैं multiple PDFs जोड़ सकता हूँ?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              हाँ, आप एक साथ कई PDF files upload कर सकते हैं। आप एक PDF upload करने के बाद दोबारा button दबाकर और PDF भी add कर सकते हैं।
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">
-              क्या PDF files का order बदल सकता हूँ?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              हाँ, हर file के साथ ऊपर और नीचे move करने के buttons दिए गए हैं।
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">
-              क्या password-protected PDF merge होगी?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              Password-protected या damaged PDFs merge नहीं हो सकतीं। पहले PDF unlock या repair करनी पड़ेगी।
-            </div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">
-              क्या मेरी PDF server पर upload होती है?
-              <span>+</span>
-            </button>
-            <div class="faq-a">
-              यह page browser-based PDF library का उपयोग करता है। फिर भी बहुत sensitive documents के लिए हमेशा सावधानी रखें।
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="footer-brand">HindiTools.com 🇮🇳</div>
-          <p>
-            PDF, Image और Document कामों के लिए आसान Hindi + Hinglish tools।
-            Simple interface, fast workflow और mobile-friendly design।
-          </p>
-        </div>
-
-        <div>
-          <h3>PDF Tools</h3>
-          <ul>
-            <li><a href="merge-pdf-hi.html">PDF जोड़ें</a></li>
-            <li><a href="compress-pdf-hi.html">PDF छोटा करें</a></li>
-            <li><a href="split-pdf-hi.html">PDF अलग करें</a></li>
-            <li><a href="pdf-to-image-hi.html">PDF to Image</a></li>
-          </ul>
-        </div>
-
-        <div>
-          <h3>Website</h3>
-          <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="privacy.html">Privacy Policy</a></li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="copyright">
-        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
-      </div>
-    </div>
-  </footer>
+    ]
+  }
+  </script>
 
   <script>
-    const { PDFDocument } = PDFLib;
-
-    const fileInput = document.getElementById("fileInput");
-    const selectFilesBtn = document.getElementById("selectFilesBtn");
-    const dropzone = document.getElementById("dropzone");
-    const filePanel = document.getElementById("filePanel");
-    const fileList = document.getElementById("fileList");
-    const mergeBtn = document.getElementById("mergeBtn");
-    const clearBtn = document.getElementById("clearBtn");
-    const outputName = document.getElementById("outputName");
-    const statusBox = document.getElementById("statusBox");
-    const progressWrap = document.getElementById("progressWrap");
-    const progressBar = document.getElementById("progressBar");
-    const downloadCard = document.getElementById("downloadCard");
-    const downloadLink = document.getElementById("downloadLink");
-    const downloadMeta = document.getElementById("downloadMeta");
-
-    let pdfFiles = [];
-    let currentDownloadUrl = null;
-
-    function formatBytes(bytes) {
-      if (bytes === 0) return "0 Bytes";
-      const k = 1024;
-      const sizes = ["Bytes", "KB", "MB", "GB"];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
-    }
-
-    function sanitizeFileName(name) {
-      return (name || "merged-pdf")
-        .replace(/\.pdf$/i, "")
-        .replace(/[^\u0900-\u097Fa-zA-Z0-9-_ ]/g, "")
-        .trim()
-        .replace(/\s+/g, "-") || "merged-pdf";
-    }
-
-    function setStatus(message, type = "normal") {
-      statusBox.textContent = message;
-      statusBox.className = "status-box show";
-      if (type === "success") statusBox.classList.add("success");
-      if (type === "error") statusBox.classList.add("error");
-    }
-
-    function clearStatus() {
-      statusBox.className = "status-box";
-      statusBox.textContent = "";
-    }
-
-    function setProgress(percent) {
-      progressWrap.classList.add("show");
-      progressBar.style.width = `${percent}%`;
-    }
-
-    function resetProgress() {
-      progressWrap.classList.remove("show");
-      progressBar.style.width = "0%";
-    }
-
-    function resetDownload() {
-      if (currentDownloadUrl) {
-        URL.revokeObjectURL(currentDownloadUrl);
-        currentDownloadUrl = null;
-      }
-      downloadCard.classList.remove("show");
-      downloadLink.href = "#";
-    }
-
-    function isDuplicateFile(file) {
-      return pdfFiles.some(item =>
-        item.file.name === file.name &&
-        item.file.size === file.size &&
-        item.file.lastModified === file.lastModified
-      );
-    }
-
-    async function addFiles(files) {
-      clearStatus();
-      resetDownload();
-
-      const incoming = Array.from(files || []).filter(file => {
-        return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
-      });
-
-      if (!incoming.length) {
-        setStatus("कृपया केवल PDF files upload करें।", "error");
-        return;
-      }
-
-      setStatus("PDF files पढ़ी जा रही हैं...");
-
-      let addedCount = 0;
-      let duplicateCount = 0;
-      let failedCount = 0;
-
-      for (const file of incoming) {
-        if (isDuplicateFile(file)) {
-          duplicateCount++;
-          continue;
-        }
-
-        try {
-          const arrayBuffer = await file.arrayBuffer();
-
-          const doc = await PDFDocument.load(arrayBuffer, {
-            ignoreEncryption: false
-          });
-
-          const pageCount = doc.getPageCount();
-
-          pdfFiles.push({
-            id: crypto.randomUUID ? crypto.randomUUID() : String(Date.now() + Math.random()),
-            file,
-            arrayBuffer,
-            pageCount,
-            size: file.size
-          });
-
-          addedCount++;
-        } catch (error) {
-          console.error(error);
-          failedCount++;
-        }
-      }
-
-      renderFiles();
-
-      if (pdfFiles.length) {
-        const totalPages = pdfFiles.reduce((sum, item) => sum + item.pageCount, 0);
-        let message = `${pdfFiles.length} PDF files ready हैं • Total pages: ${totalPages}. Order check करके merge करें।`;
-
-        if (addedCount) {
-          message += ` ${addedCount} नई file add हुई।`;
-        }
-
-        if (duplicateCount) {
-          message += ` ${duplicateCount} duplicate file skip हुई।`;
-        }
-
-        if (failedCount) {
-          message += ` ${failedCount} file read नहीं हो सकी।`;
-        }
-
-        setStatus(message, failedCount ? "error" : "success");
-      } else {
-        setStatus("कोई valid PDF add नहीं हुई। File encrypted, damaged या unsupported हो सकती है।", "error");
-      }
-    }
-
-    function renderFiles() {
-      fileList.innerHTML = "";
-
-      pdfFiles.forEach((item, index) => {
-        const card = document.createElement("div");
-        card.className = "file-card";
-
-        card.innerHTML = `
-          <div class="file-order">${index + 1}</div>
-
-          <div class="file-info">
-            <div class="file-name" title="${item.file.name}">${item.file.name}</div>
-            <div class="file-meta">
-              <span>${formatBytes(item.size)}</span>
-              <span>${item.pageCount} page${item.pageCount > 1 ? "s" : ""}</span>
-            </div>
-          </div>
-
-          <div class="file-actions">
-            <button class="icon-btn" type="button" title="ऊपर करें" ${index === 0 ? "disabled" : ""} onclick="moveFile(${index}, -1)">↑</button>
-            <button class="icon-btn" type="button" title="नीचे करें" ${index === pdfFiles.length - 1 ? "disabled" : ""} onclick="moveFile(${index}, 1)">↓</button>
-            <button class="icon-btn remove" type="button" title="हटाएँ" onclick="removeFile(${index})">×</button>
-          </div>
-        `;
-
-        fileList.appendChild(card);
-      });
-
-      filePanel.style.display = pdfFiles.length ? "block" : "none";
-      mergeBtn.disabled = pdfFiles.length < 2;
-    }
-
-    function moveFile(index, direction) {
-      const newIndex = index + direction;
-      if (newIndex < 0 || newIndex >= pdfFiles.length) return;
-
-      const temp = pdfFiles[index];
-      pdfFiles[index] = pdfFiles[newIndex];
-      pdfFiles[newIndex] = temp;
-
-      resetDownload();
-      renderFiles();
-    }
-
-    function removeFile(index) {
-      pdfFiles.splice(index, 1);
-      resetDownload();
-      clearStatus();
-      renderFiles();
-
-      if (!pdfFiles.length) {
-        setStatus("सभी files remove कर दी गई हैं। नई PDF files upload करें।");
-      } else {
-        const totalPages = pdfFiles.reduce((sum, item) => sum + item.pageCount, 0);
-        setStatus(`${pdfFiles.length} PDF files ready हैं • Total pages: ${totalPages}.`, "success");
-      }
-    }
-
-    async function mergePDFs() {
-      if (pdfFiles.length < 2) {
-        setStatus("Merge करने के लिए कम से कम 2 PDF files चाहिए।", "error");
-        return;
-      }
-
-      resetDownload();
-      resetProgress();
-      clearStatus();
-
-      mergeBtn.disabled = true;
-      setStatus("PDF merge process शुरू हो गई है...");
-
-      try {
-        const mergedPdf = await PDFDocument.create();
-        let processed = 0;
-        const total = pdfFiles.length;
-
-        for (const item of pdfFiles) {
-          const sourcePdf = await PDFDocument.load(item.arrayBuffer, {
-            ignoreEncryption: false
-          });
-
-          const copiedPages = await mergedPdf.copyPages(sourcePdf, sourcePdf.getPageIndices());
-          copiedPages.forEach(page => mergedPdf.addPage(page));
-
-          processed++;
-          setProgress(Math.round((processed / total) * 80));
-        }
-
-        setStatus("Final PDF बनाई जा रही है...");
-        setProgress(90);
-
-        const mergedPdfBytes = await mergedPdf.save({
-          useObjectStreams: true,
-          objectsPerTick: 50
-        });
-
-        const blob = new Blob([mergedPdfBytes], { type: "application/pdf" });
-
-        currentDownloadUrl = URL.createObjectURL(blob);
-
-        const finalName = sanitizeFileName(outputName.value) + ".pdf";
-        downloadLink.href = currentDownloadUrl;
-        downloadLink.download = finalName;
-
-        downloadMeta.textContent = `Final file: ${finalName} • Size: ${formatBytes(blob.size)}`;
-        downloadCard.classList.add("show");
-
-        setProgress(100);
-        setStatus("PDF successfully merge हो गई है। अब download करें।", "success");
-      } catch (error) {
-        console.error(error);
-        setStatus("PDF merge नहीं हो सकी। कोई file encrypted, damaged या बहुत बड़ी हो सकती है।", "error");
-      } finally {
-        mergeBtn.disabled = pdfFiles.length < 2;
-        setTimeout(resetProgress, 1000);
-      }
-    }
-
-    function clearAll() {
-      pdfFiles = [];
-      fileInput.value = "";
-      resetDownload();
-      resetProgress();
-      clearStatus();
-      renderFiles();
-      setStatus("Files clear कर दी गई हैं। नई PDF files upload करें।");
-    }
-
-    function openFilePicker() {
-      fileInput.value = "";
-      fileInput.click();
-    }
-
-    selectFilesBtn.addEventListener("click", event => {
-      event.preventDefault();
-      event.stopPropagation();
-      openFilePicker();
-    });
-
-    dropzone.addEventListener("click", event => {
-      if (event.target.closest("button")) return;
-      openFilePicker();
-    });
-
-    fileInput.addEventListener("change", async event => {
-      const selectedFiles = Array.from(event.target.files || []);
-      if (!selectedFiles.length) return;
-
-      await addFiles(selectedFiles);
-
-      fileInput.value = "";
-    });
-
-    ["dragenter", "dragover"].forEach(eventName => {
-      dropzone.addEventListener(eventName, event => {
-        event.preventDefault();
-        event.stopPropagation();
-        dropzone.classList.add("dragover");
-      });
-    });
-
-    ["dragleave", "drop"].forEach(eventName => {
-      dropzone.addEventListener(eventName, event => {
-        event.preventDefault();
-        event.stopPropagation();
-        dropzone.classList.remove("dragover");
-      });
-    });
-
-    dropzone.addEventListener("drop", event => {
-      const droppedFiles = Array.from(event.dataTransfer.files || []);
-      addFiles(droppedFiles);
-    });
-
-    mergeBtn.addEventListener("click", mergePDFs);
-    clearBtn.addEventListener("click", clearAll);
-
-    document.getElementById("menuBtn").addEventListener("click", () => {
-      document.getElementById("nav").classList.toggle("open");
-    });
-
-    document.querySelectorAll(".faq-q").forEach(btn => {
-      btn.addEventListener("click", () => {
-        btn.parentElement.classList.toggle("active");
-      });
-    });
-
-    const webApplicationSchema = {
-      "@context": "https://schema.org",
-      "@type": "WebApplication",
-      "name": "HindiTools Merge PDF",
-      "url": "https://www.hinditools.com/merge-pdf-hi.html",
-      "applicationCategory": "UtilitiesApplication",
-      "operatingSystem": "Any",
-      "inLanguage": ["hi-IN", "en-IN"],
-      "description": "कई PDF files को एक single PDF में जोड़ने वाला Hindi + Hinglish PDF merge tool."
-    };
-
-    const faqSchema = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "क्या यह PDF merge tool free है?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "हाँ, यह tool free है और basic PDF merge के लिए बनाया गया है।"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "क्या मैं multiple PDFs जोड़ सकता हूँ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "हाँ, आप एक साथ कई PDF files upload कर सकते हैं। आप एक PDF upload करने के बाद दोबारा button दबाकर और PDF भी add कर सकते हैं।"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "क्या PDF files का order बदल सकता हूँ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "हाँ, हर file के साथ ऊपर और नीचे move करने के buttons दिए गए हैं।"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "क्या password-protected PDF merge होगी?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Password-protected या damaged PDFs merge नहीं हो सकतीं। पहले PDF unlock या repair करनी पड़ेगी।"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "क्या मेरी PDF server पर upload होती है?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "यह page browser-based PDF library का उपयोग करता है। फिर भी बहुत sensitive documents के लिए हमेशा सावधानी रखें।"
-          }
-        }
-      ]
-    };
-
-    [webApplicationSchema, faqSchema].forEach(schema => {
-      const schemaScript = document.createElement("script");
-      schemaScript.type = "application/ld+json";
-      schemaScript.textContent = JSON.stringify(schema);
-      document.head.appendChild(schemaScript);
-    });
+    try {
+      const saved = localStorage.getItem("ht-hud-theme");
+      if (saved === "light" || saved === "dark") document.documentElement.dataset.theme = saved;
+    } catch(e) {}
   </script>
+
+  <style>
+    :root{
+      --bg:#050b11;--bg2:#07131d;--panel:#091722;--panel2:#0d1d29;--panel3:#112633;
+      --text:#edf9ff;--muted:#8da8b7;--muted2:#b7ccd7;
+      --line:rgba(87,211,255,.20);--line2:rgba(87,211,255,.42);
+      --cyan:#43dcff;--cyanSoft:rgba(67,220,255,.12);
+      --orange:#ff7a1a;--orange2:#ff9933;--orangeSoft:rgba(255,122,26,.13);
+      --green:#37e88c;--greenSoft:rgba(55,232,140,.12);
+      --red:#ff5f6d;--redSoft:rgba(255,95,109,.12);
+      --yellow:#ffd166;--yellowSoft:rgba(255,209,102,.12);
+      --shadow:0 28px 80px rgba(0,0,0,.44);--grid:rgba(67,220,255,.035);
+      --glow:0 0 0 1px rgba(67,220,255,.12),0 0 32px rgba(0,190,230,.08);
+    }
+    html[data-theme="light"]{
+      --bg:#f7fbfd;--bg2:#eef7fa;--panel:#fff;--panel2:#f6fbfd;--panel3:#edf7fa;
+      --text:#102331;--muted:#647985;--muted2:#435f6d;--line:rgba(3,118,151,.14);--line2:rgba(3,118,151,.28);
+      --cyan:#007f9e;--cyanSoft:rgba(0,159,197,.09);--orange:#e86100;--orange2:#ff851b;--orangeSoft:rgba(232,97,0,.09);
+      --green:#07884a;--greenSoft:rgba(7,136,74,.09);--red:#cb3040;--redSoft:rgba(203,48,64,.09);
+      --yellow:#9d7100;--yellowSoft:rgba(157,113,0,.09);--shadow:0 25px 65px rgba(25,57,73,.12);
+      --grid:rgba(0,127,158,.026);--glow:0 0 0 1px rgba(0,127,158,.08),0 12px 32px rgba(37,115,139,.08);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+    body{
+      min-height:100vh;color:var(--text);font-family:"Inter","Noto Sans Devanagari",system-ui,sans-serif;line-height:1.55;
+      background:
+        linear-gradient(var(--grid) 1px,transparent 1px),
+        linear-gradient(90deg,var(--grid) 1px,transparent 1px),
+        radial-gradient(circle at 12% 0%,rgba(0,195,230,.11),transparent 30%),
+        radial-gradient(circle at 92% 8%,rgba(255,122,26,.09),transparent 26%),
+        linear-gradient(180deg,var(--bg),var(--bg2));
+      background-size:42px 42px,42px 42px,auto,auto,auto;
+    }
+    a{color:inherit;text-decoration:none}button,input{font:inherit}button{color:inherit;-webkit-tap-highlight-color:transparent}
+    [hidden]{display:none!important}.container{width:min(1240px,calc(100% - 30px));margin:auto}
+    .skip-link{position:absolute;left:-9999px;top:10px;z-index:1000;padding:10px 14px;border-radius:12px;background:var(--orange);color:#fff;font-weight:900}
+    .skip-link:focus{left:12px}
+    .site-header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+    .header-inner{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px;position:relative}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:900}.brand-mark{width:40px;height:40px;display:grid;place-items:center;border:1px solid var(--line2);border-radius:12px;color:var(--cyan);background:linear-gradient(145deg,var(--panel3),var(--panel));box-shadow:0 0 24px rgba(67,220,255,.12)}
+    .brand-copy{display:flex;flex-direction:column;line-height:1.05}.brand-copy strong{font-size:1.16rem;letter-spacing:-.03em}.brand-copy small{color:var(--muted);font-size:.62rem;letter-spacing:.14em;margin-top:4px}.brand-accent{color:var(--orange)}
+    .nav{display:flex;align-items:center;gap:6px}.nav a{color:var(--muted2);font-size:.86rem;font-weight:800;padding:9px 11px;border-radius:10px}.nav a:hover{background:var(--cyanSoft);color:var(--cyan)}
+    .header-actions{display:flex;gap:8px}.icon-btn{width:40px;height:40px;border-radius:12px;border:1px solid var(--line);background:var(--panel);display:grid;place-items:center;cursor:pointer;transition:.2s}.icon-btn:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-1px)}.menu-btn{display:none}
+    .top-status{border-bottom:1px solid var(--line);background:linear-gradient(90deg,rgba(67,220,255,.06),transparent 50%,rgba(255,122,26,.05))}
+    .top-status .container{min-height:34px;display:flex;align-items:center;justify-content:space-between;gap:15px;color:var(--muted);font-size:.72rem;font-weight:800;letter-spacing:.06em}
+    .signal{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);margin-right:7px}
+
+    .hero{padding:34px 0 20px}.hero-grid{display:grid;grid-template-columns:minmax(0,.85fr) minmax(500px,1.15fr);gap:28px;align-items:center}
+    .eyebrow{color:var(--cyan);font-weight:900;letter-spacing:.12em;font-size:.74rem;margin-bottom:12px}
+    h1{font-size:clamp(2.3rem,5vw,4.5rem);line-height:1.02;letter-spacing:-.062em;font-weight:900;margin-bottom:17px}h1 span{color:var(--cyan);text-shadow:0 0 28px rgba(67,220,255,.14)}
+    .hero-copy>p:not(.eyebrow){color:var(--muted2);max-width:670px;font-size:1.03rem}
+    .hero-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.chip{border:1px solid var(--line);background:var(--panel);color:var(--muted2);border-radius:999px;padding:8px 11px;font-size:.75rem;font-weight:850}.chip strong{color:var(--cyan)}
+
+    .upload-console{border:1px solid var(--line2);border-radius:26px;background:linear-gradient(145deg,var(--panel2),var(--panel));box-shadow:var(--shadow);overflow:hidden}
+    .console-top{min-height:42px;padding:0 15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);color:var(--muted);font-size:.69rem;font-weight:900;letter-spacing:.09em}
+    .lights{display:flex;gap:6px}.lights i{width:7px;height:7px;border-radius:50%;display:block}.lights i:nth-child(1){background:var(--red)}.lights i:nth-child(2){background:var(--yellow)}.lights i:nth-child(3){background:var(--green)}
+    .dropzone{
+      margin:15px;min-height:300px;border:1px dashed var(--line2);border-radius:19px;cursor:pointer;display:grid;place-items:center;text-align:center;padding:26px;position:relative;overflow:hidden;
+      background:linear-gradient(rgba(67,220,255,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(67,220,255,.03) 1px,transparent 1px),rgba(67,220,255,.018);background-size:28px 28px;transition:.25s;
+    }
+    .dropzone::after{content:"";position:absolute;left:4%;right:4%;top:-20%;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);box-shadow:0 0 18px var(--cyan);opacity:0}
+    .dropzone.scanning::after{opacity:.9;animation:scan 1.6s ease-in-out infinite}@keyframes scan{from{top:2%}to{top:98%}}
+    .dropzone.dragover{border-color:var(--cyan);background-color:var(--cyanSoft);transform:scale(1.006)}.dropzone input{display:none}
+    .upload-orb{width:84px;height:84px;border-radius:50%;margin:0 auto 16px;display:grid;place-items:center;border:1px solid var(--line2);color:var(--cyan);font-weight:900;position:relative;background:radial-gradient(circle,rgba(67,220,255,.10),transparent 67%);box-shadow:0 0 35px rgba(67,220,255,.12)}
+    .upload-orb::before,.upload-orb::after{content:"";position:absolute;inset:-9px;border:1px solid rgba(67,220,255,.15);border-radius:50%}.upload-orb::after{inset:-19px;border-style:dashed}
+    .dropzone h2{font-size:1.4rem;margin-bottom:6px}.dropzone p{color:var(--muted);font-size:.9rem;margin-bottom:18px}.local-note{margin-top:15px;color:var(--green);font-size:.72rem;font-weight:850}
+
+    .primary,.secondary,.ghost,.danger,.mini{
+      border:0;cursor:pointer;font-weight:900;border-radius:12px;min-height:42px;padding:10px 15px;transition:.2s;display:inline-flex;align-items:center;justify-content:center;gap:8px
+    }
+    .primary{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 10px 28px rgba(255,122,26,.22)}.primary:hover{transform:translateY(-1px);box-shadow:0 14px 34px rgba(255,122,26,.3)}.primary:disabled{opacity:.42;cursor:not-allowed;transform:none}
+    .secondary{background:var(--cyan);color:#001019}.ghost{border:1px solid var(--line);background:var(--panel);color:var(--muted2)}.danger{background:var(--redSoft);color:var(--red);border:1px solid rgba(255,95,109,.22)}
+    .mini{min-height:34px;padding:7px 10px;border:1px solid var(--line);background:var(--panel);color:var(--muted2);font-size:.74rem}.ghost:hover,.mini:hover{border-color:var(--cyan);color:var(--cyan)}
+
+    .workspace{display:none;padding:22px 0 50px}.workspace.show{display:block}
+    .telemetry{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-bottom:14px}.tele-card{border:1px solid var(--line);border-radius:15px;background:var(--panel);padding:11px 13px;box-shadow:var(--glow)}.tele-card span{display:block;color:var(--muted);font-size:.64rem;font-weight:900;letter-spacing:.08em;margin-bottom:4px}.tele-card strong{font-size:.93rem}.tele-card.accent strong{color:var(--cyan)}.tele-card.success strong{color:var(--green)}
+    .files-panel{border:1px solid var(--line);border-radius:20px;background:var(--panel);padding:13px;margin-bottom:14px;box-shadow:var(--glow)}.panel-title{display:flex;justify-content:space-between;gap:12px;align-items:center;margin-bottom:10px}.panel-title h2{font-size:1rem}.panel-title p{color:var(--muted);font-size:.7rem;margin-top:2px;font-weight:750}
+    .source-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:9px}.source-card{--source:#43dcff;border:1px solid var(--line);border-left:4px solid var(--source);border-radius:14px;background:var(--panel2);padding:10px}.source-head{display:flex;gap:9px;align-items:center}.source-badge{width:34px;height:34px;border-radius:10px;background:color-mix(in srgb,var(--source) 15%,var(--panel));color:var(--source);display:grid;place-items:center;font-weight:1000}.source-info{min-width:0;flex:1}.source-info strong{display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.8rem}.source-info span{display:block;color:var(--muted);font-size:.66rem;font-weight:750;margin-top:2px}.source-actions{display:flex;flex-wrap:wrap;gap:5px;margin-top:8px}.source-actions button{flex:1}
+
+    .control-deck{position:sticky;top:82px;z-index:70;border:1px solid var(--line);border-radius:18px;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(18px);box-shadow:0 16px 45px rgba(0,0,0,.18);padding:11px;margin-bottom:14px}
+    .control-row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}.control-group{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.control-label{color:var(--muted);font-size:.66rem;font-weight:900;letter-spacing:.08em}
+    .toggle{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--panel2);padding:7px 9px;border-radius:10px;color:var(--muted2);font-size:.72rem;font-weight:850}.toggle input{accent-color:var(--cyan)}
+    .zoom-wrap{display:flex;align-items:center;gap:7px;color:var(--muted);font-size:.7rem;font-weight:850}.zoom-wrap input{width:90px;accent-color:var(--cyan)}
+
+    .assembly-shell{border:1px solid var(--line);border-radius:24px;overflow:hidden;background:var(--panel);box-shadow:var(--shadow)}
+    .assembly-head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 16px;border-bottom:1px solid var(--line);background:linear-gradient(90deg,var(--panel2),var(--panel))}.assembly-head h2{font-size:1rem}.assembly-head p{color:var(--muted);font-size:.72rem;font-weight:750;margin-top:2px}
+    .pages-viewport{padding:16px;max-height:72vh;overflow:auto}.pages-grid{--thumb-width:156px;display:grid;grid-template-columns:repeat(auto-fill,minmax(var(--thumb-width),1fr));gap:13px;align-items:start}
+    .page-card{--source:#43dcff;border:1px solid var(--line);border-radius:15px;background:var(--panel2);padding:8px;position:relative;cursor:pointer;transition:.18s;user-select:none;min-width:0}
+    .page-card:hover{border-color:var(--line2);transform:translateY(-1px)}.page-card.selected{border-color:var(--cyan);box-shadow:0 0 0 1px rgba(67,220,255,.18),0 0 28px rgba(67,220,255,.10)}.page-card.excluded{opacity:.42;filter:saturate(.55)}.page-card.dragging{opacity:.35}.page-card.drop-target{outline:2px solid var(--orange);outline-offset:2px}
+    .thumb-shell{aspect-ratio:.707/1;border-radius:9px;background:#f4f4f4;overflow:hidden;display:grid;place-items:center;position:relative;border:1px solid rgba(255,255,255,.08)}html[data-theme="light"] .thumb-shell{border-color:rgba(0,0,0,.08)}
+    .thumb-shell canvas{display:block;max-width:100%;max-height:100%;width:auto;height:auto;transition:transform .2s}.placeholder{color:#69747a;font-size:.7rem;font-weight:900;text-align:center;padding:10px}.blank-sheet{width:80%;height:86%;border:1px dashed #aab4ba;background:white;border-radius:4px;display:grid;place-items:center;color:#8b979d;font-size:.7rem;font-weight:900}
+    .include-box{position:absolute;top:13px;left:13px;width:26px;height:26px;border-radius:8px;border:1px solid rgba(0,0,0,.18);background:rgba(255,255,255,.9);display:grid;place-items:center;color:#5b6770;font-size:.75rem;font-weight:1000;z-index:4;cursor:pointer}.page-card:not(.excluded) .include-box{background:var(--green);color:#00160b;border-color:var(--green)}
+    .source-tag{position:absolute;top:13px;right:13px;background:rgba(0,8,13,.78);color:var(--source);border:1px solid color-mix(in srgb,var(--source) 45%,transparent);border-radius:7px;padding:4px 7px;font-size:.58rem;font-weight:1000;z-index:4}
+    .order-badge{position:absolute;left:13px;bottom:48px;background:rgba(0,8,13,.76);color:white;border-radius:7px;padding:4px 7px;font-size:.58rem;font-weight:900;z-index:4}
+    .page-meta{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:7px;color:var(--muted);font-size:.65rem;font-weight:850}.page-actions{display:flex;gap:4px}.page-action{width:27px;height:27px;border-radius:7px;border:1px solid var(--line);background:var(--panel);color:var(--muted2);display:grid;place-items:center;cursor:pointer;font-size:.75rem;font-weight:900}.page-action:hover{color:var(--cyan);border-color:var(--cyan)}.page-action.remove:hover{color:var(--red);border-color:var(--red)}
+    .selection-bar{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:12px 16px;border-top:1px solid var(--line);background:linear-gradient(90deg,var(--panel2),var(--panel))}.selection-summary{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.selection-summary strong{color:var(--cyan);font-size:1rem}.selection-summary span{color:var(--muted);font-size:.72rem;font-weight:800}.output-options{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.output-options input{min-width:145px;border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:10px;padding:9px 10px;outline:0;font-size:.76rem;font-weight:800}
+
+    .status-panel{margin-top:14px;border:1px solid var(--line);border-radius:17px;background:var(--panel);overflow:hidden;display:none}.status-panel.show{display:block}.status-line{padding:12px 14px;color:var(--muted2);font-size:.78rem;font-weight:800}.status-line.success{color:var(--green)}.status-line.error{color:var(--red)}.status-line.warning{color:var(--yellow)}.progress-track{height:5px;background:var(--panel3)}.progress-bar{width:0;height:100%;background:linear-gradient(90deg,var(--cyan),var(--green));transition:width .18s;box-shadow:0 0 14px rgba(67,220,255,.35)}
+    .result-panel{display:none;margin-top:14px;border:1px solid rgba(55,232,140,.28);border-radius:18px;background:linear-gradient(145deg,var(--greenSoft),var(--panel));padding:15px}.result-panel.show{display:block}.result-head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}.result-head h3{color:var(--green);font-size:1rem}.result-head p{color:var(--muted);font-size:.73rem;font-weight:750;margin-top:4px}
+
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}.info-card{border:1px solid var(--line);border-radius:18px;background:var(--panel);padding:18px;box-shadow:var(--glow)}.info-card h2{font-size:1.05rem;margin-bottom:9px;color:var(--cyan)}.info-card p,.info-card li{color:var(--muted2);font-size:.82rem;font-weight:650}.info-card ol,.info-card ul{padding-left:20px;display:grid;gap:7px}.related-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:10px}.related-card{border:1px solid var(--line);border-radius:13px;background:var(--panel2);padding:12px;font-size:.76rem;font-weight:900;transition:.2s}.related-card:hover{border-color:var(--cyan);color:var(--cyan);transform:translateY(-1px)}
+    .faq-list{display:grid;gap:8px;margin-top:9px}.faq-item{border:1px solid var(--line);border-radius:13px;background:var(--panel2);overflow:hidden}.faq-q{width:100%;border:0;background:transparent;color:var(--text);padding:12px 13px;text-align:left;display:flex;justify-content:space-between;gap:10px;cursor:pointer;font-size:.79rem;font-weight:900}.faq-a{display:none;padding:0 13px 13px;color:var(--muted2);font-size:.77rem;font-weight:650}.faq-item.active .faq-a{display:block}
+    footer{margin-top:34px;border-top:1px solid var(--line);background:#03080d;padding:28px 0}html[data-theme="light"] footer{background:#eaf4f7}.footer-inner{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap}.footer-copy{color:var(--muted);font-size:.72rem;max-width:520px}.footer-links{display:flex;gap:13px;flex-wrap:wrap;color:var(--muted2);font-size:.73rem;font-weight:800}
+
+    .modal{position:fixed;inset:0;z-index:300;background:rgba(0,5,9,.84);backdrop-filter:blur(12px);display:none;align-items:center;justify-content:center;padding:18px}.modal.show{display:flex}.modal-card{width:min(900px,100%);max-height:92vh;overflow:auto;border:1px solid var(--line2);border-radius:20px;background:var(--panel);box-shadow:0 40px 100px rgba(0,0,0,.55)}.modal-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line)}.modal-head strong{color:var(--cyan)}.modal-body{padding:14px;display:grid;place-items:center;background:#111b20;min-height:400px}.modal-body canvas{max-width:100%;height:auto;display:block;box-shadow:0 18px 50px rgba(0,0,0,.35)}
+
+    @media(max-width:1000px){
+      .hero-grid{grid-template-columns:1fr}.telemetry{grid-template-columns:repeat(3,1fr)}.info-grid{grid-template-columns:1fr}.nav{display:none}.menu-btn{display:grid}.nav.open{display:flex;position:absolute;top:65px;left:15px;right:15px;flex-direction:column;align-items:stretch;border:1px solid var(--line);border-radius:15px;background:var(--panel);padding:9px;box-shadow:var(--shadow)}.nav.open a{text-align:center}
+    }
+    @media(max-width:700px){
+      .container{width:min(100% - 20px,1240px)}.top-status .container{font-size:.61rem}.hero{padding-top:24px}h1{font-size:clamp(2rem,13vw,3.2rem)}.upload-console{border-radius:19px}.dropzone{min-height:260px;margin:10px;padding:20px 14px}
+      .telemetry{grid-template-columns:1fr 1fr}.control-deck{top:73px;padding:9px}.control-group{width:100%}.zoom-wrap{width:100%;justify-content:space-between}.zoom-wrap input{flex:1}.pages-viewport{padding:10px;max-height:none}.pages-grid{--thumb-width:132px;gap:9px}.selection-bar{padding:10px}.selection-summary,.output-options{width:100%}.output-options input{flex:1;min-width:120px}.output-options .primary{width:100%}.related-grid{grid-template-columns:1fr 1fr}.header-inner{min-height:64px}
+    }
+    @media(max-width:430px){.pages-grid{--thumb-width:118px}.related-grid{grid-template-columns:1fr}.source-list{grid-template-columns:1fr}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+  </style>
+</head>
+<body>
+<a class="skip-link" href="#merge-console">सीधे Merge PDF tool पर जाएं</a>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="brand" aria-label="HindiTools Home">
+      <span class="brand-mark">हि</span>
+      <span class="brand-copy"><strong>Hindi<span class="brand-accent">Tools</span></strong><small>VISUAL PDF WORKSPACE</small></span>
+    </a>
+    <nav class="nav" id="mainNav" aria-label="Main navigation">
+      <a href="/">Home</a><a href="split-pdf-hi.html">Split</a><a href="compress-pdf-hi.html">Compress</a><a href="pdf-to-word-hi.html">PDF to Word</a><a href="privacy.html">Privacy</a>
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Theme बदलें">◐</button>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Menu खोलें" aria-expanded="false">☰</button>
+    </div>
+  </div>
+</header>
+
+<div class="top-status">
+  <div class="container"><span><i class="signal"></i>VISUAL MERGE ENGINE ONLINE</span><span>PDF CONTENT / LOCAL PROCESSING</span></div>
+</div>
+
+<main>
+  <section class="container hero">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="eyebrow">VISUAL MERGE SYSTEM / 02</p>
+        <h1>PDF files नहीं — <span>pages को जोड़ें।</span></h1>
+        <p>
+          Multiple PDFs upload करें और हर page को thumbnail में देखें। जरूरी pages tick रखें, unwanted pages untick करें,
+          pages को drag करके किसी भी order में रखें, rotate करें और final PDF बनाएं.
+        </p>
+        <div class="hero-chips">
+          <span class="chip"><strong>✓</strong> Choose individual pages</span>
+          <span class="chip"><strong>↕</strong> Drag page order</span>
+          <span class="chip"><strong>↻</strong> Rotate</span>
+          <span class="chip"><strong>⧉</strong> Duplicate</span>
+          <span class="chip"><strong>⇆</strong> Mix two scans</span>
+          <span class="chip"><strong>🔐</strong> Browser processing</span>
+        </div>
+      </div>
+
+      <div class="upload-console" id="merge-console">
+        <div class="console-top"><span>MULTI-PDF INPUT CONSOLE</span><span class="lights"><i></i><i></i><i></i></span></div>
+        <div class="dropzone" id="dropzone">
+          <input type="file" id="fileInput" accept="application/pdf,.pdf" multiple />
+          <div>
+            <div class="upload-orb">PDF+</div>
+            <h2>2 या ज्यादा PDFs यहाँ drop करें</h2>
+            <p>एक बार में multiple files चुन सकते हैं — बाद में और files भी add कर सकते हैं</p>
+            <button class="primary" type="button" id="chooseFilesBtn">PDF Files चुनें</button>
+            <div class="local-note">● PDF file content HindiTools processing server पर upload नहीं होता</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container workspace" id="workspace" aria-live="polite">
+    <div class="telemetry">
+      <div class="tele-card accent"><span>SOURCE FILES</span><strong id="teleFiles">0</strong></div>
+      <div class="tele-card"><span>TOTAL PAGES</span><strong id="teleTotal">0</strong></div>
+      <div class="tele-card success"><span>IN OUTPUT</span><strong id="teleIncluded">0</strong></div>
+      <div class="tele-card"><span>SELECTED</span><strong id="teleSelected">0</strong></div>
+      <div class="tele-card"><span>TOTAL SIZE</span><strong id="teleSize">0 KB</strong></div>
+    </div>
+
+    <section class="files-panel">
+      <div class="panel-title">
+        <div><h2>Source PDFs</h2><p>हर file का colour page cards पर भी दिखेगा.</p></div>
+        <button class="ghost" type="button" id="addMoreBtn">+ Add PDFs</button>
+      </div>
+      <div class="source-list" id="sourceList"></div>
+    </section>
+
+    <div class="control-deck">
+      <div class="control-row">
+        <div class="control-group">
+          <span class="control-label">USE PAGES</span>
+          <button class="mini" type="button" id="useAllBtn">Use All</button>
+          <button class="mini" type="button" id="useNoneBtn">Use None</button>
+          <button class="mini" type="button" id="invertUseBtn">Invert Use</button>
+        </div>
+        <div class="control-group">
+          <span class="control-label">SELECTED</span>
+          <button class="mini" type="button" id="rotateLeftBtn">↺ Left</button>
+          <button class="mini" type="button" id="rotateRightBtn">↻ Right</button>
+          <button class="mini" type="button" id="duplicateBtn">⧉ Duplicate</button>
+          <button class="mini" type="button" id="removeSelectedBtn">✕ Remove</button>
+          <button class="mini" type="button" id="clearSelectionBtn">Clear Select</button>
+        </div>
+        <div class="control-group">
+          <span class="control-label">WORKSPACE</span>
+          <button class="mini" type="button" id="addBlankBtn">+ Blank Page</button>
+          <button class="mini" type="button" id="undoBtn">↶ Undo</button>
+        </div>
+      </div>
+
+      <div class="control-row" style="margin-top:9px">
+        <div class="control-group">
+          <span class="control-label">MIX SCANS</span>
+          <button class="mini" type="button" id="interleaveBtn">⇆ Mix first 2 PDFs</button>
+          <label class="toggle"><input type="checkbox" id="reverseSecondCheck" checked /> Reverse second PDF</label>
+        </div>
+        <div class="control-group">
+          <span class="control-label">THUMBNAILS</span>
+          <label class="zoom-wrap">Small <input id="thumbZoom" type="range" min="118" max="230" value="156" /> Large</label>
+        </div>
+        <div class="control-group">
+          <button class="danger" type="button" id="clearAllBtn">Clear Workspace</button>
+        </div>
+      </div>
+    </div>
+
+    <section class="assembly-shell">
+      <div class="assembly-head">
+        <div><h2>Final Page Assembly</h2><p>Drag cards to change final order. Green ✓ means page will be included.</p></div>
+        <button class="ghost" id="renderAllBtn" type="button">Render All Thumbnails</button>
+      </div>
+      <div class="pages-viewport" id="pagesViewport"><div class="pages-grid" id="pagesGrid"></div></div>
+      <div class="selection-bar">
+        <div class="selection-summary">
+          <strong id="assemblyCount">0 pages in output</strong>
+          <span id="selectionDetail">Upload PDF files to begin.</span>
+        </div>
+        <div class="output-options">
+          <input id="outputName" type="text" value="merged-pdf" aria-label="Output PDF name" />
+          <button class="primary" type="button" id="mergeBtn" disabled>Merge PDF</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="status-panel" id="statusPanel">
+      <div class="status-line" id="statusLine">Ready</div>
+      <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
+    </div>
+
+    <div class="result-panel" id="resultPanel">
+      <div class="result-head">
+        <div><h3>MERGE COMPLETE ✓</h3><p id="resultText">Your PDF is ready.</p></div>
+        <a class="secondary" id="downloadLink" href="#" download>Download PDF</a>
+      </div>
+    </div>
+
+    <div class="info-grid">
+      <article class="info-card">
+        <h2>PDF जोड़ने का visual तरीका</h2>
+        <ol>
+          <li>दो या ज्यादा PDF files upload करें.</li>
+          <li>हर PDF के pages thumbnails में देखें.</li>
+          <li>जिन pages की जरूरत नहीं है उनका green ✓ untick करें.</li>
+          <li>Page cards drag करके final order तय करें.</li>
+          <li>जरूरत हो तो rotate, duplicate या blank page add करें.</li>
+          <li>Merge PDF दबाकर final document download करें.</li>
+        </ol>
+      </article>
+      <article class="info-card">
+        <h2>Mix Two Scans</h2>
+        <p>
+          अगर front और back sides दो अलग PDF scans में हैं, <strong>Mix first 2 PDFs</strong> pages को alternate order में लगा सकता है.
+          “Reverse second PDF” उन scans में useful है जहाँ back-side PDF उल्टे page order में बनी हो.
+        </p>
+      </article>
+      <article class="info-card">
+        <h2>Related PDF Tools</h2>
+        <div class="related-grid">
+          <a class="related-card" href="split-pdf-hi.html">✂ PDF अलग करें</a>
+          <a class="related-card" href="compress-pdf-hi.html">📉 PDF Size कम करें</a>
+          <a class="related-card" href="pdf-to-image-hi.html">🖼 PDF to Image</a>
+          <a class="related-card" href="pdf-rotate-hi.html">↻ PDF Rotate</a>
+        </div>
+      </article>
+      <article class="info-card">
+        <h2>FAQ</h2>
+        <div class="faq-list">
+          <div class="faq-item active"><button class="faq-q" type="button">क्या पूरी PDF की बजाय कुछ pages ही जोड़ सकते हैं?<span>+</span></button><div class="faq-a">हाँ. हर page पर green ✓ है. उसे untick करने पर वह page workspace में दिखाई देगा लेकिन final PDF में include नहीं होगा.</div></div>
+          <div class="faq-item"><button class="faq-q" type="button">क्या pages का order बदल सकते हैं?<span>+</span></button><div class="faq-a">हाँ. Page cards को drag करके PDFs के बीच भी किसी भी order में रखा जा सकता है.</div></div>
+          <div class="faq-item"><button class="faq-q" type="button">क्या same page दो बार डाल सकते हैं?<span>+</span></button><div class="faq-a">हाँ. Page select करके Duplicate दबाएं. उसके बाद copied page को जहां चाहें drag करें.</div></div>
+          <div class="faq-item"><button class="faq-q" type="button">क्या PDF files server पर upload होती हैं?<span>+</span></button><div class="faq-a">इस tool में selected PDF file content browser-side libraries से device पर process होता है और HindiTools PDF processing server पर upload नहीं किया जाता.</div></div>
+        </div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>
+      <div class="brand" style="margin-bottom:8px"><span class="brand-mark">हि</span><span class="brand-copy"><strong>Hindi<span class="brand-accent">Tools</span></strong><small>DOCUMENT TOOLS · हिंदी में</small></span></div>
+      <p class="footer-copy">Visual Hindi + Hinglish document tools — files और pages को देखकर काम करें.</p>
+    </div>
+    <div class="footer-links"><a href="/">Home</a><a href="about.html">About</a><a href="privacy.html">Privacy</a><a href="contact.html">Contact</a></div>
+  </div>
+</footer>
+
+<div class="modal" id="previewModal" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
+  <div class="modal-card">
+    <div class="modal-head"><strong id="previewTitle">Page Preview</strong><button class="icon-btn" id="closeModalBtn" type="button" aria-label="Close">×</button></div>
+    <div class="modal-body" id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+pdfjsLib.GlobalWorkerOptions.workerSrc="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+const {PDFDocument,degrees}=PDFLib;
+const $=id=>document.getElementById(id);
+const COLORS=["#43dcff","#ff8a3d","#37e88c","#b48cff","#ffd166","#ff6d9d","#65a7ff","#4ee0c1"];
+
+const state={
+  files:new Map(),
+  fileOrder:[],
+  assembly:[],
+  selected:new Set(),
+  history:[],
+  currentUrl:null,
+  observer:null,
+  rendered:new Set(),
+  rendering:new Set()
+};
+
+const fileInput=$("fileInput"),dropzone=$("dropzone"),workspace=$("workspace"),sourceList=$("sourceList"),
+pagesGrid=$("pagesGrid"),pagesViewport=$("pagesViewport"),mergeBtn=$("mergeBtn"),
+statusPanel=$("statusPanel"),statusLine=$("statusLine"),progressBar=$("progressBar"),
+resultPanel=$("resultPanel"),resultText=$("resultText"),downloadLink=$("downloadLink"),
+previewModal=$("previewModal"),modalBody=$("modalBody"),previewTitle=$("previewTitle");
+
+function uid(prefix="id"){return prefix+"-"+Date.now().toString(36)+"-"+Math.random().toString(36).slice(2,9)}
+function formatBytes(bytes){
+  if(!bytes)return"0 Bytes";
+  const k=1024,u=["Bytes","KB","MB","GB"],i=Math.min(u.length-1,Math.floor(Math.log(bytes)/Math.log(k)));
+  return parseFloat((bytes/Math.pow(k,i)).toFixed(2))+" "+u[i];
+}
+function safeName(v){
+  return(v||"merged-pdf").replace(/\.pdf$/i,"").replace(/[^\u0900-\u097Fa-zA-Z0-9-_ ]/g,"").trim().replace(/\s+/g,"-")||"merged-pdf";
+}
+function setStatus(msg,type="normal",pct=null){
+  statusPanel.classList.add("show");statusLine.textContent=msg;statusLine.className="status-line";
+  if(type!=="normal")statusLine.classList.add(type);
+  if(pct!==null)progressBar.style.width=Math.max(0,Math.min(100,pct))+"%";
+}
+function clearStatus(){statusPanel.classList.remove("show");statusLine.textContent="";progressBar.style.width="0%"}
+function clearResult(){
+  resultPanel.classList.remove("show");
+  if(state.currentUrl){URL.revokeObjectURL(state.currentUrl);state.currentUrl=null}
+  downloadLink.href="#";
+}
+function cloneAssembly(){return state.assembly.map(x=>({...x}))}
+function snapshot(){
+  state.history.push(cloneAssembly());
+  if(state.history.length>25)state.history.shift();
+}
+function updateTelemetry(){
+  $("teleFiles").textContent=state.files.size;
+  $("teleTotal").textContent=state.assembly.filter(x=>!x.blank).length;
+  $("teleIncluded").textContent=state.assembly.filter(x=>x.included).length;
+  $("teleSelected").textContent=state.selected.size;
+  const size=[...state.files.values()].reduce((s,f)=>s+f.file.size,0);
+  $("teleSize").textContent=formatBytes(size);
+}
+function updateSummary(){
+  const included=state.assembly.filter(x=>x.included).length;
+  $("assemblyCount").textContent=included+(included===1?" page in output":" pages in output");
+  $("selectionDetail").textContent=state.selected.size
+    ? state.selected.size+" card(s) selected for batch actions."
+    : "Tap a card to select it. Green ✓ controls whether it goes into final PDF.";
+  mergeBtn.disabled=included===0;
+  updateTelemetry();
+}
+function sourceColor(fileId){
+  const idx=state.fileOrder.indexOf(fileId);
+  return COLORS[(idx<0?0:idx)%COLORS.length];
+}
+function sourceLabel(fileId){
+  const idx=state.fileOrder.indexOf(fileId);
+  return "PDF "+(idx+1);
+}
+function includedOrderMap(){
+  let n=0;const map=new Map();
+  state.assembly.forEach(x=>{if(x.included)map.set(x.uid,++n)});
+  return map;
+}
+
+async function addFiles(fileList){
+  clearResult();clearStatus();
+  const incoming=[...(fileList||[])].filter(f=>f.type==="application/pdf"||f.name.toLowerCase().endsWith(".pdf"));
+  if(!incoming.length){setStatus("कृपया PDF files चुनें.","error",0);return}
+  dropzone.classList.add("scanning");
+  let added=0,failed=0,dupes=0;
+
+  for(let i=0;i<incoming.length;i++){
+    const file=incoming[i];
+    const duplicate=[...state.files.values()].some(x=>x.file.name===file.name&&x.file.size===file.size&&x.file.lastModified===file.lastModified);
+    if(duplicate){dupes++;continue}
+    try{
+      setStatus(`PDF ${i+1} / ${incoming.length} analyse हो रही है…`,"normal",Math.round((i/incoming.length)*50));
+      const buffer=await file.arrayBuffer();
+      const pdfJs=await pdfjsLib.getDocument({data:buffer.slice(0)}).promise;
+      const fileId=uid("file");
+      const record={id:fileId,file,buffer,pdfJs,pageCount:pdfJs.numPages};
+      state.files.set(fileId,record);
+      state.fileOrder.push(fileId);
+      for(let p=1;p<=pdfJs.numPages;p++){
+        state.assembly.push({uid:uid("page"),fileId,pageNo:p,rotation:0,included:true,blank:false});
+      }
+      added++;
+    }catch(err){console.error(err);failed++}
+  }
+
+  renderSources();renderAssembly();workspace.classList.toggle("show",state.files.size>0||state.assembly.length>0);
+  dropzone.classList.remove("scanning");
+  const msg=`${added} PDF add हुई${dupes?` • ${dupes} duplicate skip`:``}${failed?` • ${failed} read failed`:``}`;
+  setStatus(msg,failed?"warning":"success",100);setTimeout(clearStatus,900);
+  if(added)workspace.scrollIntoView({behavior:"smooth",block:"start"});
+}
+
+function renderSources(){
+  sourceList.innerHTML="";
+  state.fileOrder.forEach((fileId,index)=>{
+    const f=state.files.get(fileId);if(!f)return;
+    const used=state.assembly.filter(x=>x.fileId===fileId&&x.included).length;
+    const card=document.createElement("div");card.className="source-card";card.style.setProperty("--source",sourceColor(fileId));
+    card.innerHTML=`
+      <div class="source-head">
+        <span class="source-badge">${index+1}</span>
+        <span class="source-info"><strong title="${escapeHtml(f.file.name)}">${escapeHtml(f.file.name)}</strong><span>${f.pageCount} pages • ${formatBytes(f.file.size)} • ${used} used</span></span>
+      </div>
+      <div class="source-actions">
+        <button class="mini focus" type="button">Show</button>
+        <button class="mini only" type="button">Use only this</button>
+        <button class="mini reverse" type="button">Reverse pages</button>
+        <button class="danger remove-source" type="button">Remove</button>
+      </div>`;
+    card.querySelector(".focus").onclick=()=>focusFile(fileId);
+    card.querySelector(".only").onclick=()=>{snapshot();state.assembly.forEach(x=>x.included=x.fileId===fileId);clearResult();renderAssembly();renderSources()};
+    card.querySelector(".reverse").onclick=()=>reverseFilePages(fileId);
+    card.querySelector(".remove-source").onclick=()=>removeSource(fileId);
+    sourceList.appendChild(card);
+  });
+}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function focusFile(fileId){
+  const card=pagesGrid.querySelector(`.page-card[data-file="${fileId}"]`);
+  if(card){card.scrollIntoView({behavior:"smooth",block:"center"});card.animate([{boxShadow:"0 0 0 0 rgba(67,220,255,0)"},{boxShadow:"0 0 0 5px rgba(67,220,255,.35)"},{boxShadow:"0 0 0 0 rgba(67,220,255,0)"}],{duration:900})}
+}
+function reverseFilePages(fileId){
+  snapshot();
+  const positions=[];const items=[];
+  state.assembly.forEach((x,i)=>{if(x.fileId===fileId){positions.push(i);items.push(x)}});
+  items.reverse();positions.forEach((pos,i)=>state.assembly[pos]=items[i]);
+  clearResult();renderAssembly();setStatus("इस PDF के pages reverse कर दिए गए.","success",100);setTimeout(clearStatus,700);
+}
+function removeSource(fileId){
+  snapshot();
+  const f=state.files.get(fileId);
+  if(f){try{f.pdfJs.destroy()}catch(e){}}
+  state.files.delete(fileId);state.fileOrder=state.fileOrder.filter(id=>id!==fileId);
+  state.assembly=state.assembly.filter(x=>x.fileId!==fileId);
+  state.selected=new Set([...state.selected].filter(id=>state.assembly.some(x=>x.uid===id)));
+  clearResult();renderSources();renderAssembly();
+  workspace.classList.toggle("show",state.assembly.length>0||state.files.size>0);
+}
+
+function createCard(item,orderMap){
+  const card=document.createElement("article");card.className="page-card";card.dataset.uid=item.uid;
+  if(item.fileId)card.dataset.file=item.fileId;
+  card.draggable=true;card.style.setProperty("--source",item.blank?"#9aaab2":sourceColor(item.fileId));
+  card.classList.toggle("selected",state.selected.has(item.uid));card.classList.toggle("excluded",!item.included);
+  const label=item.blank?"BLANK":sourceLabel(item.fileId);
+  const pageText=item.blank?"Blank page":"Page "+item.pageNo;
+  const outputNo=orderMap.get(item.uid);
+  card.innerHTML=`
+    <div class="thumb-shell">${item.blank?'<div class="blank-sheet">BLANK PAGE</div>':'<div class="placeholder">THUMBNAIL<br>waiting…</div>'}</div>
+    <button class="include-box" type="button" aria-label="Include or exclude">${item.included?"✓":""}</button>
+    <div class="source-tag">${label}</div>
+    ${outputNo?`<div class="order-badge">OUT ${String(outputNo).padStart(2,"0")}</div>`:""}
+    <div class="page-meta"><span>${pageText}</span><span class="page-actions">
+      ${item.blank?"":'<button class="page-action preview" type="button" title="Preview">⌕</button>'}
+      <button class="page-action rotate" type="button" title="Rotate">↻</button>
+      <button class="page-action duplicate" type="button" title="Duplicate">⧉</button>
+      <button class="page-action remove" type="button" title="Remove">×</button>
+    </span></div>`;
+
+  card.addEventListener("click",e=>{
+    if(e.target.closest("button"))return;
+    if(e.shiftKey&&state._lastSelectedIndex!==undefined&&state._lastSelectedIndex!==null){
+      const cur=state.assembly.findIndex(x=>x.uid===item.uid),a=Math.min(cur,state._lastSelectedIndex),b=Math.max(cur,state._lastSelectedIndex);
+      for(let i=a;i<=b;i++)state.selected.add(state.assembly[i].uid);
+    }else{
+      if(state.selected.has(item.uid))state.selected.delete(item.uid);else state.selected.add(item.uid);
+      state._lastSelectedIndex=state.assembly.findIndex(x=>x.uid===item.uid);
+    }
+    refreshCardStates();
+  });
+  card.querySelector(".include-box").onclick=e=>{e.stopPropagation();snapshot();item.included=!item.included;clearResult();renderAssembly();renderSources()};
+  card.querySelector(".rotate").onclick=e=>{e.stopPropagation();snapshot();item.rotation=(item.rotation+90)%360;clearResult();renderAssembly()};
+  card.querySelector(".duplicate").onclick=e=>{e.stopPropagation();duplicateOne(item.uid)};
+  card.querySelector(".remove").onclick=e=>{e.stopPropagation();removeOne(item.uid)};
+  const preview=card.querySelector(".preview");if(preview)preview.onclick=async e=>{e.stopPropagation();await showPreview(item)};
+
+  card.addEventListener("dragstart",e=>{card.classList.add("dragging");e.dataTransfer.setData("text/plain",item.uid);e.dataTransfer.effectAllowed="move"});
+  card.addEventListener("dragend",()=>{card.classList.remove("dragging");pagesGrid.querySelectorAll(".page-card").forEach(c=>c.classList.remove("drop-target"))});
+  card.addEventListener("dragover",e=>{e.preventDefault();card.classList.add("drop-target");e.dataTransfer.dropEffect="move"});
+  card.addEventListener("dragleave",()=>card.classList.remove("drop-target"));
+  card.addEventListener("drop",e=>{
+    e.preventDefault();card.classList.remove("drop-target");
+    const dragged=e.dataTransfer.getData("text/plain");if(!dragged||dragged===item.uid)return;
+    const from=state.assembly.findIndex(x=>x.uid===dragged),to=state.assembly.findIndex(x=>x.uid===item.uid);if(from<0||to<0)return;
+    snapshot();const [moved]=state.assembly.splice(from,1);state.assembly.splice(to,0,moved);
+    clearResult();renderAssembly();
+  });
+  return card;
+}
+
+function renderAssembly(){
+  if(state.observer)state.observer.disconnect();
+  pagesGrid.innerHTML="";
+  const orderMap=includedOrderMap();
+  state.assembly.forEach(item=>pagesGrid.appendChild(createCard(item,orderMap)));
+  setupObserver();updateSummary();renderSourcesCountsOnly();
+}
+function renderSourcesCountsOnly(){
+  sourceList.querySelectorAll(".source-card").forEach((card,index)=>{
+    const fileId=state.fileOrder[index],f=state.files.get(fileId);if(!f)return;
+    const used=state.assembly.filter(x=>x.fileId===fileId&&x.included).length;
+    const span=card.querySelector(".source-info span");if(span)span.textContent=`${f.pageCount} pages • ${formatBytes(f.file.size)} • ${used} used`;
+  });
+}
+function refreshCardStates(){
+  pagesGrid.querySelectorAll(".page-card").forEach(card=>{
+    const id=card.dataset.uid,item=state.assembly.find(x=>x.uid===id);if(!item)return;
+    card.classList.toggle("selected",state.selected.has(id));card.classList.toggle("excluded",!item.included);
+  });updateSummary();
+}
+
+async function renderThumb(item){
+  if(item.blank||state.rendered.has(item.uid)||state.rendering.has(item.uid))return;
+  const f=state.files.get(item.fileId);if(!f)return;
+  state.rendering.add(item.uid);
+  try{
+    const card=pagesGrid.querySelector(`.page-card[data-uid="${item.uid}"]`);if(!card)return;
+    const shell=card.querySelector(".thumb-shell"),page=await f.pdfJs.getPage(item.pageNo),base=page.getViewport({scale:1});
+    const target=Math.max(120,Number($("thumbZoom").value)-18),scale=Math.min(.95,target/base.width),vp=page.getViewport({scale});
+    const canvas=document.createElement("canvas"),ctx=canvas.getContext("2d",{alpha:false});
+    canvas.width=Math.max(1,Math.floor(vp.width));canvas.height=Math.max(1,Math.floor(vp.height));ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);
+    await page.render({canvasContext:ctx,viewport:vp}).promise;canvas.style.transform=`rotate(${item.rotation}deg)`;shell.innerHTML="";shell.appendChild(canvas);state.rendered.add(item.uid);
+  }catch(err){console.error(err)}finally{state.rendering.delete(item.uid)}
+}
+function setupObserver(){
+  state.observer=new IntersectionObserver(entries=>entries.forEach(entry=>{
+    if(entry.isIntersecting){const item=state.assembly.find(x=>x.uid===entry.target.dataset.uid);if(item)renderThumb(item);state.observer.unobserve(entry.target)}
+  }),{root:pagesViewport,rootMargin:"350px 0px 350px 0px",threshold:.01});
+  pagesGrid.querySelectorAll(".page-card").forEach(card=>{const item=state.assembly.find(x=>x.uid===card.dataset.uid);if(item&&!item.blank&&!state.rendered.has(item.uid))state.observer.observe(card)});
+}
+async function renderAll(){
+  setStatus("सभी thumbnails render की जा रही हैं…","normal",3);
+  const items=state.assembly.filter(x=>!x.blank);
+  for(let i=0;i<items.length;i++){await renderThumb(items[i]);setStatus(`Thumbnail ${i+1}/${items.length}`,"normal",Math.round(((i+1)/items.length)*100))}
+  setStatus("सभी thumbnails ready हैं.","success",100);setTimeout(clearStatus,800);
+}
+
+function duplicateOne(id){
+  const idx=state.assembly.findIndex(x=>x.uid===id);if(idx<0)return;snapshot();
+  const copy={...state.assembly[idx],uid:uid("page")};state.assembly.splice(idx+1,0,copy);clearResult();renderAssembly();
+}
+function removeOne(id){
+  const idx=state.assembly.findIndex(x=>x.uid===id);if(idx<0)return;snapshot();
+  state.assembly.splice(idx,1);state.selected.delete(id);clearResult();renderAssembly();
+}
+function rotateSelected(delta){
+  if(!state.selected.size){setStatus("पहले page cards select करें.","warning",0);return}
+  snapshot();state.assembly.forEach(x=>{if(state.selected.has(x.uid))x.rotation=(x.rotation+delta+360)%360});clearResult();renderAssembly();
+}
+function duplicateSelected(){
+  if(!state.selected.size){setStatus("पहले page cards select करें.","warning",0);return}
+  snapshot();const out=[];state.assembly.forEach(x=>{out.push(x);if(state.selected.has(x.uid))out.push({...x,uid:uid("page")})});state.assembly=out;state.selected.clear();clearResult();renderAssembly();
+}
+function removeSelected(){
+  if(!state.selected.size){setStatus("पहले page cards select करें.","warning",0);return}
+  snapshot();state.assembly=state.assembly.filter(x=>!state.selected.has(x.uid));state.selected.clear();clearResult();renderAssembly();
+}
+function addBlank(){
+  snapshot();state.assembly.push({uid:uid("blank"),fileId:null,pageNo:null,rotation:0,included:true,blank:true});clearResult();renderAssembly();pagesViewport.scrollTo({top:pagesViewport.scrollHeight,behavior:"smooth"});
+}
+function undo(){
+  const prev=state.history.pop();if(!prev){setStatus("Undo के लिए previous change नहीं है.","warning",0);return}
+  state.assembly=prev;state.selected.clear();clearResult();renderAssembly();setStatus("Last change undo किया गया.","success",100);setTimeout(clearStatus,700);
+}
+function interleaveFirstTwo(){
+  if(state.fileOrder.length<2){setStatus("Mix के लिए कम से कम 2 PDFs चाहिए.","warning",0);return}
+  const aId=state.fileOrder[0],bId=state.fileOrder[1];
+  const a=state.assembly.filter(x=>x.fileId===aId).sort((x,y)=>x.pageNo-y.pageNo);
+  let b=state.assembly.filter(x=>x.fileId===bId).sort((x,y)=>x.pageNo-y.pageNo);
+  if($("reverseSecondCheck").checked)b=b.reverse();
+  const rest=state.assembly.filter(x=>x.fileId!==aId&&x.fileId!==bId);
+  const mixed=[],max=Math.max(a.length,b.length);
+  for(let i=0;i<max;i++){if(a[i])mixed.push(a[i]);if(b[i])mixed.push(b[i])}
+  snapshot();state.assembly=[...mixed,...rest];state.selected.clear();clearResult();renderAssembly();setStatus("पहली 2 PDFs interleave कर दी गई हैं.","success",100);setTimeout(clearStatus,800);
+}
+
+async function showPreview(item){
+  if(item.blank)return;
+  const f=state.files.get(item.fileId);if(!f)return;
+  previewModal.classList.add("show");previewTitle.textContent=`${sourceLabel(item.fileId)} • Page ${item.pageNo}`;modalBody.innerHTML='<div class="placeholder" style="color:#b9cdd7">Rendering preview…</div>';
+  try{
+    const page=await f.pdfJs.getPage(item.pageNo),base=page.getViewport({scale:1}),maxW=Math.min(780,innerWidth-70),scale=Math.min(1.6,maxW/base.width),vp=page.getViewport({scale});
+    const canvas=document.createElement("canvas"),ctx=canvas.getContext("2d",{alpha:false});canvas.width=Math.floor(vp.width);canvas.height=Math.floor(vp.height);ctx.fillStyle="#fff";ctx.fillRect(0,0,canvas.width,canvas.height);
+    await page.render({canvasContext:ctx,viewport:vp}).promise;canvas.style.transform=`rotate(${item.rotation}deg)`;modalBody.innerHTML="";modalBody.appendChild(canvas);
+  }catch(err){modalBody.innerHTML='<div class="placeholder" style="color:#ff8b94">Preview नहीं बन सकी.</div>'}
+}
+
+async function mergeOutput(){
+  const items=state.assembly.filter(x=>x.included);
+  if(!items.length){setStatus("Final PDF के लिए कम से कम एक page use करें.","error",0);return}
+  clearResult();mergeBtn.disabled=true;
+  try{
+    setStatus("MERGE PROCESS INITIALISED…","normal",3);
+    const sourceDocs=new Map();
+    for(const fileId of new Set(items.filter(x=>!x.blank).map(x=>x.fileId))){
+      const f=state.files.get(fileId);sourceDocs.set(fileId,await PDFDocument.load(f.buffer,{ignoreEncryption:false}));
+    }
+    const out=await PDFDocument.create();
+    for(let i=0;i<items.length;i++){
+      const item=items[i];
+      if(item.blank){
+        const page=out.addPage([595.28,841.89]);
+        if(item.rotation)page.setRotation(degrees(item.rotation));
+      }else{
+        const src=sourceDocs.get(item.fileId),[copied]=await out.copyPages(src,[item.pageNo-1]);
+        const original=(copied.getRotation&&copied.getRotation().angle)||0;
+        copied.setRotation(degrees((original+item.rotation+360)%360));out.addPage(copied);
+      }
+      setStatus(`Output page ${i+1} / ${items.length} बन रहा है…`,"normal",Math.round(((i+1)/items.length)*90));
+    }
+    const bytes=await out.save({useObjectStreams:true,objectsPerTick:50}),blob=new Blob([bytes],{type:"application/pdf"}),name=safeName($("outputName").value)+".pdf";
+    state.currentUrl=URL.createObjectURL(blob);downloadLink.href=state.currentUrl;downloadLink.download=name;resultText.textContent=`${items.length} pages • ${formatBytes(blob.size)} • final PDF ready`;resultPanel.classList.add("show");
+    setStatus("MERGE COMPLETE ✓","success",100);resultPanel.scrollIntoView({behavior:"smooth",block:"nearest"});
+  }catch(err){console.error(err);setStatus("PDF merge नहीं हो सकी. किसी source PDF में encryption या unsupported data हो सकती है.","error",0)}
+  finally{updateSummary()}
+}
+
+function clearWorkspace(){
+  if(state.observer)state.observer.disconnect();
+  for(const f of state.files.values()){try{f.pdfJs.destroy()}catch(e){}}
+  state.files.clear();state.fileOrder=[];state.assembly=[];state.selected.clear();state.history=[];state.rendered.clear();state.rendering.clear();
+  sourceList.innerHTML="";pagesGrid.innerHTML="";workspace.classList.remove("show");fileInput.value="";clearResult();clearStatus();scrollTo({top:0,behavior:"smooth"});
+}
+
+$("chooseFilesBtn").onclick=e=>{e.stopPropagation();fileInput.value="";fileInput.click()};
+$("addMoreBtn").onclick=()=>{fileInput.value="";fileInput.click()};
+dropzone.onclick=e=>{if(e.target.closest("button"))return;fileInput.value="";fileInput.click()};
+fileInput.onchange=e=>{if(e.target.files?.length)addFiles(e.target.files);fileInput.value=""};
+["dragenter","dragover"].forEach(n=>dropzone.addEventListener(n,e=>{e.preventDefault();e.stopPropagation();dropzone.classList.add("dragover")}));
+["dragleave","drop"].forEach(n=>dropzone.addEventListener(n,e=>{e.preventDefault();e.stopPropagation();dropzone.classList.remove("dragover")}));
+dropzone.addEventListener("drop",e=>{if(e.dataTransfer.files?.length)addFiles(e.dataTransfer.files)});
+
+$("useAllBtn").onclick=()=>{snapshot();state.assembly.forEach(x=>x.included=true);clearResult();renderAssembly();renderSources()};
+$("useNoneBtn").onclick=()=>{snapshot();state.assembly.forEach(x=>x.included=false);clearResult();renderAssembly();renderSources()};
+$("invertUseBtn").onclick=()=>{snapshot();state.assembly.forEach(x=>x.included=!x.included);clearResult();renderAssembly();renderSources()};
+$("rotateLeftBtn").onclick=()=>rotateSelected(-90);$("rotateRightBtn").onclick=()=>rotateSelected(90);
+$("duplicateBtn").onclick=duplicateSelected;$("removeSelectedBtn").onclick=removeSelected;
+$("clearSelectionBtn").onclick=()=>{state.selected.clear();refreshCardStates()};
+$("addBlankBtn").onclick=addBlank;$("undoBtn").onclick=undo;$("interleaveBtn").onclick=interleaveFirstTwo;
+$("clearAllBtn").onclick=clearWorkspace;$("renderAllBtn").onclick=renderAll;
+$("thumbZoom").oninput=()=>pagesGrid.style.setProperty("--thumb-width",$("thumbZoom").value+"px");
+mergeBtn.onclick=mergeOutput;
+
+$("closeModalBtn").onclick=()=>previewModal.classList.remove("show");
+previewModal.onclick=e=>{if(e.target===previewModal)previewModal.classList.remove("show")};
+document.addEventListener("keydown",e=>{if(e.key==="Escape")previewModal.classList.remove("show")});
+document.querySelectorAll(".faq-q").forEach(btn=>btn.onclick=()=>btn.parentElement.classList.toggle("active"));
+
+$("themeBtn").onclick=()=>{
+  const next=(document.documentElement.dataset.theme||"dark")==="dark"?"light":"dark";
+  document.documentElement.dataset.theme=next;try{localStorage.setItem("ht-hud-theme",next)}catch(e){}
+};
+$("menuBtn").onclick=()=>{
+  const nav=$("mainNav"),open=nav.classList.toggle("open");$("menuBtn").setAttribute("aria-expanded",String(open));
+};
+$("mainNav").querySelectorAll("a").forEach(a=>a.onclick=()=>{$("mainNav").classList.remove("open");$("menuBtn").setAttribute("aria-expanded","false")});
+updateSummary();
+</script>
 </body>
 </html>
