@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" data-theme="dark">
 <head>
   <script async
     src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4192195409142944"
@@ -8,21 +8,26 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
-  <!-- =========================
-       SEO
-  ========================== -->
-
   <title>Split PDF — Pages देखकर चुनें | HindiTools</title>
 
-  <meta name="description" content="PDF pages के thumbnails देखें और tap करके चुनें। Selected pages की एक PDF या अलग PDFs की ZIP बनाएं। Hindi + Hinglish में, browser में processing।" />
+  <meta
+    name="description"
+    content="PDF pages के thumbnails देखें, tap करके pages चुनें, rotate करें, visual split points लगाएं और selected pages की PDF या ZIP बनाएं। Hindi + Hinglish visual Split PDF tool."
+  />
 
   <meta name="author" content="HindiTools.com" />
-  <meta name="theme-color" content="#ff9933" />
+  <meta name="theme-color" content="#061018" />
   <meta name="robots" content="index, follow" />
 
   <meta property="og:title" content="Split PDF — Pages देखकर चुनें | HindiTools" />
-  <meta property="og:description" content="PDF pages के thumbnails देखें और tap करके चुनें। Selected pages की एक PDF या अलग PDFs की ZIP बनाएं। Hindi + Hinglish में, browser में processing।" />
+
+  <meta
+    property="og:description"
+    content="PDF upload करें, हर page का thumbnail देखें, tap करके select करें और नई PDF या ZIP बनाएं।"
+  />
+
   <meta property="og:type" content="website" />
+
   <meta
     property="og:url"
     content="https://www.hinditools.com/split-pdf-hi.html"
@@ -36,165 +41,193 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="apple-touch-icon.png" />
 
-  <!-- =========================
-       Fonts
-  ========================== -->
-
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap"
     rel="stylesheet"
   />
-
-  <!-- =========================
-       PDF Libraries
-  ========================== -->
 
   <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 
-  <!-- =========================
-       Structured Data
-  ========================== -->
-
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "PDF Alag Karna Online - HindiTools Split PDF",
-    "alternateName": "HindiTools Split PDF",
-    "url": "https://www.hinditools.com/split-pdf-hi.html",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Any",
-    "inLanguage": ["hi-IN", "en-IN"],
-    "description": "PDF से एक page, selected pages या page ranges अलग करने और हर page को अलग PDF बनाने वाला Hindi और Hinglish Split PDF tool.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "INR"
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"HindiTools Visual Split PDF",
+    "alternateName":"PDF अलग करें",
+    "url":"https://www.hinditools.com/split-pdf-hi.html",
+    "applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any",
+    "inLanguage":["hi-IN","en-IN"],
+    "description":"PDF pages को thumbnails में देखकर select, rotate और visually split करने वाला Hindi + Hinglish browser-based PDF tool.",
+    "offers":{
+      "@type":"Offer",
+      "price":"0",
+      "priceCurrency":"INR"
     },
-    "featureList": [
-      "Extract selected PDF pages",
-      "Split PDF by page ranges",
-      "Create a separate PDF for every page",
-      "Preview PDF pages",
-      "Download multiple PDFs as ZIP"
+    "featureList":[
+      "Visual PDF page thumbnails",
+      "Tap to select pages",
+      "Shift click range selection",
+      "Select all, odd, even and invert",
+      "Rotate selected pages",
+      "Visual split points",
+      "Extract selected pages to one PDF",
+      "Export selected pages as separate PDFs in ZIP",
+      "Split document into sections",
+      "Browser-side PDF processing"
     ]
   }
   </script>
 
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
       {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "HindiTools",
-        "item": "https://www.hinditools.com/"
+        "@type":"Question",
+        "name":"PDF alag karna kaise kare?",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"PDF upload करें। हर page का thumbnail दिखाई देगा। जिन pages की जरूरत है उन्हें tap करके select करें और selected pages की एक PDF या अलग PDFs की ZIP बनाएं।"
+        }
       },
       {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "PDF Tools"
+        "@type":"Question",
+        "name":"क्या page numbers type करना जरूरी है?",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"नहीं। HindiTools visual page picker में हर page thumbnail के रूप में दिखाई देता है और आप tap करके pages select कर सकते हैं। Range box optional है."
+        }
       },
       {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "PDF अलग करें",
-        "item": "https://www.hinditools.com/split-pdf-hi.html"
+        "@type":"Question",
+        "name":"क्या हर selected page की अलग PDF बना सकते हैं?",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"हाँ। Separate PDFs mode चुनने पर हर selected page की अलग PDF बनती है और multiple files ZIP में download होती हैं."
+        }
+      },
+      {
+        "@type":"Question",
+        "name":"क्या PDF को sections में split कर सकते हैं?",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"हाँ। Visual Split mode में किसी page के बाद Split Here चुनें। HindiTools उन split points से document sections बनाकर ZIP तैयार करता है."
+        }
+      },
+      {
+        "@type":"Question",
+        "name":"क्या PDF HindiTools server पर upload होती है?",
+        "acceptedAnswer":{
+          "@type":"Answer",
+          "text":"इस tool की PDF processing browser-side JavaScript libraries से आपके device पर होती है। HindiTools PDF processing server पर selected PDF upload नहीं की जाती."
+        }
       }
     ]
   }
   </script>
 
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "PDF alag karna kaise kare?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "PDF upload करें, Extract pages, Split by ranges या Every page mode चुनें, pages select करें और PDF अलग करें button दबाएं।"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "क्या PDF से सिर्फ एक page निकाल सकते हैं?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "हाँ। Extract pages mode में सिर्फ page number लिखें, जैसे 3. इससे page 3 की अलग PDF बनेगी।"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "PDF के हर page को अलग PDF कैसे बनाएं?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Every page mode चुनें। Tool PDF के हर page की अलग PDF बनाएगा और सभी files ZIP में download की जा सकती हैं।"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "PDF page range कैसे अलग करें?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Extract mode में 1-3,5,8-10 जैसे pages लिख सकते हैं। Split by ranges mode में 1-3 | 4-6 | 7- जैसे अलग ranges लिख सकते हैं।"
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "क्या PDF HindiTools server पर upload होती है?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "इस Split PDF tool में selected PDF browser-side JavaScript libraries से आपके device पर process होती है और HindiTools के PDF processing server पर upload नहीं की जाती। Sensitive documents के साथ फिर भी सामान्य online safety precautions रखें।"
-        }
+  <script>
+    try {
+      const saved = localStorage.getItem("ht-hud-theme");
+
+      if (saved === "light" || saved === "dark") {
+        document.documentElement.dataset.theme = saved;
       }
-    ]
-  }
+    } catch (e) {}
   </script>
 
   <style>
     :root {
-      --bg: #fffaf2;
-      --surface: #ffffff;
-      --surface-2: #fff7ed;
-      --text: #1e2a3e;
-      --muted: #64748b;
-      --muted-2: #475569;
+      --bg: #050b11;
+      --bg2: #07131d;
 
-      --saffron: #ff9933;
-      --primary: #ff7a1a;
-      --primary-dark: #c2410c;
-      --primary-soft: #fff0df;
+      --panel: #091722;
+      --panel2: #0d1d29;
+      --panel3: #112633;
 
-      --chakra: #000080;
-      --secondary: #0b3d91;
-      --secondary-soft: #dbeafe;
+      --text: #edf9ff;
+      --muted: #8da8b7;
+      --muted2: #b7ccd7;
 
-      --green: #138808;
-      --green-soft: #e7f8e4;
+      --line: rgba(87, 211, 255, 0.20);
+      --line-strong: rgba(87, 211, 255, 0.42);
 
-      --red: #dc2626;
-      --red-soft: #fff1f2;
+      --cyan: #43dcff;
+      --cyan2: #08bfe8;
+      --cyan-soft: rgba(67, 220, 255, 0.12);
 
-      --purple: #6d28d9;
-      --purple-soft: #f3e8ff;
+      --orange: #ff7a1a;
+      --orange2: #ff9933;
+      --orange-soft: rgba(255, 122, 26, 0.13);
 
-      --border: #f1dec8;
+      --green: #37e88c;
+      --green-soft: rgba(55, 232, 140, 0.12);
 
-      --shadow-sm: 0 12px 30px rgba(120, 72, 20, 0.07);
-      --shadow-md: 0 20px 45px rgba(120, 72, 20, 0.13);
-      --shadow-lg: 0 28px 70px rgba(15, 23, 42, 0.15);
+      --red: #ff5f6d;
+      --red-soft: rgba(255, 95, 109, 0.12);
 
-      --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
+      --yellow: #ffd166;
+      --yellow-soft: rgba(255, 209, 102, 0.12);
+
+      --purple: #b48cff;
+
+      --shadow: 0 28px 80px rgba(0,0,0,.44);
+
+      --grid: rgba(67,220,255,.035);
+
+      --glow:
+        0 0 0 1px rgba(67,220,255,.12),
+        0 0 32px rgba(0,190,230,.08);
+    }
+
+    html[data-theme="light"] {
+      --bg: #f7fbfd;
+      --bg2: #eef7fa;
+
+      --panel: #ffffff;
+      --panel2: #f6fbfd;
+      --panel3: #edf7fa;
+
+      --text: #102331;
+      --muted: #647985;
+      --muted2: #435f6d;
+
+      --line: rgba(3,118,151,.14);
+      --line-strong: rgba(3,118,151,.28);
+
+      --cyan: #007f9e;
+      --cyan2: #009fc5;
+      --cyan-soft: rgba(0,159,197,.09);
+
+      --orange: #e86100;
+      --orange2: #ff851b;
+      --orange-soft: rgba(232,97,0,.09);
+
+      --green: #07884a;
+      --green-soft: rgba(7,136,74,.09);
+
+      --red: #cb3040;
+      --red-soft: rgba(203,48,64,.09);
+
+      --yellow: #9d7100;
+      --yellow-soft: rgba(157,113,0,.09);
+
+      --purple: #6e42c1;
+
+      --shadow: 0 25px 65px rgba(25,57,73,.12);
+
+      --grid: rgba(0,127,158,.026);
+
+      --glow:
+        0 0 0 1px rgba(0,127,158,.08),
+        0 12px 32px rgba(37,115,139,.08);
     }
 
     * {
@@ -208,38 +241,42 @@
     }
 
     body {
-      font-family: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
+      min-height: 100vh;
 
-      background:
-        radial-gradient(
-          circle at top left,
-          rgba(255, 153, 51, 0.16),
-          transparent 30%
-        ),
-        radial-gradient(
-          circle at top right,
-          rgba(19, 136, 8, 0.10),
-          transparent 28%
-        ),
-        radial-gradient(
-          circle at center top,
-          rgba(11, 61, 145, 0.08),
-          transparent 36%
-        ),
-        radial-gradient(
-          circle at 85% 70%,
-          rgba(109, 40, 217, 0.08),
-          transparent 30%
-        ),
-        linear-gradient(
-          180deg,
-          rgba(255,255,255,0.34),
-          transparent 360px
-        ),
-        var(--bg);
+      font-family:
+        "Inter",
+        "Noto Sans Devanagari",
+        system-ui,
+        sans-serif;
 
       color: var(--text);
-      line-height: 1.6;
+
+      background:
+        linear-gradient(var(--grid) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid) 1px, transparent 1px),
+        radial-gradient(circle at 12% 0%, rgba(0,195,230,.11), transparent 30%),
+        radial-gradient(circle at 92% 8%, rgba(255,122,26,.09), transparent 26%),
+        linear-gradient(180deg,var(--bg),var(--bg2));
+
+      background-size:
+        42px 42px,
+        42px 42px,
+        auto,
+        auto,
+        auto;
+
+      line-height: 1.55;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    button {
+      color: inherit;
+      -webkit-tap-highlight-color: transparent;
     }
 
     a {
@@ -247,381 +284,588 @@
       text-decoration: none;
     }
 
-    button,
-    input,
-    select {
-      font-family: inherit;
+    [hidden] {
+      display: none !important;
     }
 
-    /* =========================
-       Accessibility
-    ========================== */
+    .container {
+      width: min(1240px, calc(100% - 30px));
+      margin: auto;
+    }
 
     .skip-link {
       position: absolute;
-      left: -999px;
+      left: -9999px;
       top: 10px;
-      background: var(--primary);
-      color: white;
+      z-index: 1000;
+
       padding: 10px 14px;
-      border-radius: 14px;
-      z-index: 999;
-      font-weight: 800;
+
+      border-radius: 12px;
+
+      background: var(--orange);
+      color: white;
+
+      font-weight: 900;
     }
 
     .skip-link:focus {
       left: 12px;
     }
 
-    :focus-visible {
-      outline: 4px solid rgba(255, 153, 51, 0.28);
-      outline-offset: 3px;
-      border-radius: 12px;
-    }
+    /* HEADER */
 
-    /* =========================
-       Global
-    ========================== */
-
-    .tricolour-line {
-      height: 5px;
-      background: linear-gradient(
-        90deg,
-        var(--saffron) 0 33.33%,
-        #ffffff 33.33% 66.66%,
-        var(--green) 66.66% 100%
-      );
-      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-    }
-
-    .container {
-      width: min(1180px, calc(100% - 32px));
-      margin: auto;
-    }
-
-    .top-strip {
-      background: linear-gradient(
-        90deg,
-        var(--secondary),
-        #1e40af
-      );
-      color: white;
-      padding: 9px 0;
-      font-size: 14px;
-      text-align: center;
-    }
-
-    .top-strip strong {
-      color: #ffe7c2;
-    }
-
-    /* =========================
-       Header
-    ========================== */
-
-    header {
+    .site-header {
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 100;
 
-      background: rgba(255, 250, 242, 0.90);
+      background:
+        color-mix(
+          in srgb,
+          var(--bg) 82%,
+          transparent
+        );
+
       backdrop-filter: blur(18px);
 
-      border-bottom: 1px solid rgba(241, 222, 200, 0.95);
+      border-bottom:
+        1px solid var(--line);
     }
 
-    .nav {
-      min-height: 76px;
+    .header-inner {
+      min-height: 72px;
 
       display: flex;
       align-items: center;
       justify-content: space-between;
 
       gap: 18px;
-
-      position: relative;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 11px;
 
-      color: var(--secondary);
+      gap: 10px;
 
-      font-size: 23px;
       font-weight: 900;
-
-      white-space: nowrap;
     }
 
     .brand-mark {
-      width: 42px;
-      height: 42px;
-
-      border-radius: 16px;
-
-      background: linear-gradient(
-        180deg,
-        var(--saffron) 0 34%,
-        #ffffff 34% 66%,
-        var(--green) 66% 100%
-      );
-
-      color: var(--chakra);
+      width: 40px;
+      height: 40px;
 
       display: grid;
       place-items: center;
 
-      box-shadow: 0 10px 24px rgba(255, 153, 51, 0.26);
-
-      font-weight: 900;
-
-      border: 1px solid rgba(15, 23, 42, 0.10);
-    }
-
-    .flag-pill {
-      display: inline-grid;
-      place-items: center;
-
-      width: 30px;
-      height: 30px;
-
-      border-radius: 999px;
-
-      background: linear-gradient(
-        180deg,
-        var(--saffron) 0 33.33%,
-        #ffffff 33.33% 66.66%,
-        var(--green) 66.66% 100%
-      );
-
-      border: 1px solid rgba(15, 23, 42, 0.12);
-
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.10);
-
-      font-size: 0;
-
-      position: relative;
-    }
-
-    .flag-pill::after {
-      content: "☸";
-      color: var(--chakra);
-      font-size: 13px;
-      line-height: 1;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-
-      list-style: none;
-
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      padding: 9px 13px;
-
-      border-radius: 999px;
-
-      color: #3f4655;
-
-      font-size: 15px;
-      font-weight: 800;
-
-      transition: var(--transition);
-    }
-
-    .nav-links a:hover {
-      background: white;
-      color: var(--primary);
-
-      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.08);
-    }
-
-    .nav-cta {
-      background: var(--primary);
-      color: white;
-
-      padding: 11px 16px;
-
-      border-radius: 999px;
-
-      font-weight: 900;
-
-      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.25);
-
-      transition: var(--transition);
-    }
-
-    .nav-cta:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    .menu-btn {
-      display: none;
-
-      border: 0;
-
-      background: white;
+      border:
+        1px solid var(--line-strong);
 
       border-radius: 12px;
 
-      padding: 9px 12px;
+      color: var(--cyan);
 
-      font-size: 21px;
+      background:
+        linear-gradient(
+          145deg,
+          var(--panel3),
+          var(--panel)
+        );
 
-      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-
-      cursor: pointer;
+      box-shadow:
+        0 0 24px
+        rgba(67,220,255,.12);
     }
 
-    /* =========================
-       Breadcrumb
-    ========================== */
+    .brand-copy {
+      display: flex;
+      flex-direction: column;
 
-    .breadcrumb {
-      margin: 24px 0 0;
+      line-height: 1.05;
+    }
+
+    .brand-copy strong {
+      font-size: 1.16rem;
+      letter-spacing: -.03em;
+    }
+
+    .brand-copy small {
+      color: var(--muted);
+
+      font-size: .62rem;
+
+      letter-spacing: .14em;
+
+      margin-top: 4px;
+    }
+
+    .brand-accent {
+      color: var(--orange);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+
+      gap: 6px;
+    }
+
+    .nav a {
+      color: var(--muted2);
+
+      font-size: .86rem;
+      font-weight: 800;
+
+      padding: 9px 11px;
+
+      border-radius: 10px;
+    }
+
+    .nav a:hover {
+      background: var(--cyan-soft);
+      color: var(--cyan);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .icon-button {
+      width: 40px;
+      height: 40px;
+
+      border-radius: 12px;
+
+      border:
+        1px solid var(--line);
+
+      background: var(--panel);
+
+      display: grid;
+      place-items: center;
+
+      cursor: pointer;
+
+      transition: .2s ease;
+    }
+
+    .icon-button:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
+
+      transform: translateY(-1px);
+    }
+
+    .menu-button {
+      display: none;
+    }
+
+    /* TOP STATUS */
+
+    .top-status {
+      border-bottom:
+        1px solid var(--line);
+
+      background:
+        linear-gradient(
+          90deg,
+          rgba(67,220,255,.06),
+          transparent 50%,
+          rgba(255,122,26,.05)
+        );
+    }
+
+    .top-status .container {
+      min-height: 34px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 15px;
 
       color: var(--muted);
 
-      font-size: 14px;
+      font-size: .72rem;
       font-weight: 800;
+
+      letter-spacing: .06em;
     }
 
-    .breadcrumb a {
-      color: var(--primary);
+    .signal {
+      display: inline-block;
+
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      background: var(--green);
+
+      box-shadow:
+        0 0 12px var(--green);
+
+      margin-right: 7px;
     }
 
-    /* =========================
-       Hero
-    ========================== */
+    /* HERO */
 
     .hero {
-      padding: 38px 0 30px;
+      padding: 34px 0 20px;
     }
 
     .hero-grid {
       display: grid;
 
-      grid-template-columns: 0.92fr 1.08fr;
+      grid-template-columns:
+        minmax(0,.88fr)
+        minmax(480px,1.12fr);
 
-      gap: 32px;
+      gap: 28px;
 
       align-items: center;
     }
 
-    .badge-row {
+    .eyebrow {
+      color: var(--cyan);
+
+      font-weight: 900;
+
+      letter-spacing: .12em;
+
+      font-size: .74rem;
+
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size:
+        clamp(
+          2.3rem,
+          5vw,
+          4.5rem
+        );
+
+      line-height: 1.02;
+
+      letter-spacing: -.062em;
+
+      font-weight: 900;
+
+      margin-bottom: 17px;
+    }
+
+    h1 span {
+      color: var(--cyan);
+
+      text-shadow:
+        0 0 28px
+        rgba(67,220,255,.14);
+    }
+
+    .hero-copy > p:not(.eyebrow) {
+      color: var(--muted2);
+
+      max-width: 670px;
+
+      font-size: 1.03rem;
+    }
+
+    .hero-chips {
       display: flex;
       flex-wrap: wrap;
 
-      gap: 10px;
+      gap: 8px;
+
+      margin-top: 20px;
+    }
+
+    .chip {
+      border:
+        1px solid var(--line);
+
+      background: var(--panel);
+
+      color: var(--muted2);
+
+      border-radius: 999px;
+
+      padding: 8px 11px;
+
+      font-size: .75rem;
+      font-weight: 850;
+    }
+
+    .chip strong {
+      color: var(--cyan);
+    }
+
+    /* UPLOAD */
+
+    .upload-console {
+      border:
+        1px solid
+        var(--line-strong);
+
+      border-radius: 26px;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--panel2),
+          var(--panel)
+        );
+
+      box-shadow: var(--shadow);
+
+      overflow: hidden;
+
+      position: relative;
+    }
+
+    .console-top {
+      min-height: 42px;
+
+      padding: 0 15px;
+
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      border-bottom:
+        1px solid var(--line);
+
+      color: var(--muted);
+
+      font-size: .69rem;
+      font-weight: 900;
+
+      letter-spacing: .09em;
+    }
+
+    .console-lights {
+      display: flex;
+      gap: 6px;
+    }
+
+    .console-lights i {
+      width: 7px;
+      height: 7px;
+
+      border-radius: 50%;
+
+      display: block;
+    }
+
+    .console-lights i:nth-child(1) {
+      background: var(--red);
+    }
+
+    .console-lights i:nth-child(2) {
+      background: var(--yellow);
+    }
+
+    .console-lights i:nth-child(3) {
+      background: var(--green);
+    }
+
+    .dropzone {
+      margin: 15px;
+
+      min-height: 300px;
+
+      border:
+        1px dashed
+        var(--line-strong);
+
+      border-radius: 19px;
+
+      cursor: pointer;
+
+      display: grid;
+      place-items: center;
+
+      text-align: center;
+
+      padding: 26px;
+
+      position: relative;
+
+      overflow: hidden;
+
+      background:
+        linear-gradient(
+          rgba(67,220,255,.03) 1px,
+          transparent 1px
+        ),
+        linear-gradient(
+          90deg,
+          rgba(67,220,255,.03) 1px,
+          transparent 1px
+        ),
+        rgba(67,220,255,.018);
+
+      background-size:
+        28px 28px;
+
+      transition: .25s ease;
+    }
+
+    .dropzone::after {
+      content: "";
+
+      position: absolute;
+
+      left: 4%;
+      right: 4%;
+
+      top: -20%;
+
+      height: 2px;
+
+      background:
+        linear-gradient(
+          90deg,
+          transparent,
+          var(--cyan),
+          transparent
+        );
+
+      box-shadow:
+        0 0 18px var(--cyan);
+
+      opacity: 0;
+    }
+
+    .dropzone.scanning::after {
+      opacity: .9;
+
+      animation:
+        scan
+        1.6s
+        ease-in-out
+        infinite;
+    }
+
+    @keyframes scan {
+      from {
+        top: 2%;
+      }
+
+      to {
+        top: 98%;
+      }
+    }
+
+    .dropzone.dragover {
+      border-color: var(--cyan);
+
+      background-color:
+        var(--cyan-soft);
+
+      transform:
+        scale(1.006);
+    }
+
+    .dropzone input {
+      display: none;
+    }
+
+    .upload-orb {
+      width: 84px;
+      height: 84px;
+
+      border-radius: 50%;
+
+      margin:
+        0 auto 16px;
+
+      display: grid;
+      place-items: center;
+
+      border:
+        1px solid
+        var(--line-strong);
+
+      color: var(--cyan);
+
+      font-size: 1.25rem;
+      font-weight: 900;
+
+      position: relative;
+
+      background:
+        radial-gradient(
+          circle,
+          rgba(67,220,255,.10),
+          transparent 67%
+        );
+
+      box-shadow:
+        0 0 35px
+        rgba(67,220,255,.12);
+    }
+
+    .upload-orb::before,
+    .upload-orb::after {
+      content: "";
+
+      position: absolute;
+
+      inset: -9px;
+
+      border:
+        1px solid
+        rgba(67,220,255,.15);
+
+      border-radius: 50%;
+    }
+
+    .upload-orb::after {
+      inset: -19px;
+
+      border-style: dashed;
+    }
+
+    .dropzone h2 {
+      font-size: 1.4rem;
+
+      margin-bottom: 6px;
+
+      letter-spacing: -.025em;
+    }
+
+    .dropzone p {
+      color: var(--muted);
+
+      font-size: .9rem;
 
       margin-bottom: 18px;
     }
 
-    .badge {
-      background: rgba(255,255,255,0.90);
-
-      border: 1px solid rgba(241, 222, 200, 0.95);
-
-      color: #71401c;
-
-      padding: 8px 12px;
-
-      border-radius: 999px;
-
-      font-size: 14px;
-      font-weight: 900;
-
-      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.06);
-    }
-
-    .india-badge {
-      background: linear-gradient(
-        90deg,
-        rgba(255,153,51,0.22),
-        rgba(255,255,255,0.94),
-        rgba(19,136,8,0.16)
-      );
-
-      border: 1px solid rgba(11,61,145,0.12);
-
-      color: var(--secondary);
-    }
-
-    .hero h1 {
-      font-size: clamp(35px, 4.7vw, 58px);
-
-      line-height: 1.08;
-
-      letter-spacing: -1.7px;
-
-      color: var(--secondary);
-
-      margin-bottom: 16px;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(
-        90deg,
-        var(--saffron),
-        var(--secondary),
-        var(--green)
-      );
-
-      -webkit-background-clip: text;
-      background-clip: text;
-
-      color: transparent;
-    }
-
-    .hero p {
-      color: var(--muted-2);
-
-      font-size: 18px;
-
-      max-width: 650px;
-
-      margin-bottom: 20px;
-    }
-
-    .hero p strong {
-      color: var(--text);
-    }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-
-      gap: 12px;
-
-      align-items: center;
-
-      margin-top: 22px;
-    }
+    /* BUTTONS */
 
     .primary-btn,
     .secondary-btn,
-    .danger-btn,
     .ghost-btn,
-    .green-btn {
+    .danger-btn,
+    .mini-btn {
       border: 0;
-
-      border-radius: 16px;
-
-      padding: 13px 18px;
-
-      font-size: 15px;
-      font-weight: 900;
 
       cursor: pointer;
 
-      transition: var(--transition);
+      font-weight: 900;
+
+      border-radius: 12px;
+
+      min-height: 42px;
+
+      padding: 10px 15px;
+
+      transition: .2s ease;
 
       display: inline-flex;
       align-items: center;
@@ -631,964 +875,984 @@
     }
 
     .primary-btn {
-      background: var(--primary);
+      background:
+        linear-gradient(
+          135deg,
+          var(--orange),
+          var(--orange2)
+        );
+
       color: white;
 
-      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.23);
+      box-shadow:
+        0 10px 28px
+        rgba(255,122,26,.22);
     }
 
     .primary-btn:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
+      transform:
+        translateY(-1px);
+
+      box-shadow:
+        0 14px 34px
+        rgba(255,122,26,.3);
     }
 
     .primary-btn:disabled {
-      background: #c7c7c7;
+      opacity: .42;
 
       cursor: not-allowed;
-
-      box-shadow: none;
 
       transform: none;
     }
 
     .secondary-btn {
-      background: var(--secondary);
-      color: white;
+      background: var(--cyan);
+      color: #001019;
     }
 
-    .secondary-btn:hover {
-      background: #072f72;
-      transform: translateY(-1px);
-    }
+    .ghost-btn {
+      border:
+        1px solid var(--line);
 
-    .green-btn {
-      background: var(--green);
-      color: white;
+      background: var(--panel);
+
+      color: var(--muted2);
     }
 
     .danger-btn {
       background: var(--red-soft);
+
       color: var(--red);
 
-      border: 1px solid #fecdd3;
+      border:
+        1px solid
+        rgba(255,95,109,.22);
     }
 
-    .ghost-btn {
-      background: white;
-      color: #4b5563;
+    .mini-btn {
+      min-height: 34px;
 
-      border: 1px solid var(--border);
+      padding: 7px 10px;
+
+      border:
+        1px solid var(--line);
+
+      background: var(--panel);
+
+      color: var(--muted2);
+
+      font-size: .74rem;
     }
 
-    .ghost-btn:hover {
-      color: var(--primary);
-
-      border-color: var(--primary);
-
-      transform: translateY(-1px);
+    .ghost-btn:hover,
+    .mini-btn:hover {
+      border-color: var(--cyan);
+      color: var(--cyan);
     }
 
-    .hero-hints {
-      margin-top: 22px;
-
-      display: flex;
-      flex-wrap: wrap;
-
-      gap: 10px;
-    }
-
-    .hint {
-      display: inline-flex;
-      align-items: center;
-
-      gap: 8px;
-
-      background: rgba(255,255,255,0.72);
-
-      border: 1px solid var(--border);
-
-      padding: 8px 12px;
-
-      border-radius: 999px;
-
-      color: var(--muted-2);
-
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    /* =========================
-       Tool
-    ========================== */
-
-    .tool-shell {
-      background: rgba(255,255,255,0.94);
-
-      border: 1px solid rgba(241, 222, 200, 0.95);
-
-      border-radius: 34px;
-
-      padding: 24px;
-
-      box-shadow: var(--shadow-lg);
-
-      position: relative;
-
-      overflow: hidden;
-    }
-
-    .tool-shell::before {
-      content: "";
-
-      position: absolute;
-
-      inset: 0 0 auto 0;
-
-      height: 5px;
-
-      background: linear-gradient(
-        90deg,
-        var(--saffron),
-        #ffffff,
-        var(--green)
-      );
-    }
-
-    .tool-intro {
-      display: grid;
-
-      grid-template-columns: 1fr auto 1fr;
-
-      gap: 12px;
-
-      align-items: stretch;
-
-      margin-bottom: 18px;
-    }
-
-    .intro-box {
-      background: var(--bg);
-
-      border: 1px solid var(--border);
-
-      border-radius: 20px;
-
-      padding: 14px;
-
-      min-height: 105px;
-    }
-
-    .intro-box strong {
-      display: block;
-
-      color: var(--secondary);
-
-      margin-bottom: 8px;
-
-      font-size: 15px;
-    }
-
-    .intro-box span {
-      color: var(--muted-2);
-
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .arrow-box {
-      width: 40px;
-
-      display: grid;
-      place-items: center;
-
-      color: var(--primary);
-
-      font-weight: 900;
-      font-size: 24px;
-    }
-
-    .dropzone {
-      border: 2px dashed #efb276;
-
-      border-radius: 26px;
-
-      background:
-        radial-gradient(
-          circle at top right,
-          rgba(255,153,51,0.12),
-          transparent 34%
-        ),
-        linear-gradient(
-          180deg,
-          rgba(255,248,240,0.95),
-          rgba(255,255,255,0.95)
-        );
-
-      min-height: 275px;
-
-      display: grid;
-      place-items: center;
-
-      text-align: center;
-
-      padding: 28px;
-
-      transition: var(--transition);
-
-      cursor: pointer;
-
-      position: relative;
-
-      overflow: hidden;
-    }
-
-    .dropzone.dragover {
-      border-color: var(--green);
-
-      background: #f0fdf4;
-
-      transform: scale(1.01);
-    }
-
-    .dropzone input {
-      display: none;
-    }
-
-    .drop-icon {
-      font-size: 58px;
-
-      margin-bottom: 12px;
-    }
-
-    .dropzone h2 {
-      color: var(--secondary);
-
-      font-size: 27px;
-
-      margin-bottom: 8px;
-    }
-
-    .dropzone p {
-      color: var(--muted);
-
-      font-size: 16px;
-
-      margin-bottom: 18px;
-    }
-
-    .upload-btn {
-      background: var(--primary);
-      color: white;
-
-      border: 0;
-
-      padding: 14px 20px;
-
-      border-radius: 16px;
-
-      font-size: 16px;
-      font-weight: 900;
-
-      cursor: pointer;
-
-      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.22);
-    }
-
-    .privacy-note {
-      margin-top: 12px;
+    .local-note {
+      margin-top: 15px;
 
       color: var(--green);
 
-      font-size: 14px;
-      font-weight: 900;
+      font-size: .72rem;
+      font-weight: 850;
     }
 
-    /* =========================
-       Settings Panels
-    ========================== */
+    /* WORKSPACE */
 
-    .panel {
-      background: white;
+    .workspace {
+      padding: 22px 0 50px;
 
-      border: 1px solid var(--border);
-
-      border-radius: 24px;
-
-      padding: 20px;
-
-      box-shadow: var(--shadow-sm);
-
-      margin-top: 18px;
+      display: none;
     }
 
-    .panel-head {
-      display: flex;
+    .workspace.show {
+      display: block;
+    }
 
-      align-items: start;
-      justify-content: space-between;
+    .telemetry {
+      display: grid;
 
-      gap: 16px;
+      grid-template-columns:
+        repeat(
+          5,
+          minmax(0,1fr)
+        );
+
+      gap: 10px;
 
       margin-bottom: 14px;
     }
 
-    .panel-head h2 {
-      color: var(--secondary);
-
-      font-size: 24px;
-
-      line-height: 1.25;
-    }
-
-    .panel-head p {
-      color: var(--muted);
-
-      font-size: 14px;
-
-      margin-top: 4px;
-
-      font-weight: 700;
-    }
-
-    .file-summary {
-      display: grid;
-
-      grid-template-columns: auto 1fr auto;
-
-      gap: 14px;
-
-      align-items: center;
-
-      background: #fffaf5;
-
-      border: 1px solid var(--border);
-
-      border-radius: 20px;
-
-      padding: 14px;
-
-      margin-bottom: 16px;
-
-      transition: var(--transition);
-    }
-
-    .file-summary:hover {
-      border-color: rgba(255, 122, 26, 0.50);
-
-      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.08);
-    }
-
-    .file-icon {
-      width: 48px;
-      height: 48px;
-
-      border-radius: 16px;
-
-      background: var(--secondary);
-
-      color: white;
-
-      display: grid;
-      place-items: center;
-
-      font-size: 24px;
-    }
-
-    .file-name {
-      color: var(--secondary);
-
-      font-weight: 900;
-
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .file-meta {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-
-      color: var(--muted);
-
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .summary-strip {
-      display: grid;
-
-      grid-template-columns: repeat(4, 1fr);
-
-      gap: 10px;
-
-      margin-bottom: 16px;
-    }
-
-    .summary-item {
-      background: #fffaf5;
-
-      border: 1px solid var(--border);
-
-      border-radius: 18px;
-
-      padding: 12px;
-    }
-
-    .summary-item span {
-      display: block;
-
-      font-size: 12px;
-
-      color: var(--muted);
-
-      font-weight: 900;
-
-      margin-bottom: 3px;
-    }
-
-    .summary-item strong {
-      display: block;
-
-      color: var(--secondary);
-
-      font-size: 18px;
-
-      line-height: 1.2;
-    }
-
-    .mode-tabs {
-      display: grid;
-
-      grid-template-columns: repeat(3, 1fr);
-
-      gap: 10px;
-
-      margin-top: 16px;
-    }
-
-    .mode-card {
-      background: #fffaf5;
-
-      border: 1px solid var(--border);
-
-      border-radius: 20px;
-
-      padding: 14px;
-
-      cursor: pointer;
-
-      transition: var(--transition);
-
-      text-align: left;
-    }
-
-    .mode-card.active,
-    .mode-card:hover {
-      border-color: var(--primary);
-
-      box-shadow: 0 10px 22px rgba(255, 122, 26, 0.12);
-
-      transform: translateY(-1px);
-    }
-
-    .mode-card strong {
-      color: var(--secondary);
-
-      display: block;
-
-      margin-bottom: 4px;
-
-      font-size: 15px;
-    }
-
-    .mode-card span {
-      display: block;
-
-      color: var(--muted);
-
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .settings-grid {
-      display: grid;
-
-      grid-template-columns: repeat(2, 1fr);
-
-      gap: 14px;
-
-      margin-top: 16px;
-    }
-
-    .setting-card {
-      background: #fffaf5;
-
-      border: 1px solid var(--border);
-
-      border-radius: 20px;
-
-      padding: 16px;
-    }
-
-    .setting-card.full {
-      grid-column: 1 / -1;
-    }
-
-    .setting-card label,
-    .input-group label {
-      display: block;
-
-      color: var(--secondary);
-
-      font-weight: 900;
-
-      margin-bottom: 8px;
-    }
-
-    .setting-card small {
-      display: block;
-
-      color: var(--muted);
-
-      font-size: 13px;
-
-      margin-top: 6px;
-
-      font-weight: 700;
-    }
-
-    .setting-card select,
-    .setting-card input,
-    .input-group input {
-      width: 100%;
-
-      border: 1px solid #ead6c2;
+    .telemetry-card {
+      border:
+        1px solid var(--line);
 
       border-radius: 15px;
 
-      padding: 12px 13px;
+      background: var(--panel);
 
-      font-size: 15px;
+      padding: 11px 13px;
 
-      outline: 0;
-
-      background: white;
+      box-shadow: var(--glow);
     }
 
-    .setting-card select:focus,
-    .setting-card input:focus,
-    .input-group input:focus {
-      border-color: var(--primary);
-
-      box-shadow: 0 0 0 4px rgba(255, 153, 51, 0.14);
-    }
-
-    .example-buttons {
-      display: flex;
-      flex-wrap: wrap;
-
-      gap: 8px;
-
-      margin-top: 10px;
-    }
-
-    .chip-btn {
-      border: 1px solid #ead6c2;
-
-      background: white;
-
-      color: #4b5563;
-
-      padding: 8px 11px;
-
-      border-radius: 999px;
-
-      font-size: 13px;
-      font-weight: 900;
-
-      cursor: pointer;
-
-      transition: var(--transition);
-    }
-
-    .chip-btn:hover {
-      border-color: var(--primary);
-
-      color: var(--primary);
-
-      transform: translateY(-1px);
-    }
-
-    /* =========================
-       Preview
-    ========================== */
-
-    .preview-grid {
-      display: none;
-
-      grid-template-columns: repeat(4, 1fr);
-
-      gap: 12px;
-
-      margin-top: 14px;
-    }
-
-    .preview-grid.show {
-      display: grid;
-    }
-
-    .preview-card {
-      background: white;
-
-      border: 1px solid #ead6c2;
-
-      border-radius: 18px;
-
-      padding: 10px;
-
-      min-height: 190px;
-
-      display: flex;
-      flex-direction: column;
-
-      gap: 8px;
-
-      box-shadow: 0 8px 18px rgba(120, 72, 20, 0.05);
-    }
-
-    .preview-canvas-wrap {
-      flex: 1;
-
-      background: #f3f4f6;
-
-      border-radius: 14px;
-
-      display: grid;
-      place-items: center;
-
-      overflow: hidden;
-
-      border: 1px solid #e5e7eb;
-    }
-
-    .preview-canvas-wrap canvas {
-      max-width: 100%;
-      max-height: 150px;
-
+    .telemetry-card span {
       display: block;
-    }
 
-    .preview-card strong {
-      color: var(--secondary);
+      color: var(--muted);
 
-      font-size: 14px;
-    }
-
-    /* =========================
-       Notice / Status
-    ========================== */
-
-    .notice {
-      margin-top: 14px;
-
-      background: #eef2ff;
-
-      color: #243b86;
-
-      border: 1px solid #c7d2fe;
-
-      border-radius: 18px;
-
-      padding: 13px 14px;
-
-      font-size: 14px;
-      font-weight: 900;
-    }
-
-    .controls-grid {
-      display: grid;
-
-      grid-template-columns: 1fr auto;
-
-      gap: 14px;
-
-      align-items: end;
-
-      margin-top: 18px;
-    }
-
-    .status-box {
-      display: none;
-
-      margin-top: 18px;
-
-      border-radius: 18px;
-
-      padding: 14px 16px;
-
+      font-size: .64rem;
       font-weight: 900;
 
-      border: 1px solid #e5e7eb;
+      letter-spacing: .08em;
 
-      background: #f9fafb;
-
-      color: #4b5563;
+      margin-bottom: 4px;
     }
 
-    .status-box.show {
-      display: block;
+    .telemetry-card strong {
+      font-size: .93rem;
     }
 
-    .status-box.success {
-      background: #ecfdf5;
+    .telemetry-card.accent strong {
+      color: var(--cyan);
+    }
 
+    .telemetry-card.success strong {
       color: var(--green);
-
-      border-color: #bbf7d0;
     }
 
-    .status-box.error {
-      background: var(--red-soft);
+    /* CONTROL DECK */
 
-      color: var(--red);
+    .control-deck {
+      position: sticky;
 
-      border-color: #fecdd3;
+      top: 82px;
+
+      z-index: 70;
+
+      border:
+        1px solid var(--line);
+
+      border-radius: 18px;
+
+      background:
+        color-mix(
+          in srgb,
+          var(--panel) 94%,
+          transparent
+        );
+
+      backdrop-filter:
+        blur(18px);
+
+      box-shadow:
+        0 16px 45px
+        rgba(0,0,0,.18);
+
+      padding: 12px;
+
+      margin-bottom: 14px;
     }
 
-    .progress-wrap {
-      display: none;
-
-      margin-top: 16px;
-
-      background: #f3f4f6;
-
-      border-radius: 999px;
-
-      overflow: hidden;
-
-      height: 12px;
-    }
-
-    .progress-wrap.show {
-      display: block;
-    }
-
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-
-      background: linear-gradient(
-        90deg,
-        var(--saffron),
-        var(--primary),
-        var(--green)
-      );
-
-      transition: width 0.25s ease;
-    }
-
-    .download-card {
-      display: none;
-
-      margin-top: 18px;
-
-      background: linear-gradient(
-        135deg,
-        #ecfdf5,
-        #f0fdf4
-      );
-
-      border: 1px solid #bbf7d0;
-
-      border-radius: 24px;
-
-      padding: 20px;
+    .control-row {
+      display: flex;
 
       align-items: center;
       justify-content: space-between;
 
-      gap: 18px;
+      gap: 12px;
+
+      flex-wrap: wrap;
     }
 
-    .download-card.show {
+    .control-group {
       display: flex;
+      align-items: center;
+
+      gap: 7px;
+
+      flex-wrap: wrap;
     }
 
-    .download-card h3 {
-      color: var(--green);
+    .control-label {
+      color: var(--muted);
 
-      font-size: 22px;
+      font-size: .68rem;
+      font-weight: 900;
 
-      margin-bottom: 4px;
+      letter-spacing: .08em;
+
+      margin-right: 2px;
     }
 
-    .download-card p {
-      color: #166534;
+    .mode-tabs {
+      display: flex;
 
-      font-size: 14px;
-      font-weight: 700;
+      gap: 6px;
+
+      flex-wrap: wrap;
     }
 
-    /* =========================
-       SEO / Help Content
-    ========================== */
+    .mode-tab {
+      border:
+        1px solid var(--line);
 
-    .info-sections {
-      display: grid;
+      background: var(--panel2);
 
-      grid-template-columns: 1fr 1fr;
+      color: var(--muted2);
 
-      gap: 18px;
+      padding: 8px 11px;
 
-      margin-top: 36px;
+      border-radius: 10px;
+
+      cursor: pointer;
+
+      font-size: .76rem;
+      font-weight: 900;
     }
 
-    .info-card {
-      background: white;
+    .mode-tab.active {
+      border-color: var(--cyan);
 
-      border: 1px solid var(--border);
+      color: var(--cyan);
+
+      background:
+        var(--cyan-soft);
+
+      box-shadow:
+        0 0 18px
+        rgba(67,220,255,.08);
+    }
+
+    .range-box {
+      display: flex;
+      align-items: center;
+
+      gap: 7px;
+
+      border:
+        1px solid var(--line);
+
+      background: var(--panel2);
+
+      border-radius: 10px;
+
+      padding:
+        4px 5px 4px 10px;
+    }
+
+    .range-box input {
+      width: 130px;
+
+      border: 0;
+
+      background: transparent;
+
+      color: var(--text);
+
+      outline: 0;
+
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .range-box button {
+      border: 0;
+
+      background: var(--cyan-soft);
+
+      color: var(--cyan);
+
+      border-radius: 8px;
+
+      padding: 6px 8px;
+
+      cursor: pointer;
+
+      font-size: .72rem;
+      font-weight: 900;
+    }
+
+    .zoom-wrap {
+      display: flex;
+      align-items: center;
+
+      gap: 7px;
+
+      color: var(--muted);
+
+      font-size: .7rem;
+      font-weight: 850;
+    }
+
+    .zoom-wrap input {
+      width: 90px;
+
+      accent-color: var(--cyan);
+    }
+
+    /* PAGE WORKSPACE */
+
+    .workspace-shell {
+      border:
+        1px solid var(--line);
 
       border-radius: 24px;
 
-      padding: 22px;
+      overflow: hidden;
 
-      box-shadow: var(--shadow-sm);
+      background: var(--panel);
+
+      box-shadow: var(--shadow);
+    }
+
+    .workspace-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      padding: 13px 16px;
+
+      border-bottom:
+        1px solid var(--line);
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--panel2),
+          var(--panel)
+        );
+    }
+
+    .workspace-head h2 {
+      font-size: 1rem;
+
+      letter-spacing: .02em;
+    }
+
+    .workspace-head p {
+      color: var(--muted);
+
+      font-size: .72rem;
+      font-weight: 750;
+
+      margin-top: 2px;
+    }
+
+    .pages-viewport {
+      padding: 16px;
+
+      max-height: 72vh;
+
+      overflow: auto;
+
+      position: relative;
+    }
+
+    .pages-grid {
+      --thumb-width: 156px;
+
+      display: grid;
+
+      grid-template-columns:
+        repeat(
+          auto-fill,
+          minmax(
+            var(--thumb-width),
+            1fr
+          )
+        );
+
+      gap: 13px;
+
+      align-items: start;
+    }
+
+    .page-card {
+      border:
+        1px solid var(--line);
+
+      border-radius: 15px;
+
+      background: var(--panel2);
+
+      padding: 8px;
 
       position: relative;
 
-      overflow: hidden;
+      cursor: pointer;
+
+      transition: .18s ease;
+
+      user-select: none;
+
+      min-width: 0;
     }
 
-    .info-card::before {
-      content: "";
+    .page-card:hover {
+      border-color: var(--line-strong);
+
+      transform:
+        translateY(-1px);
+    }
+
+    .page-card.selected {
+      border-color: var(--cyan);
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--cyan-soft),
+          var(--panel2)
+        );
+
+      box-shadow:
+        0 0 0 1px
+        rgba(67,220,255,.18),
+        0 0 28px
+        rgba(67,220,255,.10);
+    }
+
+    .page-card.dragging {
+      opacity: .45;
+    }
+
+    .page-card.drop-target {
+      outline:
+        2px solid
+        var(--orange);
+
+      outline-offset: 2px;
+    }
+
+    .thumb-shell {
+      aspect-ratio:
+        .707 / 1;
+
+      border-radius: 9px;
+
+      background: #f4f4f4;
+
+      overflow: hidden;
+
+      display: grid;
+      place-items: center;
+
+      position: relative;
+
+      border:
+        1px solid
+        rgba(255,255,255,.08);
+    }
+
+    html[data-theme="light"]
+    .thumb-shell {
+      border-color:
+        rgba(0,0,0,.08);
+    }
+
+    .thumb-shell canvas {
+      display: block;
+
+      max-width: 100%;
+      max-height: 100%;
+
+      width: auto;
+      height: auto;
+
+      transition:
+        transform .2s ease;
+    }
+
+    .thumb-placeholder {
+      color: #69747a;
+
+      font-size: .72rem;
+      font-weight: 900;
+
+      text-align: center;
+
+      padding: 10px;
+    }
+
+    .page-check {
+      position: absolute;
+
+      top: 13px;
+      left: 13px;
+
+      width: 25px;
+      height: 25px;
+
+      border-radius: 8px;
+
+      display: grid;
+      place-items: center;
+
+      border:
+        1px solid
+        rgba(0,0,0,.18);
+
+      background:
+        rgba(255,255,255,.88);
+
+      color: #5b6770;
+
+      font-size: .75rem;
+      font-weight: 1000;
+
+      z-index: 3;
+    }
+
+    .page-card.selected
+    .page-check {
+      background: var(--cyan);
+
+      color: #001019;
+
+      border-color: var(--cyan);
+    }
+
+    .page-number-badge {
+      position: absolute;
+
+      top: 13px;
+      right: 13px;
+
+      background:
+        rgba(0,8,13,.76);
+
+      color: white;
+
+      border-radius: 7px;
+
+      padding: 4px 7px;
+
+      font-size: .61rem;
+      font-weight: 900;
+
+      letter-spacing: .03em;
+
+      z-index: 3;
+    }
+
+    .page-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 6px;
+
+      margin-top: 7px;
+
+      color: var(--muted);
+
+      font-size: .66rem;
+      font-weight: 850;
+    }
+
+    .page-actions {
+      display: flex;
+
+      gap: 4px;
+    }
+
+    .page-action {
+      width: 27px;
+      height: 27px;
+
+      border-radius: 7px;
+
+      border:
+        1px solid var(--line);
+
+      background: var(--panel);
+
+      color: var(--muted2);
+
+      display: grid;
+      place-items: center;
+
+      cursor: pointer;
+
+      font-size: .76rem;
+      font-weight: 900;
+    }
+
+    .page-action:hover {
+      color: var(--cyan);
+
+      border-color: var(--cyan);
+    }
+
+    .page-action.split {
+      color: var(--orange);
+    }
+
+    .page-card.has-split-after {
+      border-bottom-color: var(--orange);
+    }
+
+    .split-indicator {
+      display: none;
 
       position: absolute;
 
-      inset: 0 0 auto 0;
+      left: 15%;
+      right: 15%;
+      bottom: -8px;
 
-      height: 4px;
+      height: 3px;
 
-      background: linear-gradient(
-        90deg,
-        var(--saffron),
-        #ffffff,
-        var(--green)
-      );
+      border-radius: 3px;
+
+      background: var(--orange);
+
+      box-shadow:
+        0 0 14px
+        rgba(255,122,26,.55);
+
+      z-index: 6;
+    }
+
+    .page-card.has-split-after
+    .split-indicator {
+      display: block;
+    }
+
+    .split-indicator::after {
+      content: "SPLIT";
+
+      position: absolute;
+
+      right: 0;
+      top: -15px;
+
+      color: var(--orange);
+
+      font-size: .5rem;
+      font-weight: 1000;
+
+      letter-spacing: .08em;
+    }
+
+    /* OUTPUT BAR */
+
+    .selection-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 12px;
+
+      flex-wrap: wrap;
+
+      padding: 12px 16px;
+
+      border-top:
+        1px solid var(--line);
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--panel2),
+          var(--panel)
+        );
+    }
+
+    .selection-summary {
+      display: flex;
+      align-items: center;
+
+      gap: 14px;
+
+      flex-wrap: wrap;
+    }
+
+    .selection-summary strong {
+      color: var(--cyan);
+
+      font-size: 1rem;
+    }
+
+    .selection-summary span {
+      color: var(--muted);
+
+      font-size: .72rem;
+      font-weight: 800;
+    }
+
+    .output-options {
+      display: flex;
+      align-items: center;
+
+      gap: 8px;
+
+      flex-wrap: wrap;
+    }
+
+    .output-options input {
+      min-width: 145px;
+
+      border:
+        1px solid var(--line);
+
+      background: var(--panel2);
+
+      color: var(--text);
+
+      border-radius: 10px;
+
+      padding: 9px 10px;
+
+      outline: 0;
+
+      font-size: .76rem;
+      font-weight: 800;
+    }
+
+    /* STATUS */
+
+    .status-panel {
+      margin-top: 14px;
+
+      border:
+        1px solid var(--line);
+
+      border-radius: 17px;
+
+      background: var(--panel);
+
+      overflow: hidden;
+
+      display: none;
+    }
+
+    .status-panel.show {
+      display: block;
+    }
+
+    .status-line {
+      padding: 12px 14px;
+
+      display: flex;
+      align-items: center;
+
+      gap: 10px;
+
+      color: var(--muted2);
+
+      font-size: .78rem;
+      font-weight: 800;
+    }
+
+    .status-line.success {
+      color: var(--green);
+    }
+
+    .status-line.error {
+      color: var(--red);
+    }
+
+    .status-line.warning {
+      color: var(--yellow);
+    }
+
+    .progress-track {
+      height: 5px;
+
+      background: var(--panel3);
+    }
+
+    .progress-bar {
+      width: 0;
+
+      height: 100%;
+
+      background:
+        linear-gradient(
+          90deg,
+          var(--cyan),
+          var(--green)
+        );
+
+      transition:
+        width .18s ease;
+
+      box-shadow:
+        0 0 14px
+        rgba(67,220,255,.35);
+    }
+
+    /* RESULT */
+
+    .result-panel {
+      display: none;
+
+      margin-top: 14px;
+
+      border:
+        1px solid
+        rgba(55,232,140,.28);
+
+      border-radius: 18px;
+
+      background:
+        linear-gradient(
+          145deg,
+          var(--green-soft),
+          var(--panel)
+        );
+
+      padding: 15px;
+    }
+
+    .result-panel.show {
+      display: block;
+    }
+
+    .result-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      gap: 14px;
+
+      flex-wrap: wrap;
+    }
+
+    .result-head h3 {
+      color: var(--green);
+
+      font-size: 1rem;
+    }
+
+    .result-head p {
+      color: var(--muted);
+
+      font-size: .73rem;
+      font-weight: 750;
+
+      margin-top: 4px;
+    }
+
+    .result-actions {
+      display: flex;
+
+      gap: 8px;
+
+      flex-wrap: wrap;
+    }
+
+    /* CONTENT */
+
+    .info-grid {
+      display: grid;
+
+      grid-template-columns:
+        1fr 1fr;
+
+      gap: 14px;
+
+      margin-top: 18px;
+    }
+
+    .info-card {
+      border:
+        1px solid var(--line);
+
+      border-radius: 18px;
+
+      background: var(--panel);
+
+      padding: 18px;
+
+      box-shadow: var(--glow);
     }
 
     .info-card h2 {
-      color: var(--secondary);
+      font-size: 1.05rem;
 
-      font-size: 25px;
+      margin-bottom: 9px;
 
-      margin-bottom: 12px;
+      color: var(--cyan);
     }
 
     .info-card p,
     .info-card li {
-      color: #5b6472;
+      color: var(--muted2);
 
-      font-size: 15px;
-      font-weight: 600;
+      font-size: .82rem;
+      font-weight: 650;
     }
 
-    .info-card ul,
-    .info-card ol {
-      padding-left: 22px;
+    .info-card ol,
+    .info-card ul {
+      padding-left: 20px;
 
       display: grid;
 
-      gap: 8px;
+      gap: 7px;
     }
 
-    .context-note {
-      margin-top: 18px;
-
-      padding: 16px 18px;
-
-      background: var(--primary-soft);
-
-      border: 1px solid #fed7aa;
-
-      border-radius: 18px;
-
-      color: #7c2d12;
-
-      font-size: 15px;
-      font-weight: 700;
-    }
-
-    .context-note a {
-      color: var(--primary-dark);
-      font-weight: 900;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    /* =========================
-       Related Tools
-    ========================== */
-
-    .related {
-      margin-top: 18px;
-
+    .related-grid {
       display: grid;
 
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns:
+        repeat(4,1fr);
 
-      gap: 14px;
+      gap: 9px;
+
+      margin-top: 10px;
     }
 
-    .related a {
-      background: white;
+    .related-card {
+      border:
+        1px solid var(--line);
 
-      border: 1px solid var(--border);
+      border-radius: 13px;
 
-      border-radius: 18px;
+      background: var(--panel2);
 
-      padding: 16px;
+      padding: 12px;
 
+      font-size: .76rem;
       font-weight: 900;
 
-      color: var(--secondary);
-
-      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
-
-      transition: var(--transition);
+      transition: .2s ease;
     }
 
-    .related a:hover {
-      transform: translateY(-3px);
+    .related-card:hover {
+      border-color: var(--cyan);
 
-      color: var(--primary);
+      color: var(--cyan);
 
-      border-color: rgba(255, 122, 26, 0.45);
+      transform:
+        translateY(-1px);
     }
-
-    /* =========================
-       FAQ
-    ========================== */
 
     .faq-list {
       display: grid;
 
-      gap: 12px;
+      gap: 8px;
 
-      margin-top: 18px;
+      margin-top: 9px;
     }
 
     .faq-item {
-      background: white;
+      border:
+        1px solid var(--line);
 
-      border: 1px solid var(--border);
+      border-radius: 13px;
 
-      border-radius: 18px;
+      background: var(--panel2);
 
       overflow: hidden;
-
-      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.05);
     }
 
     .faq-q {
@@ -1596,421 +1860,575 @@
 
       border: 0;
 
-      background: white;
+      background: transparent;
 
-      padding: 17px;
+      color: var(--text);
 
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-
-      gap: 14px;
+      padding: 12px 13px;
 
       text-align: left;
 
-      color: var(--secondary);
+      display: flex;
+      justify-content: space-between;
 
-      font-weight: 900;
-      font-size: 16px;
+      gap: 10px;
 
       cursor: pointer;
+
+      font-size: .79rem;
+      font-weight: 900;
     }
 
     .faq-a {
       display: none;
 
-      padding: 0 17px 17px;
+      padding:
+        0 13px 13px;
 
-      color: #5b6472;
+      color: var(--muted2);
 
-      font-size: 15px;
-      font-weight: 600;
+      font-size: .77rem;
+      font-weight: 650;
     }
 
-    .faq-item.active .faq-a {
+    .faq-item.active
+    .faq-a {
       display: block;
     }
 
-    /* =========================
-       Footer
-    ========================== */
+    /* FOOTER */
 
     footer {
-      margin-top: 46px;
+      margin-top: 34px;
 
-      background: #151f3e;
+      border-top:
+        1px solid var(--line);
 
-      color: white;
+      background: #03080d;
 
-      padding: 38px 0 20px;
-
-      position: relative;
+      padding: 28px 0;
     }
 
-    footer::before {
-      content: "";
-
-      position: absolute;
-
-      inset: 0 0 auto 0;
-
-      height: 5px;
-
-      background: linear-gradient(
-        90deg,
-        var(--saffron),
-        #ffffff,
-        var(--green)
-      );
+    html[data-theme="light"]
+    footer {
+      background: #eaf4f7;
     }
 
-    .footer-grid {
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+
+      gap: 24px;
+
+      flex-wrap: wrap;
+    }
+
+    .footer-copy {
+      color: var(--muted);
+
+      font-size: .72rem;
+
+      max-width: 520px;
+    }
+
+    .footer-links {
+      display: flex;
+
+      gap: 13px;
+
+      flex-wrap: wrap;
+
+      color: var(--muted2);
+
+      font-size: .73rem;
+      font-weight: 800;
+    }
+
+    /* PREVIEW MODAL */
+
+    .modal {
+      position: fixed;
+
+      inset: 0;
+
+      z-index: 300;
+
+      background:
+        rgba(0,5,9,.84);
+
+      backdrop-filter:
+        blur(12px);
+
+      display: none;
+
+      align-items: center;
+      justify-content: center;
+
+      padding: 18px;
+    }
+
+    .modal.show {
+      display: flex;
+    }
+
+    .modal-card {
+      width:
+        min(
+          900px,
+          100%
+        );
+
+      max-height: 92vh;
+
+      overflow: auto;
+
+      border:
+        1px solid
+        var(--line-strong);
+
+      border-radius: 20px;
+
+      background: var(--panel);
+
+      box-shadow:
+        0 40px 100px
+        rgba(0,0,0,.55);
+    }
+
+    .modal-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      gap: 10px;
+
+      padding: 12px 14px;
+
+      border-bottom:
+        1px solid var(--line);
+    }
+
+    .modal-head strong {
+      color: var(--cyan);
+    }
+
+    .modal-body {
+      padding: 14px;
+
       display: grid;
+      place-items: center;
 
-      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      background: #111b20;
 
-      gap: 26px;
-
-      margin-bottom: 26px;
+      min-height: 400px;
     }
 
-    .footer-brand {
-      font-size: 25px;
-      font-weight: 900;
+    .modal-body canvas {
+      max-width: 100%;
 
-      margin-bottom: 10px;
+      height: auto;
+
+      display: block;
+
+      box-shadow:
+        0 18px 50px
+        rgba(0,0,0,.35);
     }
 
-    footer p,
-    footer a {
-      color: rgba(255,255,255,0.78);
+    /* RESPONSIVE */
 
-      font-size: 15px;
-    }
+    @media (max-width:1000px) {
 
-    footer h3 {
-      color: white;
-
-      margin-bottom: 12px;
-
-      font-size: 17px;
-    }
-
-    footer ul {
-      list-style: none;
-
-      display: grid;
-
-      gap: 8px;
-    }
-
-    footer a:hover {
-      color: #ffd7a8;
-    }
-
-    .copyright {
-      border-top: 1px solid rgba(255,255,255,0.12);
-
-      padding-top: 18px;
-
-      color: rgba(255,255,255,0.62);
-
-      text-align: center;
-
-      font-size: 14px;
-    }
-
-    /* =========================
-       Responsive
-    ========================== */
-
-    @media (max-width: 1040px) {
-      .hero-grid,
-      .info-sections {
+      .hero-grid {
         grid-template-columns: 1fr;
       }
 
-      .related,
-      .preview-grid {
-        grid-template-columns: repeat(2, 1fr);
+      .hero-copy {
+        max-width: 760px;
       }
 
-      .nav-links,
-      .nav-cta {
+      .telemetry {
+        grid-template-columns:
+          repeat(3,1fr);
+      }
+
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav {
         display: none;
       }
 
-      .menu-btn {
-        display: inline-flex;
+      .menu-button {
+        display: grid;
       }
 
-      .nav.open .nav-links {
+      .nav.open {
         display: flex;
 
         position: absolute;
 
-        top: 76px;
-
-        left: 0;
-        right: 0;
-
-        background: white;
+        top: 65px;
+        left: 15px;
+        right: 15px;
 
         flex-direction: column;
         align-items: stretch;
 
-        border-radius: 20px;
+        border:
+          1px solid var(--line);
 
-        padding: 14px;
+        border-radius: 15px;
 
-        box-shadow: var(--shadow-md);
+        background: var(--panel);
 
-        border: 1px solid var(--border);
+        padding: 9px;
+
+        box-shadow: var(--shadow);
       }
 
-      .nav.open .nav-links a {
+      .nav.open a {
         text-align: center;
       }
     }
 
-    @media (max-width: 700px) {
-      .top-strip {
-        font-size: 12px;
+    @media (max-width:700px) {
+
+      .container {
+        width:
+          min(
+            100% - 20px,
+            1240px
+          );
+      }
+
+      .top-status .container {
+        font-size: .61rem;
       }
 
       .hero {
-        padding-top: 28px;
+        padding-top: 24px;
       }
 
-      .tool-shell {
-        padding: 16px;
-
-        border-radius: 24px;
+      h1 {
+        font-size:
+          clamp(
+            2rem,
+            13vw,
+            3.2rem
+          );
       }
 
-      .tool-intro {
-        grid-template-columns: 1fr;
-      }
-
-      .arrow-box {
-        width: 100%;
-
-        transform: rotate(90deg);
+      .upload-console {
+        border-radius: 19px;
       }
 
       .dropzone {
-        min-height: 240px;
+        min-height: 260px;
 
-        padding: 22px 16px;
+        margin: 10px;
+
+        padding: 20px 14px;
       }
 
-      .dropzone h2 {
-        font-size: 23px;
+      .telemetry {
+        grid-template-columns:
+          1fr 1fr;
       }
 
-      .file-summary {
-        grid-template-columns: auto 1fr;
+      .control-deck {
+        top: 73px;
+
+        padding: 9px;
       }
 
-      .file-summary .danger-btn,
-      .file-summary .ghost-btn {
-        grid-column: 1 / -1;
+      .control-row {
+        align-items: flex-start;
       }
 
-      .summary-strip,
-      .settings-grid,
-      .controls-grid,
-      .related,
-      .preview-grid,
-      .footer-grid,
-      .mode-tabs {
-        grid-template-columns: 1fr;
-      }
-
-      .download-card {
-        align-items: stretch;
-
-        flex-direction: column;
-      }
-
-      .primary-btn,
-      .secondary-btn,
-      .danger-btn,
-      .ghost-btn,
-      .green-btn {
+      .control-group {
         width: 100%;
       }
 
-      .hero-actions {
-        align-items: stretch;
-
-        flex-direction: column;
+      .mode-tabs {
+        width: 100%;
       }
 
-      .panel-head {
-        display: block;
+      .mode-tab {
+        flex: 1;
       }
 
-      .panel-head .danger-btn {
-        margin-top: 14px;
+      .range-box {
+        flex: 1;
       }
 
-      .brand {
-        font-size: 20px;
+      .range-box input {
+        width: 100%;
       }
 
-      .flag-pill {
-        width: 28px;
-        height: 28px;
+      .zoom-wrap {
+        width: 100%;
+
+        justify-content:
+          space-between;
+      }
+
+      .zoom-wrap input {
+        flex: 1;
+      }
+
+      .pages-viewport {
+        padding: 10px;
+
+        max-height: none;
+      }
+
+      .pages-grid {
+        --thumb-width: 132px;
+
+        gap: 9px;
+      }
+
+      .selection-bar {
+        padding: 10px;
+      }
+
+      .selection-summary,
+      .output-options {
+        width: 100%;
+      }
+
+      .output-options input {
+        flex: 1;
+
+        min-width: 120px;
+      }
+
+      .output-options .primary-btn {
+        width: 100%;
+      }
+
+      .related-grid {
+        grid-template-columns:
+          1fr 1fr;
+      }
+
+      .header-inner {
+        min-height: 64px;
+      }
+
+      .control-label {
+        width: 100%;
       }
     }
 
-    @media (prefers-reduced-motion: reduce) {
+    @media (max-width:430px) {
+
+      .pages-grid {
+        --thumb-width: 118px;
+      }
+
+      .related-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (prefers-reduced-motion:reduce) {
+
       *,
       *::before,
       *::after {
         scroll-behavior: auto !important;
+        animation: none !important;
         transition: none !important;
       }
     }
   </style>
-  <link rel="stylesheet" href="hinditools-refresh.css" />
-<link rel="stylesheet" href="pdf-page-picker.css?v=20260917">
-<script src="pdf-page-picker.js?v=20260917"></script>
 </head>
 
-<body class="ht-tool">
+<body>
 
-  <div class="tricolour-line" aria-hidden="true"></div>
-
-  <a class="skip-link" href="#split-tool">
+  <a
+    class="skip-link"
+    href="#upload-console"
+  >
     सीधे Split PDF tool पर जाएं
   </a>
 
-  <!-- =========================
-       Top Strip
-  ========================== -->
+  <header class="site-header">
 
-  <div class="top-strip">
-    <div class="container">
-      <strong>PDF alag karna hai?</strong>
-      एक page, selected pages या पूरे PDF के pages अलग करें।
-    </div>
-  </div>
-
-  <!-- =========================
-       Header
-  ========================== -->
-
-  <header>
-    <div class="container nav" id="nav">
+    <div class="container header-inner">
 
       <a
-        class="brand"
         href="/"
+        class="brand"
         aria-label="HindiTools Home"
       >
-        <span class="brand-mark">हि</span>
 
-        <span>HindiTools</span>
+        <span class="brand-mark">
+          हि
+        </span>
 
-        <span
-          class="flag-pill"
-          aria-label="Indian tricolour inspired design"
-        ></span>
+        <span class="brand-copy">
+
+          <strong>
+            Hindi<span class="brand-accent">Tools</span>
+          </strong>
+
+          <small>
+            VISUAL PDF WORKSPACE
+          </small>
+
+        </span>
+
       </a>
 
-      <ul class="nav-links">
-        <li><a href="/">Home</a></li>
-        <li><a href="merge-pdf-hi.html">PDF जोड़ें</a></li>
-        <li><a href="compress-pdf-hi.html">PDF Size कम करें</a></li>
-        <li><a href="pdf-to-word-hi.html">PDF to Word</a></li>
-        <li><a href="image-to-pdf-hi.html">Photo to PDF</a></li>
-        <li><a href="privacy.html">Privacy</a></li>
-      </ul>
-
-      <a class="nav-cta" href="#split-tool">
-        ✂️ PDF अलग करें
-      </a>
-
-      <button
-        class="menu-btn"
-        id="menuBtn"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
+      <nav
+        class="nav"
+        id="mainNav"
+        aria-label="Main navigation"
       >
-        ☰
-      </button>
+
+        <a href="/">Home</a>
+
+        <a href="compress-pdf-hi.html">
+          Compress
+        </a>
+
+        <a href="merge-pdf-hi.html">
+          Merge
+        </a>
+
+        <a href="pdf-to-word-hi.html">
+          PDF to Word
+        </a>
+
+        <a href="privacy.html">
+          Privacy
+        </a>
+
+      </nav>
+
+      <div class="header-actions">
+
+        <button
+          class="icon-button"
+          id="themeBtn"
+          type="button"
+          aria-label="Theme बदलें"
+        >
+          ◐
+        </button>
+
+        <button
+          class="icon-button menu-button"
+          id="menuBtn"
+          type="button"
+          aria-label="Menu खोलें"
+          aria-expanded="false"
+        >
+          ☰
+        </button>
+
+      </div>
 
     </div>
+
   </header>
+
+  <div class="top-status">
+
+    <div class="container">
+
+      <span>
+        <i class="signal"></i>
+        LOCAL PDF ENGINE ONLINE
+      </span>
+
+      <span>
+        FILE PROCESSING / YOUR DEVICE
+      </span>
+
+    </div>
+
+  </div>
 
   <main>
 
-    <!-- =========================
-         Breadcrumb
-    ========================== -->
+    <section class="container hero">
 
-    <div class="container">
-      <div class="breadcrumb">
-        <a href="/">Home</a>
-        /
-        PDF Tools
-        /
-        PDF अलग करें
-      </div>
-    </div>
+      <div class="hero-grid">
 
-    <!-- =========================
-         Hero + Tool
-    ========================== -->
+        <div class="hero-copy">
 
-    <section class="hero">
+          <p class="eyebrow">
+            VISUAL SPLIT SYSTEM / 01
+          </p>
 
-      <div class="container hero-grid">
+          <h1>
+            PDF के pages
+            <span>देखें। चुनें। अलग करें।</span>
+          </h1>
 
-        <!-- HERO CONTENT -->
+          <p>
+            Page numbers याद रखने की जरूरत नहीं।
+            PDF upload करें, हर page का thumbnail देखें और जिन pages
+            की जरूरत है उन्हें tap करें।
+            चाहें तो selected pages की एक PDF बनाएं,
+            अलग-अलग PDFs की ZIP लें,
+            या document में visual split points लगाएं।
+          </p>
 
-        <div>
+          <div class="hero-chips">
 
-          <p class="ht-kicker">Split PDF · हिंदी में</p>
+            <span class="chip">
+              <strong>✓</strong>
+              Tap-to-select
+            </span>
 
-          <h1>PDF अलग करें</h1>
-          <p>एक page निकालें, चुने हुए pages की PDF बनाएं या हर page अलग करें। अपनी PDF चुनकर शुरू करें।</p>
+            <span class="chip">
+              <strong>⇧</strong>
+              Shift range
+            </span>
 
-          <div class="hero-actions">
+            <span class="chip">
+              <strong>↻</strong>
+              Rotate pages
+            </span>
 
-            <a
-              class="primary-btn"
-              href="#split-tool"
-            >
-              ✂️ अभी PDF अलग करें
-            </a>
+            <span class="chip">
+              <strong>✂</strong>
+              Visual split points
+            </span>
 
-            <a
-              class="ghost-btn"
-              href="compress-pdf-hi.html"
-            >
-              📉 PDF Size कम करें
-            </a>
+            <span class="chip">
+              <strong>🔐</strong>
+              Browser processing
+            </span>
 
           </div>
 
-          
-
         </div>
 
-        <!-- TOOL -->
-
         <div
-          class="tool-shell"
-          id="split-tool"
+          class="upload-console"
+          id="upload-console"
         >
 
-          <ol class="ht-steps" aria-label="तीन आसान steps"><li><span>1</span> PDF चुनें</li><li><span>2</span> Pages चुनें</li><li><span>3</span> PDF या ZIP पाएं</li></ol>
+          <div class="console-top">
 
-          <!-- DROP ZONE -->
+            <span>
+              PDF INPUT CONSOLE
+            </span>
+
+            <span class="console-lights">
+              <i></i>
+              <i></i>
+              <i></i>
+            </span>
+
+          </div>
 
           <div
             class="dropzone"
@@ -2025,471 +2443,304 @@
 
             <div>
 
-              <div class="drop-icon">
-                ✂️
+              <div class="upload-orb">
+                PDF
               </div>
 
               <h2>
-                PDF file यहाँ चुनें
+                PDF यहाँ drop करें
               </h2>
 
               <p>
-                PDF select करें, pages देखें और tap करके चुनें।
+                या अपने phone / computer से file चुनें
               </p>
 
               <button
-                class="upload-btn"
                 type="button"
-                id="selectFileBtn"
+                class="primary-btn"
+                id="chooseFileBtn"
               >
-                PDF File चुनें
+                PDF चुनें
               </button>
 
-              <div class="privacy-note">PDF की processing आपके browser में होती है।</div>
+              <div class="local-note">
+                ● Selected PDF HindiTools processing server पर upload नहीं होती
+              </div>
 
             </div>
 
           </div>
 
-          <!-- FILE PANEL -->
+        </div>
 
-          <div
-            class="panel"
-            id="filePanel"
-            style="display:none;"
-          >
+      </div>
 
-            <div class="panel-head">
+    </section>
 
-              <div>
-                <h2>
-                  PDF अलग करने की Settings
-                </h2>
+    <section
+      class="container workspace"
+      id="workspace"
+      aria-live="polite"
+    >
 
-                <p>
-                  Pages निकालें, ranges में split करें या हर page अलग PDF बनाएं।
-                </p>
-              </div>
+      <div class="telemetry">
 
-              <button
-                class="danger-btn"
-                type="button"
-                id="clearBtn"
-              >
-                Remove
-              </button>
+        <div class="telemetry-card accent">
 
-            </div>
+          <span>
+            DOCUMENT
+          </span>
 
-            <!-- FILE SUMMARY -->
+          <strong id="teleFile">
+            —
+          </strong>
 
-            <div class="file-summary">
+        </div>
 
-              <div class="file-icon">
-                📄
-              </div>
+        <div class="telemetry-card">
 
-              <div>
+          <span>
+            PAGES
+          </span>
 
-                <div
-                  class="file-name"
-                  id="fileName"
-                >
-                  document.pdf
-                </div>
+          <strong id="telePages">
+            0
+          </strong>
 
-                <div class="file-meta">
-                  <span id="fileSize">0 KB</span>
-                  <span id="pageCount">0 pages</span>
-                </div>
+        </div>
 
-              </div>
+        <div class="telemetry-card">
 
-              <button
-                class="ghost-btn"
-                type="button"
-                id="previewBtn"
-              >
-                Preview
-              </button>
+          <span>
+            FILE SIZE
+          </span>
 
-            </div>
+          <strong id="teleSize">
+            0 KB
+          </strong>
 
-            <!-- SUMMARY -->
+        </div>
 
-            <div class="summary-strip">
+        <div class="telemetry-card success">
 
-              <div class="summary-item">
-                <span>Mode</span>
-                <strong id="summaryMode">
-                  Extract
-                </strong>
-              </div>
+          <span>
+            SELECTED
+          </span>
 
-              <div class="summary-item">
-                <span>Pages</span>
-                <strong id="summaryPages">
-                  -
-                </strong>
-              </div>
+          <strong id="teleSelected">
+            0
+          </strong>
 
-              <div class="summary-item">
-                <span>Output</span>
-                <strong id="summaryOutput">
-                  PDF
-                </strong>
-              </div>
+        </div>
 
-              <div class="summary-item">
-                <span>Total Pages</span>
-                <strong id="summaryTotal">
-                  0
-                </strong>
-              </div>
+        <div class="telemetry-card">
 
-            </div>
+          <span>
+            MODE
+          </span>
 
-            <!-- MODES -->
+          <strong id="teleMode">
+            EXTRACT
+          </strong>
+
+        </div>
+
+      </div>
+
+      <div class="control-deck">
+
+        <div class="control-row">
+
+          <div class="control-group">
+
+            <span class="control-label">
+              MODE
+            </span>
 
             <div class="mode-tabs">
 
               <button
-                class="mode-card active"
                 type="button"
+                class="mode-tab active"
                 data-mode="extract"
               >
-
-                <strong>
-                  📄 Pages निकालें
-                </strong>
-
-                <span>
-                  चुने हुए pages को एक नई PDF में निकालें।
-                  जैसे 1-3,5.
-                </span>
-
+                Selected → 1 PDF
               </button>
 
               <button
-                class="mode-card"
                 type="button"
-                data-mode="ranges"
+                class="mode-tab"
+                data-mode="separate"
               >
-
-                <strong>
-                  📚 Ranges में अलग करें
-                </strong>
-
-                <span>
-                  अलग-अलग PDFs बनाएं।
-                  जैसे 1-3 | 4-7 | 8-10.
-                </span>
-
+                Selected → ZIP
               </button>
 
               <button
-                class="mode-card"
                 type="button"
-                data-mode="each"
+                class="mode-tab"
+                data-mode="sections"
               >
-
-                <strong>
-                  ✂️ हर page अलग
-                </strong>
-
-                <span>
-                  हर page अलग PDF बनेगा और ZIP download होगी।
-                </span>
-
+                Visual Split
               </button>
 
             </div>
 
-<section class="visual-picker" id="visualPicker" hidden aria-labelledby="pickerTitle">
-<h3 id="pickerTitle">Pages देखें और चुनें</h3>
-<p id="pickerHelp">Page पर tap करें। Desktop पर Shift + click से कई pages चुनें। Range box भी इस्तेमाल कर सकते हैं।</p>
-<div class="vp-toolbar" id="selectionToolbar" role="group" aria-label="Page selection">
-<button type="button" data-pick="all">सभी चुनें</button><button type="button" data-pick="clear">Clear</button><button type="button" data-pick="invert">Invert</button><button type="button" data-pick="odd">Odd</button><button type="button" data-pick="even">Even</button>
-</div><div class="vp-toolbar" id="divideToolbar" hidden><button type="button" id="clearDividers">सभी split markers हटाएं</button><button type="button" id="everyDivider">हर page पर split</button></div><p id="pickerCount" role="status" aria-live="polite"></p>
-<div id="pagePickerGrid" class="vp-grid" aria-label="PDF pages"></div>
-<div class="vp-plan" id="splitPlan" hidden><strong>आपकी output files</strong><ol id="splitPlanList"></ol></div><label class="vp-separate" id="separateWrap"><input type="checkbox" id="separateSelected"> हर selected page की अलग PDF बनाएं</label>
-</section>
-            <!-- SETTINGS -->
+          </div>
 
-            <div class="settings-grid">
+          <div class="control-group">
 
-              <!-- Extract -->
+            <span class="control-label">
+              SELECT
+            </span>
 
-              <div
-                class="setting-card full"
-                id="extractCard"
-              >
-
-                <label for="extractInput">
-                  कौन से Pages निकालने हैं?
-                </label>
-
-                <input
-                  id="extractInput"
-                  type="text"
-                  value="1-3"
-                  placeholder="जैसे 1-3, 5, 8-10"
-                />
-
-                <small>
-                  ऊपर thumbnails चुनें या यहाँ page numbers लिखें। अलग PDFs के लिए checkbox चुनें।
-                </small>
-
-                <div class="example-buttons">
-
-                  <button
-                    class="chip-btn"
-                    type="button"
-                    data-target="extractInput"
-                    data-example="1"
-                  >
-                    सिर्फ Page 1
-                  </button>
-
-                  <button
-                    class="chip-btn"
-                    type="button"
-                    data-target="extractInput"
-                    data-example="1-3"
-                  >
-                    Pages 1-3
-                  </button>
-
-                  <button
-                    class="chip-btn"
-                    type="button"
-                    data-target="extractInput"
-                    data-example="1,3,5"
-                  >
-                    1,3,5
-                  </button>
-
-                  <button
-                    class="chip-btn"
-                    type="button"
-                    data-target="extractInput"
-                    data-example="2-"
-                  >
-                    Page 2 से Last
-                  </button>
-
-                </div>
-
-              </div>
-
-              <!-- Ranges -->
-
-              <div
-                class="setting-card full"
-                id="rangesCard"
-                style="display:none;"
-              >
-
-                <label for="rangesInput">
-                  PDF को किन Ranges में अलग करना है?
-                </label>
-
-                <input
-                  id="rangesInput"
-                  type="text"
-                  value="1-3 | 4-6 | 7-"
-                  placeholder="जैसे 1-3 | 4-6 | 7-"
-                />
-
-                <small>
-                  हर range से अलग PDF बनेगी।
-                  अलग ranges को | से separate करें।
-                </small>
-
-                <div class="example-buttons">
-
-                  <button
-                    class="chip-btn"
-                    type="button"
-                    data-target="rangesInput"
-                    data-example="1-2 | 3-4 | 5-"
-                  >
-                    Small groups
-                  </button>
-
-                  <button
-                    class="chip-btn"
-                    type="button"
-                    data-target="rangesInput"
-                    data-example="1 | 2 | 3"
-                  >
-                    First 3 अलग
-                  </button>
-
-                  <button
-                    class="chip-btn"
-                    type="button"
-                    data-target="rangesInput"
-                    data-example="1-5 | 6-10"
-                  >
-                    1-5 / 6-10
-                  </button>
-
-                  <button
-                    class="chip-btn"
-                    type="button"
-                    data-target="rangesInput"
-                    data-example="1-"
-                  >
-                    Full PDF Copy
-                  </button>
-
-                </div>
-
-              </div>
-
-              <!-- Output Name -->
-
-              <div class="setting-card">
-
-                <label for="outputName">
-                  Output file name
-                </label>
-
-                <input
-                  id="outputName"
-                  type="text"
-                  value="split-pdf"
-                  placeholder="split-pdf"
-                />
-
-                <small>
-                  Single output = PDF.
-                  Multiple outputs = ZIP.
-                </small>
-
-              </div>
-
-              <!-- Naming -->
-
-              <div class="setting-card">
-
-                <label for="fileNameMode">
-                  File naming
-                </label>
-
-                <select id="fileNameMode">
-
-                  <option
-                    value="simple"
-                    selected
-                  >
-                    Simple - split-pdf-01.pdf
-                  </option>
-
-                  <option value="pages">
-                    Pages include करें - split-pdf-pages-1-3.pdf
-                  </option>
-
-                </select>
-
-                <small>
-                  Multiple files के नाम readable रखने के लिए
-                  page range include कर सकते हैं।
-                </small>
-
-              </div>
-
-              <!-- Tip -->
-
-              <div class="setting-card full">
-
-                <div class="notice">
-
-                  <strong>Tip:</strong>
-
-                  सिर्फ कुछ pages चाहिए तो
-                  <strong>Pages निकालें</strong> use करें।
-
-                  PDF को sections में अलग करना है तो
-                  <strong>Ranges में अलग करें</strong> चुनें।
-
-                </div>
-
-              </div>
-
-            </div>
-
-
-            <!-- PREVIEW -->
-
-            <div
-              class="preview-grid"
-              id="previewGrid"
-            ></div>
-
-            <!-- ACTION -->
-
-            <div class="controls-grid">
-              <div></div>
-
-              <button
-                class="primary-btn"
-                type="button"
-                id="splitBtn"
-              >
-                ✂️ PDF अलग करें
-              </button>
-            </div>
-
-            <!-- PROGRESS -->
-
-            <div
-              class="progress-wrap"
-              id="progressWrap"
+            <button
+              type="button"
+              class="mini-btn"
+              id="selectAllBtn"
             >
-              <div
-                class="progress-bar"
-                id="progressBar"
-              ></div>
-            </div>
+              All
+            </button>
 
-            <!-- STATUS -->
-
-            <div
-              class="status-box"
-              id="statusBox"
-            ></div>
-
-            <!-- DOWNLOAD -->
-
-            <div
-              class="download-card"
-              id="downloadCard"
+            <button
+              type="button"
+              class="mini-btn"
+              id="clearSelectionBtn"
             >
+              Clear
+            </button>
 
-              <div>
+            <button
+              type="button"
+              class="mini-btn"
+              id="invertSelectionBtn"
+            >
+              Invert
+            </button>
 
-                <h3>
-                  ✅ PDF तैयार है
-                </h3>
+            <button
+              type="button"
+              class="mini-btn"
+              id="oddBtn"
+            >
+              Odd
+            </button>
 
-                <p id="downloadMeta">
-                  आपकी file download के लिए ready है।
-                </p>
+            <button
+              type="button"
+              class="mini-btn"
+              id="evenBtn"
+            >
+              Even
+            </button>
 
-              </div>
+          </div>
 
-              <a
-                class="secondary-btn"
-                id="downloadLink"
-                href="#"
-                download="split-pdf.pdf"
+          <div class="control-group">
+
+            <span class="control-label">
+              RANGE
+            </span>
+
+            <div class="range-box">
+
+              <input
+                id="rangeInput"
+                type="text"
+                placeholder="1-3, 5, 8-10"
+                inputmode="text"
+              />
+
+              <button
+                type="button"
+                id="applyRangeBtn"
               >
-                Download
-              </a>
+                Apply
+              </button>
 
             </div>
+
+          </div>
+
+        </div>
+
+        <div
+          class="control-row"
+          style="margin-top:9px;"
+        >
+
+          <div class="control-group">
+
+            <span class="control-label">
+              ACTIONS
+            </span>
+
+            <button
+              type="button"
+              class="mini-btn"
+              id="rotateLeftBtn"
+            >
+              ↺ Rotate Left
+            </button>
+
+            <button
+              type="button"
+              class="mini-btn"
+              id="rotateRightBtn"
+            >
+              ↻ Rotate Right
+            </button>
+
+            <button
+              type="button"
+              class="mini-btn"
+              id="reverseBtn"
+            >
+              ⇄ Reverse Order
+            </button>
+
+            <button
+              type="button"
+              class="mini-btn"
+              id="resetOrderBtn"
+            >
+              ↶ Reset Order
+            </button>
+
+          </div>
+
+          <div class="control-group">
+
+            <span class="control-label">
+              THUMBNAILS
+            </span>
+
+            <label class="zoom-wrap">
+
+              Small
+
+              <input
+                type="range"
+                id="thumbZoom"
+                min="118"
+                max="230"
+                value="156"
+              />
+
+              Large
+
+            </label>
+
+          </div>
+
+          <div class="control-group">
+
+            <button
+              type="button"
+              class="danger-btn"
+              id="removeFileBtn"
+            >
+              Remove PDF
+            </button>
 
           </div>
 
@@ -2497,330 +2748,325 @@
 
       </div>
 
-    </section>
+      <div class="workspace-shell">
 
-    <!-- =========================
-         HOW TO
-    ========================== -->
+        <div class="workspace-head">
 
-    <section class="container info-sections">
+          <div>
 
-      <article class="info-card">
+            <h2 id="workspaceTitle">
+              Page Selection Matrix
+            </h2>
 
-        <h2>
-          PDF Alag Karna Kaise Kare?
-        </h2>
+            <p id="workspaceHint">
+              Tap pages to select. Desktop पर Shift + click से पूरा range select करें.
+            </p>
 
-        <ol>
+          </div>
 
-          <li>
-            ऊपर <strong>PDF File चुनें</strong> button से अपनी PDF select करें।
-          </li>
+          <div>
 
-          <li>
-            <strong>Pages निकालें</strong>,
-            <strong>Ranges में अलग करें</strong>
-            या
-            <strong>हर page अलग</strong>
-            mode चुनें।
-          </li>
+            <button
+              type="button"
+              class="ghost-btn"
+              id="renderAllBtn"
+            >
+              Render All Thumbnails
+            </button>
 
-          <li>
-            Thumbnails पर tap करें या जरूरी pages लिखें — जैसे
-            <strong>1-3, 5, 8-10</strong>.
-          </li>
+          </div>
 
-          <li>
-            <strong>PDF अलग करें</strong>
-            button दबाएं।
-          </li>
-
-          <li>
-            Result को PDF या ZIP के रूप में download करें।
-          </li>
-
-        </ol>
-
-      </article>
-
-      <article class="info-card">
-
-        <h2>
-          PDF से Pages निकालने के 3 तरीके
-        </h2>
-
-        <ul>
-
-          <li>
-            <strong>एक या कुछ pages:</strong>
-            PDF से सिर्फ page 2 या pages 2-5 चाहिए हों।
-          </li>
-
-          <li>
-            <strong>Multiple sections:</strong>
-            PDF को chapter-wise या document-wise अलग PDFs में बांटना हो।
-          </li>
-
-          <li>
-            <strong>हर page अलग:</strong>
-            पूरे PDF के हर page की separate PDF चाहिए हो।
-          </li>
-
-          <li>
-            <strong>Preview:</strong>
-            Split करने से पहले selected pages check कर सकते हैं।
-          </li>
-
-        </ul>
-
-      </article>
-
-    </section>
-
-    <!-- =========================
-         Contextual Internal Link
-    ========================== -->
-
-    <section
-      class="container"
-      style="margin-top:28px;"
-    >
-
-      <div class="info-card">
-
-        <h2>
-          PDF अलग करने के बाद क्या करें?
-        </h2>
-
-        <p>
-          अगर अलग की गई PDF का file size बड़ा है, तो
-          <a
-            href="compress-pdf-hi.html"
-            style="color:var(--primary);font-weight:900;"
-          >
-            PDF Size कम करें
-          </a>.
-          अगर अलग PDFs को दोबारा एक file में जोड़ना हो, तो
-          <a
-            href="merge-pdf-hi.html"
-            style="color:var(--primary);font-weight:900;"
-          >
-            PDF जोड़ें
-          </a>.
-        </p>
-
-        <div class="context-note">
-          Hindi document को edit करना है?
-          <a href="pdf-to-word-hi.html">
-            Hindi PDF to Word tool
-          </a>
-          भी इस्तेमाल कर सकते हैं।
         </div>
 
-      </div>
+        <div
+          class="pages-viewport"
+          id="pagesViewport"
+        >
 
-    </section>
+          <div
+            class="pages-grid"
+            id="pagesGrid"
+          ></div>
 
-    <!-- =========================
-         Related Tools
-    ========================== -->
+        </div>
 
-    <section
-      class="container"
-      style="margin-top:28px;"
-    >
+        <div class="selection-bar">
 
-      <div class="info-card">
+          <div class="selection-summary">
 
-        <h2>
-          Related PDF Tools
-        </h2>
+            <strong id="selectionCount">
+              0 pages selected
+            </strong>
 
-        <div class="related">
+            <span id="selectionDetail">
+              Tap thumbnails to choose pages.
+            </span>
 
-          <a href="compress-pdf-hi.html">
-            📉 PDF Size कम करें
-          </a>
+          </div>
 
-          <a href="merge-pdf-hi.html">
-            📎 PDF जोड़ें
-          </a>
+          <div class="output-options">
 
-          <a href="pdf-to-word-hi.html">
-            📝 PDF to Word
-          </a>
+            <input
+              id="outputName"
+              type="text"
+              value="split-pdf"
+              aria-label="Output file name"
+            />
 
-          <a href="image-to-pdf-hi.html">
-            🖼️ Photo से PDF
-          </a>
+            <button
+              type="button"
+              class="primary-btn"
+              id="processBtn"
+              disabled
+            >
+              Create PDF
+            </button>
+
+          </div>
 
         </div>
 
       </div>
 
-    </section>
+      <div
+        class="status-panel"
+        id="statusPanel"
+      >
 
-    <!-- =========================
-         FAQ
-    ========================== -->
+        <div
+          class="status-line"
+          id="statusLine"
+        >
+          Ready
+        </div>
 
-    <section
-      class="container"
-      style="margin-top:28px;"
-    >
+        <div class="progress-track">
 
-      <div class="info-card">
+          <div
+            class="progress-bar"
+            id="progressBar"
+          ></div>
 
-        <h2>
-          PDF अलग करने से जुड़े सवाल
-        </h2>
+        </div>
 
-        <div class="faq-list">
+      </div>
 
-          <!-- FAQ 1 -->
+      <div
+        class="result-panel"
+        id="resultPanel"
+      >
 
-          <div class="faq-item active">
+        <div class="result-head">
 
-            <button
-              class="faq-q"
-              type="button"
-            >
-              PDF alag karna kaise kare?
-              <span>+</span>
-            </button>
+          <div>
 
-            <div class="faq-a">
-              PDF upload करें, Pages निकालें, Ranges में अलग करें
-              या हर page अलग mode चुनें। जरूरी pages select करके
-              PDF अलग करें button दबाएं।
-            </div>
+            <h3>
+              PROCESS COMPLETE ✓
+            </h3>
 
-          </div>
-
-          <!-- FAQ 2 -->
-
-          <div class="faq-item">
-
-            <button
-              class="faq-q"
-              type="button"
-            >
-              क्या PDF से सिर्फ एक page निकाल सकते हैं?
-              <span>+</span>
-            </button>
-
-            <div class="faq-a">
-              हाँ। Pages निकालें mode में सिर्फ page number लिखें,
-              जैसे 3. इससे सिर्फ page 3 की नई PDF बनेगी।
-            </div>
+            <p id="resultText">
+              Your output is ready.
+            </p>
 
           </div>
 
-          <!-- FAQ 3 -->
+          <div class="result-actions">
 
-          <div class="faq-item">
+            <a
+              id="downloadLink"
+              class="secondary-btn"
+              href="#"
+              download
+            >
+              Download
+            </a>
 
             <button
-              class="faq-q"
               type="button"
+              class="ghost-btn"
+              id="newTaskBtn"
             >
-              PDF page range कैसे अलग करें?
-              <span>+</span>
+              New selection
             </button>
-
-            <div class="faq-a">
-              Pages निकालें mode में
-              1-3, 5, 8-10
-              जैसा लिख सकते हैं। इससे pages
-              1,2,3,5,8,9,10
-              एक नई PDF में आएंगे।
-            </div>
-
-          </div>
-
-          <!-- FAQ 4 -->
-
-          <div class="faq-item">
-
-            <button
-              class="faq-q"
-              type="button"
-            >
-              PDF को कई अलग-अलग PDFs में कैसे बांटें?
-              <span>+</span>
-            </button>
-
-            <div class="faq-a">
-              Ranges में अलग करें mode चुनें और
-              1-3 | 4-6 | 7-10
-              जैसे ranges लिखें। हर range से अलग PDF बनेगी।
-            </div>
-
-          </div>
-
-          <!-- FAQ 5 -->
-
-          <div class="faq-item">
-
-            <button
-              class="faq-q"
-              type="button"
-            >
-              PDF के हर page को अलग PDF कैसे बनाएं?
-              <span>+</span>
-            </button>
-
-            <div class="faq-a">
-              हर page अलग mode चुनें। Tool PDF के हर page की
-              separate PDF बनाएगा और सभी files एक ZIP में
-              download की जा सकती हैं।
-            </div>
-
-          </div>
-
-          <!-- FAQ 6 -->
-
-          <div class="faq-item">
-
-            <button
-              class="faq-q"
-              type="button"
-            >
-              ZIP कब download होगी?
-              <span>+</span>
-            </button>
-
-            <div class="faq-a">
-              जब एक से ज्यादा PDF files बनती हैं — जैसे
-              Ranges में अलग करें या हर page अलग mode में —
-              तो सभी PDFs ZIP file में download होती हैं।
-            </div>
-
-          </div>
-
-          <!-- FAQ 7 -->
-
-          <div class="faq-item">
-
-            <button
-              class="faq-q"
-              type="button"
-            >
-              क्या मेरी PDF HindiTools server पर upload होती है?
-              <span>+</span>
-            </button>
-
-            <div class="faq-a">
-              इस Split PDF tool का PDF processing आपके browser में
-              JavaScript libraries से होता है। Selected PDF को
-              HindiTools के PDF processing server पर भेजने की जरूरत
-              नहीं होती। Sensitive documents के साथ फिर भी सामान्य
-              online safety precautions रखें।
-            </div>
 
           </div>
 
         </div>
+
+      </div>
+
+      <div class="info-grid">
+
+        <article class="info-card">
+
+          <h2>
+            PDF अलग करने का आसान तरीका
+          </h2>
+
+          <ol>
+            <li>
+              PDF upload करें — pages thumbnails में दिखाई देंगे.
+            </li>
+
+            <li>
+              जिन pages की जरूरत है उन्हें tap करके select करें.
+            </li>
+
+            <li>
+              Selected pages की एक PDF,
+              अलग PDFs की ZIP
+              या Visual Split mode चुनें.
+            </li>
+
+            <li>
+              जरूरत हो तो selected pages rotate करें.
+            </li>
+
+            <li>
+              Create PDF दबाकर result download करें.
+            </li>
+          </ol>
+
+        </article>
+
+        <article class="info-card">
+
+          <h2>
+            Visual Split क्या है?
+          </h2>
+
+          <p>
+            Visual Split mode में किसी page card पर ✂ button दबाएं.
+            इसका मतलब उस page के बाद नई PDF शुरू होगी.
+            Example: Page 3 और Page 8 पर split mark लगाने से
+            Pages 1–3, 4–8 और 9–last की अलग PDFs बनेंगी.
+          </p>
+
+        </article>
+
+        <article class="info-card">
+
+          <h2>
+            Related PDF Tools
+          </h2>
+
+          <div class="related-grid">
+
+            <a
+              class="related-card"
+              href="compress-pdf-hi.html"
+            >
+              📉 PDF Size कम करें
+            </a>
+
+            <a
+              class="related-card"
+              href="merge-pdf-hi.html"
+            >
+              📎 PDF जोड़ें
+            </a>
+
+            <a
+              class="related-card"
+              href="pdf-to-word-hi.html"
+            >
+              📝 PDF to Word
+            </a>
+
+            <a
+              class="related-card"
+              href="pdf-to-image-hi.html"
+            >
+              🖼 PDF to Image
+            </a>
+
+          </div>
+
+        </article>
+
+        <article class="info-card">
+
+          <h2>
+            FAQ
+          </h2>
+
+          <div class="faq-list">
+
+            <div class="faq-item active">
+
+              <button
+                type="button"
+                class="faq-q"
+              >
+                क्या page number type करना जरूरी है?
+                <span>+</span>
+              </button>
+
+              <div class="faq-a">
+                नहीं। हर page thumbnail के रूप में दिखाई देता है.
+                बस tap करके pages select करें.
+                Range box optional है.
+              </div>
+
+            </div>
+
+            <div class="faq-item">
+
+              <button
+                type="button"
+                class="faq-q"
+              >
+                क्या selected pages का order बदल सकते हैं?
+                <span>+</span>
+              </button>
+
+              <div class="faq-a">
+                हाँ। Page cards को drag करके नया order बना सकते हैं.
+                Extract mode output उसी current order का उपयोग करता है.
+              </div>
+
+            </div>
+
+            <div class="faq-item">
+
+              <button
+                type="button"
+                class="faq-q"
+              >
+                क्या हर page अलग PDF बन सकता है?
+                <span>+</span>
+              </button>
+
+              <div class="faq-a">
+                हाँ। Selected → ZIP mode चुनें.
+                हर selected page की separate PDF बनेगी
+                और सभी PDFs ZIP में मिलेंगी.
+              </div>
+
+            </div>
+
+            <div class="faq-item">
+
+              <button
+                type="button"
+                class="faq-q"
+              >
+                क्या file server पर upload होती है?
+                <span>+</span>
+              </button>
+
+              <div class="faq-a">
+                इस tool की PDF processing browser-side libraries
+                से आपके device पर होती है.
+                HindiTools processing server पर selected PDF
+                upload नहीं की जाती.
+              </div>
+
+            </div>
+
+          </div>
+
+        </article>
 
       </div>
 
@@ -2828,236 +3074,209 @@
 
   </main>
 
-  <!-- =========================
-       Footer
-  ========================== -->
-
   <footer>
 
-    <div class="container">
+    <div class="container footer-inner">
 
-      <div class="footer-grid">
+      <div>
 
-        <div>
+        <div
+          class="brand"
+          style="margin-bottom:8px;"
+        >
 
-          <div class="footer-brand">
-            HindiTools.com 🇮🇳
-          </div>
+          <span class="brand-mark">
+            हि
+          </span>
 
-          <p>
-            PDF, Image और Document कामों के लिए आसान Hindi + Hinglish
-            tools। PDF अलग करें, जोड़ें, size कम करें और documents
-            convert करें।
-          </p>
+          <span class="brand-copy">
 
-        </div>
+            <strong>
+              Hindi<span class="brand-accent">Tools</span>
+            </strong>
 
-        <div>
+            <small>
+              DOCUMENT TOOLS · हिंदी में
+            </small>
 
-          <h3>
-            Important PDF Tools
-          </h3>
-
-          <ul>
-
-            <li>
-              <a href="split-pdf-hi.html">
-                PDF अलग करें
-              </a>
-            </li>
-
-            <li>
-              <a href="compress-pdf-hi.html">
-                PDF Size कम करें
-              </a>
-            </li>
-
-            <li>
-              <a href="merge-pdf-hi.html">
-                PDF जोड़ें
-              </a>
-            </li>
-
-            <li>
-              <a href="pdf-to-word-hi.html">
-                PDF to Word
-              </a>
-            </li>
-
-          </ul>
+          </span>
 
         </div>
 
-        <div>
-
-          <h3>
-            Website
-          </h3>
-
-          <ul>
-
-            <li>
-              <a href="/">
-                Home
-              </a>
-            </li>
-
-            <li>
-              <a href="about.html">
-                About
-              </a>
-            </li>
-
-            <li>
-              <a href="privacy.html">
-                Privacy Policy
-              </a>
-            </li>
-
-            <li>
-              <a href="contact.html">
-                Contact
-              </a>
-            </li>
-
-          </ul>
-
-        </div>
+        <p class="footer-copy">
+          Visual Hindi + Hinglish PDF tools —
+          pages देखें, select करें और document काम सीधे browser में करें.
+        </p>
 
       </div>
 
-      <div class="copyright">
-        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
+      <div class="footer-links">
+
+        <a href="/">
+          Home
+        </a>
+
+        <a href="about.html">
+          About
+        </a>
+
+        <a href="privacy.html">
+          Privacy
+        </a>
+
+        <a href="contact.html">
+          Contact
+        </a>
+
       </div>
 
     </div>
 
   </footer>
 
-  <!-- =========================
-       Split PDF JavaScript
-  ========================== -->
+  <div
+    class="modal"
+    id="previewModal"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="previewModalTitle"
+  >
+
+    <div class="modal-card">
+
+      <div class="modal-head">
+
+        <strong id="previewModalTitle">
+          Page Preview
+        </strong>
+
+        <button
+          type="button"
+          class="icon-button"
+          id="closeModalBtn"
+          aria-label="Close preview"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div
+        class="modal-body"
+        id="modalBody"
+      ></div>
+
+    </div>
+
+  </div>
 
   <script>
-
-    /* =========================
-       PDF.js Worker
-    ========================== */
-
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-    const { PDFDocument } = PDFLib;
+    const {
+      PDFDocument,
+      degrees
+    } = PDFLib;
 
-    /* =========================
-       Elements
-    ========================== */
+    const state = {
+
+      file: null,
+
+      buffer: null,
+
+      pdfJs: null,
+
+      pageCount: 0,
+
+      selected:
+        new Set(),
+
+      rotations:
+        new Map(),
+
+      splitsAfter:
+        new Set(),
+
+      order: [],
+
+      originalOrder: [],
+
+      mode:
+        "extract",
+
+      lastClickedIndex:
+        null,
+
+      currentUrl:
+        null,
+
+      renderObserver:
+        null,
+
+      rendered:
+        new Set(),
+
+      rendering:
+        new Set()
+    };
+
+    const el =
+      id =>
+        document.getElementById(id);
 
     const fileInput =
-      document.getElementById("fileInput");
+      el("fileInput");
 
-    const selectFileBtn =
-      document.getElementById("selectFileBtn");
+    const chooseFileBtn =
+      el("chooseFileBtn");
 
     const dropzone =
-      document.getElementById("dropzone");
+      el("dropzone");
 
-    const filePanel =
-      document.getElementById("filePanel");
+    const workspace =
+      el("workspace");
 
-    const fileNameEl =
-      document.getElementById("fileName");
+    const pagesGrid =
+      el("pagesGrid");
 
-    const fileSizeEl =
-      document.getElementById("fileSize");
+    const pagesViewport =
+      el("pagesViewport");
 
-    const pageCountEl =
-      document.getElementById("pageCount");
-
-    const clearBtn =
-      document.getElementById("clearBtn");
-
-    const previewBtn =
-      document.getElementById("previewBtn");
-
-    const summaryMode =
-      document.getElementById("summaryMode");
-
-    const summaryPages =
-      document.getElementById("summaryPages");
-
-    const summaryOutput =
-      document.getElementById("summaryOutput");
-
-    const summaryTotal =
-      document.getElementById("summaryTotal");
-
-    const modeCards =
-      document.querySelectorAll(".mode-card");
-
-    const extractCard =
-      document.getElementById("extractCard");
-
-    const rangesCard =
-      document.getElementById("rangesCard");
-
-    const extractInput =
-      document.getElementById("extractInput");
-
-    const rangesInput =
-      document.getElementById("rangesInput");
+    const processBtn =
+      el("processBtn");
 
     const outputName =
-      document.getElementById("outputName");
+      el("outputName");
 
-    const fileNameMode =
-      document.getElementById("fileNameMode");
+    const statusPanel =
+      el("statusPanel");
 
-    const previewGrid =
-      document.getElementById("previewGrid");
-
-    const splitBtn =
-      document.getElementById("splitBtn");
-
-    const statusBox =
-      document.getElementById("statusBox");
-
-    const progressWrap =
-      document.getElementById("progressWrap");
+    const statusLine =
+      el("statusLine");
 
     const progressBar =
-      document.getElementById("progressBar");
+      el("progressBar");
 
-    const downloadCard =
-      document.getElementById("downloadCard");
+    const resultPanel =
+      el("resultPanel");
+
+    const resultText =
+      el("resultText");
 
     const downloadLink =
-      document.getElementById("downloadLink");
+      el("downloadLink");
 
-    const downloadMeta =
-      document.getElementById("downloadMeta");
+    const previewModal =
+      el("previewModal");
 
-    /* =========================
-       State
-    ========================== */
+    const modalBody =
+      el("modalBody");
 
-    let pagePicker = null;
-    let fileGeneration = 0;
-    let selectedFile = null;
+    const previewModalTitle =
+      el("previewModalTitle");
 
-    let selectedBuffer = null;
-
-    let pdfForPreview = null;
-
-    let totalPages = 0;
-
-    let activeMode = "extract";
-
-    let currentDownloadUrl = null;
-
-    /* =========================
-       Helpers
-    ========================== */
+    /* HELPERS */
 
     function formatBytes(bytes) {
 
@@ -3065,9 +3284,10 @@
         return "0 Bytes";
       }
 
-      const k = 1024;
+      const k =
+        1024;
 
-      const sizes = [
+      const units = [
         "Bytes",
         "KB",
         "MB",
@@ -3075,9 +3295,12 @@
       ];
 
       const i =
-        Math.floor(
-          Math.log(bytes) /
-          Math.log(k)
+        Math.min(
+          units.length - 1,
+          Math.floor(
+            Math.log(bytes) /
+            Math.log(k)
+          )
         );
 
       return (
@@ -3090,19 +3313,19 @@
         +
         " "
         +
-        sizes[i]
+        units[i]
       );
     }
 
-    function sanitizeFileName(name) {
+    function safeName(value) {
 
       return (
-        name ||
+        value ||
         "split-pdf"
       )
 
       .replace(
-        /\.(zip|pdf)$/i,
+        /\.(pdf|zip)$/i,
         ""
       )
 
@@ -3124,502 +3347,1368 @@
 
     function setStatus(
       message,
-      type = "normal"
+      type = "normal",
+      percent = null
     ) {
 
-      statusBox.textContent =
+      statusPanel.classList.add(
+        "show"
+      );
+
+      statusLine.textContent =
         message;
 
-      statusBox.className =
-        "status-box show";
+      statusLine.className =
+        "status-line";
 
-      if (type === "success") {
-        statusBox.classList.add(
-          "success"
+      if (
+        type !==
+        "normal"
+      ) {
+
+        statusLine.classList.add(
+          type
         );
       }
 
-      if (type === "error") {
-        statusBox.classList.add(
-          "error"
-        );
+      if (
+        percent !==
+        null
+      ) {
+
+        progressBar.style.width =
+          Math.max(
+            0,
+            Math.min(
+              100,
+              percent
+            )
+          )
+          +
+          "%";
       }
     }
 
     function clearStatus() {
 
-      statusBox.className =
-        "status-box";
-
-      statusBox.textContent =
-        "";
-    }
-
-    function setProgress(percent) {
-
-      progressWrap.classList.add(
-        "show"
-      );
-
-      progressBar.style.width =
-        `${percent}%`;
-    }
-
-    function resetProgress() {
-
-      progressWrap.classList.remove(
+      statusPanel.classList.remove(
         "show"
       );
 
       progressBar.style.width =
         "0%";
+
+      statusLine.textContent =
+        "";
     }
 
-    function resetDownload() {
+    function clearResult() {
 
-      if (currentDownloadUrl) {
-
-        URL.revokeObjectURL(
-          currentDownloadUrl
-        );
-
-        currentDownloadUrl =
-          null;
-      }
-
-      downloadCard.classList.remove(
+      resultPanel.classList.remove(
         "show"
       );
+
+      if (
+        state.currentUrl
+      ) {
+
+        URL.revokeObjectURL(
+          state.currentUrl
+        );
+
+        state.currentUrl =
+          null;
+      }
 
       downloadLink.href =
         "#";
     }
 
-    function resetPreview() {
+    function updateTelemetry() {
 
-      previewGrid.innerHTML =
-        "";
+      el("teleFile").textContent =
+        state.file
+          ? state.file.name
+          : "—";
 
-      previewGrid.classList.remove(
-        "show"
+      el("telePages").textContent =
+        String(
+          state.pageCount
+        );
+
+      el("teleSize").textContent =
+        state.file
+          ? formatBytes(
+              state.file.size
+            )
+          : "0 KB";
+
+      el("teleSelected").textContent =
+        String(
+          state.selected.size
+        );
+
+      el("teleMode").textContent =
+        state.mode === "extract"
+          ? "EXTRACT"
+          :
+        state.mode === "separate"
+          ? "SEPARATE"
+          :
+          "VISUAL SPLIT";
+    }
+
+    function selectedPagesInCurrentOrder() {
+
+      return state.order.filter(
+        pageNo =>
+          state.selected.has(
+            pageNo
+          )
       );
     }
 
-    /* =========================
-       Page Range Helpers
-    ========================== */
+    function updateSelectionSummary() {
 
-    function rangeLabelFromPages(pages) {
+      const count =
+        state.selected.size;
 
-      if (!pages.length) {
-        return "-";
-      }
-
-      if (pages.length === 1) {
-        return String(
-          pages[0]
-        );
-      }
-
-      const sorted =
-        [...pages].sort(
-          (a, b) => a - b
+      el("selectionCount").textContent =
+        count
+        +
+        (
+          count === 1
+            ? " page selected"
+            : " pages selected"
         );
 
-      const ranges = [];
+      if (
+        state.mode ===
+        "sections"
+      ) {
 
-      let start =
-        sorted[0];
+        const splitCount =
+          [...state.splitsAfter]
+          .filter(
+            n =>
+              n <
+              state.pageCount
+          )
+          .length;
 
-      let prev =
-        sorted[0];
+        el("selectionDetail").textContent =
+          splitCount
+            ?
+            splitCount
+            +
+            " split point(s) active. Selected pages are ignored in Visual Split mode."
+            :
+            "Click ✂ on any page to split after that page.";
+
+        processBtn.textContent =
+          "Create Split ZIP";
+
+        processBtn.disabled =
+          state.pageCount === 0;
+
+      } else if (
+        state.mode ===
+        "separate"
+      ) {
+
+        el("selectionDetail").textContent =
+          count
+            ?
+            "Each selected page will become a separate PDF."
+            :
+            "Select one or more pages.";
+
+        processBtn.textContent =
+          "Create ZIP";
+
+        processBtn.disabled =
+          count === 0;
+
+      } else {
+
+        el("selectionDetail").textContent =
+          count
+            ?
+            "Selected pages will be combined in the current visual order."
+            :
+            "Tap thumbnails to choose pages.";
+
+        processBtn.textContent =
+          "Create PDF";
+
+        processBtn.disabled =
+          count === 0;
+      }
+
+      updateTelemetry();
+    }
+
+    function applyCardState(
+      card,
+      pageNo
+    ) {
+
+      const selected =
+        state.selected.has(
+          pageNo
+        );
+
+      card.classList.toggle(
+        "selected",
+        selected
+      );
+
+      const check =
+        card.querySelector(
+          ".page-check"
+        );
+
+      check.textContent =
+        selected
+          ? "✓"
+          : "";
+
+      const rotation =
+        state.rotations.get(
+          pageNo
+        )
+        ||
+        0;
+
+      const canvas =
+        card.querySelector(
+          "canvas"
+        );
+
+      if (canvas) {
+
+        canvas.style.transform =
+          `rotate(${rotation}deg)`;
+      }
+
+      card.classList.toggle(
+        "has-split-after",
+        state.splitsAfter.has(
+          pageNo
+        )
+      );
+    }
+
+    function refreshAllCards() {
+
+      pagesGrid
+      .querySelectorAll(
+        ".page-card"
+      )
+      .forEach(
+        card => {
+
+          applyCardState(
+            card,
+            Number(
+              card.dataset.page
+            )
+          );
+        }
+      );
+
+      updateSelectionSummary();
+    }
+
+    /* CREATE PAGE CARD */
+
+    function createPageCard(pageNo) {
+
+      const card =
+        document.createElement(
+          "article"
+        );
+
+      card.className =
+        "page-card";
+
+      card.dataset.page =
+        String(pageNo);
+
+      card.draggable =
+        true;
+
+      card.innerHTML =
+        `
+        <div class="thumb-shell">
+          <div class="thumb-placeholder">
+            PAGE ${pageNo}<br>
+            waiting…
+          </div>
+        </div>
+
+        <div
+          class="page-check"
+          aria-hidden="true"
+        ></div>
+
+        <div class="page-number-badge">
+          P${String(pageNo).padStart(2,"0")}
+        </div>
+
+        <div class="page-meta">
+
+          <span>
+            Page ${pageNo}
+          </span>
+
+          <span class="page-actions">
+
+            <button
+              class="page-action preview"
+              type="button"
+              title="Large preview"
+              aria-label="Preview page ${pageNo}"
+            >
+              ⌕
+            </button>
+
+            <button
+              class="page-action rotate"
+              type="button"
+              title="Rotate page"
+              aria-label="Rotate page ${pageNo}"
+            >
+              ↻
+            </button>
+
+            <button
+              class="page-action split"
+              type="button"
+              title="Split after this page"
+              aria-label="Split after page ${pageNo}"
+            >
+              ✂
+            </button>
+
+          </span>
+
+        </div>
+
+        <div class="split-indicator"></div>
+        `;
+
+      card.addEventListener(
+        "click",
+        event => {
+
+          if (
+            event.target.closest(
+              "button"
+            )
+          ) {
+            return;
+          }
+
+          const currentIndex =
+            state.order.indexOf(
+              pageNo
+            );
+
+          if (
+            event.shiftKey
+            &&
+            state.lastClickedIndex
+            !==
+            null
+          ) {
+
+            const start =
+              Math.min(
+                state.lastClickedIndex,
+                currentIndex
+              );
+
+            const end =
+              Math.max(
+                state.lastClickedIndex,
+                currentIndex
+              );
+
+            for (
+              let i = start;
+              i <= end;
+              i++
+            ) {
+
+              state.selected.add(
+                state.order[i]
+              );
+            }
+
+          } else {
+
+            if (
+              state.selected.has(
+                pageNo
+              )
+            ) {
+
+              state.selected.delete(
+                pageNo
+              );
+
+            } else {
+
+              state.selected.add(
+                pageNo
+              );
+            }
+
+            state.lastClickedIndex =
+              currentIndex;
+          }
+
+          clearResult();
+
+          refreshAllCards();
+        }
+      );
+
+      card
+      .querySelector(
+        ".rotate"
+      )
+      .addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+          rotatePage(
+            pageNo,
+            90
+          );
+        }
+      );
+
+      card
+      .querySelector(
+        ".preview"
+      )
+      .addEventListener(
+        "click",
+        async event => {
+
+          event.stopPropagation();
+
+          await showLargePreview(
+            pageNo
+          );
+        }
+      );
+
+      card
+      .querySelector(
+        ".split"
+      )
+      .addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+          if (
+            pageNo ===
+            state.pageCount
+          ) {
+
+            setStatus(
+              "Last page के बाद split point की जरूरत नहीं है.",
+              "warning",
+              0
+            );
+
+            return;
+          }
+
+          if (
+            state.splitsAfter.has(
+              pageNo
+            )
+          ) {
+
+            state.splitsAfter.delete(
+              pageNo
+            );
+
+          } else {
+
+            state.splitsAfter.add(
+              pageNo
+            );
+          }
+
+          clearResult();
+
+          refreshAllCards();
+        }
+      );
+
+      card.addEventListener(
+        "dblclick",
+        async event => {
+
+          if (
+            !event.target.closest(
+              "button"
+            )
+          ) {
+
+            await showLargePreview(
+              pageNo
+            );
+          }
+        }
+      );
+
+      /* DRAG */
+
+      card.addEventListener(
+        "dragstart",
+        event => {
+
+          card.classList.add(
+            "dragging"
+          );
+
+          event.dataTransfer.setData(
+            "text/plain",
+            String(pageNo)
+          );
+
+          event.dataTransfer.effectAllowed =
+            "move";
+        }
+      );
+
+      card.addEventListener(
+        "dragend",
+        () => {
+
+          card.classList.remove(
+            "dragging"
+          );
+
+          pagesGrid
+          .querySelectorAll(
+            ".page-card"
+          )
+          .forEach(
+            c =>
+              c.classList.remove(
+                "drop-target"
+              )
+          );
+        }
+      );
+
+      card.addEventListener(
+        "dragover",
+        event => {
+
+          event.preventDefault();
+
+          card.classList.add(
+            "drop-target"
+          );
+
+          event.dataTransfer.dropEffect =
+            "move";
+        }
+      );
+
+      card.addEventListener(
+        "dragleave",
+        () => {
+
+          card.classList.remove(
+            "drop-target"
+          );
+        }
+      );
+
+      card.addEventListener(
+        "drop",
+        event => {
+
+          event.preventDefault();
+
+          card.classList.remove(
+            "drop-target"
+          );
+
+          const dragged =
+            Number(
+              event.dataTransfer.getData(
+                "text/plain"
+              )
+            );
+
+          if (
+            !dragged
+            ||
+            dragged ===
+            pageNo
+          ) {
+            return;
+          }
+
+          const from =
+            state.order.indexOf(
+              dragged
+            );
+
+          const to =
+            state.order.indexOf(
+              pageNo
+            );
+
+          if (
+            from < 0
+            ||
+            to < 0
+          ) {
+            return;
+          }
+
+          state.order.splice(
+            from,
+            1
+          );
+
+          state.order.splice(
+            to,
+            0,
+            dragged
+          );
+
+          rebuildGridPreservingRenders();
+
+          clearResult();
+        }
+      );
+
+      applyCardState(
+        card,
+        pageNo
+      );
+
+      return card;
+    }
+
+    /* BUILD GRID */
+
+    function buildGrid() {
+
+      pagesGrid.innerHTML =
+        "";
+
+      state.order.forEach(
+        pageNo =>
+          pagesGrid.appendChild(
+            createPageCard(
+              pageNo
+            )
+          )
+      );
+
+      setupLazyRendering();
+
+      refreshAllCards();
+    }
+
+    function rebuildGridPreservingRenders() {
+
+      const oldCanvases =
+        new Map();
+
+      pagesGrid
+      .querySelectorAll(
+        ".page-card"
+      )
+      .forEach(
+        card => {
+
+          const canvas =
+            card.querySelector(
+              "canvas"
+            );
+
+          if (canvas) {
+
+            oldCanvases.set(
+              Number(
+                card.dataset.page
+              ),
+              canvas
+            );
+          }
+        }
+      );
+
+      pagesGrid.innerHTML =
+        "";
+
+      state.order.forEach(
+        pageNo => {
+
+          const card =
+            createPageCard(
+              pageNo
+            );
+
+          const oldCanvas =
+            oldCanvases.get(
+              pageNo
+            );
+
+          if (oldCanvas) {
+
+            const shell =
+              card.querySelector(
+                ".thumb-shell"
+              );
+
+            shell.innerHTML =
+              "";
+
+            shell.appendChild(
+              oldCanvas
+            );
+          }
+
+          pagesGrid.appendChild(
+            card
+          );
+        }
+      );
+
+      setupLazyRendering();
+
+      refreshAllCards();
+    }
+
+    /* THUMBNAILS */
+
+    async function renderThumb(
+      pageNo,
+      force = false
+    ) {
+
+      if (!state.pdfJs) {
+        return;
+      }
+
+      if (
+        state.rendered.has(
+          pageNo
+        )
+        &&
+        !force
+      ) {
+        return;
+      }
+
+      if (
+        state.rendering.has(
+          pageNo
+        )
+      ) {
+        return;
+      }
+
+      state.rendering.add(
+        pageNo
+      );
+
+      try {
+
+        const card =
+          pagesGrid.querySelector(
+            `.page-card[data-page="${pageNo}"]`
+          );
+
+        if (!card) {
+          return;
+        }
+
+        const shell =
+          card.querySelector(
+            ".thumb-shell"
+          );
+
+        const page =
+          await state.pdfJs.getPage(
+            pageNo
+          );
+
+        const base =
+          page.getViewport({
+            scale: 1
+          });
+
+        const targetWidth =
+          Math.max(
+            120,
+            Number(
+              el("thumbZoom").value
+            )
+            -
+            18
+          );
+
+        const scale =
+          Math.min(
+            .95,
+            targetWidth /
+            base.width
+          );
+
+        const viewport =
+          page.getViewport({
+            scale
+          });
+
+        const canvas =
+          document.createElement(
+            "canvas"
+          );
+
+        const context =
+          canvas.getContext(
+            "2d",
+            {
+              alpha: false
+            }
+          );
+
+        canvas.width =
+          Math.max(
+            1,
+            Math.floor(
+              viewport.width
+            )
+          );
+
+        canvas.height =
+          Math.max(
+            1,
+            Math.floor(
+              viewport.height
+            )
+          );
+
+        context.fillStyle =
+          "#fff";
+
+        context.fillRect(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
+        await page.render({
+          canvasContext:
+            context,
+          viewport
+        }).promise;
+
+        shell.innerHTML =
+          "";
+
+        shell.appendChild(
+          canvas
+        );
+
+        const rotation =
+          state.rotations.get(
+            pageNo
+          )
+          ||
+          0;
+
+        canvas.style.transform =
+          `rotate(${rotation}deg)`;
+
+        state.rendered.add(
+          pageNo
+        );
+
+      } catch (error) {
+
+        console.error(
+          "Thumbnail error",
+          pageNo,
+          error
+        );
+
+      } finally {
+
+        state.rendering.delete(
+          pageNo
+        );
+      }
+    }
+
+    function setupLazyRendering() {
+
+      if (
+        state.renderObserver
+      ) {
+
+        state.renderObserver.disconnect();
+      }
+
+      state.renderObserver =
+        new IntersectionObserver(
+          entries => {
+
+            entries.forEach(
+              entry => {
+
+                if (
+                  entry.isIntersecting
+                ) {
+
+                  const pageNo =
+                    Number(
+                      entry.target.dataset.page
+                    );
+
+                  renderThumb(
+                    pageNo
+                  );
+
+                  state.renderObserver.unobserve(
+                    entry.target
+                  );
+                }
+              }
+            );
+          },
+          {
+            root:
+              pagesViewport,
+
+            rootMargin:
+              "350px 0px 350px 0px",
+
+            threshold:
+              .01
+          }
+        );
+
+      pagesGrid
+      .querySelectorAll(
+        ".page-card"
+      )
+      .forEach(
+        card => {
+
+          const pageNo =
+            Number(
+              card.dataset.page
+            );
+
+          if (
+            !state.rendered.has(
+              pageNo
+            )
+          ) {
+
+            state.renderObserver.observe(
+              card
+            );
+          }
+        }
+      );
+    }
+
+    async function renderAllThumbs() {
+
+      setStatus(
+        "सभी thumbnails render की जा रही हैं…",
+        "normal",
+        3
+      );
 
       for (
-        let i = 1;
-        i < sorted.length;
+        let i = 0;
+        i < state.order.length;
         i++
       ) {
 
-        const current =
-          sorted[i];
+        const pageNo =
+          state.order[i];
 
-        if (
-          current ===
-          prev + 1
-        ) {
+        await renderThumb(
+          pageNo
+        );
 
-          prev =
-            current;
-
-        } else {
-
-          ranges.push(
-            start === prev
-              ? String(start)
-              : `${start}-${prev}`
-          );
-
-          start =
-            current;
-
-          prev =
-            current;
-        }
+        setStatus(
+          `Thumbnail ${i + 1} / ${state.order.length}`,
+          "normal",
+          Math.round(
+            (
+              (i + 1) /
+              state.order.length
+            )
+            *
+            100
+          )
+        );
       }
 
-      ranges.push(
-        start === prev
-          ? String(start)
-          : `${start}-${prev}`
+      setStatus(
+        "सभी thumbnails ready हैं.",
+        "success",
+        100
       );
 
-      return ranges.join(",");
+      setTimeout(
+        clearStatus,
+        900
+      );
     }
 
-    function parsePageRanges(
-      input,
-      pageTotal
+    /* ROTATION */
+
+    function rotatePage(
+      pageNo,
+      delta
     ) {
 
-      const cleanInput =
+      const current =
+        state.rotations.get(
+          pageNo
+        )
+        ||
+        0;
+
+      state.rotations.set(
+        pageNo,
+        (
+          current +
+          delta +
+          360
+        )
+        %
+        360
+      );
+
+      const card =
+        pagesGrid.querySelector(
+          `.page-card[data-page="${pageNo}"]`
+        );
+
+      if (card) {
+
+        applyCardState(
+          card,
+          pageNo
+        );
+      }
+
+      clearResult();
+    }
+
+    function rotateSelected(delta) {
+
+      if (
+        !state.selected.size
+      ) {
+
+        setStatus(
+          "पहले pages select करें.",
+          "warning",
+          0
+        );
+
+        return;
+      }
+
+      state.selected.forEach(
+        pageNo =>
+          rotatePage(
+            pageNo,
+            delta
+          )
+      );
+
+      setStatus(
+        `${state.selected.size} selected page(s) rotate किए गए.`,
+        "success",
+        100
+      );
+
+      setTimeout(
+        clearStatus,
+        800
+      );
+    }
+
+    /* RANGE SELECT */
+
+    function parseRange(text) {
+
+      const raw =
         String(
-          input || ""
+          text ||
+          ""
         )
         .replace(
           /\s+/g,
           ""
         );
 
-      if (!cleanInput) {
-
-        throw new Error(
-          "Page range खाली है।"
-        );
-      }
-
-      const parts =
-        cleanInput
-        .split(",")
-        .filter(Boolean);
-
-      const pages = [];
-
-      for (
-        const part of parts
-      ) {
-
-        /* Single page */
-
-        if (
-          /^\d+$/.test(part)
-        ) {
-
-          const page =
-            Number(part);
-
-          if (
-            page < 1 ||
-            page > pageTotal
-          ) {
-
-            throw new Error(
-              `Page ${page} PDF में मौजूद नहीं है।`
-            );
-          }
-
-          pages.push(page);
-
-          continue;
-        }
-
-        /* Range */
-
-        const match =
-          part.match(
-            /^(\d*)-(\d*)$/
-          );
-
-        if (!match) {
-
-          throw new Error(
-            `"${part}" valid page range नहीं है।`
-          );
-        }
-
-        let start =
-          match[1]
-            ? Number(match[1])
-            : 1;
-
-        let end =
-          match[2]
-            ? Number(match[2])
-            : pageTotal;
-
-        if (start < 1) {
-          start = 1;
-        }
-
-        if (end > pageTotal) {
-          end = pageTotal;
-        }
-
-        if (start > end) {
-
-          throw new Error(
-            `"${part}" में start page end page से बड़ा है।`
-          );
-        }
-
-        for (
-          let page = start;
-          page <= end;
-          page++
-        ) {
-
-          pages.push(page);
-        }
-      }
-
-      const uniquePages =
-        [...new Set(pages)];
-
-      if (!uniquePages.length) {
-
-        throw new Error(
-          "कोई valid page नहीं मिला।"
-        );
-      }
-
-      return uniquePages;
-    }
-
-    function parseRangeGroups(
-      input,
-      pageTotal
-    ) {
-
-      const rawGroups =
-        String(
-          input || ""
-        )
-
-        .split("|")
-
-        .map(
-          part =>
-            part.trim()
-        )
-
-        .filter(Boolean);
-
-      if (!rawGroups.length) {
-
-        throw new Error(
-          "Split ranges खाली हैं।"
-        );
-      }
-
-      return rawGroups.map(
-        (group, index) => {
-
-          const pages =
-            parsePageRanges(
-              group,
-              pageTotal
-            );
-
-          return {
-
-            label:
-              group.replace(
-                /\s+/g,
-                ""
-              ),
-
-            pages,
-
-            index:
-              index + 1
-          };
-        }
-      );
-    }
-
-    function getPlannedOutputs() {
-
-      if (!totalPages) {
+      if (!raw) {
         return [];
       }
 
-      /* Extract */
+      const result =
+        new Set();
 
-      if (
-        activeMode ===
-        "extract"
-      ) {
+      raw
+      .split(",")
+      .filter(Boolean)
+      .forEach(
+        part => {
 
-        const pages =
-          parsePageRanges(
-            extractInput.value,
-            totalPages
-          );
+          if (
+            /^\d+$/.test(
+              part
+            )
+          ) {
 
-        if (document.getElementById("separateSelected").checked) {
-          return pages.map((page, i) => ({label:String(page), pages:[page], index:i+1}));
-        }
-        return [
-          {
-            label:
-              rangeLabelFromPages(
-                pages
-              ),
+            const n =
+              Number(part);
 
-            pages,
+            if (
+              n >= 1
+              &&
+              n <=
+              state.pageCount
+            ) {
 
-            index: 1
+              result.add(
+                n
+              );
+            }
+
+            return;
           }
-        ];
-      }
 
-      /* Ranges */
+          const match =
+            part.match(
+              /^(\d*)-(\d*)$/
+            );
 
-      if (
-        activeMode ===
-        "ranges"
-      ) {
+          if (!match) {
 
-        return parseRangeGroups(
-          rangesInput.value,
-          totalPages
-        );
-      }
+            throw new Error(
+              `"${part}" valid range नहीं है.`
+            );
+          }
 
-      /* Every page */
+          let start =
+            match[1]
+              ?
+              Number(
+                match[1]
+              )
+              :
+              1;
 
-      return Array.from(
-        {
-          length:
-            totalPages
-        },
+          let end =
+            match[2]
+              ?
+              Number(
+                match[2]
+              )
+              :
+              state.pageCount;
 
-        (_, index) => ({
-          label:
-            String(index + 1),
+          start =
+            Math.max(
+              1,
+              start
+            );
 
-          pages:
-            [index + 1],
+          end =
+            Math.min(
+              state.pageCount,
+              end
+            );
 
-          index:
-            index + 1
-        })
+          if (
+            start >
+            end
+          ) {
+
+            throw new Error(
+              `"${part}" में start end से बड़ा है.`
+            );
+          }
+
+          for (
+            let i = start;
+            i <= end;
+            i++
+          ) {
+
+            result.add(
+              i
+            );
+          }
+        }
       );
+
+      return [
+        ...result
+      ];
     }
 
-    /* =========================
-       Summary
-    ========================== */
+    /* LARGE PREVIEW */
 
-    function updateSummary() {
-      syncPicker();
+    async function showLargePreview(pageNo) {
 
-      summaryTotal.textContent =
-        String(
-          totalPages || 0
-        );
-
-      if (!totalPages) {
-
-        summaryMode.textContent =
-          "Extract";
-
-        summaryPages.textContent =
-          "-";
-
-        summaryOutput.textContent =
-          "PDF";
-
+      if (!state.pdfJs) {
         return;
       }
 
-      let outputs = [];
-
       try {
 
-        outputs =
-          getPlannedOutputs();
+        previewModal.classList.add(
+          "show"
+        );
 
-      } catch {
+        previewModalTitle.textContent =
+          `Page ${pageNo} Preview`;
 
-        outputs = [];
-      }
+        modalBody.innerHTML =
+          '<div class="thumb-placeholder" style="color:#b9cdd7;">Rendering high-resolution preview…</div>';
 
-      if (
-        activeMode ===
-        "extract"
-      ) {
+        const page =
+          await state.pdfJs.getPage(
+            pageNo
+          );
 
-        summaryMode.textContent =
-          "Extract";
+        const base =
+          page.getViewport({
+            scale: 1
+          });
 
-        summaryPages.textContent =
-          outputs[0]
-            ? rangeLabelFromPages(outputs.flatMap(output => output.pages))
-            : "?";
+        const maxWidth =
+          Math.min(
+            780,
+            window.innerWidth -
+            70
+          );
 
-        summaryOutput.textContent =
-          document.getElementById("separateSelected").checked ? "Separate PDFs" : "PDF";
+        const scale =
+          Math.min(
+            1.6,
+            maxWidth /
+            base.width
+          );
 
-      } else if (
-        activeMode ===
-        "ranges"
-      ) {
+        const viewport =
+          page.getViewport({
+            scale
+          });
 
-        summaryMode.textContent =
-          "Ranges";
+        const canvas =
+          document.createElement(
+            "canvas"
+          );
 
-        summaryPages.textContent =
-          `${outputs.length || "?"} file(s)`;
+        const context =
+          canvas.getContext(
+            "2d",
+            {
+              alpha: false
+            }
+          );
 
-        summaryOutput.textContent =
-          "ZIP";
+        canvas.width =
+          Math.max(
+            1,
+            Math.floor(
+              viewport.width
+            )
+          );
 
-      } else {
+        canvas.height =
+          Math.max(
+            1,
+            Math.floor(
+              viewport.height
+            )
+          );
 
-        summaryMode.textContent =
-          "Every page";
+        context.fillStyle =
+          "#fff";
 
-        summaryPages.textContent =
-          `${totalPages} file(s)`;
+        context.fillRect(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
 
-        summaryOutput.textContent =
-          "ZIP";
+        await page.render({
+          canvasContext:
+            context,
+          viewport
+        }).promise;
+
+        const rotation =
+          state.rotations.get(
+            pageNo
+          )
+          ||
+          0;
+
+        canvas.style.transform =
+          `rotate(${rotation}deg)`;
+
+        modalBody.innerHTML =
+          "";
+
+        modalBody.appendChild(
+          canvas
+        );
+
+      } catch (error) {
+
+        modalBody.innerHTML =
+          '<div class="thumb-placeholder" style="color:#ff8b94;">Preview नहीं बन सकी.</div>';
       }
     }
 
-    /* =========================
-       Load PDF
-    ========================== */
+    /* LOAD PDF */
 
-    async function loadFile(file) {
-      const generation = ++fileGeneration;
-      pagePicker?.clear();
-      pdfForPreview?.destroy();
-      selectedBuffer = null;
-      totalPages = 0;
-      splitBtn.disabled = true;
-      filePanel.style.display = "none";
+    async function loadPdf(file) {
+
+      clearResult();
 
       clearStatus();
 
-      resetProgress();
-
-      resetDownload();
-
-      resetPreview();
-
       if (
-        !file ||
+        !file
+        ||
         !(
           file.type ===
           "application/pdf"
@@ -3631,8 +4720,9 @@
       ) {
 
         setStatus(
-          "कृपया केवल PDF file चुनें।",
-          "error"
+          "कृपया PDF file चुनें.",
+          "error",
+          0
         );
 
         return;
@@ -3640,370 +4730,114 @@
 
       try {
 
-        setStatus(
-          "PDF read की जा रही है..."
+        dropzone.classList.add(
+          "scanning"
         );
 
-        selectedFile =
+        setStatus(
+          "DOCUMENT SCAN / PDF analyse की जा रही है…",
+          "normal",
+          8
+        );
+
+        state.file =
           file;
 
-        const buffer = await file.arrayBuffer();
-        if (generation !== fileGeneration) return;
-        selectedBuffer = buffer;
+        state.buffer =
+          await file.arrayBuffer();
 
         const loadingTask =
           pdfjsLib.getDocument({
             data:
-              selectedBuffer.slice(0)
+              state.buffer.slice(0)
           });
 
-        const loadedPdf = await loadingTask.promise;
-        if (generation !== fileGeneration) { loadedPdf.destroy(); return; }
-        pdfForPreview = loadedPdf;
+        state.pdfJs =
+          await loadingTask.promise;
 
-        totalPages =
-          pdfForPreview.numPages;
-        pagePicker.mount(pdfForPreview, []);
+        state.pageCount =
+          state.pdfJs.numPages;
 
-        fileNameEl.textContent =
+        state.selected =
+          new Set();
+
+        state.rotations =
+          new Map();
+
+        state.splitsAfter =
+          new Set();
+
+        state.order =
+          Array.from(
+            {
+              length:
+                state.pageCount
+            },
+            (_, i) =>
+              i + 1
+          );
+
+        state.originalOrder =
+          [
+            ...state.order
+          ];
+
+        state.lastClickedIndex =
+          null;
+
+        state.rendered =
+          new Set();
+
+        state.rendering =
+          new Set();
+
+        el("teleFile").textContent =
           file.name;
 
-        fileNameEl.title =
-          file.name;
+        el("telePages").textContent =
+          String(
+            state.pageCount
+          );
 
-        fileSizeEl.textContent =
+        el("teleSize").textContent =
           formatBytes(
             file.size
           );
 
-        pageCountEl.textContent =
-          `${totalPages} page${totalPages > 1 ? "s" : ""}`;
-
-        /* Better defaults for short PDFs */
-
-        if (
-          totalPages >= 3
-        ) {
-
-          extractInput.value =
-            "1-3";
-
-        } else if (
-          totalPages === 2
-        ) {
-
-          extractInput.value =
-            "1-2";
-
-        } else {
-
-          extractInput.value =
-            "1";
-        }
-
-        if (
-          totalPages >= 7
-        ) {
-
-          rangesInput.value =
-            "1-3 | 4-6 | 7-";
-
-        } else if (
-          totalPages >= 4
-        ) {
-
-          rangesInput.value =
-            `1-2 | 3-${totalPages}`;
-
-        } else if (
-          totalPages === 3
-        ) {
-
-          rangesInput.value =
-            "1 | 2 | 3";
-
-        } else if (
-          totalPages === 2
-        ) {
-
-          rangesInput.value =
-            "1 | 2";
-
-        } else {
-
-          rangesInput.value =
-            "1";
-        }
-
-        filePanel.style.display =
-          "block";
-
-        splitBtn.disabled =
-          false;
-
-        updateSummary();
-
-        setStatus(
-          `PDF ready है। Total pages: ${totalPages}. अब pages या split mode चुनें।`,
-          "success"
-        );
-
-      } catch (error) {
-        if (generation !== fileGeneration) return;
-
-        console.error(
-          error
-        );
-
-        selectedFile =
-          null;
-
-        selectedBuffer =
-          null;
-
-        pdfForPreview =
-          null;
-
-        totalPages =
-          0;
-
-        filePanel.style.display =
-          "none";
-
-        splitBtn.disabled =
-          true;
-
-        setStatus(
-          "यह PDF read नहीं हो सकी। File encrypted, damaged या unsupported हो सकती है।",
-          "error"
-        );
-      }
-    }
-
-    /* =========================
-       Preview
-    ========================== */
-
-    async function renderPreviewPage(
-      pageNumber,
-      scale = 0.48
-    ) {
-
-      if (!pdfForPreview) {
-
-        throw new Error(
-          "PDF load नहीं हुई।"
-        );
-      }
-
-      const page =
-        await pdfForPreview.getPage(
-          pageNumber
-        );
-
-      const viewport =
-        page.getViewport({
-          scale
-        });
-
-      const canvas =
-        document.createElement(
-          "canvas"
-        );
-
-      const context =
-        canvas.getContext(
-          "2d",
-          {
-            alpha: false
-          }
-        );
-
-      canvas.width =
-        Math.floor(
-          viewport.width
-        );
-
-      canvas.height =
-        Math.floor(
-          viewport.height
-        );
-
-      context.fillStyle =
-        "#ffffff";
-
-      context.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
-
-      await page.render({
-        canvasContext:
-          context,
-
-        viewport
-      }).promise;
-
-      return canvas;
-    }
-
-    async function showPreview() {
-
-      if (!pdfForPreview) {
-
-        setStatus(
-          "पहले PDF चुनें।",
-          "error"
-        );
-
-        return;
-      }
-
-      resetPreview();
-
-      clearStatus();
-
-      try {
-
-        const outputs =
-          getPlannedOutputs();
-
-        const pagesToPreview =
-          [];
-
-        outputs.forEach(
-          output => {
-
-            output.pages.forEach(
-              page => {
-
-                if (
-                  !pagesToPreview.includes(
-                    page
-                  )
-                ) {
-
-                  pagesToPreview.push(
-                    page
-                  );
-                }
-              }
-            );
-          }
-        );
-
-        const previewPages =
-          pagesToPreview.slice(
-            0,
-            8
-          );
-
-        if (
-          !previewPages.length
-        ) {
-
-          setStatus(
-            "Preview के लिए valid pages नहीं मिले।",
-            "error"
-          );
-
-          return;
-        }
-
-        setStatus(
-          "Preview बनाई जा रही है..."
-        );
-
-        previewGrid.classList.add(
+        workspace.classList.add(
           "show"
         );
 
-        for (
-          const pageNumber
-          of previewPages
-        ) {
+        buildGrid();
 
-          const canvas =
-            await renderPreviewPage(
-              pageNumber
-            );
+        updateTelemetry();
 
-          const card =
-            document.createElement(
-              "div"
-            );
-
-          card.className =
-            "preview-card";
-
-          const wrap =
-            document.createElement(
-              "div"
-            );
-
-          wrap.className =
-            "preview-canvas-wrap";
-
-          wrap.appendChild(
-            canvas
-          );
-
-          const label =
-            document.createElement(
-              "strong"
-            );
-
-          label.textContent =
-            `Page ${pageNumber}`;
-
-          card.appendChild(
-            wrap
-          );
-
-          card.appendChild(
-            label
-          );
-
-          previewGrid.appendChild(
-            card
-          );
-        }
-
-        if (
-          pagesToPreview.length >
-          8
-        ) {
-
-          const extra =
-            document.createElement(
-              "div"
-            );
-
-          extra.className =
-            "preview-card";
-
-          extra.innerHTML =
-            `
-            <div class="preview-canvas-wrap">
-              <strong>+${pagesToPreview.length - 8} more</strong>
-            </div>
-
-            <strong>
-              बाकी selected pages भी output में शामिल होंगे
-            </strong>
-            `;
-
-          previewGrid.appendChild(
-            extra
-          );
-        }
+        updateSelectionSummary();
 
         setStatus(
-          "Preview ready है। अब PDF अलग कर सकते हैं।",
-          "success"
+          `DOCUMENT READY • ${state.pageCount} pages detected • ${formatBytes(file.size)}`,
+          "success",
+          100
         );
+
+        setTimeout(
+          () => {
+
+            dropzone.classList.remove(
+              "scanning"
+            );
+
+            clearStatus();
+          },
+          900
+        );
+
+        workspace.scrollIntoView({
+          behavior:
+            "smooth",
+          block:
+            "start"
+        });
 
       } catch (error) {
 
@@ -4011,313 +4845,552 @@
           error
         );
 
+        dropzone.classList.remove(
+          "scanning"
+        );
+
         setStatus(
-          error.message ||
-          "Preview नहीं बन सकी।",
-          "error"
+          "PDF read नहीं हो सकी. File encrypted, damaged या unsupported हो सकती है.",
+          "error",
+          0
         );
       }
     }
 
-    /* =========================
-       Output Naming
-    ========================== */
+    /* CREATE COMBINED PDF */
 
-    function getOutputFileName(
-      baseName,
-      output,
-      totalOutputCount
-    ) {
+    async function createCombinedPdf() {
 
-      const cleanBase =
-        sanitizeFileName(
-          baseName
-        );
-
-      const mode =
-        fileNameMode.value;
+      const pages =
+        selectedPagesInCurrentOrder();
 
       if (
-        totalOutputCount ===
-        1
+        !pages.length
       ) {
 
-        return (
-          `${cleanBase}.pdf`
+        throw new Error(
+          "कोई page selected नहीं है."
         );
       }
 
-      if (
-        mode ===
-        "pages"
-      ) {
-
-        const label =
-          rangeLabelFromPages(
-            output.pages
-          )
-          .replace(
-            /,/g,
-            "_"
-          );
-
-        return (
-          `${cleanBase}-pages-${label}.pdf`
+      const source =
+        await PDFDocument.load(
+          state.buffer,
+          {
+            ignoreEncryption:
+              false
+          }
         );
-      }
 
-      return (
-        `${cleanBase}-${String(output.index).padStart(2, "0")}.pdf`
-      );
-    }
-
-    /* =========================
-       Create PDF
-    ========================== */
-
-    async function createPdfForPages(
-      sourcePdf,
-      pages
-    ) {
-
-      const newPdf =
+      const output =
         await PDFDocument.create();
 
-      const zeroBased =
-        pages.map(
-          page =>
-            page - 1
-        );
+      for (
+        let i = 0;
+        i < pages.length;
+        i++
+      ) {
 
-      const copiedPages =
-        await newPdf.copyPages(
-          sourcePdf,
-          zeroBased
-        );
+        const pageNo =
+          pages[i];
 
-      copiedPages.forEach(
-        page =>
-          newPdf.addPage(
-            page
+        const [copied] =
+          await output.copyPages(
+            source,
+            [
+              pageNo - 1
+            ]
+          );
+
+        const rotation =
+          state.rotations.get(
+            pageNo
           )
-      );
+          ||
+          0;
 
-      const bytes =
-        await newPdf.save({
-          useObjectStreams:
-            true,
+        if (rotation) {
 
-          objectsPerTick:
-            50
-        });
-
-      return new Blob(
-        [bytes],
-        {
-          type:
-            "application/pdf"
-        }
-      );
-    }
-
-    /* =========================
-       Main Split Function
-    ========================== */
-
-    async function splitPDF() {
-
-      if (!selectedBuffer) {
-
-        setStatus(
-          "पहले PDF file चुनें।",
-          "error"
-        );
-
-        return;
-      }
-
-      resetDownload();
-
-      resetProgress();
-
-      clearStatus();
-
-      splitBtn.disabled =
-        true;
-
-      try {
-
-        const outputs =
-          getPlannedOutputs();
-
-        if (
-          !outputs.length
-        ) {
-
-          throw new Error(
-            "Output plan खाली है।"
-          );
-        }
-
-        setStatus(
-          "PDF अलग की जा रही है..."
-        );
-
-        setProgress(5);
-
-        const sourcePdf =
-          await PDFDocument.load(
-            selectedBuffer,
-            {
-              ignoreEncryption:
-                false
-            }
-          );
-
-        const baseName =
-          sanitizeFileName(
-            outputName.value
-          );
-
-        const outputFiles =
-          [];
-
-        for (
-          let i = 0;
-          i < outputs.length;
-          i++
-        ) {
-
-          const output =
-            outputs[i];
-
-          setStatus(
-            `Output ${i + 1} of ${outputs.length} बनाई जा रही है...`
-          );
-
-          const blob =
-            await createPdfForPages(
-              sourcePdf,
-              output.pages
-            );
-
-          const fileName =
-            getOutputFileName(
-              baseName,
-              output,
-              outputs.length
-            );
-
-          outputFiles.push({
-            fileName,
-            blob,
-            pages:
-              output.pages
-          });
-
-          setProgress(
-            Math.round(
-              (
-                (i + 1) /
-                outputs.length
-              )
-              *
-              85
+          copied.setRotation(
+            degrees(
+              rotation
             )
           );
         }
 
-        let finalBlob;
+        output.addPage(
+          copied
+        );
 
-        let finalName;
+        setStatus(
+          `Selected page ${i + 1} / ${pages.length} copy हो रही है…`,
+          "normal",
+          Math.round(
+            (
+              (i + 1) /
+              pages.length
+            )
+            *
+            88
+          )
+        );
+      }
 
-        let description;
+      const bytes =
+        await output.save({
+          useObjectStreams:
+            true,
+          objectsPerTick:
+            50
+        });
 
-        /* Single PDF */
+      return {
+        blob:
+          new Blob(
+            [
+              bytes
+            ],
+            {
+              type:
+                "application/pdf"
+            }
+          ),
 
-        if (
-          outputFiles.length ===
-          1
+        name:
+          safeName(
+            outputName.value
+          )
+          +
+          ".pdf",
+
+        description:
+          `${pages.length} selected page(s) एक PDF में ready हैं.`
+      };
+    }
+
+    /* SEPARATE ZIP */
+
+    async function createSeparateZip() {
+
+      const pages =
+        selectedPagesInCurrentOrder();
+
+      if (
+        !pages.length
+      ) {
+
+        throw new Error(
+          "कोई page selected नहीं है."
+        );
+      }
+
+      const source =
+        await PDFDocument.load(
+          state.buffer,
+          {
+            ignoreEncryption:
+              false
+          }
+        );
+
+      const zip =
+        new JSZip();
+
+      const base =
+        safeName(
+          outputName.value
+        );
+
+      for (
+        let i = 0;
+        i < pages.length;
+        i++
+      ) {
+
+        const pageNo =
+          pages[i];
+
+        const output =
+          await PDFDocument.create();
+
+        const [copied] =
+          await output.copyPages(
+            source,
+            [
+              pageNo - 1
+            ]
+          );
+
+        const rotation =
+          state.rotations.get(
+            pageNo
+          )
+          ||
+          0;
+
+        if (rotation) {
+
+          copied.setRotation(
+            degrees(
+              rotation
+            )
+          );
+        }
+
+        output.addPage(
+          copied
+        );
+
+        const bytes =
+          await output.save({
+            useObjectStreams:
+              true
+          });
+
+        zip.file(
+          `${base}-page-${String(pageNo).padStart(2,"0")}.pdf`,
+          bytes
+        );
+
+        setStatus(
+          `Page ${i + 1} / ${pages.length} PDF बन रही है…`,
+          "normal",
+          Math.round(
+            (
+              (i + 1) /
+              pages.length
+            )
+            *
+            82
+          )
+        );
+      }
+
+      setStatus(
+        "ZIP package बनाई जा रही है…",
+        "normal",
+        92
+      );
+
+      const blob =
+        await zip.generateAsync({
+          type:
+            "blob"
+        });
+
+      return {
+        blob,
+
+        name:
+          `${base}-pages.zip`,
+
+        description:
+          `${pages.length} separate PDF files ZIP में ready हैं.`
+      };
+    }
+
+    /* SECTIONS */
+
+    function buildSections() {
+
+      const ordered =
+        [
+          ...state.order
+        ];
+
+      const splitPositions =
+        [];
+
+      ordered.forEach(
+        (
+          pageNo,
+          index
+        ) => {
+
+          if (
+            state.splitsAfter.has(
+              pageNo
+            )
+            &&
+            index <
+            ordered.length - 1
+          ) {
+
+            splitPositions.push(
+              index
+            );
+          }
+        }
+      );
+
+      const groups =
+        [];
+
+      let start =
+        0;
+
+      splitPositions
+      .sort(
+        (
+          a,
+          b
+        ) =>
+          a - b
+      )
+      .forEach(
+        pos => {
+
+          groups.push(
+            ordered.slice(
+              start,
+              pos + 1
+            )
+          );
+
+          start =
+            pos + 1;
+        }
+      );
+
+      groups.push(
+        ordered.slice(
+          start
+        )
+      );
+
+      return groups.filter(
+        group =>
+          group.length
+      );
+    }
+
+    async function createSectionsZip() {
+
+      const groups =
+        buildSections();
+
+      if (
+        groups.length <
+        2
+      ) {
+
+        throw new Error(
+          "कम से कम एक visual split point लगाएं."
+        );
+      }
+
+      const source =
+        await PDFDocument.load(
+          state.buffer,
+          {
+            ignoreEncryption:
+              false
+          }
+        );
+
+      const zip =
+        new JSZip();
+
+      const base =
+        safeName(
+          outputName.value
+        );
+
+      for (
+        let i = 0;
+        i < groups.length;
+        i++
+      ) {
+
+        const pages =
+          groups[i];
+
+        const output =
+          await PDFDocument.create();
+
+        for (
+          const pageNo
+          of pages
         ) {
 
-          finalBlob =
-            outputFiles[0].blob;
+          const [copied] =
+            await output.copyPages(
+              source,
+              [
+                pageNo - 1
+              ]
+            );
 
-          finalName =
-            outputFiles[0].fileName;
+          const rotation =
+            state.rotations.get(
+              pageNo
+            )
+            ||
+            0;
 
-          description =
-            `Single PDF ready • Pages: ${rangeLabelFromPages(outputFiles[0].pages)}`;
+          if (rotation) {
 
+            copied.setRotation(
+              degrees(
+                rotation
+              )
+            );
+          }
+
+          output.addPage(
+            copied
+          );
         }
 
-        /* ZIP */
+        const bytes =
+          await output.save({
+            useObjectStreams:
+              true
+          });
 
-        else {
+        const first =
+          pages[0];
 
-          setStatus(
-            "ZIP file बनाई जा रही है..."
-          );
+        const last =
+          pages[
+            pages.length - 1
+          ];
 
-          setProgress(92);
+        zip.file(
+          `${base}-part-${String(i + 1).padStart(2,"0")}-pages-${first}-${last}.pdf`,
+          bytes
+        );
 
-          const zip =
-            new JSZip();
+        setStatus(
+          `Section ${i + 1} / ${groups.length} बन रही है…`,
+          "normal",
+          Math.round(
+            (
+              (i + 1) /
+              groups.length
+            )
+            *
+            84
+          )
+        );
+      }
 
-          outputFiles.forEach(
-            file => {
+      setStatus(
+        "Split ZIP तैयार की जा रही है…",
+        "normal",
+        94
+      );
 
-              zip.file(
-                file.fileName,
-                file.blob
-              );
-            }
-          );
+      const blob =
+        await zip.generateAsync({
+          type:
+            "blob"
+        });
 
-          finalBlob =
-            await zip.generateAsync({
-              type:
-                "blob"
-            });
+      return {
+        blob,
 
-          finalName =
-            `${baseName}-split-files.zip`;
+        name:
+          `${base}-split-sections.zip`,
 
-          description =
-            `${outputFiles.length} PDF files ZIP में ready हैं`;
+        description:
+          `${groups.length} document section(s) ZIP में ready हैं.`
+      };
+    }
+
+    /* PROCESS OUTPUT */
+
+    async function processOutput() {
+
+      if (
+        !state.buffer
+      ) {
+
+        setStatus(
+          "पहले PDF upload करें.",
+          "error",
+          0
+        );
+
+        return;
+      }
+
+      clearResult();
+
+      processBtn.disabled =
+        true;
+
+      try {
+
+        setStatus(
+          "PROCESS INITIALISED…",
+          "normal",
+          3
+        );
+
+        let result;
+
+        if (
+          state.mode ===
+          "extract"
+        ) {
+
+          result =
+            await createCombinedPdf();
+
+        } else if (
+          state.mode ===
+          "separate"
+        ) {
+
+          result =
+            await createSeparateZip();
+
+        } else {
+
+          result =
+            await createSectionsZip();
         }
 
-        currentDownloadUrl =
+        state.currentUrl =
           URL.createObjectURL(
-            finalBlob
+            result.blob
           );
 
         downloadLink.href =
-          currentDownloadUrl;
+          state.currentUrl;
 
         downloadLink.download =
-          finalName;
+          result.name;
 
         downloadLink.textContent =
-          finalName
+          result.name
           .toLowerCase()
           .endsWith(".zip")
-            ? "Download ZIP"
-            : "Download PDF";
+            ?
+            "Download ZIP"
+            :
+            "Download PDF";
 
-        downloadMeta.textContent =
-          `${description} • Size: ${formatBytes(finalBlob.size)}`;
+        resultText.textContent =
+          `${result.description} • ${formatBytes(result.blob.size)}`;
 
-        downloadCard.classList.add(
+        resultPanel.classList.add(
           "show"
         );
 
-        setProgress(100);
-
         setStatus(
-          "PDF successfully अलग हो गई है। अब download करें।",
-          "success"
+          "PROCESS COMPLETE ✓",
+          "success",
+          100
         );
+
+        resultPanel.scrollIntoView({
+          behavior:
+            "smooth",
+          block:
+            "nearest"
+        });
 
       } catch (error) {
 
@@ -4326,118 +5399,145 @@
         );
 
         setStatus(
-          error.message ||
-          "PDF अलग नहीं हो सकी। File encrypted, damaged या बहुत बड़ी हो सकती है।",
-          "error"
+          error.message
+          ||
+          "Output नहीं बन सकी.",
+          "error",
+          0
         );
 
       } finally {
 
-        splitBtn.disabled =
-          !selectedBuffer;
-
-        setTimeout(
-          resetProgress,
-          1100
-        );
+        updateSelectionSummary();
       }
     }
 
-    /* =========================
-       Reset File
-    ========================== */
-
-    function clearFile() {
-      fileGeneration++;
-      pagePicker?.clear();
-      pdfForPreview?.destroy();
-
-      selectedFile =
-        null;
-
-      selectedBuffer =
-        null;
-
-      pdfForPreview =
-        null;
-
-      totalPages =
-        0;
-
-      fileInput.value =
-        "";
-
-      filePanel.style.display =
-        "none";
-
-      splitBtn.disabled =
-        true;
-
-      resetDownload();
-
-      resetProgress();
-
-      resetPreview();
-
-      clearStatus();
-
-      updateSummary();
-    }
-
-    /* =========================
-       Modes
-    ========================== */
+    /* MODE */
 
     function setMode(mode) {
 
-      activeMode =
+      state.mode =
         mode;
 
-      modeCards.forEach(
-        card => {
+      document
+      .querySelectorAll(
+        ".mode-tab"
+      )
+      .forEach(
+        btn => {
 
-          card.classList.toggle(
+          btn.classList.toggle(
             "active",
-            card.dataset.mode ===
-            activeMode
+            btn.dataset.mode ===
+            mode
           );
         }
       );
 
-      extractCard.style.display =
-        activeMode ===
-        "extract"
-          ? "block"
-          : "none";
+      if (
+        mode ===
+        "sections"
+      ) {
 
-      rangesCard.style.display =
-        activeMode ===
-        "ranges"
-          ? "block"
-          : "none";
+        el("workspaceTitle").textContent =
+          "Visual Split Matrix";
 
-      resetDownload();
+        el("workspaceHint").textContent =
+          "हर page के ✂ button से उस page के बाद split point लगाएं.";
 
-      resetPreview();
+      } else {
 
-      clearStatus();
+        el("workspaceTitle").textContent =
+          "Page Selection Matrix";
 
-      updateSummary();
+        el("workspaceHint").textContent =
+          "Tap pages to select. Desktop पर Shift + click से पूरा range select करें.";
+      }
+
+      clearResult();
+
+      updateSelectionSummary();
     }
 
-    /* =========================
-       File Picker
-    ========================== */
+    /* REMOVE PDF */
 
-    function openFilePicker() {
+    function removePdf() {
+
+      if (
+        state.pdfJs
+      ) {
+
+        try {
+
+          state.pdfJs.destroy();
+
+        } catch (e) {}
+      }
+
+      if (
+        state.renderObserver
+      ) {
+
+        state.renderObserver.disconnect();
+      }
+
+      state.file =
+        null;
+
+      state.buffer =
+        null;
+
+      state.pdfJs =
+        null;
+
+      state.pageCount =
+        0;
+
+      state.selected =
+        new Set();
+
+      state.rotations =
+        new Map();
+
+      state.splitsAfter =
+        new Set();
+
+      state.order =
+        [];
+
+      state.originalOrder =
+        [];
+
+      state.rendered =
+        new Set();
+
+      state.rendering =
+        new Set();
+
+      pagesGrid.innerHTML =
+        "";
+
+      workspace.classList.remove(
+        "show"
+      );
 
       fileInput.value =
         "";
 
-      fileInput.click();
+      clearResult();
+
+      clearStatus();
+
+      window.scrollTo({
+        top: 0,
+        behavior:
+          "smooth"
+      });
     }
 
-    selectFileBtn.addEventListener(
+    /* UPLOAD EVENTS */
+
+    chooseFileBtn.addEventListener(
       "click",
       event => {
 
@@ -4445,7 +5545,10 @@
 
         event.stopPropagation();
 
-        openFilePicker();
+        fileInput.value =
+          "";
+
+        fileInput.click();
       }
     );
 
@@ -4461,7 +5564,10 @@
           return;
         }
 
-        openFilePicker();
+        fileInput.value =
+          "";
+
+        fileInput.click();
       }
     );
 
@@ -4470,12 +5576,13 @@
       event => {
 
         const file =
-          event.target.files &&
+          event.target.files
+          &&
           event.target.files[0];
 
         if (file) {
 
-          loadFile(
+          loadPdf(
             file
           );
         }
@@ -4485,19 +5592,15 @@
       }
     );
 
-    /* =========================
-       Drag / Drop
-    ========================== */
-
     [
       "dragenter",
       "dragover"
     ]
     .forEach(
-      eventName => {
+      name => {
 
         dropzone.addEventListener(
-          eventName,
+          name,
           event => {
 
             event.preventDefault();
@@ -4517,10 +5620,10 @@
       "drop"
     ]
     .forEach(
-      eventName => {
+      name => {
 
         dropzone.addEventListener(
-          eventName,
+          name,
           event => {
 
             event.preventDefault();
@@ -4540,165 +5643,464 @@
       event => {
 
         const file =
-          event.dataTransfer.files &&
+          event.dataTransfer.files
+          &&
           event.dataTransfer.files[0];
 
         if (file) {
 
-          loadFile(
+          loadPdf(
             file
           );
         }
       }
     );
 
-    /* =========================
-       Mode Events
-    ========================== */
-
-    modeCards.forEach(
-      card => {
-
-        card.addEventListener(
-          "click",
-          () => {
-
-            setMode(
-              card.dataset.mode
-            );
-          }
-        );
-      }
-    );
-
-    /* =========================
-       Example Buttons
-    ========================== */
+    /* MODE EVENTS */
 
     document
     .querySelectorAll(
-      ".chip-btn"
+      ".mode-tab"
     )
     .forEach(
       btn => {
 
         btn.addEventListener(
           "click",
-          () => {
+          () =>
+            setMode(
+              btn.dataset.mode
+            )
+        );
+      }
+    );
 
-            const target =
-              document.getElementById(
-                btn.dataset.target
+    /* SELECTION */
+
+    el("selectAllBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        state.selected =
+          new Set(
+            state.order
+          );
+
+        clearResult();
+
+        refreshAllCards();
+      }
+    );
+
+    el("clearSelectionBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        state.selected.clear();
+
+        clearResult();
+
+        refreshAllCards();
+      }
+    );
+
+    el("invertSelectionBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        const next =
+          new Set();
+
+        state.order.forEach(
+          pageNo => {
+
+            if (
+              !state.selected.has(
+                pageNo
+              )
+            ) {
+
+              next.add(
+                pageNo
               );
-
-            if (!target) {
-              return;
             }
-
-            target.value =
-              btn.dataset.example;
-
-            resetDownload();
-
-            resetPreview();
-
-            updateSummary();
           }
+        );
+
+        state.selected =
+          next;
+
+        clearResult();
+
+        refreshAllCards();
+      }
+    );
+
+    el("oddBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        state.selected =
+          new Set(
+            state.order.filter(
+              pageNo =>
+                pageNo % 2 === 1
+            )
+          );
+
+        clearResult();
+
+        refreshAllCards();
+      }
+    );
+
+    el("evenBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        state.selected =
+          new Set(
+            state.order.filter(
+              pageNo =>
+                pageNo % 2 === 0
+            )
+          );
+
+        clearResult();
+
+        refreshAllCards();
+      }
+    );
+
+    /* RANGE */
+
+    el("applyRangeBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        try {
+
+          const pages =
+            parseRange(
+              el("rangeInput").value
+            );
+
+          if (
+            !pages.length
+          ) {
+
+            throw new Error(
+              "Valid page range लिखें."
+            );
+          }
+
+          state.selected =
+            new Set(
+              pages
+            );
+
+          clearResult();
+
+          refreshAllCards();
+
+          setStatus(
+            `${pages.length} page(s) range से selected.`,
+            "success",
+            100
+          );
+
+          setTimeout(
+            clearStatus,
+            700
+          );
+
+        } catch (error) {
+
+          setStatus(
+            error.message,
+            "error",
+            0
+          );
+        }
+      }
+    );
+
+    el("rangeInput")
+    .addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key ===
+          "Enter"
+        ) {
+
+          el("applyRangeBtn").click();
+        }
+      }
+    );
+
+    /* ROTATION */
+
+    el("rotateLeftBtn")
+    .addEventListener(
+      "click",
+      () =>
+        rotateSelected(
+          -90
+        )
+    );
+
+    el("rotateRightBtn")
+    .addEventListener(
+      "click",
+      () =>
+        rotateSelected(
+          90
+        )
+    );
+
+    /* ORDER */
+
+    el("reverseBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        state.order.reverse();
+
+        rebuildGridPreservingRenders();
+
+        clearResult();
+
+        setStatus(
+          "Page order reverse कर दिया गया.",
+          "success",
+          100
+        );
+
+        setTimeout(
+          clearStatus,
+          700
         );
       }
     );
 
-    /* =========================
-       Setting Changes
-    ========================== */
+    el("resetOrderBtn")
+    .addEventListener(
+      "click",
+      () => {
 
-    [
-      extractInput,
-      rangesInput,
-      outputName,
-      fileNameMode
-    ]
+        state.order =
+          [
+            ...state.originalOrder
+          ];
+
+        rebuildGridPreservingRenders();
+
+        clearResult();
+
+        setStatus(
+          "Original page order restore किया गया.",
+          "success",
+          100
+        );
+
+        setTimeout(
+          clearStatus,
+          700
+        );
+      }
+    );
+
+    /* ZOOM */
+
+    el("thumbZoom")
+    .addEventListener(
+      "input",
+      () => {
+
+        pagesGrid.style.setProperty(
+          "--thumb-width",
+          el("thumbZoom").value
+          +
+          "px"
+        );
+      }
+    );
+
+    el("renderAllBtn")
+    .addEventListener(
+      "click",
+      renderAllThumbs
+    );
+
+    el("removeFileBtn")
+    .addEventListener(
+      "click",
+      removePdf
+    );
+
+    processBtn.addEventListener(
+      "click",
+      processOutput
+    );
+
+    el("newTaskBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        clearResult();
+
+        clearStatus();
+
+        pagesViewport.scrollTo({
+          top: 0,
+          behavior:
+            "smooth"
+        });
+      }
+    );
+
+    /* MODAL */
+
+    el("closeModalBtn")
+    .addEventListener(
+      "click",
+      () =>
+        previewModal.classList.remove(
+          "show"
+        )
+    );
+
+    previewModal.addEventListener(
+      "click",
+      event => {
+
+        if (
+          event.target ===
+          previewModal
+        ) {
+
+          previewModal.classList.remove(
+            "show"
+          );
+        }
+      }
+    );
+
+    document.addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key ===
+          "Escape"
+        ) {
+
+          previewModal.classList.remove(
+            "show"
+          );
+        }
+      }
+    );
+
+    /* FAQ */
+
+    document
+    .querySelectorAll(
+      ".faq-q"
+    )
     .forEach(
-      el => {
+      btn => {
 
-        el.addEventListener(
-          "input",
-          () => {
-
-            resetDownload();
-
-            resetPreview();
-
-            updateSummary();
-          }
-        );
-
-        el.addEventListener(
-          "change",
-          () => {
-
-            resetDownload();
-
-            resetPreview();
-
-            updateSummary();
-          }
+        btn.addEventListener(
+          "click",
+          () =>
+            btn.parentElement
+            .classList.toggle(
+              "active"
+            )
         );
       }
     );
 
-    /* =========================
-       Main Buttons
-    ========================== */
+    /* THEME */
 
-    clearBtn.addEventListener(
+    const themeBtn =
+      el("themeBtn");
+
+    themeBtn.addEventListener(
       "click",
-      clearFile
+      () => {
+
+        const current =
+          document
+          .documentElement
+          .dataset
+          .theme
+          ||
+          "dark";
+
+        const next =
+          current ===
+          "dark"
+            ?
+            "light"
+            :
+            "dark";
+
+        document
+        .documentElement
+        .dataset
+        .theme =
+          next;
+
+        try {
+
+          localStorage.setItem(
+            "ht-hud-theme",
+            next
+          );
+
+        } catch (e) {}
+      }
     );
 
-    previewBtn.addEventListener(
-      "click",
-      showPreview
-    );
-
-    splitBtn.addEventListener(
-      "click",
-      splitPDF
-    );
-
-    /* =========================
-       Mobile Navigation
-    ========================== */
+    /* MOBILE MENU */
 
     const menuBtn =
-      document.getElementById(
-        "menuBtn"
-      );
+      el("menuBtn");
 
-    const nav =
-      document.getElementById(
-        "nav"
-      );
+    const mainNav =
+      el("mainNav");
 
     menuBtn.addEventListener(
       "click",
       () => {
 
-        const isOpen =
-          nav.classList.toggle(
+        const open =
+          mainNav.classList.toggle(
             "open"
           );
 
         menuBtn.setAttribute(
           "aria-expanded",
-          String(isOpen)
+          String(open)
         );
       }
     );
 
-    document
+    mainNav
     .querySelectorAll(
-      ".nav-links a"
+      "a"
     )
     .forEach(
       link => {
@@ -4707,7 +6109,7 @@
           "click",
           () => {
 
-            nav.classList.remove(
+            mainNav.classList.remove(
               "open"
             );
 
@@ -4720,112 +6122,9 @@
       }
     );
 
-    /* =========================
-       FAQ
-    ========================== */
-
-    document
-    .querySelectorAll(
-      ".faq-q"
-    )
-    .forEach(
-      btn => {
-
-        btn.addEventListener(
-          "click",
-          () => {
-
-            btn.parentElement
-            .classList.toggle(
-              "active"
-            );
-          }
-        );
-      }
-    );
-
-    /* =========================
-       Initial State
-    ========================== */
-
-
-    function syncPicker() {
-      const dividing = activeMode === 'ranges';
-      document.getElementById('visualPicker').hidden = !totalPages || activeMode === 'each';
-      document.getElementById('selectionToolbar').hidden = dividing;
-      document.getElementById('divideToolbar').hidden = !dividing;
-      document.getElementById('separateWrap').hidden = dividing;
-      document.getElementById('splitPlan').hidden = !dividing;
-      document.getElementById('pickerTitle').textContent = dividing ? 'Document कहाँ split करना है?' : 'Pages देखें और चुनें';
-      document.getElementById('pickerHelp').textContent = dividing
-        ? 'जिस page के बाद नई PDF शुरू करनी है, उसके नीचे split marker चुनें।'
-        : 'Page पर tap करें। Desktop पर Shift + click से कई pages चुनें। Range box भी इस्तेमाल कर सकते हैं।';
-      if (!pagePicker) return;
-      if (dividing) {
-        const list = document.getElementById('splitPlanList');
-        list.replaceChildren();
-        let groups = [];
-        try { if (totalPages) groups = parseRangeGroups(rangesInput.value, totalPages); } catch {}
-        const sequence = groups.flatMap(group => group.pages);
-        const partition = sequence.length === totalPages && sequence.every((page,i) => page === i+1);
-        const boundaries = partition ? groups.slice(0,-1).map(group => group.pages[group.pages.length-1]) : [];
-        pagePicker.setMode('ranges', boundaries);
-        pagePicker.sync([]);
-        groups.forEach((group,i) => {
-          const item = document.createElement('li');
-          item.textContent = 'File ' + (i+1) + ' — Pages ' + rangeLabelFromPages(group.pages);
-          list.append(item);
-        });
-        document.getElementById('pickerCount').textContent = partition
-          ? groups.length + ' output file(s) · ' + boundaries.length + ' split marker(s)'
-          : 'Custom ranges नीचे रखी गई हैं। कोई marker चुनने पर पूरे document के नए sections बनेंगे।';
-      } else {
-        let pages = [];
-        try { pages = parsePageRanges(extractInput.value, totalPages); } catch {}
-        pagePicker.setMode('extract');
-        pagePicker.sync(pages);
-        document.getElementById('pickerCount').textContent = pages.length + ' / ' + totalPages + ' pages selected';
-      }
-    }
-    function applySplitMarkers(boundaries) {
-      let start = 1;
-      const groups = [...boundaries, totalPages].map(end => {
-        const group = start === end ? String(start) : start + '-' + end;
-        start = end + 1;
-        return group;
-      });
-      rangesInput.value = groups.join(' | ');
-      resetDownload();
-      resetPreview();
-      updateSummary();
-    }
-    function applyPickedPages(pages) {
-      extractInput.value = pages.length ? rangeLabelFromPages(pages) : '';
-      resetDownload();
-      resetPreview();
-      updateSummary();
-    }
-    pagePicker = new HindiPagePicker(document.getElementById('pagePickerGrid'), applyPickedPages, applySplitMarkers);
-    document.getElementById('clearDividers').addEventListener('click', () => applySplitMarkers([]));
-    document.getElementById('everyDivider').addEventListener('click', () => applySplitMarkers(Array.from({length:Math.max(0,totalPages-1)},(_,i)=>i+1)));
-    document.querySelectorAll('[data-pick]').forEach(button => button.addEventListener('click', () => {
-      let current = [];
-      try { current = parsePageRanges(extractInput.value, totalPages); } catch {}
-      const selection = new Set(current);
-      const action = button.dataset.pick;
-      const pages = Array.from({length:totalPages}, (_,i)=>i+1).filter(page =>
-        action === 'all' || action === 'invert' && !selection.has(page) ||
-        action === 'odd' && page % 2 === 1 || action === 'even' && page % 2 === 0);
-      applyPickedPages(pages);
-    }));
-    document.getElementById('separateSelected').addEventListener('change', () => {resetDownload(); updateSummary();});
     setMode(
       "extract"
     );
-
-    splitBtn.disabled =
-      true;
-
   </script>
 
 </body>
