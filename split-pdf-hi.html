@@ -1875,8 +1875,8 @@
     }
   </style>
   <link rel="stylesheet" href="hinditools-refresh.css" />
-<link rel="stylesheet" href="pdf-page-picker.css">
-<script src="pdf-page-picker.js"></script>
+<link rel="stylesheet" href="pdf-page-picker.css?v=20260917">
+<script src="pdf-page-picker.js?v=20260917"></script>
 </head>
 
 <body class="ht-tool">
@@ -2207,12 +2207,12 @@
 
 <section class="visual-picker" id="visualPicker" hidden aria-labelledby="pickerTitle">
 <h3 id="pickerTitle">Pages देखें और चुनें</h3>
-<p>Page पर tap करें। Desktop पर Shift + click से कई pages चुनें। Range box भी इस्तेमाल कर सकते हैं।</p>
-<div class="vp-toolbar" role="group" aria-label="Page selection">
+<p id="pickerHelp">Page पर tap करें। Desktop पर Shift + click से कई pages चुनें। Range box भी इस्तेमाल कर सकते हैं।</p>
+<div class="vp-toolbar" id="selectionToolbar" role="group" aria-label="Page selection">
 <button type="button" data-pick="all">सभी चुनें</button><button type="button" data-pick="clear">Clear</button><button type="button" data-pick="invert">Invert</button><button type="button" data-pick="odd">Odd</button><button type="button" data-pick="even">Even</button>
-</div><p id="pickerCount" role="status" aria-live="polite"></p>
+</div><div class="vp-toolbar" id="divideToolbar" hidden><button type="button" id="clearDividers">सभी split markers हटाएं</button><button type="button" id="everyDivider">हर page पर split</button></div><p id="pickerCount" role="status" aria-live="polite"></p>
 <div id="pagePickerGrid" class="vp-grid" aria-label="PDF pages"></div>
-<label class="vp-separate"><input type="checkbox" id="separateSelected"> हर selected page की अलग PDF बनाएं</label>
+<div class="vp-plan" id="splitPlan" hidden><strong>आपकी output files</strong><ol id="splitPlanList"></ol></div><label class="vp-separate" id="separateWrap"><input type="checkbox" id="separateSelected"> हर selected page की अलग PDF बनाएं</label>
 </section>
             <!-- SETTINGS -->
 
@@ -4750,13 +4750,54 @@
 
 
     function syncPicker() {
-      const panel = document.getElementById('visualPicker');
-      panel.hidden = !totalPages || activeMode !== 'extract';
+      const dividing = activeMode === 'ranges';
+      document.getElementById('visualPicker').hidden = !totalPages || activeMode === 'each';
+      document.getElementById('selectionToolbar').hidden = dividing;
+      document.getElementById('divideToolbar').hidden = !dividing;
+      document.getElementById('separateWrap').hidden = dividing;
+      document.getElementById('splitPlan').hidden = !dividing;
+      document.getElementById('pickerTitle').textContent = dividing ? 'Document कहाँ split करना है?' : 'Pages देखें और चुनें';
+      document.getElementById('pickerHelp').textContent = dividing
+        ? 'जिस page के बाद नई PDF शुरू करनी है, उसके नीचे split marker चुनें।'
+        : 'Page पर tap करें। Desktop पर Shift + click से कई pages चुनें। Range box भी इस्तेमाल कर सकते हैं।';
       if (!pagePicker) return;
-      let pages = [];
-      try { pages = parsePageRanges(extractInput.value, totalPages); } catch {}
-      pagePicker.sync(pages);
-      document.getElementById('pickerCount').textContent = pages.length + ' / ' + totalPages + ' pages selected';
+      if (dividing) {
+        const list = document.getElementById('splitPlanList');
+        list.replaceChildren();
+        let groups = [];
+        try { if (totalPages) groups = parseRangeGroups(rangesInput.value, totalPages); } catch {}
+        const sequence = groups.flatMap(group => group.pages);
+        const partition = sequence.length === totalPages && sequence.every((page,i) => page === i+1);
+        const boundaries = partition ? groups.slice(0,-1).map(group => group.pages[group.pages.length-1]) : [];
+        pagePicker.setMode('ranges', boundaries);
+        pagePicker.sync([]);
+        groups.forEach((group,i) => {
+          const item = document.createElement('li');
+          item.textContent = 'File ' + (i+1) + ' — Pages ' + rangeLabelFromPages(group.pages);
+          list.append(item);
+        });
+        document.getElementById('pickerCount').textContent = partition
+          ? groups.length + ' output file(s) · ' + boundaries.length + ' split marker(s)'
+          : 'Custom ranges नीचे रखी गई हैं। कोई marker चुनने पर पूरे document के नए sections बनेंगे।';
+      } else {
+        let pages = [];
+        try { pages = parsePageRanges(extractInput.value, totalPages); } catch {}
+        pagePicker.setMode('extract');
+        pagePicker.sync(pages);
+        document.getElementById('pickerCount').textContent = pages.length + ' / ' + totalPages + ' pages selected';
+      }
+    }
+    function applySplitMarkers(boundaries) {
+      let start = 1;
+      const groups = [...boundaries, totalPages].map(end => {
+        const group = start === end ? String(start) : start + '-' + end;
+        start = end + 1;
+        return group;
+      });
+      rangesInput.value = groups.join(' | ');
+      resetDownload();
+      resetPreview();
+      updateSummary();
     }
     function applyPickedPages(pages) {
       extractInput.value = pages.length ? rangeLabelFromPages(pages) : '';
@@ -4764,7 +4805,9 @@
       resetPreview();
       updateSummary();
     }
-    pagePicker = new HindiPagePicker(document.getElementById('pagePickerGrid'), applyPickedPages);
+    pagePicker = new HindiPagePicker(document.getElementById('pagePickerGrid'), applyPickedPages, applySplitMarkers);
+    document.getElementById('clearDividers').addEventListener('click', () => applySplitMarkers([]));
+    document.getElementById('everyDivider').addEventListener('click', () => applySplitMarkers(Array.from({length:Math.max(0,totalPages-1)},(_,i)=>i+1)));
     document.querySelectorAll('[data-pick]').forEach(button => button.addEventListener('click', () => {
       let current = [];
       try { current = parsePageRanges(extractInput.value, totalPages); } catch {}
