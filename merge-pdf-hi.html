@@ -41,7 +41,13 @@
       "Drag and drop page reordering",
       "Rotate pages",
       "Duplicate pages",
-      "Add blank page",
+      "Configurable blank pages",
+      "Undo and redo",
+      "Select pages by final output position",
+      "Mobile-friendly page move controls",
+      "Source-level include and exclude controls",
+      "Advanced interleave patterns for two scans",
+      "Keyboard shortcuts",
       "Interleave two PDFs",
       "Final sequence preview",
       "Browser-side PDF processing"
@@ -204,6 +210,279 @@
     }
     @media(max-width:430px){.pages-grid{--thumb-width:118px}.related-grid{grid-template-columns:1fr}.source-list{grid-template-columns:1fr}}
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+
+    /* ===== MERGE WORKSTATION EXTENSIONS ===== */
+
+    .advanced-strip {
+      margin-top: 10px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .advanced-box {
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: var(--panel2);
+      padding: 10px;
+    }
+
+    .advanced-box-title {
+      display: block;
+      color: var(--muted);
+      font-size: .65rem;
+      font-weight: 900;
+      letter-spacing: .08em;
+      margin-bottom: 7px;
+    }
+
+    .inline-fields {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      align-items: center;
+    }
+
+    .inline-fields input,
+    .inline-fields select {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      color: var(--text);
+      min-height: 34px;
+      border-radius: 9px;
+      padding: 6px 9px;
+      font-size: .72rem;
+      font-weight: 800;
+      outline: none;
+    }
+
+    .inline-fields input:focus,
+    .inline-fields select:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px var(--cyanSoft);
+    }
+
+    .range-select-input {
+      width: 150px;
+    }
+
+    .source-actions-secondary {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .page-action.move-left,
+    .page-action.move-right {
+      display: none;
+    }
+
+    .shortcut-hint {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: .67rem;
+      font-weight: 750;
+    }
+
+    .workspace-notice {
+      margin-bottom: 12px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: linear-gradient(90deg, var(--cyanSoft), transparent, var(--orangeSoft));
+      padding: 10px 12px;
+      color: var(--muted2);
+      font-size: .74rem;
+      font-weight: 760;
+    }
+
+    .workspace-notice strong {
+      color: var(--cyan);
+    }
+
+    .dialog-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 450;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 18px;
+      background: rgba(0, 5, 9, .82);
+      backdrop-filter: blur(12px);
+    }
+
+    .dialog-backdrop.show {
+      display: flex;
+    }
+
+    .dialog-card {
+      width: min(520px, 100%);
+      border: 1px solid var(--line2);
+      border-radius: 20px;
+      background: var(--panel);
+      box-shadow: 0 38px 100px rgba(0,0,0,.56);
+      overflow: hidden;
+    }
+
+    .dialog-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 13px 15px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel2);
+    }
+
+    .dialog-head strong {
+      color: var(--cyan);
+      font-size: .9rem;
+    }
+
+    .dialog-body {
+      padding: 15px;
+    }
+
+    .dialog-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .dialog-field {
+      display: grid;
+      gap: 6px;
+    }
+
+    .dialog-field.full {
+      grid-column: 1 / -1;
+    }
+
+    .dialog-field label {
+      color: var(--muted);
+      font-size: .69rem;
+      font-weight: 900;
+      letter-spacing: .04em;
+    }
+
+    .dialog-field input,
+    .dialog-field select {
+      width: 100%;
+      border: 1px solid var(--line);
+      background: var(--panel2);
+      color: var(--text);
+      min-height: 40px;
+      border-radius: 10px;
+      padding: 8px 10px;
+      outline: none;
+      font-weight: 800;
+    }
+
+    .dialog-field input:focus,
+    .dialog-field select:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px var(--cyanSoft);
+    }
+
+    .dialog-actions {
+      margin-top: 14px;
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .blank-dimensions {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      color: var(--muted);
+      font-size: .58rem;
+      font-weight: 800;
+      margin-left: 5px;
+    }
+
+    .source-include-state {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      margin-top: 5px;
+      color: var(--muted);
+      font-size: .65rem;
+      font-weight: 800;
+    }
+
+    .source-include-state i {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 10px rgba(55,232,140,.34);
+    }
+
+    .source-include-state.partial i {
+      background: var(--yellow);
+      box-shadow: 0 0 10px rgba(255,209,102,.30);
+    }
+
+    .source-include-state.none i {
+      background: var(--red);
+      box-shadow: 0 0 10px rgba(255,95,109,.30);
+    }
+
+    .kbd {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 23px;
+      min-height: 20px;
+      padding: 2px 6px;
+      border: 1px solid var(--line);
+      border-bottom-width: 2px;
+      border-radius: 6px;
+      background: var(--panel2);
+      color: var(--muted2);
+      font-size: .6rem;
+      font-weight: 900;
+    }
+
+    @media (max-width: 900px) {
+      .advanced-strip {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .page-action.move-left,
+      .page-action.move-right {
+        display: grid;
+      }
+
+      .dialog-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .dialog-field.full {
+        grid-column: auto;
+      }
+
+      .inline-fields {
+        width: 100%;
+      }
+
+      .inline-fields input,
+      .inline-fields select {
+        flex: 1;
+        min-width: 115px;
+      }
+
+      .range-select-input {
+        width: auto;
+      }
+    }
+
   </style>
 </head>
 <body>
@@ -266,6 +545,10 @@
   </section>
 
   <section class="container workspace" id="workspace" aria-live="polite">
+    <div class="workspace-notice">
+      <strong>ASSEMBLY MODE:</strong> हर thumbnail final document का एक page card है. Desktop पर drag करें; mobile पर page card के ← / → buttons use करें. Shift + click से range select किया जा सकता है.
+    </div>
+
     <div class="telemetry">
       <div class="tele-card accent"><span>SOURCE FILES</span><strong id="teleFiles">0</strong></div>
       <div class="tele-card"><span>TOTAL PAGES</span><strong id="teleTotal">0</strong></div>
@@ -295,13 +578,21 @@
           <button class="mini" type="button" id="rotateLeftBtn">↺ Left</button>
           <button class="mini" type="button" id="rotateRightBtn">↻ Right</button>
           <button class="mini" type="button" id="duplicateBtn">⧉ Duplicate</button>
+          <button class="mini" type="button" id="moveLeftBtn">← Move Left</button>
+          <button class="mini" type="button" id="moveRightBtn">Move Right →</button>
+          <button class="mini" type="button" id="moveStartBtn">⇤ To Start</button>
+          <button class="mini" type="button" id="moveEndBtn">To End ⇥</button>
+          <button class="mini" type="button" id="includeSelectedBtn">✓ Include</button>
+          <button class="mini" type="button" id="excludeSelectedBtn">○ Exclude</button>
           <button class="mini" type="button" id="removeSelectedBtn">✕ Remove</button>
+          <button class="mini" type="button" id="selectAllCardsBtn">Select All</button>
           <button class="mini" type="button" id="clearSelectionBtn">Clear Select</button>
         </div>
         <div class="control-group">
           <span class="control-label">WORKSPACE</span>
           <button class="mini" type="button" id="addBlankBtn">+ Blank Page</button>
           <button class="mini" type="button" id="undoBtn">↶ Undo</button>
+          <button class="mini" type="button" id="redoBtn">Redo ↷</button>
         </div>
       </div>
 
@@ -309,7 +600,14 @@
         <div class="control-group">
           <span class="control-label">MIX SCANS</span>
           <button class="mini" type="button" id="interleaveBtn">⇆ Mix first 2 PDFs</button>
-          <label class="toggle"><input type="checkbox" id="reverseSecondCheck" checked /> Reverse second PDF</label>
+          <label class="toggle"><input type="checkbox" id="reverseFirstCheck" /> Reverse PDF 1</label>
+          <label class="toggle"><input type="checkbox" id="reverseSecondCheck" checked /> Reverse PDF 2</label>
+          <label class="toggle"><input type="checkbox" id="startSecondCheck" /> Start with PDF 2</label>
+          <select id="mixPatternSelect" class="mini" aria-label="Interleave pattern">
+            <option value="1-1">1 : 1 pages</option>
+            <option value="2-1">2 : 1 pages</option>
+            <option value="1-2">1 : 2 pages</option>
+          </select>
         </div>
         <div class="control-group">
           <span class="control-label">THUMBNAILS</span>
@@ -317,6 +615,29 @@
         </div>
         <div class="control-group">
           <button class="danger" type="button" id="clearAllBtn">Clear Workspace</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="advanced-strip">
+      <div class="advanced-box">
+        <span class="advanced-box-title">SELECT BY FINAL POSITION</span>
+        <div class="inline-fields">
+          <input id="assemblyRangeInput" class="range-select-input" type="text" placeholder="1-3, 7, 10-12" />
+          <button class="mini" type="button" id="selectRangeBtn">Select Range</button>
+          <button class="mini" type="button" id="selectOddOutputBtn">Odd Positions</button>
+          <button class="mini" type="button" id="selectEvenOutputBtn">Even Positions</button>
+        </div>
+      </div>
+
+      <div class="advanced-box">
+        <span class="advanced-box-title">KEYBOARD SHORTCUTS</span>
+        <div class="shortcut-hint">
+          <span class="kbd">Shift</span> + click = range ·
+          <span class="kbd">R</span> rotate ·
+          <span class="kbd">D</span> duplicate ·
+          <span class="kbd">Del</span> remove ·
+          <span class="kbd">Ctrl</span> + <span class="kbd">Z</span> undo
         </div>
       </div>
     </div>
@@ -402,6 +723,60 @@
   </div>
 </footer>
 
+<div class="dialog-backdrop" id="blankDialog" role="dialog" aria-modal="true" aria-labelledby="blankDialogTitle">
+  <div class="dialog-card">
+    <div class="dialog-head">
+      <strong id="blankDialogTitle">Add Blank Page</strong>
+      <button class="icon-btn" id="closeBlankDialogBtn" type="button" aria-label="Close blank page dialog">×</button>
+    </div>
+    <div class="dialog-body">
+      <div class="dialog-grid">
+        <div class="dialog-field">
+          <label for="blankSizeSelect">Page Size</label>
+          <select id="blankSizeSelect">
+            <option value="a4" selected>A4</option>
+            <option value="letter">US Letter</option>
+            <option value="legal">US Legal</option>
+            <option value="a3">A3</option>
+          </select>
+        </div>
+
+        <div class="dialog-field">
+          <label for="blankOrientationSelect">Orientation</label>
+          <select id="blankOrientationSelect">
+            <option value="portrait" selected>Portrait</option>
+            <option value="landscape">Landscape</option>
+          </select>
+        </div>
+
+        <div class="dialog-field">
+          <label for="blankCountInput">How many pages?</label>
+          <input id="blankCountInput" type="number" min="1" max="20" value="1" />
+        </div>
+
+        <div class="dialog-field">
+          <label for="blankInsertSelect">Insert Position</label>
+          <select id="blankInsertSelect">
+            <option value="end" selected>At end</option>
+            <option value="after-selection">After selected page(s)</option>
+            <option value="start">At start</option>
+          </select>
+        </div>
+
+        <div class="dialog-field full">
+          <label>Blank pages are real PDF pages</label>
+          <div class="shortcut-hint">Useful for separator sheets, printing breaks, signatures, cover spacing or manually organising scanned documents.</div>
+        </div>
+      </div>
+
+      <div class="dialog-actions">
+        <button class="ghost" id="cancelBlankBtn" type="button">Cancel</button>
+        <button class="primary" id="confirmBlankBtn" type="button">Add Blank Page(s)</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div class="modal" id="previewModal" role="dialog" aria-modal="true" aria-labelledby="previewTitle">
   <div class="modal-card">
     <div class="modal-head"><strong id="previewTitle">Page Preview</strong><button class="icon-btn" id="closeModalBtn" type="button" aria-label="Close">×</button></div>
@@ -421,6 +796,7 @@ const state={
   assembly:[],
   selected:new Set(),
   history:[],
+  redoHistory:[],
   currentUrl:null,
   observer:null,
   rendered:new Set(),
@@ -453,10 +829,23 @@ function clearResult(){
   if(state.currentUrl){URL.revokeObjectURL(state.currentUrl);state.currentUrl=null}
   downloadLink.href="#";
 }
-function cloneAssembly(){return state.assembly.map(x=>({...x}))}
+function cloneAssembly(){
+  return state.assembly.map(item => ({...item}));
+}
+
 function snapshot(){
   state.history.push(cloneAssembly());
-  if(state.history.length>25)state.history.shift();
+  if(state.history.length > 40) state.history.shift();
+  state.redoHistory = [];
+}
+
+function restoreAssembly(snapshotData){
+  state.assembly = snapshotData.map(item => ({...item}));
+  state.selected.clear();
+  state.rendered.clear();
+  state.rendering.clear();
+  clearResult();
+  renderAssembly();
 }
 function updateTelemetry(){
   $("teleFiles").textContent=state.files.size;
@@ -528,25 +917,66 @@ function renderSources(){
     const f=state.files.get(fileId);if(!f)return;
     const used=state.assembly.filter(x=>x.fileId===fileId&&x.included).length;
     const card=document.createElement("div");card.className="source-card";card.style.setProperty("--source",sourceColor(fileId));
+    const totalFromSource = state.assembly.filter(x => x.fileId === fileId).length;
+    const sourceStateClass = used === 0 ? "none" : used === totalFromSource ? "" : "partial";
+    const sourceStateText = used === 0 ? "Excluded from output" : used === totalFromSource ? "All source pages included" : `${used} of ${totalFromSource} included`;
+
     card.innerHTML=`
       <div class="source-head">
         <span class="source-badge">${index+1}</span>
-        <span class="source-info"><strong title="${escapeHtml(f.file.name)}">${escapeHtml(f.file.name)}</strong><span>${f.pageCount} pages • ${formatBytes(f.file.size)} • ${used} used</span></span>
+        <span class="source-info">
+          <strong title="${escapeHtml(f.file.name)}">${escapeHtml(f.file.name)}</strong>
+          <span>${f.pageCount} pages • ${formatBytes(f.file.size)} • ${used} used</span>
+          <span class="source-include-state ${sourceStateClass}"><i></i>${sourceStateText}</span>
+        </span>
       </div>
       <div class="source-actions">
         <button class="mini focus" type="button">Show</button>
+        <button class="mini include-source" type="button">Use all</button>
+        <button class="mini exclude-source" type="button">Use none</button>
         <button class="mini only" type="button">Use only this</button>
+        <button class="mini select-source" type="button">Select cards</button>
         <button class="mini reverse" type="button">Reverse pages</button>
         <button class="danger remove-source" type="button">Remove</button>
       </div>`;
-    card.querySelector(".focus").onclick=()=>focusFile(fileId);
-    card.querySelector(".only").onclick=()=>{snapshot();state.assembly.forEach(x=>x.included=x.fileId===fileId);clearResult();renderAssembly();renderSources()};
-    card.querySelector(".reverse").onclick=()=>reverseFilePages(fileId);
-    card.querySelector(".remove-source").onclick=()=>removeSource(fileId);
+
+    card.querySelector(".focus").onclick = () => focusFile(fileId);
+    card.querySelector(".include-source").onclick = () => setSourceIncluded(fileId, true);
+    card.querySelector(".exclude-source").onclick = () => setSourceIncluded(fileId, false);
+    card.querySelector(".only").onclick = () => {
+      snapshot();
+      state.assembly.forEach(x => x.included = x.fileId === fileId);
+      clearResult();
+      renderAssembly();
+      renderSources();
+    };
+    card.querySelector(".select-source").onclick = () => selectSourceCards(fileId);
+    card.querySelector(".reverse").onclick = () => reverseFilePages(fileId);
+    card.querySelector(".remove-source").onclick = () => removeSource(fileId);
     sourceList.appendChild(card);
   });
 }
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function setSourceIncluded(fileId, included){
+  snapshot();
+  state.assembly.forEach(item => {
+    if(item.fileId === fileId) item.included = included;
+  });
+  clearResult();
+  renderAssembly();
+  renderSources();
+}
+
+function selectSourceCards(fileId){
+  state.selected = new Set(
+    state.assembly
+      .filter(item => item.fileId === fileId)
+      .map(item => item.uid)
+  );
+  refreshCardStates();
+  focusFile(fileId);
+}
+
 function focusFile(fileId){
   const card=pagesGrid.querySelector(`.page-card[data-file="${fileId}"]`);
   if(card){card.scrollIntoView({behavior:"smooth",block:"center"});card.animate([{boxShadow:"0 0 0 0 rgba(67,220,255,0)"},{boxShadow:"0 0 0 5px rgba(67,220,255,.35)"},{boxShadow:"0 0 0 0 rgba(67,220,255,0)"}],{duration:900})}
@@ -575,15 +1005,18 @@ function createCard(item,orderMap){
   card.draggable=true;card.style.setProperty("--source",item.blank?"#9aaab2":sourceColor(item.fileId));
   card.classList.toggle("selected",state.selected.has(item.uid));card.classList.toggle("excluded",!item.included);
   const label=item.blank?"BLANK":sourceLabel(item.fileId);
-  const pageText=item.blank?"Blank page":"Page "+item.pageNo;
+  const pageText = item.blank ? "Blank page" : "Page " + item.pageNo;
+  const blankMeta = item.blank && item.blankSize ? `<span class="blank-dimensions">${item.blankSize.toUpperCase()} · ${item.orientation || "portrait"}</span>` : "";
   const outputNo=orderMap.get(item.uid);
   card.innerHTML=`
     <div class="thumb-shell">${item.blank?'<div class="blank-sheet">BLANK PAGE</div>':'<div class="placeholder">THUMBNAIL<br>waiting…</div>'}</div>
     <button class="include-box" type="button" aria-label="Include or exclude">${item.included?"✓":""}</button>
     <div class="source-tag">${label}</div>
     ${outputNo?`<div class="order-badge">OUT ${String(outputNo).padStart(2,"0")}</div>`:""}
-    <div class="page-meta"><span>${pageText}</span><span class="page-actions">
+    <div class="page-meta"><span>${pageText}${blankMeta}</span><span class="page-actions">
       ${item.blank?"":'<button class="page-action preview" type="button" title="Preview">⌕</button>'}
+      <button class="page-action move-left" type="button" title="Move left">←</button>
+      <button class="page-action move-right" type="button" title="Move right">→</button>
       <button class="page-action rotate" type="button" title="Rotate">↻</button>
       <button class="page-action duplicate" type="button" title="Duplicate">⧉</button>
       <button class="page-action remove" type="button" title="Remove">×</button>
@@ -601,6 +1034,8 @@ function createCard(item,orderMap){
     refreshCardStates();
   });
   card.querySelector(".include-box").onclick=e=>{e.stopPropagation();snapshot();item.included=!item.included;clearResult();renderAssembly();renderSources()};
+  card.querySelector(".move-left").onclick = e => { e.stopPropagation(); moveOne(item.uid, -1); };
+  card.querySelector(".move-right").onclick = e => { e.stopPropagation(); moveOne(item.uid, 1); };
   card.querySelector(".rotate").onclick=e=>{e.stopPropagation();snapshot();item.rotation=(item.rotation+90)%360;clearResult();renderAssembly()};
   card.querySelector(".duplicate").onclick=e=>{e.stopPropagation();duplicateOne(item.uid)};
   card.querySelector(".remove").onclick=e=>{e.stopPropagation();removeOne(item.uid)};
@@ -667,6 +1102,136 @@ async function renderAll(){
   setStatus("सभी thumbnails ready हैं.","success",100);setTimeout(clearStatus,800);
 }
 
+function moveOne(id, direction){
+  const index = state.assembly.findIndex(item => item.uid === id);
+  if(index < 0) return;
+
+  const target = index + direction;
+  if(target < 0 || target >= state.assembly.length) return;
+
+  snapshot();
+  const [moved] = state.assembly.splice(index, 1);
+  state.assembly.splice(target, 0, moved);
+  clearResult();
+  renderAssembly();
+
+  requestAnimationFrame(() => {
+    const card = pagesGrid.querySelector(`.page-card[data-uid="${id}"]`);
+    if(card) card.scrollIntoView({behavior:"smooth", block:"nearest", inline:"nearest"});
+  });
+}
+
+function moveSelectedStep(direction){
+  if(!state.selected.size){
+    setStatus("पहले page cards select करें.", "warning", 0);
+    return;
+  }
+
+  snapshot();
+
+  if(direction < 0){
+    for(let i = 1; i < state.assembly.length; i++){
+      const current = state.assembly[i];
+      const previous = state.assembly[i - 1];
+      if(state.selected.has(current.uid) && !state.selected.has(previous.uid)){
+        state.assembly[i - 1] = current;
+        state.assembly[i] = previous;
+      }
+    }
+  } else {
+    for(let i = state.assembly.length - 2; i >= 0; i--){
+      const current = state.assembly[i];
+      const next = state.assembly[i + 1];
+      if(state.selected.has(current.uid) && !state.selected.has(next.uid)){
+        state.assembly[i + 1] = current;
+        state.assembly[i] = next;
+      }
+    }
+  }
+
+  clearResult();
+  renderAssembly();
+}
+
+function moveSelectedBoundary(where){
+  if(!state.selected.size){
+    setStatus("पहले page cards select करें.", "warning", 0);
+    return;
+  }
+
+  snapshot();
+
+  const selectedItems = state.assembly.filter(item => state.selected.has(item.uid));
+  const others = state.assembly.filter(item => !state.selected.has(item.uid));
+
+  state.assembly = where === "start"
+    ? [...selectedItems, ...others]
+    : [...others, ...selectedItems];
+
+  clearResult();
+  renderAssembly();
+}
+
+function setSelectedIncluded(included){
+  if(!state.selected.size){
+    setStatus("पहले page cards select करें.", "warning", 0);
+    return;
+  }
+
+  snapshot();
+  state.assembly.forEach(item => {
+    if(state.selected.has(item.uid)) item.included = included;
+  });
+  clearResult();
+  renderAssembly();
+  renderSources();
+}
+
+function selectAllCards(){
+  state.selected = new Set(state.assembly.map(item => item.uid));
+  refreshCardStates();
+}
+
+function parseAssemblyRange(text){
+  const raw = String(text || "").replace(/\s+/g, "");
+  if(!raw) return [];
+
+  const positions = new Set();
+  const total = state.assembly.length;
+
+  for(const part of raw.split(",").filter(Boolean)){
+    if(/^\d+$/.test(part)){
+      const n = Number(part);
+      if(n >= 1 && n <= total) positions.add(n);
+      continue;
+    }
+
+    const match = part.match(/^(\d*)-(\d*)$/);
+    if(!match) throw new Error(`"${part}" valid range नहीं है.`);
+
+    let start = match[1] ? Number(match[1]) : 1;
+    let end = match[2] ? Number(match[2]) : total;
+
+    start = Math.max(1, start);
+    end = Math.min(total, end);
+
+    if(start > end) throw new Error(`"${part}" में start end से बड़ा है.`);
+
+    for(let n = start; n <= end; n++) positions.add(n);
+  }
+
+  return [...positions].sort((a,b) => a - b);
+}
+
+function selectByAssemblyPositions(positions){
+  state.selected = new Set();
+  positions.forEach(position => {
+    const item = state.assembly[position - 1];
+    if(item) state.selected.add(item.uid);
+  });
+  refreshCardStates();
+}
+
 function duplicateOne(id){
   const idx=state.assembly.findIndex(x=>x.uid===id);if(idx<0)return;snapshot();
   const copy={...state.assembly[idx],uid:uid("page")};state.assembly.splice(idx+1,0,copy);clearResult();renderAssembly();
@@ -687,23 +1252,149 @@ function removeSelected(){
   if(!state.selected.size){setStatus("पहले page cards select करें.","warning",0);return}
   snapshot();state.assembly=state.assembly.filter(x=>!state.selected.has(x.uid));state.selected.clear();clearResult();renderAssembly();
 }
-function addBlank(){
-  snapshot();state.assembly.push({uid:uid("blank"),fileId:null,pageNo:null,rotation:0,included:true,blank:true});clearResult();renderAssembly();pagesViewport.scrollTo({top:pagesViewport.scrollHeight,behavior:"smooth"});
+const BLANK_SIZES = {
+  a4: [595.28, 841.89],
+  letter: [612, 792],
+  legal: [612, 1008],
+  a3: [841.89, 1190.55]
+};
+
+function openBlankDialog(){
+  $("blankDialog").classList.add("show");
 }
+
+function closeBlankDialog(){
+  $("blankDialog").classList.remove("show");
+}
+
+function addConfiguredBlankPages(){
+  const blankSize = $("blankSizeSelect").value;
+  const orientation = $("blankOrientationSelect").value;
+  const count = Math.max(1, Math.min(20, Number($("blankCountInput").value) || 1));
+  const insertMode = $("blankInsertSelect").value;
+
+  const base = BLANK_SIZES[blankSize] || BLANK_SIZES.a4;
+  const pageSize = orientation === "landscape"
+    ? [base[1], base[0]]
+    : [...base];
+
+  snapshot();
+
+  const blanks = Array.from({length: count}, () => ({
+    uid: uid("blank"),
+    fileId: null,
+    pageNo: null,
+    rotation: 0,
+    included: true,
+    blank: true,
+    blankSize,
+    orientation,
+    pageSize
+  }));
+
+  let insertIndex = state.assembly.length;
+
+  if(insertMode === "start"){
+    insertIndex = 0;
+  } else if(insertMode === "after-selection" && state.selected.size){
+    const selectedIndexes = state.assembly
+      .map((item, index) => state.selected.has(item.uid) ? index : -1)
+      .filter(index => index >= 0);
+    if(selectedIndexes.length) insertIndex = Math.max(...selectedIndexes) + 1;
+  }
+
+  state.assembly.splice(insertIndex, 0, ...blanks);
+  state.selected = new Set(blanks.map(item => item.uid));
+  clearResult();
+  renderAssembly();
+  closeBlankDialog();
+
+  setStatus(`${count} blank page(s) add की गईं.`, "success", 100);
+  setTimeout(clearStatus, 800);
+}
+
 function undo(){
-  const prev=state.history.pop();if(!prev){setStatus("Undo के लिए previous change नहीं है.","warning",0);return}
-  state.assembly=prev;state.selected.clear();clearResult();renderAssembly();setStatus("Last change undo किया गया.","success",100);setTimeout(clearStatus,700);
+  const previous = state.history.pop();
+  if(!previous){
+    setStatus("Undo के लिए previous change नहीं है.", "warning", 0);
+    return;
+  }
+
+  state.redoHistory.push(cloneAssembly());
+  if(state.redoHistory.length > 40) state.redoHistory.shift();
+  restoreAssembly(previous);
+  setStatus("Last change undo किया गया.", "success", 100);
+  setTimeout(clearStatus, 700);
 }
+
+function redo(){
+  const next = state.redoHistory.pop();
+  if(!next){
+    setStatus("Redo के लिए next change नहीं है.", "warning", 0);
+    return;
+  }
+
+  state.history.push(cloneAssembly());
+  restoreAssembly(next);
+  setStatus("Change redo किया गया.", "success", 100);
+  setTimeout(clearStatus, 700);
+}
+function takeMany(source, cursorRef, count, target){
+  let taken = 0;
+  while(taken < count && cursorRef.index < source.length){
+    target.push(source[cursorRef.index]);
+    cursorRef.index += 1;
+    taken += 1;
+  }
+}
+
 function interleaveFirstTwo(){
-  if(state.fileOrder.length<2){setStatus("Mix के लिए कम से कम 2 PDFs चाहिए.","warning",0);return}
-  const aId=state.fileOrder[0],bId=state.fileOrder[1];
-  const a=state.assembly.filter(x=>x.fileId===aId).sort((x,y)=>x.pageNo-y.pageNo);
-  let b=state.assembly.filter(x=>x.fileId===bId).sort((x,y)=>x.pageNo-y.pageNo);
-  if($("reverseSecondCheck").checked)b=b.reverse();
-  const rest=state.assembly.filter(x=>x.fileId!==aId&&x.fileId!==bId);
-  const mixed=[],max=Math.max(a.length,b.length);
-  for(let i=0;i<max;i++){if(a[i])mixed.push(a[i]);if(b[i])mixed.push(b[i])}
-  snapshot();state.assembly=[...mixed,...rest];state.selected.clear();clearResult();renderAssembly();setStatus("पहली 2 PDFs interleave कर दी गई हैं.","success",100);setTimeout(clearStatus,800);
+  if(state.fileOrder.length < 2){
+    setStatus("Mix के लिए कम से कम 2 PDFs चाहिए.", "warning", 0);
+    return;
+  }
+
+  const aId = state.fileOrder[0];
+  const bId = state.fileOrder[1];
+
+  let a = state.assembly
+    .filter(item => item.fileId === aId)
+    .sort((x, y) => x.pageNo - y.pageNo);
+
+  let b = state.assembly
+    .filter(item => item.fileId === bId)
+    .sort((x, y) => x.pageNo - y.pageNo);
+
+  if($("reverseFirstCheck").checked) a = [...a].reverse();
+  if($("reverseSecondCheck").checked) b = [...b].reverse();
+
+  const pattern = $("mixPatternSelect").value;
+  const [aCount, bCount] = pattern.split("-").map(Number);
+  const startWithSecond = $("startSecondCheck").checked;
+
+  const rest = state.assembly.filter(item => item.fileId !== aId && item.fileId !== bId);
+  const mixed = [];
+  const aCursor = {index: 0};
+  const bCursor = {index: 0};
+
+  while(aCursor.index < a.length || bCursor.index < b.length){
+    if(startWithSecond){
+      takeMany(b, bCursor, bCount, mixed);
+      takeMany(a, aCursor, aCount, mixed);
+    } else {
+      takeMany(a, aCursor, aCount, mixed);
+      takeMany(b, bCursor, bCount, mixed);
+    }
+  }
+
+  snapshot();
+  state.assembly = [...mixed, ...rest];
+  state.selected.clear();
+  clearResult();
+  renderAssembly();
+
+  setStatus(`पहली 2 PDFs ${aCount}:${bCount} pattern में interleave की गईं.`, "success", 100);
+  setTimeout(clearStatus, 900);
 }
 
 async function showPreview(item){
@@ -731,8 +1422,9 @@ async function mergeOutput(){
     for(let i=0;i<items.length;i++){
       const item=items[i];
       if(item.blank){
-        const page=out.addPage([595.28,841.89]);
-        if(item.rotation)page.setRotation(degrees(item.rotation));
+        const dimensions = Array.isArray(item.pageSize) ? item.pageSize : [595.28, 841.89];
+        const page = out.addPage(dimensions);
+        if(item.rotation) page.setRotation(degrees(item.rotation));
       }else{
         const src=sourceDocs.get(item.fileId),[copied]=await out.copyPages(src,[item.pageNo-1]);
         const original=(copied.getRotation&&copied.getRotation().angle)||0;
@@ -740,7 +1432,16 @@ async function mergeOutput(){
       }
       setStatus(`Output page ${i+1} / ${items.length} बन रहा है…`,"normal",Math.round(((i+1)/items.length)*90));
     }
-    const bytes=await out.save({useObjectStreams:true,objectsPerTick:50}),blob=new Blob([bytes],{type:"application/pdf"}),name=safeName($("outputName").value)+".pdf";
+    const cleanOutputName = safeName($("outputName").value);
+    out.setTitle(cleanOutputName);
+    out.setCreator("HindiTools.com Visual Merge PDF");
+    out.setProducer("HindiTools.com");
+    out.setCreationDate(new Date());
+    out.setModificationDate(new Date());
+
+    const bytes = await out.save({useObjectStreams:true, objectsPerTick:50});
+    const blob = new Blob([bytes], {type:"application/pdf"});
+    const name = cleanOutputName + ".pdf";
     state.currentUrl=URL.createObjectURL(blob);downloadLink.href=state.currentUrl;downloadLink.download=name;resultText.textContent=`${items.length} pages • ${formatBytes(blob.size)} • final PDF ready`;resultPanel.classList.add("show");
     setStatus("MERGE COMPLETE ✓","success",100);resultPanel.scrollIntoView({behavior:"smooth",block:"nearest"});
   }catch(err){console.error(err);setStatus("PDF merge नहीं हो सकी. किसी source PDF में encryption या unsupported data हो सकती है.","error",0)}
@@ -750,7 +1451,7 @@ async function mergeOutput(){
 function clearWorkspace(){
   if(state.observer)state.observer.disconnect();
   for(const f of state.files.values()){try{f.pdfJs.destroy()}catch(e){}}
-  state.files.clear();state.fileOrder=[];state.assembly=[];state.selected.clear();state.history=[];state.rendered.clear();state.rendering.clear();
+  state.files.clear();state.fileOrder=[];state.assembly=[];state.selected.clear();state.history=[];state.redoHistory=[];state.rendered.clear();state.rendering.clear();
   sourceList.innerHTML="";pagesGrid.innerHTML="";workspace.classList.remove("show");fileInput.value="";clearResult();clearStatus();scrollTo({top:0,behavior:"smooth"});
 }
 
@@ -765,18 +1466,113 @@ dropzone.addEventListener("drop",e=>{if(e.dataTransfer.files?.length)addFiles(e.
 $("useAllBtn").onclick=()=>{snapshot();state.assembly.forEach(x=>x.included=true);clearResult();renderAssembly();renderSources()};
 $("useNoneBtn").onclick=()=>{snapshot();state.assembly.forEach(x=>x.included=false);clearResult();renderAssembly();renderSources()};
 $("invertUseBtn").onclick=()=>{snapshot();state.assembly.forEach(x=>x.included=!x.included);clearResult();renderAssembly();renderSources()};
-$("rotateLeftBtn").onclick=()=>rotateSelected(-90);$("rotateRightBtn").onclick=()=>rotateSelected(90);
-$("duplicateBtn").onclick=duplicateSelected;$("removeSelectedBtn").onclick=removeSelected;
-$("clearSelectionBtn").onclick=()=>{state.selected.clear();refreshCardStates()};
-$("addBlankBtn").onclick=addBlank;$("undoBtn").onclick=undo;$("interleaveBtn").onclick=interleaveFirstTwo;
+$("rotateLeftBtn").onclick = () => rotateSelected(-90);
+$("rotateRightBtn").onclick = () => rotateSelected(90);
+$("duplicateBtn").onclick = duplicateSelected;
+$("moveLeftBtn").onclick = () => moveSelectedStep(-1);
+$("moveRightBtn").onclick = () => moveSelectedStep(1);
+$("moveStartBtn").onclick = () => moveSelectedBoundary("start");
+$("moveEndBtn").onclick = () => moveSelectedBoundary("end");
+$("includeSelectedBtn").onclick = () => setSelectedIncluded(true);
+$("excludeSelectedBtn").onclick = () => setSelectedIncluded(false);
+$("removeSelectedBtn").onclick = removeSelected;
+$("selectAllCardsBtn").onclick = selectAllCards;
+$("clearSelectionBtn").onclick = () => { state.selected.clear(); refreshCardStates(); };
+$("addBlankBtn").onclick = openBlankDialog;
+$("undoBtn").onclick = undo;
+$("redoBtn").onclick = redo;
+$("interleaveBtn").onclick = interleaveFirstTwo;
 $("clearAllBtn").onclick=clearWorkspace;$("renderAllBtn").onclick=renderAll;
-$("thumbZoom").oninput=()=>pagesGrid.style.setProperty("--thumb-width",$("thumbZoom").value+"px");
-mergeBtn.onclick=mergeOutput;
+$("thumbZoom").oninput = () => pagesGrid.style.setProperty("--thumb-width", $("thumbZoom").value + "px");
 
-$("closeModalBtn").onclick=()=>previewModal.classList.remove("show");
-previewModal.onclick=e=>{if(e.target===previewModal)previewModal.classList.remove("show")};
-document.addEventListener("keydown",e=>{if(e.key==="Escape")previewModal.classList.remove("show")});
-document.querySelectorAll(".faq-q").forEach(btn=>btn.onclick=()=>btn.parentElement.classList.toggle("active"));
+$("selectRangeBtn").onclick = () => {
+  try{
+    const positions = parseAssemblyRange($("assemblyRangeInput").value);
+    if(!positions.length) throw new Error("Valid output range लिखें.");
+    selectByAssemblyPositions(positions);
+    setStatus(`${positions.length} position(s) select की गईं.`, "success", 100);
+    setTimeout(clearStatus, 700);
+  }catch(error){
+    setStatus(error.message, "error", 0);
+  }
+};
+
+$("assemblyRangeInput").addEventListener("keydown", event => {
+  if(event.key === "Enter") $("selectRangeBtn").click();
+});
+
+$("selectOddOutputBtn").onclick = () => {
+  const positions = state.assembly.map((_, index) => index + 1).filter(position => position % 2 === 1);
+  selectByAssemblyPositions(positions);
+};
+
+$("selectEvenOutputBtn").onclick = () => {
+  const positions = state.assembly.map((_, index) => index + 1).filter(position => position % 2 === 0);
+  selectByAssemblyPositions(positions);
+};
+
+mergeBtn.onclick = mergeOutput;
+
+$("closeModalBtn").onclick = () => previewModal.classList.remove("show");
+previewModal.onclick = event => {
+  if(event.target === previewModal) previewModal.classList.remove("show");
+};
+
+$("closeBlankDialogBtn").onclick = closeBlankDialog;
+$("cancelBlankBtn").onclick = closeBlankDialog;
+$("confirmBlankBtn").onclick = addConfiguredBlankPages;
+$("blankDialog").onclick = event => {
+  if(event.target === $("blankDialog")) closeBlankDialog();
+};
+
+document.addEventListener("keydown", event => {
+  const target = event.target;
+  const editing = target && (target.matches("input, textarea, select") || target.isContentEditable);
+
+  if(event.key === "Escape"){
+    previewModal.classList.remove("show");
+    closeBlankDialog();
+    return;
+  }
+
+  if((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "z"){
+    if(editing) return;
+    event.preventDefault();
+    if(event.shiftKey) redo();
+    else undo();
+    return;
+  }
+
+  if((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === "a"){
+    if(editing) return;
+    event.preventDefault();
+    selectAllCards();
+    return;
+  }
+
+  if(editing) return;
+
+  if(event.key === "Delete" || event.key === "Backspace"){
+    if(state.selected.size){
+      event.preventDefault();
+      removeSelected();
+    }
+    return;
+  }
+
+  if(event.key.toLowerCase() === "r"){
+    rotateSelected(90);
+    return;
+  }
+
+  if(event.key.toLowerCase() === "d"){
+    duplicateSelected();
+  }
+});
+
+document.querySelectorAll(".faq-q").forEach(btn => {
+  btn.onclick = () => btn.parentElement.classList.toggle("active");
+});
 
 $("themeBtn").onclick=()=>{
   const next=(document.documentElement.dataset.theme||"dark")==="dark"?"light":"dark";
