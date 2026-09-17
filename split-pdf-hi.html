@@ -12,16 +12,16 @@
        SEO
   ========================== -->
 
-  <title>PDF अलग करें Free — Split PDF Online | HindiTools</title>
+  <title>Split PDF — Pages देखकर चुनें | HindiTools</title>
 
-  <meta name="description" content="PDF से एक page या चुने हुए pages अलग करें। हर page की अलग PDF बनाएं और PDF या ZIP download करें। आपके browser में processing।" />
+  <meta name="description" content="PDF pages के thumbnails देखें और tap करके चुनें। Selected pages की एक PDF या अलग PDFs की ZIP बनाएं। Hindi + Hinglish में, browser में processing।" />
 
   <meta name="author" content="HindiTools.com" />
   <meta name="theme-color" content="#ff9933" />
   <meta name="robots" content="index, follow" />
 
-  <meta property="og:title" content="PDF अलग करें Free — Split PDF Online | HindiTools" />
-  <meta property="og:description" content="PDF से एक page या चुने हुए pages अलग करें। हर page की अलग PDF बनाएं और PDF या ZIP download करें। आपके browser में processing।" />
+  <meta property="og:title" content="Split PDF — Pages देखकर चुनें | HindiTools" />
+  <meta property="og:description" content="PDF pages के thumbnails देखें और tap करके चुनें। Selected pages की एक PDF या अलग PDFs की ZIP बनाएं। Hindi + Hinglish में, browser में processing।" />
   <meta property="og:type" content="website" />
   <meta
     property="og:url"
@@ -1875,6 +1875,8 @@
     }
   </style>
   <link rel="stylesheet" href="hinditools-refresh.css" />
+<link rel="stylesheet" href="pdf-page-picker.css">
+<script src="pdf-page-picker.js"></script>
 </head>
 
 <body class="ht-tool">
@@ -2032,7 +2034,7 @@
               </h2>
 
               <p>
-                PDF select करें और बताएं कौन से pages अलग करने हैं।
+                PDF select करें, pages देखें और tap करके चुनें।
               </p>
 
               <button
@@ -2203,6 +2205,15 @@
 
             </div>
 
+<section class="visual-picker" id="visualPicker" hidden aria-labelledby="pickerTitle">
+<h3 id="pickerTitle">Pages देखें और चुनें</h3>
+<p>Page पर tap करें। Desktop पर Shift + click से कई pages चुनें। Range box भी इस्तेमाल कर सकते हैं।</p>
+<div class="vp-toolbar" role="group" aria-label="Page selection">
+<button type="button" data-pick="all">सभी चुनें</button><button type="button" data-pick="clear">Clear</button><button type="button" data-pick="invert">Invert</button><button type="button" data-pick="odd">Odd</button><button type="button" data-pick="even">Even</button>
+</div><p id="pickerCount" role="status" aria-live="polite"></p>
+<div id="pagePickerGrid" class="vp-grid" aria-label="PDF pages"></div>
+<label class="vp-separate"><input type="checkbox" id="separateSelected"> हर selected page की अलग PDF बनाएं</label>
+</section>
             <!-- SETTINGS -->
 
             <div class="settings-grid">
@@ -2226,7 +2237,7 @@
                 />
 
                 <small>
-                  Selected pages एक single PDF में आएंगे।
+                  ऊपर thumbnails चुनें या यहाँ page numbers लिखें। अलग PDFs के लिए checkbox चुनें।
                 </small>
 
                 <div class="example-buttons">
@@ -2409,6 +2420,7 @@
 
             </div>
 
+
             <!-- PREVIEW -->
 
             <div
@@ -2514,7 +2526,7 @@
           </li>
 
           <li>
-            जरूरी pages लिखें — जैसे
+            Thumbnails पर tap करें या जरूरी pages लिखें — जैसे
             <strong>1-3, 5, 8-10</strong>.
           </li>
 
@@ -3029,6 +3041,8 @@
        State
     ========================== */
 
+    let pagePicker = null;
+    let fileGeneration = 0;
     let selectedFile = null;
 
     let selectedBuffer = null;
@@ -3451,6 +3465,9 @@
             totalPages
           );
 
+        if (document.getElementById("separateSelected").checked) {
+          return pages.map((page, i) => ({label:String(page), pages:[page], index:i+1}));
+        }
         return [
           {
             label:
@@ -3504,6 +3521,7 @@
     ========================== */
 
     function updateSummary() {
+      syncPicker();
 
       summaryTotal.textContent =
         String(
@@ -3546,13 +3564,11 @@
 
         summaryPages.textContent =
           outputs[0]
-            ? rangeLabelFromPages(
-                outputs[0].pages
-              )
+            ? rangeLabelFromPages(outputs.flatMap(output => output.pages))
             : "?";
 
         summaryOutput.textContent =
-          "PDF";
+          document.getElementById("separateSelected").checked ? "Separate PDFs" : "PDF";
 
       } else if (
         activeMode ===
@@ -3586,6 +3602,13 @@
     ========================== */
 
     async function loadFile(file) {
+      const generation = ++fileGeneration;
+      pagePicker?.clear();
+      pdfForPreview?.destroy();
+      selectedBuffer = null;
+      totalPages = 0;
+      splitBtn.disabled = true;
+      filePanel.style.display = "none";
 
       clearStatus();
 
@@ -3624,8 +3647,9 @@
         selectedFile =
           file;
 
-        selectedBuffer =
-          await file.arrayBuffer();
+        const buffer = await file.arrayBuffer();
+        if (generation !== fileGeneration) return;
+        selectedBuffer = buffer;
 
         const loadingTask =
           pdfjsLib.getDocument({
@@ -3633,11 +3657,13 @@
               selectedBuffer.slice(0)
           });
 
-        pdfForPreview =
-          await loadingTask.promise;
+        const loadedPdf = await loadingTask.promise;
+        if (generation !== fileGeneration) { loadedPdf.destroy(); return; }
+        pdfForPreview = loadedPdf;
 
         totalPages =
           pdfForPreview.numPages;
+        pagePicker.mount(pdfForPreview, []);
 
         fileNameEl.textContent =
           file.name;
@@ -3723,6 +3749,7 @@
         );
 
       } catch (error) {
+        if (generation !== fileGeneration) return;
 
         console.error(
           error
@@ -4321,6 +4348,9 @@
     ========================== */
 
     function clearFile() {
+      fileGeneration++;
+      pagePicker?.clear();
+      pdfForPreview?.destroy();
 
       selectedFile =
         null;
@@ -4718,6 +4748,34 @@
        Initial State
     ========================== */
 
+
+    function syncPicker() {
+      const panel = document.getElementById('visualPicker');
+      panel.hidden = !totalPages || activeMode !== 'extract';
+      if (!pagePicker) return;
+      let pages = [];
+      try { pages = parsePageRanges(extractInput.value, totalPages); } catch {}
+      pagePicker.sync(pages);
+      document.getElementById('pickerCount').textContent = pages.length + ' / ' + totalPages + ' pages selected';
+    }
+    function applyPickedPages(pages) {
+      extractInput.value = pages.length ? rangeLabelFromPages(pages) : '';
+      resetDownload();
+      resetPreview();
+      updateSummary();
+    }
+    pagePicker = new HindiPagePicker(document.getElementById('pagePickerGrid'), applyPickedPages);
+    document.querySelectorAll('[data-pick]').forEach(button => button.addEventListener('click', () => {
+      let current = [];
+      try { current = parsePageRanges(extractInput.value, totalPages); } catch {}
+      const selection = new Set(current);
+      const action = button.dataset.pick;
+      const pages = Array.from({length:totalPages}, (_,i)=>i+1).filter(page =>
+        action === 'all' || action === 'invert' && !selection.has(page) ||
+        action === 'odd' && page % 2 === 1 || action === 'even' && page % 2 === 0);
+      applyPickedPages(pages);
+    }));
+    document.getElementById('separateSelected').addEventListener('change', () => {resetDownload(); updateSummary();});
     setMode(
       "extract"
     );
