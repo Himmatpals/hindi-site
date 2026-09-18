@@ -25,1442 +25,129 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
 
-  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "HindiTools PDF Compressor",
-    "alternateName": "PDF Size कम करें Online",
-    "url": "https://www.hinditools.com/compress-pdf-hi.html",
-    "applicationCategory": "UtilitiesApplication",
-    "operatingSystem": "Any",
-    "inLanguage": ["hi-IN", "en-IN"],
-    "description": "PDF size और MB कम करने वाला Hindi और Hinglish browser-based PDF compression tool.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "INR"
-    },
-    "featureList": [
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"HindiTools PDF Compressor",
+    "alternateName":"PDF Size कम करें Online",
+    "url":"https://www.hinditools.com/compress-pdf-hi.html",
+    "applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any",
+    "inLanguage":["hi-IN","en-IN"],
+    "description":"PDF size और MB कम करने वाला Hindi और Hinglish browser-based PDF compression tool.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},
+    "featureList":[
       "Keep selectable text mode",
       "Recommended PDF compression",
       "Small file and maximum compression presets",
       "Target size compression for 1 MB, 500 KB and 200 KB",
       "Automatic PDF type analysis",
-      "Before and after first-page preview"
+      "Before and after first-page preview",
+      "Browser-side processing",
+      "Output PDF verification"
     ]
   }
   </script>
 
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "HindiTools",
-        "item": "https://www.hinditools.com/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "PDF Tools"
-      },
-      {
-        "@type": "ListItem",
-        "position": 3,
-        "name": "PDF Size कम करें",
-        "item": "https://www.hinditools.com/compress-pdf-hi.html"
-      }
+    "@context":"https://schema.org",
+    "@type":"BreadcrumbList",
+    "itemListElement":[
+      {"@type":"ListItem","position":1,"name":"HindiTools","item":"https://www.hinditools.com/"},
+      {"@type":"ListItem","position":2,"name":"PDF Tools"},
+      {"@type":"ListItem","position":3,"name":"PDF Size कम करें","item":"https://www.hinditools.com/compress-pdf-hi.html"}
     ]
   }
   </script>
 
   <script type="application/ld+json">
   {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "PDF ka size kam kaise kare?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "PDF चुनें, Recommended या Small File preset चुनें और Compress PDF button दबाएं. Tool compressed PDF बनाकर original और new size दिखाता है."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "PDF ko 500 KB kaise kare?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Target Size में 500 KB चुनें. Tool strong compression के कुछ attempts करके PDF को target size के आसपास लाने की कोशिश करता है. Exact target हर PDF में guaranteed नहीं होता."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "क्या PDF का text selectable रह सकता है?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "Keep Text mode PDF structure को re-save करता है और selectable text preserve करने की कोशिश करता है, लेकिन size reduction limited हो सकती है. Strong compression pages को images में बदल सकती है."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "क्या PDF HindiTools server पर upload होती है?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "इस compressor में selected PDF browser-side JavaScript libraries से device पर process होती है और HindiTools PDF processing server पर upload नहीं की जाती."
-        }
-      }
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"PDF ka size kam kaise kare?","acceptedAnswer":{"@type":"Answer","text":"PDF चुनें, Recommended या Small File preset चुनें और Compress PDF button दबाएं. Tool compressed PDF बनाकर original और new size दिखाता है."}},
+      {"@type":"Question","name":"PDF ko 500 KB kaise kare?","acceptedAnswer":{"@type":"Answer","text":"Target Size में 500 KB चुनें. Tool adaptive compression attempts करके PDF को target size के आसपास लाने की कोशिश करता है. Exact target हर PDF में guaranteed नहीं होता."}},
+      {"@type":"Question","name":"क्या PDF का text selectable रह सकता है?","acceptedAnswer":{"@type":"Answer","text":"Keep Text mode PDF structure को re-save करता है और selectable text preserve करने की कोशिश करता है, लेकिन size reduction limited हो सकती है. Strong compression pages को images में बदल सकती है."}},
+      {"@type":"Question","name":"क्या PDF HindiTools server पर upload होती है?","acceptedAnswer":{"@type":"Answer","text":"इस compressor में selected PDF browser-side JavaScript libraries से device पर process होती है और HindiTools PDF processing server पर upload नहीं की जाती."}}
     ]
   }
   </script>
 
   <style>
-    :root {
-      --bg: #fffaf2;
-      --surface: #ffffff;
-      --surface-2: #fff7ed;
-      --text: #1e2a3e;
-      --muted: #64748b;
-      --muted-2: #475569;
-      --saffron: #ff9933;
-      --primary: #ff7a1a;
-      --primary-dark: #c2410c;
-      --primary-soft: #fff0df;
-      --chakra: #000080;
-      --secondary: #0b3d91;
-      --secondary-soft: #dbeafe;
-      --green: #138808;
-      --green-soft: #e7f8e4;
-      --red: #dc2626;
-      --red-soft: #fff1f2;
-      --yellow: #b45309;
-      --yellow-soft: #fffbeb;
-      --purple: #6d28d9;
-      --purple-soft: #f3e8ff;
-      --border: #f1dec8;
-      --shadow-sm: 0 12px 30px rgba(120, 72, 20, 0.07);
-      --shadow-md: 0 20px 45px rgba(120, 72, 20, 0.13);
-      --shadow-lg: 0 28px 70px rgba(15, 23, 42, 0.15);
-      --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: "Inter", "Noto Sans Devanagari", system-ui, sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(255, 153, 51, 0.16), transparent 30%),
-        radial-gradient(circle at top right, rgba(19, 136, 8, 0.10), transparent 28%),
-        radial-gradient(circle at center top, rgba(11, 61, 145, 0.08), transparent 36%),
-        linear-gradient(180deg, rgba(255,255,255,0.34), transparent 360px),
-        var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    button, input, select { font-family: inherit; }
-    button { -webkit-tap-highlight-color: transparent; }
-
-    .skip-link {
-      position: absolute;
-      left: -999px;
-      top: 10px;
-      background: var(--primary);
-      color: white;
-      padding: 10px 14px;
-      border-radius: 14px;
-      z-index: 999;
-      font-weight: 800;
-    }
-
-    .skip-link:focus { left: 12px; }
-
-    .tricolour-line {
-      height: 5px;
-      background: linear-gradient(90deg, var(--saffron) 0 33.33%, #fff 33.33% 66.66%, var(--green) 66.66% 100%);
-      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-    }
-
-    .container {
-      width: min(1180px, calc(100% - 32px));
-      margin: auto;
-    }
-
-    .top-strip {
-      background: linear-gradient(90deg, var(--secondary), #1e40af);
-      color: white;
-      padding: 9px 0;
-      font-size: 14px;
-      text-align: center;
-    }
-
-    .top-strip strong { color: #ffe7c2; }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 50;
-      background: rgba(255, 250, 242, 0.90);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid rgba(241, 222, 200, 0.95);
-    }
-
-    .nav {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-      position: relative;
-    }
-
-    .brand {
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      color: var(--secondary);
-      font-size: 23px;
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .brand-mark {
-      width: 42px;
-      height: 42px;
-      border-radius: 16px;
-      background: linear-gradient(180deg, var(--saffron) 0 34%, #fff 34% 66%, var(--green) 66% 100%);
-      color: var(--chakra);
-      display: grid;
-      place-items: center;
-      box-shadow: 0 10px 24px rgba(255, 153, 51, 0.26);
-      font-weight: 900;
-      border: 1px solid rgba(15, 23, 42, 0.10);
-    }
-
-    .flag-pill {
-      display: inline-grid;
-      place-items: center;
-      width: 30px;
-      height: 30px;
-      border-radius: 999px;
-      background: linear-gradient(180deg, var(--saffron) 0 33.33%, #fff 33.33% 66.66%, var(--green) 66.66% 100%);
-      border: 1px solid rgba(15, 23, 42, 0.12);
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.10);
-      font-size: 0;
-      position: relative;
-    }
-
-    .flag-pill::after {
-      content: "☸";
-      color: var(--chakra);
-      font-size: 13px;
-      line-height: 1;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      list-style: none;
-      flex-wrap: wrap;
-    }
-
-    .nav-links a {
-      padding: 9px 13px;
-      border-radius: 999px;
-      color: #3f4655;
-      font-size: 15px;
-      font-weight: 800;
-      transition: var(--transition);
-    }
-
-    .nav-links a:hover {
-      background: white;
-      color: var(--primary);
-      box-shadow: 0 10px 24px rgba(120, 72, 20, 0.08);
-    }
-
-    .nav-cta {
-      background: var(--primary);
-      color: white;
-      padding: 11px 16px;
-      border-radius: 999px;
-      font-weight: 900;
-      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.25);
-      transition: var(--transition);
-    }
-
-    .nav-cta:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    .menu-btn {
-      display: none;
-      border: 0;
-      background: white;
-      border-radius: 12px;
-      padding: 9px 12px;
-      font-size: 21px;
-      box-shadow: 0 10px 20px rgba(0,0,0,0.06);
-      cursor: pointer;
-    }
-
-    .breadcrumb {
-      margin: 24px 0 0;
-      color: var(--muted);
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .breadcrumb a { color: var(--primary); }
-
-    .hero { padding: 38px 0 30px; }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 0.92fr 1.08fr;
-      gap: 32px;
-      align-items: center;
-    }
-
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .badge {
-      background: rgba(255,255,255,0.90);
-      border: 1px solid rgba(241, 222, 200, 0.95);
-      color: #71401c;
-      padding: 8px 12px;
-      border-radius: 999px;
-      font-size: 14px;
-      font-weight: 900;
-      box-shadow: 0 10px 22px rgba(120, 72, 20, 0.06);
-    }
-
-    .india-badge {
-      background: linear-gradient(90deg, rgba(255,153,51,0.22), rgba(255,255,255,0.94), rgba(19,136,8,0.16));
-      border: 1px solid rgba(11,61,145,0.12);
-      color: var(--secondary);
-    }
-
-    .hero h1 {
-      font-size: clamp(35px, 4.7vw, 58px);
-      line-height: 1.08;
-      letter-spacing: -1.7px;
-      color: var(--secondary);
-      margin-bottom: 16px;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(90deg, var(--saffron), var(--secondary), var(--green));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero p {
-      color: var(--muted-2);
-      font-size: 18px;
-      max-width: 650px;
-      margin-bottom: 20px;
-    }
-
-    .hero p strong { color: var(--text); }
-
-    .hero-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      align-items: center;
-      margin-top: 22px;
-    }
-
-    .hero-hints {
-      margin-top: 22px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .hint {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid var(--border);
-      padding: 8px 12px;
-      border-radius: 999px;
-      color: var(--muted-2);
-      font-size: 14px;
-      font-weight: 800;
-    }
-
-    .primary-btn,
-    .secondary-btn,
-    .danger-btn,
-    .ghost-btn,
-    .green-btn {
-      border: 0;
-      border-radius: 16px;
-      padding: 13px 18px;
-      font-size: 15px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .primary-btn {
-      background: var(--primary);
-      color: white;
-      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.23);
-    }
-
-    .primary-btn:hover {
-      background: var(--primary-dark);
-      transform: translateY(-1px);
-    }
-
-    .primary-btn:disabled {
-      background: #c7c7c7;
-      cursor: not-allowed;
-      box-shadow: none;
-      transform: none;
-    }
-
-    .secondary-btn {
-      background: var(--secondary);
-      color: white;
-    }
-
-    .secondary-btn:hover {
-      background: #072f72;
-      transform: translateY(-1px);
-    }
-
-    .green-btn {
-      background: var(--green);
-      color: white;
-    }
-
-    .danger-btn {
-      background: var(--red-soft);
-      color: var(--red);
-      border: 1px solid #fecdd3;
-    }
-
-    .ghost-btn {
-      background: white;
-      color: #4b5563;
-      border: 1px solid var(--border);
-    }
-
-    .ghost-btn:hover {
-      color: var(--primary);
-      border-color: var(--primary);
-      transform: translateY(-1px);
-    }
-
-    .tool-shell {
-      background: rgba(255,255,255,0.94);
-      border: 1px solid rgba(241, 222, 200, 0.95);
-      border-radius: 34px;
-      padding: 24px;
-      box-shadow: var(--shadow-lg);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tool-shell::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 5px;
-      background: linear-gradient(90deg, var(--saffron), #fff, var(--green));
-    }
-
-    .tool-intro {
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      gap: 12px;
-      align-items: stretch;
-      margin-bottom: 18px;
-    }
-
-    .intro-box {
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 14px;
-      min-height: 105px;
-    }
-
-    .intro-box strong {
-      display: block;
-      color: var(--secondary);
-      margin-bottom: 8px;
-      font-size: 15px;
-    }
-
-    .intro-box span {
-      color: var(--muted-2);
-      font-size: 14px;
-      font-weight: 700;
-    }
-
-    .arrow-box {
-      width: 40px;
-      display: grid;
-      place-items: center;
-      color: var(--primary);
-      font-weight: 900;
-      font-size: 24px;
-    }
-
-    .dropzone {
-      border: 2px dashed #efb276;
-      border-radius: 26px;
-      background:
-        radial-gradient(circle at top right, rgba(255,153,51,0.12), transparent 34%),
-        linear-gradient(180deg, rgba(255,248,240,0.95), rgba(255,255,255,0.95));
-      min-height: 270px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 28px;
-      transition: var(--transition);
-      cursor: pointer;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .dropzone.dragover {
-      border-color: var(--green);
-      background: #f0fdf4;
-      transform: scale(1.01);
-    }
-
-    .dropzone input { display: none; }
-
-    .drop-icon {
-      font-size: 58px;
-      margin-bottom: 12px;
-    }
-
-    .dropzone h2 {
-      color: var(--secondary);
-      font-size: 27px;
-      margin-bottom: 8px;
-    }
-
-    .dropzone p {
-      color: var(--muted);
-      font-size: 16px;
-      margin-bottom: 18px;
-    }
-
-    .upload-btn {
-      background: var(--primary);
-      color: white;
-      border: 0;
-      padding: 14px 20px;
-      border-radius: 16px;
-      font-size: 16px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 12px 25px rgba(255, 122, 26, 0.22);
-    }
-
-    .privacy-note {
-      margin-top: 12px;
-      color: var(--green);
-      font-size: 14px;
-      font-weight: 900;
-    }
-
-    .panel {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 20px;
-      box-shadow: var(--shadow-sm);
-      margin-top: 18px;
-    }
-
-    .panel-head {
-      display: flex;
-      align-items: start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 14px;
-    }
-
-    .panel-head h2 {
-      color: var(--secondary);
-      font-size: 24px;
-      line-height: 1.25;
-    }
-
-    .panel-head p {
-      color: var(--muted);
-      font-size: 14px;
-      margin-top: 4px;
-      font-weight: 700;
-    }
-
-    .file-summary {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 14px;
-      align-items: center;
-      background: #fffaf5;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 14px;
-      margin-bottom: 16px;
-    }
-
-    .file-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 16px;
-      background: var(--secondary);
-      color: white;
-      display: grid;
-      place-items: center;
-      font-size: 24px;
-    }
-
-    .file-name {
-      color: var(--secondary);
-      font-weight: 900;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .file-meta {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .analysis-card {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .analysis-item {
-      background: #f8fbff;
-      border: 1px solid #dbeafe;
-      border-radius: 18px;
-      padding: 12px;
-    }
-
-    .analysis-item span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 900;
-      margin-bottom: 4px;
-    }
-
-    .analysis-item strong {
-      color: var(--secondary);
-      font-size: 15px;
-    }
-
-    .analysis-item.recommend {
-      background: var(--green-soft);
-      border-color: #bbf7d0;
-    }
-
-    .analysis-item.recommend strong {
-      color: var(--green);
-    }
-
-    .step-title {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--secondary);
-      font-size: 18px;
-      font-weight: 900;
-      margin: 18px 0 10px;
-    }
-
-    .step-number {
-      width: 30px;
-      height: 30px;
-      display: grid;
-      place-items: center;
-      border-radius: 11px;
-      background: var(--primary);
-      color: white;
-      font-size: 14px;
-      box-shadow: 0 8px 18px rgba(255,122,26,.2);
-    }
-
-    .preset-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-    }
-
-    .preset-card {
-      border: 1px solid var(--border);
-      background: #fffaf5;
-      border-radius: 20px;
-      padding: 14px;
-      text-align: left;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .preset-card:hover,
-    .preset-card.active {
-      border-color: var(--primary);
-      box-shadow: 0 10px 22px rgba(255,122,26,.12);
-      transform: translateY(-1px);
-    }
-
-    .preset-card strong {
-      display: block;
-      color: var(--secondary);
-      margin-bottom: 4px;
-      font-size: 15px;
-    }
-
-    .preset-card span {
-      display: block;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 700;
-    }
-
-    .preset-card .preset-tag {
-      display: inline-flex;
-      margin-top: 9px;
-      padding: 5px 8px;
-      border-radius: 999px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--primary-dark);
-      font-size: 11px;
-      font-weight: 900;
-    }
-
-    .settings-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-      margin-top: 14px;
-    }
-
-    .setting-card {
-      background: #fffaf5;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 16px;
-    }
-
-    .setting-card.full {
-      grid-column: 1 / -1;
-    }
-
-    .setting-card label,
-    .input-group label {
-      display: block;
-      color: var(--secondary);
-      font-weight: 900;
-      margin-bottom: 8px;
-    }
-
-    .setting-card small {
-      display: block;
-      color: var(--muted);
-      font-size: 13px;
-      margin-top: 6px;
-      font-weight: 700;
-    }
-
-    .setting-card select,
-    .setting-card input[type="number"],
-    .input-group input {
-      width: 100%;
-      border: 1px solid #ead6c2;
-      border-radius: 15px;
-      padding: 12px 13px;
-      font-size: 15px;
-      outline: 0;
-      background: white;
-    }
-
-    .setting-card select:focus,
-    .setting-card input:focus,
-    .input-group input:focus {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 4px rgba(255,153,51,.14);
-    }
-
-    .target-grid {
-      display: grid;
-      grid-template-columns: repeat(5, minmax(0,1fr));
-      gap: 8px;
-    }
-
-    .target-btn {
-      border: 1px solid #ead6c2;
-      background: white;
-      border-radius: 14px;
-      padding: 10px 8px;
-      color: #4b5563;
-      font-size: 13px;
-      font-weight: 900;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .target-btn:hover,
-    .target-btn.active {
-      background: var(--secondary);
-      color: white;
-      border-color: var(--secondary);
-    }
-
-    .custom-target {
-      display: none;
-      margin-top: 10px;
-      grid-template-columns: 1fr auto;
-      gap: 10px;
-      align-items: center;
-    }
-
-    .custom-target.show {
-      display: grid;
-    }
-
-    .custom-target .unit {
-      font-weight: 900;
-      color: var(--secondary);
-    }
-
-    .range-wrap {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 12px;
-      align-items: center;
-    }
-
-    input[type="range"] {
-      width: 100%;
-      accent-color: var(--primary);
-    }
-
-    .range-value {
-      background: white;
-      border: 1px solid #ead6c2;
-      border-radius: 999px;
-      padding: 7px 10px;
-      min-width: 62px;
-      text-align: center;
-      font-weight: 900;
-      color: var(--primary);
-    }
-
-    details.advanced {
-      background: #fffaf5;
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 0 16px;
-      margin-top: 14px;
-    }
-
-    details.advanced summary {
-      list-style: none;
-      cursor: pointer;
-      padding: 15px 0;
-      color: var(--secondary);
-      font-weight: 900;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    details.advanced summary::-webkit-details-marker {
-      display: none;
-    }
-
-    .advanced-body {
-      padding: 0 0 16px;
-    }
-
-    .notice {
-      margin-top: 12px;
-      background: var(--yellow-soft);
-      border: 1px solid #fde68a;
-      color: #92400e;
-      padding: 12px 14px;
-      border-radius: 16px;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .notice.blue {
-      background: #eef2ff;
-      color: #243b86;
-      border-color: #c7d2fe;
-    }
-
-    .notice.green {
-      background: #ecfdf5;
-      color: #166534;
-      border-color: #bbf7d0;
-    }
-
-    .preview-section {
-      display: none;
-      margin-top: 16px;
-    }
-
-    .preview-section.show {
-      display: block;
-    }
-
-    .preview-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .preview-box {
-      background: #fffaf5;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 12px;
-    }
-
-    .preview-box strong {
-      display: block;
-      color: var(--secondary);
-      margin-bottom: 8px;
-      font-size: 14px;
-    }
-
-    .preview-canvas-wrap {
-      min-height: 170px;
-      background: #f3f4f6;
-      border: 1px solid #e5e7eb;
-      border-radius: 14px;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-    }
-
-    .preview-canvas-wrap canvas {
-      max-width: 100%;
-      max-height: 230px;
-      display: block;
-    }
-
-    .preview-placeholder {
-      color: var(--muted);
-      font-size: 13px;
-      font-weight: 800;
-      text-align: center;
-      padding: 18px;
-    }
-
-    .controls-grid {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 14px;
-      align-items: end;
-      margin-top: 18px;
-    }
-
-    .status-box {
-      display: none;
-      margin-top: 18px;
-      border-radius: 18px;
-      padding: 14px 16px;
-      font-weight: 900;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-      color: #4b5563;
-    }
-
-    .status-box.show { display: block; }
-
-    .status-box.success {
-      background: #ecfdf5;
-      color: var(--green);
-      border-color: #bbf7d0;
-    }
-
-    .status-box.error {
-      background: var(--red-soft);
-      color: var(--red);
-      border-color: #fecdd3;
-    }
-
-    .status-box.warning {
-      background: var(--yellow-soft);
-      color: #92400e;
-      border-color: #fde68a;
-    }
-
-    .progress-wrap {
-      display: none;
-      margin-top: 16px;
-      background: #f3f4f6;
-      border-radius: 999px;
-      overflow: hidden;
-      height: 12px;
-    }
-
-    .progress-wrap.show { display: block; }
-
-    .progress-bar {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--saffron), var(--primary), var(--green));
-      transition: width .25s ease;
-    }
-
-    .progress-label {
-      display: none;
-      margin-top: 8px;
-      color: var(--muted);
-      font-size: 12px;
-      font-weight: 800;
-      text-align: center;
-    }
-
-    .progress-label.show { display: block; }
-
-    .result-card {
-      display: none;
-      margin-top: 18px;
-      background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
-      border: 1px solid #bbf7d0;
-      border-radius: 24px;
-      padding: 20px;
-    }
-
-    .result-card.show { display: block; }
-
-    .result-card h3 {
-      color: var(--green);
-      font-size: 22px;
-      margin-bottom: 12px;
-    }
-
-    .result-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .result-stat {
-      background: white;
-      border: 1px solid #bbf7d0;
-      border-radius: 16px;
-      padding: 13px;
-    }
-
-    .result-stat span {
-      display: block;
-      color: #166534;
-      font-size: 12px;
-      font-weight: 900;
-      margin-bottom: 4px;
-    }
-
-    .result-stat strong {
-      color: var(--green);
-      font-size: 18px;
-    }
-
-    .result-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-
-    .result-note {
-      margin: 12px 0 0;
-      color: #166534;
-      font-size: 13px;
-      font-weight: 800;
-    }
-
-    .info-sections {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-top: 36px;
-    }
-
-    .info-card {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 22px;
-      box-shadow: var(--shadow-sm);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .info-card::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 4px;
-      background: linear-gradient(90deg, var(--saffron), #fff, var(--green));
-    }
-
-    .info-card h2 {
-      color: var(--secondary);
-      font-size: 25px;
-      margin-bottom: 12px;
-    }
-
-    .info-card h3 {
-      color: var(--secondary);
-      margin: 16px 0 8px;
-    }
-
-    .info-card p,
-    .info-card li {
-      color: #5b6472;
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .info-card ul,
-    .info-card ol {
-      padding-left: 22px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .related {
-      margin-top: 18px;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-
-    .related a {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 16px;
-      font-weight: 900;
-      color: var(--secondary);
-      box-shadow: 0 10px 24px rgba(120,72,20,.05);
-      transition: var(--transition);
-    }
-
-    .related a:hover {
-      transform: translateY(-3px);
-      color: var(--primary);
-      border-color: rgba(255,122,26,.45);
-    }
-
-    .faq-list {
-      display: grid;
-      gap: 12px;
-      margin-top: 18px;
-    }
-
-    .faq-item {
-      background: white;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 10px 24px rgba(120,72,20,.05);
-    }
-
-    .faq-q {
-      width: 100%;
-      border: 0;
-      background: white;
-      padding: 17px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      text-align: left;
-      color: var(--secondary);
-      font-weight: 900;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    .faq-a {
-      display: none;
-      padding: 0 17px 17px;
-      color: #5b6472;
-      font-size: 15px;
-      font-weight: 600;
-    }
-
-    .faq-item.active .faq-a {
-      display: block;
-    }
-
-    footer {
-      margin-top: 46px;
-      background: #151f3e;
-      color: white;
-      padding: 38px 0 20px;
-      position: relative;
-    }
-
-    footer::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 5px;
-      background: linear-gradient(90deg, var(--saffron), #fff, var(--green));
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr .8fr;
-      gap: 26px;
-      margin-bottom: 26px;
-    }
-
-    .footer-brand {
-      font-size: 25px;
-      font-weight: 900;
-      margin-bottom: 10px;
-    }
-
-    footer p,
-    footer a {
-      color: rgba(255,255,255,.78);
-      font-size: 15px;
-    }
-
-    footer h3 {
-      color: white;
-      margin-bottom: 12px;
-      font-size: 17px;
-    }
-
-    footer ul {
-      list-style: none;
-      display: grid;
-      gap: 8px;
-    }
-
-    footer a:hover { color: #ffd7a8; }
-
-    .copyright {
-      border-top: 1px solid rgba(255,255,255,.12);
-      padding-top: 18px;
-      color: rgba(255,255,255,.62);
-      text-align: center;
-      font-size: 14px;
-    }
-
-    :focus-visible {
-      outline: 4px solid rgba(255,153,51,.28);
-      outline-offset: 3px;
-      border-radius: 12px;
-    }
-
-    @media (max-width: 1040px) {
-      .hero-grid,
-      .info-sections {
-        grid-template-columns: 1fr;
-      }
-
-      .preset-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .target-grid {
-        grid-template-columns: repeat(3, 1fr);
-      }
-
-      .related {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .nav-links,
-      .nav-cta {
-        display: none;
-      }
-
-      .menu-btn {
-        display: inline-flex;
-      }
-
-      .nav.open .nav-links {
-        display: flex;
-        position: absolute;
-        top: 76px;
-        left: 0;
-        right: 0;
-        background: white;
-        flex-direction: column;
-        align-items: stretch;
-        border-radius: 20px;
-        padding: 14px;
-        box-shadow: var(--shadow-md);
-        border: 1px solid var(--border);
-      }
-
-      .nav.open .nav-links a {
-        text-align: center;
-      }
-    }
-
-    @media (max-width: 700px) {
-      .top-strip {
-        font-size: 12px;
-      }
-
-      .hero {
-        padding-top: 28px;
-      }
-
-      .tool-shell {
-        padding: 16px;
-        border-radius: 24px;
-      }
-
-      .tool-intro {
-        grid-template-columns: 1fr;
-      }
-
-      .arrow-box {
-        width: 100%;
-        transform: rotate(90deg);
-      }
-
-      .dropzone {
-        min-height: 235px;
-        padding: 22px 16px;
-      }
-
-      .dropzone h2 {
-        font-size: 23px;
-      }
-
-      .file-summary {
-        grid-template-columns: auto 1fr;
-      }
-
-      .file-summary .danger-btn {
-        grid-column: 1 / -1;
-      }
-
-      .analysis-card,
-      .settings-grid,
-      .controls-grid,
-      .result-grid,
-      .preview-grid,
-      .related,
-      .footer-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .preset-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .target-grid {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .primary-btn,
-      .secondary-btn,
-      .danger-btn,
-      .ghost-btn,
-      .green-btn {
-        width: 100%;
-      }
-
-      .hero-actions,
-      .result-actions {
-        align-items: stretch;
-        flex-direction: column;
-      }
-
-      .brand {
-        font-size: 20px;
-      }
-
-      .flag-pill {
-        width: 28px;
-        height: 28px;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      *,
-      *::before,
-      *::after {
-        scroll-behavior: auto !important;
-        transition: none !important;
-      }
-    }
+    :root{
+      --bg:#fffaf2;--surface:#fff;--surface2:#fff7ed;--text:#1e2a3e;--muted:#64748b;--muted2:#475569;
+      --saffron:#ff9933;--primary:#ff7a1a;--primaryDark:#c2410c;--primarySoft:#fff0df;--chakra:#000080;
+      --secondary:#0b3d91;--green:#138808;--greenSoft:#e7f8e4;--red:#dc2626;--redSoft:#fff1f2;
+      --yellow:#b45309;--yellowSoft:#fffbeb;--border:#f1dec8;
+      --shadowSm:0 12px 30px rgba(120,72,20,.07);--shadowMd:0 20px 45px rgba(120,72,20,.13);--shadowLg:0 28px 70px rgba(15,23,42,.15);
+      --transition:all .25s cubic-bezier(.2,0,0,1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}html{scroll-behavior:smooth}
+    body{font-family:"Inter","Noto Sans Devanagari",system-ui,sans-serif;background:radial-gradient(circle at top left,rgba(255,153,51,.16),transparent 30%),radial-gradient(circle at top right,rgba(19,136,8,.10),transparent 28%),radial-gradient(circle at center top,rgba(11,61,145,.08),transparent 36%),linear-gradient(180deg,rgba(255,255,255,.34),transparent 360px),var(--bg);color:var(--text);line-height:1.6}
+    a{color:inherit;text-decoration:none}button,input,select{font-family:inherit}button{-webkit-tap-highlight-color:transparent}.container{width:min(1180px,calc(100% - 32px));margin:auto}
+    .skip-link{position:absolute;left:-999px;top:10px;background:var(--primary);color:#fff;padding:10px 14px;border-radius:14px;z-index:999;font-weight:800}.skip-link:focus{left:12px}
+    .tricolour-line{height:5px;background:linear-gradient(90deg,var(--saffron) 0 33.33%,#fff 33.33% 66.66%,var(--green) 66.66% 100%);border-bottom:1px solid rgba(15,23,42,.08)}
+    .top-strip{background:linear-gradient(90deg,var(--secondary),#1e40af);color:#fff;padding:9px 0;font-size:14px;text-align:center}.top-strip strong{color:#ffe7c2}
+    header{position:sticky;top:0;z-index:50;background:rgba(255,250,242,.90);backdrop-filter:blur(18px);border-bottom:1px solid rgba(241,222,200,.95)}
+    .nav{min-height:76px;display:flex;align-items:center;justify-content:space-between;gap:18px;position:relative}.brand{display:flex;align-items:center;gap:11px;color:var(--secondary);font-size:23px;font-weight:900;white-space:nowrap}
+    .brand-mark{width:42px;height:42px;border-radius:16px;background:linear-gradient(180deg,var(--saffron) 0 34%,#fff 34% 66%,var(--green) 66% 100%);color:var(--chakra);display:grid;place-items:center;box-shadow:0 10px 24px rgba(255,153,51,.26);font-weight:900;border:1px solid rgba(15,23,42,.10)}
+    .flag-pill{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:999px;background:linear-gradient(180deg,var(--saffron) 0 33.33%,#fff 33.33% 66.66%,var(--green) 66.66% 100%);border:1px solid rgba(15,23,42,.12);box-shadow:0 6px 16px rgba(15,23,42,.10);font-size:0;position:relative}.flag-pill::after{content:"☸";color:var(--chakra);font-size:13px;line-height:1}
+    .nav-links{display:flex;align-items:center;gap:8px;list-style:none;flex-wrap:wrap}.nav-links a{padding:9px 13px;border-radius:999px;color:#3f4655;font-size:15px;font-weight:800;transition:var(--transition)}.nav-links a:hover{background:#fff;color:var(--primary);box-shadow:0 10px 24px rgba(120,72,20,.08)}
+    .nav-cta{background:var(--primary);color:#fff;padding:11px 16px;border-radius:999px;font-weight:900;box-shadow:0 12px 25px rgba(255,122,26,.25);transition:var(--transition)}.nav-cta:hover{background:var(--primaryDark);transform:translateY(-1px)}
+    .menu-btn{display:none;border:0;background:#fff;border-radius:12px;padding:9px 12px;font-size:21px;box-shadow:0 10px 20px rgba(0,0,0,.06);cursor:pointer}
+    .breadcrumb{margin:24px 0 0;color:var(--muted);font-size:14px;font-weight:800}.breadcrumb a{color:var(--primary)}
+    .hero{padding:38px 0 30px}.hero-grid{display:grid;grid-template-columns:.92fr 1.08fr;gap:32px;align-items:center}
+    .ht-kicker{font-weight:900;color:var(--primary);letter-spacing:.08em;font-size:14px;text-transform:uppercase}.hero h1{font-size:clamp(35px,4.7vw,58px);line-height:1.08;letter-spacing:-1.7px;color:var(--secondary);margin-bottom:16px}.hero p{color:var(--muted2);font-size:18px;max-width:650px;margin-bottom:20px}.hero-actions{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:22px}
+    .primary-btn,.secondary-btn,.danger-btn,.ghost-btn,.green-btn{border:0;border-radius:16px;padding:13px 18px;font-size:15px;font-weight:900;cursor:pointer;transition:var(--transition);display:inline-flex;align-items:center;justify-content:center;gap:8px}
+    .primary-btn{background:var(--primary);color:#fff;box-shadow:0 12px 25px rgba(255,122,26,.23)}.primary-btn:hover{background:var(--primaryDark);transform:translateY(-1px)}.primary-btn:disabled,.ghost-btn:disabled,.danger-btn:disabled{background:#c7c7c7;color:#666;cursor:not-allowed;box-shadow:none;transform:none}
+    .secondary-btn{background:var(--secondary);color:#fff}.secondary-btn:hover{background:#072f72;transform:translateY(-1px)}.green-btn{background:var(--green);color:#fff}
+    .danger-btn{background:var(--redSoft);color:var(--red);border:1px solid #fecdd3}.ghost-btn{background:#fff;color:#4b5563;border:1px solid var(--border)}.ghost-btn:hover{color:var(--primary);border-color:var(--primary);transform:translateY(-1px)}
+    .tool-shell{background:rgba(255,255,255,.94);border:1px solid rgba(241,222,200,.95);border-radius:34px;padding:24px;box-shadow:var(--shadowLg);position:relative;overflow:hidden}.tool-shell::before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,var(--saffron),#fff,var(--green))}
+    .ht-steps{display:flex;list-style:none;gap:8px;margin-bottom:16px;flex-wrap:wrap}.ht-steps li{display:flex;align-items:center;gap:7px;color:var(--muted2);font-size:13px;font-weight:900}.ht-steps span{width:24px;height:24px;border-radius:8px;display:grid;place-items:center;background:var(--secondary);color:#fff}
+    .dropzone{border:2px dashed #efb276;border-radius:26px;background:radial-gradient(circle at top right,rgba(255,153,51,.12),transparent 34%),linear-gradient(180deg,rgba(255,248,240,.95),rgba(255,255,255,.95));min-height:270px;display:grid;place-items:center;text-align:center;padding:28px;transition:var(--transition);cursor:pointer;position:relative;overflow:hidden}
+    .dropzone.dragover{border-color:var(--green);background:#f0fdf4;transform:scale(1.01)}.dropzone.busy{cursor:progress;opacity:.82}.dropzone input{display:none}.drop-icon{font-size:58px;margin-bottom:12px}.dropzone h2{color:var(--secondary);font-size:27px;margin-bottom:8px}.dropzone p{color:var(--muted);font-size:16px;margin-bottom:18px}.upload-btn{background:var(--primary);color:#fff;border:0;padding:14px 20px;border-radius:16px;font-size:16px;font-weight:900;cursor:pointer;box-shadow:0 12px 25px rgba(255,122,26,.22)}.privacy-note{margin-top:12px;color:var(--green);font-size:14px;font-weight:900}
+    .panel{background:#fff;border:1px solid var(--border);border-radius:24px;padding:20px;box-shadow:var(--shadowSm);margin-top:18px}.panel-head{display:flex;align-items:start;justify-content:space-between;gap:16px;margin-bottom:14px}.panel-head h2{color:var(--secondary);font-size:24px;line-height:1.25}.panel-head p{color:var(--muted);font-size:14px;margin-top:4px;font-weight:700}
+    .file-summary{display:grid;grid-template-columns:auto 1fr auto;gap:14px;align-items:center;background:#fffaf5;border:1px solid var(--border);border-radius:20px;padding:14px;margin-bottom:16px}.file-icon{width:48px;height:48px;border-radius:16px;background:var(--secondary);color:#fff;display:grid;place-items:center;font-size:24px}.file-name{color:var(--secondary);font-weight:900;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.file-meta{display:flex;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:13px;font-weight:800}
+    .analysis-card{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}.analysis-item{background:#f8fbff;border:1px solid #dbeafe;border-radius:18px;padding:12px}.analysis-item span{display:block;color:var(--muted);font-size:12px;font-weight:900;margin-bottom:4px}.analysis-item strong{color:var(--secondary);font-size:15px}.analysis-item.recommend{background:var(--greenSoft);border-color:#bbf7d0}.analysis-item.recommend strong{color:var(--green)}
+    .step-title{display:flex;align-items:center;gap:10px;color:var(--secondary);font-size:18px;font-weight:900;margin:18px 0 10px}.step-number{width:30px;height:30px;display:grid;place-items:center;border-radius:11px;background:var(--primary);color:#fff;font-size:14px;box-shadow:0 8px 18px rgba(255,122,26,.2)}
+    .preset-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.preset-card{border:1px solid var(--border);background:#fffaf5;border-radius:20px;padding:14px;text-align:left;cursor:pointer;transition:var(--transition)}.preset-card:hover,.preset-card.active{border-color:var(--primary);box-shadow:0 10px 22px rgba(255,122,26,.12);transform:translateY(-1px)}.preset-card strong{display:block;color:var(--secondary);margin-bottom:4px;font-size:15px}.preset-card span{display:block;color:var(--muted);font-size:12px;font-weight:700}.preset-card .preset-tag{display:inline-flex;margin-top:9px;padding:5px 8px;border-radius:999px;background:var(--surface);border:1px solid var(--border);color:var(--primaryDark);font-size:11px;font-weight:900}
+    .setting-card{background:#fffaf5;border:1px solid var(--border);border-radius:20px;padding:16px;margin-top:14px}.setting-card label,.input-group label{display:block;color:var(--secondary);font-weight:900;margin-bottom:8px}.setting-card small{display:block;color:var(--muted);font-size:13px;margin-top:6px;font-weight:700}.setting-card input[type="number"],.input-group input{width:100%;border:1px solid #ead6c2;border-radius:15px;padding:12px 13px;font-size:15px;outline:0;background:#fff}.setting-card input:focus,.input-group input:focus{border-color:var(--primary);box-shadow:0 0 0 4px rgba(255,153,51,.14)}
+    .target-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}.target-btn{border:1px solid #ead6c2;background:#fff;border-radius:14px;padding:10px 8px;color:#4b5563;font-size:13px;font-weight:900;cursor:pointer;transition:var(--transition)}.target-btn:hover,.target-btn.active{background:var(--secondary);color:#fff;border-color:var(--secondary)}.custom-target{display:none;margin-top:10px;grid-template-columns:1fr auto;gap:10px;align-items:center}.custom-target.show{display:grid}.custom-target .unit{font-weight:900;color:var(--secondary)}
+    details.advanced{background:#fffaf5;border:1px solid var(--border);border-radius:20px;padding:0 16px;margin-top:14px}details.advanced summary{list-style:none;cursor:pointer;padding:15px 0;color:var(--secondary);font-weight:900;display:flex;align-items:center;justify-content:space-between;gap:12px}details.advanced summary::-webkit-details-marker{display:none}.advanced-body{padding:0 0 16px}.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.range-wrap{display:grid;grid-template-columns:1fr auto;gap:12px;align-items:center}input[type="range"]{width:100%;accent-color:var(--primary)}.range-value{background:#fff;border:1px solid #ead6c2;border-radius:999px;padding:7px 10px;min-width:62px;text-align:center;font-weight:900;color:var(--primary)}
+    .notice{margin-top:12px;background:var(--yellowSoft);border:1px solid #fde68a;color:#92400e;padding:12px 14px;border-radius:16px;font-size:13px;font-weight:800}.notice.blue{background:#eef2ff;color:#243b86;border-color:#c7d2fe}.notice.green{background:#ecfdf5;color:#166534;border-color:#bbf7d0}
+    .preview-section{display:none;margin-top:16px}.preview-section.show{display:block}.preview-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.preview-box{background:#fffaf5;border:1px solid var(--border);border-radius:18px;padding:12px}.preview-box strong{display:block;color:var(--secondary);margin-bottom:8px;font-size:14px}.preview-canvas-wrap{min-height:170px;background:#f3f4f6;border:1px solid #e5e7eb;border-radius:14px;display:grid;place-items:center;overflow:hidden}.preview-canvas-wrap canvas{max-width:100%;max-height:230px;display:block}.preview-placeholder{color:var(--muted);font-size:13px;font-weight:800;text-align:center;padding:18px}
+    .controls-grid{display:grid;grid-template-columns:1fr auto;gap:14px;align-items:end;margin-top:18px}.status-box{display:none;margin-top:18px;border-radius:18px;padding:14px 16px;font-weight:900;border:1px solid #e5e7eb;background:#f9fafb;color:#4b5563}.status-box.show{display:block}.status-box.success{background:#ecfdf5;color:var(--green);border-color:#bbf7d0}.status-box.error{background:var(--redSoft);color:var(--red);border-color:#fecdd3}.status-box.warning{background:var(--yellowSoft);color:#92400e;border-color:#fde68a}
+    .progress-wrap{display:none;margin-top:16px;background:#f3f4f6;border-radius:999px;overflow:hidden;height:12px}.progress-wrap.show{display:block}.progress-bar{width:0;height:100%;background:linear-gradient(90deg,var(--saffron),var(--primary),var(--green));transition:width .25s}.progress-label{display:none;margin-top:8px;color:var(--muted);font-size:12px;font-weight:800;text-align:center}.progress-label.show{display:block}
+    .result-card{display:none;margin-top:18px;background:linear-gradient(135deg,#ecfdf5,#f0fdf4);border:1px solid #bbf7d0;border-radius:24px;padding:20px}.result-card.show{display:block}.result-card h3{color:var(--green);font-size:22px;margin-bottom:12px}.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}.result-stat{background:#fff;border:1px solid #bbf7d0;border-radius:16px;padding:13px}.result-stat span{display:block;color:#166534;font-size:12px;font-weight:900;margin-bottom:4px}.result-stat strong{color:var(--green);font-size:18px}.result-actions{display:flex;flex-wrap:wrap;gap:10px}.result-note{margin:12px 0 0;color:#166534;font-size:13px;font-weight:800}
+    .info-sections{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:36px}.info-card{background:#fff;border:1px solid var(--border);border-radius:24px;padding:22px;box-shadow:var(--shadowSm);position:relative;overflow:hidden}.info-card::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,var(--saffron),#fff,var(--green))}.info-card h2{color:var(--secondary);font-size:25px;margin-bottom:12px}.info-card h3{color:var(--secondary);margin:16px 0 8px}.info-card p,.info-card li{color:#5b6472;font-size:15px;font-weight:600}.info-card ul,.info-card ol{padding-left:22px;display:grid;gap:8px}.related{margin-top:18px;display:grid;grid-template-columns:repeat(4,1fr);gap:14px}.related a{background:#fff;border:1px solid var(--border);border-radius:18px;padding:16px;font-weight:900;color:var(--secondary);box-shadow:0 10px 24px rgba(120,72,20,.05);transition:var(--transition)}.related a:hover{transform:translateY(-3px);color:var(--primary);border-color:rgba(255,122,26,.45)}
+    .faq-list{display:grid;gap:12px;margin-top:18px}.faq-item{background:#fff;border:1px solid var(--border);border-radius:18px;overflow:hidden;box-shadow:0 10px 24px rgba(120,72,20,.05)}.faq-q{width:100%;border:0;background:#fff;padding:17px;display:flex;align-items:center;justify-content:space-between;gap:14px;text-align:left;color:var(--secondary);font-weight:900;font-size:16px;cursor:pointer}.faq-a{display:none;padding:0 17px 17px;color:#5b6472;font-size:15px;font-weight:600}.faq-item.active .faq-a{display:block}
+    footer{margin-top:46px;background:#151f3e;color:#fff;padding:38px 0 20px;position:relative}footer::before{content:"";position:absolute;inset:0 0 auto;height:5px;background:linear-gradient(90deg,var(--saffron),#fff,var(--green))}.footer-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:26px;margin-bottom:26px}.footer-brand{font-size:25px;font-weight:900;margin-bottom:10px}footer p,footer a{color:rgba(255,255,255,.78);font-size:15px}footer h3{color:#fff;margin-bottom:12px;font-size:17px}footer ul{list-style:none;display:grid;gap:8px}footer a:hover{color:#ffd7a8}.copyright{border-top:1px solid rgba(255,255,255,.12);padding-top:18px;color:rgba(255,255,255,.62);text-align:center;font-size:14px}
+    :focus-visible{outline:4px solid rgba(255,153,51,.28);outline-offset:3px;border-radius:12px}
+    @media(max-width:1040px){.hero-grid,.info-sections{grid-template-columns:1fr}.preset-grid{grid-template-columns:repeat(2,1fr)}.target-grid{grid-template-columns:repeat(3,1fr)}.related{grid-template-columns:repeat(2,1fr)}.analysis-card{grid-template-columns:repeat(2,1fr)}.nav-links,.nav-cta{display:none}.menu-btn{display:inline-flex}.nav.open .nav-links{display:flex;position:absolute;top:76px;left:0;right:0;background:#fff;flex-direction:column;align-items:stretch;border-radius:20px;padding:14px;box-shadow:var(--shadowMd);border:1px solid var(--border)}.nav.open .nav-links a{text-align:center}}
+    @media(max-width:700px){.top-strip{font-size:12px}.hero{padding-top:28px}.tool-shell{padding:16px;border-radius:24px}.dropzone{min-height:235px;padding:22px 16px}.dropzone h2{font-size:23px}.file-summary{grid-template-columns:auto 1fr}.file-summary .danger-btn{grid-column:1/-1}.analysis-card,.settings-grid,.controls-grid,.result-grid,.preview-grid,.related,.footer-grid{grid-template-columns:1fr}.preset-grid,.target-grid{grid-template-columns:1fr 1fr}.primary-btn,.secondary-btn,.danger-btn,.ghost-btn,.green-btn{width:100%}.hero-actions,.result-actions{align-items:stretch;flex-direction:column}.brand{font-size:20px}.flag-pill{width:28px;height:28px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
   </style>
+
   <link rel="stylesheet" href="hinditools-refresh.css" />
 </head>
 
 <body class="ht-tool">
   <div class="tricolour-line" aria-hidden="true"></div>
-
-  <a class="skip-link" href="#compress-tool">
-    सीधे PDF Compressor पर जाएं
-  </a>
+  <a class="skip-link" href="#compress-tool">सीधे PDF Compressor पर जाएं</a>
 
   <div class="top-strip">
-    <div class="container">
-      <strong>PDF size kam karna hai?</strong>
-      Recommended preset चुनें या 1 MB / 500 KB / 200 KB target try करें.
-    </div>
+    <div class="container"><strong>PDF size kam karna hai?</strong> Recommended preset चुनें या 1 MB / 500 KB / 200 KB target try करें.</div>
   </div>
 
   <header>
     <div class="container nav" id="nav">
-
       <a class="brand" href="/" aria-label="HindiTools Home">
-        <span class="brand-mark">हि</span>
-        <span>HindiTools</span>
-        <span class="flag-pill" aria-label="Indian tricolour inspired design"></span>
+        <span class="brand-mark">हि</span><span>HindiTools</span><span class="flag-pill" aria-label="Indian tricolour inspired design"></span>
       </a>
 
       <ul class="nav-links">
@@ -1472,580 +159,227 @@
         <li><a href="privacy.html">Privacy</a></li>
       </ul>
 
-      <a class="nav-cta" href="#compress-tool">
-        📉 PDF Size कम करें
-      </a>
-
-      <button
-        class="menu-btn"
-        id="menuBtn"
-        type="button"
-        aria-label="Open menu"
-        aria-expanded="false"
-      >
-        ☰
-      </button>
-
+      <a class="nav-cta" href="#compress-tool">📉 PDF Size कम करें</a>
+      <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false">☰</button>
     </div>
   </header>
 
   <main>
-
     <div class="container">
-      <div class="breadcrumb">
-        <a href="/">Home</a> / PDF Tools / PDF Size कम करें
-      </div>
+      <div class="breadcrumb"><a href="/">Home</a> / PDF Tools / PDF Size कम करें</div>
     </div>
 
     <section class="hero">
       <div class="container hero-grid">
-
         <div>
-
           <p class="ht-kicker">Compress PDF · हिंदी में</p>
-
           <h1>PDF Size कम करें</h1>
           <p>Form, email या WhatsApp के लिए PDF छोटी करें। 500 KB, 200 KB या 1 MB का target आज़माएं — अंतिम size आपकी file पर निर्भर है।</p>
 
           <div class="hero-actions">
-            <a class="primary-btn" href="#compress-tool">
-              📉 अभी PDF Compress करें
-            </a>
-
-            <a class="ghost-btn" href="split-pdf-hi.html">
-              ✂️ PDF Pages अलग करें
-            </a>
+            <a class="primary-btn" href="#compress-tool">📉 अभी PDF Compress करें</a>
+            <a class="ghost-btn" href="split-pdf-hi.html">✂️ PDF Pages अलग करें</a>
           </div>
-
-          
-
         </div>
 
         <div class="tool-shell" id="compress-tool">
-
-          <ol class="ht-steps" aria-label="तीन आसान steps"><li><span>1</span> PDF चुनें</li><li><span>2</span> Size चुनें</li><li><span>3</span> छोटी PDF पाएं</li></ol>
+          <ol class="ht-steps" aria-label="तीन आसान steps">
+            <li><span>1</span> PDF चुनें</li>
+            <li><span>2</span> Size चुनें</li>
+            <li><span>3</span> छोटी PDF पाएं</li>
+          </ol>
 
           <div class="dropzone" id="dropzone">
-
-            <input
-              type="file"
-              id="fileInput"
-              accept="application/pdf,.pdf"
-            />
+            <input type="file" id="fileInput" accept="application/pdf,.pdf" />
 
             <div>
-
               <div class="drop-icon">📉</div>
-
               <h2>PDF File चुनें</h2>
-
-              <p>
-                File drop करें या अपने phone/computer से PDF select करें.
-              </p>
-
-              <button
-                class="upload-btn"
-                type="button"
-                id="selectFileBtn"
-              >
-                PDF File चुनें
-              </button>
-
+              <p>File drop करें या अपने phone/computer से PDF select करें.</p>
+              <button class="upload-btn" type="button" id="selectFileBtn">PDF File चुनें</button>
               <div class="privacy-note">PDF की processing आपके browser में होती है।</div>
-
             </div>
-
           </div>
 
-          <div
-            class="panel"
-            id="filePanel"
-            style="display:none;"
-          >
-
+          <div class="panel" id="filePanel" style="display:none;">
             <div class="panel-head">
-
               <div>
                 <h2>PDF Compression Assistant</h2>
-                <p>
-                  हम PDF का basic analysis दिखाएंगे और फिर आसान preset चुनने देंगे.
-                </p>
+                <p>PDF का basic analysis देखकर preset या target चुनें.</p>
               </div>
-
-              <button
-                class="danger-btn"
-                type="button"
-                id="clearBtn"
-              >
-                Remove PDF
-              </button>
-
+              <button class="danger-btn" type="button" id="clearBtn">Remove PDF</button>
             </div>
 
             <div class="file-summary">
-
               <div class="file-icon">📄</div>
-
               <div>
-
-                <div
-                  class="file-name"
-                  id="fileName"
-                >
-                  document.pdf
-                </div>
-
+                <div class="file-name" id="fileName">document.pdf</div>
                 <div class="file-meta">
                   <span id="fileSize">0 KB</span>
                   <span id="pageCount">0 pages</span>
                 </div>
-
               </div>
-
-              <button
-                class="ghost-btn"
-                type="button"
-                id="previewOriginalBtn"
-              >
-                Preview Page 1
-              </button>
-
+              <button class="ghost-btn" type="button" id="previewOriginalBtn">Preview Page 1</button>
             </div>
 
             <div class="analysis-card">
-
               <div class="analysis-item">
                 <span>PDF Type</span>
                 <strong id="pdfType">Checking…</strong>
               </div>
-
               <div class="analysis-item">
                 <span>Average / Page</span>
                 <strong id="avgPageSize">-</strong>
               </div>
-
               <div class="analysis-item recommend">
                 <span>Suggested</span>
                 <strong id="recommendation">Recommended</strong>
               </div>
-
+              <div class="analysis-item">
+                <span>Engine</span>
+                <strong id="engineState">Ready</strong>
+              </div>
             </div>
 
-            <div class="step-title">
-              <span class="step-number">1</span>
-              कितना compress करना है?
-            </div>
+            <div class="step-title"><span class="step-number">1</span> कितना compress करना है?</div>
 
             <div class="preset-grid" id="presetGrid">
-
-              <button
-                class="preset-card"
-                type="button"
-                data-preset="keep-text"
-              >
+              <button class="preset-card" type="button" data-preset="keep-text">
                 <strong>📝 Keep Text</strong>
-                <span>
-                  Selectable/searchable text बचाने की कोशिश.
-                  Size reduction limited हो सकती है.
-                </span>
+                <span>Selectable/searchable text बचाने की कोशिश. Size reduction limited हो सकती है.</span>
                 <span class="preset-tag">Light</span>
               </button>
 
-              <button
-                class="preset-card active"
-                type="button"
-                data-preset="recommended"
-              >
+              <button class="preset-card active" type="button" data-preset="recommended">
                 <strong>✨ Recommended</strong>
-                <span>
-                  Quality और size का अच्छा balance.
-                  Most scanned/photo PDFs के लिए.
-                </span>
+                <span>Quality और size का अच्छा balance. Most scanned/photo PDFs के लिए.</span>
                 <span class="preset-tag">Best default</span>
               </button>
 
-              <button
-                class="preset-card"
-                type="button"
-                data-preset="small"
-              >
+              <button class="preset-card" type="button" data-preset="small">
                 <strong>📦 Small File</strong>
-                <span>
-                  Forms और uploads के लिए ज्यादा compression.
-                </span>
+                <span>Forms और uploads के लिए ज्यादा compression.</span>
                 <span class="preset-tag">Smaller</span>
               </button>
 
-              <button
-                class="preset-card"
-                type="button"
-                data-preset="maximum"
-              >
+              <button class="preset-card" type="button" data-preset="maximum">
                 <strong>🗜️ Maximum</strong>
-                <span>
-                  Size को aggressively कम करने की कोशिश.
-                  Clarity कम हो सकती है.
-                </span>
+                <span>Size को aggressively कम करने की कोशिश. Clarity कम हो सकती है.</span>
                 <span class="preset-tag">Smallest</span>
               </button>
-
             </div>
 
-            <div class="step-title">
-              <span class="step-number">2</span>
-              कोई target size चाहिए?
-            </div>
+            <div class="step-title"><span class="step-number">2</span> कोई target size चाहिए?</div>
 
-            <div class="setting-card full">
-
-              <label>
-                Optional Target Size
-              </label>
+            <div class="setting-card">
+              <label>Optional Target Size</label>
 
               <div class="target-grid" id="targetGrid">
-
-                <button
-                  class="target-btn active"
-                  type="button"
-                  data-target="none"
-                >
-                  No target
-                </button>
-
-                <button
-                  class="target-btn"
-                  type="button"
-                  data-target="1024"
-                >
-                  Under 1 MB
-                </button>
-
-                <button
-                  class="target-btn"
-                  type="button"
-                  data-target="500"
-                >
-                  Under 500 KB
-                </button>
-
-                <button
-                  class="target-btn"
-                  type="button"
-                  data-target="200"
-                >
-                  Under 200 KB
-                </button>
-
-                <button
-                  class="target-btn"
-                  type="button"
-                  data-target="custom"
-                >
-                  Custom
-                </button>
-
+                <button class="target-btn active" type="button" data-target="none">No target</button>
+                <button class="target-btn" type="button" data-target="1024">Under 1 MB</button>
+                <button class="target-btn" type="button" data-target="500">Under 500 KB</button>
+                <button class="target-btn" type="button" data-target="200">Under 200 KB</button>
+                <button class="target-btn" type="button" data-target="custom">Custom</button>
               </div>
 
-              <div
-                class="custom-target"
-                id="customTargetWrap"
-              >
-
-                <input
-                  id="customTargetKb"
-                  type="number"
-                  min="50"
-                  max="50000"
-                  value="750"
-                  inputmode="numeric"
-                />
-
-                <span class="unit">
-                  KB
-                </span>
-
+              <div class="custom-target" id="customTargetWrap">
+                <input id="customTargetKb" type="number" min="50" max="50000" value="750" inputmode="numeric" />
+                <span class="unit">KB</span>
               </div>
 
-              <small>
-                Target mode strong compression के multiple attempts कर सकता है,
-                इसलिए normal compression से slow हो सकता है.
-                Exact file size guaranteed नहीं है.
-              </small>
-
+              <small>Target mode adaptive compression attempts कर सकता है. Exact file size guaranteed नहीं है.</small>
             </div>
 
-            <details
-              class="advanced"
-              id="advancedSettings"
-            >
-
-              <summary>
-                <span>⚙️ Advanced Settings</span>
-                <span>Quality / Resolution</span>
-              </summary>
+            <details class="advanced" id="advancedSettings">
+              <summary><span>⚙️ Advanced Settings</span><span>Quality / Resolution</span></summary>
 
               <div class="advanced-body">
-
                 <div class="settings-grid">
-
                   <div class="setting-card">
-
-                    <label for="qualityRange">
-                      Image Quality
-                    </label>
-
+                    <label for="qualityRange">Image Quality</label>
                     <div class="range-wrap">
-
-                      <input
-                        type="range"
-                        id="qualityRange"
-                        min="32"
-                        max="92"
-                        value="72"
-                      />
-
-                      <div
-                        class="range-value"
-                        id="qualityValue"
-                      >
-                        72%
-                      </div>
-
+                      <input type="range" id="qualityRange" min="30" max="92" value="72" />
+                      <div class="range-value" id="qualityValue">72%</div>
                     </div>
-
-                    <small>
-                      कम quality = smaller file.
-                      बहुत कम quality पर text/images blur हो सकती हैं.
-                    </small>
-
+                    <small>कम quality = smaller file. बहुत कम quality पर text/images blur हो सकती हैं.</small>
                   </div>
 
                   <div class="setting-card">
-
-                    <label for="scaleRange">
-                      Page Resolution
-                    </label>
-
+                    <label for="scaleRange">Page Resolution</label>
                     <div class="range-wrap">
-
-                      <input
-                        type="range"
-                        id="scaleRange"
-                        min="55"
-                        max="120"
-                        value="100"
-                      />
-
-                      <div
-                        class="range-value"
-                        id="scaleValue"
-                      >
-                        100%
-                      </div>
-
+                      <input type="range" id="scaleRange" min="50" max="120" value="100" />
+                      <div class="range-value" id="scaleValue">100%</div>
                     </div>
-
-                    <small>
-                      Resolution कम करने से scanned/photo PDFs का size
-                      काफी कम हो सकता है.
-                    </small>
-
+                    <small>100% यहाँ normal compressor resolution है. इसे कम करने से scanned PDFs का size काफी कम हो सकता है.</small>
                   </div>
-
                 </div>
 
-                <div
-                  class="notice blue"
-                  id="modeNotice"
-                >
-                  Recommended, Small File और Maximum modes PDF pages
-                  को compressed images में बदलते हैं.
-                  इससे text selectable/searchable नहीं रह सकता.
+                <div class="notice blue" id="modeNotice">
+                  Recommended, Small File और Maximum modes PDF pages को compressed images में बदलते हैं.
                 </div>
-
               </div>
-
             </details>
 
-            <div
-              class="preview-section"
-              id="previewSection"
-            >
-
-              <div class="step-title">
-                <span class="step-number">3</span>
-                First page preview
-              </div>
+            <div class="preview-section" id="previewSection">
+              <div class="step-title"><span class="step-number">3</span> First page preview</div>
 
               <div class="preview-grid">
-
                 <div class="preview-box">
-
                   <strong>Original</strong>
-
-                  <div
-                    class="preview-canvas-wrap"
-                    id="originalPreviewWrap"
-                  >
-                    <div class="preview-placeholder">
-                      Preview button दबाएं
-                    </div>
+                  <div class="preview-canvas-wrap" id="originalPreviewWrap">
+                    <div class="preview-placeholder">Preview button दबाएं</div>
                   </div>
-
                 </div>
 
                 <div class="preview-box">
-
                   <strong>Compressed Result</strong>
-
-                  <div
-                    class="preview-canvas-wrap"
-                    id="compressedPreviewWrap"
-                  >
-                    <div class="preview-placeholder">
-                      Compression के बाद preview यहाँ आएगा
-                    </div>
+                  <div class="preview-canvas-wrap" id="compressedPreviewWrap">
+                    <div class="preview-placeholder">Compression के बाद preview यहाँ आएगा</div>
                   </div>
-
                 </div>
-
               </div>
-
             </div>
 
             <div class="controls-grid">
-
               <div class="input-group">
-
-                <label for="outputName">
-                  Final PDF का नाम
-                </label>
-
-                <input
-                  id="outputName"
-                  type="text"
-                  value="compressed-pdf"
-                  placeholder="compressed-pdf"
-                />
-
+                <label for="outputName">Final PDF का नाम</label>
+                <input id="outputName" type="text" value="compressed-pdf" placeholder="compressed-pdf" />
               </div>
 
-              <button
-                class="primary-btn"
-                type="button"
-                id="compressBtn"
-              >
-                📉 PDF Compress करें
-              </button>
-
+              <button class="primary-btn" type="button" id="compressBtn">📉 PDF Compress करें</button>
             </div>
 
-            <div
-              class="progress-wrap"
-              id="progressWrap"
-            >
-              <div
-                class="progress-bar"
-                id="progressBar"
-              ></div>
-            </div>
+            <div class="progress-wrap" id="progressWrap"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-label" id="progressLabel">Processing…</div>
 
-            <div
-              class="progress-label"
-              id="progressLabel"
-            >
-              Processing…
-            </div>
+            <div class="status-box" id="statusBox"></div>
 
-            <div
-              class="status-box"
-              id="statusBox"
-            ></div>
-
-            <div
-              class="result-card"
-              id="resultCard"
-            >
-
-              <h3>
-                ✅ Compressed PDF तैयार है
-              </h3>
+            <div class="result-card" id="resultCard">
+              <h3>✅ Compressed PDF तैयार है</h3>
 
               <div class="result-grid">
-
-                <div class="result-stat">
-                  <span>Original</span>
-                  <strong id="originalStat">0 KB</strong>
-                </div>
-
-                <div class="result-stat">
-                  <span>New Size</span>
-                  <strong id="newStat">0 KB</strong>
-                </div>
-
-                <div class="result-stat">
-                  <span>Reduced</span>
-                  <strong id="savingStat">0%</strong>
-                </div>
-
-                <div class="result-stat">
-                  <span>Saved</span>
-                  <strong id="savedBytesStat">0 KB</strong>
-                </div>
-
+                <div class="result-stat"><span>Original</span><strong id="originalStat">0 KB</strong></div>
+                <div class="result-stat"><span>New Size</span><strong id="newStat">0 KB</strong></div>
+                <div class="result-stat"><span>Reduced</span><strong id="savingStat">0%</strong></div>
+                <div class="result-stat"><span>Saved</span><strong id="savedBytesStat">0 KB</strong></div>
               </div>
 
               <div class="result-actions">
-
-                <a
-                  class="secondary-btn"
-                  id="downloadLink"
-                  href="#"
-                  download="compressed-pdf.pdf"
-                >
-                  ⬇️ Download PDF
-                </a>
-
-                <button
-                  class="ghost-btn"
-                  id="compressMoreBtn"
-                  type="button"
-                >
-                  🗜️ Compress More
-                </button>
-
-                <button
-                  class="ghost-btn"
-                  id="newFileBtn"
-                  type="button"
-                >
-                  📄 New PDF
-                </button>
-
+                <a class="secondary-btn" id="downloadLink" href="#" download="compressed-pdf.pdf">⬇️ Download PDF</a>
+                <button class="ghost-btn" id="compressMoreBtn" type="button">🗜️ Compress More</button>
+                <button class="ghost-btn" id="newFileBtn" type="button">📄 New PDF</button>
               </div>
 
-              <p
-                class="result-note"
-                id="resultNote"
-              ></p>
-
+              <p class="result-note" id="resultNote"></p>
             </div>
-
           </div>
-
         </div>
-
       </div>
     </section>
 
     <section class="container info-sections">
-
       <article class="info-card">
-
-        <h2>
-          PDF ka size kam kaise kare?
-        </h2>
-
+        <h2>PDF ka size kam kaise kare?</h2>
         <ol>
           <li>ऊपर अपनी PDF file चुनें.</li>
           <li><strong>Recommended</strong> preset से शुरू करें.</li>
@@ -2053,288 +387,116 @@
           <li><strong>PDF Compress करें</strong> दबाएं.</li>
           <li>Original और new size compare करके PDF download करें.</li>
         </ol>
-
       </article>
 
       <article class="info-card">
-
-        <h2>
-          कौन सा compression option चुनें?
-        </h2>
-
+        <h2>कौन सा compression option चुनें?</h2>
         <ul>
           <li><strong>Keep Text:</strong> searchable/selectable text important हो.</li>
           <li><strong>Recommended:</strong> general scan, photo PDF और forms के लिए.</li>
           <li><strong>Small File:</strong> upload limit के लिए ज्यादा compression चाहिए.</li>
-          <li><strong>Maximum:</strong> file बहुत बड़ी है और clarity से ज्यादा size important है.</li>
+          <li><strong>Maximum:</strong> clarity से ज्यादा size important है.</li>
           <li><strong>Target Size:</strong> portal कहता है PDF 1 MB या 500 KB से कम होनी चाहिए.</li>
         </ul>
-
       </article>
-
     </section>
 
-    <section
-      class="container"
-      style="margin-top:28px;"
-    >
-
+    <section class="container" style="margin-top:28px;">
       <div class="info-card">
+        <h2>PDF को 1 MB, 500 KB या 200 KB के आसपास कैसे लाएं?</h2>
+        <p>हर PDF अलग होती है. Pages की संख्या, scan resolution, photos और existing compression की वजह से exact target हमेशा possible नहीं होता. Target Size चुनने पर HindiTools adaptive quality/resolution settings के साथ compression attempts करता है और सबसे useful result रखता है.</p>
 
-        <h2>
-          PDF को 1 MB, 500 KB या 200 KB के आसपास कैसे लाएं?
-        </h2>
-
-        <p>
-          हर PDF अलग होती है. Pages की संख्या, scan resolution,
-          photos और existing compression की वजह से exact target हमेशा possible नहीं होता.
-          Target Size चुनने पर HindiTools अलग quality/resolution settings
-          के साथ कुछ compression attempts करता है और target के सबसे useful result को रखता है.
-        </p>
-
-        <h3>
-          अगर target नहीं मिलता तो क्या करें?
-        </h3>
-
+        <h3>अगर target नहीं मिलता तो क्या करें?</h3>
         <ul>
           <li>Small File या Maximum preset try करें.</li>
           <li>Advanced Settings में resolution थोड़ा कम करें.</li>
-          <li>
-            अगर सिर्फ कुछ pages चाहिए तो पहले
-            <a
-              href="split-pdf-hi.html"
-              style="color:var(--primary);font-weight:900;"
-            >
-              PDF pages अलग करें
-            </a>
-            और फिर remaining PDF compress करें.
-          </li>
+          <li>अगर सिर्फ कुछ pages चाहिए तो पहले <a href="split-pdf-hi.html" style="color:var(--primary);font-weight:900;">PDF pages अलग करें</a> और फिर remaining PDF compress करें.</li>
         </ul>
-
       </div>
-
     </section>
 
-    <section
-      class="container"
-      style="margin-top:28px;"
-    >
-
+    <section class="container" style="margin-top:28px;">
       <div class="info-card">
-
-        <h2>
-          Related PDF Tools
-        </h2>
-
+        <h2>Related PDF Tools</h2>
         <div class="related">
-
-          <a href="split-pdf-hi.html">
-            ✂️ PDF Pages अलग करें
-          </a>
-
-          <a href="merge-pdf-hi.html">
-            📎 PDF जोड़ें
-          </a>
-
-          <a href="pdf-to-word-hi.html">
-            📝 PDF to Word
-          </a>
-
-          <a href="image-to-pdf-hi.html">
-            🖼️ Photo से PDF
-          </a>
-
+          <a href="split-pdf-hi.html">✂️ PDF Pages अलग करें</a>
+          <a href="merge-pdf-hi.html">📎 PDF जोड़ें</a>
+          <a href="pdf-to-word-hi.html">📝 PDF to Word</a>
+          <a href="image-to-pdf-hi.html">🖼️ Photo से PDF</a>
         </div>
-
       </div>
-
     </section>
 
-    <section
-      class="container"
-      style="margin-top:28px;"
-    >
-
+    <section class="container" style="margin-top:28px;">
       <div class="info-card">
-
-        <h2>
-          PDF Compression FAQ
-        </h2>
+        <h2>PDF Compression FAQ</h2>
 
         <div class="faq-list">
-
           <div class="faq-item active">
-
-            <button
-              class="faq-q"
-              type="button"
-            >
-              PDF ka size kam kaise kare?
-              <span>+</span>
-            </button>
-
-            <div class="faq-a">
-              PDF चुनें, Recommended preset से शुरू करें और Compress PDF दबाएं.
-              Result में original size, new size और reduction percentage दिखेगा.
-            </div>
-
+            <button class="faq-q" type="button">PDF ka size kam kaise kare?<span>+</span></button>
+            <div class="faq-a">PDF चुनें, Recommended preset से शुरू करें और Compress PDF दबाएं. Result में original size, new size और reduction percentage दिखेगा.</div>
           </div>
 
           <div class="faq-item">
-
-            <button
-              class="faq-q"
-              type="button"
-            >
-              PDF ko 500 KB kaise kare?
-              <span>+</span>
-            </button>
-
-            <div class="faq-a">
-              Target Size में Under 500 KB चुनें.
-              Tool अलग strong-compression settings try करके target के आसपास
-              file बनाने की कोशिश करेगा.
-              Exact 500 KB हर PDF में possible नहीं होता.
-            </div>
-
+            <button class="faq-q" type="button">PDF ko 500 KB kaise kare?<span>+</span></button>
+            <div class="faq-a">Target Size में Under 500 KB चुनें. Tool adaptive strong-compression settings try करके target के आसपास file बनाने की कोशिश करेगा. Exact 500 KB हर PDF में possible नहीं होता.</div>
           </div>
 
           <div class="faq-item">
-
-            <button
-              class="faq-q"
-              type="button"
-            >
-              क्या PDF compression हमेशा size कम करती है?
-              <span>+</span>
-            </button>
-
-            <div class="faq-a">
-              नहीं. कुछ PDFs पहले से compressed होती हैं.
-              Keep Text mode में खास तौर पर size reduction बहुत कम हो सकती है
-              या file थोड़ी बड़ी भी बन सकती है.
-            </div>
-
+            <button class="faq-q" type="button">क्या PDF compression हमेशा size कम करती है?<span>+</span></button>
+            <div class="faq-a">नहीं. कुछ PDFs पहले से compressed होती हैं. अगर generated file बड़ी हो तो HindiTools original को larger result से replace नहीं करता.</div>
           </div>
 
           <div class="faq-item">
-
-            <button
-              class="faq-q"
-              type="button"
-            >
-              क्या compressed PDF का text selectable रहेगा?
-              <span>+</span>
-            </button>
-
-            <div class="faq-a">
-              Keep Text mode में selectable text preserve करने की कोशिश होती है.
-              Recommended, Small File, Maximum और target-size modes pages को
-              images में बदल सकते हैं, इसलिए text selectable/searchable नहीं रह सकता.
-            </div>
-
+            <button class="faq-q" type="button">क्या compressed PDF का text selectable रहेगा?<span>+</span></button>
+            <div class="faq-a">Keep Text mode में selectable text preserve करने की कोशिश होती है. Recommended, Small File, Maximum और target-size modes pages को images में बदल सकते हैं.</div>
           </div>
 
           <div class="faq-item">
-
-            <button
-              class="faq-q"
-              type="button"
-            >
-              Scanned PDF के लिए कौन सा option अच्छा है?
-              <span>+</span>
-            </button>
-
-            <div class="faq-a">
-              Scanned या photo-heavy PDF के लिए Recommended से शुरू करें.
-              अगर file अभी भी बड़ी है तो Small File या target-size option try करें.
-            </div>
-
+            <button class="faq-q" type="button">Scanned PDF के लिए कौन सा option अच्छा है?<span>+</span></button>
+            <div class="faq-a">Scanned या photo-heavy PDF के लिए Recommended से शुरू करें. अगर file अभी भी बड़ी है तो Small File या target-size option try करें.</div>
           </div>
 
           <div class="faq-item">
-
-            <button
-              class="faq-q"
-              type="button"
-            >
-              क्या मेरी PDF HindiTools server पर upload होती है?
-              <span>+</span>
-            </button>
-
-            <div class="faq-a">
-              इस compressor में PDF browser-side JavaScript libraries से
-              आपके device पर process होती है.
-              HindiTools के PDF processing server पर file upload नहीं की जाती.
-            </div>
-
+            <button class="faq-q" type="button">क्या मेरी PDF HindiTools server पर upload होती है?<span>+</span></button>
+            <div class="faq-a">इस compressor में PDF browser-side JavaScript libraries से आपके device पर process होती है. HindiTools के PDF processing server पर file upload नहीं की जाती.</div>
           </div>
-
         </div>
-
       </div>
-
     </section>
-
   </main>
 
   <footer>
-
     <div class="container">
-
       <div class="footer-grid">
-
         <div>
-
-          <div class="footer-brand">
-            HindiTools.com 🇮🇳
-          </div>
-
-          <p>
-            PDF, Image और Document कामों के लिए आसान Hindi + Hinglish tools —
-            PDF size कम करें, pages अलग करें, files जोड़ें और documents convert करें.
-          </p>
-
+          <div class="footer-brand">HindiTools.com 🇮🇳</div>
+          <p>PDF, Image और Document कामों के लिए आसान Hindi + Hinglish tools — PDF size कम करें, pages अलग करें, files जोड़ें और documents convert करें.</p>
         </div>
 
         <div>
-
-          <h3>
-            Important PDF Tools
-          </h3>
-
+          <h3>Important PDF Tools</h3>
           <ul>
             <li><a href="compress-pdf-hi.html">PDF Size कम करें</a></li>
             <li><a href="split-pdf-hi.html">PDF अलग करें</a></li>
             <li><a href="merge-pdf-hi.html">PDF जोड़ें</a></li>
             <li><a href="pdf-to-word-hi.html">PDF to Word</a></li>
           </ul>
-
         </div>
 
         <div>
-
-          <h3>
-            Website
-          </h3>
-
+          <h3>Website</h3>
           <ul>
             <li><a href="/">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="privacy.html">Privacy Policy</a></li>
             <li><a href="contact.html">Contact</a></li>
           </ul>
-
         </div>
-
       </div>
 
-      <div class="copyright">
-        © 2026 HindiTools.com — सभी अधिकार सुरक्षित।
-      </div>
-
+      <div class="copyright">© 2026 HindiTools.com — सभी अधिकार सुरक्षित।</div>
     </div>
-
   </footer>
 
   <script>
@@ -2342,827 +504,756 @@
       "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
     const { PDFDocument } = PDFLib;
-
-    const fileInput =
-      document.getElementById("fileInput");
-
-    const selectFileBtn =
-      document.getElementById("selectFileBtn");
-
-    const dropzone =
-      document.getElementById("dropzone");
-
-    const filePanel =
-      document.getElementById("filePanel");
-
-    const fileNameEl =
-      document.getElementById("fileName");
-
-    const fileSizeEl =
-      document.getElementById("fileSize");
-
-    const pageCountEl =
-      document.getElementById("pageCount");
-
-    const clearBtn =
-      document.getElementById("clearBtn");
-
-    const previewOriginalBtn =
-      document.getElementById("previewOriginalBtn");
-
-    const pdfTypeEl =
-      document.getElementById("pdfType");
-
-    const avgPageSizeEl =
-      document.getElementById("avgPageSize");
-
-    const recommendationEl =
-      document.getElementById("recommendation");
-
-    const presetCards =
-      document.querySelectorAll(".preset-card");
-
-    const targetButtons =
-      document.querySelectorAll(".target-btn");
-
-    const customTargetWrap =
-      document.getElementById("customTargetWrap");
-
-    const customTargetKb =
-      document.getElementById("customTargetKb");
-
-    const qualityRange =
-      document.getElementById("qualityRange");
-
-    const qualityValue =
-      document.getElementById("qualityValue");
-
-    const scaleRange =
-      document.getElementById("scaleRange");
-
-    const scaleValue =
-      document.getElementById("scaleValue");
-
-    const modeNotice =
-      document.getElementById("modeNotice");
-
-    const previewSection =
-      document.getElementById("previewSection");
-
-    const originalPreviewWrap =
-      document.getElementById("originalPreviewWrap");
-
-    const compressedPreviewWrap =
-      document.getElementById("compressedPreviewWrap");
-
-    const outputName =
-      document.getElementById("outputName");
-
-    const compressBtn =
-      document.getElementById("compressBtn");
-
-    const progressWrap =
-      document.getElementById("progressWrap");
-
-    const progressBar =
-      document.getElementById("progressBar");
-
-    const progressLabel =
-      document.getElementById("progressLabel");
-
-    const statusBox =
-      document.getElementById("statusBox");
-
-    const resultCard =
-      document.getElementById("resultCard");
-
-    const originalStat =
-      document.getElementById("originalStat");
-
-    const newStat =
-      document.getElementById("newStat");
-
-    const savingStat =
-      document.getElementById("savingStat");
-
-    const savedBytesStat =
-      document.getElementById("savedBytesStat");
-
-    const downloadLink =
-      document.getElementById("downloadLink");
-
-    const compressMoreBtn =
-      document.getElementById("compressMoreBtn");
-
-    const newFileBtn =
-      document.getElementById("newFileBtn");
-
-    const resultNote =
-      document.getElementById("resultNote");
-
-    let selectedFile = null;
-    let selectedBuffer = null;
-    let pdfJsDoc = null;
-    let selectedPageCount = 0;
-    let activePreset = "recommended";
-    let activeTarget = "none";
-    let currentDownloadUrl = null;
-    let currentOutputBlob = null;
-    let detectedPdfType = "Unknown";
+    const $ = id => document.getElementById(id);
 
     const PRESETS = {
-
       "keep-text": {
         mode: "safe",
         quality: 86,
-        scale: 110
+        scale: 100
       },
-
       "recommended": {
-        mode: "strong",
+        mode: "raster",
         quality: 72,
         scale: 100
       },
-
       "small": {
-        mode: "strong",
-        quality: 57,
-        scale: 84
+        mode: "raster",
+        quality: 56,
+        scale: 82
       },
-
       "maximum": {
-        mode: "strong",
-        quality: 40,
-        scale: 68
+        mode: "raster",
+        quality: 38,
+        scale: 64
       }
-
     };
 
+    const state = {
+      file: null,
+      buffer: null,
+      pdfJs: null,
+      pageCount: 0,
+
+      activePreset: "recommended",
+      activeTarget: "none",
+
+      currentDownloadUrl: null,
+      currentOutputBlob: null,
+
+      detectedPdfType: "Unknown",
+
+      busy: false,
+      loadGeneration: 0,
+      previewGeneration: 0,
+      compressedPreviewGeneration: 0,
+
+      statusTimer: null
+    };
+
+    const fileInput = $("fileInput");
+    const selectFileBtn = $("selectFileBtn");
+    const dropzone = $("dropzone");
+    const filePanel = $("filePanel");
+    const fileNameEl = $("fileName");
+    const fileSizeEl = $("fileSize");
+    const pageCountEl = $("pageCount");
+    const clearBtn = $("clearBtn");
+    const previewOriginalBtn = $("previewOriginalBtn");
+    const pdfTypeEl = $("pdfType");
+    const avgPageSizeEl = $("avgPageSize");
+    const recommendationEl = $("recommendation");
+    const engineStateEl = $("engineState");
+
+    const presetCards = document.querySelectorAll(".preset-card");
+    const targetButtons = document.querySelectorAll(".target-btn");
+
+    const customTargetWrap = $("customTargetWrap");
+    const customTargetKb = $("customTargetKb");
+
+    const qualityRange = $("qualityRange");
+    const qualityValue = $("qualityValue");
+    const scaleRange = $("scaleRange");
+    const scaleValue = $("scaleValue");
+    const modeNotice = $("modeNotice");
+
+    const previewSection = $("previewSection");
+    const originalPreviewWrap = $("originalPreviewWrap");
+    const compressedPreviewWrap = $("compressedPreviewWrap");
+
+    const outputName = $("outputName");
+    const compressBtn = $("compressBtn");
+
+    const progressWrap = $("progressWrap");
+    const progressBar = $("progressBar");
+    const progressLabel = $("progressLabel");
+
+    const statusBox = $("statusBox");
+    const resultCard = $("resultCard");
+
+    const originalStat = $("originalStat");
+    const newStat = $("newStat");
+    const savingStat = $("savingStat");
+    const savedBytesStat = $("savedBytesStat");
+
+    const downloadLink = $("downloadLink");
+    const compressMoreBtn = $("compressMoreBtn");
+    const newFileBtn = $("newFileBtn");
+    const resultNote = $("resultNote");
+
+    /* =========================================================
+       BASIC HELPERS
+    ========================================================= */
+
     function formatBytes(bytes) {
+      if (!bytes) return "0 Bytes";
 
-      if (!bytes) {
-        return "0 Bytes";
-      }
+      const k = 1024;
+      const sizes = ["Bytes", "KB", "MB", "GB"];
 
-      const k =
-        1024;
-
-      const sizes = [
-        "Bytes",
-        "KB",
-        "MB",
-        "GB"
-      ];
-
-      const i =
-        Math.min(
-          sizes.length - 1,
-          Math.floor(
-            Math.log(bytes) /
-            Math.log(k)
-          )
-        );
+      const i = Math.min(
+        sizes.length - 1,
+        Math.floor(Math.log(bytes) / Math.log(k))
+      );
 
       return (
         parseFloat(
-          (
-            bytes /
-            Math.pow(k, i)
-          ).toFixed(2)
-        )
-        +
-        " "
-        +
+          (bytes / Math.pow(k, i)).toFixed(2)
+        ) +
+        " " +
         sizes[i]
       );
     }
 
     function sanitizeFileName(name) {
-
       return (
-        name ||
+        (name || "compressed-pdf")
+          .replace(/\.pdf$/i, "")
+          .replace(/[^\u0900-\u097Fa-zA-Z0-9-_ ]/g, "")
+          .trim()
+          .replace(/\s+/g, "-") ||
         "compressed-pdf"
-      )
-
-      .replace(
-        /\.pdf$/i,
-        ""
-      )
-
-      .replace(
-        /[^\u0900-\u097Fa-zA-Z0-9-_ ]/g,
-        ""
-      )
-
-      .trim()
-
-      .replace(
-        /\s+/g,
-        "-"
-      )
-
-      ||
-      "compressed-pdf";
+      );
     }
 
-    function setStatus(
-      message,
-      type = "normal"
-    ) {
-
-      statusBox.textContent =
-        message;
-
-      statusBox.className =
-        "status-box show";
-
-      if (
-        type ===
-        "success"
-      ) {
-
-        statusBox.classList.add(
-          "success"
-        );
+    function clearStatusTimer() {
+      if (state.statusTimer) {
+        clearTimeout(state.statusTimer);
+        state.statusTimer = null;
       }
+    }
 
-      if (
-        type ===
-        "error"
-      ) {
+    function setStatus(message, type = "normal") {
+      clearStatusTimer();
 
-        statusBox.classList.add(
-          "error"
-        );
-      }
+      statusBox.textContent = message;
+      statusBox.className = "status-box show";
 
-      if (
-        type ===
-        "warning"
-      ) {
+      if (type === "success") statusBox.classList.add("success");
+      if (type === "error") statusBox.classList.add("error");
+      if (type === "warning") statusBox.classList.add("warning");
+    }
 
-        statusBox.classList.add(
-          "warning"
-        );
-      }
+    function flashStatus(message, type = "normal", delay = 1200) {
+      setStatus(message, type);
+
+      state.statusTimer = setTimeout(() => {
+        if (!state.busy) clearStatus();
+      }, delay);
     }
 
     function clearStatus() {
-
-      statusBox.className =
-        "status-box";
-
-      statusBox.textContent =
-        "";
+      clearStatusTimer();
+      statusBox.className = "status-box";
+      statusBox.textContent = "";
     }
 
-    function setProgress(
-      percent,
-      label = "Processing…"
-    ) {
-
-      progressWrap.classList.add(
-        "show"
-      );
-
-      progressLabel.classList.add(
-        "show"
-      );
+    function setProgress(percent, label = "Processing…") {
+      progressWrap.classList.add("show");
+      progressLabel.classList.add("show");
 
       progressBar.style.width =
         `${Math.max(0, Math.min(100, percent))}%`;
 
-      progressLabel.textContent =
-        label;
+      progressLabel.textContent = label;
     }
 
     function resetProgress() {
+      progressWrap.classList.remove("show");
+      progressLabel.classList.remove("show");
+      progressBar.style.width = "0%";
+      progressLabel.textContent = "Processing…";
+    }
 
-      progressWrap.classList.remove(
-        "show"
-      );
+    function setBusy(value) {
+      state.busy = value;
 
-      progressLabel.classList.remove(
-        "show"
-      );
+      compressBtn.disabled =
+        value ||
+        !state.file ||
+        !state.buffer ||
+        !state.pdfJs;
 
-      progressBar.style.width =
-        "0%";
+      selectFileBtn.disabled = value;
+      clearBtn.disabled = value;
+      previewOriginalBtn.disabled = value;
 
-      progressLabel.textContent =
-        "Processing…";
+      dropzone.classList.toggle("busy", value);
+      engineStateEl.textContent = value ? "Working…" : "Ready";
     }
 
     function resetDownload() {
+      state.compressedPreviewGeneration++;
 
-      if (
-        currentDownloadUrl
-      ) {
-
-        URL.revokeObjectURL(
-          currentDownloadUrl
-        );
-
-        currentDownloadUrl =
-          null;
+      if (state.currentDownloadUrl) {
+        URL.revokeObjectURL(state.currentDownloadUrl);
+        state.currentDownloadUrl = null;
       }
 
-      currentOutputBlob =
-        null;
+      state.currentOutputBlob = null;
 
-      resultCard.classList.remove(
-        "show"
-      );
-
-      downloadLink.href =
-        "#";
+      resultCard.classList.remove("show");
+      downloadLink.href = "#";
+      downloadLink.removeAttribute("download");
 
       compressedPreviewWrap.innerHTML =
         '<div class="preview-placeholder">Compression के बाद preview यहाँ आएगा</div>';
     }
 
     function getTargetBytes() {
+      if (state.activeTarget === "none") return null;
 
-      if (
-        activeTarget ===
-        "none"
-      ) {
+      if (state.activeTarget === "custom") {
+        const kb = Number(customTargetKb.value);
 
-        return null;
-      }
-
-      if (
-        activeTarget ===
-        "custom"
-      ) {
-
-        const kb =
-          Number(
-            customTargetKb.value
-          );
-
-        if (
-          !Number.isFinite(kb) ||
-          kb < 50
-        ) {
-
+        if (!Number.isFinite(kb) || kb < 50) {
           return null;
         }
 
-        return Math.round(
-          kb * 1024
-        );
+        return Math.round(kb * 1024);
       }
 
-      return (
-        Number(activeTarget)
-        *
-        1024
-      );
+      return Number(state.activeTarget) * 1024;
     }
 
+    function originalBlob() {
+      return new Blob([state.buffer], {
+        type: "application/pdf"
+      });
+    }
+
+    function getMaxCanvasPixels() {
+      const memory = Number(navigator.deviceMemory || 4);
+
+      if (memory <= 2) return 3500000;
+      if (memory <= 4) return 5000000;
+      if (memory <= 8) return 7000000;
+
+      return 9000000;
+    }
+
+    /* =========================================================
+       UI
+    ========================================================= */
+
     function updatePresetUI() {
+      presetCards.forEach(card => {
+        card.classList.toggle(
+          "active",
+          card.dataset.preset === state.activePreset
+        );
+      });
 
-      presetCards.forEach(
-        card =>
-          card.classList.toggle(
-            "active",
-            card.dataset.preset ===
-            activePreset
-          )
-      );
+      const preset = PRESETS[state.activePreset];
 
-      const preset =
-        PRESETS[activePreset];
+      qualityRange.value = preset.quality;
+      scaleRange.value = preset.scale;
 
-      qualityRange.value =
-        preset.quality;
+      qualityValue.textContent = `${preset.quality}%`;
+      scaleValue.textContent = `${preset.scale}%`;
 
-      scaleRange.value =
-        preset.scale;
-
-      qualityValue.textContent =
-        `${preset.quality}%`;
-
-      scaleValue.textContent =
-        `${preset.scale}%`;
-
-      if (
-        preset.mode ===
-        "safe"
-      ) {
-
+      if (preset.mode === "safe") {
         modeNotice.textContent =
           "Keep Text mode PDF को re-save करता है. Selectable/searchable text preserve रहने की संभावना ज्यादा होती है, लेकिन size reduction limited हो सकती है.";
 
-        modeNotice.className =
-          "notice green";
-
+        modeNotice.className = "notice green";
       } else {
-
         modeNotice.textContent =
-          "यह mode PDF pages को compressed images में बदलता है. इससे size काफी कम हो सकता है, लेकिन text selectable/searchable नहीं रह सकता.";
+          "यह mode PDF pages को compressed JPEG images में बदलता है. Size काफी कम हो सकती है, लेकिन text selectable/searchable नहीं रह सकता.";
 
-        modeNotice.className =
-          "notice blue";
+        modeNotice.className = "notice blue";
       }
     }
 
     function updateTargetUI() {
-
-      targetButtons.forEach(
-        btn =>
-          btn.classList.toggle(
-            "active",
-            btn.dataset.target ===
-            activeTarget
-          )
-      );
+      targetButtons.forEach(btn => {
+        btn.classList.toggle(
+          "active",
+          btn.dataset.target === state.activeTarget
+        );
+      });
 
       customTargetWrap.classList.toggle(
         "show",
-        activeTarget ===
-        "custom"
+        state.activeTarget === "custom"
       );
 
       if (
-        activeTarget !==
-        "none"
-        &&
-        activePreset ===
-        "keep-text"
+        state.activeTarget !== "none" &&
+        state.activePreset === "keep-text"
       ) {
-
-        activePreset =
-          "recommended";
-
+        state.activePreset = "recommended";
         updatePresetUI();
       }
     }
 
-    async function analysePdf() {
+    /* =========================================================
+       PDF ANALYSIS
+    ========================================================= */
 
-      if (
-        !pdfJsDoc ||
-        !selectedFile
-      ) {
-
-        return;
-      }
+    async function analysePdf(loadToken) {
+      if (!state.pdfJs || !state.file) return;
 
       try {
+        const pagesToCheck = Math.min(3, state.pdfJs.numPages);
+        let totalTextChars = 0;
 
-        const pagesToCheck =
-          Math.min(
-            3,
-            pdfJsDoc.numPages
-          );
+        for (let i = 1; i <= pagesToCheck; i++) {
+          const page = await state.pdfJs.getPage(i);
+          const text = await page.getTextContent();
 
-        let totalTextChars =
-          0;
-
-        for (
-          let i = 1;
-          i <= pagesToCheck;
-          i++
-        ) {
-
-          const page =
-            await pdfJsDoc.getPage(i);
-
-          const text =
-            await page.getTextContent();
-
-          totalTextChars +=
-            text.items.reduce(
-              (sum, item) =>
-                sum +
-                String(
-                  item.str || ""
-                )
+          totalTextChars += text.items.reduce(
+            (sum, item) =>
+              sum +
+              String(item.str || "")
                 .trim()
                 .length,
-              0
-            );
+            0
+          );
+
+          if (loadToken !== state.loadGeneration) return;
         }
 
         const avgTextChars =
           totalTextChars /
-          pagesToCheck;
+          Math.max(1, pagesToCheck);
 
-        if (
-          avgTextChars >
-          500
-        ) {
-
-          detectedPdfType =
-            "Text-heavy PDF";
-
-          recommendationEl.textContent =
-            "Keep Text / Recommended";
-
-        } else if (
-          avgTextChars >
-          100
-        ) {
-
-          detectedPdfType =
-            "Mixed PDF";
-
-          recommendationEl.textContent =
-            "Recommended";
-
+        if (avgTextChars > 500) {
+          state.detectedPdfType = "Text-heavy PDF";
+          recommendationEl.textContent = "Keep Text / Recommended";
+        } else if (avgTextChars > 100) {
+          state.detectedPdfType = "Mixed PDF";
+          recommendationEl.textContent = "Recommended";
         } else {
-
-          detectedPdfType =
-            "Scan / Photo PDF";
-
-          recommendationEl.textContent =
-            "Recommended / Small File";
+          state.detectedPdfType = "Scan / Photo PDF";
+          recommendationEl.textContent = "Recommended / Small File";
         }
 
-        pdfTypeEl.textContent =
-          detectedPdfType;
+        pdfTypeEl.textContent = state.detectedPdfType;
 
         avgPageSizeEl.textContent =
           formatBytes(
-            selectedFile.size /
-            Math.max(
-              1,
-              selectedPageCount
-            )
+            state.file.size /
+            Math.max(1, state.pageCount)
           );
-
       } catch (error) {
+        console.warn("PDF analysis failed", error);
 
-        console.warn(
-          "PDF analysis failed",
-          error
-        );
+        if (loadToken !== state.loadGeneration) return;
 
-        detectedPdfType =
-          "PDF Document";
-
-        pdfTypeEl.textContent =
-          detectedPdfType;
+        state.detectedPdfType = "PDF Document";
+        pdfTypeEl.textContent = state.detectedPdfType;
 
         avgPageSizeEl.textContent =
           formatBytes(
-            selectedFile.size /
-            Math.max(
-              1,
-              selectedPageCount
-            )
+            state.file.size /
+            Math.max(1, state.pageCount)
           );
 
-        recommendationEl.textContent =
-          "Recommended";
+        recommendationEl.textContent = "Recommended";
       }
     }
 
+    /* =========================================================
+       LOAD / REMOVE PDF
+    ========================================================= */
+
     async function loadFile(file) {
+      if (state.busy) return;
 
       clearStatus();
-
       resetProgress();
-
       resetDownload();
 
-      previewSection.classList.remove(
-        "show"
-      );
-
+      previewSection.classList.remove("show");
       originalPreviewWrap.innerHTML =
         '<div class="preview-placeholder">Preview button दबाएं</div>';
 
       if (
         !file ||
         !(
-          file.type ===
-          "application/pdf"
-          ||
-          file.name
-          .toLowerCase()
-          .endsWith(".pdf")
+          file.type === "application/pdf" ||
+          file.name.toLowerCase().endsWith(".pdf")
         )
       ) {
-
-        setStatus(
-          "कृपया केवल PDF file चुनें।",
-          "error"
-        );
-
+        setStatus("कृपया केवल PDF file चुनें।", "error");
         return;
       }
 
+      const token = ++state.loadGeneration;
+      state.previewGeneration++;
+      state.compressedPreviewGeneration++;
+
+      setBusy(true);
+
+      let candidatePdf = null;
+
       try {
+        setStatus("PDF read और analyse की जा रही है...");
 
-        setStatus(
-          "PDF read और analyse की जा रही है..."
-        );
-
-        selectedFile =
-          file;
-
-        selectedBuffer =
-          await file.arrayBuffer();
+        const buffer = await file.arrayBuffer();
 
         const loadingTask =
           pdfjsLib.getDocument({
-            data:
-              selectedBuffer.slice(0)
+            data: buffer.slice(0),
+            stopAtErrors: false
           });
 
-        pdfJsDoc =
-          await loadingTask.promise;
+        candidatePdf = await loadingTask.promise;
 
-        selectedPageCount =
-          pdfJsDoc.numPages;
+        if (token !== state.loadGeneration) {
+          try { candidatePdf.destroy(); } catch (error) {}
+          return;
+        }
 
-        fileNameEl.textContent =
-          file.name;
+        const oldPdf = state.pdfJs;
 
-        fileNameEl.title =
-          file.name;
+        state.file = file;
+        state.buffer = buffer;
+        state.pdfJs = candidatePdf;
+        state.pageCount = candidatePdf.numPages;
 
-        fileSizeEl.textContent =
-          formatBytes(
-            file.size
-          );
+        candidatePdf = null;
 
+        if (oldPdf && oldPdf !== state.pdfJs) {
+          try { oldPdf.destroy(); } catch (error) {}
+        }
+
+        fileNameEl.textContent = file.name;
+        fileNameEl.title = file.name;
+        fileSizeEl.textContent = formatBytes(file.size);
         pageCountEl.textContent =
-          `${selectedPageCount} page${selectedPageCount > 1 ? "s" : ""}`;
+          `${state.pageCount} page${state.pageCount > 1 ? "s" : ""}`;
 
-        pdfTypeEl.textContent =
-          "Checking…";
+        pdfTypeEl.textContent = "Checking…";
 
         avgPageSizeEl.textContent =
           formatBytes(
             file.size /
-            Math.max(
-              1,
-              selectedPageCount
-            )
+            Math.max(1, state.pageCount)
           );
 
-        recommendationEl.textContent =
-          "Checking…";
+        recommendationEl.textContent = "Checking…";
+        engineStateEl.textContent = "Analysing…";
 
-        filePanel.style.display =
-          "block";
+        filePanel.style.display = "block";
 
-        compressBtn.disabled =
-          false;
+        await analysePdf(token);
 
-        await analysePdf();
+        if (token !== state.loadGeneration) return;
 
-        if (
-          file.size >
-          80 * 1024 * 1024
-        ) {
+        engineStateEl.textContent = "Ready";
 
+        if (file.size > 80 * 1024 * 1024) {
           setStatus(
             "PDF काफी बड़ी है. Browser compression में ज्यादा memory/time लग सकता है, खासकर mobile पर.",
             "warning"
           );
-
         } else {
-
           setStatus(
             "PDF ready है. Recommended preset से शुरू कर सकते हैं.",
             "success"
           );
         }
-
       } catch (error) {
+        console.error(error);
 
-        console.error(
-          error
-        );
+        if (candidatePdf) {
+          try { candidatePdf.destroy(); } catch (destroyError) {}
+        }
 
-        selectedFile =
-          null;
+        if (token === state.loadGeneration) {
+          state.file = null;
+          state.buffer = null;
+          state.pdfJs = null;
+          state.pageCount = 0;
 
-        selectedBuffer =
-          null;
+          filePanel.style.display = "none";
 
-        pdfJsDoc =
-          null;
-
-        selectedPageCount =
-          0;
-
-        filePanel.style.display =
-          "none";
-
-        compressBtn.disabled =
-          true;
-
-        setStatus(
-          "यह PDF read नहीं हो सकी. File encrypted, damaged या unsupported हो सकती है.",
-          "error"
-        );
+          setStatus(
+            "यह PDF read नहीं हो सकी. File encrypted, damaged या unsupported हो सकती है.",
+            "error"
+          );
+        }
+      } finally {
+        if (token === state.loadGeneration) {
+          setBusy(false);
+        }
       }
     }
 
-    function createCanvasForViewport(
-      viewport
+    function clearFile() {
+      if (state.busy) return;
+
+      state.loadGeneration++;
+      state.previewGeneration++;
+      state.compressedPreviewGeneration++;
+
+      if (state.pdfJs) {
+        try { state.pdfJs.destroy(); } catch (error) {}
+      }
+
+      state.file = null;
+      state.buffer = null;
+      state.pdfJs = null;
+      state.pageCount = 0;
+
+      fileInput.value = "";
+      filePanel.style.display = "none";
+
+      resetDownload();
+      resetProgress();
+      clearStatus();
+
+      previewSection.classList.remove("show");
+
+      pdfTypeEl.textContent = "Checking…";
+      avgPageSizeEl.textContent = "-";
+      recommendationEl.textContent = "Recommended";
+      engineStateEl.textContent = "Ready";
+
+      compressBtn.disabled = true;
+    }
+
+    /* =========================================================
+       PREVIEWS
+    ========================================================= */
+
+    async function renderPreviewFromPdfJsDoc(
+      doc,
+      wrap,
+      token,
+      tokenType
     ) {
+      const page = await doc.getPage(1);
+
+      const baseViewport =
+        page.getViewport({
+          scale: 1
+        });
+
+      const desiredWidth = 280;
+
+      const scale =
+        Math.min(
+          1.15,
+          desiredWidth /
+          Math.max(1, baseViewport.width)
+        );
+
+      const viewport =
+        page.getViewport({
+          scale
+        });
+
+      const canvas =
+        document.createElement("canvas");
+
+      canvas.width =
+        Math.max(
+          1,
+          Math.ceil(viewport.width)
+        );
+
+      canvas.height =
+        Math.max(
+          1,
+          Math.ceil(viewport.height)
+        );
+
+      const context =
+        canvas.getContext(
+          "2d",
+          { alpha: false }
+        );
+
+      context.fillStyle = "#fff";
+      context.fillRect(
+        0,
+        0,
+        canvas.width,
+        canvas.height
+      );
+
+      await page.render({
+        canvasContext: context,
+        viewport,
+        background: "rgb(255,255,255)"
+      }).promise;
+
+      const currentToken =
+        tokenType === "compressed"
+          ? state.compressedPreviewGeneration
+          : state.previewGeneration;
+
+      if (token !== currentToken) return;
+
+      wrap.innerHTML = "";
+      wrap.appendChild(canvas);
+    }
+
+    async function previewOriginal() {
+      if (!state.pdfJs || state.busy) {
+        setStatus("पहले PDF चुनें.", "error");
+        return;
+      }
+
+      const token = ++state.previewGeneration;
+
+      try {
+        previewSection.classList.add("show");
+
+        originalPreviewWrap.innerHTML =
+          '<div class="preview-placeholder">Preview बन रही है…</div>';
+
+        await renderPreviewFromPdfJsDoc(
+          state.pdfJs,
+          originalPreviewWrap,
+          token,
+          "original"
+        );
+      } catch (error) {
+        console.error(error);
+
+        if (token === state.previewGeneration) {
+          originalPreviewWrap.innerHTML =
+            '<div class="preview-placeholder">Preview नहीं बन सकी.</div>';
+        }
+      }
+    }
+
+    async function previewCompressed(blob) {
+      const token = ++state.compressedPreviewGeneration;
+
+      let doc = null;
+
+      try {
+        previewSection.classList.add("show");
+
+        compressedPreviewWrap.innerHTML =
+          '<div class="preview-placeholder">Compressed preview बन रही है…</div>';
+
+        const buffer = await blob.arrayBuffer();
+
+        const task =
+          pdfjsLib.getDocument({
+            data: buffer.slice(0),
+            stopAtErrors: false
+          });
+
+        doc = await task.promise;
+
+        await renderPreviewFromPdfJsDoc(
+          doc,
+          compressedPreviewWrap,
+          token,
+          "compressed"
+        );
+      } catch (error) {
+        console.error(error);
+
+        if (token === state.compressedPreviewGeneration) {
+          compressedPreviewWrap.innerHTML =
+            '<div class="preview-placeholder">Compressed preview नहीं बन सकी.</div>';
+        }
+      } finally {
+        if (doc) {
+          try { await doc.destroy(); } catch (error) {}
+        }
+      }
+    }
+
+    /* =========================================================
+       CANVAS / JPEG HELPERS
+    ========================================================= */
+
+    function calculateRenderViewport(page, scalePercent) {
+      /*
+        100% is now the actual baseline used by this compressor.
+        We intentionally avoid the old extra hidden multiplier.
+      */
+
+      const normalizedScale =
+        Math.max(
+          0.50,
+          Math.min(
+            1.20,
+            Number(scalePercent) / 100
+          )
+        );
+
+      const base =
+        page.getViewport({
+          scale: 1
+        });
+
+      let viewport =
+        page.getViewport({
+          scale: normalizedScale
+        });
 
       const maxPixels =
-        8000000;
-
-      let width =
-        Math.max(
-          1,
-          Math.floor(
-            viewport.width
-          )
-        );
-
-      let height =
-        Math.max(
-          1,
-          Math.floor(
-            viewport.height
-          )
-        );
+        getMaxCanvasPixels();
 
       const pixels =
-        width *
-        height;
+        viewport.width *
+        viewport.height;
 
-      if (
-        pixels >
-        maxPixels
-      ) {
-
+      if (pixels > maxPixels) {
         const shrink =
           Math.sqrt(
             maxPixels /
             pixels
           );
 
-        width =
-          Math.max(
-            1,
-            Math.floor(
-              width *
+        viewport =
+          page.getViewport({
+            scale:
+              normalizedScale *
               shrink
-            )
-          );
-
-        height =
-          Math.max(
-            1,
-            Math.floor(
-              height *
-              shrink
-            )
-          );
+          });
       }
 
-      const canvas =
-        document.createElement(
-          "canvas"
-        );
-
-      canvas.width =
-        width;
-
-      canvas.height =
-        height;
-
-      return canvas;
+      return {
+        base,
+        viewport
+      };
     }
 
-    function canvasToJpegBlob(
-      canvas,
-      quality
-    ) {
-
+    function canvasToJpegBlob(canvas, quality) {
       return new Promise(
-        (
-          resolve,
-          reject
-        ) => {
-
+        (resolve, reject) => {
           canvas.toBlob(
             blob => {
-
               if (blob) {
-
                 resolve(blob);
-
               } else {
-
                 reject(
                   new Error(
                     "Page image create नहीं हो सकी."
                   )
                 );
               }
-
             },
             "image/jpeg",
             quality
@@ -3171,11 +1262,14 @@
       );
     }
 
+    /* =========================================================
+       KEEP TEXT
+    ========================================================= */
+
     async function safeOptimizePDF(
       progressFrom = 10,
       progressTo = 95
     ) {
-
       setProgress(
         progressFrom,
         "Keep Text mode: PDF optimise की जा रही है…"
@@ -3183,44 +1277,40 @@
 
       const pdfDoc =
         await PDFDocument.load(
-          selectedBuffer,
+          state.buffer.slice(0),
           {
-            ignoreEncryption:
-              false
+            ignoreEncryption: false
           }
         );
 
       setProgress(
-        (
-          progressFrom +
-          progressTo
-        ) / 2,
+        (progressFrom + progressTo) / 2,
         "PDF structure re-save की जा रही है…"
       );
 
       const savedBytes =
         await pdfDoc.save({
-          useObjectStreams:
-            true,
-          addDefaultPage:
-            false,
-          objectsPerTick:
-            40
+          useObjectStreams: true,
+          addDefaultPage: false,
+          objectsPerTick: 40
         });
 
       setProgress(
         progressTo,
-        "PDF तैयार की जा रही है…"
+        "PDF verify की जा रही है…"
       );
 
       return new Blob(
         [savedBytes],
         {
-          type:
-            "application/pdf"
+          type: "application/pdf"
         }
       );
     }
+
+    /* =========================================================
+       RASTER COMPRESSION
+    ========================================================= */
 
     async function rasterCompressPDF(
       qualityPercent,
@@ -3229,12 +1319,8 @@
       progressTo = 95,
       labelPrefix = "Compress"
     ) {
-
-      if (!pdfJsDoc) {
-
-        throw new Error(
-          "PDF load नहीं हुई."
-        );
+      if (!state.pdfJs) {
+        throw new Error("PDF load नहीं हुई.");
       }
 
       const quality =
@@ -3242,109 +1328,54 @@
           0.30,
           Math.min(
             0.92,
-            qualityPercent /
-            100
+            Number(qualityPercent) / 100
           )
         );
-
-      const scaleFactor =
-        Math.max(
-          0.50,
-          Math.min(
-            1.30,
-            scalePercent /
-            100
-          )
-        )
-        *
-        1.25;
 
       const outputPdf =
         await PDFDocument.create();
 
       for (
         let pageNumber = 1;
-        pageNumber <= pdfJsDoc.numPages;
+        pageNumber <= state.pdfJs.numPages;
         pageNumber++
       ) {
-
         const page =
-          await pdfJsDoc.getPage(
+          await state.pdfJs.getPage(
             pageNumber
           );
 
-        const baseViewport =
-          page.getViewport({
-            scale: 1
-          });
-
-        let viewport =
-          page.getViewport({
-            scale:
-              scaleFactor
-          });
-
-        const canvas =
-          createCanvasForViewport(
-            viewport
+        const {
+          base,
+          viewport
+        } =
+          calculateRenderViewport(
+            page,
+            scalePercent
           );
 
-        if (
-          canvas.width !==
-          Math.floor(
-            viewport.width
-          )
-          ||
-          canvas.height !==
-          Math.floor(
-            viewport.height
-          )
-        ) {
+        const canvas =
+          document.createElement("canvas");
 
-          const adjustedScale =
-            scaleFactor
-            *
-            Math.min(
-              canvas.width /
-              viewport.width,
-              canvas.height /
-              viewport.height
-            );
+        canvas.width =
+          Math.max(
+            1,
+            Math.ceil(viewport.width)
+          );
 
-          viewport =
-            page.getViewport({
-              scale:
-                adjustedScale
-            });
-
-          canvas.width =
-            Math.max(
-              1,
-              Math.floor(
-                viewport.width
-              )
-            );
-
-          canvas.height =
-            Math.max(
-              1,
-              Math.floor(
-                viewport.height
-              )
-            );
-        }
+        canvas.height =
+          Math.max(
+            1,
+            Math.ceil(viewport.height)
+          );
 
         const context =
           canvas.getContext(
             "2d",
-            {
-              alpha: false
-            }
+            { alpha: false }
           );
 
-        context.fillStyle =
-          "#ffffff";
-
+        context.fillStyle = "#ffffff";
         context.fillRect(
           0,
           0,
@@ -3353,9 +1384,9 @@
         );
 
         await page.render({
-          canvasContext:
-            context,
-          viewport
+          canvasContext: context,
+          viewport,
+          background: "rgb(255,255,255)"
         }).promise;
 
         const jpegBlob =
@@ -3374,8 +1405,8 @@
 
         const outPage =
           outputPdf.addPage([
-            baseViewport.width,
-            baseViewport.height
+            base.width,
+            base.height
           ]);
 
         outPage.drawImage(
@@ -3383,107 +1414,81 @@
           {
             x: 0,
             y: 0,
-            width:
-              baseViewport.width,
-            height:
-              baseViewport.height
+            width: base.width,
+            height: base.height
           }
         );
 
-        canvas.width =
-          1;
-
-        canvas.height =
-          1;
+        canvas.width = 1;
+        canvas.height = 1;
 
         const pageProgress =
-          progressFrom
-          +
+          progressFrom +
           (
-            (
-              progressTo -
-              progressFrom
-            )
-            *
+            (progressTo - progressFrom) *
             pageNumber /
-            pdfJsDoc.numPages
+            state.pdfJs.numPages
           );
 
         setProgress(
           pageProgress,
-          `${labelPrefix}: page ${pageNumber} of ${pdfJsDoc.numPages}`
+          `${labelPrefix}: page ${pageNumber} of ${state.pdfJs.numPages}`
         );
       }
 
       const outputBytes =
         await outputPdf.save({
-          useObjectStreams:
-            true,
-          objectsPerTick:
-            40
+          useObjectStreams: true,
+          objectsPerTick: 40
         });
 
       return new Blob(
         [outputBytes],
         {
-          type:
-            "application/pdf"
+          type: "application/pdf"
         }
       );
     }
 
+    /* =========================================================
+       TARGET MODE
+    ========================================================= */
+
     function chooseTargetStartSettings(
       targetBytes
     ) {
-
       const ratio =
         targetBytes /
         Math.max(
           1,
-          selectedFile.size
+          state.file.size
         );
 
-      if (
-        ratio >=
-        0.75
-      ) {
-
+      if (ratio >= 0.80) {
         return {
-          quality: 78,
-          scale: 105
+          quality: 80,
+          scale: 110
         };
       }
 
-      if (
-        ratio >=
-        0.50
-      ) {
-
+      if (ratio >= 0.55) {
         return {
-          quality: 68,
-          scale: 95
+          quality: 70,
+          scale: 100
         };
       }
 
-      if (
-        ratio >=
-        0.30
-      ) {
-
+      if (ratio >= 0.35) {
         return {
-          quality: 56,
-          scale: 82
+          quality: 58,
+          scale: 86
         };
       }
 
-      if (
-        ratio >=
-        0.16
-      ) {
-
+      if (ratio >= 0.20) {
         return {
-          quality: 45,
-          scale: 70
+          quality: 46,
+          scale: 72
         };
       }
 
@@ -3493,101 +1498,125 @@
       };
     }
 
+    function nextTargetSettings(
+      current,
+      targetBytes,
+      actualBytes
+    ) {
+      const neededRatio =
+        targetBytes /
+        Math.max(
+          1,
+          actualBytes
+        );
+
+      const qualityFactor =
+        Math.max(
+          0.70,
+          Math.min(
+            0.94,
+            Math.sqrt(neededRatio)
+          )
+        );
+
+      const scaleFactor =
+        Math.max(
+          0.78,
+          Math.min(
+            0.96,
+            Math.pow(
+              neededRatio,
+              0.22
+            )
+          )
+        );
+
+      return {
+        quality:
+          Math.max(
+            30,
+            Math.round(
+              current.quality *
+              qualityFactor
+            )
+          ),
+
+        scale:
+          Math.max(
+            50,
+            Math.round(
+              current.scale *
+              scaleFactor
+            )
+          )
+      };
+    }
+
     async function targetCompressPDF(
       targetBytes
     ) {
-
       if (
-        selectedFile.size <=
+        state.file.size <=
         targetBytes
       ) {
-
         setProgress(
           90,
           "File already target से छोटी है…"
         );
 
         return {
-
-          blob:
-            new Blob(
-              [selectedBuffer],
-              {
-                type:
-                  "application/pdf"
-              }
-            ),
-
-          metTarget:
-            true,
-
-          attempts:
-            0,
-
-          quality:
-            null,
-
-          scale:
-            null,
-
-          originalUsed:
-            true
+          blob: originalBlob(),
+          metTarget: true,
+          attempts: 0,
+          quality: null,
+          scale: null,
+          originalUsed: true
         };
       }
 
-      let {
-        quality,
-        scale
-      } =
+      let settings =
         chooseTargetStartSettings(
           targetBytes
         );
 
-      let bestUnder =
-        null;
+      let bestUnder = null;
+      let smallest = null;
 
-      let smallest =
-        null;
-
-      const maxAttempts =
-        3;
+      /*
+        2 full passes are enough in most cases.
+        A third is only used if the result is still meaningfully above target.
+      */
+      const maxAttempts = 3;
 
       for (
         let attempt = 1;
         attempt <= maxAttempts;
         attempt++
       ) {
-
-        const from =
+        const progressFrom =
           5 +
-          (
-            attempt -
-            1
-          )
-          *
-          30;
+          (attempt - 1) * 29;
 
-        const to =
+        const progressTo =
           Math.min(
-            94,
-            from + 27
+            93,
+            progressFrom + 26
           );
 
         const blob =
           await rasterCompressPDF(
-            quality,
-            scale,
-            from,
-            to,
+            settings.quality,
+            settings.scale,
+            progressFrom,
+            progressTo,
             `Target attempt ${attempt}/${maxAttempts}`
           );
 
         const result = {
           blob,
-          quality,
-          scale,
-          attempts:
-            attempt
+          quality: settings.quality,
+          scale: settings.scale,
+          attempts: attempt
         };
 
         if (
@@ -3595,98 +1624,49 @@
           blob.size <
           smallest.blob.size
         ) {
-
-          smallest =
-            result;
+          smallest = result;
         }
 
         if (
           blob.size <=
           targetBytes
         ) {
-
-          bestUnder =
-            result;
-
-          const headroom =
-            targetBytes /
-            Math.max(
-              1,
-              blob.size
-            );
-
           if (
-            headroom >
-            1.35
-            &&
-            attempt <
-            maxAttempts
+            !bestUnder ||
+            blob.size >
+            bestUnder.blob.size
           ) {
-
-            quality =
-              Math.min(
-                88,
-                Math.round(
-                  quality + 9
-                )
-              );
-
-            scale =
-              Math.min(
-                112,
-                Math.round(
-                  scale + 6
-                )
-              );
-
-            continue;
+            bestUnder = result;
           }
 
+          /*
+            Once target is met, stop.
+            We prefer speed and reliability on mobile over trying
+            to chase an exact byte number.
+          */
           break;
         }
 
-        const neededRatio =
-          targetBytes /
-          Math.max(
-            1,
+        const overshoot =
+          blob.size /
+          targetBytes;
+
+        if (
+          attempt === maxAttempts ||
+          (
+            overshoot < 1.05 &&
+            blob.size <
+            state.file.size
+          )
+        ) {
+          break;
+        }
+
+        settings =
+          nextTargetSettings(
+            settings,
+            targetBytes,
             blob.size
-          );
-
-        quality =
-          Math.max(
-            32,
-            Math.round(
-              quality
-              *
-              Math.max(
-                0.72,
-                Math.min(
-                  0.90,
-                  Math.sqrt(
-                    neededRatio
-                  )
-                )
-              )
-            )
-          );
-
-        scale =
-          Math.max(
-            55,
-            Math.round(
-              scale
-              *
-              Math.max(
-                0.80,
-                Math.min(
-                  0.94,
-                  Math.pow(
-                    neededRatio,
-                    0.22
-                  )
-                )
-              )
-            )
           );
       }
 
@@ -3696,227 +1676,86 @@
 
       return {
         ...chosen,
-        metTarget:
-          Boolean(
-            bestUnder
-          ),
-        originalUsed:
-          false
+        metTarget: Boolean(bestUnder),
+        originalUsed: false
       };
     }
 
-    async function renderPreviewFromPdfJsDoc(
-      doc,
-      wrap
+    /* =========================================================
+       VERIFY OUTPUT
+    ========================================================= */
+
+    async function verifyOutputBlob(
+      blob
     ) {
+      const bytes =
+        await blob.arrayBuffer();
 
-      wrap.innerHTML =
-        "";
-
-      const page =
-        await doc.getPage(1);
-
-      const baseViewport =
-        page.getViewport({
-          scale: 1
-        });
-
-      const desiredWidth =
-        280;
-
-      const scale =
-        Math.min(
-          1.1,
-          desiredWidth /
-          baseViewport.width
-        );
-
-      const viewport =
-        page.getViewport({
-          scale
-        });
-
-      const canvas =
-        document.createElement(
-          "canvas"
-        );
-
-      canvas.width =
-        Math.max(
-          1,
-          Math.floor(
-            viewport.width
-          )
-        );
-
-      canvas.height =
-        Math.max(
-          1,
-          Math.floor(
-            viewport.height
-          )
-        );
-
-      const context =
-        canvas.getContext(
-          "2d",
+      const verify =
+        await PDFDocument.load(
+          bytes,
           {
-            alpha: false
+            ignoreEncryption: true
           }
         );
 
-      context.fillStyle =
-        "#fff";
-
-      context.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
-
-      await page.render({
-        canvasContext:
-          context,
-        viewport
-      }).promise;
-
-      wrap.appendChild(
-        canvas
-      );
-    }
-
-    async function previewOriginal() {
-
-      if (!pdfJsDoc) {
-
-        setStatus(
-          "पहले PDF चुनें.",
-          "error"
-        );
-
-        return;
-      }
-
-      try {
-
-        previewSection.classList.add(
-          "show"
-        );
-
-        originalPreviewWrap.innerHTML =
-          '<div class="preview-placeholder">Preview बन रही है…</div>';
-
-        await renderPreviewFromPdfJsDoc(
-          pdfJsDoc,
-          originalPreviewWrap
-        );
-
-      } catch (error) {
-
-        console.error(
-          error
-        );
-
-        originalPreviewWrap.innerHTML =
-          '<div class="preview-placeholder">Preview नहीं बन सकी.</div>';
-      }
-    }
-
-    async function previewCompressed(
-      blob
-    ) {
-
-      try {
-
-        previewSection.classList.add(
-          "show"
-        );
-
-        compressedPreviewWrap.innerHTML =
-          '<div class="preview-placeholder">Compressed preview बन रही है…</div>';
-
-        const buffer =
-          await blob.arrayBuffer();
-
-        const task =
-          pdfjsLib.getDocument({
-            data:
-              buffer
-          });
-
-        const doc =
-          await task.promise;
-
-        await renderPreviewFromPdfJsDoc(
-          doc,
-          compressedPreviewWrap
-        );
-
-        await doc.destroy();
-
-      } catch (error) {
-
-        console.error(
-          error
-        );
-
-        compressedPreviewWrap.innerHTML =
-          '<div class="preview-placeholder">Compressed preview नहीं बन सकी.</div>';
-      }
-    }
-
-    async function compressPDF() {
+      const pageCount =
+        verify.getPageCount();
 
       if (
-        !selectedFile ||
-        !selectedBuffer
+        pageCount !==
+        state.pageCount
       ) {
+        throw new Error(
+          `Output verification failed. Expected ${state.pageCount} pages, got ${pageCount}.`
+        );
+      }
 
+      return true;
+    }
+
+    /* =========================================================
+       MAIN COMPRESS
+    ========================================================= */
+
+    async function compressPDF() {
+      if (
+        state.busy ||
+        !state.file ||
+        !state.buffer ||
+        !state.pdfJs
+      ) {
         setStatus(
           "पहले PDF file चुनें.",
           "error"
         );
-
         return;
       }
 
       resetDownload();
-
       resetProgress();
-
       clearStatus();
 
-      compressBtn.disabled =
-        true;
+      setBusy(true);
 
       try {
-
         const preset =
           PRESETS[
-            activePreset
+            state.activePreset
           ];
 
         const targetBytes =
           getTargetBytes();
 
         let outputBlob;
-
-        let targetResult =
-          null;
-
-        let usedDescription =
-          "";
+        let targetResult = null;
+        let usedDescription = "";
 
         if (
-          activeTarget !==
+          state.activeTarget !==
           "none"
         ) {
-
-          if (
-            !targetBytes
-          ) {
-
+          if (!targetBytes) {
             throw new Error(
               "Valid target size चुनें."
             );
@@ -3936,24 +1775,18 @@
 
           usedDescription =
             targetResult.originalUsed
-            ?
-            "Original file already target से छोटी थी"
-            :
-            `Target mode • quality ${targetResult.quality}% • resolution ${targetResult.scale}%`;
-
+              ? "Original file already target से छोटी थी"
+              : `Target mode • quality ${targetResult.quality}% • resolution ${targetResult.scale}%`;
         } else if (
           preset.mode ===
           "safe"
         ) {
-
           outputBlob =
             await safeOptimizePDF();
 
           usedDescription =
             "Keep Text mode";
-
         } else {
-
           outputBlob =
             await rasterCompressPDF(
               Number(
@@ -3963,13 +1796,44 @@
                 scaleRange.value
               ),
               5,
-              95,
+              92,
               "Compress"
             );
 
           usedDescription =
-            `${activePreset} • quality ${qualityRange.value}% • resolution ${scaleRange.value}%`;
+            `${state.activePreset} • quality ${qualityRange.value}% • resolution ${scaleRange.value}%`;
         }
+
+        /*
+          Never replace a smaller original with a larger "compressed" file
+          unless the user is in an explicit target process and the generated
+          result is actually the best available attempt.
+        */
+        let keptOriginal =
+          false;
+
+        if (
+          state.activeTarget === "none" &&
+          outputBlob.size >= state.file.size
+        ) {
+          outputBlob =
+            originalBlob();
+
+          keptOriginal =
+            true;
+
+          usedDescription +=
+            " • no useful reduction at this setting";
+        }
+
+        setProgress(
+          96,
+          "Output PDF verify की जा रही है…"
+        );
+
+        await verifyOutputBlob(
+          outputBlob
+        );
 
         setProgress(
           100,
@@ -3977,34 +1841,36 @@
         );
 
         const originalSize =
-          selectedFile.size;
+          state.file.size;
 
         const newSize =
           outputBlob.size;
 
         const saved =
-          originalSize -
-          newSize;
+          Math.max(
+            0,
+            originalSize -
+            newSize
+          );
 
         const reduction =
-          originalSize >
-          0
-          ?
-          Math.round(
-            (
-              saved /
-              originalSize
-            )
-            *
-            100
-          )
-          :
-          0;
+          originalSize > 0
+            ? Math.max(
+                0,
+                Math.round(
+                  (
+                    saved /
+                    originalSize
+                  ) *
+                  100
+                )
+              )
+            : 0;
 
-        currentOutputBlob =
+        state.currentOutputBlob =
           outputBlob;
 
-        currentDownloadUrl =
+        state.currentDownloadUrl =
           URL.createObjectURL(
             outputBlob
           );
@@ -4012,12 +1878,11 @@
         const finalName =
           sanitizeFileName(
             outputName.value
-          )
-          +
+          ) +
           ".pdf";
 
         downloadLink.href =
-          currentDownloadUrl;
+          state.currentDownloadUrl;
 
         downloadLink.download =
           finalName;
@@ -4033,55 +1898,47 @@
           );
 
         savingStat.textContent =
-          reduction >
-          0
-          ?
-          `${reduction}%`
-          :
-          "0%";
+          `${reduction}%`;
 
         savedBytesStat.textContent =
-          saved >
-          0
-          ?
-          formatBytes(
-            saved
-          )
-          :
-          "0 KB";
+          saved > 0
+            ? formatBytes(saved)
+            : "0 KB";
 
-        if (
-          targetResult
-        ) {
-
+        if (targetResult) {
           if (
             targetResult.metTarget
           ) {
-
             resultNote.textContent =
               `🎯 Target achieved. ${usedDescription}.`;
 
             setStatus(
-              "Target के आसपास compressed PDF तैयार है. Download करें.",
+              "Target के अंदर PDF तैयार है. Download करें.",
               "success"
             );
-
           } else {
-
             resultNote.textContent =
-              `Target exact नहीं मिला. यह ${targetResult.attempts} attempt(s) में सबसे छोटी useful file है. ${usedDescription}.`;
+              `Target exact नहीं मिला. यह ${targetResult.attempts} attempt(s) में सबसे छोटी verified file है. ${usedDescription}.`;
 
             setStatus(
-              "Target exact नहीं मिला, लेकिन सबसे छोटा generated result ready है.",
+              "Target exact नहीं मिला, लेकिन सबसे छोटा verified result ready है.",
               "warning"
             );
           }
+        } else if (
+          keptOriginal
+        ) {
+          resultNote.textContent =
+            `${usedDescription}. Original PDF को larger generated file से replace नहीं किया गया.`;
 
+          setStatus(
+            "इस setting पर useful reduction नहीं मिली. Small File या Maximum try करें.",
+            "warning"
+          );
         } else if (
           newSize <
           originalSize
         ) {
-
           resultNote.textContent =
             `${usedDescription}. ${formatBytes(saved)} बचा.`;
 
@@ -4089,15 +1946,13 @@
             "PDF successfully compress हो गई है. Result compare करके download करें.",
             "success"
           );
-
         } else {
-
           resultNote.textContent =
-            `${usedDescription}. यह PDF पहले से optimized हो सकती है.`;
+            `${usedDescription}.`;
 
           setStatus(
-            "Result बन गया, लेकिन original से छोटा नहीं हुआ. Small File या Maximum try करें.",
-            "warning"
+            "Verified result तैयार है.",
+            "success"
           );
         }
 
@@ -4108,87 +1963,41 @@
         await previewCompressed(
           outputBlob
         );
-
       } catch (error) {
-
-        console.error(
-          error
-        );
+        console.error(error);
 
         setStatus(
           error.message ||
           "PDF compress नहीं हो सकी. File बहुत बड़ी, encrypted या unsupported हो सकती है.",
           "error"
         );
-
       } finally {
+        setBusy(false);
 
-        compressBtn.disabled =
-          false;
-
-        setTimeout(
-          resetProgress,
-          1200
-        );
+        state.statusTimer =
+          setTimeout(
+            resetProgress,
+            1400
+          );
       }
     }
 
-    function clearFile() {
-
-      selectedFile =
-        null;
-
-      selectedBuffer =
-        null;
-
-      pdfJsDoc =
-        null;
-
-      selectedPageCount =
-        0;
-
-      fileInput.value =
-        "";
-
-      filePanel.style.display =
-        "none";
-
-      resetDownload();
-
-      resetProgress();
-
-      clearStatus();
-
-      previewSection.classList.remove(
-        "show"
-      );
-
-      pdfTypeEl.textContent =
-        "Checking…";
-
-      avgPageSizeEl.textContent =
-        "-";
-
-      recommendationEl.textContent =
-        "Recommended";
-    }
+    /* =========================================================
+       EVENTS
+    ========================================================= */
 
     function openFilePicker() {
+      if (state.busy) return;
 
-      fileInput.value =
-        "";
-
+      fileInput.value = "";
       fileInput.click();
     }
 
     selectFileBtn.addEventListener(
       "click",
       event => {
-
         event.preventDefault();
-
         event.stopPropagation();
-
         openFilePicker();
       }
     );
@@ -4196,13 +2005,12 @@
     dropzone.addEventListener(
       "click",
       event => {
-
         if (
+          state.busy ||
           event.target.closest(
             "button"
           )
         ) {
-
           return;
         }
 
@@ -4213,151 +2021,126 @@
     fileInput.addEventListener(
       "change",
       event => {
-
         const file =
-          event.target.files &&
-          event.target.files[0];
+          event.target.files?.[0];
 
         if (file) {
-
-          loadFile(
-            file
-          );
+          loadFile(file);
         }
 
-        fileInput.value =
-          "";
+        fileInput.value = "";
       }
     );
 
     [
       "dragenter",
       "dragover"
-    ]
-    .forEach(
-      eventName => {
+    ].forEach(eventName => {
+      dropzone.addEventListener(
+        eventName,
+        event => {
+          event.preventDefault();
+          event.stopPropagation();
 
-        dropzone.addEventListener(
-          eventName,
-          event => {
-
-            event.preventDefault();
-
-            event.stopPropagation();
-
+          if (!state.busy) {
             dropzone.classList.add(
               "dragover"
             );
           }
-        );
-      }
-    );
+        }
+      );
+    });
 
     [
       "dragleave",
       "drop"
-    ]
-    .forEach(
-      eventName => {
+    ].forEach(eventName => {
+      dropzone.addEventListener(
+        eventName,
+        event => {
+          event.preventDefault();
+          event.stopPropagation();
 
-        dropzone.addEventListener(
-          eventName,
-          event => {
-
-            event.preventDefault();
-
-            event.stopPropagation();
-
-            dropzone.classList.remove(
-              "dragover"
-            );
-          }
-        );
-      }
-    );
+          dropzone.classList.remove(
+            "dragover"
+          );
+        }
+      );
+    });
 
     dropzone.addEventListener(
       "drop",
       event => {
+        if (state.busy) return;
 
         const file =
-          event.dataTransfer.files &&
-          event.dataTransfer.files[0];
+          event.dataTransfer.files?.[0];
 
         if (file) {
-
-          loadFile(
-            file
-          );
+          loadFile(file);
         }
       }
     );
 
-    presetCards.forEach(
-      card => {
+    presetCards.forEach(card => {
+      card.addEventListener(
+        "click",
+        () => {
+          if (state.busy) return;
 
-        card.addEventListener(
-          "click",
-          () => {
+          state.activePreset =
+            card.dataset.preset;
 
-            activePreset =
-              card.dataset.preset;
-
-            if (
-              activePreset ===
-              "keep-text"
-            ) {
-
-              activeTarget =
-                "none";
-            }
-
-            updatePresetUI();
-
-            updateTargetUI();
-
-            resetDownload();
+          if (
+            state.activePreset ===
+            "keep-text"
+          ) {
+            state.activeTarget =
+              "none";
           }
-        );
-      }
-    );
 
-    targetButtons.forEach(
-      btn => {
+          updatePresetUI();
+          updateTargetUI();
+          resetDownload();
+        }
+      );
+    });
 
-        btn.addEventListener(
-          "click",
-          () => {
+    targetButtons.forEach(btn => {
+      btn.addEventListener(
+        "click",
+        () => {
+          if (state.busy) return;
 
-            activeTarget =
-              btn.dataset.target;
+          state.activeTarget =
+            btn.dataset.target;
 
-            updateTargetUI();
-
-            resetDownload();
-          }
-        );
-      }
-    );
+          updateTargetUI();
+          resetDownload();
+        }
+      );
+    });
 
     customTargetKb.addEventListener(
       "input",
-      resetDownload
+      () => {
+        if (!state.busy) {
+          resetDownload();
+        }
+      }
     );
 
     qualityRange.addEventListener(
       "input",
       () => {
-
         qualityValue.textContent =
           `${qualityRange.value}%`;
 
         if (
-          activePreset !==
+          state.activePreset !==
           "keep-text"
         ) {
-
-          activePreset =
+          state.activePreset =
             "recommended";
         }
 
@@ -4375,16 +2158,14 @@
     scaleRange.addEventListener(
       "input",
       () => {
-
         scaleValue.textContent =
           `${scaleRange.value}%`;
 
         if (
-          activePreset !==
+          state.activePreset !==
           "keep-text"
         ) {
-
-          activePreset =
+          state.activePreset =
             "recommended";
         }
 
@@ -4417,22 +2198,16 @@
     compressMoreBtn.addEventListener(
       "click",
       () => {
+        if (state.busy) return;
 
-        activeTarget =
-          "none";
-
-        activePreset =
-          "maximum";
+        state.activeTarget = "none";
+        state.activePreset = "maximum";
 
         updateTargetUI();
-
         updatePresetUI();
-
         resetDownload();
 
-        document.getElementById(
-          "advancedSettings"
-        ).open =
+        $("advancedSettings").open =
           true;
 
         setStatus(
@@ -4441,10 +2216,8 @@
         );
 
         compressBtn.scrollIntoView({
-          behavior:
-            "smooth",
-          block:
-            "center"
+          behavior: "smooth",
+          block: "center"
         });
       }
     );
@@ -4452,32 +2225,21 @@
     newFileBtn.addEventListener(
       "click",
       () => {
-
         clearFile();
 
         dropzone.scrollIntoView({
-          behavior:
-            "smooth",
-          block:
-            "center"
+          behavior: "smooth",
+          block: "center"
         });
       }
     );
 
-    const menuBtn =
-      document.getElementById(
-        "menuBtn"
-      );
-
-    const nav =
-      document.getElementById(
-        "nav"
-      );
+    const menuBtn = $("menuBtn");
+    const nav = $("nav");
 
     menuBtn.addEventListener(
       "click",
       () => {
-
         const open =
           nav.classList.toggle(
             "open"
@@ -4490,16 +2252,14 @@
       }
     );
 
-    document.querySelectorAll(
-      ".nav-links a"
-    )
-    .forEach(
-      link => {
-
+    document
+      .querySelectorAll(
+        ".nav-links a"
+      )
+      .forEach(link => {
         link.addEventListener(
           "click",
           () => {
-
             nav.classList.remove(
               "open"
             );
@@ -4510,41 +2270,32 @@
             );
           }
         );
-      }
-    );
+      });
 
-    document.querySelectorAll(
-      ".faq-q"
-    )
-    .forEach(
-      btn => {
-
+    document
+      .querySelectorAll(
+        ".faq-q"
+      )
+      .forEach(btn => {
         btn.addEventListener(
           "click",
           () => {
-
             btn.parentElement
-            .classList.toggle(
-              "active"
-            );
+              .classList.toggle(
+                "active"
+              );
           }
         );
-      }
-    );
+      });
 
-    activePreset =
-      "recommended";
-
-    activeTarget =
-      "none";
+    /* =========================================================
+       START
+    ========================================================= */
 
     updatePresetUI();
-
     updateTargetUI();
-
-    compressBtn.disabled =
-      true;
+    compressBtn.disabled = true;
+    engineStateEl.textContent = "Ready";
   </script>
-
 </body>
 </html>
