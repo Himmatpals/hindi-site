@@ -214,6 +214,33 @@
     details.advanced summary{list-style:none;cursor:pointer;padding:10px;color:var(--muted2);font-size:.64rem;font-weight:900}
     details.advanced summary::-webkit-details-marker{display:none}.advanced-body{border-top:1px solid var(--line);padding:10px;display:grid;gap:9px}
     .replacement-help{color:var(--muted);font-size:.56rem;line-height:1.45}.replacement-editor{min-height:92px;font-size:.68rem;line-height:1.5}
+
+    .mp3-cta{
+      margin-top:10px;
+      border:1px solid rgba(180,140,255,.28);
+      background:linear-gradient(135deg,rgba(180,140,255,.10),var(--panel));
+      border-radius:14px;
+      padding:11px;
+    }
+    .mp3-cta strong{
+      display:block;
+      color:#c9adff;
+      font-size:.72rem;
+      margin-bottom:4px;
+    }
+    .mp3-cta p{
+      margin:0;
+      color:var(--muted2);
+      font-size:.61rem;
+      line-height:1.45;
+    }
+    .mp3-cta-actions{
+      display:flex;
+      gap:7px;
+      flex-wrap:wrap;
+      margin-top:9px;
+    }
+
     .status{display:none;border:1px solid var(--line);border-radius:12px;background:var(--panel);padding:9px;color:var(--muted2);font-size:.62rem}
     .status.show{display:block}.status.good{border-color:rgba(55,232,140,.25);background:var(--greenSoft);color:var(--green)}
     .status.warn{border-color:rgba(255,209,102,.25);background:var(--yellowSoft);color:var(--yellow)}.status.bad{border-color:rgba(255,95,109,.25);background:var(--redSoft);color:var(--red)}
@@ -535,7 +562,29 @@ UIDAI => यू आई डी ए आई"></textarea>
                 </details>
 
                 <div class="status warn show">
-                  <strong>Audio download:</strong> Web Speech voices do not expose reliable MP3/WAV bytes. Consistent downloadable neural audio needs a server-side TTS engine.
+                  <strong>Audio download:</strong> Browser SpeechSynthesis can play the voice, but it does not give this page a reliable MP3/WAV audio file to download.
+                </div>
+
+                <div class="mp3-cta">
+                  <strong>Need a downloadable MP3?</strong>
+                  <p>
+                    Use Narakeet’s Text to MP3 tool. Paste your text there, choose a voice and create a downloadable audio file.
+                    Narakeet is an external service and is not operated by HindiTools.
+                  </p>
+                  <div class="mp3-cta-actions">
+                    <a class="primary-btn"
+                       href="https://www.narakeet.com/"
+                       target="_blank"
+                       rel="nofollow noopener noreferrer external">
+                      Open Narakeet for downloadable MP3 ↗
+                    </a>
+                    <a class="ghost-btn"
+                       href="https://www.narakeet.com/"
+                       target="_blank"
+                       rel="nofollow noopener noreferrer external">
+                      Narakeet homepage ↗
+                    </a>
+                  </div>
                 </div>
               </aside>
             </div>
@@ -695,7 +744,7 @@ Baulkham Hills"></textarea>
         <div class="faq-list">
           <article class="faq-item open"><button class="faq-q" type="button">क्या यह premium AI voice जैसा natural हो सकता है?<span>+</span></button><div class="faq-a">अगर device/browser में अच्छी neural/natural voice exposed है तो output काफी अच्छा हो सकता है. लेकिन browser-only page हर device पर studio-quality guarantee नहीं कर सकता.</div></article>
           <article class="faq-item"><button class="faq-q" type="button">“Best voice” कैसे चुनी जाती है?<span>+</span></button><div class="faq-a">Exact language match, Natural/Neural/Premium/Enhanced जैसे voice-name hints, known vendor naming, local/network info और saved favorite को combine करके ranking होती है. इसलिए A/B compare buttons भी दिए हैं.</div></article>
-          <article class="faq-item"><button class="faq-q" type="button">क्या MP3 download कर सकता हूँ?<span>+</span></button><div class="faq-a">Browser SpeechSynthesis generated audio bytes expose नहीं करती. Reliable MP3/WAV generation के लिए server-side TTS engine/API चाहिए.</div></article>
+          <article class="faq-item"><button class="faq-q" type="button">क्या MP3 download कर सकता हूँ?<span>+</span></button><div class="faq-a">HindiTools का browser voice player generated audio bytes expose नहीं कर सकता, इसलिए यहाँ direct MP3 download नहीं है. Downloadable audio चाहिए तो <a href="https://www.narakeet.com/" target="_blank" rel="nofollow noopener noreferrer external" style="color:var(--cyan);font-weight:900;">Narakeet Text to MP3 ↗</a> use कर सकते हैं. यह external service है और HindiTools से operated नहीं है.</div></article>
           <article class="faq-item"><button class="faq-q" type="button">क्या Speech-to-Text offline चलता है?<span>+</span></button><div class="faq-a">Browser पर depend करता है. Newer implementations on-device capability expose कर सकती हैं; page availability check करता है. Unsupported browsers remote recognition service use कर सकते हैं.</div></article>
         </div>
       </div>
@@ -711,7 +760,7 @@ Baulkham Hills"></textarea>
         </div>
         <div><h3>Voice & Language</h3><div class="footer-links"><a href="voice-tools-hi.html">Voice Studio</a><a href="punjabi-typing.html">Punjabi & Hindi Writer</a></div></div>
         <div><h3>Document Tools</h3><div class="footer-links"><a href="pdf-ocr-hi.html">PDF OCR</a><a href="pdf-to-word-hi.html">PDF to Word</a><a href="word-to-pdf-hi.html">Word to PDF</a></div></div>
-        <div><h3>Website</h3><div class="footer-links"><a href="/">Home</a><a href="privacy.html">Privacy</a><a href="contact.html">Contact</a></div></div>
+        <div><h3>Website</h3><div class="footer-links"><a href="/">Home</a><a href="privacy.html">Privacy</a><a href="contact.html">Contact</a><a href="https://www.narakeet.com/" target="_blank" rel="nofollow noopener noreferrer external">Downloadable MP3 — Narakeet ↗</a></div></div>
       </div>
       <div class="copyright">© 2026 HindiTools.com — सभी अधिकार सुरक्षित.</div>
     </div>
