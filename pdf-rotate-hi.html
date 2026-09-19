@@ -1,1751 +1,5543 @@
-<!DOCTYPE html><html lang="hi">
+<!DOCTYPE html>
+<html lang="hi" data-theme="dark">
 <head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4192195409142944" crossorigin="anonymous"></script>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />  <title>PDF Rotate Online | PDF Pages घुमाएं हिंदी में - HindiTools</title>  <meta name="description" content="PDF pages को online rotate करें। All pages या selected pages को left, right या 180 degree rotate करें। Easy Hindi interface और instant download." />
-  <meta name="keywords" content="PDF rotate Hindi, PDF pages rotate, PDF घुमाएं, rotate PDF online, HindiTools" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+
+  <title>PDF Rotate — Pages देखकर घुमाएं | HindiTools</title>
+  <meta name="description" content="PDF pages को visually देखकर left, right या 180° rotate करें। Individual pages, ranges, portrait/landscape fix, undo/redo और verified download — browser-side HindiTools." />
+  <meta name="keywords" content="PDF rotate Hindi, rotate PDF pages, PDF pages घुमाएं, rotate selected PDF pages, PDF orientation fix, HindiTools" />
   <meta name="author" content="HindiTools.com" />
-  <meta name="theme-color" content="#ff9933" />
-  <meta name="robots" content="index, follow" />  <meta property="og:title" content="PDF Rotate Online - PDF Pages घुमाएं" />
-  <meta property="og:description" content="PDF के all pages या selected pages को left, right या 180 degree rotate करें।" />
+  <meta name="theme-color" content="#061018" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="PDF Rotate — Pages देखकर घुमाएं | HindiTools" />
+  <meta property="og:description" content="PDF thumbnails देखकर individual या selected pages rotate करें. Lossless direct rotation और compatibility fallback." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://www.hinditools.com/pdf-rotate-hi.html" />  <link rel="canonical" href="https://www.hinditools.com/pdf-rotate-hi.html" />
+  <meta property="og:url" content="https://www.hinditools.com/pdf-rotate-hi.html" />
+
+  <link rel="canonical" href="https://www.hinditools.com/pdf-rotate-hi.html" />
+  <link rel="alternate" hreflang="hi-IN" href="https://www.hinditools.com/pdf-rotate-hi.html" />
+  <link rel="alternate" hreflang="en-IN" href="https://www.hinditools.com/pdf-rotate-hi.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.hinditools.com/pdf-rotate-hi.html" />
+
   <link rel="icon" href="favicon.svg" type="image/svg+xml" />
-  <link rel="apple-touch-icon" href="apple-touch-icon.png" />  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,600;14..32,700;14..32,800;14..32,900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />  <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --bg: #fff8ed;
-      --bg-2: #fff3df;
-      --surface: #ffffff;
-      --surface-soft: #fffaf2;
-      --text-primary: #1e293b;
-      --text-secondary: #475569;
-      --text-muted: #64748b;
-      --accent: #ff7a1a;
-      --accent-2: #ff9933;
-      --accent-dark: #c2410c;
-      --accent-soft: #fff0df;
-      --secondary: #0b3d91;
-      --secondary-soft: #dbeafe;
-      --green: #138808;
-      --green-soft: #e7f8e4;
-      --red: #dc2626;
-      --red-soft: #fee2e2;
-      --chakra: #000080;
-      --border: #f0dcc2;
-      --border-strong: #e7c49e;
-      --shadow-xs: 0 6px 16px rgba(15, 23, 42, 0.06);
-      --shadow-sm: 0 12px 30px rgba(15, 23, 42, 0.08);
-      --shadow-md: 0 22px 50px rgba(15, 23, 42, 0.12);
-      --shadow-lg: 0 32px 90px rgba(15, 23, 42, 0.16);
-      --transition: all 0.23s cubic-bezier(0.2, 0, 0, 1);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      min-height: 100vh;
-      color: var(--text-primary);
-      background:
-        radial-gradient(circle at 5% 0%, rgba(255, 153, 51, 0.22), transparent 32%),
-        radial-gradient(circle at 95% 0%, rgba(19, 136, 8, 0.13), transparent 30%),
-        radial-gradient(circle at 50% 4%, rgba(11, 61, 145, 0.08), transparent 34%),
-        linear-gradient(180deg, var(--bg), var(--bg-2));
-      font-family: 'Inter', 'Noto Sans Devanagari', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      line-height: 1.55;
-    }
-
-    a { color: inherit; text-decoration: none; }
-    button, input, select { font: inherit; }
-    button { -webkit-tap-highlight-color: transparent; }
-
-    .container { max-width: 1220px; margin: 0 auto; padding: 0 24px; }
-
-    .skip-link {
-      position: absolute;
-      left: -999px;
-      top: 12px;
-      z-index: 999;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 14px;
-      padding: 10px 14px;
-      font-weight: 900;
-    }
-
-    .skip-link:focus { left: 12px; }
-
-    .tricolour-line {
-      height: 5px;
-      background: linear-gradient(90deg, #ff9933 0 33.33%, #fff 33.33% 66.66%, #138808 66.66% 100%);
-      border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-    }
-
-    .top-strip {
-      background: linear-gradient(90deg, var(--secondary), #203b91, var(--green));
-      color: #fff;
-      padding: 8px 0;
-      text-align: center;
-      font-size: 0.9rem;
-      font-weight: 700;
-    }
-
-    .top-strip strong { color: #ffe5bf; }
-
-    header {
-      position: sticky;
-      top: 0;
-      z-index: 80;
-      background: rgba(255, 248, 237, 0.9);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--border);
-    }
-
-    .nav {
-      min-height: 76px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      position: relative;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 11px;
-      min-width: max-content;
-    }
-
-    .brand-mark {
-      width: 46px;
-      height: 46px;
-      display: grid;
-      place-items: center;
-      border-radius: 17px;
-      background: linear-gradient(180deg, #ff9933 0 34%, #fff 34% 66%, #138808 66% 100%);
-      color: var(--chakra);
-      font-weight: 900;
-      box-shadow: 0 10px 22px rgba(255, 122, 26, 0.22);
-      border: 1px solid rgba(15, 23, 42, 0.12);
-    }
-
-    .brand-text strong {
-      display: block;
-      font-size: 1.45rem;
-      line-height: 1;
-      letter-spacing: -0.04em;
-      font-weight: 900;
-      background: linear-gradient(135deg, var(--accent), var(--secondary), var(--green));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .brand-text span {
-      display: block;
-      color: var(--text-muted);
-      font-size: 0.74rem;
-      font-weight: 800;
-      margin-top: 3px;
-      text-transform: uppercase;
-      letter-spacing: 0.04em;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      list-style: none;
-      flex: 1;
-    }
-
-    .nav-links a {
-      display: inline-flex;
-      align-items: center;
-      padding: 9px 12px;
-      border-radius: 999px;
-      color: var(--text-secondary);
-      font-size: 0.92rem;
-      font-weight: 800;
-      transition: var(--transition);
-    }
-
-    .nav-links a:hover { background: var(--accent-soft); color: var(--accent-dark); }
-
-    .nav-actions { display: flex; align-items: center; gap: 9px; }
-
-    .nav-cta, .menu-btn {
-      border: 1px solid var(--border);
-      border-radius: 999px;
-      cursor: pointer;
-      transition: var(--transition);
-      font-weight: 900;
-      white-space: nowrap;
-    }
-
-    .nav-cta {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-      padding: 10px 15px;
-      box-shadow: 0 8px 18px rgba(255, 122, 26, 0.24);
-    }
-
-    .menu-btn {
-      display: none;
-      width: 43px;
-      height: 43px;
-      background: var(--surface);
-      color: var(--text-primary);
-      font-size: 1.15rem;
-    }
-
-    .nav-cta:hover, .menu-btn:hover { transform: translateY(-1px); box-shadow: var(--shadow-xs); }
-
-    .breadcrumb {
-      margin-top: 24px;
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      font-weight: 800;
-    }
-
-    .breadcrumb a { color: var(--accent-dark); }
-
-    .hero { padding: 36px 0 28px; }
-
-    .hero-shell {
-      background:
-        linear-gradient(135deg, rgba(255,255,255,0.82), rgba(255,244,231,0.84)),
-        radial-gradient(circle at 76% 20%, rgba(255,153,51,0.22), transparent 32%),
-        radial-gradient(circle at 84% 84%, rgba(19,136,8,0.13), transparent 30%);
-      border: 1px solid var(--border);
-      border-radius: 44px;
-      box-shadow: var(--shadow-lg);
-      overflow: hidden;
-      position: relative;
-    }
-
-    .hero-shell::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 6px;
-      background: linear-gradient(90deg, #ff9933 0 33.33%, #fff 33.33% 66.66%, #138808 66.66% 100%);
-    }
-
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 0.92fr) minmax(430px, 1.08fr);
-      gap: 30px;
-      align-items: center;
-      padding: 40px;
-      position: relative;
-      z-index: 1;
-    }
-
-    .badge-row { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 18px; }
-
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 8px 12px;
-      border-radius: 999px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-      font-size: 0.82rem;
-      font-weight: 900;
-      box-shadow: var(--shadow-xs);
-    }
-
-    .badge.primary {
-      background: linear-gradient(90deg, rgba(255,153,51,0.18), rgba(255,255,255,0.92), rgba(19,136,8,0.14));
-      color: var(--secondary);
-    }
-
-    h1 {
-      font-size: clamp(2.35rem, 5vw, 4.45rem);
-      line-height: 1.04;
-      letter-spacing: -0.06em;
-      font-weight: 900;
-      margin-bottom: 18px;
-      color: var(--text-primary);
-    }
-
-    .gradient-text {
-      background: linear-gradient(90deg, var(--accent), var(--secondary), var(--green));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-    }
-
-    .hero-text {
-      color: var(--text-secondary);
-      font-size: 1.08rem;
-      max-width: 650px;
-      margin-bottom: 24px;
-    }
-
-    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 22px; }
-
-    .btn, .primary-btn, .secondary-btn, .danger-btn, .ghost-btn {
-      min-height: 46px;
-      border-radius: 999px;
-      padding: 12px 18px;
-      font-size: 0.95rem;
-      font-weight: 900;
-      cursor: pointer;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      border: 1px solid var(--border);
-    }
-
-    .primary-btn, .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      border-color: var(--accent);
-      box-shadow: 0 10px 22px rgba(255, 122, 26, 0.24);
-    }
-
-    .secondary-btn { background: var(--secondary); color: #fff; border-color: var(--secondary); }
-    .ghost-btn { background: var(--surface); color: var(--text-primary); }
-    .danger-btn { background: var(--red-soft); color: var(--red); border-color: #fecdd3; }
-
-    .primary-btn:hover, .secondary-btn:hover, .ghost-btn:hover, .danger-btn:hover, .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-sm);
-    }
-
-    .primary-btn:disabled {
-      background: #c7c7c7;
-      border-color: #c7c7c7;
-      color: #fff;
-      box-shadow: none;
-      cursor: not-allowed;
-      transform: none;
-    }
-
-    .mini-trust {
-      display: grid;
-      gap: 10px;
-      margin-top: 24px;
-    }
-
-    .trust-line {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text-secondary);
-      font-weight: 800;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 10px 12px;
-    }
-
-    .tool-shell {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 36px;
-      padding: 22px;
-      box-shadow: var(--shadow-md);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .tool-shell::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 5px;
-      background: linear-gradient(90deg, #ff9933, #fff, #138808);
-    }
-
-    .dropzone {
-      min-height: 270px;
-      border: 2px dashed var(--border-strong);
-      border-radius: 28px;
-      background:
-        radial-gradient(circle at top left, rgba(255,153,51,0.10), transparent 34%),
-        linear-gradient(180deg, var(--surface-soft), #fff);
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 28px;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .dropzone.dragover {
-      border-color: var(--secondary);
-      background: var(--secondary-soft);
-      transform: scale(1.01);
-    }
-
-    .dropzone input { display: none; }
-    .drop-icon { font-size: 3.8rem; margin-bottom: 10px; }
-
-    .dropzone h2 {
-      color: var(--secondary);
-      font-size: 1.7rem;
-      line-height: 1.15;
-      margin-bottom: 8px;
-      letter-spacing: -0.03em;
-    }
-
-    .dropzone p { color: var(--text-secondary); margin-bottom: 18px; }
-
-    .upload-btn {
-      border: 0;
-      background: var(--accent);
-      color: #fff;
-      border-radius: 999px;
-      padding: 14px 22px;
-      font-weight: 900;
-      cursor: pointer;
-      box-shadow: 0 10px 22px rgba(255, 122, 26, 0.24);
-    }
-
-    .privacy-note {
-      margin-top: 13px;
-      color: var(--green);
-      font-size: 0.9rem;
-      font-weight: 900;
-    }
-
-    .panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      padding: 20px;
-      box-shadow: var(--shadow-xs);
-      margin-top: 18px;
-    }
-
-    .panel-head {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 16px;
-      margin-bottom: 16px;
-    }
-
-    .panel-head h2 {
-      color: var(--secondary);
-      font-size: 1.55rem;
-      line-height: 1.18;
-      letter-spacing: -0.03em;
-    }
-
-    .panel-head p {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-      margin-top: 4px;
-    }
-
-    .file-summary {
-      display: grid;
-      grid-template-columns: auto 1fr auto;
-      gap: 14px;
-      align-items: center;
-      background: var(--surface-soft);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 14px;
-      margin-bottom: 16px;
-    }
-
-    .file-icon {
-      width: 50px;
-      height: 50px;
-      border-radius: 18px;
-      background: var(--secondary);
-      color: #fff;
-      display: grid;
-      place-items: center;
-      font-size: 1.5rem;
-      box-shadow: 0 8px 18px rgba(11, 61, 145, 0.18);
-    }
-
-    .file-name {
-      color: var(--secondary);
-      font-weight: 900;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      max-width: 100%;
-    }
-
-    .file-meta {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      color: var(--text-muted);
-      font-size: 0.84rem;
-      font-weight: 800;
-      margin-top: 3px;
-    }
-
-    .summary-strip {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 16px;
-    }
-
-    .summary-item {
-      background: var(--surface-soft);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 12px;
-    }
-
-    .summary-item span {
-      display: block;
-      font-size: 0.74rem;
-      color: var(--text-muted);
-      font-weight: 900;
-      margin-bottom: 3px;
-    }
-
-    .summary-item strong {
-      display: block;
-      color: var(--secondary);
-      font-size: 1.05rem;
-      line-height: 1.2;
-    }
-
-    .settings-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
-      margin-top: 16px;
-    }
-
-    .setting-card {
-      background: var(--surface-soft);
-      border: 1px solid var(--border);
-      border-radius: 22px;
-      padding: 16px;
-    }
-
-    .setting-card.full { grid-column: 1 / -1; }
-
-    .setting-card label, .input-group label {
-      display: block;
-      color: var(--secondary);
-      font-weight: 900;
-      margin-bottom: 8px;
-    }
-
-    .setting-card small {
-      display: block;
-      color: var(--text-muted);
-      font-size: 0.82rem;
-      margin-top: 7px;
-      font-weight: 700;
-    }
-
-    .setting-card select, .setting-card input, .input-group input {
-      width: 100%;
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 12px 13px;
-      font-size: 0.95rem;
-      outline: 0;
-      background: var(--surface);
-      color: var(--text-primary);
-    }
-
-    .setting-card select:focus, .setting-card input:focus, .input-group input:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 4px rgba(255, 153, 51, 0.16);
-    }
-
-    .rotate-options {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 4px;
-    }
-
-    .rotate-choice {
-      border: 1px solid var(--border);
-      background: var(--surface);
-      border-radius: 18px;
-      padding: 14px 10px;
-      cursor: pointer;
-      font-weight: 900;
-      color: var(--secondary);
-      text-align: center;
-      transition: var(--transition);
-    }
-
-    .rotate-choice.active, .rotate-choice:hover {
-      background: var(--secondary);
-      color: #fff;
-      border-color: var(--secondary);
-      transform: translateY(-1px);
-    }
-
-    .example-buttons { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
-
-    .chip-btn {
-      border: 1px solid var(--border);
-      background: var(--surface);
-      color: var(--text-secondary);
-      padding: 8px 11px;
-      border-radius: 999px;
-      font-size: 0.82rem;
-      font-weight: 900;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-
-    .chip-btn:hover { border-color: var(--accent); color: var(--accent-dark); transform: translateY(-1px); }
-
-    .notice {
-      margin-top: 14px;
-      background: var(--secondary-soft);
-      color: var(--secondary);
-      border: 1px solid #c7d2fe;
-      border-radius: 18px;
-      padding: 13px 14px;
-      font-size: 0.9rem;
-      font-weight: 800;
-    }
-
-    .preview-grid {
-      display: none;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin-top: 14px;
-    }
-
-    .preview-grid.show { display: grid; }
-
-    .preview-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 10px;
-      min-height: 190px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      box-shadow: var(--shadow-xs);
-    }
-
-    .preview-canvas-wrap {
-      flex: 1;
-      background: #f3f4f6;
-      border-radius: 15px;
-      display: grid;
-      place-items: center;
-      overflow: hidden;
-      border: 1px solid #e5e7eb;
-    }
-
-    .preview-canvas-wrap canvas {
-      max-width: 100%;
-      max-height: 150px;
-      display: block;
-      transform: rotate(var(--preview-rotate, 0deg));
-    }
-
-    .preview-card strong { color: var(--secondary); font-size: 0.88rem; }
-
-    .controls-grid {
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 14px;
-      align-items: end;
-      margin-top: 18px;
-    }
-
-    .status-box {
-      display: none;
-      margin-top: 18px;
-      border-radius: 18px;
-      padding: 14px 16px;
-      font-weight: 800;
-      border: 1px solid #e5e7eb;
-      background: #f9fafb;
-      color: var(--text-secondary);
-    }
-
-    .status-box.show { display: block; }
-    .status-box.success { background: #ecfdf5; color: var(--green); border-color: #bbf7d0; }
-    .status-box.error { background: var(--red-soft); color: var(--red); border-color: #fecdd3; }
-
-    .progress-wrap {
-      display: none;
-      margin-top: 16px;
-      background: #f3f4f6;
-      border-radius: 999px;
-      overflow: hidden;
-      height: 12px;
-    }
-
-    .progress-wrap.show { display: block; }
-    .progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, var(--accent), #ffbd59); transition: width 0.25s ease; }
-
-    .download-card {
-      display: none;
-      margin-top: 18px;
-      background: linear-gradient(135deg, #ecfdf5, #f0fdf4);
-      border: 1px solid #bbf7d0;
-      border-radius: 24px;
-      padding: 20px;
-      align-items: center;
-      justify-content: space-between;
-      gap: 18px;
-    }
-
-    .download-card.show { display: flex; }
-    .download-card h3 { color: var(--green); font-size: 1.3rem; margin-bottom: 4px; }
-    .download-card p { color: #166534; font-size: 0.9rem; }
-
-    .section { padding: 36px 0; }
-
-    .info-grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 18px;
-    }
-
-    .info-card, .related-card, .faq-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 30px;
-      padding: 24px;
-      box-shadow: var(--shadow-sm);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .info-card::before, .related-card::before, .faq-card::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 5px;
-      background: linear-gradient(90deg, #ff9933, #fff, #138808);
-    }
-
-    .eyebrow {
-      color: var(--accent-dark);
-      font-weight: 900;
-      text-transform: uppercase;
-      font-size: 0.78rem;
-      letter-spacing: 0.08em;
-      margin-bottom: 6px;
-    }
-
-    .section-title, .info-card h2, .related-card h2, .faq-card h2 {
-      color: var(--text-primary);
-      font-size: clamp(1.55rem, 3vw, 2.25rem);
-      line-height: 1.12;
-      letter-spacing: -0.04em;
-      font-weight: 900;
-      margin-bottom: 12px;
-    }
-
-    .info-card p, .info-card li {
-      color: var(--text-secondary);
-      font-size: 0.96rem;
-    }
-
-    .info-card ul, .info-card ol {
-      padding-left: 22px;
-      display: grid;
-      gap: 8px;
-    }
-
-    .related {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-top: 18px;
-    }
-
-    .related a {
-      background: var(--surface-soft);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      padding: 16px;
-      font-weight: 900;
-      color: var(--secondary);
-      box-shadow: var(--shadow-xs);
-      transition: var(--transition);
-    }
-
-    .related a:hover { transform: translateY(-3px); color: var(--accent-dark); border-color: var(--accent); }
-
-    .faq-list { display: grid; gap: 12px; margin-top: 18px; }
-
-    .faq-item {
-      background: var(--surface-soft);
-      border: 1px solid var(--border);
-      border-radius: 20px;
-      overflow: hidden;
-    }
-
-    .faq-q {
-      width: 100%;
-      border: 0;
-      background: transparent;
-      padding: 17px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 14px;
-      text-align: left;
-      color: var(--secondary);
-      font-weight: 900;
-      font-size: 1rem;
-      cursor: pointer;
-    }
-
-    .faq-a {
-      display: none;
-      padding: 0 17px 17px;
-      color: var(--text-secondary);
-      font-size: 0.95rem;
-    }
-
-    .faq-item.active .faq-a { display: block; }
-
-    footer {
-      margin-top: 44px;
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      padding: 44px 0 24px;
-      position: relative;
-    }
-
-    footer::before {
-      content: "";
-      position: absolute;
-      inset: 0 0 auto 0;
-      height: 5px;
-      background: linear-gradient(90deg, #ff9933, #fff, #138808);
-    }
-
-    .footer-grid {
-      display: grid;
-      grid-template-columns: 1.2fr repeat(3, 1fr);
-      gap: 28px;
-      align-items: start;
-    }
-
-    .footer-title { display: block; font-size: 1.45rem; font-weight: 900; letter-spacing: -0.03em; margin-bottom: 8px; }
-    .footer-text { color: var(--text-secondary); }
-    .footer-links { display: grid; gap: 8px; margin-top: 12px; }
-    .footer-links a { color: var(--text-secondary); font-weight: 700; transition: var(--transition); }
-    .footer-links a:hover { color: var(--accent-dark); transform: translateX(2px); }
-
-    .copyright {
-      margin-top: 30px;
-      padding-top: 18px;
-      border-top: 1px solid var(--border);
-      text-align: center;
-      color: var(--text-secondary);
-      font-size: 0.92rem;
-    }
-
-    :focus-visible { outline: 4px solid rgba(255, 153, 51, 0.28); outline-offset: 3px; border-radius: 14px; }
-
-    @media (max-width: 1100px) {
-      .hero-grid, .info-grid { grid-template-columns: 1fr; }
-      .related, .preview-grid { grid-template-columns: repeat(2, 1fr); }
-      .footer-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    }
-
-    @media (max-width: 980px) {
-      .nav { flex-wrap: wrap; }
-      .nav-links {
-        order: 3;
-        display: none;
-        flex-basis: 100%;
-        flex-direction: column;
-        align-items: stretch;
-        background: var(--surface);
-        border: 1px solid var(--border);
-        border-radius: 24px;
-        padding: 12px;
-        box-shadow: var(--shadow-sm);
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"HindiTools Visual PDF Rotate",
+    "alternateName":"PDF Pages घुमाएं",
+    "url":"https://www.hinditools.com/pdf-rotate-hi.html",
+    "applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any",
+    "inLanguage":["hi-IN","en-IN"],
+    "description":"Visual PDF page rotation tool with page thumbnails, individual rotations, ranges, orientation fixes and browser-side processing.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},
+    "featureList":[
+      "Visual PDF page thumbnails",
+      "Rotate selected pages left or right",
+      "Rotate individual pages",
+      "180 degree page rotation",
+      "Undo and redo",
+      "Page range selection",
+      "Odd and even page selection",
+      "Make selected pages portrait or landscape",
+      "Lossless direct PDF rotation when compatible",
+      "Compatibility fallback for previewable PDFs",
+      "Output PDF verification"
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {
+        "@type":"Question",
+        "name":"क्या PDF rotate करने से quality कम होगी?",
+        "acceptedAnswer":{"@type":"Answer","text":"Normal direct mode में HindiTools केवल PDF page rotation property बदलता है, इसलिए text, images और vector content को rasterize नहीं किया जाता. Compatibility fallback में pages images में flatten हो सकती हैं."}
+      },
+      {
+        "@type":"Question",
+        "name":"क्या मैं अलग-अलग pages को अलग direction में rotate कर सकता हूँ?",
+        "acceptedAnswer":{"@type":"Answer","text":"हाँ. Visual page matrix में individual pages select करके या हर page के quick controls से अलग rotation set कर सकते हैं."}
+      },
+      {
+        "@type":"Question",
+        "name":"क्या selected pages rotate कर सकता हूँ?",
+        "acceptedAnswer":{"@type":"Answer","text":"हाँ. All, Clear, Invert, Odd, Even और page range जैसे 1-3, 5, 8-10 selection controls available हैं."}
+      },
+      {
+        "@type":"Question",
+        "name":"क्या मेरी PDF server पर upload होती है?",
+        "acceptedAnswer":{"@type":"Answer","text":"इस rotate tool में selected PDF browser-side JavaScript libraries से device पर process होती है और HindiTools PDF processing server पर upload नहीं की जाती."}
       }
-      .nav.open .nav-links { display: flex; }
-      .nav-links a { justify-content: center; }
-      .nav-cta { display: none; }
-      .menu-btn { display: grid; place-items: center; }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"HowTo",
+    "name":"PDF pages visually rotate कैसे करें",
+    "description":"PDF pages को thumbnail preview के साथ rotate करने का तरीका.",
+    "step":[
+      {"@type":"HowToStep","name":"PDF चुनें","text":"PDF file select करें या dropzone में drop करें."},
+      {"@type":"HowToStep","name":"Pages चुनें","text":"Thumbnail matrix से pages select करें या range controls use करें."},
+      {"@type":"HowToStep","name":"Rotation apply करें","text":"Left 90°, Right 90°, 180° या portrait/landscape fix choose करें."},
+      {"@type":"HowToStep","name":"Preview और download करें","text":"Final orientation thumbnails में check करें, PDF बनाएं और verified output download करें."}
+    ]
+  }
+  </script>
+
+  <script>
+    try{
+      const saved=localStorage.getItem("ht-hud-theme");
+      if(saved==="light"||saved==="dark") document.documentElement.dataset.theme=saved;
+    }catch(e){}
+  </script>
+
+  <style>
+
+    :root{
+      --bg:#050b11;
+      --bg2:#07131d;
+      --panel:#091722;
+      --panel2:#0d1d29;
+      --panel3:#112633;
+
+      --text:#edf9ff;
+      --muted:#8da8b7;
+      --muted2:#b7ccd7;
+
+      --line:rgba(87,211,255,.20);
+      --line2:rgba(87,211,255,.42);
+
+      --cyan:#43dcff;
+      --cyanSoft:rgba(67,220,255,.12);
+
+      --orange:#ff7a1a;
+      --orange2:#ff9933;
+      --orangeSoft:rgba(255,122,26,.13);
+
+      --green:#37e88c;
+      --greenSoft:rgba(55,232,140,.12);
+
+      --red:#ff5f6d;
+      --redSoft:rgba(255,95,109,.12);
+
+      --yellow:#ffd166;
+      --yellowSoft:rgba(255,209,102,.12);
+
+      --purple:#b48cff;
+      --purpleSoft:rgba(180,140,255,.12);
+
+      --shadow:0 28px 80px rgba(0,0,0,.44);
+      --grid:rgba(67,220,255,.035);
+      --glow:0 0 0 1px rgba(67,220,255,.12),0 0 32px rgba(0,190,230,.08);
     }
 
-    @media (max-width: 700px) {
-      .container { padding: 0 16px; }
-      .top-strip { font-size: 0.78rem; }
-      .breadcrumb { margin-top: 18px; }
-      .hero { padding-top: 26px; }
-      .hero-shell { border-radius: 30px; }
-      .hero-grid { padding: 26px 18px; }
-      .tool-shell, .info-card, .related-card, .faq-card { border-radius: 26px; padding: 18px; }
-      .dropzone { min-height: 238px; padding: 22px 16px; }
-      .dropzone h2 { font-size: 1.35rem; }
-      .hero-actions { flex-direction: column; align-items: stretch; }
-      .primary-btn, .secondary-btn, .danger-btn, .ghost-btn, .btn { width: 100%; }
-      .panel-head { display: block; }
-      .panel-head .danger-btn { margin-top: 12px; }
-      .file-summary { grid-template-columns: auto 1fr; }
-      .file-summary .ghost-btn { grid-column: 1 / -1; }
-      .summary-strip, .settings-grid, .controls-grid, .related, .preview-grid, .rotate-options, .footer-grid { grid-template-columns: 1fr; }
-      .download-card { flex-direction: column; align-items: stretch; }
-      h1 { letter-spacing: -0.045em; }
+    html[data-theme="light"]{
+      --bg:#f7fbfd;
+      --bg2:#eef7fa;
+      --panel:#ffffff;
+      --panel2:#f6fbfd;
+      --panel3:#edf7fa;
+
+      --text:#102331;
+      --muted:#647985;
+      --muted2:#435f6d;
+
+      --line:rgba(3,118,151,.14);
+      --line2:rgba(3,118,151,.28);
+
+      --cyan:#007f9e;
+      --cyanSoft:rgba(0,159,197,.09);
+
+      --orange:#e86100;
+      --orange2:#ff851b;
+      --orangeSoft:rgba(232,97,0,.09);
+
+      --green:#07884a;
+      --greenSoft:rgba(7,136,74,.09);
+
+      --red:#cb3040;
+      --redSoft:rgba(203,48,64,.09);
+
+      --yellow:#9d7100;
+      --yellowSoft:rgba(157,113,0,.09);
+
+      --purple:#6e42c1;
+      --purpleSoft:rgba(110,66,193,.09);
+
+      --shadow:0 25px 65px rgba(25,57,73,.12);
+      --grid:rgba(0,127,158,.026);
+      --glow:0 0 0 1px rgba(0,127,158,.08),0 12px 32px rgba(37,115,139,.08);
     }
 
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
     }
-  </style></head><body>
-  <div class="tricolour-line" aria-hidden="true"></div>
-  <a class="skip-link" href="#rotate-tool">सीधे PDF rotate tool पर जाएं</a>  <div class="top-strip">
-    <div class="container">
-      <strong>PDF Rotate</strong> — all pages या selected pages को left, right या 180° rotate करें।
-    </div>
-  </div>  <header>
-    <div class="container nav" id="nav">
-      <a class="brand" href="index.html" aria-label="HindiTools Home">
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      min-height:100vh;
+      font-family:"Inter","Noto Sans Devanagari","Noto Sans Gurmukhi",system-ui,sans-serif;
+      color:var(--text);
+      line-height:1.55;
+      background:
+        linear-gradient(var(--grid) 1px,transparent 1px),
+        linear-gradient(90deg,var(--grid) 1px,transparent 1px),
+        radial-gradient(circle at 12% 0%,rgba(0,195,230,.11),transparent 30%),
+        radial-gradient(circle at 92% 8%,rgba(255,122,26,.09),transparent 26%),
+        radial-gradient(circle at 72% 70%,rgba(180,140,255,.05),transparent 29%),
+        linear-gradient(180deg,var(--bg),var(--bg2));
+      background-size:42px 42px,42px 42px,auto,auto,auto,auto;
+    }
+
+    a{
+      color:inherit;
+      text-decoration:none;
+    }
+
+    button,
+    input,
+    select,
+    textarea{
+      font:inherit;
+    }
+
+    button{
+      color:inherit;
+      -webkit-tap-highlight-color:transparent;
+    }
+
+    [hidden]{
+      display:none!important;
+    }
+
+    .container{
+      width:min(1240px,calc(100% - 30px));
+      margin:auto;
+    }
+
+    .skip-link{
+      position:absolute;
+      left:-9999px;
+      top:10px;
+      z-index:1000;
+      padding:10px 14px;
+      border-radius:12px;
+      background:var(--orange);
+      color:#fff;
+      font-weight:900;
+    }
+
+    .skip-link:focus{
+      left:12px;
+    }
+
+    /* HEADER */
+
+    .site-header{
+      position:sticky;
+      top:0;
+      z-index:100;
+      background:color-mix(in srgb,var(--bg) 82%,transparent);
+      backdrop-filter:blur(18px);
+      border-bottom:1px solid var(--line);
+    }
+
+    .header-inner{
+      min-height:72px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:18px;
+      position:relative;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      font-weight:900;
+    }
+
+    .brand-mark{
+      width:40px;
+      height:40px;
+      display:grid;
+      place-items:center;
+      border:1px solid var(--line2);
+      border-radius:12px;
+      color:var(--cyan);
+      background:linear-gradient(145deg,var(--panel3),var(--panel));
+      box-shadow:0 0 24px rgba(67,220,255,.12);
+    }
+
+    .brand-copy{
+      display:flex;
+      flex-direction:column;
+      line-height:1.05;
+    }
+
+    .brand-copy strong{
+      font-size:1.16rem;
+      letter-spacing:-.03em;
+    }
+
+    .brand-copy small{
+      color:var(--muted);
+      font-size:.62rem;
+      letter-spacing:.14em;
+      margin-top:4px;
+    }
+
+    .brand-accent{
+      color:var(--orange);
+    }
+
+    .nav{
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+
+    .nav a{
+      color:var(--muted2);
+      font-size:.86rem;
+      font-weight:800;
+      padding:9px 11px;
+      border-radius:10px;
+    }
+
+    .nav a:hover{
+      background:var(--cyanSoft);
+      color:var(--cyan);
+    }
+
+    .header-actions{
+      display:flex;
+      gap:8px;
+      align-items:center;
+    }
+
+    .icon-button{
+      width:40px;
+      height:40px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:var(--panel);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      transition:.2s ease;
+    }
+
+    .icon-button:hover{
+      border-color:var(--cyan);
+      color:var(--cyan);
+      transform:translateY(-1px);
+    }
+
+    .menu-button{
+      display:none;
+    }
+
+    .top-status{
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(90deg,rgba(67,220,255,.06),transparent 50%,rgba(255,122,26,.05));
+    }
+
+    .top-status .container{
+      min-height:34px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      color:var(--muted);
+      font-size:.72rem;
+      font-weight:800;
+      letter-spacing:.06em;
+    }
+
+    .signal{
+      display:inline-block;
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--green);
+      box-shadow:0 0 12px var(--green);
+      margin-right:7px;
+    }
+
+    /* HERO */
+
+    .hero{
+      padding:34px 0 20px;
+    }
+
+    .hero-grid{
+      display:grid;
+      grid-template-columns:minmax(0,.87fr) minmax(500px,1.13fr);
+      gap:28px;
+      align-items:center;
+    }
+
+    .eyebrow{
+      color:var(--cyan);
+      font-weight:900;
+      letter-spacing:.12em;
+      font-size:.74rem;
+      margin-bottom:12px;
+    }
+
+    h1{
+      font-size:clamp(2.3rem,5vw,4.5rem);
+      line-height:1.02;
+      letter-spacing:-.062em;
+      font-weight:900;
+      margin-bottom:17px;
+    }
+
+    h1 span{
+      color:var(--cyan);
+      text-shadow:0 0 28px rgba(67,220,255,.14);
+    }
+
+    .hero-copy>p:not(.eyebrow){
+      color:var(--muted2);
+      max-width:680px;
+      font-size:1.03rem;
+    }
+
+    .hero-chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      margin-top:20px;
+    }
+
+    .chip{
+      border:1px solid var(--line);
+      background:var(--panel);
+      color:var(--muted2);
+      border-radius:999px;
+      padding:8px 11px;
+      font-size:.75rem;
+      font-weight:850;
+    }
+
+    .chip strong{
+      color:var(--cyan);
+    }
+
+    /* UPLOAD CONSOLE */
+
+    .upload-console{
+      border:1px solid var(--line2);
+      border-radius:26px;
+      background:linear-gradient(145deg,var(--panel2),var(--panel));
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+
+    .console-top{
+      min-height:42px;
+      padding:0 15px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      border-bottom:1px solid var(--line);
+      color:var(--muted);
+      font-size:.69rem;
+      font-weight:900;
+      letter-spacing:.09em;
+    }
+
+    .console-lights{
+      display:flex;
+      gap:6px;
+    }
+
+    .console-lights i{
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      display:block;
+    }
+
+    .console-lights i:nth-child(1){background:var(--red)}
+    .console-lights i:nth-child(2){background:var(--yellow)}
+    .console-lights i:nth-child(3){background:var(--green)}
+
+    .dropzone{
+      margin:15px;
+      min-height:300px;
+      border:1px dashed var(--line2);
+      border-radius:19px;
+      cursor:pointer;
+      display:grid;
+      place-items:center;
+      text-align:center;
+      padding:26px;
+      position:relative;
+      overflow:hidden;
+      background:
+        linear-gradient(rgba(67,220,255,.03) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(67,220,255,.03) 1px,transparent 1px),
+        rgba(67,220,255,.018);
+      background-size:28px 28px;
+      transition:.25s ease;
+    }
+
+    .dropzone::after{
+      content:"";
+      position:absolute;
+      left:4%;
+      right:4%;
+      top:-20%;
+      height:2px;
+      background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+      box-shadow:0 0 18px var(--cyan);
+      opacity:0;
+    }
+
+    .dropzone.scanning::after{
+      opacity:.9;
+      animation:scan 1.6s ease-in-out infinite;
+    }
+
+    @keyframes scan{
+      from{top:2%}
+      to{top:98%}
+    }
+
+    .dropzone.dragover{
+      border-color:var(--cyan);
+      background-color:var(--cyanSoft);
+      transform:scale(1.006);
+    }
+
+    .dropzone.busy{
+      cursor:progress;
+      opacity:.86;
+    }
+
+    .dropzone input{
+      display:none;
+    }
+
+    .upload-orb{
+      width:84px;
+      height:84px;
+      border-radius:50%;
+      margin:0 auto 16px;
+      display:grid;
+      place-items:center;
+      border:1px solid var(--line2);
+      color:var(--cyan);
+      font-size:1.5rem;
+      background:radial-gradient(circle,rgba(67,220,255,.10),transparent 67%);
+      box-shadow:0 0 35px rgba(67,220,255,.12);
+    }
+
+    .dropzone h2{
+      font-size:1.4rem;
+      margin-bottom:6px;
+    }
+
+    .dropzone p{
+      color:var(--muted);
+      font-size:.9rem;
+      margin-bottom:18px;
+    }
+
+    .local-note{
+      margin-top:15px;
+      color:var(--green);
+      font-size:.72rem;
+      font-weight:850;
+    }
+
+    /* BUTTONS */
+
+    .primary-btn,
+    .secondary-btn,
+    .ghost-btn,
+    .danger-btn,
+    .mini-btn{
+      border:0;
+      cursor:pointer;
+      font-weight:900;
+      border-radius:12px;
+      min-height:42px;
+      padding:10px 15px;
+      transition:.2s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+    }
+
+    .primary-btn{
+      background:linear-gradient(135deg,var(--orange),var(--orange2));
+      color:#fff;
+      box-shadow:0 10px 28px rgba(255,122,26,.22);
+    }
+
+    .primary-btn:hover{
+      transform:translateY(-1px);
+      box-shadow:0 14px 34px rgba(255,122,26,.3);
+    }
+
+    .secondary-btn{
+      background:var(--cyan);
+      color:#001019;
+    }
+
+    .ghost-btn{
+      border:1px solid var(--line);
+      background:var(--panel);
+      color:var(--muted2);
+    }
+
+    .danger-btn{
+      background:var(--redSoft);
+      color:var(--red);
+      border:1px solid rgba(255,95,109,.22);
+    }
+
+    .mini-btn{
+      min-height:34px;
+      padding:7px 10px;
+      border:1px solid var(--line);
+      background:var(--panel);
+      color:var(--muted2);
+      font-size:.74rem;
+    }
+
+    .primary-btn:disabled,
+    .secondary-btn:disabled,
+    .ghost-btn:disabled,
+    .danger-btn:disabled,
+    .mini-btn:disabled{
+      opacity:.42;
+      cursor:not-allowed;
+      transform:none;
+    }
+
+    .ghost-btn:hover,
+    .mini-btn:hover{
+      border-color:var(--cyan);
+      color:var(--cyan);
+    }
+
+    /* WORKSPACE */
+
+    .workspace{
+      padding:22px 0 50px;
+      display:none;
+    }
+
+    .workspace.show{
+      display:block;
+    }
+
+    .telemetry{
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .telemetry-card{
+      border:1px solid var(--line);
+      border-radius:15px;
+      background:var(--panel);
+      padding:11px 13px;
+      box-shadow:var(--glow);
+    }
+
+    .telemetry-card span{
+      display:block;
+      color:var(--muted);
+      font-size:.64rem;
+      font-weight:900;
+      letter-spacing:.08em;
+      margin-bottom:4px;
+    }
+
+    .telemetry-card strong{
+      font-size:.93rem;
+      display:block;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .telemetry-card.accent strong{
+      color:var(--cyan);
+    }
+
+    .telemetry-card.success strong{
+      color:var(--green);
+    }
+
+    .control-deck{
+      position:sticky;
+      top:82px;
+      z-index:70;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:color-mix(in srgb,var(--panel) 94%,transparent);
+      backdrop-filter:blur(18px);
+      box-shadow:0 16px 45px rgba(0,0,0,.18);
+      padding:11px;
+      margin-bottom:14px;
+    }
+
+    .control-row{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .control-group{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      flex-wrap:wrap;
+    }
+
+    .control-label{
+      color:var(--muted);
+      font-size:.66rem;
+      font-weight:900;
+      letter-spacing:.08em;
+    }
+
+    .range-box{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      border:1px solid var(--line);
+      background:var(--panel2);
+      border-radius:10px;
+      padding:4px 5px 4px 10px;
+    }
+
+    .range-box input{
+      width:130px;
+      border:0;
+      background:transparent;
+      color:var(--text);
+      outline:0;
+      font-size:.78rem;
+      font-weight:800;
+    }
+
+    .range-box button{
+      border:0;
+      background:var(--cyanSoft);
+      color:var(--cyan);
+      border-radius:8px;
+      padding:6px 8px;
+      cursor:pointer;
+      font-size:.72rem;
+      font-weight:900;
+    }
+
+    .zoom-wrap{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      color:var(--muted);
+      font-size:.69rem;
+      font-weight:850;
+    }
+
+    .zoom-wrap input{
+      width:98px;
+      accent-color:var(--cyan);
+    }
+
+    /* MODES */
+
+    .mode-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .mode-card{
+      border:1px solid var(--line);
+      border-radius:15px;
+      background:var(--panel);
+      padding:13px;
+      cursor:pointer;
+      transition:.18s ease;
+      text-align:left;
+      min-height:126px;
+    }
+
+    .mode-card:hover{
+      border-color:var(--line2);
+      transform:translateY(-1px);
+    }
+
+    .mode-card.active{
+      border-color:var(--cyan);
+      background:linear-gradient(145deg,var(--cyanSoft),var(--panel));
+      box-shadow:0 0 0 1px rgba(67,220,255,.12),0 0 28px rgba(67,220,255,.08);
+    }
+
+    .mode-icon{
+      font-size:1.5rem;
+      margin-bottom:7px;
+      display:block;
+    }
+
+    .mode-card strong{
+      display:block;
+      font-size:.86rem;
+      margin-bottom:5px;
+    }
+
+    .mode-card p{
+      color:var(--muted);
+      font-size:.68rem;
+      font-weight:700;
+    }
+
+    .recommend-badge{
+      display:none;
+      margin-top:8px;
+      color:var(--green);
+      font-size:.62rem;
+      font-weight:900;
+      letter-spacing:.04em;
+    }
+
+    .mode-card.recommended .recommend-badge{
+      display:block;
+    }
+
+    /* SETTINGS */
+
+    .settings-panel{
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .setting-box{
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:var(--panel);
+      padding:11px;
+    }
+
+    .setting-title{
+      display:block;
+      color:var(--muted);
+      font-size:.65rem;
+      font-weight:900;
+      letter-spacing:.08em;
+      margin-bottom:7px;
+    }
+
+    .setting-box select,
+    .setting-box input[type="text"]{
+      width:100%;
+      border:1px solid var(--line);
+      background:var(--panel2);
+      color:var(--text);
+      border-radius:10px;
+      padding:9px 10px;
+      outline:0;
+      font-size:.76rem;
+      font-weight:800;
+    }
+
+    .setting-note{
+      color:var(--muted);
+      font-size:.63rem;
+      font-weight:750;
+      margin-top:6px;
+    }
+
+    .range-inline{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:var(--muted);
+      font-size:.69rem;
+      font-weight:850;
+    }
+
+    .range-inline input{
+      flex:1;
+      accent-color:var(--cyan);
+    }
+
+    .range-inline strong{
+      color:var(--cyan);
+      min-width:48px;
+      text-align:right;
+    }
+
+    .check-list{
+      display:grid;
+      gap:8px;
+    }
+
+    .check-row{
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      color:var(--muted2);
+      font-size:.68rem;
+      font-weight:750;
+    }
+
+    .check-row input{
+      margin-top:3px;
+      accent-color:var(--cyan);
+    }
+
+    /* PAGE WORKSPACE */
+
+    .workspace-shell{
+      border:1px solid var(--line);
+      border-radius:24px;
+      overflow:hidden;
+      background:var(--panel);
+      box-shadow:var(--shadow);
+    }
+
+    .workspace-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:13px 16px;
+      border-bottom:1px solid var(--line);
+      background:linear-gradient(90deg,var(--panel2),var(--panel));
+    }
+
+    .workspace-head h2{
+      font-size:1rem;
+    }
+
+    .workspace-head p{
+      color:var(--muted);
+      font-size:.72rem;
+      font-weight:750;
+      margin-top:2px;
+    }
+
+    .pages-viewport{
+      padding:16px;
+      max-height:68vh;
+      overflow:auto;
+    }
+
+    .pages-grid{
+      --thumb-width:156px;
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(var(--thumb-width),1fr));
+      gap:13px;
+      align-items:start;
+    }
+
+    .page-card{
+      border:1px solid var(--line);
+      border-radius:15px;
+      background:var(--panel2);
+      padding:8px;
+      position:relative;
+      cursor:pointer;
+      transition:.18s ease;
+      user-select:none;
+      min-width:0;
+    }
+
+    .page-card:hover{
+      border-color:var(--line2);
+      transform:translateY(-1px);
+    }
+
+    .page-card.selected{
+      border-color:var(--cyan);
+      background:linear-gradient(145deg,var(--cyanSoft),var(--panel2));
+      box-shadow:0 0 0 1px rgba(67,220,255,.18),0 0 28px rgba(67,220,255,.10);
+    }
+
+    .thumb-shell{
+      aspect-ratio:.707/1;
+      border-radius:9px;
+      background:#f4f4f4;
+      overflow:hidden;
+      display:grid;
+      place-items:center;
+      position:relative;
+      border:1px solid rgba(255,255,255,.08);
+    }
+
+    .thumb-shell canvas{
+      display:block;
+      max-width:100%;
+      max-height:100%;
+      width:auto;
+      height:auto;
+    }
+
+    .thumb-placeholder{
+      color:#69747a;
+      font-size:.72rem;
+      font-weight:900;
+      text-align:center;
+      padding:10px;
+    }
+
+    .page-check{
+      position:absolute;
+      top:13px;
+      left:13px;
+      width:25px;
+      height:25px;
+      border-radius:8px;
+      display:grid;
+      place-items:center;
+      border:1px solid rgba(0,0,0,.18);
+      background:rgba(255,255,255,.90);
+      color:#5b6770;
+      font-size:.75rem;
+      font-weight:1000;
+      z-index:4;
+    }
+
+    .page-card.selected .page-check{
+      background:var(--cyan);
+      color:#001019;
+      border-color:var(--cyan);
+    }
+
+    .page-number-badge{
+      position:absolute;
+      top:13px;
+      right:13px;
+      background:rgba(0,8,13,.78);
+      color:#fff;
+      border-radius:7px;
+      padding:4px 7px;
+      font-size:.61rem;
+      font-weight:900;
+      z-index:4;
+    }
+
+    .text-badge{
+      position:absolute;
+      left:13px;
+      bottom:42px;
+      border-radius:7px;
+      padding:4px 7px;
+      font-size:.57rem;
+      font-weight:900;
+      z-index:4;
+      background:rgba(0,8,13,.78);
+      color:#fff;
+      display:none;
+    }
+
+    .text-badge.show{
+      display:block;
+    }
+
+    .text-badge.good{
+      color:var(--green);
+    }
+
+    .text-badge.scan{
+      color:var(--yellow);
+    }
+
+    .page-meta{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:6px;
+      margin-top:7px;
+      color:var(--muted);
+      font-size:.66rem;
+      font-weight:850;
+    }
+
+    .page-action{
+      width:27px;
+      height:27px;
+      border-radius:7px;
+      border:1px solid var(--line);
+      background:var(--panel);
+      color:var(--muted2);
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      font-size:.76rem;
+      font-weight:900;
+    }
+
+    .page-action:hover{
+      color:var(--cyan);
+      border-color:var(--cyan);
+    }
+
+    .selection-bar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      flex-wrap:wrap;
+      padding:12px 16px;
+      border-top:1px solid var(--line);
+      background:linear-gradient(90deg,var(--panel2),var(--panel));
+    }
+
+    .selection-summary{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .selection-summary strong{
+      color:var(--cyan);
+      font-size:1rem;
+    }
+
+    .selection-summary span{
+      color:var(--muted);
+      font-size:.72rem;
+      font-weight:800;
+    }
+
+    .output-options{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .output-options input{
+      min-width:155px;
+      border:1px solid var(--line);
+      background:var(--panel2);
+      color:var(--text);
+      border-radius:10px;
+      padding:9px 10px;
+      outline:0;
+      font-size:.76rem;
+      font-weight:800;
+    }
+
+    /* INSPECTION / PREVIEW */
+
+    .analysis-panel{
+      margin-top:14px;
+      display:none;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:var(--panel);
+      padding:13px;
+    }
+
+    .analysis-panel.show{
+      display:block;
+    }
+
+    .analysis-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:8px;
+      margin-top:8px;
+    }
+
+    .analysis-stat{
+      border:1px solid var(--line);
+      background:var(--panel2);
+      border-radius:11px;
+      padding:9px;
+    }
+
+    .analysis-stat span{
+      display:block;
+      color:var(--muted);
+      font-size:.6rem;
+      font-weight:900;
+      letter-spacing:.05em;
+    }
+
+    .analysis-stat strong{
+      display:block;
+      margin-top:3px;
+      font-size:.82rem;
+    }
+
+    .preview-panel{
+      display:none;
+      margin-top:14px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:var(--panel);
+      overflow:hidden;
+    }
+
+    .preview-panel.show{
+      display:block;
+    }
+
+    .preview-head{
+      padding:11px 13px;
+      border-bottom:1px solid var(--line);
+      color:var(--cyan);
+      font-size:.73rem;
+      font-weight:900;
+      letter-spacing:.06em;
+    }
+
+    .preview-content{
+      padding:13px;
+      max-height:300px;
+      overflow:auto;
+      white-space:pre-wrap;
+      color:var(--muted2);
+      font-size:.75rem;
+      font-family:"Inter","Noto Sans Devanagari","Noto Sans Gurmukhi",system-ui,sans-serif;
+    }
+
+    /* STATUS / RESULT */
+
+    .status-panel{
+      margin-top:14px;
+      border:1px solid var(--line);
+      border-radius:17px;
+      background:var(--panel);
+      overflow:hidden;
+      display:none;
+    }
+
+    .status-panel.show{
+      display:block;
+    }
+
+    .status-line{
+      padding:12px 14px 4px;
+      color:var(--muted2);
+      font-size:.78rem;
+      font-weight:800;
+    }
+
+    .status-detail{
+      padding:0 14px 10px;
+      color:var(--muted);
+      font-size:.68rem;
+      font-weight:700;
+    }
+
+    .status-line.success{color:var(--green)}
+    .status-line.error{color:var(--red)}
+    .status-line.warning{color:var(--yellow)}
+
+    .progress-track{
+      height:5px;
+      background:var(--panel3);
+    }
+
+    .progress-bar{
+      width:0;
+      height:100%;
+      background:linear-gradient(90deg,var(--cyan),var(--green));
+      transition:width .18s ease;
+      box-shadow:0 0 14px rgba(67,220,255,.35);
+    }
+
+    .result-panel{
+      display:none;
+      margin-top:14px;
+      border:1px solid rgba(55,232,140,.28);
+      border-radius:18px;
+      background:linear-gradient(145deg,var(--greenSoft),var(--panel));
+      padding:15px;
+    }
+
+    .result-panel.show{
+      display:block;
+    }
+
+    .result-head{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+      flex-wrap:wrap;
+    }
+
+    .result-head h3{
+      color:var(--green);
+      font-size:1rem;
+    }
+
+    .result-head p{
+      color:var(--muted);
+      font-size:.73rem;
+      font-weight:750;
+      margin-top:4px;
+    }
+
+    .result-actions{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    /* INFO */
+
+    .info-grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:14px;
+      margin-top:18px;
+    }
+
+    .info-card{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:var(--panel);
+      padding:18px;
+      box-shadow:var(--glow);
+    }
+
+    .info-card h2{
+      font-size:1.05rem;
+      margin-bottom:9px;
+      color:var(--cyan);
+    }
+
+    .info-card p,
+    .info-card li{
+      color:var(--muted2);
+      font-size:.82rem;
+      font-weight:650;
+    }
+
+    .info-card ol,
+    .info-card ul{
+      padding-left:20px;
+      display:grid;
+      gap:7px;
+    }
+
+    .related-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:9px;
+      margin-top:10px;
+    }
+
+    .related-card{
+      border:1px solid var(--line);
+      border-radius:13px;
+      background:var(--panel2);
+      padding:12px;
+      font-size:.76rem;
+      font-weight:900;
+      transition:.2s;
+    }
+
+    .related-card:hover{
+      border-color:var(--cyan);
+      color:var(--cyan);
+    }
+
+    .faq-list{
+      display:grid;
+      gap:8px;
+      margin-top:9px;
+    }
+
+    .faq-item{
+      border:1px solid var(--line);
+      border-radius:13px;
+      background:var(--panel2);
+      overflow:hidden;
+    }
+
+    .faq-q{
+      width:100%;
+      border:0;
+      background:transparent;
+      color:var(--text);
+      padding:12px 13px;
+      text-align:left;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      cursor:pointer;
+      font-size:.79rem;
+      font-weight:900;
+    }
+
+    .faq-a{
+      display:none;
+      padding:0 13px 13px;
+      color:var(--muted2);
+      font-size:.77rem;
+      font-weight:650;
+    }
+
+    .faq-item.active .faq-a{
+      display:block;
+    }
+
+    footer{
+      margin-top:34px;
+      border-top:1px solid var(--line);
+      background:#03080d;
+      padding:28px 0;
+    }
+
+    html[data-theme="light"] footer{
+      background:#eaf4f7;
+    }
+
+    .footer-inner{
+      display:flex;
+      justify-content:space-between;
+      gap:24px;
+      flex-wrap:wrap;
+    }
+
+    .footer-copy{
+      color:var(--muted);
+      font-size:.72rem;
+      max-width:520px;
+    }
+
+    .footer-links{
+      display:flex;
+      gap:13px;
+      flex-wrap:wrap;
+      color:var(--muted2);
+      font-size:.73rem;
+      font-weight:800;
+    }
+
+    /* MODAL */
+
+    .modal{
+      position:fixed;
+      inset:0;
+      z-index:300;
+      background:rgba(0,5,9,.84);
+      backdrop-filter:blur(12px);
+      display:none;
+      align-items:center;
+      justify-content:center;
+      padding:18px;
+    }
+
+    .modal.show{
+      display:flex;
+    }
+
+    .modal-card{
+      width:min(900px,100%);
+      max-height:92vh;
+      overflow:auto;
+      border:1px solid var(--line2);
+      border-radius:20px;
+      background:var(--panel);
+      box-shadow:0 40px 100px rgba(0,0,0,.55);
+    }
+
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      padding:12px 14px;
+      border-bottom:1px solid var(--line);
+    }
+
+    .modal-head strong{
+      color:var(--cyan);
+    }
+
+    .modal-body{
+      padding:14px;
+      display:grid;
+      place-items:center;
+      background:#111b20;
+      min-height:420px;
+    }
+
+    html[data-theme="light"] .modal-body{
+      background:#eef3f5;
+    }
+
+    .modal-body canvas{
+      max-width:100%;
+      max-height:78vh;
+      display:block;
+      box-shadow:0 18px 50px rgba(0,0,0,.35);
+    }
+
+    .modal-meta{
+      padding:11px 14px;
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      font-size:.72rem;
+      font-weight:750;
+    }
+
+    @media(max-width:1000px){
+      .hero-grid{
+        grid-template-columns:1fr;
+      }
+
+      .telemetry{
+        grid-template-columns:repeat(3,1fr);
+      }
+
+      .settings-panel,
+      .info-grid{
+        grid-template-columns:1fr;
+      }
+
+      .nav{
+        display:none;
+      }
+
+      .menu-button{
+        display:grid;
+      }
+
+      .nav.open{
+        display:flex;
+        position:absolute;
+        top:65px;
+        left:15px;
+        right:15px;
+        flex-direction:column;
+        align-items:stretch;
+        border:1px solid var(--line);
+        border-radius:15px;
+        background:var(--panel);
+        padding:9px;
+        box-shadow:var(--shadow);
+      }
+
+      .nav.open a{
+        text-align:center;
+      }
+    }
+
+    @media(max-width:760px){
+      .mode-grid{
+        grid-template-columns:1fr;
+      }
+
+      .analysis-grid{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+
+    @media(max-width:700px){
+      .container{
+        width:min(100% - 20px,1240px);
+      }
+
+      .top-status .container{
+        font-size:.61rem;
+      }
+
+      .hero{
+        padding-top:24px;
+      }
+
+      h1{
+        font-size:clamp(2rem,13vw,3.2rem);
+      }
+
+      .dropzone{
+        min-height:260px;
+        margin:10px;
+        padding:20px 14px;
+      }
+
+      .telemetry{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .control-deck{
+        top:73px;
+        padding:9px;
+      }
+
+      .control-group{
+        width:100%;
+      }
+
+      .range-box{
+        flex:1;
+      }
+
+      .range-box input{
+        width:100%;
+      }
+
+      .zoom-wrap{
+        width:100%;
+        justify-content:space-between;
+      }
+
+      .zoom-wrap input{
+        flex:1;
+      }
+
+      .pages-viewport{
+        padding:10px;
+        max-height:none;
+      }
+
+      .pages-grid{
+        --thumb-width:132px;
+        gap:9px;
+      }
+
+      .selection-bar{
+        padding:10px;
+      }
+
+      .selection-summary,
+      .output-options{
+        width:100%;
+      }
+
+      .output-options input{
+        flex:1;
+        min-width:120px;
+      }
+
+      .output-options .primary-btn{
+        width:100%;
+      }
+
+      .related-grid{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .header-inner{
+        min-height:64px;
+      }
+    }
+
+    @media(max-width:430px){
+      .pages-grid{
+        --thumb-width:118px;
+      }
+
+      .related-grid{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(prefers-reduced-motion:reduce){
+      *,
+      *::before,
+      *::after{
+        animation:none!important;
+        transition:none!important;
+        scroll-behavior:auto!important;
+      }
+    }
+  
+
+    /* ROTATE PDF PAGE-SPECIFIC EXTENSIONS */
+
+    .rotation-deck{
+      display:grid;
+      grid-template-columns:1.25fr .75fr;
+      gap:10px;
+      margin-bottom:14px;
+    }
+
+    .rotation-command-panel,
+    .orientation-command-panel{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:var(--panel);
+      padding:12px;
+      box-shadow:var(--glow);
+    }
+
+    .deck-label{
+      display:block;
+      color:var(--muted);
+      font-size:.64rem;
+      font-weight:900;
+      letter-spacing:.09em;
+      margin-bottom:9px;
+    }
+
+    .rotation-buttons{
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:8px;
+    }
+
+    .rotation-command{
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:var(--panel2);
+      color:var(--muted2);
+      min-height:64px;
+      padding:9px;
+      cursor:pointer;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:3px;
+      font-weight:900;
+      transition:.18s ease;
+    }
+
+    .rotation-command strong{
+      font-size:1rem;
+      color:var(--cyan);
+    }
+
+    .rotation-command span{
+      font-size:.63rem;
+      color:var(--muted);
+    }
+
+    .rotation-command:hover{
+      border-color:var(--cyan);
+      background:var(--cyanSoft);
+      transform:translateY(-1px);
+    }
+
+    .rotation-command.reset strong{
+      color:var(--yellow);
+    }
+
+    .orientation-buttons{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .orientation-btn{
+      border:1px solid var(--line);
+      border-radius:12px;
+      background:var(--panel2);
+      color:var(--muted2);
+      padding:10px 8px;
+      min-height:64px;
+      cursor:pointer;
+      font-weight:900;
+      transition:.18s ease;
+    }
+
+    .orientation-btn:hover{
+      border-color:var(--purple);
+      color:var(--purple);
+      background:var(--purpleSoft);
+    }
+
+    .engine-note{
+      margin-top:9px;
+      color:var(--muted);
+      font-size:.64rem;
+      font-weight:750;
+    }
+
+    .engine-note strong{
+      color:var(--green);
+    }
+
+    .engine-note.warning strong{
+      color:var(--yellow);
+    }
+
+    .page-rotation-badge{
+      position:absolute;
+      right:13px;
+      bottom:42px;
+      border-radius:7px;
+      padding:4px 7px;
+      font-size:.57rem;
+      font-weight:900;
+      z-index:4;
+      background:rgba(0,8,13,.78);
+      color:#fff;
+    }
+
+    .page-rotation-badge.changed{
+      color:var(--orange2);
+      box-shadow:0 0 12px rgba(255,122,26,.14);
+    }
+
+    .page-card.changed{
+      border-color:rgba(255,122,26,.38);
+    }
+
+    .page-card.changed.selected{
+      border-color:var(--cyan);
+    }
+
+    .page-quick-actions{
+      display:flex;
+      align-items:center;
+      gap:4px;
+    }
+
+    .page-action.compact{
+      width:25px;
+      height:25px;
+      font-size:.67rem;
+    }
+
+    .history-group{
+      display:flex;
+      align-items:center;
+      gap:7px;
+    }
+
+    .quality-banner{
+      margin-bottom:14px;
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:linear-gradient(90deg,var(--greenSoft),var(--panel));
+      padding:11px 12px;
+    }
+
+    .quality-banner strong{
+      color:var(--green);
+      font-size:.76rem;
+    }
+
+    .quality-banner p{
+      color:var(--muted);
+      font-size:.66rem;
+      font-weight:750;
+      margin-top:2px;
+    }
+
+    .quality-banner.compat{
+      background:linear-gradient(90deg,var(--yellowSoft),var(--panel));
+      border-color:rgba(255,209,102,.22);
+    }
+
+    .quality-banner.compat strong{
+      color:var(--yellow);
+    }
+
+    .result-stats{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:8px;
+      margin-top:12px;
+    }
+
+    .result-stat{
+      border:1px solid rgba(55,232,140,.18);
+      border-radius:12px;
+      background:color-mix(in srgb,var(--panel) 88%,transparent);
+      padding:9px;
+    }
+
+    .result-stat span{
+      display:block;
+      color:var(--muted);
+      font-size:.58rem;
+      font-weight:900;
+      letter-spacing:.06em;
+    }
+
+    .result-stat strong{
+      display:block;
+      margin-top:3px;
+      font-size:.78rem;
+      color:var(--green);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .shortcut-note{
+      color:var(--muted);
+      font-size:.61rem;
+      font-weight:750;
+      padding-top:7px;
+    }
+
+    @media(max-width:900px){
+      .rotation-deck{
+        grid-template-columns:1fr;
+      }
+    }
+
+    @media(max-width:700px){
+      .rotation-buttons{
+        grid-template-columns:1fr 1fr;
+      }
+
+      .result-stats{
+        grid-template-columns:1fr 1fr;
+      }
+    }
+
+  </style>
+</head>
+
+<body>
+  <a class="skip-link" href="#rotate-console">सीधे PDF Rotate tool पर जाएं</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="brand" aria-label="HindiTools Home">
         <span class="brand-mark">हि</span>
-        <span class="brand-text">
-          <strong>HindiTools</strong>
-          <span>PDF Rotate</span>
+        <span class="brand-copy">
+          <strong>Hindi<span class="brand-accent">Tools</span></strong>
+          <small>VISUAL PDF WORKSPACE</small>
         </span>
-      </a><ul class="nav-links" id="navLinks">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="merge-pdf-hi.html">Merge PDF</a></li>
-    <li><a href="compress-pdf-hi.html">Compress PDF</a></li>
-    <li><a href="split-pdf-hi.html">Split PDF</a></li>
-    <li><a href="image-to-pdf-hi.html">Image to PDF</a></li>
-    <li><a href="privacy.html">Privacy</a></li>
-  </ul>
+      </a>
 
-  <div class="nav-actions">
-    <a class="nav-cta" href="#rotate-tool">🔄 Rotate PDF</a>
-    <button class="menu-btn" id="menuBtn" type="button" aria-label="Open menu">☰</button>
-  </div>
-</div>
+      <nav class="nav" id="mainNav" aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="split-pdf-hi.html">Split</a>
+        <a href="merge-pdf-hi.html">Merge</a>
+        <a href="compress-pdf-hi.html">Compress</a>
+        <a href="pdf-watermark-hi.html">Watermark</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
 
-  </header>  <main>
+      <div class="header-actions">
+        <button class="icon-button" id="themeBtn" type="button" aria-label="Theme बदलें">◐</button>
+        <button class="icon-button menu-button" id="menuBtn" type="button" aria-label="Menu खोलें" aria-expanded="false">☰</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="top-status">
     <div class="container">
-      <div class="breadcrumb">
-        <a href="index.html">Home</a> / PDF Tools / PDF Rotate
-      </div>
-    </div><section class="container hero">
-  <div class="hero-shell">
-    <div class="hero-grid">
-      <div>
-        <div class="badge-row">
-          <span class="badge primary">🇮🇳 Hindi-friendly PDF tool</span>
-          <span class="badge">↻ Rotate Right</span>
-          <span class="badge">↺ Rotate Left</span>
-          <span class="badge">🔁 180 Degree</span>
-          <span class="badge">📄 Selected Pages</span>
-        </div>
-
-        <h1>PDF Pages <span class="gradient-text">घुमाएं और direction ठीक करें</span></h1>
-
-        <p class="hero-text">
-          गलत direction में scan हुई PDF को ठीक करें। पूरी PDF rotate करें या केवल selected pages को
-          left, right या 180 degree घुमाकर final PDF download करें।
-        </p>
-
-        <div class="hero-actions">
-          <a class="primary-btn" href="#rotate-tool">🔄 अभी PDF Rotate करें</a>
-          <a class="ghost-btn" href="split-pdf-hi.html">✂️ PDF Split करें</a>
-          <a class="ghost-btn" href="compress-pdf-hi.html">📉 PDF Compress करें</a>
-        </div>
-
-        <div class="mini-trust" aria-label="Tool benefits">
-          <div class="trust-line">✅ All pages या selected pages दोनों options</div>
-          <div class="trust-line">✅ Page range: 1-3, 5, 8-10 जैसे formats support</div>
-          <div class="trust-line">✅ Preview से direction check करने की सुविधा</div>
-        </div>
-      </div>
-
-      <div class="tool-shell" id="rotate-tool">
-        <div class="dropzone" id="dropzone">
-          <input type="file" id="fileInput" accept="application/pdf,.pdf" />
-          <div>
-            <div class="drop-icon">🔄</div>
-            <h2>PDF file यहाँ drop करें</h2>
-            <p>PDF upload करें, rotation choose करें और ready file download करें।</p>
-            <button class="upload-btn" type="button" id="selectFileBtn">PDF File चुनें</button>
-            <div class="privacy-note">🔐 PDF आपके browser में process करने की कोशिश की जाती है।</div>
-          </div>
-        </div>
-
-        <div class="panel" id="filePanel" style="display:none;">
-          <div class="panel-head">
-            <div>
-              <h2>Rotate Settings</h2>
-              <p>All pages या selected page range choose करें। Preview से direction check करें।</p>
-            </div>
-            <button class="danger-btn" type="button" id="clearBtn">Remove</button>
-          </div>
-
-          <div class="file-summary">
-            <div class="file-icon">📄</div>
-
-            <div>
-              <div class="file-name" id="fileName">document.pdf</div>
-              <div class="file-meta">
-                <span id="fileSize">0 KB</span>
-                <span id="pageCount">0 pages</span>
-              </div>
-            </div>
-
-            <button class="ghost-btn" type="button" id="previewBtn">Preview</button>
-          </div>
-
-          <div class="summary-strip">
-            <div class="summary-item">
-              <span>Target Pages</span>
-              <strong id="summaryPages">All</strong>
-            </div>
-            <div class="summary-item">
-              <span>Rotation</span>
-              <strong id="summaryRotation">90° Right</strong>
-            </div>
-            <div class="summary-item">
-              <span>Total Pages</span>
-              <strong id="summaryTotal">0</strong>
-            </div>
-            <div class="summary-item">
-              <span>Output</span>
-              <strong>PDF</strong>
-            </div>
-          </div>
-
-          <div class="settings-grid">
-            <div class="setting-card full">
-              <label>Rotation Direction</label>
-              <div class="rotate-options">
-                <button class="rotate-choice active" type="button" data-rotate="90">↻ Right 90°</button>
-                <button class="rotate-choice" type="button" data-rotate="-90">↺ Left 90°</button>
-                <button class="rotate-choice" type="button" data-rotate="180">🔁 180°</button>
-              </div>
-              <small>Right 90° सबसे common है जब scanned page sideways हो।</small>
-            </div>
-
-            <div class="setting-card">
-              <label for="pageModeSelect">Pages</label>
-              <select id="pageModeSelect">
-                <option value="all" selected>All pages rotate करें</option>
-                <option value="range">Selected pages only</option>
-              </select>
-              <small>Selected mode में नीचे range लिखें।</small>
-            </div>
-
-            <div class="setting-card" id="rangeCard" style="display:none;">
-              <label for="rangeInput">Page Range</label>
-              <input id="rangeInput" type="text" value="1-3" placeholder="जैसे 1-3, 5, 8-10" />
-              <div class="example-buttons">
-                <button class="chip-btn" type="button" data-example="1">Page 1</button>
-                <button class="chip-btn" type="button" data-example="1-3">1-3</button>
-                <button class="chip-btn" type="button" data-example="1,3,5">1,3,5</button>
-                <button class="chip-btn" type="button" data-example="2-">2 से last तक</button>
-              </div>
-            </div>
-
-            <div class="setting-card full">
-              <label for="outputName">Final PDF का नाम</label>
-              <input id="outputName" type="text" value="rotated-pdf" placeholder="rotated-pdf" />
-              <div class="notice">
-                Tip: अगर पूरी PDF sideways है तो All pages रखें। अगर सिर्फ कुछ pages गलत हैं तो Selected pages choose करें।
-              </div>
-            </div>
-          </div>
-
-          <div class="preview-grid" id="previewGrid"></div>
-
-          <div class="controls-grid">
-            <div></div>
-            <button class="primary-btn" type="button" id="rotateBtn">PDF Rotate करें</button>
-          </div>
-
-          <div class="progress-wrap" id="progressWrap">
-            <div class="progress-bar" id="progressBar"></div>
-          </div>
-
-          <div class="status-box" id="statusBox"></div>
-
-          <div class="download-card" id="downloadCard">
-            <div>
-              <h3>✅ PDF तैयार है</h3>
-              <p id="downloadMeta">आपकी rotated PDF download के लिए ready है।</p>
-            </div>
-            <a class="secondary-btn" id="downloadLink" href="#" download="rotated-pdf.pdf">Download PDF</a>
-          </div>
-        </div>
-      </div>
+      <span><i class="signal"></i>LOSSLESS ROTATION ENGINE ONLINE</span>
+      <span>LOCAL PDF PROCESSING / YOUR DEVICE</span>
     </div>
   </div>
-</section>
 
-<section class="container section">
-  <div class="info-grid">
-    <article class="info-card">
-      <div class="eyebrow">How it works</div>
-      <h2>PDF rotate कैसे करें?</h2>
-      <ol>
-        <li>ऊपर PDF file upload करें।</li>
-        <li>Rotation direction चुनें: right, left या 180°।</li>
-        <li>All pages या selected pages choose करें।</li>
-        <li><strong>PDF Rotate करें</strong> button दबाएं।</li>
-        <li>Ready PDF download करें।</li>
-      </ol>
-    </article>
+  <main>
+    <section class="container hero">
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <p class="eyebrow">VISUAL PDF ROTATION SYSTEM / 08</p>
+          <h1>PDF pages <span>देखकर घुमाएं।</span></h1>
+          <p>
+            पूरी PDF को blindly rotate करने की जरूरत नहीं. हर page का thumbnail देखें, जो pages गलत direction में हैं उन्हें select करें,
+            फिर left, right, 180° या portrait/landscape orientation fix apply करें.
+          </p>
 
-    <article class="info-card">
-      <div class="eyebrow">Simple guide</div>
-      <h2>कब कौन सा option use करें?</h2>
-      <ul>
-        <li><strong>Right 90°:</strong> Page left side पड़ा है और clockwise घुमाना है।</li>
-        <li><strong>Left 90°:</strong> Page right side पड़ा है और anticlockwise घुमाना है।</li>
-        <li><strong>180°:</strong> Page उल्टा scan हुआ है।</li>
-        <li><strong>Selected pages:</strong> जब सिर्फ कुछ pages wrong direction में हों।</li>
-      </ul>
-    </article>
-  </div>
-</section>
+          <div class="hero-chips">
+            <span class="chip"><strong>↻</strong> Right 90°</span>
+            <span class="chip"><strong>↺</strong> Left 90°</span>
+            <span class="chip"><strong>↕</strong> 180°</span>
+            <span class="chip"><strong>✓</strong> Individual pages</span>
+            <span class="chip"><strong>↶</strong> Undo / Redo</span>
+            <span class="chip"><strong>🔐</strong> Browser processing</span>
+          </div>
+        </div>
 
-<section class="container section">
-  <div class="related-card">
-    <div class="eyebrow">More PDF tools</div>
-    <h2>Related PDF Tools</h2>
-    <div class="related">
-      <a href="merge-pdf-hi.html">📎 PDF जोड़ें</a>
-      <a href="split-pdf-hi.html">✂️ PDF अलग करें</a>
-      <a href="compress-pdf-hi.html">📉 PDF छोटा करें</a>
-      <a href="pdf-watermark-hi.html">💧 Watermark लगाएं</a>
-    </div>
-  </div>
-</section>
+        <div class="upload-console" id="rotate-console">
+          <div class="console-top">
+            <span>PDF ROTATION INPUT CONSOLE</span>
+            <span class="console-lights"><i></i><i></i><i></i></span>
+          </div>
 
-<section class="container section">
-  <div class="faq-card">
-    <div class="eyebrow">Common questions</div>
-    <h2>FAQ</h2>
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" accept="application/pdf,.pdf" />
 
-    <div class="faq-list">
-      <div class="faq-item active">
-        <button class="faq-q" type="button">क्या मैं पूरी PDF rotate कर सकता हूँ?<span>+</span></button>
-        <div class="faq-a">हाँ, All pages mode में पूरी PDF के सभी pages rotate होंगे।</div>
+            <div>
+              <div class="upload-orb">↻</div>
+              <h2>PDF यहाँ drop करें</h2>
+              <p>Pages load होते ही visual rotation workspace खुल जाएगा</p>
+              <button class="primary-btn" type="button" id="chooseFileBtn">PDF चुनें</button>
+              <div class="local-note">● Normal rotation PDF quality को rasterize नहीं करती</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container workspace" id="workspace" aria-live="polite">
+      <div class="telemetry">
+        <div class="telemetry-card accent">
+          <span>DOCUMENT</span>
+          <strong id="teleFile">—</strong>
+        </div>
+
+        <div class="telemetry-card">
+          <span>PAGES</span>
+          <strong id="telePages">0</strong>
+        </div>
+
+        <div class="telemetry-card success">
+          <span>SELECTED</span>
+          <strong id="teleSelected">0</strong>
+        </div>
+
+        <div class="telemetry-card">
+          <span>CHANGED</span>
+          <strong id="teleChanged">0</strong>
+        </div>
+
+        <div class="telemetry-card">
+          <span>ENGINE</span>
+          <strong id="teleEngine">DIRECT</strong>
+        </div>
       </div>
 
-      <div class="faq-item">
-        <button class="faq-q" type="button">क्या मैं सिर्फ कुछ pages rotate कर सकता हूँ?<span>+</span></button>
-        <div class="faq-a">हाँ, Selected pages mode चुनकर 1-3, 5, 8-10 जैसा range लिखें।</div>
+      <div class="control-deck">
+        <div class="control-row">
+          <div class="control-group">
+            <span class="control-label">SELECT</span>
+            <button class="mini-btn" id="selectAllBtn" type="button">All</button>
+            <button class="mini-btn" id="clearSelectionBtn" type="button">Clear</button>
+            <button class="mini-btn" id="invertSelectionBtn" type="button">Invert</button>
+            <button class="mini-btn" id="oddBtn" type="button">Odd</button>
+            <button class="mini-btn" id="evenBtn" type="button">Even</button>
+            <button class="mini-btn" id="selectChangedBtn" type="button">Changed</button>
+          </div>
+
+          <div class="control-group">
+            <span class="control-label">RANGE</span>
+            <div class="range-box">
+              <input id="rangeInput" type="text" placeholder="1-3, 5, 8-10" />
+              <button id="applyRangeBtn" type="button">Apply</button>
+            </div>
+          </div>
+
+          <div class="history-group">
+            <button class="mini-btn" id="undoBtn" type="button" disabled>↶ Undo</button>
+            <button class="mini-btn" id="redoBtn" type="button" disabled>↷ Redo</button>
+          </div>
+
+          <label class="zoom-wrap">
+            Small
+            <input type="range" id="thumbZoom" min="118" max="230" value="156" />
+            Large
+          </label>
+
+          <button class="danger-btn" id="removeFileBtn" type="button">Remove PDF</button>
+        </div>
       </div>
 
-      <div class="faq-item">
-        <button class="faq-q" type="button">क्या file की quality change होगी?<span>+</span></button>
-        <div class="faq-a">यह tool PDF pages की rotation property बदलता है, इसलिए normally quality loss नहीं होता।</div>
+      <div class="rotation-deck">
+        <div class="rotation-command-panel">
+          <span class="deck-label">ROTATE SELECTED PAGES</span>
+
+          <div class="rotation-buttons">
+            <button class="rotation-command" id="rotateLeftBtn" type="button">
+              <strong>↺ −90°</strong>
+              <span>Rotate Left</span>
+            </button>
+
+            <button class="rotation-command" id="rotateRightBtn" type="button">
+              <strong>↻ +90°</strong>
+              <span>Rotate Right</span>
+            </button>
+
+            <button class="rotation-command" id="rotate180Btn" type="button">
+              <strong>↕ 180°</strong>
+              <span>Turn Upside Down</span>
+            </button>
+
+            <button class="rotation-command reset" id="resetRotationBtn" type="button">
+              <strong>↺ 0</strong>
+              <span>Original Rotation</span>
+            </button>
+          </div>
+
+          <div class="shortcut-note">
+            Keyboard: R = right • Shift+R = left • 0 = reset • Ctrl/Cmd+Z = undo
+          </div>
+        </div>
+
+        <div class="orientation-command-panel">
+          <span class="deck-label">AUTO PAGE SHAPE</span>
+
+          <div class="orientation-buttons">
+            <button class="orientation-btn" id="portraitBtn" type="button">▯<br>Make Portrait</button>
+            <button class="orientation-btn" id="landscapeBtn" type="button">▭<br>Make Landscape</button>
+          </div>
+
+          <div class="engine-note" id="engineNote">
+            <strong>Direct mode:</strong> original PDF page content stays intact.
+          </div>
+        </div>
       </div>
 
-      <div class="faq-item">
-        <button class="faq-q" type="button">क्या password-protected PDF rotate होगी?<span>+</span></button>
-        <div class="faq-a">Password-protected या damaged PDFs rotate नहीं हो सकतीं। पहले PDF unlock करनी होगी।</div>
-      </div>
-
-      <div class="faq-item">
-        <button class="faq-q" type="button">क्या मेरी PDF server पर upload होती है?<span>+</span></button>
-        <div class="faq-a">यह page browser-based PDF library का उपयोग करता है। फिर भी sensitive documents के लिए हमेशा सावधानी रखें।</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-  </main>  <footer>
-    <div class="container">
-      <div class="footer-grid">
+      <div class="quality-banner" id="qualityBanner">
         <div>
-          <span class="footer-title">HindiTools.com 🇮🇳</span>
-          <p class="footer-text">PDF, Image और Document कामों के लिए आसान हिंदी tools। Simple interface, fast workflow और mobile-friendly design।</p>
-        </div><div>
-      <strong>PDF Tools</strong>
-      <div class="footer-links">
-        <a href="pdf-rotate-hi.html">PDF Rotate</a>
-        <a href="merge-pdf-hi.html">PDF जोड़ें</a>
-        <a href="split-pdf-hi.html">PDF अलग करें</a>
-        <a href="compress-pdf-hi.html">PDF छोटा करें</a>
+          <strong id="qualityTitle">LOSSLESS DIRECT ROTATION</strong>
+          <p id="qualityText">Only page rotation metadata will change. Text, vectors and images remain original.</p>
+        </div>
+        <button class="ghost-btn" id="renderAllBtn" type="button">Render All</button>
       </div>
-    </div>
 
-    <div>
-      <strong>More Tools</strong>
-      <div class="footer-links">
-        <a href="image-to-pdf-hi.html">Image to PDF</a>
-        <a href="pdf-to-image-hi.html">PDF to Image</a>
-        <a href="pdf-sign-hi.html">PDF Sign</a>
-        <a href="pdf-lock-hi.html">PDF Lock</a>
+      <section class="workspace-shell">
+        <div class="workspace-head">
+          <div>
+            <h2>PDF Page Matrix</h2>
+            <p>Blue = selected. Orange marker = rotation changed. Each thumbnail shows the final orientation.</p>
+          </div>
+          <span class="control-label" id="matrixState">0 / 0 changed</span>
+        </div>
+
+        <div class="pages-viewport" id="pagesViewport">
+          <div class="pages-grid" id="pagesGrid"></div>
+        </div>
+
+        <div class="selection-bar">
+          <div class="selection-summary">
+            <strong id="selectionCount">0 pages selected</strong>
+            <span id="selectionDetail">PDF upload करें.</span>
+          </div>
+
+          <div class="output-options">
+            <input id="outputName" type="text" value="rotated-pdf" aria-label="Output file name" />
+            <button class="primary-btn" id="buildBtn" type="button" disabled>Build Rotated PDF</button>
+          </div>
+        </div>
+      </section>
+
+      <div class="status-panel" id="statusPanel">
+        <div class="status-line" id="statusLine">Ready</div>
+        <div class="status-detail" id="statusDetail"></div>
+        <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
       </div>
-    </div>
 
-    <div>
-      <strong>Website</strong>
+      <div class="result-panel" id="resultPanel">
+        <div class="result-head">
+          <div>
+            <h3>ROTATED PDF VERIFIED ✓</h3>
+            <p id="resultText">Your PDF is ready.</p>
+          </div>
+
+          <div class="result-actions">
+            <a class="secondary-btn" id="downloadLink" href="#" download>Download PDF</a>
+            <button class="ghost-btn" id="adjustBtn" type="button">Adjust rotations</button>
+          </div>
+        </div>
+
+        <div class="result-stats">
+          <div class="result-stat">
+            <span>ROTATED</span>
+            <strong id="resultChanged">0 pages</strong>
+          </div>
+
+          <div class="result-stat">
+            <span>OUTPUT SIZE</span>
+            <strong id="resultSize">0 KB</strong>
+          </div>
+
+          <div class="result-stat">
+            <span>ENGINE</span>
+            <strong id="resultEngine">Direct</strong>
+          </div>
+
+          <div class="result-stat">
+            <span>VERIFY</span>
+            <strong id="resultVerify">Passed</strong>
+          </div>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <article class="info-card">
+          <h2>PDF rotate कैसे करें?</h2>
+          <ol>
+            <li>PDF upload करें और thumbnails load होने दें.</li>
+            <li>Wrong-direction pages select करें.</li>
+            <li>Left, Right या 180° rotation apply करें.</li>
+            <li>Thumbnails में final orientation check करें.</li>
+            <li><strong>Build Rotated PDF</strong> दबाकर verified PDF download करें.</li>
+          </ol>
+        </article>
+
+        <article class="info-card">
+          <h2>Quality क्यों नहीं घटती?</h2>
+          <p>
+            Normal direct mode में page contents को image में convert नहीं किया जाता. Tool existing page rotation पढ़कर नया 0°, 90°, 180° या 270° rotation set करता है.
+            इसलिए text selectable रह सकता है और vector content original रहता है.
+          </p>
+        </article>
+
+        <article class="info-card">
+          <h2>Related PDF Tools</h2>
+          <div class="related-grid">
+            <a class="related-card" href="split-pdf-hi.html">✂ Split PDF</a>
+            <a class="related-card" href="merge-pdf-hi.html">📎 Merge PDF</a>
+            <a class="related-card" href="compress-pdf-hi.html">📉 Compress PDF</a>
+            <a class="related-card" href="pdf-watermark-hi.html">💧 Watermark</a>
+          </div>
+        </article>
+
+        <article class="info-card">
+          <h2>FAQ</h2>
+
+          <div class="faq-list">
+            <div class="faq-item active">
+              <button class="faq-q" type="button">क्या हर page अलग rotate कर सकता हूँ?<span>+</span></button>
+              <div class="faq-a">हाँ. किसी page को select करके main controls use करें या उसके card पर quick left/right buttons दबाएं.</div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">Portrait / Landscape buttons क्या करते हैं?<span>+</span></button>
+              <div class="faq-a">वे selected pages की final width/height देखते हैं और सिर्फ जरूरत वाले pages को 90° rotate करते हैं.</div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">Compatibility fallback क्या है?<span>+</span></button>
+              <div class="faq-a">अगर PDF preview हो सकती है लेकिन direct editor उसे modify नहीं कर पाता, tool page appearance को render करके नई PDF बना सकता है. उस fallback में selectable text/links flatten हो सकते हैं.</div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">क्या PDF server पर upload होती है?<span>+</span></button>
+              <div class="faq-a">Selected PDF इस page में browser-side process होती है. Libraries internet से load होती हैं, लेकिन HindiTools PDF processing server पर document upload नहीं किया जाता.</div>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>
+        <div class="brand" style="margin-bottom:8px;">
+          <span class="brand-mark">हि</span>
+          <span class="brand-copy">
+            <strong>Hindi<span class="brand-accent">Tools</span></strong>
+            <small>DOCUMENT TOOLS · हिंदी में</small>
+          </span>
+        </div>
+        <p class="footer-copy">Visual Hindi + Hinglish PDF tools — pages देखें, चुनें और document काम browser में करें.</p>
+      </div>
+
       <div class="footer-links">
-        <a href="index.html">Home</a>
+        <a href="/">Home</a>
         <a href="about.html">About</a>
-        <a href="privacy.html">Privacy Policy</a>
+        <a href="privacy.html">Privacy</a>
         <a href="contact.html">Contact</a>
       </div>
     </div>
+  </footer>
+
+  <div class="modal" id="previewModal" role="dialog" aria-modal="true">
+    <div class="modal-card">
+      <div class="modal-head">
+        <strong id="previewTitle">Page Preview</strong>
+        <button class="icon-button" id="closeModalBtn" type="button" aria-label="Close preview">×</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+      <div class="modal-meta" id="modalMeta"></div>
+    </div>
   </div>
 
-  <div class="copyright">© 2026 HindiTools.com — सभी अधिकार सुरक्षित।</div>
-</div>
-
-  </footer>  <script>
+  <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc =
       "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
     const { PDFDocument, degrees } = PDFLib;
+    const $ = id => document.getElementById(id);
 
-    const fileInput = document.getElementById("fileInput");
-    const selectFileBtn = document.getElementById("selectFileBtn");
-    const dropzone = document.getElementById("dropzone");
-    const filePanel = document.getElementById("filePanel");
-    const fileNameEl = document.getElementById("fileName");
-    const fileSizeEl = document.getElementById("fileSize");
-    const pageCountEl = document.getElementById("pageCount");
-    const clearBtn = document.getElementById("clearBtn");
-    const previewBtn = document.getElementById("previewBtn");
+    const MAX_RASTER_PIXELS = 10_000_000;
 
-    const pageModeSelect = document.getElementById("pageModeSelect");
-    const rangeCard = document.getElementById("rangeCard");
-    const rangeInput = document.getElementById("rangeInput");
-    const outputName = document.getElementById("outputName");
-    const rotateBtn = document.getElementById("rotateBtn");
+    const state = {
+      file: null,
+      buffer: null,
+      pdfJs: null,
+      pageCount: 0,
 
-    const summaryPages = document.getElementById("summaryPages");
-    const summaryRotation = document.getElementById("summaryRotation");
-    const summaryTotal = document.getElementById("summaryTotal");
+      selected: new Set(),
+      originalRotations: new Map(),
+      rotations: new Map(),
+      metrics: new Map(),
 
-    const previewGrid = document.getElementById("previewGrid");
-    const statusBox = document.getElementById("statusBox");
-    const progressWrap = document.getElementById("progressWrap");
-    const progressBar = document.getElementById("progressBar");
-    const downloadCard = document.getElementById("downloadCard");
-    const downloadLink = document.getElementById("downloadLink");
-    const downloadMeta = document.getElementById("downloadMeta");
+      directCompatible: true,
+      directWarning: null,
 
-    let selectedFile = null;
-    let selectedBuffer = null;
-    let pdfJsDocument = null;
-    let pageCount = 0;
-    let currentDownloadUrl = null;
-    let rotationDelta = 90;
+      history: [],
+      redoHistory: [],
+
+      currentUrl: null,
+
+      observer: null,
+      rendering: new Map(),
+      renderGeneration: 0,
+      previewGeneration: 0,
+
+      busy: false,
+      lastClickedPage: null,
+      statusTimer: null
+    };
+
+    function normalizeRotation(value) {
+      const rounded = Math.round(Number(value || 0) / 90) * 90;
+      return ((rounded % 360) + 360) % 360;
+    }
+
+    function rotationDeltaFromOriginal(pageNo) {
+      const original = state.originalRotations.get(pageNo) || 0;
+      const current = state.rotations.get(pageNo) || 0;
+      return normalizeRotation(current - original);
+    }
+
+    function isChanged(pageNo) {
+      return normalizeRotation(state.rotations.get(pageNo)) !==
+        normalizeRotation(state.originalRotations.get(pageNo));
+    }
+
+    function changedPages() {
+      const pages = [];
+
+      for (let pageNo = 1; pageNo <= state.pageCount; pageNo++) {
+        if (isChanged(pageNo)) pages.push(pageNo);
+      }
+
+      return pages;
+    }
+
+    function selectedPages() {
+      return [...state.selected].sort((a,b) => a - b);
+    }
 
     function formatBytes(bytes) {
       if (!bytes) return "0 Bytes";
+
       const k = 1024;
-      const sizes = ["Bytes", "KB", "MB", "GB"];
-      const i = Math.floor(Math.log(bytes) / Math.log(k));
-      return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+      const units = ["Bytes","KB","MB","GB"];
+
+      const i = Math.min(
+        units.length - 1,
+        Math.floor(Math.log(bytes) / Math.log(k))
+      );
+
+      return (
+        parseFloat(
+          (bytes / Math.pow(k,i)).toFixed(2)
+        )
+        + " "
+        + units[i]
+      );
     }
 
-    function sanitizeFileName(name) {
-      return (name || "rotated-pdf")
-        .replace(/\.pdf$/i, "")
-        .replace(/[^\u0900-\u097Fa-zA-Z0-9-_ ]/g, "")
-        .trim()
-        .replace(/\s+/g, "-") || "rotated-pdf";
+    function safeName(value) {
+      return (
+        (value || "rotated-pdf")
+          .replace(/\.pdf$/i,"")
+          .replace(/[^\u0900-\u097Fa-zA-Z0-9-_ ]/g,"")
+          .trim()
+          .replace(/\s+/g,"-")
+        || "rotated-pdf"
+      );
     }
 
-    function setStatus(message, type = "normal") {
-      statusBox.textContent = message;
-      statusBox.className = "status-box show";
-      if (type === "success") statusBox.classList.add("success");
-      if (type === "error") statusBox.classList.add("error");
+    function setStatus(message, detail = "", type = "normal", percent = null) {
+      clearTimeout(state.statusTimer);
+
+      $("statusPanel").classList.add("show");
+
+      $("statusLine").className = "status-line";
+
+      if (type !== "normal") {
+        $("statusLine").classList.add(type);
+      }
+
+      $("statusLine").textContent = message;
+      $("statusDetail").textContent = detail;
+
+      if (percent !== null) {
+        $("progressBar").style.width =
+          Math.max(
+            0,
+            Math.min(100, percent)
+          )
+          + "%";
+      }
     }
 
     function clearStatus() {
-      statusBox.className = "status-box";
-      statusBox.textContent = "";
+      clearTimeout(state.statusTimer);
+
+      $("statusPanel").classList.remove("show");
+      $("statusLine").textContent = "";
+      $("statusDetail").textContent = "";
+      $("progressBar").style.width = "0%";
     }
 
-    function setProgress(percent) {
-      progressWrap.classList.add("show");
-      progressBar.style.width = `${percent}%`;
+    function flashStatus(message, detail = "", type = "success") {
+      setStatus(
+        message,
+        detail,
+        type,
+        100
+      );
+
+      state.statusTimer =
+        setTimeout(
+          () => {
+            if (!state.busy) clearStatus();
+          },
+          1100
+        );
     }
 
-    function resetProgress() {
-      progressWrap.classList.remove("show");
-      progressBar.style.width = "0%";
-    }
+    function clearResult() {
+      $("resultPanel").classList.remove("show");
 
-    function resetDownload() {
-      if (currentDownloadUrl) {
-        URL.revokeObjectURL(currentDownloadUrl);
-        currentDownloadUrl = null;
+      if (state.currentUrl) {
+        URL.revokeObjectURL(state.currentUrl);
+        state.currentUrl = null;
       }
-      downloadCard.classList.remove("show");
-      downloadLink.href = "#";
+
+      $("downloadLink").href = "#";
+      $("downloadLink").removeAttribute("download");
     }
 
-    function resetPreview() {
-      previewGrid.innerHTML = "";
-      previewGrid.classList.remove("show");
+    function setBusy(value) {
+      state.busy = value;
+
+      [
+        "chooseFileBtn",
+        "removeFileBtn",
+        "selectAllBtn",
+        "clearSelectionBtn",
+        "invertSelectionBtn",
+        "oddBtn",
+        "evenBtn",
+        "selectChangedBtn",
+        "rotateLeftBtn",
+        "rotateRightBtn",
+        "rotate180Btn",
+        "resetRotationBtn",
+        "portraitBtn",
+        "landscapeBtn",
+        "renderAllBtn"
+      ]
+      .forEach(id => {
+        const element = $(id);
+
+        if (element) {
+          element.disabled = value;
+        }
+      });
+
+      $("dropzone").classList.toggle(
+        "busy",
+        value
+      );
+
+      updateSummary();
     }
 
-    function parsePageRanges(input, totalPages) {
-      const cleanInput = String(input || "").replace(/\s+/g, "");
-      if (!cleanInput) throw new Error("Page range खाली है।");
+    function parseRange(input) {
+      const raw =
+        String(input || "")
+        .replace(/\s+/g,"");
 
-      const parts = cleanInput.split(",").filter(Boolean);
-      const pages = [];
+      if (!raw) {
+        throw new Error(
+          "Page range खाली है."
+        );
+      }
 
-      for (const part of parts) {
+      const result =
+        new Set();
+
+      raw
+      .split(",")
+      .filter(Boolean)
+      .forEach(part => {
+
         if (/^\d+$/.test(part)) {
-          const page = Number(part);
-          if (page < 1 || page > totalPages) throw new Error(`Page ${page} PDF में मौजूद नहीं है।`);
-          pages.push(page);
-          continue;
-        }
+          const page =
+            Number(part);
 
-        const match = part.match(/^(\d*)-(\d*)$/);
-        if (!match) throw new Error(`"${part}" valid range नहीं है।`);
+          if (
+            page < 1 ||
+            page > state.pageCount
+          ) {
+            throw new Error(
+              `Page ${page} PDF में मौजूद नहीं है.`
+            );
+          }
 
-        let start = match[1] ? Number(match[1]) : 1;
-        let end = match[2] ? Number(match[2]) : totalPages;
+          result.add(page);
 
-        if (start < 1) start = 1;
-        if (end > totalPages) end = totalPages;
-        if (start > end) throw new Error(`"${part}" में start page end page से बड़ा है।`);
-
-        for (let page = start; page <= end; page++) pages.push(page);
-      }
-
-      const uniquePages = [...new Set(pages)];
-      if (!uniquePages.length) throw new Error("कोई valid page नहीं मिला।");
-      return uniquePages;
-    }
-
-    function getTargetPages() {
-      if (!pageCount) return [];
-
-      if (pageModeSelect.value === "all") {
-        return Array.from({ length: pageCount }, (_, index) => index + 1);
-      }
-
-      return parsePageRanges(rangeInput.value, pageCount);
-    }
-
-    function getRotationLabel() {
-      if (rotationDelta === 90) return "90° Right";
-      if (rotationDelta === -90) return "90° Left";
-      return "180°";
-    }
-
-    function updateSummary() {
-      let targetPages = [];
-
-      try {
-        targetPages = getTargetPages();
-      } catch {
-        targetPages = [];
-      }
-
-      summaryPages.textContent = pageModeSelect.value === "all" ? `All ${pageCount || 0}` : `${targetPages.length || "?"}`;
-      summaryRotation.textContent = getRotationLabel();
-      summaryTotal.textContent = String(pageCount || 0);
-    }
-
-    async function loadFile(file) {
-      clearStatus();
-      resetProgress();
-      resetDownload();
-      resetPreview();
-
-      if (!file || !(file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf"))) {
-        setStatus("कृपया केवल PDF file upload करें।", "error");
-        return;
-      }
-
-      try {
-        setStatus("PDF read की जा रही है...");
-
-        selectedFile = file;
-        selectedBuffer = await file.arrayBuffer();
-
-        const loadingTask = pdfjsLib.getDocument({ data: selectedBuffer.slice(0) });
-        pdfJsDocument = await loadingTask.promise;
-        pageCount = pdfJsDocument.numPages;
-
-        if (pageCount < 3) {
-          rangeInput.value = "1";
-        } else {
-          rangeInput.value = `1-${Math.min(3, pageCount)}`;
-        }
-
-        fileNameEl.textContent = file.name;
-        fileNameEl.title = file.name;
-        fileSizeEl.textContent = formatBytes(file.size);
-        pageCountEl.textContent = `${pageCount} page${pageCount > 1 ? "s" : ""}`;
-
-        filePanel.style.display = "block";
-        rotateBtn.disabled = false;
-        updateSummary();
-
-        setStatus(`PDF ready है। Total pages: ${pageCount}. Rotation settings choose करें।`, "success");
-      } catch (error) {
-        console.error(error);
-        selectedFile = null;
-        selectedBuffer = null;
-        pdfJsDocument = null;
-        pageCount = 0;
-        filePanel.style.display = "none";
-        rotateBtn.disabled = true;
-        setStatus("यह PDF read नहीं हो सकी। File encrypted, damaged या unsupported हो सकती है।", "error");
-      }
-    }
-
-    async function renderPreviewPage(pageNumber) {
-      const page = await pdfJsDocument.getPage(pageNumber);
-      const viewport = page.getViewport({ scale: 0.45 });
-
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d", { alpha: false });
-
-      canvas.width = Math.floor(viewport.width);
-      canvas.height = Math.floor(viewport.height);
-
-      context.fillStyle = "#ffffff";
-      context.fillRect(0, 0, canvas.width, canvas.height);
-
-      await page.render({
-        canvasContext: context,
-        viewport
-      }).promise;
-
-      return canvas;
-    }
-
-    async function showPreview() {
-      if (!pdfJsDocument) {
-        setStatus("पहले PDF upload करें।", "error");
-        return;
-      }
-
-      resetPreview();
-      clearStatus();
-
-      try {
-        const pages = getTargetPages().slice(0, 6);
-        if (!pages.length) {
-          setStatus("Preview के लिए valid pages नहीं मिले।", "error");
           return;
         }
 
-        setStatus("Preview बनाई जा रही है...");
-        previewGrid.classList.add("show");
+        const match =
+          part.match(
+            /^(\d*)-(\d*)$/
+          );
 
-        for (const pageNumber of pages) {
-          const canvas = await renderPreviewPage(pageNumber);
-
-          const card = document.createElement("div");
-          card.className = "preview-card";
-
-          const wrap = document.createElement("div");
-          wrap.className = "preview-canvas-wrap";
-          wrap.style.setProperty("--preview-rotate", `${rotationDelta}deg`);
-          wrap.appendChild(canvas);
-
-          const label = document.createElement("strong");
-          label.textContent = `Page ${pageNumber} after ${getRotationLabel()}`;
-
-          card.appendChild(wrap);
-          card.appendChild(label);
-          previewGrid.appendChild(card);
+        if (!match) {
+          throw new Error(
+            `"${part}" valid range नहीं है.`
+          );
         }
 
-        const totalSelected = getTargetPages().length;
-        if (totalSelected > 6) {
-          const extra = document.createElement("div");
-          extra.className = "preview-card";
-          extra.innerHTML = `
-            <div class="preview-canvas-wrap">
-              <strong>+${totalSelected - 6} more</strong>
-            </div>
-            <strong>बाकी pages भी rotate होंगे</strong>
-          `;
-          previewGrid.appendChild(extra);
+        let start =
+          match[1]
+          ?
+          Number(match[1])
+          :
+          1;
+
+        let end =
+          match[2]
+          ?
+          Number(match[2])
+          :
+          state.pageCount;
+
+        start =
+          Math.max(
+            1,
+            start
+          );
+
+        end =
+          Math.min(
+            state.pageCount,
+            end
+          );
+
+        if (start > end) {
+          throw new Error(
+            `"${part}" में start end से बड़ा है.`
+          );
         }
 
-        setStatus("Preview ready है। अब PDF rotate कर सकते हैं।", "success");
-      } catch (error) {
-        console.error(error);
-        setStatus(error.message || "Preview नहीं बन सकी।", "error");
+        for (
+          let page = start;
+          page <= end;
+          page++
+        ) {
+          result.add(page);
+        }
+      });
+
+      if (!result.size) {
+        throw new Error(
+          "कोई valid page नहीं मिला."
+        );
+      }
+
+      return [...result];
+    }
+
+    function updateEngineUi() {
+      const fallback =
+        !state.directCompatible;
+
+      $("teleEngine").textContent =
+        fallback
+        ?
+        "VISUAL FALLBACK"
+        :
+        "DIRECT";
+
+      $("qualityBanner").classList.toggle(
+        "compat",
+        fallback
+      );
+
+      $("engineNote").classList.toggle(
+        "warning",
+        fallback
+      );
+
+      if (fallback) {
+        $("qualityTitle").textContent =
+          "COMPATIBILITY MODE AVAILABLE";
+
+        $("qualityText").textContent =
+          "This PDF can be previewed but direct metadata editing is unavailable. Final output will flatten page appearance if you continue.";
+
+        $("engineNote").innerHTML =
+          "<strong>Compatibility fallback:</strong> output can lose selectable text, links, forms and vector sharpness.";
+      } else {
+        $("qualityTitle").textContent =
+          "LOSSLESS DIRECT ROTATION";
+
+        $("qualityText").textContent =
+          "Only page rotation metadata will change. Text, vectors and images remain original.";
+
+        $("engineNote").innerHTML =
+          "<strong>Direct mode:</strong> original PDF page content stays intact.";
       }
     }
 
-    async function rotatePDF() {
-      if (!selectedBuffer) {
-        setStatus("पहले PDF upload करें।", "error");
+    function updateSummary() {
+      const changed =
+        changedPages();
+
+      $("teleFile").textContent =
+        state.file
+        ?
+        state.file.name
+        :
+        "—";
+
+      $("telePages").textContent =
+        String(
+          state.pageCount
+        );
+
+      $("teleSelected").textContent =
+        String(
+          state.selected.size
+        );
+
+      $("teleChanged").textContent =
+        String(
+          changed.length
+        );
+
+      $("matrixState").textContent =
+        `${changed.length} / ${state.pageCount} changed`;
+
+      $("selectionCount").textContent =
+        `${state.selected.size} page${state.selected.size === 1 ? "" : "s"} selected`;
+
+      $("selectionDetail").textContent =
+        state.pageCount
+        ?
+        `${changed.length} rotation change${changed.length === 1 ? "" : "s"} pending`
+        :
+        "PDF upload करें.";
+
+      $("buildBtn").disabled =
+        state.busy ||
+        !state.buffer ||
+        changed.length === 0;
+
+      $("undoBtn").disabled =
+        state.busy ||
+        state.history.length === 0;
+
+      $("redoBtn").disabled =
+        state.busy ||
+        state.redoHistory.length === 0;
+
+      updateEngineUi();
+    }
+
+    function captureRotationSnapshot() {
+      return (
+        Array
+        .from(
+          state.rotations.entries()
+        )
+        .map(
+          ([page,rotation]) =>
+            [
+              page,
+              rotation
+            ]
+        )
+      );
+    }
+
+    function restoreRotationSnapshot(snapshot) {
+      state.rotations =
+        new Map(
+          snapshot
+          .map(
+            ([page,rotation]) =>
+              [
+                Number(page),
+                normalizeRotation(rotation)
+              ]
+          )
+        );
+    }
+
+    function pushHistory() {
+      state.history.push(
+        captureRotationSnapshot()
+      );
+
+      if (
+        state.history.length >
+        50
+      ) {
+        state.history.shift();
+      }
+
+      state.redoHistory =
+        [];
+    }
+
+    function undoRotation() {
+      if (
+        state.busy ||
+        !state.history.length
+      ) {
         return;
       }
 
-      resetDownload();
-      resetProgress();
-      clearStatus();
+      state.redoHistory.push(
+        captureRotationSnapshot()
+      );
 
-      rotateBtn.disabled = true;
+      const snapshot =
+        state.history.pop();
 
-      try {
-        const targetPages = getTargetPages();
-        const targetSet = new Set(targetPages);
+      restoreRotationSnapshot(
+        snapshot
+      );
 
-        if (!targetPages.length) {
-          throw new Error("कोई valid page selected नहीं है।");
-        }
+      clearResult();
+      rebuildGrid();
+      flashStatus(
+        "Last rotation undone.",
+        "",
+        "success"
+      );
+    }
 
-        setStatus("PDF rotate process शुरू हो गई है...");
-        setProgress(10);
+    function redoRotation() {
+      if (
+        state.busy ||
+        !state.redoHistory.length
+      ) {
+        return;
+      }
 
-        const pdfDoc = await PDFDocument.load(selectedBuffer, { ignoreEncryption: false });
-        const pages = pdfDoc.getPages();
+      state.history.push(
+        captureRotationSnapshot()
+      );
 
-        pages.forEach((page, index) => {
-          const pageNumber = index + 1;
+      const snapshot =
+        state.redoHistory.pop();
 
-          if (targetSet.has(pageNumber)) {
-            const currentRotation = page.getRotation().angle || 0;
-            const newRotation = (currentRotation + rotationDelta + 360) % 360;
-            page.setRotation(degrees(newRotation));
+      restoreRotationSnapshot(
+        snapshot
+      );
+
+      clearResult();
+      rebuildGrid();
+      flashStatus(
+        "Rotation redone.",
+        "",
+        "success"
+      );
+    }
+
+    function rotationLabel(pageNo) {
+      const original =
+        normalizeRotation(
+          state.originalRotations.get(pageNo)
+        );
+
+      const current =
+        normalizeRotation(
+          state.rotations.get(pageNo)
+        );
+
+      if (original === current) {
+        return `${current}°`;
+      }
+
+      return `${original}°→${current}°`;
+    }
+
+    function createCard(pageNo) {
+      const card =
+        document.createElement(
+          "article"
+        );
+
+      card.className =
+        "page-card";
+
+      card.dataset.page =
+        String(pageNo);
+
+      const changed =
+        isChanged(pageNo);
+
+      card.classList.toggle(
+        "changed",
+        changed
+      );
+
+      card.classList.toggle(
+        "selected",
+        state.selected.has(pageNo)
+      );
+
+      card.innerHTML =
+        `
+          <div class="thumb-shell">
+            <div class="thumb-placeholder">
+              PAGE ${pageNo}<br>
+              waiting…
+            </div>
+          </div>
+
+          <div class="page-check">
+            ${state.selected.has(pageNo) ? "✓" : ""}
+          </div>
+
+          <div class="page-number-badge">
+            P${String(pageNo).padStart(2,"0")}
+          </div>
+
+          <div class="page-rotation-badge ${changed ? "changed" : ""}">
+            ${rotationLabel(pageNo)}
+          </div>
+
+          <div class="page-meta">
+            <span>
+              Page ${pageNo}
+            </span>
+
+            <div class="page-quick-actions">
+              <button
+                class="page-action compact"
+                type="button"
+                data-action="left"
+                title="Rotate page left"
+              >
+                ↺
+              </button>
+
+              <button
+                class="page-action compact"
+                type="button"
+                data-action="right"
+                title="Rotate page right"
+              >
+                ↻
+              </button>
+
+              <button
+                class="page-action compact"
+                type="button"
+                data-action="preview"
+                title="Large preview"
+              >
+                ⌕
+              </button>
+            </div>
+          </div>
+        `;
+
+      card.addEventListener(
+        "click",
+        event => {
+
+          if (
+            state.busy ||
+            event.target.closest("button")
+          ) {
+            return;
           }
 
-          setProgress(Math.round(((index + 1) / pages.length) * 80));
+          if (
+            event.shiftKey &&
+            state.lastClickedPage
+          ) {
+
+            const start =
+              Math.min(
+                state.lastClickedPage,
+                pageNo
+              );
+
+            const end =
+              Math.max(
+                state.lastClickedPage,
+                pageNo
+              );
+
+            for (
+              let page = start;
+              page <= end;
+              page++
+            ) {
+              state.selected.add(page);
+            }
+
+          } else {
+
+            if (
+              state.selected.has(pageNo)
+            ) {
+              state.selected.delete(pageNo);
+            } else {
+              state.selected.add(pageNo);
+            }
+
+            state.lastClickedPage =
+              pageNo;
+          }
+
+          refreshSelection();
+        }
+      );
+
+      card
+      .querySelector('[data-action="left"]')
+      .addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+          applyDelta(
+            [pageNo],
+            -90,
+            `Page ${pageNo} rotated left.`
+          );
+        }
+      );
+
+      card
+      .querySelector('[data-action="right"]')
+      .addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+          applyDelta(
+            [pageNo],
+            90,
+            `Page ${pageNo} rotated right.`
+          );
+        }
+      );
+
+      card
+      .querySelector('[data-action="preview"]')
+      .addEventListener(
+        "click",
+        event => {
+
+          event.stopPropagation();
+
+          showLargePreview(
+            pageNo
+          );
+        }
+      );
+
+      return card;
+    }
+
+    function refreshSelection() {
+      document
+      .querySelectorAll(
+        ".page-card"
+      )
+      .forEach(card => {
+
+        const pageNo =
+          Number(
+            card.dataset.page
+          );
+
+        const selected =
+          state.selected.has(pageNo);
+
+        card.classList.toggle(
+          "selected",
+          selected
+        );
+
+        card
+        .querySelector(
+          ".page-check"
+        )
+        .textContent =
+          selected
+          ?
+          "✓"
+          :
+          "";
+      });
+
+      updateSummary();
+    }
+
+    function rebuildGrid() {
+      state.renderGeneration++;
+
+      const generation =
+        state.renderGeneration;
+
+      if (state.observer) {
+        state.observer.disconnect();
+      }
+
+      state.rendering.clear();
+
+      $("pagesGrid").innerHTML =
+        "";
+
+      for (
+        let pageNo = 1;
+        pageNo <= state.pageCount;
+        pageNo++
+      ) {
+        $("pagesGrid")
+        .appendChild(
+          createCard(pageNo)
+        );
+      }
+
+      setupObserver(
+        generation
+      );
+
+      updateSummary();
+    }
+
+    function setupObserver(generation) {
+      if (state.observer) {
+        state.observer.disconnect();
+      }
+
+      if (
+        !(
+          "IntersectionObserver"
+          in
+          window
+        )
+      ) {
+        document
+        .querySelectorAll(
+          ".page-card"
+        )
+        .forEach(card => {
+          renderThumb(
+            Number(
+              card.dataset.page
+            ),
+            generation
+          );
         });
 
-        setStatus("Final PDF save की जा रही है...");
-        setProgress(92);
+        return;
+      }
 
-        const rotatedBytes = await pdfDoc.save({
-          useObjectStreams: true,
-          objectsPerTick: 50
-        });
+      state.observer =
+        new IntersectionObserver(
+          entries => {
 
-        const blob = new Blob([rotatedBytes], { type: "application/pdf" });
-        currentDownloadUrl = URL.createObjectURL(blob);
+            entries
+            .forEach(entry => {
 
-        const finalName = sanitizeFileName(outputName.value) + ".pdf";
-        downloadLink.href = currentDownloadUrl;
-        downloadLink.download = finalName;
+              if (
+                !entry.isIntersecting
+              ) {
+                return;
+              }
 
-        downloadMeta.textContent = `Final file: ${finalName} • ${targetPages.length} page(s) rotated • Size: ${formatBytes(blob.size)}`;
-        downloadCard.classList.add("show");
+              const pageNo =
+                Number(
+                  entry.target.dataset.page
+                );
 
-        setProgress(100);
-        setStatus("PDF successfully rotate हो गई है। अब download करें।", "success");
-      } catch (error) {
-        console.error(error);
-        setStatus(error.message || "PDF rotate नहीं हो सकी। File encrypted, damaged या unsupported हो सकती है।", "error");
+              renderThumb(
+                pageNo,
+                generation
+              );
+
+              state.observer
+              .unobserve(
+                entry.target
+              );
+            });
+          },
+          {
+            root:
+              $("pagesViewport"),
+            rootMargin:
+              "450px 0px 450px 0px",
+            threshold:
+              0.01
+          }
+        );
+
+      document
+      .querySelectorAll(
+        ".page-card"
+      )
+      .forEach(card => {
+        state.observer.observe(card);
+      });
+    }
+
+    async function renderThumb(
+      pageNo,
+      generation = state.renderGeneration
+    ) {
+      if (!state.pdfJs) {
+        return;
+      }
+
+      if (
+        state.rendering.has(pageNo)
+      ) {
+        return state.rendering.get(pageNo);
+      }
+
+      const job =
+        (
+          async () => {
+
+            try {
+              const page =
+                await state.pdfJs.getPage(
+                  pageNo
+                );
+
+              if (
+                generation !==
+                state.renderGeneration
+              ) {
+                return;
+              }
+
+              const rotation =
+                normalizeRotation(
+                  state.rotations.get(pageNo)
+                );
+
+              const base =
+                page.getViewport({
+                  scale: 1,
+                  rotation
+                });
+
+              const targetWidth =
+                Math.max(
+                  90,
+                  Number(
+                    $("thumbZoom").value
+                  )
+                  - 18
+                );
+
+              const targetHeight =
+                targetWidth /
+                0.707;
+
+              const scale =
+                Math.min(
+                  1.25,
+                  targetWidth /
+                    Math.max(
+                      1,
+                      base.width
+                    ),
+                  targetHeight /
+                    Math.max(
+                      1,
+                      base.height
+                    )
+                );
+
+              const viewport =
+                page.getViewport({
+                  scale,
+                  rotation
+                });
+
+              const canvas =
+                document.createElement(
+                  "canvas"
+                );
+
+              const context =
+                canvas.getContext(
+                  "2d",
+                  {
+                    alpha:
+                      false
+                  }
+                );
+
+              canvas.width =
+                Math.max(
+                  1,
+                  Math.floor(
+                    viewport.width
+                  )
+                );
+
+              canvas.height =
+                Math.max(
+                  1,
+                  Math.floor(
+                    viewport.height
+                  )
+                );
+
+              context.fillStyle =
+                "#ffffff";
+
+              context.fillRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+              );
+
+              await page.render({
+                canvasContext:
+                  context,
+                viewport
+              }).promise;
+
+              if (
+                generation !==
+                state.renderGeneration
+              ) {
+                return;
+              }
+
+              const live =
+                $("pagesGrid")
+                .querySelector(
+                  `.page-card[data-page="${pageNo}"]`
+                );
+
+              if (
+                !live ||
+                !live.isConnected
+              ) {
+                return;
+              }
+
+              const shell =
+                live.querySelector(
+                  ".thumb-shell"
+                );
+
+              shell.innerHTML =
+                "";
+
+              shell.appendChild(
+                canvas
+              );
+
+            } catch (error) {
+
+              console.error(
+                "Thumbnail error",
+                pageNo,
+                error
+              );
+
+              const placeholder =
+                $("pagesGrid")
+                .querySelector(
+                  `.page-card[data-page="${pageNo}"] .thumb-placeholder`
+                );
+
+              if (placeholder) {
+                placeholder.innerHTML =
+                  `PAGE ${pageNo}<br>preview error`;
+              }
+            }
+          }
+        )();
+
+      state.rendering.set(
+        pageNo,
+        job
+      );
+
+      try {
+        await job;
       } finally {
-        rotateBtn.disabled = !selectedBuffer;
-        setTimeout(resetProgress, 1100);
+
+        if (
+          state.rendering.get(pageNo)
+          ===
+          job
+        ) {
+          state.rendering.delete(
+            pageNo
+          );
+        }
       }
     }
 
-    function clearFile() {
-      selectedFile = null;
-      selectedBuffer = null;
-      pdfJsDocument = null;
-      pageCount = 0;
-      fileInput.value = "";
-      filePanel.style.display = "none";
-      rotateBtn.disabled = true;
-      resetDownload();
-      resetProgress();
-      resetPreview();
-      clearStatus();
-      updateSummary();
-      setStatus("File remove कर दी गई है। नई PDF upload करें।");
+    async function renderAll() {
+      if (
+        !state.pdfJs ||
+        state.busy
+      ) {
+        return;
+      }
+
+      const generation =
+        state.renderGeneration;
+
+      for (
+        let pageNo = 1;
+        pageNo <= state.pageCount;
+        pageNo++
+      ) {
+        if (
+          generation !==
+          state.renderGeneration
+        ) {
+          return;
+        }
+
+        setStatus(
+          `Thumbnail ${pageNo} / ${state.pageCount}`,
+          "सभी page previews render हो रहे हैं…",
+          "normal",
+          Math.round(
+            pageNo /
+            state.pageCount *
+            100
+          )
+        );
+
+        await renderThumb(
+          pageNo,
+          generation
+        );
+      }
+
+      flashStatus(
+        "सभी thumbnails ready हैं.",
+        "",
+        "success"
+      );
     }
 
-    function updatePageModeUI() {
-      rangeCard.style.display = pageModeSelect.value === "range" ? "block" : "none";
-      resetDownload();
-      resetPreview();
+    async function destroyPdfJs() {
+      if (
+        state.pdfJs
+      ) {
+        try {
+          await state.pdfJs.destroy();
+        } catch (error) {}
+      }
+
+      state.pdfJs =
+        null;
+    }
+
+    async function readOriginalRotationsWithPdfLib(buffer, expectedPages) {
+      const doc =
+        await PDFDocument.load(
+          buffer.slice(0),
+          {
+            ignoreEncryption:
+              false
+          }
+        );
+
+      const pages =
+        doc.getPages();
+
+      if (
+        pages.length !==
+        expectedPages
+      ) {
+        throw new Error(
+          `PDF engines disagree on page count (${expectedPages} vs ${pages.length}).`
+        );
+      }
+
+      return pages.map(
+        page =>
+          normalizeRotation(
+            page.getRotation()?.angle
+            ||
+            0
+          )
+      );
+    }
+
+    async function readOriginalRotationsWithPdfJs(doc) {
+      const rotations =
+        [];
+
+      for (
+        let pageNo = 1;
+        pageNo <= doc.numPages;
+        pageNo++
+      ) {
+        const page =
+          await doc.getPage(
+            pageNo
+          );
+
+        rotations.push(
+          normalizeRotation(
+            page.rotate
+            ||
+            0
+          )
+        );
+      }
+
+      return rotations;
+    }
+
+    async function loadPdf(file) {
+      if (
+        state.busy
+      ) {
+        return;
+      }
+
+      clearResult();
+      clearStatus();
+      setBusy(true);
+
+      $("dropzone")
+      .classList
+      .add(
+        "scanning"
+      );
+
+      try {
+        if (
+          !file ||
+          !(
+            file.type ===
+              "application/pdf"
+            ||
+            file.name
+              .toLowerCase()
+              .endsWith(".pdf")
+          )
+        ) {
+          throw new Error(
+            "कृपया PDF file चुनें."
+          );
+        }
+
+        setStatus(
+          "PDF structure read हो रही है…",
+          "Preview और direct rotation compatibility check हो रही है.",
+          "normal",
+          4
+        );
+
+        await destroyPdfJs();
+
+        const buffer =
+          await file.arrayBuffer();
+
+        const loadingTask =
+          pdfjsLib.getDocument({
+            data:
+              buffer.slice(0)
+          });
+
+        const pdfJs =
+          await loadingTask.promise;
+
+        let directCompatible =
+          true;
+
+        let directWarning =
+          null;
+
+        let rotations;
+
+        try {
+          rotations =
+            await readOriginalRotationsWithPdfLib(
+              buffer,
+              pdfJs.numPages
+            );
+        } catch (error) {
+          console.warn(
+            "Direct PDF rotation unavailable",
+            error
+          );
+
+          directCompatible =
+            false;
+
+          directWarning =
+            error?.message
+            ||
+            "Direct editor could not open this PDF.";
+
+          rotations =
+            await readOriginalRotationsWithPdfJs(
+              pdfJs
+            );
+        }
+
+        state.file =
+          file;
+
+        state.buffer =
+          buffer;
+
+        state.pdfJs =
+          pdfJs;
+
+        state.pageCount =
+          pdfJs.numPages;
+
+        state.selected =
+          new Set(
+            Array.from(
+              {
+                length:
+                  pdfJs.numPages
+              },
+              (
+                _,
+                index
+              ) =>
+                index + 1
+            )
+          );
+
+        state.originalRotations =
+          new Map();
+
+        state.rotations =
+          new Map();
+
+        rotations
+        .forEach(
+          (
+            rotation,
+            index
+          ) => {
+
+            const pageNo =
+              index + 1;
+
+            state.originalRotations
+            .set(
+              pageNo,
+              rotation
+            );
+
+            state.rotations
+            .set(
+              pageNo,
+              rotation
+            );
+          }
+        );
+
+        state.metrics =
+          new Map();
+
+        state.directCompatible =
+          directCompatible;
+
+        state.directWarning =
+          directWarning;
+
+        state.history =
+          [];
+
+        state.redoHistory =
+          [];
+
+        state.lastClickedPage =
+          null;
+
+        $("rangeInput").value =
+          pdfJs.numPages <= 3
+          ?
+          "1"
+          :
+          `1-${Math.min(3,pdfJs.numPages)}`;
+
+        $("outputName").value =
+          safeName(
+            file.name
+            .replace(
+              /\.pdf$/i,
+              ""
+            )
+          )
+          +
+          "-rotated";
+
+        $("workspace")
+        .classList
+        .add(
+          "show"
+        );
+
+        rebuildGrid();
+
+        setStatus(
+          `DOCUMENT READY • ${pdfJs.numPages} pages`,
+          directCompatible
+          ?
+          "Lossless direct rotation available."
+          :
+          "Direct editor unavailable. Compatibility fallback will be used if you build.",
+          directCompatible
+          ?
+          "success"
+          :
+          "warning",
+          100
+        );
+
+        state.statusTimer =
+          setTimeout(
+            clearStatus,
+            1500
+          );
+
+        $("workspace")
+        .scrollIntoView({
+          behavior:
+            "smooth",
+          block:
+            "start"
+        });
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+        state.file =
+          null;
+
+        state.buffer =
+          null;
+
+        state.pageCount =
+          0;
+
+        state.selected
+        .clear();
+
+        await destroyPdfJs();
+
+        $("workspace")
+        .classList
+        .remove(
+          "show"
+        );
+
+        setStatus(
+          "PDF read नहीं हो सकी.",
+          error?.message
+          ||
+          "File encrypted, damaged या unsupported हो सकती है.",
+          "error",
+          0
+        );
+
+      } finally {
+
+        $("dropzone")
+        .classList
+        .remove(
+          "scanning"
+        );
+
+        setBusy(false);
+      }
+    }
+
+    function applyDelta(
+      pages,
+      delta,
+      message
+    ) {
+      if (
+        state.busy ||
+        !pages.length
+      ) {
+        return;
+      }
+
+      pushHistory();
+
+      pages
+      .forEach(
+        pageNo => {
+
+          const current =
+            normalizeRotation(
+              state.rotations.get(pageNo)
+            );
+
+          state.rotations
+          .set(
+            pageNo,
+            normalizeRotation(
+              current +
+              delta
+            )
+          );
+        }
+      );
+
+      clearResult();
+      rebuildGrid();
+
+      flashStatus(
+        message,
+        `${pages.length} page(s) updated.`,
+        "success"
+      );
+    }
+
+    function resetSelectedRotations() {
+      const pages =
+        selectedPages();
+
+      if (!pages.length) {
+        setStatus(
+          "Reset करने के लिए pages select करें.",
+          "",
+          "error",
+          0
+        );
+
+        return;
+      }
+
+      const needsChange =
+        pages.some(
+          pageNo =>
+            isChanged(
+              pageNo
+            )
+        );
+
+      if (!needsChange) {
+        flashStatus(
+          "Selected pages already original rotation पर हैं.",
+          "",
+          "success"
+        );
+
+        return;
+      }
+
+      pushHistory();
+
+      pages
+      .forEach(
+        pageNo => {
+
+          state.rotations
+          .set(
+            pageNo,
+            normalizeRotation(
+              state.originalRotations.get(pageNo)
+            )
+          );
+        }
+      );
+
+      clearResult();
+      rebuildGrid();
+
+      flashStatus(
+        "Selected pages reset.",
+        `${pages.length} page(s) restored to original rotation.`,
+        "success"
+      );
+    }
+
+    async function ensureMetric(pageNo) {
+      if (
+        state.metrics.has(pageNo)
+      ) {
+        return state.metrics.get(pageNo);
+      }
+
+      const page =
+        await state.pdfJs.getPage(
+          pageNo
+        );
+
+      const viewport =
+        page.getViewport({
+          scale: 1,
+          rotation: 0
+        });
+
+      const metric = {
+        width:
+          viewport.width,
+        height:
+          viewport.height
+      };
+
+      state.metrics.set(
+        pageNo,
+        metric
+      );
+
+      return metric;
+    }
+
+    async function makeOrientation(target) {
+      if (
+        state.busy
+      ) {
+        return;
+      }
+
+      const pages =
+        selectedPages();
+
+      if (!pages.length) {
+        setStatus(
+          "Orientation fix के लिए pages select करें.",
+          "",
+          "error",
+          0
+        );
+
+        return;
+      }
+
+      setBusy(true);
+
+      try {
+        const changes =
+          [];
+
+        for (
+          let index = 0;
+          index < pages.length;
+          index++
+        ) {
+          const pageNo =
+            pages[index];
+
+          const metric =
+            await ensureMetric(
+              pageNo
+            );
+
+          const rotation =
+            normalizeRotation(
+              state.rotations.get(pageNo)
+            );
+
+          const swapped =
+            rotation === 90 ||
+            rotation === 270;
+
+          const width =
+            swapped
+            ?
+            metric.height
+            :
+            metric.width;
+
+          const height =
+            swapped
+            ?
+            metric.width
+            :
+            metric.height;
+
+          const nearSquare =
+            Math.abs(width - height) < 1;
+
+          const isPortrait =
+            height >= width;
+
+          const shouldRotate =
+            nearSquare
+            ?
+            false
+            :
+            target === "portrait"
+            ?
+            !isPortrait
+            :
+            isPortrait;
+
+          if (shouldRotate) {
+            changes.push(
+              pageNo
+            );
+          }
+
+          setStatus(
+            `Checking page ${pageNo}`,
+            `Preparing ${target} orientation…`,
+            "normal",
+            Math.round(
+              (
+                index + 1
+              )
+              /
+              pages.length
+              *
+              90
+            )
+          );
+        }
+
+        if (!changes.length) {
+          flashStatus(
+            `Selected pages already ${target}.`,
+            "",
+            "success"
+          );
+
+          return;
+        }
+
+        pushHistory();
+
+        changes
+        .forEach(
+          pageNo => {
+
+            state.rotations
+            .set(
+              pageNo,
+              normalizeRotation(
+                state.rotations.get(pageNo)
+                +
+                90
+              )
+            );
+          }
+        );
+
+        clearResult();
+        rebuildGrid();
+
+        flashStatus(
+          `${changes.length} page(s) made ${target}.`,
+          "Only pages with the opposite shape were rotated.",
+          "success"
+        );
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+        setStatus(
+          "Orientation fix failed.",
+          error?.message
+          ||
+          String(error),
+          "error",
+          0
+        );
+
+      } finally {
+
+        setBusy(false);
+      }
+    }
+
+    function safeRasterScale(page) {
+      const base =
+        page.getViewport({
+          scale: 1
+        });
+
+      let scale =
+        Math.min(
+          2,
+          Math.max(
+            1.35,
+            1800 /
+            Math.max(
+              base.width,
+              base.height
+            )
+          )
+        );
+
+      const pixels =
+        base.width *
+        base.height *
+        scale *
+        scale;
+
+      if (
+        pixels >
+        MAX_RASTER_PIXELS
+      ) {
+        scale *=
+          Math.sqrt(
+            MAX_RASTER_PIXELS /
+            pixels
+          );
+      }
+
+      return Math.max(
+        .7,
+        scale
+      );
+    }
+
+    function canvasToJpegBlob(
+      canvas,
+      quality = .92
+    ) {
+      return new Promise(
+        (
+          resolve,
+          reject
+        ) => {
+
+          canvas.toBlob(
+            blob => {
+
+              if (blob) {
+                resolve(blob);
+              } else {
+                reject(
+                  new Error(
+                    "Rendered page image create नहीं हो सकी."
+                  )
+                );
+              }
+            },
+            "image/jpeg",
+            quality
+          );
+        }
+      );
+    }
+
+    async function buildDirectPdf() {
+      const pdfDoc =
+        await PDFDocument.load(
+          state.buffer.slice(0),
+          {
+            ignoreEncryption:
+              false
+          }
+        );
+
+      const pages =
+        pdfDoc.getPages();
+
+      if (
+        pages.length !==
+        state.pageCount
+      ) {
+        throw new Error(
+          "Direct editor page count changed unexpectedly."
+        );
+      }
+
+      for (
+        let index = 0;
+        index < pages.length;
+        index++
+      ) {
+        const pageNo =
+          index + 1;
+
+        const desired =
+          normalizeRotation(
+            state.rotations.get(pageNo)
+          );
+
+        pages[index]
+        .setRotation(
+          degrees(
+            desired
+          )
+        );
+
+        setStatus(
+          `Writing page ${pageNo} / ${pages.length}`,
+          `${desired}° final rotation`,
+          "normal",
+          Math.round(
+            (
+              index + 1
+            )
+            /
+            pages.length
+            *
+            78
+          )
+        );
+      }
+
+      setStatus(
+        "Final PDF save हो रही है…",
+        "Original page content preserved.",
+        "normal",
+        86
+      );
+
+      const bytes =
+        await pdfDoc.save({
+          useObjectStreams:
+            true,
+          objectsPerTick:
+            50
+        });
+
+      const verify =
+        await PDFDocument.load(
+          bytes,
+          {
+            ignoreEncryption:
+              true
+          }
+        );
+
+      if (
+        verify.getPageCount() !==
+        state.pageCount
+      ) {
+        throw new Error(
+          `Verification failed: expected ${state.pageCount} pages but got ${verify.getPageCount()}.`
+        );
+      }
+
+      const verifyPages =
+        verify.getPages();
+
+      for (
+        let index = 0;
+        index < verifyPages.length;
+        index++
+      ) {
+        const expected =
+          normalizeRotation(
+            state.rotations.get(
+              index + 1
+            )
+          );
+
+        const actual =
+          normalizeRotation(
+            verifyPages[index]
+            .getRotation()
+            .angle
+          );
+
+        if (
+          expected !==
+          actual
+        ) {
+          throw new Error(
+            `Verification failed on page ${index + 1}: expected ${expected}° but got ${actual}°.`
+          );
+        }
+      }
+
+      return {
+        bytes,
+        engine:
+          "Direct / lossless",
+        verification:
+          "Page count + rotations"
+      };
+    }
+
+    async function buildRasterFallbackPdf() {
+      const output =
+        await PDFDocument.create();
+
+      for (
+        let pageNo = 1;
+        pageNo <= state.pageCount;
+        pageNo++
+      ) {
+        const page =
+          await state.pdfJs.getPage(
+            pageNo
+          );
+
+        const rotation =
+          normalizeRotation(
+            state.rotations.get(pageNo)
+          );
+
+        const scale =
+          safeRasterScale(
+            page
+          );
+
+        const viewport =
+          page.getViewport({
+            scale,
+            rotation
+          });
+
+        const pointViewport =
+          page.getViewport({
+            scale: 1,
+            rotation
+          });
+
+        const canvas =
+          document.createElement(
+            "canvas"
+          );
+
+        const context =
+          canvas.getContext(
+            "2d",
+            {
+              alpha:
+                false
+            }
+          );
+
+        canvas.width =
+          Math.max(
+            1,
+            Math.floor(
+              viewport.width
+            )
+          );
+
+        canvas.height =
+          Math.max(
+            1,
+            Math.floor(
+              viewport.height
+            )
+          );
+
+        context.fillStyle =
+          "#ffffff";
+
+        context.fillRect(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
+        await page.render({
+          canvasContext:
+            context,
+          viewport
+        }).promise;
+
+        const jpegBlob =
+          await canvasToJpegBlob(
+            canvas,
+            .92
+          );
+
+        const jpegBytes =
+          await jpegBlob.arrayBuffer();
+
+        const image =
+          await output.embedJpg(
+            jpegBytes
+          );
+
+        const outPage =
+          output.addPage([
+            pointViewport.width,
+            pointViewport.height
+          ]);
+
+        outPage.drawImage(
+          image,
+          {
+            x: 0,
+            y: 0,
+            width:
+              pointViewport.width,
+            height:
+              pointViewport.height
+          }
+        );
+
+        canvas.width =
+          1;
+
+        canvas.height =
+          1;
+
+        setStatus(
+          `Compatibility page ${pageNo} / ${state.pageCount}`,
+          "Page appearance flatten की जा रही है…",
+          "warning",
+          Math.round(
+            pageNo /
+            state.pageCount *
+            84
+          )
+        );
+      }
+
+      const bytes =
+        await output.save({
+          useObjectStreams:
+            true,
+          objectsPerTick:
+            40
+        });
+
+      const verify =
+        await PDFDocument.load(
+          bytes,
+          {
+            ignoreEncryption:
+              true
+          }
+        );
+
+      if (
+        verify.getPageCount() !==
+        state.pageCount
+      ) {
+        throw new Error(
+          `Fallback verification failed: expected ${state.pageCount} pages but got ${verify.getPageCount()}.`
+        );
+      }
+
+      return {
+        bytes,
+        engine:
+          "Visual compatibility",
+        verification:
+          "Page count"
+      };
+    }
+
+    async function buildPdf() {
+      if (
+        state.busy ||
+        !state.buffer
+      ) {
+        return;
+      }
+
+      const changed =
+        changedPages();
+
+      if (!changed.length) {
+        setStatus(
+          "अभी कोई rotation change नहीं है.",
+          "Pages rotate करें, फिर PDF build करें.",
+          "warning",
+          0
+        );
+
+        return;
+      }
+
+      clearResult();
+      setBusy(true);
+
+      try {
+        let result;
+
+        if (
+          state.directCompatible
+        ) {
+          try {
+            result =
+              await buildDirectPdf();
+          } catch (error) {
+            console.warn(
+              "Direct rotation failed; using compatibility fallback",
+              error
+            );
+
+            state.directCompatible =
+              false;
+
+            state.directWarning =
+              error?.message
+              ||
+              "Direct rotation failed.";
+
+            updateEngineUi();
+
+            setStatus(
+              "Direct mode failed — compatibility mode starting…",
+              "Output will be visually flattened.",
+              "warning",
+              5
+            );
+
+            result =
+              await buildRasterFallbackPdf();
+          }
+        } else {
+          result =
+            await buildRasterFallbackPdf();
+        }
+
+        const blob =
+          new Blob(
+            [
+              result.bytes
+            ],
+            {
+              type:
+                "application/pdf"
+            }
+          );
+
+        state.currentUrl =
+          URL.createObjectURL(
+            blob
+          );
+
+        const finalName =
+          safeName(
+            $("outputName").value
+          )
+          +
+          ".pdf";
+
+        $("downloadLink").href =
+          state.currentUrl;
+
+        $("downloadLink").download =
+          finalName;
+
+        $("resultText").textContent =
+          `${finalName} • ${changed.length} changed page(s) • ${formatBytes(blob.size)}`;
+
+        $("resultChanged").textContent =
+          `${changed.length} page${changed.length === 1 ? "" : "s"}`;
+
+        $("resultSize").textContent =
+          formatBytes(
+            blob.size
+          );
+
+        $("resultEngine").textContent =
+          result.engine;
+
+        $("resultVerify").textContent =
+          result.verification;
+
+        $("resultPanel")
+        .classList
+        .add(
+          "show"
+        );
+
+        setStatus(
+          "VERIFIED ROTATED PDF READY ✓",
+          state.directCompatible
+          ?
+          "Page count and final rotations verified."
+          :
+          "Compatibility output page count verified.",
+          "success",
+          100
+        );
+
+        $("resultPanel")
+        .scrollIntoView({
+          behavior:
+            "smooth",
+          block:
+            "nearest"
+        });
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+        setStatus(
+          "Rotated PDF नहीं बन सकी.",
+          error?.message
+          ||
+          String(error),
+          "error",
+          0
+        );
+
+      } finally {
+
+        setBusy(false);
+      }
+    }
+
+    async function showLargePreview(pageNo) {
+      if (!state.pdfJs) {
+        return;
+      }
+
+      const token =
+        ++state.previewGeneration;
+
+      $("previewModal")
+      .classList
+      .add(
+        "show"
+      );
+
+      $("previewTitle").textContent =
+        `Page ${pageNo} • ${rotationLabel(pageNo)}`;
+
+      $("modalBody").innerHTML =
+        '<div class="thumb-placeholder" style="color:#b9cdd7">Rendering final orientation…</div>';
+
+      $("modalMeta").textContent =
+        "";
+
+      try {
+        const page =
+          await state.pdfJs.getPage(
+            pageNo
+          );
+
+        const rotation =
+          normalizeRotation(
+            state.rotations.get(pageNo)
+          );
+
+        const base =
+          page.getViewport({
+            scale: 1,
+            rotation
+          });
+
+        const scale =
+          Math.min(
+            1.7,
+            Math.min(
+              840,
+              window.innerWidth -
+              70
+            )
+            /
+            Math.max(
+              1,
+              base.width
+            )
+          );
+
+        const viewport =
+          page.getViewport({
+            scale,
+            rotation
+          });
+
+        const canvas =
+          document.createElement(
+            "canvas"
+          );
+
+        const context =
+          canvas.getContext(
+            "2d",
+            {
+              alpha:
+                false
+            }
+          );
+
+        canvas.width =
+          Math.max(
+            1,
+            Math.floor(
+              viewport.width
+            )
+          );
+
+        canvas.height =
+          Math.max(
+            1,
+            Math.floor(
+              viewport.height
+            )
+          );
+
+        context.fillStyle =
+          "#ffffff";
+
+        context.fillRect(
+          0,
+          0,
+          canvas.width,
+          canvas.height
+        );
+
+        await page.render({
+          canvasContext:
+            context,
+          viewport
+        }).promise;
+
+        if (
+          token !==
+          state.previewGeneration
+        ) {
+          return;
+        }
+
+        $("modalBody").innerHTML =
+          "";
+
+        $("modalBody")
+        .appendChild(
+          canvas
+        );
+
+        $("modalMeta").textContent =
+          `Original ${state.originalRotations.get(pageNo) || 0}° • Final ${rotation}° • ${isChanged(pageNo) ? "rotation changed" : "original rotation"} • ${state.selected.has(pageNo) ? "selected" : "not selected"}`;
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+        $("modalBody").innerHTML =
+          '<div class="thumb-placeholder" style="color:#ff8b94">Preview नहीं बन सकी.</div>';
+      }
+    }
+
+    function closePreview() {
+      state.previewGeneration++;
+
+      $("previewModal")
+      .classList
+      .remove(
+        "show"
+      );
+    }
+
+    async function removePdf() {
+      if (
+        state.busy
+      ) {
+        return;
+      }
+
+      state.renderGeneration++;
+      state.previewGeneration++;
+
+      if (
+        state.observer
+      ) {
+        state.observer.disconnect();
+      }
+
+      await destroyPdfJs();
+
+      state.file =
+        null;
+
+      state.buffer =
+        null;
+
+      state.pageCount =
+        0;
+
+      state.selected =
+        new Set();
+
+      state.originalRotations =
+        new Map();
+
+      state.rotations =
+        new Map();
+
+      state.metrics =
+        new Map();
+
+      state.history =
+        [];
+
+      state.redoHistory =
+        [];
+
+      state.lastClickedPage =
+        null;
+
+      state.directCompatible =
+        true;
+
+      state.directWarning =
+        null;
+
+      state.rendering
+      .clear();
+
+      $("fileInput").value =
+        "";
+
+      $("pagesGrid").innerHTML =
+        "";
+
+      $("workspace")
+      .classList
+      .remove(
+        "show"
+      );
+
+      clearResult();
       clearStatus();
       updateSummary();
+
+      window.scrollTo({
+        top: 0,
+        behavior:
+          "smooth"
+      });
     }
 
     function openFilePicker() {
-      fileInput.value = "";
-      fileInput.click();
+      if (
+        state.busy
+      ) {
+        return;
+      }
+
+      $("fileInput").value =
+        "";
+
+      $("fileInput")
+      .click();
     }
 
-    selectFileBtn.addEventListener("click", event => {
-      event.preventDefault();
-      event.stopPropagation();
-      openFilePicker();
-    });
+    $("chooseFileBtn")
+    .addEventListener(
+      "click",
+      event => {
 
-    dropzone.addEventListener("click", event => {
-      if (event.target.closest("button")) return;
-      openFilePicker();
-    });
-
-    fileInput.addEventListener("change", event => {
-      const file = event.target.files && event.target.files[0];
-      if (file) loadFile(file);
-      fileInput.value = "";
-    });
-
-    ["dragenter", "dragover"].forEach(eventName => {
-      dropzone.addEventListener(eventName, event => {
         event.preventDefault();
         event.stopPropagation();
-        dropzone.classList.add("dragover");
-      });
-    });
 
-    ["dragleave", "drop"].forEach(eventName => {
-      dropzone.addEventListener(eventName, event => {
-        event.preventDefault();
-        event.stopPropagation();
-        dropzone.classList.remove("dragover");
-      });
-    });
+        openFilePicker();
+      }
+    );
 
-    dropzone.addEventListener("drop", event => {
-      const file = event.dataTransfer.files && event.dataTransfer.files[0];
-      if (file) loadFile(file);
-    });
+    $("dropzone")
+    .addEventListener(
+      "click",
+      event => {
 
-    document.querySelectorAll(".rotate-choice").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".rotate-choice").forEach(item => item.classList.remove("active"));
-        btn.classList.add("active");
-        rotationDelta = Number(btn.dataset.rotate);
-        resetDownload();
-        resetPreview();
-        updateSummary();
-      });
-    });
+        if (
+          state.busy ||
+          event.target.closest(
+            "button"
+          )
+        ) {
+          return;
+        }
 
-    document.querySelectorAll(".chip-btn").forEach(btn => {
-      btn.addEventListener("click", () => {
-        rangeInput.value = btn.dataset.example;
-        resetDownload();
-        resetPreview();
-        updateSummary();
-      });
-    });
+        openFilePicker();
+      }
+    );
 
-    pageModeSelect.addEventListener("change", updatePageModeUI);
+    $("fileInput")
+    .addEventListener(
+      "change",
+      event => {
 
-    rangeInput.addEventListener("input", () => {
-      resetDownload();
-      resetPreview();
-      updateSummary();
-    });
+        const file =
+          event.target.files?.[0];
 
-    outputName.addEventListener("input", resetDownload);
+        if (file) {
+          loadPdf(
+            file
+          );
+        }
 
-    clearBtn.addEventListener("click", clearFile);
-    previewBtn.addEventListener("click", showPreview);
-    rotateBtn.addEventListener("click", rotatePDF);
+        event.target.value =
+          "";
+      }
+    );
 
-    document.getElementById("menuBtn").addEventListener("click", () => {
-      document.getElementById("nav").classList.toggle("open");
-    });
+    [
+      "dragenter",
+      "dragover"
+    ]
+    .forEach(
+      eventName => {
 
-    document.querySelectorAll("#navLinks a").forEach(link => {
-      link.addEventListener("click", () => document.getElementById("nav").classList.remove("open"));
-    });
+        $("dropzone")
+        .addEventListener(
+          eventName,
+          event => {
 
-    document.querySelectorAll(".faq-q").forEach(btn => {
-      btn.addEventListener("click", () => {
-        btn.parentElement.classList.toggle("active");
-      });
-    });
+            event.preventDefault();
+            event.stopPropagation();
 
-    updatePageModeUI();
-
-    const faqSchema = {
-      "@context": "https://schema.org",
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "क्या मैं पूरी PDF rotate कर सकता हूँ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "हाँ, All pages mode में पूरी PDF के सभी pages rotate होंगे।"
+            if (
+              !state.busy
+            ) {
+              $("dropzone")
+              .classList
+              .add(
+                "dragover"
+              );
+            }
           }
-        },
-        {
-          "@type": "Question",
-          "name": "क्या मैं सिर्फ कुछ pages rotate कर सकता हूँ?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "हाँ, Selected pages mode चुनकर 1-3, 5, 8-10 जैसा range लिखें।"
+        );
+      }
+    );
+
+    [
+      "dragleave",
+      "drop"
+    ]
+    .forEach(
+      eventName => {
+
+        $("dropzone")
+        .addEventListener(
+          eventName,
+          event => {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            $("dropzone")
+            .classList
+            .remove(
+              "dragover"
+            );
           }
-        },
-        {
-          "@type": "Question",
-          "name": "क्या file की quality change होगी?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "यह tool PDF pages की rotation property बदलता है, इसलिए normally quality loss नहीं होता।"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "क्या password-protected PDF rotate होगी?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "Password-protected या damaged PDFs rotate नहीं हो सकतीं। पहले PDF unlock करनी होगी।"
-          }
-        },
-        {
-          "@type": "Question",
-          "name": "क्या मेरी PDF server पर upload होती है?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "यह page browser-based PDF library का उपयोग करता है। फिर भी sensitive documents के लिए हमेशा सावधानी रखें।"
+        );
+      }
+    );
+
+    $("dropzone")
+    .addEventListener(
+      "drop",
+      event => {
+
+        if (
+          state.busy
+        ) {
+          return;
+        }
+
+        const file =
+          event.dataTransfer
+            .files?.[0];
+
+        if (file) {
+          loadPdf(
+            file
+          );
+        }
+      }
+    );
+
+    $("selectAllBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        state.selected =
+          new Set(
+            Array.from(
+              {
+                length:
+                  state.pageCount
+              },
+              (
+                _,
+                index
+              ) =>
+                index + 1
+            )
+          );
+
+        refreshSelection();
+      }
+    );
+
+    $("clearSelectionBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        state.selected
+        .clear();
+
+        state.lastClickedPage =
+          null;
+
+        refreshSelection();
+      }
+    );
+
+    $("invertSelectionBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        const next =
+          new Set();
+
+        for (
+          let page = 1;
+          page <= state.pageCount;
+          page++
+        ) {
+
+          if (
+            !state.selected.has(page)
+          ) {
+            next.add(page);
           }
         }
-      ]
-    };
 
-    const howToSchema = {
-      "@context": "https://schema.org",
-      "@type": "HowTo",
-      "name": "PDF pages rotate कैसे करें",
-      "description": "PDF pages को right, left या 180 degree rotate करने का simple तरीका।",
-      "step": [
-        { "@type": "HowToStep", "name": "PDF upload करें", "text": "PDF file select करें या dropzone में drop करें।" },
-        { "@type": "HowToStep", "name": "Rotation choose करें", "text": "Right 90°, Left 90° या 180° option select करें।" },
-        { "@type": "HowToStep", "name": "Pages choose करें", "text": "All pages या selected page range choose करें।" },
-        { "@type": "HowToStep", "name": "Rotate और download करें", "text": "PDF Rotate button दबाएं और final PDF download करें।" }
-      ]
-    };
+        state.selected =
+          next;
 
-    [faqSchema, howToSchema].forEach(schema => {
-      const schemaScript = document.createElement("script");
-      schemaScript.type = "application/ld+json";
-      schemaScript.textContent = JSON.stringify(schema);
-      document.head.appendChild(schemaScript);
-    });
-  </script></body>
+        refreshSelection();
+      }
+    );
+
+    $("oddBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        state.selected =
+          new Set(
+            Array.from(
+              {
+                length:
+                  state.pageCount
+              },
+              (
+                _,
+                index
+              ) =>
+                index + 1
+            )
+            .filter(
+              pageNo =>
+                pageNo % 2 === 1
+            )
+          );
+
+        refreshSelection();
+      }
+    );
+
+    $("evenBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        state.selected =
+          new Set(
+            Array.from(
+              {
+                length:
+                  state.pageCount
+              },
+              (
+                _,
+                index
+              ) =>
+                index + 1
+            )
+            .filter(
+              pageNo =>
+                pageNo % 2 === 0
+            )
+          );
+
+        refreshSelection();
+      }
+    );
+
+    $("selectChangedBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        state.selected =
+          new Set(
+            changedPages()
+          );
+
+        refreshSelection();
+      }
+    );
+
+    $("applyRangeBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        try {
+          const pages =
+            parseRange(
+              $("rangeInput").value
+            );
+
+          state.selected =
+            new Set(
+              pages
+            );
+
+          refreshSelection();
+
+          flashStatus(
+            `${pages.length} page(s) selected.`,
+            "",
+            "success"
+          );
+
+        } catch (error) {
+
+          setStatus(
+            error.message,
+            "",
+            "error",
+            0
+          );
+        }
+      }
+    );
+
+    $("rangeInput")
+    .addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key ===
+          "Enter"
+        ) {
+          $("applyRangeBtn")
+          .click();
+        }
+      }
+    );
+
+    $("rotateLeftBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        const pages =
+          selectedPages();
+
+        if (!pages.length) {
+          setStatus(
+            "Rotate करने के लिए pages select करें.",
+            "",
+            "error",
+            0
+          );
+
+          return;
+        }
+
+        applyDelta(
+          pages,
+          -90,
+          "Selected pages rotated left."
+        );
+      }
+    );
+
+    $("rotateRightBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        const pages =
+          selectedPages();
+
+        if (!pages.length) {
+          setStatus(
+            "Rotate करने के लिए pages select करें.",
+            "",
+            "error",
+            0
+          );
+
+          return;
+        }
+
+        applyDelta(
+          pages,
+          90,
+          "Selected pages rotated right."
+        );
+      }
+    );
+
+    $("rotate180Btn")
+    .addEventListener(
+      "click",
+      () => {
+
+        const pages =
+          selectedPages();
+
+        if (!pages.length) {
+          setStatus(
+            "Rotate करने के लिए pages select करें.",
+            "",
+            "error",
+            0
+          );
+
+          return;
+        }
+
+        applyDelta(
+          pages,
+          180,
+          "Selected pages rotated 180°."
+        );
+      }
+    );
+
+    $("resetRotationBtn")
+    .addEventListener(
+      "click",
+      resetSelectedRotations
+    );
+
+    $("portraitBtn")
+    .addEventListener(
+      "click",
+      () =>
+        makeOrientation(
+          "portrait"
+        )
+    );
+
+    $("landscapeBtn")
+    .addEventListener(
+      "click",
+      () =>
+        makeOrientation(
+          "landscape"
+        )
+    );
+
+    $("undoBtn")
+    .addEventListener(
+      "click",
+      undoRotation
+    );
+
+    $("redoBtn")
+    .addEventListener(
+      "click",
+      redoRotation
+    );
+
+    $("thumbZoom")
+    .addEventListener(
+      "input",
+      () => {
+
+        $("pagesGrid")
+        .style
+        .setProperty(
+          "--thumb-width",
+          $("thumbZoom").value
+          +
+          "px"
+        );
+
+        state.renderGeneration++;
+        const generation =
+          state.renderGeneration;
+
+        state.rendering.clear();
+
+        document
+        .querySelectorAll(
+          ".page-card .thumb-shell"
+        )
+        .forEach(
+          shell => {
+
+            shell.innerHTML =
+              '<div class="thumb-placeholder">refreshing…</div>';
+          }
+        );
+
+        setupObserver(
+          generation
+        );
+      }
+    );
+
+    $("outputName")
+    .addEventListener(
+      "input",
+      clearResult
+    );
+
+    $("renderAllBtn")
+    .addEventListener(
+      "click",
+      renderAll
+    );
+
+    $("removeFileBtn")
+    .addEventListener(
+      "click",
+      removePdf
+    );
+
+    $("buildBtn")
+    .addEventListener(
+      "click",
+      buildPdf
+    );
+
+    $("adjustBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        clearResult();
+        clearStatus();
+
+        $("pagesViewport")
+        .scrollTo({
+          top: 0,
+          behavior:
+            "smooth"
+        });
+      }
+    );
+
+    $("closeModalBtn")
+    .addEventListener(
+      "click",
+      closePreview
+    );
+
+    $("previewModal")
+    .addEventListener(
+      "click",
+      event => {
+
+        if (
+          event.target ===
+          $("previewModal")
+        ) {
+          closePreview();
+        }
+      }
+    );
+
+    document
+    .addEventListener(
+      "keydown",
+      event => {
+
+        if (
+          event.key ===
+          "Escape"
+        ) {
+          closePreview();
+        }
+
+        const typing =
+          event.target
+          .matches(
+            "input,textarea,select"
+          );
+
+        if (typing) {
+          return;
+        }
+
+        if (
+          (
+            event.ctrlKey ||
+            event.metaKey
+          )
+          &&
+          event.key
+            .toLowerCase()
+          ===
+          "a"
+          &&
+          state.pageCount
+        ) {
+          event.preventDefault();
+
+          $("selectAllBtn")
+          .click();
+
+          return;
+        }
+
+        if (
+          (
+            event.ctrlKey ||
+            event.metaKey
+          )
+          &&
+          !event.shiftKey
+          &&
+          event.key
+            .toLowerCase()
+          ===
+          "z"
+        ) {
+          event.preventDefault();
+
+          undoRotation();
+
+          return;
+        }
+
+        if (
+          (
+            event.ctrlKey ||
+            event.metaKey
+          )
+          &&
+          event.shiftKey
+          &&
+          event.key
+            .toLowerCase()
+          ===
+          "z"
+        ) {
+          event.preventDefault();
+
+          redoRotation();
+
+          return;
+        }
+
+        if (
+          state.busy ||
+          !state.pageCount
+        ) {
+          return;
+        }
+
+        if (
+          event.key ===
+          "0"
+        ) {
+          resetSelectedRotations();
+
+          return;
+        }
+
+        if (
+          event.key
+            .toLowerCase()
+          ===
+          "r"
+        ) {
+
+          const pages =
+            selectedPages();
+
+          if (!pages.length) {
+            return;
+          }
+
+          applyDelta(
+            pages,
+            event.shiftKey
+            ?
+            -90
+            :
+            90,
+            event.shiftKey
+            ?
+            "Selected pages rotated left."
+            :
+            "Selected pages rotated right."
+          );
+        }
+      }
+    );
+
+    document
+    .querySelectorAll(
+      ".faq-q"
+    )
+    .forEach(
+      button => {
+
+        button
+        .addEventListener(
+          "click",
+          () => {
+
+            button
+            .parentElement
+            .classList
+            .toggle(
+              "active"
+            );
+          }
+        );
+      }
+    );
+
+    $("themeBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        const next =
+          document
+          .documentElement
+          .dataset
+          .theme
+          ===
+          "dark"
+          ?
+          "light"
+          :
+          "dark";
+
+        document
+        .documentElement
+        .dataset
+        .theme =
+          next;
+
+        try {
+          localStorage
+          .setItem(
+            "ht-hud-theme",
+            next
+          );
+        } catch (error) {}
+      }
+    );
+
+    $("menuBtn")
+    .addEventListener(
+      "click",
+      () => {
+
+        const open =
+          $("mainNav")
+          .classList
+          .toggle(
+            "open"
+          );
+
+        $("menuBtn")
+        .setAttribute(
+          "aria-expanded",
+          String(open)
+        );
+      }
+    );
+
+    $("mainNav")
+    .querySelectorAll(
+      "a"
+    )
+    .forEach(
+      link => {
+
+        link
+        .addEventListener(
+          "click",
+          () => {
+
+            $("mainNav")
+            .classList
+            .remove(
+              "open"
+            );
+
+            $("menuBtn")
+            .setAttribute(
+              "aria-expanded",
+              "false"
+            );
+          }
+        );
+      }
+    );
+
+    updateSummary();
+  </script>
+</body>
 </html>
