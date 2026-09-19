@@ -1,873 +1,3129 @@
 <!DOCTYPE html>
-<html lang="hi">
+<html lang="hi" data-theme="dark">
 <head>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4192195409142944"
-     crossorigin="anonymous"></script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4192195409142944" crossorigin="anonymous"></script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <title>Word to PDF | HindiTools</title>
-  <meta name="description" content="Word DOCX file को PDF में बदलें। Browser-side, private, preview के साथ high quality PDF export." />
-  <meta name="keywords" content="Word to PDF Hindi, DOCX to PDF, Word file PDF converter, HindiTools" />
+
+  <title>Word to PDF — DOCX को PDF बनाएं | HindiTools</title>
+  <meta name="description" content="DOCX Word file को browser में preview करके PDF बनाएं। Preserve Word page size, A4/Letter/Legal, page range, quality modes, document diagnostics, print-quality option और verified PDF download." />
+  <meta name="keywords" content="Word to PDF Hindi, DOCX to PDF Hindi, Word file PDF converter, DOCX preview PDF, browser Word to PDF, HindiTools" />
   <meta name="author" content="HindiTools.com" />
-  <meta name="theme-color" content="#e66a1f" />
+  <meta name="theme-color" content="#061018" />
+  <meta name="robots" content="index, follow" />
+
+  <meta property="og:title" content="Word to PDF — DOCX को PDF बनाएं | HindiTools" />
+  <meta property="og:description" content="DOCX preview, page-by-page visual PDF export, page size controls और verified download." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://www.hinditools.com/word-to-pdf-hi.html" />
+
+  <link rel="canonical" href="https://www.hinditools.com/word-to-pdf-hi.html" />
+  <link rel="alternate" hreflang="hi-IN" href="https://www.hinditools.com/word-to-pdf-hi.html" />
+  <link rel="alternate" hreflang="en-IN" href="https://www.hinditools.com/word-to-pdf-hi.html" />
+  <link rel="alternate" hreflang="x-default" href="https://www.hinditools.com/word-to-pdf-hi.html" />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700;14..32,800&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gurmukhi:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Noto+Sans+Gurmukhi:wght@400;500;600;700&display=swap" rel="stylesheet" />
 
-  <!-- Browser-side libraries: DOCX preview + HTML to PDF export -->
   <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.3.6/dist/docx-preview.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/docx-preview@0.4.0/dist/docx-preview.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://unpkg.com/pdf-lib@1.17.1/dist/pdf-lib.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebApplication",
+    "name":"HindiTools Word to PDF",
+    "alternateName":"DOCX to PDF",
+    "url":"https://www.hinditools.com/word-to-pdf-hi.html",
+    "applicationCategory":"UtilitiesApplication",
+    "operatingSystem":"Any",
+    "inLanguage":["hi-IN","en-IN"],
+    "description":"Browser-side DOCX preview and Word to PDF converter with page-by-page export, diagnostics, page size controls and output verification.",
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},
+    "featureList":[
+      "DOCX structure validation",
+      "Word document preview",
+      "Headers and footers rendering",
+      "Footnotes and endnotes rendering",
+      "Tracked changes preview option",
+      "Preserve Word page dimensions",
+      "A4 Letter Legal A3 output",
+      "Page range export",
+      "Sharp balanced and smaller PDF modes",
+      "Page-by-page PDF export",
+      "Print and Save as PDF mode",
+      "DOCX complexity diagnostics",
+      "PDF output verification"
+    ]
+  }
+  </script>
 
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='20' fill='%23e66a1f'/%3E%3Ctext x='50%25' y='56%25' text-anchor='middle' font-size='30' font-family='Arial, sans-serif' font-weight='900' fill='white'%3Eहि%3C/text%3E%3C/svg%3E" />
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {
+        "@type":"Question",
+        "name":"क्या Word to PDF conversion बिल्कुल Microsoft Word जैसा होगा?",
+        "acceptedAnswer":{"@type":"Answer","text":"Browser में DOCX rendering Microsoft Word engine नहीं है. Normal documents अक्सर अच्छे render होते हैं, लेकिन complex text boxes, custom fonts, SmartArt या advanced Word layout अलग दिख सकते हैं. Preview पहले check करें."}
+      },
+      {
+        "@type":"Question",
+        "name":"One-click PDF और Print / Save as PDF में क्या फर्क है?",
+        "acceptedAnswer":{"@type":"Answer","text":"One-click Visual PDF हर rendered Word page को image-based PDF page में बदलता है ताकि preview जैसी pagination रहे. Print / Save as PDF browser print engine use करता है और कई cases में selectable text बेहतर preserve कर सकता है."}
+      },
+      {
+        "@type":"Question",
+        "name":"क्या old .DOC files support हैं?",
+        "acceptedAnswer":{"@type":"Answer","text":"यह tool modern DOCX format के लिए है. पुरानी .DOC file को Microsoft Word, LibreOffice या Google Docs में खोलकर DOCX में save करें."}
+      },
+      {
+        "@type":"Question",
+        "name":"क्या मेरी Word file server पर upload होती है?",
+        "acceptedAnswer":{"@type":"Answer","text":"DOCX browser-side libraries से device पर parse और render होती है. HindiTools conversion server पर document upload नहीं किया जाता."}
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"HowTo",
+    "name":"Word DOCX को PDF कैसे बनाएं",
+    "step":[
+      {"@type":"HowToStep","name":"DOCX चुनें","text":"Modern .docx file upload करें."},
+      {"@type":"HowToStep","name":"Preview check करें","text":"Rendered Word pages और fidelity diagnostics देखें."},
+      {"@type":"HowToStep","name":"PDF settings चुनें","text":"Word page size preserve करें या A4/Letter/Legal, quality और page range चुनें."},
+      {"@type":"HowToStep","name":"PDF बनाएं","text":"One-click Visual PDF या browser Print / Save as PDF workflow use करें."}
+    ]
+  }
+  </script>
+
+  <script>
+    try{
+      const saved=localStorage.getItem("ht-hud-theme");
+      if(saved==="light"||saved==="dark") document.documentElement.dataset.theme=saved;
+    }catch(error){}
+  </script>
+
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    :root {
-      --bg: #fefaf5;
-      --surface: #ffffff;
-      --surface-2: #fff7ed;
-      --text-primary: #1e2a3e;
-      --text-secondary: #475569;
-      --accent: #e66a1f;
-      --accent-dark: #c2410c;
-      --accent-soft: #ffedd5;
-      --secondary: #1e3a8a;
-      --secondary-soft: #dbeafe;
-      --green: #15803d;
-      --green-soft: #dcfce7;
-      --red: #dc2626;
-      --red-soft: #fee2e2;
-      --border-light: #f1e1cf;
-      --shadow-sm: 0 12px 30px rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 20px 35px -12px rgba(0, 0, 0, 0.1);
-      --transition: all 0.25s cubic-bezier(0.2, 0, 0, 1);
-    }
-
-    body.dark {
-      --bg: #0f172a;
-      --surface: #1e293b;
-      --surface-2: #111827;
-      --text-primary: #f1f5f9;
-      --text-secondary: #cbd5e1;
-      --border-light: #334155;
-      --accent-soft: #422006;
-      --secondary-soft: #172554;
-      --green-soft: #052e16;
-      --red-soft: #450a0a;
-      --shadow-sm: 0 12px 30px rgba(0, 0, 0, 0.4);
-      --shadow-md: 0 24px 55px rgba(0, 0, 0, 0.55);
-    }
-
-    body {
-      background: var(--bg);
-      color: var(--text-primary);
-      font-family: 'Inter', 'Noto Sans Devanagari', system-ui, sans-serif;
-      line-height: 1.5;
-      transition: background 0.2s, color 0.2s;
-      min-height: 100vh;
-    }
-
-    .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
-
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      background: rgba(254, 250, 245, 0.88);
-      backdrop-filter: blur(16px);
-      border-bottom: 1px solid var(--border-light);
-    }
-    body.dark .navbar { background: rgba(15, 23, 42, 0.88); }
-    .nav-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      padding: 14px 0;
-      gap: 12px;
-    }
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-weight: 800;
-      font-size: 1.7rem;
-      background: linear-gradient(135deg, var(--accent), #f59e0b);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      text-decoration: none;
-    }
-    .logo-icon {
-      background: var(--accent);
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
-      border-radius: 18px;
-      color: white;
-      font-weight: 900;
-      font-size: 1.5rem;
-      box-shadow: 0 8px 18px rgba(230, 106, 31, 0.3);
-    }
-    .nav-links { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
-    .nav-links a {
-      text-decoration: none;
-      font-weight: 600;
-      color: var(--text-primary);
-      padding: 8px 16px;
-      border-radius: 40px;
-      transition: var(--transition);
-    }
-    .nav-links a:hover, .voice-btn { background: var(--accent); color: white; }
-    .theme-toggle, .mobile-menu {
-      background: var(--surface);
-      color: var(--text-primary);
-      border: 1px solid var(--border-light);
-      border-radius: 40px;
-      padding: 8px 14px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: var(--transition);
-    }
-    .mobile-menu { display: none; }
-
-    .hero { padding: 44px 0 26px; }
-    .hero-grid {
-      display: grid;
-      grid-template-columns: 1.05fr 0.95fr;
-      gap: 32px;
-      align-items: center;
-    }
-    .badge-group { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 22px; }
-    .badge {
-      background: var(--accent-soft);
-      padding: 7px 14px;
-      border-radius: 60px;
-      font-size: 0.85rem;
-      font-weight: 800;
-      color: var(--accent-dark);
-      border: 1px solid rgba(230,106,31,0.12);
-    }
-    h1 { font-size: clamp(2.15rem, 5vw, 3.55rem); line-height: 1.16; font-weight: 800; margin-bottom: 18px; }
-    .highlight { color: var(--accent); }
-    .lead { color: var(--text-secondary); font-size: 1.12rem; max-width: 760px; }
-    .hero-buttons { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 26px; }
-    .btn-primary, .btn-secondary, .btn-danger, .btn-success {
-      padding: 12px 24px;
-      border-radius: 40px;
-      font-weight: 800;
-      text-decoration: none;
-      transition: var(--transition);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      border: 0;
-      cursor: pointer;
-      font-family: inherit;
-      font-size: 0.98rem;
-      white-space: nowrap;
-    }
-    .btn-primary { background: var(--accent); color: white; box-shadow: 0 8px 18px rgba(230,106,31,0.25); }
-    .btn-primary:hover { background: var(--accent-dark); transform: translateY(-2px); }
-    .btn-secondary { background: var(--surface); border: 1px solid var(--border-light); color: var(--text-primary); }
-    .btn-secondary:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
-    .btn-success { background: var(--green); color: white; }
-    .btn-danger { background: var(--red); color: white; }
-    button:disabled { opacity: 0.55; cursor: not-allowed; transform: none !important; }
-
-    .feature-card, .tool-shell, .setting-card, .status-card {
-      background: var(--surface);
-      border: 1px solid var(--border-light);
-      box-shadow: var(--shadow-sm);
-      border-radius: 30px;
-    }
-    .feature-card { padding: 26px; }
-    .mini-grid { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 14px; margin-top: 18px; }
-    .mini-feature { background: var(--bg); border: 1px solid var(--border-light); border-radius: 20px; padding: 16px; }
-    .mini-feature strong { display: block; margin-bottom: 4px; }
-    .mini-feature span { color: var(--text-secondary); font-size: 0.92rem; }
-
-    .tool-section { padding: 28px 0 48px; }
-    .tool-shell { overflow: hidden; }
-    .tool-layout { display: grid; grid-template-columns: 380px 1fr; min-height: 640px; }
-    .sidebar {
-      border-right: 1px solid var(--border-light);
-      padding: 24px;
-      background: linear-gradient(180deg, var(--surface), var(--surface-2));
-    }
-    .workspace { padding: 24px; min-width: 0; }
-
-    .step-title { font-size: 1.05rem; font-weight: 800; margin-bottom: 12px; display: flex; gap: 8px; align-items: center; }
-    .dropzone {
-      border: 2px dashed rgba(230,106,31,0.45);
-      border-radius: 28px;
-      background: var(--bg);
-      padding: 28px 20px;
-      text-align: center;
-      cursor: pointer;
-      transition: var(--transition);
-      position: relative;
-      overflow: hidden;
-    }
-    .dropzone::before {
-      content: "";
-      position: absolute;
-      inset: -80px auto auto -80px;
-      width: 160px;
-      height: 160px;
-      background: radial-gradient(circle, rgba(230,106,31,0.16), transparent 68%);
-      pointer-events: none;
-    }
-    .dropzone:hover, .dropzone.dragover { border-color: var(--accent); transform: translateY(-2px); box-shadow: var(--shadow-sm); }
-    .upload-icon { font-size: 3rem; margin-bottom: 10px; }
-    .muted { color: var(--text-secondary); }
-    .small { font-size: 0.88rem; }
-    input[type=file] { display: none; }
-
-    .file-card {
-      display: none;
-      margin-top: 14px;
-      padding: 14px;
-      border: 1px solid var(--border-light);
-      background: var(--surface);
-      border-radius: 20px;
-      gap: 12px;
-      align-items: center;
-    }
-    .file-card.show { display: flex; }
-    .file-ico { font-size: 2rem; }
-    .file-meta { min-width: 0; flex: 1; }
-    .file-name { font-weight: 800; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
-    .file-size { color: var(--text-secondary); font-size: 0.88rem; }
-
-    .settings { margin-top: 22px; display: grid; gap: 14px; }
-    .setting-card { padding: 16px; box-shadow: none; border-radius: 22px; }
-    .setting-card label { font-weight: 800; display: block; margin-bottom: 8px; }
-    .segmented { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-    .segmented.three { grid-template-columns: repeat(3, 1fr); }
-    .choice {
-      border: 1px solid var(--border-light);
-      background: var(--bg);
-      color: var(--text-primary);
-      border-radius: 16px;
-      padding: 10px;
-      cursor: pointer;
-      font-weight: 800;
-      transition: var(--transition);
-      text-align: center;
-    }
-    .choice.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-    select, input[type=range] {
-      width: 100%;
-      accent-color: var(--accent);
-      color: var(--text-primary);
-    }
-    select {
-      background: var(--bg);
-      border: 1px solid var(--border-light);
-      border-radius: 14px;
-      padding: 12px;
-      font-weight: 700;
-      font-family: inherit;
-    }
-
-    .actions { display: grid; gap: 10px; margin-top: 18px; }
-    .status-card { margin-top: 18px; padding: 16px; box-shadow: none; border-radius: 22px; display: none; }
-    .status-card.show { display: block; }
-    .status-card.good { background: var(--green-soft); border-color: rgba(21,128,61,0.25); }
-    .status-card.warn { background: var(--accent-soft); border-color: rgba(230,106,31,0.25); }
-    .status-card.bad { background: var(--red-soft); border-color: rgba(220,38,38,0.25); }
-    .progress-track { height: 10px; border-radius: 999px; background: var(--border-light); overflow: hidden; margin-top: 12px; }
-    .progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--accent), #f59e0b); transition: width 0.2s ease; }
-
-    .toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 16px;
-    }
-    .toolbar h2 { font-size: 1.35rem; }
-    .toolbar-actions { display: flex; gap: 8px; flex-wrap: wrap; }
-    .icon-btn {
-      border: 1px solid var(--border-light);
-      background: var(--surface);
-      color: var(--text-primary);
-      border-radius: 16px;
-      padding: 9px 12px;
-      font-weight: 800;
-      cursor: pointer;
-      transition: var(--transition);
-    }
-    .icon-btn:hover { border-color: var(--accent); transform: translateY(-1px); }
-
-    .preview-frame {
-      background: #e5e7eb;
-      border: 1px solid var(--border-light);
-      border-radius: 28px;
-      min-height: 620px;
-      overflow: auto;
-      position: relative;
-      box-shadow: inset 0 0 0 1px rgba(0,0,0,0.02);
-    }
-    body.dark .preview-frame { background: #020617; }
-    .empty-preview {
-      min-height: 620px;
-      display: grid;
-      place-items: center;
-      text-align: center;
-      padding: 28px;
-      color: var(--text-secondary);
-    }
-    .empty-preview .big { font-size: 4.2rem; margin-bottom: 10px; }
-
-    #previewScaleWrap {
-      transform-origin: top center;
-      transition: transform 0.15s ease;
-      min-height: 100%;
-      padding: 26px 0;
-    }
-    #docxPreview {
-      width: fit-content;
-      min-width: 320px;
-      margin: 0 auto;
-      color: #111827;
-    }
-    .docx-wrapper {
-      background: transparent !important;
-      padding: 0 !important;
-    }
-    .docx-wrapper > section.docx {
-      box-shadow: 0 16px 30px rgba(15, 23, 42, 0.18) !important;
-      margin-bottom: 26px !important;
-      border-radius: 4px;
-    }
-    body.dark .docx-wrapper > section.docx { box-shadow: 0 18px 40px rgba(0,0,0,0.52) !important; }
-
-    .exporting #previewScaleWrap { transform: none !important; padding: 0; }
-    .exporting .docx-wrapper > section.docx { box-shadow: none !important; margin-bottom: 0 !important; }
-
-    .tips-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-      margin-top: 22px;
-    }
-    .tip { background: var(--surface); border: 1px solid var(--border-light); border-radius: 24px; padding: 18px; box-shadow: var(--shadow-sm); }
-    .tip strong { display: block; margin-bottom: 5px; }
-    .tip p { color: var(--text-secondary); font-size: 0.95rem; }
-
-    footer { background: var(--surface); border-top: 1px solid var(--border-light); padding: 40px 0 24px; margin-top: 48px; }
-    .footer-grid { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 32px; }
-    .link-accent { color: var(--accent); text-decoration: none; font-weight: 800; }
-
-    .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
-
-    @media print {
-      body * { visibility: hidden !important; }
-      #docxPreview, #docxPreview * { visibility: visible !important; }
-      #docxPreview { position: absolute; left: 0; top: 0; width: 100% !important; margin: 0 !important; }
-      .docx-wrapper { padding: 0 !important; background: #fff !important; }
-      .docx-wrapper > section.docx { box-shadow: none !important; margin: 0 auto !important; page-break-after: always; }
-    }
-
-    @media (max-width: 980px) {
-      .hero-grid, .tool-layout { grid-template-columns: 1fr; }
-      .sidebar { border-right: 0; border-bottom: 1px solid var(--border-light); }
-      .tips-grid { grid-template-columns: 1fr; }
-      .mini-grid { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 880px) {
-      .nav-links { display: none; width: 100%; order: 4; }
-      .nav-links.open { display: flex; }
-      .mobile-menu { display: block; }
-      .container { padding: 0 16px; }
-      .segmented, .segmented.three { grid-template-columns: 1fr; }
-      .toolbar-actions { width: 100%; }
-      .icon-btn { flex: 1; }
-    }
 
 
-    /* Navbar logo visibility fix: keep gradient only on brand text, not on the icon */
-    .logo {
-      background: none !important;
-      -webkit-background-clip: border-box !important;
-      background-clip: border-box !important;
-      color: var(--text-primary) !important;
-      -webkit-text-fill-color: initial !important;
+    :root{
+      --bg:#050b11;--bg2:#07131d;--panel:#091722;--panel2:#0d1d29;--panel3:#112633;
+      --text:#edf9ff;--muted:#8da8b7;--muted2:#b7ccd7;
+      --line:rgba(87,211,255,.20);--line2:rgba(87,211,255,.42);
+      --cyan:#43dcff;--cyanSoft:rgba(67,220,255,.12);
+      --orange:#ff7a1a;--orange2:#ff9933;--orangeSoft:rgba(255,122,26,.13);
+      --green:#37e88c;--greenSoft:rgba(55,232,140,.12);
+      --red:#ff5f6d;--redSoft:rgba(255,95,109,.12);
+      --yellow:#ffd166;--yellowSoft:rgba(255,209,102,.12);
+      --purple:#b48cff;--purpleSoft:rgba(180,140,255,.12);
+      --shadow:0 28px 80px rgba(0,0,0,.44);--grid:rgba(67,220,255,.035);
+      --glow:0 0 0 1px rgba(67,220,255,.12),0 0 32px rgba(0,190,230,.08);
     }
-    .logo > span {
-      background: linear-gradient(135deg, var(--accent), #f59e0b);
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      -webkit-text-fill-color: transparent;
+
+    html[data-theme="light"]{
+      --bg:#f7fbfd;--bg2:#eef7fa;--panel:#fff;--panel2:#f6fbfd;--panel3:#edf7fa;
+      --text:#102331;--muted:#647985;--muted2:#435f6d;
+      --line:rgba(3,118,151,.14);--line2:rgba(3,118,151,.28);
+      --cyan:#007f9e;--cyanSoft:rgba(0,159,197,.09);
+      --orange:#e86100;--orange2:#ff851b;--orangeSoft:rgba(232,97,0,.09);
+      --green:#07884a;--greenSoft:rgba(7,136,74,.09);
+      --red:#cb3040;--redSoft:rgba(203,48,64,.09);
+      --yellow:#9d7100;--yellowSoft:rgba(157,113,0,.09);
+      --purple:#6e42c1;--purpleSoft:rgba(110,66,193,.09);
+      --shadow:0 25px 65px rgba(25,57,73,.12);--grid:rgba(0,127,158,.026);
+      --glow:0 0 0 1px rgba(0,127,158,.08),0 12px 32px rgba(37,115,139,.08);
     }
-    .logo-icon {
-      background: var(--accent) !important;
-      background-image: none !important;
-      -webkit-background-clip: border-box !important;
-      background-clip: border-box !important;
-      color: #ffffff !important;
-      -webkit-text-fill-color: #ffffff !important;
-      flex: 0 0 42px;
-      line-height: 1;
-      overflow: visible;
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html{scroll-behavior:smooth}
+    body{
+      min-height:100vh;font-family:"Inter","Noto Sans Devanagari",system-ui,sans-serif;color:var(--text);line-height:1.55;
+      background:
+        linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px),
+        radial-gradient(circle at 12% 0%,rgba(0,195,230,.11),transparent 30%),
+        radial-gradient(circle at 92% 8%,rgba(255,122,26,.09),transparent 26%),
+        radial-gradient(circle at 72% 70%,rgba(180,140,255,.05),transparent 29%),linear-gradient(180deg,var(--bg),var(--bg2));
+      background-size:42px 42px,42px 42px,auto,auto,auto,auto;
     }
+    a{color:inherit;text-decoration:none}
+    button,input,select,textarea{font:inherit}
+    button{color:inherit;-webkit-tap-highlight-color:transparent}
+    [hidden]{display:none!important}
+    .container{width:min(1240px,calc(100% - 30px));margin:auto}
+    .skip-link{position:absolute;left:-9999px;top:10px;z-index:1000;padding:10px 14px;border-radius:12px;background:var(--orange);color:#fff;font-weight:900}
+    .skip-link:focus{left:12px}
+
+    .site-header{position:sticky;top:0;z-index:100;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(18px);border-bottom:1px solid var(--line)}
+    .header-inner{min-height:76px;display:flex;align-items:center;gap:20px;justify-content:space-between}
+    .brand{display:flex;align-items:center;gap:11px;min-width:max-content}
+    .brand-mark{width:44px;height:44px;border-radius:15px;display:grid;place-items:center;font-weight:900;color:#041018;background:linear-gradient(180deg,#ff9933 0 34%,#fff 34% 66%,#37c970 66%);box-shadow:0 0 28px rgba(255,122,26,.22)}
+    .brand-copy{display:flex;flex-direction:column;line-height:1}
+    .brand-copy strong{font-size:1.2rem;letter-spacing:-.02em}
+    .brand-accent{color:var(--orange2)}
+    .brand-copy small{margin-top:5px;color:var(--muted);font-size:.61rem;letter-spacing:.12em;font-weight:800}
+    .nav{display:flex;align-items:center;gap:4px;flex-wrap:wrap}
+    .nav a{padding:9px 12px;border-radius:999px;color:var(--muted2);font-size:.83rem;font-weight:800;transition:.2s ease}
+    .nav a:hover,.nav a.active{color:var(--cyan);background:var(--cyanSoft)}
+    .header-actions{display:flex;gap:8px}
+    .icon-button{width:40px;height:40px;border:1px solid var(--line);border-radius:13px;background:var(--panel);display:grid;place-items:center;cursor:pointer;transition:.2s ease}
+    .icon-button:hover{border-color:var(--line2);color:var(--cyan);transform:translateY(-1px)}
+    .menu-button{display:none}
+
+    .top-status{border-bottom:1px solid var(--line);background:rgba(4,15,22,.46);font-size:.68rem;letter-spacing:.09em;color:var(--muted);font-weight:800}
+    html[data-theme="light"] .top-status{background:rgba(255,255,255,.54)}
+    .top-status .container{min-height:34px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+    .top-status span{display:flex;align-items:center;gap:7px}
+    .signal{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 13px var(--green)}
+
+    .hero{padding:52px 0 30px}
+    .hero-grid{display:grid;grid-template-columns:minmax(0,.92fr) minmax(400px,1.08fr);gap:34px;align-items:center}
+    .eyebrow{color:var(--cyan);font-size:.71rem;font-weight:900;letter-spacing:.13em;margin-bottom:13px}
+    .hero h1{font-size:clamp(2.25rem,5vw,4rem);line-height:1.03;letter-spacing:-.055em;max-width:720px}
+    .hero h1 span{display:block;color:var(--orange2)}
+    .hero-copy>p:not(.eyebrow){margin-top:19px;max-width:690px;color:var(--muted2);font-size:1.04rem}
+    .hero-chips{margin-top:22px;display:flex;flex-wrap:wrap;gap:8px}
+    .chip{padding:8px 11px;border:1px solid var(--line);background:var(--panel);border-radius:999px;color:var(--muted2);font-size:.77rem;font-weight:800;box-shadow:var(--glow)}
+    .chip strong{color:var(--cyan);margin-right:4px}
+
+    .upload-console,.workspace,.info-card{border:1px solid var(--line);background:linear-gradient(150deg,var(--panel),var(--panel2));box-shadow:var(--shadow)}
+    .upload-console{border-radius:27px;overflow:hidden;position:relative}
+    .upload-console::before,.workspace::before,.info-card::before{content:"";position:absolute;inset:0 0 auto;height:3px;background:linear-gradient(90deg,var(--cyan),var(--orange2),var(--green))}
+    .console-top{padding:11px 15px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;color:var(--muted);font-size:.66rem;letter-spacing:.11em;font-weight:900}
+    .console-lights{display:flex;gap:6px}.console-lights i{width:7px;height:7px;border-radius:50%;background:var(--cyan)}.console-lights i:nth-child(2){background:var(--orange)}.console-lights i:nth-child(3){background:var(--green)}
+    .dropzone{min-height:300px;padding:34px 22px;display:grid;place-items:center;text-align:center;cursor:pointer;background:radial-gradient(circle at 50% 18%,var(--cyanSoft),transparent 38%);transition:.22s ease}
+    .dropzone.dragover{background:radial-gradient(circle at 50% 18%,var(--greenSoft),transparent 48%);box-shadow:inset 0 0 0 2px var(--green)}
+    .dropzone input{display:none}
+    .upload-orb{width:74px;height:74px;margin:auto auto 14px;border-radius:50%;display:grid;place-items:center;font-size:2rem;background:linear-gradient(145deg,var(--panel3),var(--cyanSoft));border:1px solid var(--line2);box-shadow:0 0 40px rgba(67,220,255,.12)}
+    .dropzone h2{font-size:1.65rem}.dropzone p{margin:7px 0 17px;color:var(--muted);font-weight:700}.local-note{margin-top:13px;color:var(--green);font-size:.74rem;font-weight:900}
+
+    .primary-btn,.secondary-btn,.ghost-btn,.danger-btn,.tool-btn{border:0;border-radius:14px;padding:11px 15px;font-weight:900;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:7px;transition:.2s ease}
+    .primary-btn{background:linear-gradient(135deg,var(--orange),var(--orange2));color:#fff;box-shadow:0 12px 26px rgba(255,122,26,.19)}
+    .secondary-btn{background:linear-gradient(135deg,#087c9e,var(--cyan));color:#021018}
+    html[data-theme="light"] .secondary-btn{color:#fff}
+    .ghost-btn,.tool-btn{background:var(--panel2);color:var(--text);border:1px solid var(--line)}
+    .danger-btn{background:var(--redSoft);color:var(--red);border:1px solid color-mix(in srgb,var(--red) 35%,transparent)}
+    .primary-btn:hover:not(:disabled),.secondary-btn:hover:not(:disabled),.ghost-btn:hover:not(:disabled),.tool-btn:hover:not(:disabled),.danger-btn:hover:not(:disabled){transform:translateY(-1px);filter:brightness(1.06)}
+    button:disabled,.disabled{opacity:.46;cursor:not-allowed;transform:none!important}
+
+    .workspace{display:none;margin:12px auto 48px;padding:18px;border-radius:30px;position:relative;overflow:hidden}
+    .workspace.show{display:block}
+    .telemetry{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:9px;margin-bottom:13px}
+    .telemetry-card{padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--panel2);min-width:0}
+    .telemetry-card span{display:block;color:var(--muted);font-size:.62rem;letter-spacing:.09em;font-weight:900;margin-bottom:4px}
+    .telemetry-card strong{display:block;font-size:.96rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .telemetry-card.accent strong{color:var(--orange2)}.telemetry-card.success strong{color:var(--green)}.telemetry-card.cyan strong{color:var(--cyan)}
+
+    .engine-banner{display:flex;justify-content:space-between;align-items:center;gap:14px;padding:13px 15px;border:1px solid var(--line);border-radius:18px;background:linear-gradient(90deg,var(--cyanSoft),transparent,var(--orangeSoft));margin-bottom:15px}
+    .engine-banner strong{color:var(--cyan);font-size:.72rem;letter-spacing:.08em}.engine-banner p{color:var(--muted2);font-size:.82rem;margin-top:3px}
+
+    .lock-layout{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(320px,.88fr);gap:14px;align-items:start}
+    .panel{border:1px solid var(--line);border-radius:22px;background:var(--panel);padding:17px;box-shadow:var(--glow)}
+    .sticky{position:sticky;top:126px}
+    .panel-title-row{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.panel-title-row h2{font-size:1rem}.panel-kicker{color:var(--cyan);font-size:.61rem;letter-spacing:.1em;font-weight:900}
+    .studio-separator{height:1px;background:var(--line);margin:17px 0}
+
+    .file-card{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:13px;border:1px solid var(--line);border-radius:18px;background:var(--panel2);margin-bottom:14px}
+    .file-icon{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;background:var(--cyanSoft);color:var(--cyan);font-size:1.35rem;border:1px solid var(--line)}
+    .file-name{font-weight:900;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.file-meta{display:flex;gap:9px;flex-wrap:wrap;color:var(--muted);font-size:.72rem;font-weight:800;margin-top:3px}
+
+    .security-mode-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+    .mode-card{padding:13px;border:1px solid var(--line);border-radius:18px;background:var(--panel2);cursor:pointer;text-align:left;transition:.2s ease}
+    .mode-card.active{border-color:var(--cyan);background:linear-gradient(145deg,var(--cyanSoft),var(--panel2));box-shadow:0 0 0 2px color-mix(in srgb,var(--cyan) 15%,transparent)}
+    .mode-card strong{display:block;font-size:.85rem;margin-bottom:3px}.mode-card small{display:block;color:var(--muted);font-size:.71rem;line-height:1.4}
+
+    .field{display:grid;gap:6px;margin-bottom:12px}.field label{font-size:.73rem;color:var(--muted2);font-weight:900}.field small{color:var(--muted);font-size:.68rem;line-height:1.4}
+    .input,.select{width:100%;padding:11px 12px;border:1px solid var(--line);border-radius:14px;background:var(--panel2);color:var(--text);outline:none;transition:.2s ease}
+    .input:focus,.select:focus{border-color:var(--cyan);box-shadow:0 0 0 3px var(--cyanSoft)}
+    option{background:var(--panel);color:var(--text)}
+    .password-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px;align-items:center}.password-row.two{grid-template-columns:minmax(0,1fr) auto}
+    .mini-btn{height:42px;min-width:42px;padding:0 10px;border:1px solid var(--line);border-radius:12px;background:var(--panel2);cursor:pointer;color:var(--muted2);font-weight:900}.mini-btn:hover{color:var(--cyan);border-color:var(--line2)}
+
+    .strength-track{height:9px;border-radius:999px;background:var(--panel3);overflow:hidden;margin-top:6px;border:1px solid var(--line)}.strength-fill{height:100%;width:0;background:var(--red);transition:.2s ease}.strength-caption{display:flex;justify-content:space-between;gap:8px;margin-top:6px;color:var(--muted);font-size:.67rem;font-weight:800}
+    .match-ok{color:var(--green)!important}.match-bad{color:var(--red)!important}
+
+    .generator-box{display:grid;grid-template-columns:1fr auto;gap:9px;align-items:end;padding:10px;border:1px solid var(--line);border-radius:15px;background:var(--panel2);margin-top:8px}.generator-box .field{margin:0}.range-line{display:flex;align-items:center;gap:9px}.range-line input{width:100%;accent-color:var(--orange)}.range-value{min-width:36px;text-align:center;color:var(--orange2);font-weight:900;font-size:.75rem}
+
+    .owner-mode-row{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:10px}.owner-mode{padding:9px 7px;border:1px solid var(--line);border-radius:13px;background:var(--panel2);cursor:pointer;font-size:.67rem;font-weight:900}.owner-mode.active{border-color:var(--orange);background:var(--orangeSoft);color:var(--orange2)}
+
+    .preset-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.preset-btn{padding:11px 8px;border:1px solid var(--line);border-radius:14px;background:var(--panel2);cursor:pointer;text-align:center}.preset-btn strong{display:block;font-size:.72rem}.preset-btn small{display:block;color:var(--muted);font-size:.62rem;margin-top:2px}.preset-btn:hover,.preset-btn.active{border-color:var(--orange);background:var(--orangeSoft)}
+
+    .permission-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.permission-box{padding:12px;border:1px solid var(--line);border-radius:16px;background:var(--panel2)}.permission-box.full{grid-column:1/-1}.permission-box label{display:block;font-size:.7rem;color:var(--muted);font-weight:900;margin-bottom:6px}
+    .toggle-line{display:flex;align-items:flex-start;gap:9px;color:var(--muted2);font-size:.75rem;font-weight:700}.toggle-line input{margin-top:3px;accent-color:var(--green);transform:scale(1.12)}
+
+    .notice{padding:11px 12px;border-radius:15px;border:1px solid var(--line);background:var(--panel2);font-size:.72rem;color:var(--muted2);font-weight:700;line-height:1.48}.notice strong{color:var(--text)}.notice.warning{background:var(--yellowSoft);border-color:color-mix(in srgb,var(--yellow) 30%,transparent);color:var(--yellow)}.notice.success{background:var(--greenSoft);border-color:color-mix(in srgb,var(--green) 30%,transparent);color:var(--green)}.notice.danger{background:var(--redSoft);border-color:color-mix(in srgb,var(--red) 30%,transparent);color:var(--red)}
+
+    .source-password{display:none;margin-bottom:12px;padding:12px;border:1px solid color-mix(in srgb,var(--yellow) 35%,transparent);border-radius:17px;background:var(--yellowSoft)}.source-password.show{display:block}.source-password h3{font-size:.8rem;color:var(--yellow);margin-bottom:7px}.source-password p{color:var(--muted2);font-size:.7rem;margin-bottom:8px}
+
+    .preview-panel{margin-top:14px;display:none}.preview-panel.show{display:block}.preview-wrap{min-height:260px;border:1px solid var(--line);border-radius:18px;background:var(--panel2);display:grid;place-items:center;overflow:auto;padding:10px}.preview-wrap canvas{max-width:100%;height:auto;box-shadow:0 16px 38px rgba(0,0,0,.28)}.preview-placeholder{color:var(--muted);font-size:.75rem;font-weight:800;text-align:center;padding:24px}
+
+    .action-bar{display:flex;justify-content:space-between;align-items:end;gap:12px;flex-wrap:wrap;margin-top:14px}.filename-box{flex:1;min-width:220px}.action-buttons{display:flex;gap:8px;flex-wrap:wrap}
+
+    .status-panel{display:none;margin-top:14px;padding:13px;border:1px solid var(--line);border-radius:17px;background:var(--panel2)}.status-panel.show{display:block}.status-line{font-size:.78rem;font-weight:900}.status-detail{color:var(--muted);font-size:.7rem;margin-top:3px}.progress-track{height:10px;margin-top:9px;background:var(--panel3);border:1px solid var(--line);border-radius:999px;overflow:hidden}.progress-bar{height:100%;width:0;background:linear-gradient(90deg,var(--cyan),var(--orange2),var(--green));transition:width .22s ease}.progress-track.busy .progress-bar{width:42%;animation:sweep 1.15s ease-in-out infinite alternate}@keyframes sweep{from{transform:translateX(-90%)}to{transform:translateX(190%)}}
+
+    .result-panel{display:none;margin-top:14px;padding:17px;border:1px solid color-mix(in srgb,var(--green) 30%,transparent);border-radius:22px;background:linear-gradient(145deg,var(--greenSoft),var(--panel));box-shadow:var(--glow)}.result-panel.show{display:block}.result-head{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.result-head h3{color:var(--green);font-size:1rem;letter-spacing:.04em}.result-head p{color:var(--muted2);font-size:.75rem;margin-top:3px}.result-actions{display:flex;gap:8px;flex-wrap:wrap}
+    .result-stats{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:12px}.result-stat{padding:10px;border:1px solid var(--line);border-radius:14px;background:var(--panel2)}.result-stat span{display:block;color:var(--muted);font-size:.58rem;letter-spacing:.08em;font-weight:900}.result-stat strong{display:block;margin-top:3px;font-size:.8rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .verify-box{margin-top:12px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px}.verify-message{margin-top:7px;color:var(--muted);font-size:.69rem;font-weight:800}
+
+    .security-facts{display:grid;gap:8px}.fact-row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:.72rem}.fact-row:last-child{border-bottom:0}.fact-row span{color:var(--muted)}.fact-row strong{color:var(--text);text-align:right}
+
+    .info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}.info-card{position:relative;border-radius:22px;padding:18px;overflow:hidden}.info-card h2{font-size:1rem;margin-bottom:9px;color:var(--cyan)}.info-card p,.info-card li{font-size:.76rem;color:var(--muted2);font-weight:600}.info-card ul,.info-card ol{padding-left:18px;display:grid;gap:6px}
+    .faq-list{display:grid;gap:8px}.faq-item{border:1px solid var(--line);border-radius:15px;background:var(--panel2);overflow:hidden}.faq-q{width:100%;padding:11px 12px;border:0;background:transparent;color:var(--text);display:flex;justify-content:space-between;gap:10px;text-align:left;font-weight:900;cursor:pointer;font-size:.73rem}.faq-a{display:none;padding:0 12px 12px;color:var(--muted2);font-size:.7rem}.faq-item.active .faq-a{display:block}
+
+    footer{margin-top:44px;padding:34px 0 22px;border-top:1px solid var(--line);background:rgba(3,10,15,.66)}html[data-theme="light"] footer{background:rgba(226,241,247,.7)}.footer-grid{display:grid;grid-template-columns:1.2fr .8fr .8fr;gap:22px}.footer-brand{font-size:1.15rem;font-weight:900;margin-bottom:7px}.footer-grid p,.footer-grid a{color:var(--muted);font-size:.75rem}.footer-grid h3{font-size:.77rem;margin-bottom:8px;color:var(--cyan)}.footer-grid ul{list-style:none;display:grid;gap:6px}.copyright{margin-top:20px;padding-top:15px;border-top:1px solid var(--line);color:var(--muted);font-size:.67rem;text-align:center}
+
+    :focus-visible{outline:3px solid color-mix(in srgb,var(--cyan) 40%,transparent);outline-offset:3px}
+    @media(max-width:1050px){.hero-grid,.lock-layout{grid-template-columns:1fr}.sticky{position:static}.telemetry{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:860px){.nav{display:none;position:absolute;top:68px;left:15px;right:15px;flex-direction:column;align-items:stretch;padding:12px;border:1px solid var(--line);border-radius:18px;background:var(--panel);box-shadow:var(--shadow)}.nav.open{display:flex}.nav a{text-align:center}.menu-button{display:grid}.hero{padding-top:36px}.preset-grid{grid-template-columns:1fr 1fr}.result-stats{grid-template-columns:repeat(3,1fr)}}
+    @media(max-width:650px){.container{width:min(100% - 22px,1240px)}.brand-copy small{display:none}.top-status .container{padding:7px 0}.top-status span:last-child{display:none}.telemetry{grid-template-columns:1fr 1fr}.engine-banner{align-items:stretch;flex-direction:column}.file-card{grid-template-columns:auto 1fr}.file-card .ghost-btn{grid-column:1/-1;width:100%}.security-mode-grid,.permission-grid,.info-grid,.footer-grid{grid-template-columns:1fr}.owner-mode-row{grid-template-columns:1fr}.preset-grid{grid-template-columns:1fr 1fr}.password-row{grid-template-columns:minmax(0,1fr) auto}.password-row .copy-pass{grid-column:1/-1;width:100%}.action-bar{align-items:stretch;flex-direction:column}.action-buttons{flex-direction:column}.primary-btn,.secondary-btn,.ghost-btn,.danger-btn{width:100%}.result-actions{width:100%;flex-direction:column}.result-stats{grid-template-columns:1fr 1fr}.verify-box{grid-template-columns:1fr}.generator-box{grid-template-columns:1fr}.preview-wrap{min-height:220px}}
+    @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important;animation:none!important}}
+  
+    /* PDF UNLOCK EXTENSIONS */
+    .unlock-state{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:9px;
+      margin-bottom:12px;
+    }
+    .unlock-state-card{
+      border:1px solid var(--line);
+      background:var(--panel2);
+      border-radius:15px;
+      padding:11px;
+    }
+    .unlock-state-card span{
+      display:block;
+      color:var(--muted);
+      font-size:.59rem;
+      font-weight:900;
+      letter-spacing:.08em;
+      margin-bottom:3px;
+    }
+    .unlock-state-card strong{
+      display:block;
+      color:var(--cyan);
+      font-size:.78rem;
+      overflow:hidden;
+      text-overflow:ellipsis;
+      white-space:nowrap;
+    }
+    .unlock-state-card.good strong{color:var(--green)}
+    .unlock-state-card.warn strong{color:var(--yellow)}
+    .unlock-state-card.bad strong{color:var(--red)}
+
+    .password-status-box{
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:var(--panel2);
+      padding:14px;
+      margin:12px 0 14px;
+    }
+    .password-status-box h3{
+      font-size:.9rem;
+      color:var(--cyan);
+      margin-bottom:4px;
+    }
+    .password-status-box p{
+      color:var(--muted2);
+      font-size:.76rem;
+      margin-bottom:10px;
+    }
+    .password-status-box.optional h3{color:var(--yellow)}
+    .password-status-box.ready h3{color:var(--green)}
+
+    .permission-readout{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:10px;
+    }
+    .permission-readout .permission-box{
+      min-height:69px;
+    }
+    .permission-readout .permission-box strong{
+      display:block;
+      color:var(--text);
+      margin-top:4px;
+      font-size:.78rem;
+    }
+    .permission-readout .permission-box.allowed strong{color:var(--green)}
+    .permission-readout .permission-box.blocked strong{color:var(--red)}
+    .permission-readout .permission-box.unknown strong{color:var(--muted)}
+
+    .security-source-banner{
+      border:1px solid var(--line);
+      border-radius:18px;
+      padding:13px;
+      background:linear-gradient(90deg,var(--purpleSoft),transparent,var(--cyanSoft));
+      margin-bottom:14px;
+    }
+    .security-source-banner strong{
+      color:var(--purple);
+      display:block;
+      font-size:.72rem;
+      letter-spacing:.08em;
+    }
+    .security-source-banner p{
+      color:var(--muted2);
+      font-size:.8rem;
+      margin-top:3px;
+    }
+    .security-source-banner.unlocked{
+      background:linear-gradient(90deg,var(--greenSoft),transparent);
+    }
+    .security-source-banner.unlocked strong{color:var(--green)}
+
+    .verification-grid{
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      gap:8px;
+      margin-top:11px;
+    }
+    .verification-step{
+      border:1px solid var(--line);
+      border-radius:13px;
+      padding:9px;
+      background:var(--panel2);
+    }
+    .verification-step span{
+      display:block;
+      color:var(--muted);
+      font-size:.56rem;
+      font-weight:900;
+      letter-spacing:.07em;
+    }
+    .verification-step strong{
+      display:block;
+      margin-top:3px;
+      color:var(--green);
+      font-size:.72rem;
+    }
+
+    .result-actions-group{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .output-preview-panel{
+      display:none;
+      margin-top:14px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:var(--panel);
+      padding:14px;
+    }
+    .output-preview-panel.show{display:block}
+
+    @media(max-width:700px){
+      .unlock-state,.verification-grid,.permission-readout{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:480px){
+      .unlock-state,.verification-grid,.permission-readout{grid-template-columns:1fr}
+    }
+
+  
+
+    /* WORD TO PDF WORKSPACE */
+    .word-layout{
+      display:grid;
+      grid-template-columns:minmax(330px,.78fr) minmax(0,1.42fr);
+      gap:14px;
+      align-items:start;
+    }
+
+    .word-sidebar{
+      display:grid;
+      gap:14px;
+    }
+
+    .doc-facts{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:8px;
+    }
+
+    .doc-fact{
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:var(--panel2);
+      padding:10px;
+      min-width:0;
+    }
+
+    .doc-fact span{
+      display:block;
+      color:var(--muted);
+      font-size:.58rem;
+      font-weight:900;
+      letter-spacing:.08em;
+      margin-bottom:3px;
+    }
+
+    .doc-fact strong{
+      display:block;
+      color:var(--text);
+      font-size:.76rem;
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .fidelity-card{
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:linear-gradient(135deg,var(--cyanSoft),var(--panel2));
+      padding:12px;
+    }
+
+    .fidelity-card strong{
+      display:block;
+      color:var(--cyan);
+      font-size:.83rem;
+      margin-bottom:4px;
+    }
+
+    .fidelity-card p{
+      color:var(--muted2);
+      font-size:.72rem;
+    }
+
+    .fidelity-card.mixed{
+      background:linear-gradient(135deg,var(--yellowSoft),var(--panel2));
+    }
+
+    .fidelity-card.mixed strong{color:var(--yellow)}
+
+    .fidelity-card.complex{
+      background:linear-gradient(135deg,var(--orangeSoft),var(--panel2));
+    }
+
+    .fidelity-card.complex strong{color:var(--orange2)}
+
+    .mode-switch{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+    }
+
+    .mode-switch button{
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:var(--panel2);
+      color:var(--muted2);
+      padding:10px;
+      cursor:pointer;
+      text-align:left;
+      transition:.18s ease;
+    }
+
+    .mode-switch button.active{
+      border-color:var(--cyan);
+      background:var(--cyanSoft);
+      color:var(--text);
+    }
+
+    .mode-switch strong{
+      display:block;
+      font-size:.76rem;
+      margin-bottom:2px;
+    }
+
+    .mode-switch small{
+      display:block;
+      color:var(--muted);
+      font-size:.62rem;
+      line-height:1.35;
+    }
+
+    .quality-grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:7px;
+    }
+
+    .quality-btn{
+      border:1px solid var(--line);
+      border-radius:13px;
+      background:var(--panel2);
+      padding:10px 7px;
+      cursor:pointer;
+      text-align:center;
+    }
+
+    .quality-btn strong{
+      display:block;
+      font-size:.71rem;
+    }
+
+    .quality-btn small{
+      display:block;
+      color:var(--muted);
+      font-size:.58rem;
+      margin-top:2px;
+    }
+
+    .quality-btn.active{
+      border-color:var(--orange);
+      background:var(--orangeSoft);
+      color:var(--orange2);
+    }
+
+    .preview-workspace{
+      min-width:0;
+    }
+
+    .preview-toolbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+      padding:11px 12px;
+      border:1px solid var(--line);
+      border-radius:16px;
+      background:var(--panel2);
+      margin-bottom:10px;
+    }
+
+    .preview-toolbar-group{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      flex-wrap:wrap;
+    }
+
+    .page-nav-label{
+      min-width:96px;
+      text-align:center;
+      color:var(--muted2);
+      font-size:.7rem;
+      font-weight:900;
+    }
+
+    .preview-stage{
+      position:relative;
+      height:min(72vh,860px);
+      min-height:560px;
+      overflow:auto;
+      border:1px solid var(--line);
+      border-radius:20px;
+      background:
+        linear-gradient(var(--grid) 1px,transparent 1px),
+        linear-gradient(90deg,var(--grid) 1px,transparent 1px),
+        #02080d;
+      background-size:28px 28px;
+      scroll-behavior:smooth;
+    }
+
+    html[data-theme="light"] .preview-stage{
+      background:
+        linear-gradient(var(--grid) 1px,transparent 1px),
+        linear-gradient(90deg,var(--grid) 1px,transparent 1px),
+        #dfe9ee;
+      background-size:28px 28px;
+    }
+
+    .preview-empty{
+      min-height:100%;
+      display:grid;
+      place-items:center;
+      padding:28px;
+      text-align:center;
+      color:var(--muted);
+    }
+
+    .preview-empty .big{
+      font-size:4rem;
+      margin-bottom:10px;
+    }
+
+    #previewScaleWrap{
+      transform-origin:top center;
+      width:max-content;
+      min-width:100%;
+      padding:26px 0 44px;
+      transition:transform .14s ease;
+    }
+
+    #docxPreview{
+      width:max-content;
+      min-width:320px;
+      margin:0 auto;
+      color:#111827;
+    }
+
+    #docxPreview .docx-wrapper{
+      background:transparent!important;
+      padding:0!important;
+    }
+
+    #docxPreview .docx-wrapper > section.docx{
+      position:relative;
+      box-shadow:0 18px 42px rgba(0,0,0,.46)!important;
+      margin-bottom:26px!important;
+      border-radius:3px;
+      overflow:hidden;
+    }
+
+    html[data-theme="light"] #docxPreview .docx-wrapper > section.docx{
+      box-shadow:0 18px 36px rgba(21,53,70,.24)!important;
+    }
+
+    #docxPreview .docx-wrapper > section.docx::before{
+      content:attr(data-ht-page);
+      position:absolute;
+      left:-1px;
+      top:-1px;
+      z-index:10;
+      padding:4px 7px;
+      font:900 10px/1 "Inter",sans-serif;
+      color:#021018;
+      background:var(--cyan);
+      border-radius:0 0 8px 0;
+      opacity:.92;
+    }
+
+    .exporting #previewScaleWrap{
+      transform:none!important;
+      padding:0!important;
+      margin:0!important;
+    }
+
+    .exporting #docxPreview .docx-wrapper > section.docx{
+      box-shadow:none!important;
+      margin:0!important;
+      border-radius:0!important;
+    }
+
+    .exporting #docxPreview .docx-wrapper > section.docx::before{
+      display:none!important;
+    }
+
+    .page-range-row{
+      display:grid;
+      grid-template-columns:145px 1fr;
+      gap:8px;
+    }
+
+    .analysis-list{
+      display:grid;
+      gap:7px;
+    }
+
+    .analysis-item{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:8px;
+      border-bottom:1px solid var(--line);
+      padding:7px 0;
+      color:var(--muted2);
+      font-size:.7rem;
+    }
+
+    .analysis-item:last-child{border-bottom:0}
+
+    .analysis-item strong{
+      color:var(--text);
+      text-align:right;
+      max-width:60%;
+      overflow-wrap:anywhere;
+    }
+
+    .font-list{
+      margin-top:8px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:5px;
+    }
+
+    .font-chip{
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:var(--panel2);
+      padding:5px 8px;
+      font-size:.59rem;
+      font-weight:800;
+      color:var(--muted2);
+    }
+
+    .font-chip.missing{
+      color:var(--yellow);
+      border-color:color-mix(in srgb,var(--yellow) 35%,transparent);
+      background:var(--yellowSoft);
+    }
+
+    .output-mode-note{
+      margin-top:8px;
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:10px;
+      color:var(--muted2);
+      font-size:.68rem;
+      background:var(--panel2);
+    }
+
+    .output-mode-note strong{color:var(--cyan)}
+
+    .conversion-actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .cancel-btn{
+      display:none;
+      width:100%;
+      margin-top:8px;
+    }
+
+    .cancel-btn.show{display:inline-flex}
+
+    .result-preview-panel{
+      display:none;
+      margin-top:13px;
+      border:1px solid var(--line);
+      border-radius:18px;
+      background:var(--panel);
+      padding:12px;
+    }
+
+    .result-preview-panel.show{display:block}
+
+    .result-preview-wrap{
+      min-height:260px;
+      max-height:520px;
+      overflow:auto;
+      display:grid;
+      place-items:center;
+      border:1px solid var(--line);
+      border-radius:14px;
+      background:#02080d;
+      padding:12px;
+    }
+
+    .result-preview-wrap canvas{
+      max-width:100%;
+      height:auto;
+      box-shadow:0 16px 32px rgba(0,0,0,.38);
+    }
+
+    .complexity-meter{
+      height:8px;
+      border-radius:999px;
+      overflow:hidden;
+      border:1px solid var(--line);
+      background:var(--panel3);
+      margin-top:8px;
+    }
+
+    .complexity-meter i{
+      display:block;
+      height:100%;
+      width:0;
+      background:linear-gradient(90deg,var(--green),var(--yellow),var(--orange));
+      transition:.2s ease;
+    }
+
+    .render-options{
+      display:grid;
+      gap:8px;
+    }
+
+    .check-line{
+      display:flex;
+      align-items:flex-start;
+      gap:8px;
+      color:var(--muted2);
+      font-size:.69rem;
+      font-weight:700;
+    }
+
+    .check-line input{
+      margin-top:3px;
+      accent-color:var(--cyan);
+      transform:scale(1.08);
+    }
+
+    .doc-warning{
+      display:none;
+      margin-top:9px;
+    }
+    .doc-warning.show{display:block}
+
+    @media(max-width:1050px){
+      .word-layout{grid-template-columns:1fr}
+      .preview-stage{height:70vh}
+    }
+
+    @media(max-width:700px){
+      .quality-grid,.conversion-actions{grid-template-columns:1fr}
+      .page-range-row{grid-template-columns:1fr}
+      .preview-stage{min-height:480px;height:64vh}
+      .doc-facts{grid-template-columns:1fr 1fr}
+    }
+
+    @media(max-width:480px){
+      .doc-facts{grid-template-columns:1fr}
+    }
+
+    @media print{
+      body *{visibility:hidden!important}
+      #docxPreview,#docxPreview *{visibility:visible!important}
+      #docxPreview{
+        position:absolute!important;
+        left:0!important;
+        top:0!important;
+        width:100%!important;
+        margin:0!important;
+      }
+      #previewScaleWrap{
+        transform:none!important;
+        padding:0!important;
+        margin:0!important;
+      }
+      #docxPreview .docx-wrapper{
+        background:#fff!important;
+        padding:0!important;
+      }
+      #docxPreview .docx-wrapper > section.docx{
+        box-shadow:none!important;
+        margin:0 auto!important;
+        page-break-after:always!important;
+        break-after:page!important;
+        border-radius:0!important;
+      }
+      #docxPreview .docx-wrapper > section.docx::before{display:none!important}
+    }
+
   </style>
 </head>
+
 <body>
-  <div class="navbar">
-    <div class="container nav-inner">
-      <a href="index.html" class="logo" aria-label="HindiTools Home">
-        <div class="logo-icon">हि</div>
-        <span>HindiTools</span>
+  <a class="skip-link" href="#word-console">सीधे Word to PDF tool पर जाएं</a>
+
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="/" class="brand" aria-label="HindiTools Home">
+        <span class="brand-mark">हि</span>
+        <span class="brand-copy">
+          <strong>Hindi<span class="brand-accent">Tools</span></strong>
+          <small>DOCUMENT CONVERSION WORKSPACE</small>
+        </span>
       </a>
-      <div class="nav-links" id="navLinks">
-        <a href="index.html#tools">Tools</a>
-        <a href="index.html#pdf">PDF</a>
-        <a href="index.html#image">इमेज</a>
-        <a href="index.html#language">भाषा</a>
-        <a href="voice-tools-hi.html" class="voice-btn">🎙️ वॉइस टूल्स</a>
+
+      <nav class="nav" id="mainNav" aria-label="Main navigation">
+        <a href="/">Home</a>
+        <a href="pdf-to-word-hi.html">PDF to Word</a>
+        <a href="image-to-pdf-hi.html">Image to PDF</a>
+        <a href="merge-pdf-hi.html">Merge</a>
+        <a href="compress-pdf-hi.html">Compress</a>
+        <a href="privacy.html">Privacy</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="icon-button" id="themeBtn" type="button" aria-label="Theme बदलें">◐</button>
+        <button class="icon-button menu-button" id="menuBtn" type="button" aria-label="Menu खोलें" aria-expanded="false">☰</button>
       </div>
-      <button class="theme-toggle" id="darkModeToggle" aria-label="Dark mode">🌙 डार्क</button>
-      <button class="mobile-menu" id="mobileMenuBtn" aria-label="Open menu">☰</button>
+    </div>
+  </header>
+
+  <div class="top-status">
+    <div class="container">
+      <span><i class="signal"></i>DOCX PAGE RENDERER ONLINE</span>
+      <span>LOCAL DOCUMENT PROCESSING / NO WORD FILE UPLOAD</span>
     </div>
   </div>
 
   <main>
-    <div class="container hero">
+    <section class="container hero">
       <div class="hero-grid">
-        <div>
-          <div class="badge-group">
-            <span class="badge">📄 DOCX → PDF</span>
-            <span class="badge">🔒 Browser-side</span>
-            <span class="badge">👀 Live Preview</span>
-            <span class="badge">⚡ No Upload</span>
-          </div>
-          <h1>Word file को <span class="highlight">PDF</span> में बदलें — आसानी से</h1>
-          <p class="lead">DOCX file upload करें, preview देखें, page size/quality चुनें और तुरंत PDF download करें। आपका document browser में ही process होता है।</p>
-          <div class="hero-buttons">
-            <a href="#converter" class="btn-primary">🚀 Tool खोलें</a>
-            <a href="index.html#tools" class="btn-secondary">← सभी टूल्स</a>
+        <div class="hero-copy">
+          <p class="eyebrow">WORD → PDF SYSTEM / 12</p>
+          <h1>Word file को <span>PDF बनाएं — page by page.</span></h1>
+          <p>
+            DOCX upload करें, actual rendered pages देखें, layout complexity check करें और फिर
+            preview जैसी pagination वाली verified PDF बनाएं. High-fidelity browser print option भी साथ है.
+          </p>
+
+          <div class="hero-chips">
+            <span class="chip"><strong>📝</strong> DOCX 0.4 renderer</span>
+            <span class="chip"><strong>👀</strong> Live Word preview</span>
+            <span class="chip"><strong>📄</strong> Preserve page size</span>
+            <span class="chip"><strong>🔎</strong> Layout diagnostics</span>
+            <span class="chip"><strong>✓</strong> Verified PDF</span>
+            <span class="chip"><strong>🔐</strong> Browser-side</span>
           </div>
         </div>
-        <div class="feature-card">
-          <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px;">
-            <span style="font-size:2.3rem;">📝➡️📄</span>
-            <div>
-              <strong style="font-size:1.25rem;">Smart Word to PDF</strong>
-              <p class="muted small">Best practical browser-based conversion</p>
-            </div>
+
+        <div class="upload-console" id="word-console">
+          <div class="console-top">
+            <span>DOCX INPUT CONSOLE</span>
+            <span class="console-lights"><i></i><i></i><i></i></span>
           </div>
-          <p class="muted">Layout-heavy documents can vary slightly because browsers do not natively render Word files. For maximum accuracy, keep the preview open and use the “Print / Save as PDF” option if needed.</p>
-          <div class="mini-grid">
-            <div class="mini-feature"><strong>🧾 Resume/Forms</strong><span>DOCX preview with pages</span></div>
-            <div class="mini-feature"><strong>📚 Assignments</strong><span>A4/Letter export</span></div>
-            <div class="mini-feature"><strong>🖼️ Images</strong><span>Embedded image support</span></div>
-            <div class="mini-feature"><strong>🌙 Dark Mode</strong><span>HindiTools style matched</span></div>
+
+          <div class="dropzone" id="dropzone">
+            <input type="file" id="fileInput" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document" />
+            <div>
+              <div class="upload-orb">W</div>
+              <h2>Word DOCX यहाँ drop करें</h2>
+              <p>Structure analyse होगी और Word pages browser में render होंगे</p>
+              <button class="primary-btn" type="button" id="chooseFileBtn">DOCX चुनें</button>
+              <div class="local-note">● Modern .DOCX supported • old .DOC नहीं</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <section class="container tool-section" id="converter">
-      <div class="tool-shell">
-        <div class="tool-layout">
-          <aside class="sidebar">
-            <div class="step-title">1️⃣ Word file चुनें</div>
-            <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="Upload DOCX file">
-              <input type="file" id="fileInput" accept=".docx,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.doc" />
-              <div class="upload-icon">📤</div>
-              <h3>DOCX यहाँ drop करें</h3>
-              <p class="muted small">या क्लिक करके file select करें</p>
-              <button class="btn-primary" style="margin-top:16px;">Select Word File</button>
-            </div>
+    <section class="container workspace" id="workspace" aria-live="polite">
+      <div class="telemetry">
+        <div class="telemetry-card accent"><span>DOCUMENT</span><strong id="teleFile">—</strong></div>
+        <div class="telemetry-card"><span>RENDERED PAGES</span><strong id="telePages">0</strong></div>
+        <div class="telemetry-card cyan"><span>LAYOUT</span><strong id="teleComplexity">CHECKING</strong></div>
+        <div class="telemetry-card"><span>TABLES / IMAGES</span><strong id="teleContent">0 / 0</strong></div>
+        <div class="telemetry-card success"><span>ENGINE</span><strong>DOCX → PAGE PDF</strong></div>
+      </div>
 
-            <div class="file-card" id="fileCard">
-              <div class="file-ico">📝</div>
-              <div class="file-meta">
-                <div class="file-name" id="fileName">No file</div>
-                <div class="file-size" id="fileSize">—</div>
-              </div>
-              <button class="icon-btn" id="removeFileBtn" title="Remove file">✕</button>
-            </div>
+      <div class="engine-banner">
+        <div>
+          <strong>PAGE-BY-PAGE EXPORT</strong>
+          <p>Each rendered Word page is captured separately. This avoids the old whole-document HTML split problem and makes page count deterministic.</p>
+        </div>
+        <button class="danger-btn" id="removeFileBtn" type="button">Remove DOCX</button>
+      </div>
 
-            <div class="settings">
-              <div class="step-title">2️⃣ PDF settings</div>
+      <div class="word-layout">
+        <aside class="word-sidebar">
+          <section class="panel">
+            <div class="panel-title-row"><h2>Document Analysis</h2><span class="panel-kicker">DOCX ZIP</span></div>
 
-              <div class="setting-card">
-                <label>Page size</label>
-                <div class="segmented three" id="pageSizeGroup">
-                  <button class="choice active" data-size="a4">A4</button>
-                  <button class="choice" data-size="letter">Letter</button>
-                  <button class="choice" data-size="legal">Legal</button>
+            <div class="file-card" style="margin-bottom:10px;">
+              <div class="file-icon">📝</div>
+              <div>
+                <div class="file-name" id="fileName">document.docx</div>
+                <div class="file-meta">
+                  <span id="fileSize">0 KB</span>
+                  <span id="docxStatus">Waiting</span>
                 </div>
               </div>
+              <button class="ghost-btn" id="reanalyseBtn" type="button">Analyse</button>
+            </div>
 
-              <div class="setting-card">
-                <label>Orientation</label>
-                <div class="segmented" id="orientationGroup">
-                  <button class="choice active" data-orientation="portrait">Portrait</button>
-                  <button class="choice" data-orientation="landscape">Landscape</button>
-                </div>
-              </div>
+            <div class="fidelity-card" id="fidelityCard">
+              <strong id="fidelityTitle">Fidelity assessment pending</strong>
+              <p id="fidelityText">DOCX structure inspect होने के बाद browser rendering risk यहाँ दिखाई देगा.</p>
+              <div class="complexity-meter"><i id="complexityFill"></i></div>
+            </div>
 
-              <div class="setting-card">
-                <label>Output style</label>
-                <select id="qualityPreset">
-                  <option value="sharp">Sharp quality — best for text</option>
-                  <option value="balanced" selected>Balanced — recommended</option>
-                  <option value="small">Smaller file — faster download</option>
+            <div class="doc-facts" style="margin-top:10px;">
+              <div class="doc-fact"><span>SECTIONS</span><strong id="factSections">—</strong></div>
+              <div class="doc-fact"><span>TABLES</span><strong id="factTables">—</strong></div>
+              <div class="doc-fact"><span>IMAGES</span><strong id="factImages">—</strong></div>
+              <div class="doc-fact"><span>FONTS</span><strong id="factFonts">—</strong></div>
+              <div class="doc-fact"><span>HEADERS / FOOTERS</span><strong id="factHeaderFooter">—</strong></div>
+              <div class="doc-fact"><span>TRACKED CHANGES</span><strong id="factChanges">—</strong></div>
+            </div>
+
+            <div class="analysis-list" style="margin-top:10px;">
+              <div class="analysis-item"><span>Text boxes / shapes</span><strong id="analysisTextBoxes">—</strong></div>
+              <div class="analysis-item"><span>Footnotes / endnotes</span><strong id="analysisNotes">—</strong></div>
+              <div class="analysis-item"><span>Equations</span><strong id="analysisEquations">—</strong></div>
+              <div class="analysis-item"><span>Word page-break hints</span><strong id="analysisBreaks">—</strong></div>
+              <div class="analysis-item"><span>Core author</span><strong id="analysisAuthor">—</strong></div>
+            </div>
+
+            <div class="font-list" id="fontList"></div>
+
+            <div class="notice warning doc-warning" id="docWarning"></div>
+          </section>
+
+          <section class="panel">
+            <div class="panel-title-row"><h2>Word Rendering</h2><span class="panel-kicker">PREVIEW</span></div>
+
+            <div class="field">
+              <label for="paginationMode">Pagination strategy</label>
+              <select class="select" id="paginationMode">
+                <option value="word" selected>Use Word rendered page breaks</option>
+                <option value="manual">Manual / explicit breaks only</option>
+              </select>
+              <small>अगर pages ज्यादा/कम split हों तो दूसरा mode try करें.</small>
+            </div>
+
+            <div class="render-options">
+              <label class="check-line">
+                <input type="checkbox" id="showChanges" />
+                <span>Tracked changes दिखाएं (experimental)</span>
+              </label>
+              <label class="check-line">
+                <input type="checkbox" id="showComments" />
+                <span>Comments render करने की कोशिश करें (experimental)</span>
+              </label>
+            </div>
+
+            <button class="tool-btn" id="renderBtn" type="button" style="width:100%;margin-top:10px;">Refresh / Render Preview</button>
+          </section>
+
+          <section class="panel">
+            <div class="panel-title-row"><h2>PDF Output</h2><span class="panel-kicker">SETTINGS</span></div>
+
+            <div class="mode-switch" id="outputModeSwitch">
+              <button class="active" type="button" data-mode="visual">
+                <strong>One-click Visual PDF</strong>
+                <small>Predictable pages, image-based output</small>
+              </button>
+              <button type="button" data-mode="print">
+                <strong>Print / Save as PDF</strong>
+                <small>Browser print, text may stay selectable</small>
+              </button>
+            </div>
+
+            <div class="output-mode-note" id="outputModeNote">
+              <strong>Visual PDF:</strong> preview जैसी page appearance को one-click downloadable PDF में रखता है. Text image बन जाएगा.
+            </div>
+
+            <div class="studio-separator"></div>
+
+            <div id="visualSettings">
+              <div class="field">
+                <label for="pageSizeSelect">PDF page size</label>
+                <select class="select" id="pageSizeSelect">
+                  <option value="preserve" selected>Preserve each Word page size</option>
+                  <option value="a4">A4</option>
+                  <option value="letter">Letter</option>
+                  <option value="legal">Legal</option>
+                  <option value="a3">A3</option>
                 </select>
               </div>
 
-              <div class="setting-card">
-                <label>Margins: <span id="marginValue">8 mm</span></label>
-                <input type="range" id="marginRange" min="0" max="24" step="2" value="8" />
-                <p class="muted small" style="margin-top:8px;">Preview already includes Word page margins. Extra PDF margin should usually stay small.</p>
+              <div class="field">
+                <label for="orientationSelect">Forced orientation</label>
+                <select class="select" id="orientationSelect">
+                  <option value="auto" selected>Auto / preserve page shape</option>
+                  <option value="portrait">Portrait</option>
+                  <option value="landscape">Landscape</option>
+                </select>
               </div>
-            </div>
 
-            <div class="actions">
-              <button class="btn-secondary" id="previewBtn" disabled>👀 Preview DOCX</button>
-              <button class="btn-primary" id="convertBtn" disabled>📄 Convert & Download PDF</button>
-              <button class="btn-secondary" id="printBtn" disabled>🖨️ Print / Save as PDF</button>
-            </div>
-
-            <div class="status-card" id="statusCard">
-              <strong id="statusTitle">Status</strong>
-              <p class="muted small" id="statusText">Ready</p>
-              <div class="progress-track"><div class="progress-bar" id="progressBar"></div></div>
-            </div>
-          </aside>
-
-          <section class="workspace">
-            <div class="toolbar">
-              <div>
-                <h2>Document Preview</h2>
-                <p class="muted small">Preview सही दिखे तो PDF भी सबसे अच्छा बनेगा।</p>
-              </div>
-              <div class="toolbar-actions">
-                <button class="icon-btn" id="zoomOutBtn" disabled>−</button>
-                <button class="icon-btn" id="zoomResetBtn" disabled>100%</button>
-                <button class="icon-btn" id="zoomInBtn" disabled>+</button>
-              </div>
-            </div>
-            <div class="preview-frame" id="previewFrame">
-              <div class="empty-preview" id="emptyPreview">
-                <div>
-                  <div class="big">📝</div>
-                  <h3>Word file upload करें</h3>
-                  <p>यहाँ DOCX preview दिखेगा। फिर आप PDF download कर पाएंगे।</p>
+              <div class="field">
+                <label>Visual quality</label>
+                <div class="quality-grid" id="qualityGrid">
+                  <button class="quality-btn" type="button" data-quality="sharp">
+                    <strong>Sharp</strong><small>PNG / largest</small>
+                  </button>
+                  <button class="quality-btn active" type="button" data-quality="balanced">
+                    <strong>Balanced</strong><small>Recommended</small>
+                  </button>
+                  <button class="quality-btn" type="button" data-quality="small">
+                    <strong>Small</strong><small>Smaller PDF</small>
+                  </button>
                 </div>
               </div>
-              <div id="previewScaleWrap" style="display:none;">
-                <div id="docxPreview"></div>
+
+              <div class="field">
+                <label for="extraMargin">Extra PDF margin: <span id="marginValue">0 mm</span></label>
+                <input type="range" id="extraMargin" min="0" max="20" step="2" value="0" />
+                <small>Word page already contains its own margins, इसलिए extra margin default 0 है.</small>
+              </div>
+
+              <div class="field">
+                <label for="pageMode">Pages to export</label>
+                <div class="page-range-row">
+                  <select class="select" id="pageMode">
+                    <option value="all" selected>All rendered pages</option>
+                    <option value="range">Selected range</option>
+                  </select>
+                  <input class="input" id="rangeInput" type="text" value="1-3" placeholder="1-3, 5, 8-10" disabled />
+                </div>
               </div>
             </div>
+
+            <div class="field">
+              <label for="outputName">Output filename</label>
+              <input class="input" id="outputName" type="text" value="word-to-pdf" />
+            </div>
+
+            <div class="conversion-actions">
+              <button class="primary-btn" id="convertBtn" type="button" disabled>Build Verified PDF</button>
+              <button class="secondary-btn" id="printBtn" type="button" disabled>Print / Save as PDF</button>
+            </div>
+
+            <button class="danger-btn cancel-btn" id="cancelBtn" type="button">Cancel after current page</button>
           </section>
+        </aside>
+
+        <section class="panel preview-workspace">
+          <div class="panel-title-row">
+            <div>
+              <h2>Word Page Preview</h2>
+              <span class="panel-kicker" id="previewQualityNote">Render preview first</span>
+            </div>
+            <span class="panel-kicker" id="previewPageCount">0 pages</span>
+          </div>
+
+          <div class="preview-toolbar">
+            <div class="preview-toolbar-group">
+              <button class="mini-btn" id="prevPageBtn" type="button" disabled>←</button>
+              <span class="page-nav-label" id="pageNavLabel">Page 0 / 0</span>
+              <button class="mini-btn" id="nextPageBtn" type="button" disabled>→</button>
+            </div>
+
+            <div class="preview-toolbar-group">
+              <button class="mini-btn" id="zoomOutBtn" type="button" disabled>−</button>
+              <button class="mini-btn" id="zoomResetBtn" type="button" disabled>100%</button>
+              <button class="mini-btn" id="zoomInBtn" type="button" disabled>+</button>
+            </div>
+          </div>
+
+          <div class="preview-stage" id="previewStage">
+            <div class="preview-empty" id="previewEmpty">
+              <div>
+                <div class="big">📝</div>
+                <h3>DOCX upload करें</h3>
+                <p>Rendered Word pages यहाँ दिखाई देंगे. PDF बनाने से पहले layout जरूर check करें.</p>
+              </div>
+            </div>
+
+            <div id="previewScaleWrap" hidden>
+              <div id="docxPreview"></div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="status-panel" id="statusPanel">
+        <div class="status-line" id="statusLine">Ready</div>
+        <div class="status-detail" id="statusDetail"></div>
+        <div class="progress-track" id="progressTrack"><div class="progress-bar" id="progressBar"></div></div>
+      </div>
+
+      <div class="result-panel" id="resultPanel">
+        <div class="result-head">
+          <div>
+            <h3>WORD → PDF VERIFIED ✓</h3>
+            <p id="resultText">Your PDF is ready.</p>
+          </div>
+          <div class="result-actions">
+            <a class="secondary-btn" id="downloadLink" href="#" download>Download PDF</a>
+            <button class="ghost-btn" id="previewPdfBtn" type="button">Preview PDF</button>
+            <button class="ghost-btn" id="adjustBtn" type="button">Adjust settings</button>
+          </div>
+        </div>
+
+        <div class="result-stats">
+          <div class="result-stat"><span>PAGES</span><strong id="resultPages">—</strong></div>
+          <div class="result-stat"><span>OUTPUT SIZE</span><strong id="resultSize">—</strong></div>
+          <div class="result-stat"><span>MODE</span><strong id="resultMode">Visual</strong></div>
+          <div class="result-stat"><span>VERIFY</span><strong id="resultVerify">Passed</strong></div>
+        </div>
+
+        <div class="verification-grid">
+          <div class="verification-step"><span>PDF-LIB OPEN</span><strong id="verifyPdfLib">Passed</strong></div>
+          <div class="verification-step"><span>PAGE COUNT</span><strong id="verifyPageCount">Matched</strong></div>
+          <div class="verification-step"><span>PDF.JS OPEN</span><strong id="verifyPdfJs">Passed</strong></div>
+          <div class="verification-step"><span>PAGE RENDER TEST</span><strong id="verifyRender">Passed</strong></div>
+        </div>
+
+        <div class="result-preview-panel" id="resultPreviewPanel">
+          <div class="panel-title-row"><h2>Generated PDF Preview</h2><span class="panel-kicker">FIRST PAGE</span></div>
+          <div class="result-preview-wrap" id="resultPreviewWrap"></div>
         </div>
       </div>
 
-      <div class="tips-grid">
-        <div class="tip"><strong>✅ Best result</strong><p>Modern `.docx` files use करें। Old `.doc` files को पहले Word/Google Docs में खोलकर `.docx` में save करें।</p></div>
-        <div class="tip"><strong>🔒 Privacy</strong><p>Tool browser-side चलता है। File आपके browser में render होती है; server upload की जरूरत नहीं।</p></div>
-        <div class="tip"><strong>⚠️ Layout note</strong><p>Complex Word layouts, custom fonts, headers/footers या tables में थोड़ा difference हो सकता है।</p></div>
+      <div class="info-grid">
+        <article class="info-card">
+          <h2>Word to PDF कैसे करें?</h2>
+          <ol>
+            <li>Modern `.docx` file upload करें.</li>
+            <li>Document analysis और rendered page preview check करें.</li>
+            <li>Preserve Word page size या A4/Letter/Legal चुनें.</li>
+            <li>Visual quality और page range चुनें.</li>
+            <li><strong>Build Verified PDF</strong> दबाएं या high-fidelity के लिए <strong>Print / Save as PDF</strong> use करें.</li>
+          </ol>
+        </article>
+
+        <article class="info-card">
+          <h2>Visual PDF vs Print PDF</h2>
+          <p>
+            One-click Visual PDF rendered Word page को image बनाकर PDF में रखती है — इससे preview जैसी pagination predictable रहती है,
+            लेकिन text selectable नहीं रहता. Browser Print route DOM/text को print engine में भेजती है और कई documents में selectable text बेहतर preserve कर सकती है.
+          </p>
+        </article>
+
+        <article class="info-card">
+          <h2>Complex DOCX में क्या बदल सकता है?</h2>
+          <ul>
+            <li>Custom fonts जो device/browser में available नहीं हैं.</li>
+            <li>Floating text boxes, SmartArt, equations और unusual wrapping.</li>
+            <li>Tracked changes/comments और Word-specific fields.</li>
+            <li>Documents जिनमें Word pagination stale `lastRenderedPageBreak` markers पर depend करती है.</li>
+          </ul>
+        </article>
+
+        <article class="info-card">
+          <h2>FAQ</h2>
+          <div class="faq-list">
+            <div class="faq-item active">
+              <button class="faq-q" type="button">क्या old .DOC file चलेगी?<span>+</span></button>
+              <div class="faq-a">नहीं. `.doc` binary format के लिए browser-side renderer reliable नहीं है. इसे Word/LibreOffice/Google Docs में DOCX के रूप में save करें.</div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">Preserve Word page size क्या करता है?<span>+</span></button>
+              <div class="faq-a">Rendered DOCX page की actual CSS width/height को PDF page dimensions में convert किया जाता है, इसलिए mixed portrait/landscape sections भी अलग-अलग आकार रख सकती हैं.</div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">मेरी PDF में text select क्यों नहीं होता?<span>+</span></button>
+              <div class="faq-a">One-click Visual PDF page appearance को canvas image के रूप में export करती है. Selectable text चाहिए तो Print / Save as PDF path try करें.</div>
+            </div>
+
+            <div class="faq-item">
+              <button class="faq-q" type="button">क्या मेरी DOCX server पर upload होती है?<span>+</span></button>
+              <div class="faq-a">नहीं. इस page की conversion browser-side होती है. External CDN libraries load होती हैं, लेकिन HindiTools document processing server को DOCX नहीं भेजी जाती.</div>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
   </main>
 
   <footer>
-    <div class="container footer-grid">
-      <div><strong style="font-size: 1.5rem;">HindiTools.com</strong><br/>PDF · इमेज · वॉइस · पंजाबी टूल्स</div>
-      <div><a href="index.html#tools" class="link-accent">🔧 सभी टूल्स</a></div>
-      <div>© 2026 सुपीरियर रीइमेजिनेशन</div>
+    <div class="container footer-inner">
+      <div>
+        <div class="brand" style="margin-bottom:8px;">
+          <span class="brand-mark">हि</span>
+          <span class="brand-copy">
+            <strong>Hindi<span class="brand-accent">Tools</span></strong>
+            <small>DOCUMENT TOOLS · हिंदी में</small>
+          </span>
+        </div>
+        <p class="footer-copy">Browser-first Word, PDF और image workflows with Hindi + Hinglish guidance.</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="/">Home</a>
+        <a href="about.html">About</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="contact.html">Contact</a>
+      </div>
     </div>
   </footer>
 
   <script>
-    (function() {
-      const fileInput = document.getElementById('fileInput');
-      const dropzone = document.getElementById('dropzone');
-      const fileCard = document.getElementById('fileCard');
-      const fileNameEl = document.getElementById('fileName');
-      const fileSizeEl = document.getElementById('fileSize');
-      const removeFileBtn = document.getElementById('removeFileBtn');
-      const previewBtn = document.getElementById('previewBtn');
-      const convertBtn = document.getElementById('convertBtn');
-      const printBtn = document.getElementById('printBtn');
-      const emptyPreview = document.getElementById('emptyPreview');
-      const previewScaleWrap = document.getElementById('previewScaleWrap');
-      const docxPreview = document.getElementById('docxPreview');
-      const previewFrame = document.getElementById('previewFrame');
-      const statusCard = document.getElementById('statusCard');
-      const statusTitle = document.getElementById('statusTitle');
-      const statusText = document.getElementById('statusText');
-      const progressBar = document.getElementById('progressBar');
-      const marginRange = document.getElementById('marginRange');
-      const marginValue = document.getElementById('marginValue');
-      const qualityPreset = document.getElementById('qualityPreset');
-      const zoomOutBtn = document.getElementById('zoomOutBtn');
-      const zoomInBtn = document.getElementById('zoomInBtn');
-      const zoomResetBtn = document.getElementById('zoomResetBtn');
-      const pageSizeGroup = document.getElementById('pageSizeGroup');
-      const orientationGroup = document.getElementById('orientationGroup');
+    pdfjsLib.GlobalWorkerOptions.workerSrc =
+      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 
-      let selectedFile = null;
-      let rendered = false;
-      let zoom = 1;
-      let pageSize = 'a4';
-      let orientation = 'portrait';
+    const { PDFDocument } = PDFLib;
+    const $ = id => document.getElementById(id);
 
-      function formatBytes(bytes) {
-        if (!bytes) return '0 B';
-        const units = ['B', 'KB', 'MB', 'GB'];
-        const i = Math.floor(Math.log(bytes) / Math.log(1024));
-        return `${(bytes / Math.pow(1024, i)).toFixed(i ? 1 : 0)} ${units[i]}`;
+    const PAGE_SIZES = {
+      a4: [595.28, 841.89],
+      letter: [612, 792],
+      legal: [612, 1008],
+      a3: [841.89, 1190.55]
+    };
+
+    const state = {
+      file: null,
+      diagnostics: null,
+
+      rendered: false,
+      previewDirty: false,
+      pages: [],
+      currentPage: 1,
+      zoom: 1,
+
+      outputMode: "visual",
+      quality: "balanced",
+
+      busy: false,
+      cancelRequested: false,
+
+      loadToken: 0,
+      renderToken: 0,
+
+      pageObserver: null,
+
+      outputBlob: null,
+      outputUrl: null,
+      outputBytes: null,
+
+      previewPdfToken: 0
+    };
+
+    function formatBytes(bytes) {
+      if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
+
+      const units = ["B","KB","MB","GB"];
+      const i = Math.min(
+        Math.floor(Math.log(bytes) / Math.log(1024)),
+        units.length - 1
+      );
+
+      return `${(bytes / Math.pow(1024, i)).toFixed(i ? 1 : 0)} ${units[i]}`;
+    }
+
+    function safeName(name) {
+      return (
+        (name || "word-to-pdf")
+          .replace(/\.(docx|doc|pdf)$/i, "")
+          .replace(/[^\u0900-\u097F\u0A00-\u0A7Fa-zA-Z0-9-_ .]/g, "")
+          .trim()
+          .replace(/\s+/g, "-")
+        || "word-to-pdf"
+      );
+    }
+
+    function setStatus(message, detail = "", type = "normal", percent = null) {
+      $("statusPanel").classList.add("show");
+      $("statusLine").textContent = message;
+      $("statusDetail").textContent = detail;
+
+      $("statusLine").style.color =
+        type === "success"
+          ? "var(--green)"
+          : type === "error"
+            ? "var(--red)"
+            : type === "warning"
+              ? "var(--yellow)"
+              : "var(--text)";
+
+      if (percent !== null) {
+        $("progressTrack").classList.remove("busy");
+        $("progressBar").style.width =
+          `${Math.max(0, Math.min(100, Number(percent) || 0))}%`;
+      }
+    }
+
+    function setIndeterminate(message, detail = "") {
+      setStatus(message, detail);
+      $("progressTrack").classList.add("busy");
+      $("progressBar").style.width = "42%";
+    }
+
+    function clearStatus() {
+      $("statusPanel").classList.remove("show");
+      $("progressTrack").classList.remove("busy");
+      $("progressBar").style.width = "0%";
+    }
+
+    function setBusy(value, cancellable = false) {
+      state.busy = value;
+
+      [
+        "chooseFileBtn",
+        "removeFileBtn",
+        "reanalyseBtn",
+        "renderBtn",
+        "convertBtn",
+        "printBtn",
+        "prevPageBtn",
+        "nextPageBtn",
+        "zoomOutBtn",
+        "zoomInBtn",
+        "zoomResetBtn"
+      ].forEach(id => {
+        if ($(id)) $(id).disabled = value;
+      });
+
+      $("cancelBtn").classList.toggle("show", value && cancellable);
+      $("cancelBtn").disabled = false;
+      $("cancelBtn").textContent = "Cancel after current page";
+
+      updateControls();
+    }
+
+    function clearResult() {
+      if (state.outputUrl) {
+        URL.revokeObjectURL(state.outputUrl);
       }
 
-      function safePdfName(name) {
-        return name.replace(/\.(docx|doc)$/i, '').replace(/[^a-zA-Z0-9-_\s.]/g, '').trim() || 'HindiTools-word-file';
+      state.outputBlob = null;
+      state.outputUrl = null;
+      state.outputBytes = null;
+
+      $("resultPanel").classList.remove("show");
+      $("resultPreviewPanel").classList.remove("show");
+      $("resultPreviewWrap").innerHTML = "";
+      $("downloadLink").href = "#";
+      $("downloadLink").removeAttribute("download");
+    }
+
+    function xmlCount(text, pattern) {
+      const matches = String(text || "").match(pattern);
+      return matches ? matches.length : 0;
+    }
+
+    function decodeXml(text) {
+      const textarea = document.createElement("textarea");
+      textarea.innerHTML = String(text || "");
+      return textarea.value;
+    }
+
+    function extractTag(xml, tagName) {
+      const regex = new RegExp(
+        `<(?:\\w+:)?${tagName}(?:\\s[^>]*)?>([\\s\\S]*?)<\\/(?:\\w+:)?${tagName}>`,
+        "i"
+      );
+
+      const match = String(xml || "").match(regex);
+      return match ? decodeXml(match[1].replace(/<[^>]+>/g, "")) : "";
+    }
+
+    async function analyseDocx(file, token = state.loadToken) {
+      if (!window.JSZip) {
+        throw new Error("JSZip library load नहीं हुई.");
       }
 
-      function setStatus(type, title, text, progress) {
-        statusCard.className = `status-card show ${type || ''}`;
-        statusTitle.textContent = title;
-        statusText.textContent = text || '';
-        if (typeof progress === 'number') progressBar.style.width = `${Math.max(0, Math.min(100, progress))}%`;
+      const zip = await JSZip.loadAsync(file);
+
+      if (token !== state.loadToken) return null;
+
+      const contentTypes = zip.file("[Content_Types].xml");
+      const documentPart = zip.file("word/document.xml");
+
+      if (!contentTypes || !documentPart) {
+        throw new Error("यह valid DOCX package नहीं लगती. word/document.xml missing है.");
       }
 
-      function setControls(hasFile, hasPreview) {
-        previewBtn.disabled = !hasFile;
-        convertBtn.disabled = !hasFile || !hasPreview;
-        printBtn.disabled = !hasFile || !hasPreview;
-        zoomOutBtn.disabled = !hasPreview;
-        zoomInBtn.disabled = !hasPreview;
-        zoomResetBtn.disabled = !hasPreview;
+      const [
+        documentXml,
+        fontXml,
+        coreXml,
+        appXml
+      ] = await Promise.all([
+        documentPart.async("string"),
+        zip.file("word/fontTable.xml")
+          ? zip.file("word/fontTable.xml").async("string")
+          : Promise.resolve(""),
+        zip.file("docProps/core.xml")
+          ? zip.file("docProps/core.xml").async("string")
+          : Promise.resolve(""),
+        zip.file("docProps/app.xml")
+          ? zip.file("docProps/app.xml").async("string")
+          : Promise.resolve("")
+      ]);
+
+      if (token !== state.loadToken) return null;
+
+      const names = Object.keys(zip.files);
+
+      const mediaFiles = names.filter(name => /^word\/media\//i.test(name) && !zip.files[name].dir);
+      const headers = names.filter(name => /^word\/header\d+\.xml$/i.test(name));
+      const footers = names.filter(name => /^word\/footer\d+\.xml$/i.test(name));
+      const embeddedFonts = names.filter(name => /^word\/fonts\//i.test(name) && !zip.files[name].dir);
+
+      const fontNames = [
+        ...String(fontXml).matchAll(/<w:font\b[^>]*w:name="([^"]+)"/gi)
+      ]
+        .map(match => decodeXml(match[1]))
+        .filter(Boolean);
+
+      const uniqueFonts = [...new Set(fontNames)].slice(0, 40);
+
+      const diagnostics = {
+        size: file.size,
+        tables: xmlCount(documentXml, /<w:tbl\b/gi),
+        drawings: xmlCount(documentXml, /<w:drawing\b/gi) + xmlCount(documentXml, /<w:pict\b/gi),
+        media: mediaFiles.length,
+        sections: Math.max(1, xmlCount(documentXml, /<w:sectPr\b/gi)),
+        textBoxes: xmlCount(documentXml, /<w:txbxContent\b/gi),
+        equations: xmlCount(documentXml, /<(?:m:)?oMath\b/gi),
+        pageBreaks: xmlCount(documentXml, /<w:br\b[^>]*w:type=["']page["']/gi),
+        renderedBreaks: xmlCount(documentXml, /<w:lastRenderedPageBreak\b/gi),
+        trackedChanges: xmlCount(documentXml, /<w:(?:ins|del)\b/gi),
+        hyperlinks: xmlCount(documentXml, /<w:hyperlink\b/gi),
+        fields: xmlCount(documentXml, /<w:(?:fldSimple|instrText)\b/gi),
+        headers: headers.length,
+        footers: footers.length,
+        footnotes: !!zip.file("word/footnotes.xml"),
+        endnotes: !!zip.file("word/endnotes.xml"),
+        comments: !!zip.file("word/comments.xml"),
+        embeddedFonts: embeddedFonts.length,
+        fontNames: uniqueFonts,
+        creator: extractTag(coreXml, "creator") || "—",
+        title: extractTag(coreXml, "title") || "",
+        appPages: Number(extractTag(appXml, "Pages")) || null,
+        appWords: Number(extractTag(appXml, "Words")) || null
+      };
+
+      let risk = 0;
+
+      risk += Math.min(22, diagnostics.tables * 2);
+      risk += Math.min(18, diagnostics.textBoxes * 5);
+      risk += Math.min(12, diagnostics.equations * 4);
+      risk += diagnostics.trackedChanges ? 12 : 0;
+      risk += diagnostics.comments ? 5 : 0;
+      risk += diagnostics.sections > 2 ? Math.min(10, (diagnostics.sections - 2) * 2) : 0;
+      risk += diagnostics.drawings > diagnostics.media ? 6 : 0;
+      risk += diagnostics.fields > 8 ? 6 : 0;
+      risk += diagnostics.fontNames.length > 8 ? 5 : 0;
+
+      diagnostics.risk = Math.min(100, risk);
+
+      if (diagnostics.risk >= 42) {
+        diagnostics.complexity = "Complex";
+      } else if (diagnostics.risk >= 18) {
+        diagnostics.complexity = "Mixed";
+      } else {
+        diagnostics.complexity = "Good";
       }
 
-      function resetPreview() {
-        rendered = false;
-        docxPreview.innerHTML = '';
-        emptyPreview.style.display = 'grid';
-        previewScaleWrap.style.display = 'none';
-        zoom = 1;
-        applyZoom();
-        setControls(!!selectedFile, false);
-      }
+      return diagnostics;
+    }
 
-      function resetAll() {
-        selectedFile = null;
-        fileInput.value = '';
-        fileCard.classList.remove('show');
-        resetPreview();
-        statusCard.className = 'status-card';
-        progressBar.style.width = '0%';
-      }
+    function renderDiagnostics() {
+      const d = state.diagnostics;
 
-      function handleFile(file) {
-        if (!file) return;
-        const lower = file.name.toLowerCase();
-        if (lower.endsWith('.doc')) {
-          selectedFile = null;
-          setStatus('bad', 'Old .DOC file detected', 'यह browser tool .docx support करता है। कृपया file को Word/Google Docs में open करके .docx में Save As करें।', 0);
-          setControls(false, false);
-          return;
-        }
-        if (!lower.endsWith('.docx')) {
-          setStatus('bad', 'Invalid file', 'कृपया .docx Word file upload करें।', 0);
-          return;
-        }
-        selectedFile = file;
-        fileNameEl.textContent = file.name;
-        fileSizeEl.textContent = `${formatBytes(file.size)} · DOCX document`;
-        fileCard.classList.add('show');
-        resetPreview();
-        setStatus('warn', 'File ready', 'Preview button दबाएँ। Preview बनने के बाद PDF download होगा।', 10);
-        setControls(true, false);
-      }
+      if (!d) return;
 
-      async function renderDocument() {
-        if (!selectedFile) return;
-        try {
-          previewBtn.disabled = true;
-          convertBtn.disabled = true;
-          setStatus('warn', 'Rendering preview', 'Word document को browser preview में बदला जा रहा है...', 25);
-          docxPreview.innerHTML = '';
-          emptyPreview.style.display = 'none';
-          previewScaleWrap.style.display = 'block';
+      $("factSections").textContent = String(d.sections);
+      $("factTables").textContent = String(d.tables);
+      $("factImages").textContent = String(d.media);
+      $("factFonts").textContent = String(d.fontNames.length || 0);
+      $("factHeaderFooter").textContent = `${d.headers} / ${d.footers}`;
+      $("factChanges").textContent = d.trackedChanges ? `${d.trackedChanges} marks` : "None";
 
-          const options = {
-            className: 'docx',
-            inWrapper: true,
-            ignoreWidth: false,
-            ignoreHeight: false,
-            ignoreFonts: false,
-            breakPages: true,
-            ignoreLastRenderedPageBreak: true,
-            experimental: true,
-            renderHeaders: true,
-            renderFooters: true,
-            renderFootnotes: true,
-            renderEndnotes: true,
-            useBase64URL: true
-          };
+      $("analysisTextBoxes").textContent = String(d.textBoxes);
+      $("analysisNotes").textContent =
+        `${d.footnotes ? "Footnotes" : "No footnotes"} / ${d.endnotes ? "Endnotes" : "No endnotes"}`;
+      $("analysisEquations").textContent = String(d.equations);
+      $("analysisBreaks").textContent = `${d.pageBreaks} manual + ${d.renderedBreaks} rendered`;
+      $("analysisAuthor").textContent = d.creator || "—";
 
-          await docx.renderAsync(selectedFile, docxPreview, null, options);
+      $("teleComplexity").textContent = d.complexity.toUpperCase();
+      $("teleContent").textContent = `${d.tables} / ${d.media}`;
 
-          rendered = true;
-          zoom = 1;
-          applyZoom();
-          setStatus('good', 'Preview ready', 'अब आप PDF convert/download कर सकते हैं।', 100);
-          setControls(true, true);
-        } catch (err) {
-          console.error(err);
-          emptyPreview.style.display = 'grid';
-          previewScaleWrap.style.display = 'none';
-          rendered = false;
-          setStatus('bad', 'Preview failed', err.message || 'यह DOCX browser में render नहीं हो पाया। कृपया file को Word में re-save करके फिर try करें।', 0);
-          setControls(!!selectedFile, false);
-        }
-      }
+      $("fidelityCard").className =
+        `fidelity-card ${
+          d.complexity === "Complex"
+            ? "complex"
+            : d.complexity === "Mixed"
+              ? "mixed"
+              : ""
+        }`;
 
-      function getQualityOptions() {
-        const preset = qualityPreset.value;
-        if (preset === 'sharp') return { scale: 2.4, quality: 0.98 };
-        if (preset === 'small') return { scale: 1.35, quality: 0.78 };
-        return { scale: 1.8, quality: 0.92 };
-      }
+      $("fidelityTitle").textContent =
+        d.complexity === "Good"
+          ? "GOOD BROWSER FIDELITY EXPECTED"
+          : d.complexity === "Mixed"
+            ? "MIXED / PREVIEW CAREFULLY"
+            : "COMPLEX WORD LAYOUT DETECTED";
 
-      function mmToIn(mm) { return Number(mm) / 25.4; }
+      $("fidelityText").textContent =
+        d.complexity === "Good"
+          ? "Document structure सामान्य है. Preview सही दिखे तो visual PDF reliable होनी चाहिए."
+          : d.complexity === "Mixed"
+            ? "Tables, multiple sections या Word-specific elements मिले हैं. Page preview check करें."
+            : "Text boxes, equations, tracked changes या complex layout मिला है. Microsoft Word से native PDF export ज्यादा exact हो सकता है.";
 
-      async function convertToPdf() {
-        if (!selectedFile) return;
-        if (!rendered) await renderDocument();
-        if (!rendered) return;
+      $("complexityFill").style.width = `${Math.max(6, d.risk)}%`;
 
-        const { scale, quality } = getQualityOptions();
-        const marginIn = mmToIn(marginRange.value);
-        const fileBase = safePdfName(selectedFile.name);
-        const exportNode = docxPreview;
+      $("fontList").innerHTML = "";
 
-        try {
-          document.body.classList.add('exporting');
-          convertBtn.disabled = true;
-          previewBtn.disabled = true;
-          setStatus('warn', 'Creating PDF', 'PDF तैयार हो रहा है। बड़े documents में थोड़ा समय लग सकता है...', 45);
+      const fonts = d.fontNames.slice(0, 14);
 
-          const opt = {
-            margin: [marginIn, marginIn, marginIn, marginIn],
-            filename: `${fileBase}.pdf`,
-            image: { type: 'jpeg', quality },
-            html2canvas: {
-              scale,
-              useCORS: true,
-              allowTaint: true,
-              backgroundColor: '#ffffff',
-              letterRendering: true,
-              logging: false,
-              scrollX: 0,
-              scrollY: 0,
-              windowWidth: exportNode.scrollWidth
-            },
-            jsPDF: { unit: 'in', format: pageSize, orientation },
-            pagebreak: { mode: ['css', 'legacy'], after: '.docx-wrapper > section.docx' }
-          };
-
-          await html2pdf().set(opt).from(exportNode).save();
-          setStatus('good', 'PDF downloaded', 'आपकी PDF file download हो गई है।', 100);
-        } catch (err) {
-          console.error(err);
-          setStatus('bad', 'PDF export failed', err.message || 'PDF export नहीं हो पाया। Smaller file preset या Print / Save as PDF try करें।', 0);
-        } finally {
-          document.body.classList.remove('exporting');
-          setControls(true, rendered);
-        }
-      }
-
-      function applyZoom() {
-        previewScaleWrap.style.transform = `scale(${zoom})`;
-        zoomResetBtn.textContent = `${Math.round(zoom * 100)}%`;
-        const extraHeight = Math.max(0, (zoom - 1) * previewScaleWrap.scrollHeight);
-        previewScaleWrap.style.marginBottom = `${extraHeight}px`;
-      }
-
-      function setActiveChoice(group, attr, value) {
-        [...group.querySelectorAll('.choice')].forEach(btn => {
-          btn.classList.toggle('active', btn.dataset[attr] === value);
+      if (!fonts.length) {
+        $("fontList").innerHTML =
+          '<span class="font-chip">No explicit font table</span>';
+      } else {
+        fonts.forEach(font => {
+          const chip = document.createElement("span");
+          chip.className = "font-chip";
+          chip.textContent = font;
+          chip.dataset.font = font;
+          $("fontList").appendChild(chip);
         });
       }
 
-      dropzone.addEventListener('click', () => fileInput.click());
-      dropzone.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') fileInput.click();
-      });
-      fileInput.addEventListener('change', e => handleFile(e.target.files[0]));
+      const warnings = [];
 
-      ['dragenter', 'dragover'].forEach(evt => dropzone.addEventListener(evt, e => {
-        e.preventDefault();
-        dropzone.classList.add('dragover');
-      }));
-      ['dragleave', 'drop'].forEach(evt => dropzone.addEventListener(evt, e => {
-        e.preventDefault();
-        dropzone.classList.remove('dragover');
-      }));
-      dropzone.addEventListener('drop', e => handleFile(e.dataTransfer.files[0]));
-
-      removeFileBtn.addEventListener('click', resetAll);
-      previewBtn.addEventListener('click', renderDocument);
-      convertBtn.addEventListener('click', convertToPdf);
-      printBtn.addEventListener('click', () => {
-        if (!rendered) return;
-        window.print();
-      });
-
-      marginRange.addEventListener('input', () => {
-        marginValue.textContent = `${marginRange.value} mm`;
-      });
-
-      pageSizeGroup.addEventListener('click', (e) => {
-        const btn = e.target.closest('.choice');
-        if (!btn) return;
-        pageSize = btn.dataset.size;
-        setActiveChoice(pageSizeGroup, 'size', pageSize);
-      });
-
-      orientationGroup.addEventListener('click', (e) => {
-        const btn = e.target.closest('.choice');
-        if (!btn) return;
-        orientation = btn.dataset.orientation;
-        setActiveChoice(orientationGroup, 'orientation', orientation);
-      });
-
-      zoomOutBtn.addEventListener('click', () => { zoom = Math.max(0.5, zoom - 0.1); applyZoom(); });
-      zoomInBtn.addEventListener('click', () => { zoom = Math.min(1.6, zoom + 0.1); applyZoom(); });
-      zoomResetBtn.addEventListener('click', () => { zoom = 1; applyZoom(); previewFrame.scrollTo({ top: 0, behavior: 'smooth' }); });
-
-      const darkToggle = document.getElementById('darkModeToggle');
-      if (localStorage.getItem('theme') === 'dark') document.body.classList.add('dark');
-      function syncDarkText() {
-        darkToggle.innerText = document.body.classList.contains('dark') ? '☀️ लाइट' : '🌙 डार्क';
+      if (d.trackedChanges) {
+        warnings.push("Tracked changes मिली हैं.");
       }
-      darkToggle.addEventListener('click', () => {
-        document.body.classList.toggle('dark');
-        localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
-        syncDarkText();
-      });
-      syncDarkText();
 
-      const mobileBtn = document.getElementById('mobileMenuBtn');
-      const navLinksDiv = document.getElementById('navLinks');
-      if (mobileBtn) {
-        mobileBtn.addEventListener('click', () => navLinksDiv.classList.toggle('open'));
+      if (d.textBoxes) {
+        warnings.push(`${d.textBoxes} text-box element(s) मिले.`);
       }
-    })();
+
+      if (d.equations) {
+        warnings.push(`${d.equations} equation element(s) मिले.`);
+      }
+
+      if (d.comments) {
+        warnings.push("Comments मौजूद हैं.");
+      }
+
+      if (warnings.length) {
+        $("docWarning").classList.add("show");
+        $("docWarning").innerHTML =
+          `<strong>Layout watch:</strong> ${warnings.join(" ")}`;
+      } else {
+        $("docWarning").classList.remove("show");
+        $("docWarning").textContent = "";
+      }
+    }
+
+    async function checkRenderedFonts() {
+      if (!state.diagnostics?.fontNames?.length || !document.fonts?.check) return;
+
+      state.diagnostics.fontNames.slice(0, 14).forEach(font => {
+        const chip =
+          [...$("fontList").querySelectorAll(".font-chip")]
+            .find(item => item.dataset.font === font);
+
+        if (!chip) return;
+
+        let available = false;
+
+        try {
+          available = document.fonts.check(`16px "${font.replace(/"/g, '\\"')}"`);
+        } catch (error) {}
+
+        if (!available) {
+          chip.classList.add("missing");
+          chip.title = "Browser font availability check did not confirm this font";
+        }
+      });
+    }
+
+    function parsePageRange(input, total) {
+      const text = String(input || "").replace(/\s+/g, "");
+
+      if (!text) {
+        throw new Error("Page range खाली है.");
+      }
+
+      const set = new Set();
+
+      text.split(",").filter(Boolean).forEach(part => {
+        if (/^\d+$/.test(part)) {
+          const page = Number(part);
+
+          if (page < 1 || page > total) {
+            throw new Error(`Page ${page} rendered document में मौजूद नहीं है.`);
+          }
+
+          set.add(page);
+          return;
+        }
+
+        const match = part.match(/^(\d*)-(\d*)$/);
+
+        if (!match) {
+          throw new Error(`"${part}" valid range नहीं है.`);
+        }
+
+        const start = match[1] ? Number(match[1]) : 1;
+        const end = match[2] ? Number(match[2]) : total;
+
+        if (start < 1 || end > total || start > end) {
+          throw new Error(`"${part}" valid page range नहीं है.`);
+        }
+
+        for (let page = start; page <= end; page++) {
+          set.add(page);
+        }
+      });
+
+      if (!set.size) {
+        throw new Error("कोई page selected नहीं है.");
+      }
+
+      return [...set].sort((a,b) => a - b);
+    }
+
+    function selectedExportPages() {
+      if (!state.pages.length) return [];
+
+      if ($("pageMode").value === "all") {
+        return Array.from(
+          { length: state.pages.length },
+          (_, index) => index + 1
+        );
+      }
+
+      return parsePageRange(
+        $("rangeInput").value,
+        state.pages.length
+      );
+    }
+
+    function updateControls() {
+      const hasFile = !!state.file;
+      const hasPreview = state.rendered && state.pages.length > 0;
+
+      $("renderBtn").disabled = state.busy || !hasFile;
+      $("convertBtn").disabled =
+        state.busy
+        || !hasPreview
+        || state.outputMode !== "visual";
+
+      $("printBtn").disabled =
+        state.busy || !hasPreview;
+
+      $("prevPageBtn").disabled =
+        state.busy || !hasPreview || state.currentPage <= 1;
+
+      $("nextPageBtn").disabled =
+        state.busy
+        || !hasPreview
+        || state.currentPage >= state.pages.length;
+
+      $("zoomOutBtn").disabled = state.busy || !hasPreview;
+      $("zoomInBtn").disabled = state.busy || !hasPreview;
+      $("zoomResetBtn").disabled = state.busy || !hasPreview;
+
+      $("pageNavLabel").textContent =
+        hasPreview
+          ? `Page ${state.currentPage} / ${state.pages.length}`
+          : "Page 0 / 0";
+
+      $("previewPageCount").textContent =
+        `${state.pages.length} page${state.pages.length === 1 ? "" : "s"}`;
+
+      $("telePages").textContent = String(state.pages.length || 0);
+    }
+
+    function clearPageObserver() {
+      if (state.pageObserver) {
+        state.pageObserver.disconnect();
+        state.pageObserver = null;
+      }
+    }
+
+    function setupPageObserver() {
+      clearPageObserver();
+
+      if (!("IntersectionObserver" in window) || !state.pages.length) return;
+
+      state.pageObserver =
+        new IntersectionObserver(
+          entries => {
+            const visible =
+              entries
+                .filter(entry => entry.isIntersecting)
+                .sort((a,b) => b.intersectionRatio - a.intersectionRatio);
+
+            if (!visible.length) return;
+
+            const page =
+              Number(visible[0].target.dataset.htPageNumber);
+
+            if (page && page !== state.currentPage) {
+              state.currentPage = page;
+              updateControls();
+            }
+          },
+          {
+            root: $("previewStage"),
+            threshold: [0.15,0.3,0.5,0.7]
+          }
+        );
+
+      state.pages.forEach(page => state.pageObserver.observe(page));
+    }
+
+    function decorateRenderedPages() {
+      state.pages =
+        [...$("docxPreview").querySelectorAll("section.docx")];
+
+      state.pages.forEach((page, index) => {
+        const pageNo = index + 1;
+        page.dataset.htPage = `PAGE ${pageNo}`;
+        page.dataset.htPageNumber = String(pageNo);
+      });
+
+      state.currentPage = state.pages.length ? 1 : 0;
+
+      if (state.pages.length) {
+        $("rangeInput").value =
+          state.pages.length <= 3
+            ? "1"
+            : `1-${Math.min(3,state.pages.length)}`;
+      }
+
+      setupPageObserver();
+      updateControls();
+    }
+
+    async function renderDocument() {
+      if (!state.file || state.busy) return false;
+
+      if (!window.docx?.renderAsync) {
+        setStatus(
+          "DOCX renderer load नहीं हुई.",
+          "Internet/CDN connection check करके page reload करें.",
+          "error",
+          0
+        );
+        return false;
+      }
+
+      const token = ++state.renderToken;
+
+      setBusy(true);
+      clearResult();
+
+      try {
+        setIndeterminate(
+          "Word document render हो रही है…",
+          "Fonts, images, headers, footers और page breaks process हो रहे हैं."
+        );
+
+        $("docxPreview").innerHTML = "";
+        $("previewEmpty").hidden = true;
+        $("previewScaleWrap").hidden = false;
+
+        const useWordBreaks =
+          $("paginationMode").value === "word";
+
+        const options = {
+          className: "docx",
+          inWrapper: true,
+          hideWrapperOnPrint: false,
+          ignoreWidth: false,
+          ignoreHeight: false,
+          ignoreFonts: false,
+          breakPages: true,
+          ignoreLastRenderedPageBreak: !useWordBreaks,
+          experimental: true,
+          renderHeaders: true,
+          renderFooters: true,
+          renderFootnotes: true,
+          renderEndnotes: true,
+          renderChanges: $("showChanges").checked,
+          renderComments: $("showComments").checked,
+          renderAltChunks: true,
+          useBase64URL: state.file.size < 28 * 1024 * 1024
+        };
+
+        await window.docx.renderAsync(
+          state.file,
+          $("docxPreview"),
+          $("docxPreview"),
+          options
+        );
+
+        if (token !== state.renderToken) {
+          return false;
+        }
+
+        if (document.fonts?.ready) {
+          try {
+            await document.fonts.ready;
+          } catch (error) {}
+        }
+
+        decorateRenderedPages();
+
+        if (!state.pages.length) {
+          throw new Error("DOCX renderer ने कोई page section नहीं बनाया.");
+        }
+
+        state.rendered = true;
+        state.previewDirty = false;
+        state.zoom = 1;
+        applyZoom();
+
+        await checkRenderedFonts();
+
+        $("previewQualityNote").textContent =
+          `${state.pages.length} rendered page(s) • ${
+            useWordBreaks ? "Word break hints ON" : "manual breaks"
+          }`;
+
+        setStatus(
+          "Word preview ready ✓",
+          `${state.pages.length} page(s) rendered. PDF बनाने से पहले layout scroll करके check करें.`,
+          "success",
+          100
+        );
+
+        return true;
+
+      } catch (error) {
+        console.error(error);
+
+        state.rendered = false;
+        state.pages = [];
+
+        $("docxPreview").innerHTML = "";
+        $("previewScaleWrap").hidden = true;
+        $("previewEmpty").hidden = false;
+
+        setStatus(
+          "DOCX preview नहीं बन सकी.",
+          error?.message || String(error),
+          "error",
+          0
+        );
+
+        updateControls();
+        return false;
+
+      } finally {
+        setBusy(false);
+      }
+    }
+
+    function applyZoom() {
+      $("previewScaleWrap").style.transform =
+        `scale(${state.zoom})`;
+
+      $("zoomResetBtn").textContent =
+        `${Math.round(state.zoom * 100)}%`;
+
+      if (state.rendered) {
+        const rawHeight = $("previewScaleWrap").scrollHeight;
+        $("previewScaleWrap").style.marginBottom =
+          `${Math.max(0, (state.zoom - 1) * rawHeight)}px`;
+      } else {
+        $("previewScaleWrap").style.marginBottom = "0px";
+      }
+    }
+
+    function scrollToPage(pageNo) {
+      if (!state.pages.length) return;
+
+      const target =
+        Math.max(1, Math.min(state.pages.length, pageNo));
+
+      state.currentPage = target;
+
+      state.pages[target - 1].scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      updateControls();
+    }
+
+    function qualitySettings() {
+      const memory = Number(navigator.deviceMemory || 4);
+
+      if (state.quality === "sharp") {
+        return {
+          scale: memory <= 2 ? 1.65 : memory <= 4 ? 1.9 : 2.25,
+          format: "png",
+          quality: 1,
+          maxPixels: memory <= 2 ? 5_000_000 : memory <= 4 ? 7_500_000 : 11_000_000
+        };
+      }
+
+      if (state.quality === "small") {
+        return {
+          scale: 1.25,
+          format: "jpeg",
+          quality: .80,
+          maxPixels: 5_000_000
+        };
+      }
+
+      return {
+        scale: memory <= 2 ? 1.35 : memory <= 4 ? 1.6 : 1.8,
+        format: "jpeg",
+        quality: .93,
+        maxPixels: memory <= 2 ? 5_000_000 : 8_000_000
+      };
+    }
+
+    function safeCanvasScale(element, wantedScale, maxPixels) {
+      const width = Math.max(1, element.offsetWidth || element.getBoundingClientRect().width);
+      const height = Math.max(1, element.offsetHeight || element.getBoundingClientRect().height);
+
+      let scale = wantedScale;
+      const pixels = width * height * scale * scale;
+
+      if (pixels > maxPixels) {
+        scale *= Math.sqrt(maxPixels / pixels);
+      }
+
+      return Math.max(.75, scale);
+    }
+
+    function canvasToBlob(canvas, format, quality) {
+      return new Promise((resolve, reject) => {
+        canvas.toBlob(
+          blob => {
+            if (blob) {
+              resolve(blob);
+            } else {
+              reject(new Error("Page image create नहीं हो सकी."));
+            }
+          },
+          format === "png" ? "image/png" : "image/jpeg",
+          quality
+        );
+      });
+    }
+
+    function pageSizeForRenderedPage(pageElement) {
+      const sourceWidthPx =
+        Math.max(1, pageElement.offsetWidth || pageElement.getBoundingClientRect().width);
+
+      const sourceHeightPx =
+        Math.max(1, pageElement.offsetHeight || pageElement.getBoundingClientRect().height);
+
+      const selectedSize = $("pageSizeSelect").value;
+      const orientation = $("orientationSelect").value;
+
+      if (selectedSize === "preserve") {
+        let width = sourceWidthPx * 72 / 96;
+        let height = sourceHeightPx * 72 / 96;
+
+        if (orientation === "portrait" && width > height) {
+          [width, height] = [height, width];
+        } else if (orientation === "landscape" && height > width) {
+          [width, height] = [height, width];
+        }
+
+        return [width, height];
+      }
+
+      let [width, height] =
+        PAGE_SIZES[selectedSize] || PAGE_SIZES.a4;
+
+      if (orientation === "landscape") {
+        return [Math.max(width,height), Math.min(width,height)];
+      }
+
+      if (orientation === "portrait") {
+        return [Math.min(width,height), Math.max(width,height)];
+      }
+
+      if (sourceWidthPx > sourceHeightPx) {
+        return [Math.max(width,height), Math.min(width,height)];
+      }
+
+      return [Math.min(width,height), Math.max(width,height)];
+    }
+
+    function mmToPt(mm) {
+      return Number(mm || 0) * 72 / 25.4;
+    }
+
+    async function verifyPdf(bytes, expectedPages) {
+      const loaded = await PDFDocument.load(bytes, {
+        ignoreEncryption: true
+      });
+
+      const libPages = loaded.getPageCount();
+
+      if (libPages !== expectedPages) {
+        throw new Error(
+          `PDF-lib verification failed: expected ${expectedPages} pages but got ${libPages}.`
+        );
+      }
+
+      let pdfJsDoc = null;
+
+      try {
+        const task =
+          pdfjsLib.getDocument({
+            data: bytes.slice()
+          });
+
+        pdfJsDoc = await task.promise;
+
+        if (pdfJsDoc.numPages !== expectedPages) {
+          throw new Error(
+            `PDF.js verification failed: expected ${expectedPages} pages but got ${pdfJsDoc.numPages}.`
+          );
+        }
+
+        const testPages =
+          expectedPages > 1
+            ? [1, expectedPages]
+            : [1];
+
+        for (const pageNo of testPages) {
+          const page = await pdfJsDoc.getPage(pageNo);
+          const viewport = page.getViewport({ scale: .18 });
+
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.max(1, Math.ceil(viewport.width));
+          canvas.height = Math.max(1, Math.ceil(viewport.height));
+
+          const context =
+            canvas.getContext("2d", { alpha: false });
+
+          context.fillStyle = "#fff";
+          context.fillRect(0,0,canvas.width,canvas.height);
+
+          await page.render({
+            canvasContext: context,
+            viewport
+          }).promise;
+
+          canvas.width = 1;
+          canvas.height = 1;
+        }
+
+        return {
+          pageCount: expectedPages,
+          pdfJs: true,
+          render: true
+        };
+
+      } finally {
+        if (pdfJsDoc) {
+          try {
+            await pdfJsDoc.destroy();
+          } catch (error) {}
+        }
+      }
+    }
+
+    async function buildVisualPdf() {
+      if (state.busy) return;
+
+      if (!state.rendered || state.previewDirty) {
+        const ok = await renderDocument();
+        if (!ok) return;
+      }
+
+      let selectedPages;
+
+      try {
+        selectedPages = selectedExportPages();
+      } catch (error) {
+        setStatus(
+          error.message,
+          "",
+          "error",
+          0
+        );
+        return;
+      }
+
+      if (!selectedPages.length) return;
+
+      state.cancelRequested = false;
+      clearResult();
+      setBusy(true, true);
+
+      document.body.classList.add("exporting");
+
+      const oldZoom = state.zoom;
+      state.zoom = 1;
+      applyZoom();
+
+      try {
+        if (!window.html2canvas) {
+          throw new Error("html2canvas library load नहीं हुई.");
+        }
+
+        const pdfDoc = await PDFDocument.create();
+        const quality = qualitySettings();
+        const extraMargin = mmToPt($("extraMargin").value);
+
+        for (let index = 0; index < selectedPages.length; index++) {
+          if (state.cancelRequested) {
+            throw new Error("Conversion cancelled.");
+          }
+
+          const pageNo = selectedPages[index];
+          const pageElement = state.pages[pageNo - 1];
+
+          if (!pageElement) {
+            throw new Error(`Rendered page ${pageNo} नहीं मिली.`);
+          }
+
+          const stagePercent =
+            Math.round((index / selectedPages.length) * 78);
+
+          setStatus(
+            `Word page ${pageNo} capture हो रही है…`,
+            `${index + 1} / ${selectedPages.length} • ${state.quality} quality`,
+            "normal",
+            Math.max(4, stagePercent)
+          );
+
+          const scale =
+            safeCanvasScale(
+              pageElement,
+              quality.scale,
+              quality.maxPixels
+            );
+
+          const canvas =
+            await html2canvas(
+              pageElement,
+              {
+                scale,
+                backgroundColor: "#ffffff",
+                useCORS: true,
+                allowTaint: false,
+                logging: false,
+                scrollX: 0,
+                scrollY: 0,
+                windowWidth: Math.max(document.documentElement.clientWidth, pageElement.scrollWidth),
+                windowHeight: Math.max(document.documentElement.clientHeight, pageElement.scrollHeight)
+              }
+            );
+
+          if (state.cancelRequested) {
+            canvas.width = 1;
+            canvas.height = 1;
+            throw new Error("Conversion cancelled.");
+          }
+
+          const blob =
+            await canvasToBlob(
+              canvas,
+              quality.format,
+              quality.quality
+            );
+
+          const bytes =
+            await blob.arrayBuffer();
+
+          const image =
+            quality.format === "png"
+              ? await pdfDoc.embedPng(bytes)
+              : await pdfDoc.embedJpg(bytes);
+
+          const [pageWidth, pageHeight] =
+            pageSizeForRenderedPage(pageElement);
+
+          const pdfPage =
+            pdfDoc.addPage([pageWidth,pageHeight]);
+
+          const availableWidth =
+            Math.max(12, pageWidth - extraMargin * 2);
+
+          const availableHeight =
+            Math.max(12, pageHeight - extraMargin * 2);
+
+          const scaleToFit =
+            Math.min(
+              availableWidth / image.width,
+              availableHeight / image.height
+            );
+
+          const drawWidth = image.width * scaleToFit;
+          const drawHeight = image.height * scaleToFit;
+
+          pdfPage.drawImage(
+            image,
+            {
+              x: (pageWidth - drawWidth) / 2,
+              y: (pageHeight - drawHeight) / 2,
+              width: drawWidth,
+              height: drawHeight
+            }
+          );
+
+          canvas.width = 1;
+          canvas.height = 1;
+        }
+
+        setStatus(
+          "PDF package save हो रही है…",
+          "Rendered pages PDF में embed हो चुकी हैं.",
+          "normal",
+          84
+        );
+
+        const pdfBytes =
+          await pdfDoc.save({
+            useObjectStreams: true,
+            objectsPerTick: 30
+          });
+
+        setStatus(
+          "Generated PDF verify हो रही है…",
+          "PDF-lib + PDF.js page count और render test",
+          "normal",
+          91
+        );
+
+        const verification =
+          await verifyPdf(
+            new Uint8Array(pdfBytes),
+            selectedPages.length
+          );
+
+        state.outputBytes =
+          new Uint8Array(pdfBytes);
+
+        state.outputBlob =
+          new Blob(
+            [state.outputBytes],
+            { type: "application/pdf" }
+          );
+
+        state.outputUrl =
+          URL.createObjectURL(
+            state.outputBlob
+          );
+
+        const filename =
+          safeName($("outputName").value) + ".pdf";
+
+        $("downloadLink").href = state.outputUrl;
+        $("downloadLink").download = filename;
+
+        $("resultPages").textContent =
+          String(selectedPages.length);
+
+        $("resultSize").textContent =
+          formatBytes(state.outputBlob.size);
+
+        $("resultMode").textContent =
+          state.quality === "sharp"
+            ? "Visual / PNG"
+            : `Visual / ${state.quality}`;
+
+        $("resultVerify").textContent = "Passed";
+        $("verifyPdfLib").textContent = "Passed";
+        $("verifyPageCount").textContent = "Matched";
+        $("verifyPdfJs").textContent =
+          verification.pdfJs ? "Passed" : "—";
+        $("verifyRender").textContent =
+          verification.render ? "Passed" : "—";
+
+        $("resultText").textContent =
+          `${filename} • ${selectedPages.length} page(s) • ${formatBytes(state.outputBlob.size)}`;
+
+        $("resultPanel").classList.add("show");
+
+        setStatus(
+          "Verified PDF ready ✓",
+          "Download button अब final verified PDF के लिए active है.",
+          "success",
+          100
+        );
+
+        $("resultPanel").scrollIntoView({
+          behavior: "smooth",
+          block: "nearest"
+        });
+
+      } catch (error) {
+        const cancelled =
+          /cancelled/i.test(error?.message || "");
+
+        setStatus(
+          cancelled
+            ? "Conversion cancelled."
+            : "PDF नहीं बन सकी.",
+          cancelled
+            ? "कोई incomplete PDF download नहीं दी गई."
+            : error?.message || String(error),
+          cancelled ? "warning" : "error",
+          0
+        );
+
+      } finally {
+        document.body.classList.remove("exporting");
+
+        state.zoom = oldZoom;
+        applyZoom();
+
+        setBusy(false, false);
+        state.cancelRequested = false;
+      }
+    }
+
+    async function previewGeneratedPdf() {
+      if (!state.outputBlob) return;
+
+      const token = ++state.previewPdfToken;
+
+      $("resultPreviewPanel").classList.add("show");
+      $("resultPreviewWrap").innerHTML =
+        '<div style="color:var(--muted)">PDF page render हो रही है…</div>';
+
+      let doc = null;
+
+      try {
+        const data =
+          new Uint8Array(
+            await state.outputBlob.arrayBuffer()
+          );
+
+        doc =
+          await pdfjsLib.getDocument({ data }).promise;
+
+        const page = await doc.getPage(1);
+        const base = page.getViewport({ scale: 1 });
+
+        const maxWidth =
+          Math.max(
+            240,
+            Math.min(
+              720,
+              $("resultPreviewWrap").clientWidth - 30
+            )
+          );
+
+        const viewport =
+          page.getViewport({
+            scale: Math.min(1.4, maxWidth / base.width)
+          });
+
+        const canvas = document.createElement("canvas");
+
+        canvas.width = Math.max(1, Math.ceil(viewport.width));
+        canvas.height = Math.max(1, Math.ceil(viewport.height));
+
+        const context =
+          canvas.getContext("2d", { alpha: false });
+
+        context.fillStyle = "#fff";
+        context.fillRect(0,0,canvas.width,canvas.height);
+
+        await page.render({
+          canvasContext: context,
+          viewport
+        }).promise;
+
+        if (token !== state.previewPdfToken) return;
+
+        $("resultPreviewWrap").innerHTML = "";
+        $("resultPreviewWrap").appendChild(canvas);
+
+      } catch (error) {
+        $("resultPreviewWrap").innerHTML =
+          `<div style="color:var(--red)">Preview failed: ${String(error?.message || error)}</div>`;
+
+      } finally {
+        if (doc) {
+          try {
+            await doc.destroy();
+          } catch (error) {}
+        }
+      }
+    }
+
+    async function printRenderedDocument() {
+      if (!state.rendered) return;
+
+      if (state.previewDirty) {
+        const refreshed = await renderDocument();
+        if (!refreshed) return;
+      }
+
+      const printName =
+        safeName($("outputName").value || state.file?.name || "word-to-pdf");
+
+      setStatus(
+        "Print-quality view तैयार हो रही है…",
+        "Destination में Save as PDF चुनें. Browser print text fidelity के लिए बेहतर हो सकती है.",
+        "success",
+        100
+      );
+
+      const iframe = document.createElement("iframe");
+      iframe.setAttribute("aria-hidden", "true");
+      iframe.style.position = "fixed";
+      iframe.style.right = "0";
+      iframe.style.bottom = "0";
+      iframe.style.width = "1px";
+      iframe.style.height = "1px";
+      iframe.style.border = "0";
+      iframe.style.opacity = "0";
+      iframe.style.pointerEvents = "none";
+
+      document.body.appendChild(iframe);
+
+      const printDoc = iframe.contentDocument;
+
+      printDoc.open();
+      printDoc.write(`<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>${printName}</title>
+<style>
+  html,body{margin:0;padding:0;background:#fff;}
+  .docx-wrapper{background:#fff!important;padding:0!important;}
+  .docx-wrapper>section.docx{box-shadow:none!important;margin:0 auto!important;break-after:page!important;page-break-after:always!important;border-radius:0!important;}
+  .docx-wrapper>section.docx:last-child{break-after:auto!important;page-break-after:auto!important;}
+  @page{margin:0;}
+</style>
+</head>
+<body>${$("docxPreview").innerHTML}</body>
+</html>`);
+      printDoc.close();
+
+      try {
+        if (printDoc.fonts?.ready) {
+          await Promise.race([
+            printDoc.fonts.ready,
+            new Promise(resolve => setTimeout(resolve, 1800))
+          ]);
+        }
+
+        const images = [...printDoc.images];
+
+        await Promise.race([
+          Promise.all(images.map(img => {
+            if (img.complete) return Promise.resolve();
+            return new Promise(resolve => {
+              img.addEventListener("load", resolve, { once: true });
+              img.addEventListener("error", resolve, { once: true });
+            });
+          })),
+          new Promise(resolve => setTimeout(resolve, 1800))
+        ]);
+
+        iframe.contentWindow.focus();
+        iframe.contentWindow.print();
+
+      } finally {
+        setTimeout(() => iframe.remove(), 2500);
+      }
+    }
+
+    function markPreviewDirty() {
+      if (!state.file) return;
+
+      state.previewDirty = true;
+      clearResult();
+
+      if (state.rendered) {
+        $("previewQualityNote").textContent =
+          "Rendering settings changed — Refresh Preview";
+      }
+    }
+
+    async function loadFile(file) {
+      if (!file) return;
+
+      const lower = file.name.toLowerCase();
+
+      if (lower.endsWith(".doc")) {
+        setStatus(
+          "Old .DOC file support नहीं है.",
+          "File को Word, LibreOffice या Google Docs में खोलकर .DOCX में Save As करें.",
+          "error",
+          0
+        );
+        return;
+      }
+
+      if (!lower.endsWith(".docx")) {
+        setStatus(
+          "कृपया modern .DOCX Word file चुनें.",
+          "",
+          "error",
+          0
+        );
+        return;
+      }
+
+      const token = ++state.loadToken;
+
+      resetDocument(false);
+
+      state.file = file;
+      state.loadToken = token;
+
+      $("workspace").classList.add("show");
+
+      $("fileName").textContent = file.name;
+      $("fileName").title = file.name;
+      $("fileSize").textContent = formatBytes(file.size);
+      $("docxStatus").textContent = "Analysing";
+
+      $("teleFile").textContent = file.name;
+      $("teleFile").title = file.name;
+
+      $("outputName").value =
+        safeName(file.name.replace(/\.docx$/i, ""));
+
+      setBusy(true);
+      setStatus(
+        "DOCX structure analyse हो रही है…",
+        "ZIP package, document.xml, media, fonts और Word layout features inspect हो रहे हैं.",
+        "normal",
+        8
+      );
+
+      try {
+        const diagnostics =
+          await analyseDocx(file, token);
+
+        if (!diagnostics || token !== state.loadToken) return;
+
+        state.diagnostics = diagnostics;
+
+        $("docxStatus").textContent = "Valid DOCX";
+        renderDiagnostics();
+
+        setStatus(
+          "DOCX valid है — preview render हो रही है…",
+          diagnostics.title
+            ? `Document title: ${diagnostics.title}`
+            : "Structure check passed.",
+          "success",
+          24
+        );
+
+      } catch (error) {
+        state.file = null;
+        state.diagnostics = null;
+
+        $("workspace").classList.remove("show");
+
+        setStatus(
+          "DOCX analyse नहीं हो सकी.",
+          error?.message || String(error),
+          "error",
+          0
+        );
+
+        return;
+
+      } finally {
+        setBusy(false);
+      }
+
+      if (token === state.loadToken) {
+        await renderDocument();
+      }
+    }
+
+    function resetDocument(clearStatusToo = true) {
+      state.renderToken++;
+      state.previewPdfToken++;
+
+      state.file = null;
+      state.diagnostics = null;
+      state.rendered = false;
+      state.previewDirty = false;
+      state.pages = [];
+      state.currentPage = 1;
+      state.zoom = 1;
+      state.cancelRequested = false;
+
+      clearPageObserver();
+      clearResult();
+
+      $("fileInput").value = "";
+      $("docxPreview").innerHTML = "";
+      $("previewScaleWrap").hidden = true;
+      $("previewEmpty").hidden = false;
+      $("workspace").classList.remove("show");
+
+      $("teleFile").textContent = "—";
+      $("telePages").textContent = "0";
+      $("teleComplexity").textContent = "CHECKING";
+      $("teleContent").textContent = "0 / 0";
+
+      $("fontList").innerHTML = "";
+      $("docWarning").classList.remove("show");
+
+      updateControls();
+
+      if (clearStatusToo) {
+        clearStatus();
+      }
+    }
+
+    function openFilePicker() {
+      if (state.busy) return;
+      $("fileInput").value = "";
+      $("fileInput").click();
+    }
+
+    $("chooseFileBtn").addEventListener(
+      "click",
+      event => {
+        event.preventDefault();
+        event.stopPropagation();
+        openFilePicker();
+      }
+    );
+
+    $("dropzone").addEventListener(
+      "click",
+      event => {
+        if (
+          state.busy
+          ||
+          event.target.closest("button")
+        ) {
+          return;
+        }
+
+        openFilePicker();
+      }
+    );
+
+    $("fileInput").addEventListener(
+      "change",
+      event => {
+        const file = event.target.files?.[0];
+
+        if (file) loadFile(file);
+
+        event.target.value = "";
+      }
+    );
+
+    ["dragenter","dragover"].forEach(
+      eventName => {
+        $("dropzone").addEventListener(
+          eventName,
+          event => {
+            event.preventDefault();
+            event.stopPropagation();
+
+            if (!state.busy) {
+              $("dropzone").classList.add("dragover");
+            }
+          }
+        );
+      }
+    );
+
+    ["dragleave","drop"].forEach(
+      eventName => {
+        $("dropzone").addEventListener(
+          eventName,
+          event => {
+            event.preventDefault();
+            event.stopPropagation();
+            $("dropzone").classList.remove("dragover");
+          }
+        );
+      }
+    );
+
+    $("dropzone").addEventListener(
+      "drop",
+      event => {
+        if (state.busy) return;
+
+        const file = event.dataTransfer.files?.[0];
+
+        if (file) loadFile(file);
+      }
+    );
+
+    $("removeFileBtn").addEventListener(
+      "click",
+      () => {
+        resetDocument(true);
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
+    );
+
+    $("reanalyseBtn").addEventListener(
+      "click",
+      async () => {
+        if (!state.file || state.busy) return;
+
+        setBusy(true);
+
+        try {
+          setIndeterminate(
+            "DOCX दोबारा analyse हो रही है…",
+            "Structure diagnostics refresh हो रहे हैं."
+          );
+
+          state.diagnostics =
+            await analyseDocx(
+              state.file,
+              state.loadToken
+            );
+
+          renderDiagnostics();
+
+          setStatus(
+            "Analysis refreshed.",
+            "",
+            "success",
+            100
+          );
+
+        } catch (error) {
+          setStatus(
+            "Analysis failed.",
+            error?.message || String(error),
+            "error",
+            0
+          );
+
+        } finally {
+          setBusy(false);
+        }
+      }
+    );
+
+    $("renderBtn").addEventListener(
+      "click",
+      renderDocument
+    );
+
+    $("paginationMode").addEventListener(
+      "change",
+      markPreviewDirty
+    );
+
+    $("showChanges").addEventListener(
+      "change",
+      markPreviewDirty
+    );
+
+    $("showComments").addEventListener(
+      "change",
+      markPreviewDirty
+    );
+
+    $("prevPageBtn").addEventListener(
+      "click",
+      () => scrollToPage(state.currentPage - 1)
+    );
+
+    $("nextPageBtn").addEventListener(
+      "click",
+      () => scrollToPage(state.currentPage + 1)
+    );
+
+    $("zoomOutBtn").addEventListener(
+      "click",
+      () => {
+        state.zoom = Math.max(.55, state.zoom - .1);
+        applyZoom();
+      }
+    );
+
+    $("zoomInBtn").addEventListener(
+      "click",
+      () => {
+        state.zoom = Math.min(1.6, state.zoom + .1);
+        applyZoom();
+      }
+    );
+
+    $("zoomResetBtn").addEventListener(
+      "click",
+      () => {
+        state.zoom = 1;
+        applyZoom();
+
+        $("previewStage").scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      }
+    );
+
+    $("outputModeSwitch").addEventListener(
+      "click",
+      event => {
+        const button = event.target.closest("[data-mode]");
+
+        if (!button) return;
+
+        state.outputMode = button.dataset.mode;
+
+        [...$("outputModeSwitch").querySelectorAll("[data-mode]")]
+          .forEach(item => {
+            item.classList.toggle(
+              "active",
+              item.dataset.mode === state.outputMode
+            );
+          });
+
+        $("visualSettings").hidden =
+          state.outputMode !== "visual";
+
+        $("outputModeNote").innerHTML =
+          state.outputMode === "visual"
+            ? "<strong>Visual PDF:</strong> preview जैसी page appearance को one-click downloadable PDF में रखता है. Text image बन जाएगा."
+            : "<strong>Print / Save as PDF:</strong> browser print engine rendered Word HTML को print करती है. कई documents में selectable text बेहतर रहता है, लेकिन final save dialog user को complete करना होगा.";
+
+        clearResult();
+        updateControls();
+      }
+    );
+
+    $("qualityGrid").addEventListener(
+      "click",
+      event => {
+        const button = event.target.closest("[data-quality]");
+
+        if (!button) return;
+
+        state.quality = button.dataset.quality;
+
+        [...$("qualityGrid").querySelectorAll("[data-quality]")]
+          .forEach(item => {
+            item.classList.toggle(
+              "active",
+              item.dataset.quality === state.quality
+            );
+          });
+
+        clearResult();
+      }
+    );
+
+    $("extraMargin").addEventListener(
+      "input",
+      () => {
+        $("marginValue").textContent =
+          `${$("extraMargin").value} mm`;
+        clearResult();
+      }
+    );
+
+    $("pageMode").addEventListener(
+      "change",
+      () => {
+        $("rangeInput").disabled =
+          $("pageMode").value !== "range";
+        clearResult();
+      }
+    );
+
+    $("rangeInput").addEventListener(
+      "input",
+      clearResult
+    );
+
+    [
+      "pageSizeSelect",
+      "orientationSelect",
+      "outputName"
+    ].forEach(id => {
+      $(id).addEventListener(
+        "change",
+        clearResult
+      );
+
+      if ($(id).tagName === "INPUT") {
+        $(id).addEventListener(
+          "input",
+          clearResult
+        );
+      }
+    });
+
+    $("convertBtn").addEventListener(
+      "click",
+      buildVisualPdf
+    );
+
+    $("printBtn").addEventListener(
+      "click",
+      printRenderedDocument
+    );
+
+    $("cancelBtn").addEventListener(
+      "click",
+      () => {
+        state.cancelRequested = true;
+
+        $("cancelBtn").disabled = true;
+        $("cancelBtn").textContent = "Stopping…";
+      }
+    );
+
+    $("previewPdfBtn").addEventListener(
+      "click",
+      previewGeneratedPdf
+    );
+
+    $("adjustBtn").addEventListener(
+      "click",
+      () => {
+        clearResult();
+
+        $("workspace").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }
+    );
+
+    document
+      .querySelectorAll(".faq-q")
+      .forEach(button => {
+        button.addEventListener(
+          "click",
+          () => {
+            button.parentElement.classList.toggle("active");
+          }
+        );
+      });
+
+    $("themeBtn").addEventListener(
+      "click",
+      () => {
+        const next =
+          document.documentElement.dataset.theme === "dark"
+            ? "light"
+            : "dark";
+
+        document.documentElement.dataset.theme = next;
+
+        try {
+          localStorage.setItem("ht-hud-theme", next);
+        } catch (error) {}
+      }
+    );
+
+    $("menuBtn").addEventListener(
+      "click",
+      () => {
+        const open =
+          $("mainNav").classList.toggle("open");
+
+        $("menuBtn").setAttribute(
+          "aria-expanded",
+          String(open)
+        );
+      }
+    );
+
+    $("mainNav")
+      .querySelectorAll("a")
+      .forEach(link => {
+        link.addEventListener(
+          "click",
+          () => {
+            $("mainNav").classList.remove("open");
+            $("menuBtn").setAttribute("aria-expanded", "false");
+          }
+        );
+      });
+
+    window.addEventListener(
+      "beforeunload",
+      () => {
+        if (state.outputUrl) {
+          URL.revokeObjectURL(state.outputUrl);
+        }
+      }
+    );
+
+    updateControls();
   </script>
 </body>
 </html>
