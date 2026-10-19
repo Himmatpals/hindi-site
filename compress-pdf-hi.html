@@ -947,10 +947,13 @@ async function compressPDF() {
       : originalUsed
         ? "इस PDF का size और कम नहीं हो सका।"
         : "उपलब्ध size: " + formatBytes(blob.size) + "।";
+    if (metTarget && mode === "preserve") {
+      note = "बिना quality बदले PDF छोटी हो गई।";
+    } else if (metTarget && result.reason === "quality-limit") {
+      note = "अच्छी quality में PDF " + formatBytes(blob.size) + " की बनी है।";
+    }
     if (mode === "raster" && !originalUsed) {
       note += " इस copy में text copy/search उपलब्ध नहीं है।";
-    } else if (mode === "preserve") {
-      note += "";
     }
     $("resultNote").textContent = note;
     resultCard.className = "result-card show" + (metTarget ? "" : " partial");
@@ -1075,11 +1078,7 @@ if (!librariesReady) {
 }
 
 
-/*
- * Automatic size-target compression for the existing HindiTools page.
- * The caller owns the upload/result UI and verifies the final chosen Blob.
- * Increment state.compressionGeneration to invalidate an in-flight operation.
- */
+/* Adaptive size-target engine. Source: authoritative v2 page. */
 
 function compressionAbortError() {
   const error = new Error("Compression रोक दी गई है.");
@@ -1132,7 +1131,8 @@ function calculateRenderViewport(page, scalePercent) {
     throw new Error("PDF page का size सही नहीं है.");
   }
 
-  // 2x = 144 dpi for a normal PDF page. Never allocate an unbounded canvas.
+  // The page's useful source detail selects the requested resolution. These
+  // hard limits still bound every canvas, including unusual giant pages.
   const maxPixels = Math.min(
     5000000,
     typeof getMaxCanvasPixels === "function" ? getMaxCanvasPixels() : 3500000
@@ -1140,12 +1140,133 @@ function calculateRenderViewport(page, scalePercent) {
   const maxSide = 4096;
   // The 2px margin also bounds the final integer canvas dimensions.
   const boundedScale = Math.min(
-    Math.max(0.60, Math.min(2, requestedScale)),
+    Math.max(0.10, Math.min(4.25, requestedScale)),
     Math.sqrt(maxPixels / (base.width * base.height)) * 0.998,
     (maxSide - 2) / base.width,
     (maxSide - 2) / base.height
   );
   return { base, viewport: page.getViewport({ scale: boundedScale }) };
+}
+
+function multiplyCompressionTransform(left, right) {
+  return [
+    left[0] * right[0] + left[2] * right[1],
+    left[1] * right[0] + left[3] * right[1],
+    left[0] * right[2] + left[2] * right[3],
+    left[1] * right[2] + left[3] * right[3],
+    left[0] * right[4] + left[2] * right[5] + left[4],
+    left[1] * right[4] + left[3] * right[5] + left[5]
+  ];
+}
+
+async function inspectCompressionPages(job) {
+  const profiles = [];
+  const ops = pdfjsLib.OPS;
+  for (let pageNumber = 1; pageNumber <= job.pageCount; pageNumber++) {
+    let page = null;
+    try {
+      assertCompressionJob(job);
+      page = await job.pdfJs.getPage(pageNumber);
+      assertCompressionJob(job);
+      const base = page.getViewport({ scale: 1 });
+      // Text/vector pages can use 216 dpi; the canvas budget often lowers it.
+      // Image-only scans are capped at their own placed source image detail.
+      let usefulScale = 3;
+      let sourceLimited = false;
+      if (ops && typeof page.getOperatorList === "function") {
+        try {
+          const list = await page.getOperatorList();
+          assertCompressionJob(job);
+          let matrix = [1, 0, 0, 1, 0, 0];
+          let textMode = 0;
+          const stack = [];
+          let hasText = false;
+          let complex = false;
+          let imageCount = 0;
+          let largestImage = null;
+          const textOps = new Set([
+            ops.showText, ops.showSpacedText,
+            ops.nextLineShowText, ops.nextLineSetSpacingShowText
+          ].filter(value => value !== undefined));
+          const vectorPaintOps = new Set([
+            ops.stroke, ops.closeStroke, ops.fill, ops.eoFill,
+            ops.fillStroke, ops.eoFillStroke, ops.closeFillStroke,
+            ops.closeEOFillStroke, ops.shadingFill
+          ].filter(value => value !== undefined));
+          for (let index = 0; index < list.fnArray.length; index++) {
+            const fn = list.fnArray[index];
+            const args = list.argsArray[index] || [];
+            if (fn === ops.save) stack.push({ matrix: matrix.slice(), textMode });
+            else if (fn === ops.restore) {
+              const restored = stack.pop();
+              if (restored) { matrix = restored.matrix; textMode = restored.textMode; }
+              else complex = true;
+            } else if (fn === ops.transform) {
+              if (args.length === 6 && args.every(Number.isFinite)) {
+                matrix = multiplyCompressionTransform(matrix, args);
+              } else complex = true;
+            } else if (fn === ops.setTextRenderingMode) textMode = args[0];
+            else if (textOps.has(fn) && textMode !== 3 && textMode !== 7) hasText = true;
+            else if (vectorPaintOps.has(fn)) complex = true;
+            else if (
+              fn === ops.paintFormXObjectBegin || fn === ops.beginGroup || fn === ops.beginAnnotation ||
+              fn === ops.paintImageXObjectRepeat || fn === ops.paintInlineImageXObjectGroup ||
+              fn === ops.paintImageMaskXObject || fn === ops.paintImageMaskXObjectRepeat ||
+              fn === ops.paintImageMaskXObjectGroup || fn === ops.paintSolidColorImageMask
+            ) {
+              // Repeated/grouped images do not have the same argument shape.
+              // Do not infer an incorrect native resolution from those args.
+              complex = true;
+            } else if (fn === ops.paintImageXObject || fn === ops.paintInlineImageXObject) {
+              const width = fn === ops.paintImageXObject ? Number(args[1]) : Number(args[0]?.width);
+              const height = fn === ops.paintImageXObject ? Number(args[2]) : Number(args[0]?.height);
+              // Production PDF.js 3.11 getViewport({scale:1}) uses raw viewBox
+              // units; keep placement measurements in those same units.
+              const placedWidth = Math.hypot(matrix[0], matrix[1]);
+              const placedHeight = Math.hypot(matrix[2], matrix[3]);
+              const area = Math.abs(matrix[0] * matrix[3] - matrix[1] * matrix[2]);
+              imageCount++;
+              if (width > 0 && height > 0 && placedWidth > 0 && placedHeight > 0) {
+                const densityX = width / placedWidth;
+                const densityY = height / placedHeight;
+                const nativeScale = Math.min(densityX, densityY);
+                const axisCosine = Math.abs(matrix[0] * matrix[2] + matrix[1] * matrix[3]) / (placedWidth * placedHeight);
+                if (Math.max(densityX, densityY) / nativeScale > 1.08 || axisCosine > 0.03) complex = true;
+                if (!largestImage || area > largestImage.area) largestImage = { area, nativeScale };
+              } else complex = true;
+            }
+          }
+          if (
+            !hasText && !complex && imageCount === 1 && largestImage &&
+            largestImage.area >= base.width * base.height * 0.75 &&
+            Number.isFinite(largestImage.nativeScale) && largestImage.nativeScale > 0
+          ) {
+            usefulScale = Math.min(4.25, largestImage.nativeScale);
+            sourceLimited = true;
+          }
+        } catch (error) {
+          assertCompressionJob(job);
+          if (error.name === "AbortError") throw error;
+          // Source-detail inspection is optional. Rendering and final output
+          // verification remain mandatory when this conservative fallback is used.
+        }
+      }
+      const bounded = calculateRenderViewport(page, usefulScale * 100).viewport;
+      const maximumScale = Math.min(bounded.width / base.width, bounded.height / base.height);
+      profiles.push({
+        maximumScale,
+        minimumScale: Math.min(0.60, maximumScale),
+        area: base.width * base.height,
+        sourceLimited
+      });
+      setProgress(9 + 4 * pageNumber / job.pageCount,
+        `PDF तैयार की जा रही है · page ${pageNumber} / ${job.pageCount}`);
+    } finally {
+      if (page) { try { page.cleanup(); } catch (error) {} }
+    }
+    await yieldCompressionJob(job);
+  }
+  return profiles;
 }
 
 function canvasToJpegBlob(canvas, quality) {
@@ -1239,7 +1360,7 @@ async function rasterCompressPDF(
   if (!Number.isFinite(requestedQuality)) {
     throw new Error("PDF की quality setting सही नहीं है.");
   }
-  const quality = Math.max(0.30, Math.min(0.92, requestedQuality));
+  const quality = Math.max(0.30, Math.min(1, requestedQuality));
   let outputPdf = await PDFDocument.create();
   assertCompressionJob(job);
   let embeddedBytes = 0;
@@ -1251,7 +1372,15 @@ async function rasterCompressPDF(
       assertCompressionJob(job);
       page = await job.pdfJs.getPage(pageNumber);
       assertCompressionJob(job);
-      const { base, viewport } = calculateRenderViewport(page, scalePercent);
+      const profile = options.profiles && options.profiles[pageNumber - 1];
+      const detail = Number(options.detail);
+      const resolutionMultiplier = Math.max(0.01, Math.min(1, Number(options.resolutionMultiplier) || 1));
+      const requestedScale = profile && Number.isFinite(detail)
+        ? Math.max(profile.minimumScale,
+            (profile.minimumScale + (profile.maximumScale - profile.minimumScale) * Math.pow(detail, 0.6)) * resolutionMultiplier
+          ) * 100
+        : scalePercent;
+      const { base, viewport } = calculateRenderViewport(page, requestedScale);
       canvas = document.createElement("canvas");
       canvas.width = Math.max(1, Math.ceil(viewport.width));
       canvas.height = Math.max(1, Math.ceil(viewport.height));
@@ -1266,6 +1395,7 @@ async function rasterCompressPDF(
         const error = new Error("इस setting से छोटी PDF नहीं बन रही.");
         error.name = "CompressionAttemptTooLarge";
         error.lowerBoundBytes = embeddedBytes;
+        error.estimatedBytes = embeddedBytes * job.pageCount / pageNumber;
         throw error;
       }
       const jpegBytes = await jpegBlob.arrayBuffer();
@@ -1312,7 +1442,7 @@ async function targetCompressPDF(targetBytes) {
   const originalResult = () => ({
     blob: new Blob([job.buffer], { type: "application/pdf" }),
     mode: "original", originalUsed: true,
-    quality: null, scale: null, fidelityIndex: null
+    quality: null, scale: null, fidelityIndex: null, reason: "original"
   });
   if (originalSize <= target) {
     assertCompressionJob(job);
@@ -1326,13 +1456,13 @@ async function targetCompressPDF(targetBytes) {
 
   // Always try a structure-preserving save before converting pages to images.
   try {
-    const blob = await safeOptimizePDF(4, 13, job);
+    const blob = await safeOptimizePDF(3, 9, job);
     assertCompressionJob(job);
     if (blob.size < originalSize) {
       preservationAvailable = true;
       smallest = {
         blob, mode: "preserve", originalUsed: false,
-        quality: null, scale: null, fidelityIndex: null
+        quality: null, scale: null, fidelityIndex: null, reason: "preserve"
       };
       if (blob.size <= target) {
         return { ...smallest, metTarget: true, attempts, targetBytes: target };
@@ -1345,71 +1475,164 @@ async function targetCompressPDF(targetBytes) {
     // Continue with page rendering; final verification still checks all pages.
   }
 
-  // Ordered from the strongest compression to the best visual settings.
-  // Both resolution and JPEG quality rise along this bounded search ladder.
-  // Candidate file sizes are measured; no claimed size is inferred from JPEG q.
-  const settings = [
-    { quality: 40, scale: 60 },
-    { quality: 50, scale: 70 },
-    { quality: 60, scale: 80 },
-    { quality: 68, scale: 90 },
-    { quality: 74, scale: 100 },
-    { quality: 78, scale: 115 },
-    { quality: 82, scale: 130 },
-    { quality: 85, scale: 145 },
-    { quality: 88, scale: 160 },
-    { quality: 90, scale: 180 },
-    { quality: 92, scale: 200 }
-  ];
+  const profiles = await inspectCompressionPages(job);
+  assertCompressionJob(job);
+  // A continuous setting changes real image quality and retained source
+  // resolution. The upper end is useful source detail, not an arbitrary 2x.
+  // Byte measurements drive refinement; output is never padded to a target.
   const memory = typeof navigator !== "undefined" ? Number(navigator.deviceMemory || 4) : 4;
-  const maxAttempts = job.pageCount > 80 ? 4 : (memory <= 4 ? 5 : 6);
+  const maxAttempts = job.pageCount > 80 ? 5 : (memory <= 4 ? 8 : 9);
+  const scalarBudget = Math.max(3, maxAttempts - 3);
+  const points = [];
+  const usedDetails = new Set();
+  let qualityCeilingFits = false;
 
-  async function trySetting(index) {
+  async function trySetting(detail, refinement = null) {
     assertCompressionJob(job);
+    const boundedDetail = Math.max(0, Math.min(1, detail));
+    const quality = refinement ? refinement.quality : 40 + 60 * boundedDetail;
+    const resolutionMultiplier = refinement ? Math.max(0.01, Math.min(1, refinement.multiplier)) : 1;
+    const detailKey = `${boundedDetail.toFixed(6)}:${quality.toFixed(6)}:${resolutionMultiplier.toFixed(6)}`;
+    if (usedDetails.has(detailKey)) return null;
+    usedDetails.add(detailKey);
     attempts++;
-    const choice = settings[index];
+    const scale = 100 * profiles.reduce((sum, profile) =>
+      sum + Math.max(profile.minimumScale,
+        (profile.minimumScale + (profile.maximumScale - profile.minimumScale) * Math.pow(boundedDetail, 0.6)) * resolutionMultiplier
+      ), 0
+    ) / Math.max(1, profiles.length);
     const from = 13 + (attempts - 1) * 79 / maxAttempts;
     let blob;
     try {
       blob = await rasterCompressPDF(
-        choice.quality, choice.scale,
+        quality, scale,
         from, 13 + attempts * 79 / maxAttempts,
         "PDF छोटी की जा रही है",
-        { job, maxOutputBytes: originalSize }
+        { job, maxOutputBytes: originalSize, profiles, detail: boundedDetail, resolutionMultiplier }
       );
     } catch (error) {
       assertCompressionJob(job);
-      if (error.name === "CompressionAttemptTooLarge") return false;
+      if (error.name === "CompressionAttemptTooLarge") {
+        const point = {
+          detail: boundedDetail,
+          bytes: Math.max(originalSize, Number(error.estimatedBytes) || originalSize),
+          fits: false,
+          estimated: true,
+          quality, scale, resolutionMultiplier,
+          phase: refinement ? "resolution" : "detail"
+        };
+        points.push(point);
+        return point;
+      }
       throw error;
     }
     assertCompressionJob(job);
+    const point = {
+      detail: boundedDetail, bytes: blob.size, fits: blob.size <= target, estimated: false,
+      quality, scale, resolutionMultiplier, phase: refinement ? "resolution" : "detail"
+    };
+    points.push(point);
     // Never retain a generated file as a download if it is larger or equal.
-    if (blob.size >= originalSize) return false;
+    if (blob.size >= originalSize) return point;
     const candidate = {
       blob, mode: "raster", originalUsed: false,
-      ...choice, fidelityIndex: index
+      quality, scale, fidelityIndex: boundedDetail,
+      reason: "target"
     };
     if (!smallest || blob.size < smallest.blob.size) smallest = candidate;
-    const fits = blob.size <= target;
     // Prefer visual quality among fitting attempts, not the smallest output.
-    if (fits && (!bestUnder || index > bestUnder.fidelityIndex)) {
+    if (point.fits && (!bestUnder || (refinement
+      ? blob.size > bestUnder.blob.size && scale >= bestUnder.scale * 0.985
+      : boundedDetail > bestUnder.fidelityIndex))) {
       bestUnder = candidate;
     }
     await yieldCompressionJob(job);
-    return fits;
+    return point;
   }
 
-  const highestIndex = settings.length - 1;
-  const highestFits = await trySetting(highestIndex);
-  if (!highestFits) {
-    const lowestFits = await trySetting(0);
-    if (lowestFits) {
-      let fittingIndex = 0;
-      let oversizedIndex = highestIndex;
-      while (attempts < maxAttempts && oversizedIndex - fittingIndex > 1) {
-        const mid = Math.floor((fittingIndex + oversizedIndex) / 2);
-        if (await trySetting(mid)) fittingIndex = mid;
-        else oversizedIndex = mid;
+  const ceiling = await trySetting(1);
+  if (ceiling.fits) {
+    // A roomy limit may legitimately produce the same file: the source-detail
+    // ceiling is already reached. Do not upsample or add filler to use bytes.
+    qualityCeilingFits = true;
+  } else {
+    // Establish a REAL fitting bound immediately. Deferring this probe to the
+    // final attempt can throw away an attainable target and return the floor.
+    const floor = await trySetting(0);
+    while (floor.fits && attempts < scalarBudget) {
+      assertCompressionJob(job);
+      const fitting = points.filter(point => point.fits).sort((a, b) => b.detail - a.detail)[0];
+      const oversized = points.filter(point => !point.fits && (!fitting || point.detail > fitting.detail))
+        .sort((a, b) => a.detail - b.detail)[0];
+
+      // Exact compliance is always <=target. This small proximity window only
+      // ends refinement once a measured fitting result already uses the budget.
+      if (bestUnder && bestUnder.blob.size >= target * 0.985) break;
+      let nextDetail;
+      if (fitting && oversized) {
+        const span = oversized.detail - fitting.detail;
+        if (span < 0.00002) break;
+        const desiredBytes = target * 0.993;
+        const denominator = Math.log(Math.max(1.00001, oversized.bytes / fitting.bytes));
+        const interpolated = Math.log(Math.max(1, desiredBytes / fitting.bytes)) / denominator;
+        // Safeguarded log interpolation is much finer than an 11-setting
+        // ladder, without trusting a linear JPEG-quality/byte-size relation.
+        const fraction = Math.max(0.12, Math.min(0.82, Number.isFinite(interpolated) ? interpolated : 0.5));
+        nextDetail = fitting.detail + span * fraction;
+      } else break;
+
+      const result = await trySetting(nextDetail);
+      if (!result) break;
+      if (result.detail === 0 && !result.fits) break;
+    }
+
+    // JPEG encoders quantize quality. A coupled quality/resolution setting
+    // can jump from well under the target to just over it with no middle file.
+    // Start at the fitting candidate's quality and restore any useful native
+    // resolution first. Only then step up to the next encoder quality level.
+    // Shrinking a distant q100 candidate can waste useful source detail merely
+    // to fill bytes, so that is deliberately avoided here.
+    if (floor.fits && bestUnder && bestUnder.blob.size < target * 0.985 && attempts < maxAttempts) {
+      let quality = bestUnder.quality;
+      let probe = await trySetting(1, { quality, multiplier: 1 });
+      while (probe && probe.fits && bestUnder.blob.size < target * 0.985 && attempts < maxAttempts && quality < 100) {
+        quality = Math.min(100, Math.floor(quality + 0.000001) + 1);
+        probe = await trySetting(1, { quality, multiplier: 1 });
+      }
+      if (probe && !probe.fits && attempts < maxAttempts) {
+        const base = probe;
+        let upper = probe;
+        let lower = null;
+        let previousUpper = null;
+        while (attempts < maxAttempts) {
+          let multiplier;
+          if (lower) {
+            const denominator = Math.log(Math.max(1.00001, upper.bytes / lower.bytes));
+            const fraction = Math.log(Math.max(1, target * 0.995 / lower.bytes)) / denominator;
+            multiplier = lower.resolutionMultiplier + (upper.resolutionMultiplier - lower.resolutionMultiplier)
+              * Math.max(0.10, Math.min(0.90, Number.isFinite(fraction) ? fraction : 0.5));
+          } else {
+            // Sparse text/line art can grow closer to linearly with resolution
+            // than with pixel area. Learn that slope after an oversized probe
+            // instead of repeatedly creeping down with a fixed square root.
+            let exponent = 2;
+            if (previousUpper && upper.resolutionMultiplier < previousUpper.resolutionMultiplier && upper.bytes < previousUpper.bytes) {
+              const measured = Math.log(upper.bytes / previousUpper.bytes)
+                / Math.log(upper.resolutionMultiplier / previousUpper.resolutionMultiplier);
+              if (Number.isFinite(measured) && measured > 0) exponent = Math.max(0.30, Math.min(4, measured));
+            }
+            multiplier = upper.resolutionMultiplier
+              * Math.pow(target * 0.995 / Math.max(target + 1, upper.bytes), 1 / exponent)
+              * (previousUpper ? 0.985 : 0.993);
+          }
+          const result = await trySetting(base.detail, { quality: base.quality, multiplier });
+          if (!result) break;
+          if (result.fits) {
+            if (!lower || result.resolutionMultiplier > lower.resolutionMultiplier) lower = result;
+            if (bestUnder.blob.size >= target * 0.985) break;
+          } else { previousUpper = upper; upper = result; }
+          if (lower && upper.resolutionMultiplier - lower.resolutionMultiplier < 0.00005) break;
+        }
       }
     }
   }
@@ -1422,7 +1645,10 @@ async function targetCompressPDF(targetBytes) {
     metTarget: chosen.blob.size <= target,
     attempts,
     targetBytes: target,
-    preservationAvailable
+    preservationAvailable,
+    reason: chosen.blob.size <= target
+      ? (qualityCeilingFits ? "quality-limit" : chosen.reason || "target")
+      : "unmet"
   };
 }
 
