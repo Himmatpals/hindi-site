@@ -7,13 +7,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 
   <title>PDF Size कम करें — 500 KB Target आज़माएं | HindiTools</title>
-  <meta name="description" content="PDF का MB या KB कम करें। Compression preset या 500 KB, 200 KB, 1 MB target चुनें। नतीजा file पर निर्भर है; download से पहले size देखें।" />
+  <meta name="description" content="PDF का MB या KB कम करें। PDF upload करें, उसके size से calculate हुए KB/MB options में अपना target चुनें और compress करें। 500 KB, 200 KB या 1 MB का custom size भी चुनें।" />
   <meta name="author" content="HindiTools.com" />
   <meta name="theme-color" content="#ff9933" />
   <meta name="robots" content="index, follow" />
 
   <meta property="og:title" content="PDF Size कम करें — 500 KB Target आज़माएं | HindiTools" />
-  <meta property="og:description" content="PDF का MB या KB कम करें। Compression preset या 500 KB, 200 KB, 1 MB target चुनें। नतीजा file पर निर्भर है; download से पहले size देखें।" />
+  <meta property="og:description" content="PDF का MB या KB कम करें। PDF upload करें, उसके size से calculate हुए KB/MB options में अपना target चुनें और compress करें। 500 KB, 200 KB या 1 MB का custom size भी चुनें।" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://www.hinditools.com/compress-pdf-hi.html" />
 
@@ -29,54 +29,64 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"WebApplication",
-    "name":"HindiTools PDF Compressor",
-    "alternateName":"PDF Size कम करें Online",
-    "url":"https://www.hinditools.com/compress-pdf-hi.html",
-    "applicationCategory":"UtilitiesApplication",
-    "operatingSystem":"Any",
-    "inLanguage":["hi-IN","en-IN"],
-    "description":"PDF size और MB कम करने वाला Hindi और Hinglish browser-based PDF compression tool.",
-    "offers":{"@type":"Offer","price":"0","priceCurrency":"INR"},
-    "featureList":[
-      "Keep selectable text mode",
-      "Recommended PDF compression",
-      "Small file and maximum compression presets",
-      "Target size compression for 1 MB, 500 KB and 200 KB",
-      "Automatic PDF type analysis",
-      "Before and after first-page preview",
-      "Browser-side processing",
-      "Output PDF verification"
-    ]
-  }
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "HindiTools PDF Compressor",
+  "alternateName": "PDF Size कम करें Online",
+  "url": "https://www.hinditools.com/compress-pdf-hi.html",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "inLanguage": [
+    "hi-IN",
+    "en-IN"
+  ],
+  "description": "PDF size और MB कम करने वाला Hindi और Hinglish browser-based PDF compression tool.",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "INR"
+  },
+  "featureList": [
+    "Target sizes calculated from the uploaded PDF",
+    "File-size choices displayed in KB and MB",
+    "Custom target size in KB or MB",
+    "Automatic compression settings",
+    "Structure-preserving optimisation attempted first",
+    "Optional before and after first-page preview",
+    "Browser-side PDF processing",
+    "Output page verification"
+  ]
+}
   </script>
 
   <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"BreadcrumbList",
-    "itemListElement":[
-      {"@type":"ListItem","position":1,"name":"HindiTools","item":"https://www.hinditools.com/"},
-      {"@type":"ListItem","position":2,"name":"PDF Tools"},
-      {"@type":"ListItem","position":3,"name":"PDF Size कम करें","item":"https://www.hinditools.com/compress-pdf-hi.html"}
-    ]
-  }
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "HindiTools",
+      "item": "https://www.hinditools.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "PDF Tools"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "PDF Size कम करें",
+      "item": "https://www.hinditools.com/compress-pdf-hi.html"
+    }
+  ]
+}
   </script>
 
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"FAQPage",
-    "mainEntity":[
-      {"@type":"Question","name":"PDF ka size kam kaise kare?","acceptedAnswer":{"@type":"Answer","text":"PDF चुनें, Recommended या Small File preset चुनें और Compress PDF button दबाएं. Tool compressed PDF बनाकर original और new size दिखाता है."}},
-      {"@type":"Question","name":"PDF ko 500 KB kaise kare?","acceptedAnswer":{"@type":"Answer","text":"Target Size में 500 KB चुनें. Tool adaptive compression attempts करके PDF को target size के आसपास लाने की कोशिश करता है. Exact target हर PDF में guaranteed नहीं होता."}},
-      {"@type":"Question","name":"क्या PDF का text selectable रह सकता है?","acceptedAnswer":{"@type":"Answer","text":"Keep Text mode PDF structure को re-save करता है और selectable text preserve करने की कोशिश करता है, लेकिन size reduction limited हो सकती है. Strong compression pages को images में बदल सकती है."}},
-      {"@type":"Question","name":"क्या PDF HindiTools server पर upload होती है?","acceptedAnswer":{"@type":"Answer","text":"इस compressor में selected PDF browser-side JavaScript libraries से device पर process होती है और HindiTools PDF processing server पर upload नहीं की जाती."}}
-    ]
-  }
-  </script>
+  
 
 
   <script>
@@ -184,6 +194,81 @@
     @media(max-width:430px){.preset-grid,.target-grid,.related{grid-template-columns:1fr!important}}
   </style>
 
+<style id="simple-compressor-workflow">
+    /* New size controls inherit the original HindiTools layout and theme. */
+    [hidden]{display:none!important}
+    .visually-hidden{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+    .hero h1::after{content:none!important}
+    .tool-shell::before{content:"PDF छोटा करें"!important}
+    .file-summary{grid-template-columns:auto minmax(0,1fr) auto}
+    .file-description{min-width:0}
+    .file-icon{font-size:.72rem;font-weight:800}
+    .file-meta strong{color:var(--hud-cyan)}
+    .file-actions{display:flex;gap:4px;align-items:center}
+    .file-actions .ghost-btn{width:auto;padding:8px 10px;min-height:44px;font-size:.78rem}
+    .remove-file{border:0;background:transparent;color:var(--hud-muted);width:40px;min-height:44px;font-size:1.5rem;cursor:pointer}
+    .remove-file:hover{color:var(--hud-red)}
+    .size-selector{border:0;min-width:0;padding:0}
+    .size-selector legend{padding:0;color:var(--hud-text);font-size:1.04rem;line-height:1.6;font-weight:800}
+    .tool-shell .selection-summary{color:var(--hud-cyan)!important;font-size:.78rem!important;margin:5px 0 12px!important}
+    .size-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+    .size-option{display:block;position:relative;cursor:pointer;min-width:0}
+    .size-option input{position:absolute;opacity:0;width:1px;height:1px;left:10px;top:50%}
+    .size-option-content{position:relative;display:flex;align-items:center;justify-content:center;min-height:58px;padding:14px 15px;border:1px solid var(--hud-line);border-radius:14px;background:var(--hud-panel2);color:var(--hud-text);transition:background .15s,border-color .15s}
+    .size-option-content strong{font-size:.92rem;font-variant-numeric:tabular-nums;white-space:nowrap}
+    .size-option:hover .size-option-content{border-color:var(--hud-cyan);background:var(--hud-cyan-soft)}
+    .size-option input:checked+.size-option-content{border-color:var(--hud-cyan);background:var(--hud-cyan-soft);color:var(--hud-cyan);box-shadow:0 0 0 1px var(--hud-cyan)}
+    .size-option input:focus-visible+.size-option-content{outline:3px solid var(--hud-orange);outline-offset:3px}
+    .size-option input:disabled+.size-option-content{opacity:.55;cursor:wait}
+    .size-check{position:absolute;right:7px;top:4px;font-size:.65rem;opacity:0}
+    .size-option input:checked+.size-option-content .size-check{opacity:1}
+    .tool-shell .size-help{color:var(--hud-muted)!important;font-size:.72rem!important;line-height:1.6;margin:10px 0!important}
+    .custom-size{border-top:1px solid var(--hud-line);margin-top:12px}
+    .custom-size summary,.result-preview summary{cursor:pointer;color:var(--hud-muted2);padding:12px 0;font-size:.78rem;font-weight:700}
+    .custom-size-row{display:grid;grid-template-columns:auto minmax(70px,1fr) 74px;gap:8px;align-items:center;margin-bottom:8px}
+    .custom-radio-label{display:flex;gap:6px;align-items:center;color:var(--hud-text);font-size:.8rem}
+    .custom-radio-label input{width:17px;height:17px;accent-color:var(--hud-cyan)}
+    .custom-size-row input[type=number],.custom-size-row select{width:100%;min-height:44px;padding:8px;border:1px solid var(--hud-line);border-radius:10px;background:var(--hud-panel);color:var(--hud-text);font-size:.9rem}
+    .tool-shell .custom-error{color:var(--hud-red)!important;font-size:.76rem!important;margin:5px 0!important}
+    .custom-error:empty{display:none}
+    .compress-action{width:100%;min-height:48px;margin-top:12px}
+    .primary-btn:disabled,.upload-btn:disabled{opacity:.45;cursor:not-allowed!important;box-shadow:none!important;transform:none!important}
+    .cancel-action{display:flex;width:auto!important;margin:10px auto 0}
+    .result-card h2{color:var(--hud-text);font-size:1.15rem;line-height:1.5;margin:8px 0 12px}
+    .result-badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:.68rem;font-weight:700;color:var(--hud-green);background:var(--hud-green-soft)}
+    .result-badge.partial{color:var(--hud-yellow);background:var(--hud-yellow-soft)}
+    .result-card.partial{background:var(--hud-panel2)!important;border-color:var(--hud-line2)!important}
+    .result-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+    .result-stat strong{font-variant-numeric:tabular-nums;white-space:nowrap}
+    .result-actual strong{color:var(--hud-green)!important}
+    .tool-shell .saved-summary{font-size:.75rem!important;margin:0 0 12px!important}
+    .tool-shell .result-note{font-size:.72rem!important;line-height:1.6;margin:10px 0 0!important}
+    .download-action{width:100%;min-height:46px}
+    .result-preview{margin-top:12px;border-top:1px solid var(--hud-line)}
+    .preview-canvas-wrap{font-size:.75rem;color:var(--hud-muted);text-align:center}
+    .related-tools{margin-top:20px}
+    .related-tools .info-card{padding:14px!important}
+    .related-tools h2{margin-bottom:10px}
+    @media(max-width:700px){
+      .file-summary{grid-template-columns:auto minmax(0,1fr) auto!important}
+      .file-actions .ghost-btn{padding:8px}
+      .size-grid{gap:8px}
+      .result-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important}
+      .preview-grid{grid-template-columns:1fr 1fr!important}
+    }
+    @media(max-width:390px){
+      .file-icon{display:none}
+      .file-summary{grid-template-columns:minmax(0,1fr) auto!important}
+      .size-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+      .result-grid,.preview-grid{grid-template-columns:1fr!important}
+      .result-stat{display:flex;align-items:center;justify-content:space-between;gap:10px}
+      .result-stat span{margin-bottom:0}
+      .custom-size-row{grid-template-columns:1fr 74px}
+      .custom-radio-label{grid-column:1/-1}
+    }
+    @media(prefers-reduced-motion:reduce){.dropzone.busy::after{animation:none!important}}
+
+  </style>
 </head>
 
 <body class="ht-tool">
@@ -191,7 +276,7 @@
   <a class="skip-link" href="#compress-tool">सीधे PDF Compressor पर जाएं</a>
 
   <div class="top-strip">
-    <div class="container"><strong>PDF size kam karna hai?</strong> Recommended preset चुनें या 1 MB / 500 KB / 200 KB target try करें.</div>
+    <div class="container"><strong>PDF size kam karna hai?</strong> PDF चुनें · नया size चुनें · Download करें</div>
   </div>
 
   <header>
@@ -227,299 +312,120 @@
         <div>
           <p class="ht-kicker">Compress PDF · हिंदी में</p>
           <h1>PDF Size कम करें</h1>
-          <p>Form, email या WhatsApp के लिए PDF छोटी करें। 500 KB, 200 KB या 1 MB का target आज़माएं — अंतिम size आपकी file पर निर्भर है।</p>
+          <p>PDF चुनें, अपना size चुनें और download करें।</p>
+
 
           <div class="hero-actions">
             <a class="primary-btn" href="#compress-tool">📉 अभी PDF Compress करें</a>
             <a class="ghost-btn" href="split-pdf-hi.html">✂️ PDF Pages अलग करें</a>
           </div>
           <div class="hero-chips">
-            <span class="chip"><strong>✓</strong> Keep Text</span>
-            <span class="chip"><strong>🎯</strong> 1 MB / 500 KB / 200 KB</span>
-            <span class="chip"><strong>◫</strong> Before / After preview</span>
-            <span class="chip"><strong>🔐</strong> Browser processing</span>
+            <span class="chip">KB / MB चुनें</span>
+            <span class="chip">Preview</span>
+            <span class="chip">File आपके device पर</span>
           </div>
         </div>
 
         <div class="tool-shell" id="compress-tool">
           <ol class="ht-steps" aria-label="तीन आसान steps">
-            <li><span>1</span> PDF चुनें</li>
+            <li class="current" aria-current="step"><span>1</span> PDF चुनें</li>
             <li><span>2</span> Size चुनें</li>
-            <li><span>3</span> छोटी PDF पाएं</li>
+            <li><span>3</span> Download</li>
           </ol>
-
+          <input type="file" id="fileInput" accept="application/pdf,.pdf" hidden />
           <div class="dropzone" id="dropzone">
-            <input type="file" id="fileInput" accept="application/pdf,.pdf" />
-
             <div>
-              <div class="drop-icon">📉</div>
-              <h2>PDF File चुनें</h2>
-              <p>File drop करें या अपने phone/computer से PDF select करें.</p>
-              <button class="upload-btn" type="button" id="selectFileBtn">PDF File चुनें</button>
-              <div class="privacy-note">PDF की processing आपके browser में होती है।</div>
+              <div class="drop-icon" aria-hidden="true">
+                <svg viewBox="0 0 48 48" width="46" height="46" fill="none">
+                  <path d="M28 6H13a3 3 0 0 0-3 3v30a3 3 0 0 0 3 3h22a3 3 0 0 0 3-3V16L28 6Z" stroke="currentColor" stroke-width="2"/>
+                  <path d="M27 6v11h11M24 23v12m-5-5 5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </div>
+              <h2>अपनी PDF चुनें</h2>
+              <p>File यहाँ drop करें या नीचे button दबाएं।</p>
+              <button class="upload-btn" type="button" id="selectFileBtn">Upload PDF</button>
+              <div class="privacy-note">आपकी file यहाँ upload नहीं होती।</div>
+            </div>
+          </div>
+          <noscript><p class="notice">इस tool के लिए browser में JavaScript चालू करें।</p></noscript>
+
+          <div class="panel" id="filePanel" hidden>
+            <div class="file-summary">
+              <div class="file-icon" aria-hidden="true">PDF</div>
+              <div class="file-description">
+                <div class="file-name" id="fileName"></div>
+                <div class="file-meta"><strong id="fileSize"></strong><span id="pageCount"></span></div>
+              </div>
+              <div class="file-actions">
+                <button class="ghost-btn" type="button" id="changeFileBtn">बदलें</button>
+                <button class="remove-file" type="button" id="clearBtn" aria-label="चुनी हुई PDF हटाएं">×</button>
+              </div>
+            </div>
+            <div id="sizeChooser">
+              <fieldset id="targetFieldset" class="size-selector">
+                <legend id="sizeHeading" tabindex="-1">कितनी छोटी PDF चाहिए?</legend>
+                <p id="selectionSummary" class="selection-summary" aria-live="polite">नीचे से नया size चुनें।</p>
+                <div class="size-grid" id="targetGrid"></div>
+                <p class="size-help">अंतिम size PDF पर निर्भर है।</p>
+                <details class="custom-size" id="customDetails">
+                  <summary>अपना size डालें</summary>
+                  <div class="custom-size-row">
+                    <label class="custom-radio-label"><input type="radio" id="customRadio" name="pdfTarget" value="custom" /> अपना size</label>
+                    <label class="visually-hidden" for="customTargetInput">Target file size</label>
+                    <input type="number" id="customTargetInput" min="0.01" step="0.01" inputmode="decimal" placeholder="500" aria-describedby="customError" />
+                    <label class="visually-hidden" for="customUnit">Size unit</label>
+                    <select id="customUnit"><option value="KB">KB</option><option value="MB">MB</option></select>
+                  </div>
+                  <p id="customError" class="custom-error" aria-live="polite"></p>
+                </details>
+              </fieldset>
+              <button class="primary-btn compress-action" type="button" id="compressBtn" disabled>PDF Compress करें</button>
             </div>
           </div>
 
-          <div class="panel" id="filePanel" style="display:none;">
-            <div class="panel-head">
-              <div>
-                <h2>PDF Compression Assistant</h2>
-                <p>PDF का basic analysis देखकर preset या target चुनें.</p>
-              </div>
-              <button class="danger-btn" type="button" id="clearBtn">Remove PDF</button>
+          <div class="progress-wrap" id="progressWrap" role="progressbar" aria-label="PDF compression" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="progress-bar" id="progressBar"></div></div>
+          <div class="progress-label" id="progressLabel"></div>
+          <div class="status-box" id="statusBox" role="status" aria-live="polite" aria-atomic="true"></div>
+          <button class="ghost-btn cancel-action" type="button" id="cancelBtn" hidden>रोकें</button>
+
+          <section class="result-card" id="resultCard" aria-labelledby="resultHeading">
+            <span class="result-badge" id="resultBadge"></span>
+            <h2 id="resultHeading" tabindex="-1">आपकी PDF तैयार है</h2>
+            <div class="result-grid">
+              <div class="result-stat"><span>Original size</span><strong id="originalStat"></strong></div>
+              <div class="result-stat"><span>चुना हुआ size</span><strong id="targetStat"></strong></div>
+              <div class="result-stat result-actual"><span>Actual size</span><strong id="newStat"></strong></div>
             </div>
-
-            <div class="file-summary">
-              <div class="file-icon">📄</div>
-              <div>
-                <div class="file-name" id="fileName">document.pdf</div>
-                <div class="file-meta">
-                  <span id="fileSize">0 KB</span>
-                  <span id="pageCount">0 pages</span>
-                </div>
-              </div>
-              <button class="ghost-btn" type="button" id="previewOriginalBtn">Preview Page 1</button>
+            <p id="savedSummary" class="saved-summary"></p>
+            <div class="result-actions">
+              <a class="secondary-btn download-action" id="downloadLink">Download PDF</a>
+              <button class="ghost-btn" id="compressMoreBtn" type="button">दूसरा size चुनें</button>
+              <button class="ghost-btn" id="newFileBtn" type="button">नई PDF</button>
             </div>
-
-            <div class="analysis-card">
-              <div class="analysis-item">
-                <span>PDF Type</span>
-                <strong id="pdfType">Checking…</strong>
-              </div>
-              <div class="analysis-item">
-                <span>Average / Page</span>
-                <strong id="avgPageSize">-</strong>
-              </div>
-              <div class="analysis-item recommend">
-                <span>Suggested</span>
-                <strong id="recommendation">Recommended</strong>
-              </div>
-              <div class="analysis-item">
-                <span>Engine</span>
-                <strong id="engineState">Ready</strong>
-              </div>
-            </div>
-
-            <div class="step-title"><span class="step-number">1</span> कितना compress करना है?</div>
-
-            <div class="preset-grid" id="presetGrid">
-              <button class="preset-card" type="button" data-preset="keep-text">
-                <strong>📝 Keep Text</strong>
-                <span>Selectable/searchable text बचाने की कोशिश. Size reduction limited हो सकती है.</span>
-                <span class="preset-tag">Light</span>
-              </button>
-
-              <button class="preset-card active" type="button" data-preset="recommended">
-                <strong>✨ Recommended</strong>
-                <span>Quality और size का अच्छा balance. Most scanned/photo PDFs के लिए.</span>
-                <span class="preset-tag">Best default</span>
-              </button>
-
-              <button class="preset-card" type="button" data-preset="small">
-                <strong>📦 Small File</strong>
-                <span>Forms और uploads के लिए ज्यादा compression.</span>
-                <span class="preset-tag">Smaller</span>
-              </button>
-
-              <button class="preset-card" type="button" data-preset="maximum">
-                <strong>🗜️ Maximum</strong>
-                <span>Size को aggressively कम करने की कोशिश. Clarity कम हो सकती है.</span>
-                <span class="preset-tag">Smallest</span>
-              </button>
-            </div>
-
-            <div class="step-title"><span class="step-number">2</span> कोई target size चाहिए?</div>
-
-            <div class="setting-card">
-              <label>Optional Target Size</label>
-
-              <div class="target-grid" id="targetGrid">
-                <button class="target-btn active" type="button" data-target="none">No target</button>
-                <button class="target-btn" type="button" data-target="1024">Under 1 MB</button>
-                <button class="target-btn" type="button" data-target="500">Under 500 KB</button>
-                <button class="target-btn" type="button" data-target="200">Under 200 KB</button>
-                <button class="target-btn" type="button" data-target="custom">Custom</button>
-              </div>
-
-              <div class="custom-target" id="customTargetWrap">
-                <input id="customTargetKb" type="number" min="50" max="50000" value="750" inputmode="numeric" />
-                <span class="unit">KB</span>
-              </div>
-
-              <small>Target mode adaptive compression attempts कर सकता है. Exact file size guaranteed नहीं है.</small>
-            </div>
-
-            <details class="advanced" id="advancedSettings">
-              <summary><span>⚙️ Advanced Settings</span><span>Quality / Resolution</span></summary>
-
-              <div class="advanced-body">
-                <div class="settings-grid">
-                  <div class="setting-card">
-                    <label for="qualityRange">Image Quality</label>
-                    <div class="range-wrap">
-                      <input type="range" id="qualityRange" min="30" max="92" value="72" />
-                      <div class="range-value" id="qualityValue">72%</div>
-                    </div>
-                    <small>कम quality = smaller file. बहुत कम quality पर text/images blur हो सकती हैं.</small>
-                  </div>
-
-                  <div class="setting-card">
-                    <label for="scaleRange">Page Resolution</label>
-                    <div class="range-wrap">
-                      <input type="range" id="scaleRange" min="50" max="120" value="100" />
-                      <div class="range-value" id="scaleValue">100%</div>
-                    </div>
-                    <small>100% यहाँ normal compressor resolution है. इसे कम करने से scanned PDFs का size काफी कम हो सकता है.</small>
-                  </div>
-                </div>
-
-                <div class="notice blue" id="modeNotice">
-                  Recommended, Small File और Maximum modes PDF pages को compressed images में बदलते हैं.
-                </div>
+            <p class="result-note" id="resultNote"></p>
+            <details class="result-preview" id="previewSection">
+              <summary>Preview देखें</summary>
+              <p class="size-help">पहला page</p>
+              <div class="preview-grid">
+                <div class="preview-box"><strong>Original</strong><div class="preview-canvas-wrap" id="originalPreviewWrap"></div></div>
+                <div class="preview-box"><strong>Compressed PDF</strong><div class="preview-canvas-wrap" id="compressedPreviewWrap"></div></div>
               </div>
             </details>
-
-            <div class="preview-section" id="previewSection">
-              <div class="step-title"><span class="step-number">3</span> First page preview</div>
-
-              <div class="preview-grid">
-                <div class="preview-box">
-                  <strong>Original</strong>
-                  <div class="preview-canvas-wrap" id="originalPreviewWrap">
-                    <div class="preview-placeholder">Preview button दबाएं</div>
-                  </div>
-                </div>
-
-                <div class="preview-box">
-                  <strong>Compressed Result</strong>
-                  <div class="preview-canvas-wrap" id="compressedPreviewWrap">
-                    <div class="preview-placeholder">Compression के बाद preview यहाँ आएगा</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="controls-grid">
-              <div class="input-group">
-                <label for="outputName">Final PDF का नाम</label>
-                <input id="outputName" type="text" value="compressed-pdf" placeholder="compressed-pdf" />
-              </div>
-
-              <button class="primary-btn" type="button" id="compressBtn">📉 PDF Compress करें</button>
-            </div>
-
-            <div class="progress-wrap" id="progressWrap"><div class="progress-bar" id="progressBar"></div></div>
-            <div class="progress-label" id="progressLabel">Processing…</div>
-
-            <div class="status-box" id="statusBox"></div>
-
-            <div class="result-card" id="resultCard">
-              <h3>✅ Compressed PDF तैयार है</h3>
-
-              <div class="result-grid">
-                <div class="result-stat"><span>Original</span><strong id="originalStat">0 KB</strong></div>
-                <div class="result-stat"><span>New Size</span><strong id="newStat">0 KB</strong></div>
-                <div class="result-stat"><span>Reduced</span><strong id="savingStat">0%</strong></div>
-                <div class="result-stat"><span>Saved</span><strong id="savedBytesStat">0 KB</strong></div>
-              </div>
-
-              <div class="result-actions">
-                <a class="secondary-btn" id="downloadLink" href="#" download="compressed-pdf.pdf">⬇️ Download PDF</a>
-                <button class="ghost-btn" id="compressMoreBtn" type="button">🗜️ Compress More</button>
-                <button class="ghost-btn" id="newFileBtn" type="button">📄 New PDF</button>
-              </div>
-
-              <p class="result-note" id="resultNote"></p>
-            </div>
-          </div>
+          </section>
         </div>
+
       </div>
     </section>
 
-    <section class="container info-sections">
-      <article class="info-card">
-        <h2>PDF ka size kam kaise kare?</h2>
-        <ol>
-          <li>ऊपर अपनी PDF file चुनें.</li>
-          <li><strong>Recommended</strong> preset से शुरू करें.</li>
-          <li>अगर portal की limit है तो 1 MB, 500 KB या 200 KB target चुनें.</li>
-          <li><strong>PDF Compress करें</strong> दबाएं.</li>
-          <li>Original और new size compare करके PDF download करें.</li>
-        </ol>
-      </article>
 
-      <article class="info-card">
-        <h2>कौन सा compression option चुनें?</h2>
-        <ul>
-          <li><strong>Keep Text:</strong> searchable/selectable text important हो.</li>
-          <li><strong>Recommended:</strong> general scan, photo PDF और forms के लिए.</li>
-          <li><strong>Small File:</strong> upload limit के लिए ज्यादा compression चाहिए.</li>
-          <li><strong>Maximum:</strong> clarity से ज्यादा size important है.</li>
-          <li><strong>Target Size:</strong> portal कहता है PDF 1 MB या 500 KB से कम होनी चाहिए.</li>
-        </ul>
-      </article>
-    </section>
-
-    <section class="container" style="margin-top:28px;">
+    <section class="container related-tools">
       <div class="info-card">
-        <h2>PDF को 1 MB, 500 KB या 200 KB के आसपास कैसे लाएं?</h2>
-        <p>हर PDF अलग होती है. Pages की संख्या, scan resolution, photos और existing compression की वजह से exact target हमेशा possible नहीं होता. Target Size चुनने पर HindiTools adaptive quality/resolution settings के साथ compression attempts करता है और सबसे useful result रखता है.</p>
-
-        <h3>अगर target नहीं मिलता तो क्या करें?</h3>
-        <ul>
-          <li>Small File या Maximum preset try करें.</li>
-          <li>Advanced Settings में resolution थोड़ा कम करें.</li>
-          <li>अगर सिर्फ कुछ pages चाहिए तो पहले <a href="split-pdf-hi.html" style="color:var(--primary);font-weight:900;">PDF pages अलग करें</a> और फिर remaining PDF compress करें.</li>
-        </ul>
-      </div>
-    </section>
-
-    <section class="container" style="margin-top:28px;">
-      <div class="info-card">
-        <h2>Related PDF Tools</h2>
+        <h2>और PDF Tools</h2>
         <div class="related">
           <a href="split-pdf-hi.html">✂️ PDF Pages अलग करें</a>
           <a href="merge-pdf-hi.html">📎 PDF जोड़ें</a>
           <a href="pdf-to-word-hi.html">📝 PDF to Word</a>
           <a href="image-to-pdf-hi.html">🖼️ Photo से PDF</a>
-        </div>
-      </div>
-    </section>
-
-    <section class="container" style="margin-top:28px;">
-      <div class="info-card">
-        <h2>PDF Compression FAQ</h2>
-
-        <div class="faq-list">
-          <div class="faq-item active">
-            <button class="faq-q" type="button">PDF ka size kam kaise kare?<span>+</span></button>
-            <div class="faq-a">PDF चुनें, Recommended preset से शुरू करें और Compress PDF दबाएं. Result में original size, new size और reduction percentage दिखेगा.</div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">PDF ko 500 KB kaise kare?<span>+</span></button>
-            <div class="faq-a">Target Size में Under 500 KB चुनें. Tool adaptive strong-compression settings try करके target के आसपास file बनाने की कोशिश करेगा. Exact 500 KB हर PDF में possible नहीं होता.</div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">क्या PDF compression हमेशा size कम करती है?<span>+</span></button>
-            <div class="faq-a">नहीं. कुछ PDFs पहले से compressed होती हैं. अगर generated file बड़ी हो तो HindiTools original को larger result से replace नहीं करता.</div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">क्या compressed PDF का text selectable रहेगा?<span>+</span></button>
-            <div class="faq-a">Keep Text mode में selectable text preserve करने की कोशिश होती है. Recommended, Small File, Maximum और target-size modes pages को images में बदल सकते हैं.</div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">Scanned PDF के लिए कौन सा option अच्छा है?<span>+</span></button>
-            <div class="faq-a">Scanned या photo-heavy PDF के लिए Recommended से शुरू करें. अगर file अभी भी बड़ी है तो Small File या target-size option try करें.</div>
-          </div>
-
-          <div class="faq-item">
-            <button class="faq-q" type="button">क्या मेरी PDF HindiTools server पर upload होती है?<span>+</span></button>
-            <div class="faq-a">इस compressor में PDF browser-side JavaScript libraries से आपके device पर process होती है. HindiTools के PDF processing server पर file upload नहीं की जाती.</div>
-          </div>
         </div>
       </div>
     </section>
@@ -558,1816 +464,1047 @@
     </div>
   </footer>
 
-  <script>
-    pdfjsLib.GlobalWorkerOptions.workerSrc =
-      "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+  <script id="compressor-app">
+"use strict";
 
-    const { PDFDocument } = PDFLib;
-    const $ = id => document.getElementById(id);
+const $ = id => document.getElementById(id);
+const PDFDocument = globalThis.PDFLib && globalThis.PDFLib.PDFDocument;
+const librariesReady = Boolean(PDFDocument && globalThis.pdfjsLib);
+if (globalThis.pdfjsLib) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc =
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
+}
 
-    const PRESETS = {
-      "keep-text": {
-        mode: "safe",
-        quality: 86,
-        scale: 100
-      },
-      "recommended": {
-        mode: "raster",
-        quality: 72,
-        scale: 100
-      },
-      "small": {
-        mode: "raster",
-        quality: 56,
-        scale: 82
-      },
-      "maximum": {
-        mode: "raster",
-        quality: 38,
-        scale: 64
+const state = {
+  file: null, buffer: null, pdfJs: null, pageCount: 0,
+  targetBytes: null, targetSource: null,
+  currentDownloadUrl: null, currentOutputBlob: null,
+  busy: false, phase: "", progressValue: 0,
+  loadGeneration: 0, compressionGeneration: 0,
+  previewGeneration: 0, compressedPreviewGeneration: 0,
+  statusTimer: null, previewTask: null
+};
+
+const fileInput = $("fileInput");
+const selectFileBtn = $("selectFileBtn");
+const dropzone = $("dropzone");
+const filePanel = $("filePanel");
+const sizeChooser = $("sizeChooser");
+const targetGrid = $("targetGrid");
+const targetFieldset = $("targetFieldset");
+const compressBtn = $("compressBtn");
+const cancelBtn = $("cancelBtn");
+const progressWrap = $("progressWrap");
+const progressBar = $("progressBar");
+const progressLabel = $("progressLabel");
+const statusBox = $("statusBox");
+const resultCard = $("resultCard");
+const downloadLink = $("downloadLink");
+const previewSection = $("previewSection");
+const originalPreviewWrap = $("originalPreviewWrap");
+const compressedPreviewWrap = $("compressedPreviewWrap");
+const customTargetInput = $("customTargetInput");
+const customUnit = $("customUnit");
+const customRadio = $("customRadio");
+
+// Exact byte targets drive compression. Labels never round a limit downward.
+function formatTargetSize(bytes) {
+  const value = Math.max(0, Number(bytes) || 0);
+  if (value < 1024) return Math.ceil(value) + " B";
+  const unit = value >= 1024 * 1024 * 1024 ? 1024 * 1024 * 1024
+    : value >= 1024 * 1024 ? 1024 * 1024 : 1024;
+  const suffix = unit === 1024 ? " KB" : unit === 1024 * 1024 ? " MB" : " GB";
+  return Number((Math.ceil(value * 100 / unit) / 100).toFixed(2)) + suffix;
+}
+
+function formatBytes(bytes) {
+  return bytes > 0 ? formatTargetSize(bytes) : "0 KB";
+}
+
+function buildSizeOptions(originalBytes) {
+  if (!Number.isSafeInteger(originalBytes) || originalBytes <= 1) return [];
+  const seen = new Set();
+  const options = [];
+  for (let step = 1; step <= 9; step++) {
+    const bytes = Math.floor(originalBytes * (10 - step) / 10);
+    if (bytes < 1 || bytes >= originalBytes || seen.has(bytes)) continue;
+    seen.add(bytes);
+    options.push({ bytes: bytes, label: formatTargetSize(bytes) });
+  }
+  return options;
+}
+
+function sanitizeFileName(name) {
+  return String(name || "document")
+    .replace(/\.pdf$/i, "")
+    .replace(/[<>:"/\\|?*\u0000-\u001f]/g, "")
+    .trim().slice(0, 160) || "document";
+}
+
+function clearStatusTimer() {
+  if (state.statusTimer) clearTimeout(state.statusTimer);
+  state.statusTimer = null;
+}
+
+function setStatus(message, type = "normal") {
+  clearStatusTimer();
+  statusBox.textContent = message;
+  statusBox.className = "status-box show" + (type !== "normal" ? " " + type : "");
+  statusBox.setAttribute("role", type === "error" ? "alert" : "status");
+}
+
+function clearStatus() {
+  clearStatusTimer();
+  statusBox.className = "status-box";
+  statusBox.textContent = "";
+  statusBox.setAttribute("role", "status");
+}
+
+function setProgress(percent, label = "PDF छोटी की जा रही है…") {
+  state.progressValue = Math.max(state.progressValue, Math.min(100, Math.max(0, percent)));
+  progressWrap.classList.add("show");
+  progressLabel.classList.add("show");
+  progressBar.style.width = state.progressValue + "%";
+  progressWrap.setAttribute("aria-valuenow", String(Math.round(state.progressValue)));
+  progressWrap.setAttribute("aria-valuetext", label);
+  progressLabel.textContent = label;
+}
+
+function resetProgress() {
+  state.progressValue = 0;
+  progressWrap.classList.remove("show");
+  progressLabel.classList.remove("show");
+  progressBar.style.width = "0%";
+  progressWrap.setAttribute("aria-valuenow", "0");
+  progressLabel.textContent = "";
+}
+
+function targetIsValid() {
+  return Boolean(state.file && Number.isSafeInteger(state.targetBytes)
+    && state.targetBytes > 0 && state.targetBytes < state.file.size);
+}
+
+function updateAction() {
+  compressBtn.disabled = state.busy || !librariesReady || !state.pdfJs || !targetIsValid();
+  compressBtn.textContent = targetIsValid()
+    ? formatTargetSize(state.targetBytes) + " तक Compress करें"
+    : "PDF Compress करें";
+  $("selectionSummary").textContent = targetIsValid()
+    ? "आपका size: " + formatTargetSize(state.targetBytes) + " तक"
+    : "अपना size चुनें।";
+}
+
+function setBusy(value, phase = "") {
+  state.busy = value;
+  state.phase = value ? phase || state.phase : "";
+  fileInput.disabled = value || !librariesReady;
+  selectFileBtn.disabled = value || !librariesReady;
+  $("changeFileBtn").disabled = value;
+  $("clearBtn").disabled = value;
+  $("compressMoreBtn").disabled = value;
+  $("newFileBtn").disabled = value;
+  targetFieldset.disabled = value;
+  filePanel.setAttribute("aria-busy", String(value));
+  dropzone.classList.toggle("busy", value);
+  cancelBtn.hidden = !value || state.phase !== "compressing";
+  cancelBtn.disabled = false;
+  cancelBtn.textContent = "रोकें";
+  updateAction();
+}
+
+function setStep(current) {
+  document.querySelectorAll(".ht-steps li").forEach((item, index) => {
+    item.classList.toggle("current", index + 1 === current);
+    item.classList.toggle("complete", index + 1 < current);
+    if (index + 1 === current) item.setAttribute("aria-current", "step");
+    else item.removeAttribute("aria-current");
+  });
+}
+
+function originalBlob() {
+  return new Blob([state.buffer], { type: "application/pdf" });
+}
+
+function getTargetBytes() {
+  return targetIsValid() ? state.targetBytes : null;
+}
+
+function getMaxCanvasPixels() {
+  const memory = Number(navigator.deviceMemory || 4);
+  if (memory <= 2) return 3500000;
+  if (memory <= 4) return 5000000;
+  if (memory <= 8) return 7000000;
+  return 9000000;
+}
+
+function cancelPreviews() {
+  state.previewGeneration++;
+  state.compressedPreviewGeneration++;
+  if (state.previewTask) {
+    try { state.previewTask.cancel(); } catch (_) {}
+    state.previewTask = null;
+  }
+}
+
+function resetDownload() {
+  cancelPreviews();
+  if (state.currentDownloadUrl) URL.revokeObjectURL(state.currentDownloadUrl);
+  state.currentDownloadUrl = null;
+  state.currentOutputBlob = null;
+  downloadLink.removeAttribute("href");
+  downloadLink.removeAttribute("download");
+  resultCard.className = "result-card";
+  previewSection.open = false;
+  originalPreviewWrap.replaceChildren();
+  compressedPreviewWrap.replaceChildren();
+  sizeChooser.hidden = false;
+}
+
+function invalidateResult() {
+  resetDownload();
+  resetProgress();
+  clearStatus();
+  setStep(state.file ? 2 : 1);
+}
+
+function renderSizeOptions() {
+  targetGrid.replaceChildren();
+  buildSizeOptions(state.file.size).forEach((option, index) => {
+    const label = document.createElement("label");
+    label.className = "size-option";
+    const radio = document.createElement("input");
+    radio.type = "radio";
+    radio.name = "pdfTarget";
+    radio.value = String(option.bytes);
+    radio.id = "size-option-" + index;
+    radio.setAttribute("aria-label", option.label + " की PDF");
+    const card = document.createElement("span");
+    card.className = "size-option-content";
+    const size = document.createElement("strong");
+    size.textContent = option.label;
+    const tick = document.createElement("span");
+    tick.className = "size-check";
+    tick.setAttribute("aria-hidden", "true");
+    tick.textContent = "✓";
+    card.append(size, tick);
+    label.append(radio, card);
+    targetGrid.appendChild(label);
+  });
+}
+
+function chooseTarget(bytes, source) {
+  if (state.busy) return;
+  invalidateResult();
+  state.targetBytes = bytes;
+  state.targetSource = source;
+  $("customError").textContent = "";
+  customTargetInput.removeAttribute("aria-invalid");
+  updateAction();
+}
+
+function readCustomTarget() {
+  if (state.busy || !state.file) return;
+  customRadio.checked = true;
+  targetGrid.querySelectorAll("input").forEach(input => { input.checked = false; });
+  const amount = Number(customTargetInput.value);
+  const unitBytes = customUnit.value === "MB" ? 1024 * 1024 : 1024;
+  const bytes = Math.floor(amount * unitBytes);
+  chooseTarget(bytes, "custom");
+  if (!Number.isFinite(amount) || amount <= 0 || !Number.isSafeInteger(bytes) || bytes < 1) {
+    state.targetBytes = null;
+    $("customError").textContent = "एक सही size डालें, जैसे 500 KB।";
+  } else if (bytes >= state.file.size) {
+    state.targetBytes = null;
+    $("customError").textContent = "Original PDF से छोटा size चुनें।";
+  }
+  if (!targetIsValid()) customTargetInput.setAttribute("aria-invalid", "true");
+  updateAction();
+}
+
+async function destroyPdf(doc) {
+  if (!doc) return;
+  try { await doc.destroy(); } catch (_) {}
+}
+
+async function loadFile(file) {
+  if (state.busy) return;
+  if (!librariesReady) {
+    setStatus("PDF tool load नहीं हुआ। Internet connection check करके page refresh करें।", "error");
+    return;
+  }
+  if (!file || !(file.type === "application/pdf" || /\.pdf$/i.test(file.name || ""))) {
+    setStatus("कृपया PDF file चुनें।", "error");
+    return;
+  }
+  if (!file.size) {
+    setStatus("यह file खाली है। दूसरी PDF चुनें।", "error");
+    return;
+  }
+
+  invalidateResult();
+  const token = ++state.loadGeneration;
+  ++state.compressionGeneration;
+  setBusy(true, "loading");
+  setStatus("PDF पढ़ी जा रही है…");
+  let candidate = null;
+  let loadingTask = null;
+  let taskAdopted = false;
+  try {
+    const buffer = await file.arrayBuffer();
+    loadingTask = pdfjsLib.getDocument({
+      data: buffer.slice(0), stopAtErrors: true, isEvalSupported: false
+    });
+    candidate = await loadingTask.promise;
+    if (token !== state.loadGeneration) return;
+    if (!candidate.numPages) throw new Error("यह PDF खाली है। दूसरी PDF चुनें।");
+    const old = state.pdfJs;
+    state.file = file;
+    state.buffer = buffer;
+    state.pdfJs = candidate;
+    taskAdopted = true;
+    state.pageCount = candidate.numPages;
+    candidate = null;
+    state.targetBytes = null;
+    state.targetSource = null;
+    $("fileName").textContent = file.name;
+    $("fileName").title = file.name;
+    $("fileSize").textContent = formatBytes(file.size);
+    $("pageCount").textContent = state.pageCount + (state.pageCount === 1 ? " page" : " pages");
+    $("customDetails").open = false;
+    customTargetInput.value = "";
+    customRadio.checked = false;
+    $("customError").textContent = "";
+    customTargetInput.removeAttribute("aria-invalid");
+    renderSizeOptions();
+    filePanel.hidden = false;
+    dropzone.hidden = true;
+    clearStatus();
+    setStep(2);
+    await destroyPdf(old);
+  } catch (error) {
+    console.warn("PDF could not be opened", error);
+    if (token === state.loadGeneration) {
+      const previous = state.file ? " पिछली PDF अभी चुनी हुई है।" : "";
+      const message = error && error.name === "PasswordException"
+        ? "इस PDF पर password है। पहले unlocked copy चुनें।"
+        : "यह PDF नहीं पढ़ी जा सकी। सही PDF file चुनकर दोबारा कोशिश करें।";
+      setStatus(message + previous, "error");
+    }
+  } finally {
+    await destroyPdf(candidate);
+    if (loadingTask && !taskAdopted) {
+      try { await loadingTask.destroy(); } catch (_) {}
+    }
+    if (token === state.loadGeneration) {
+      setBusy(false);
+      if (state.file) $("sizeHeading").focus({ preventScroll: true });
+    }
+  }
+}
+
+function clearFile() {
+  if (state.busy) return;
+  state.loadGeneration++;
+  state.compressionGeneration++;
+  const old = state.pdfJs;
+  invalidateResult();
+  state.file = null;
+  state.buffer = null;
+  state.pdfJs = null;
+  state.pageCount = 0;
+  state.targetBytes = null;
+  state.targetSource = null;
+  targetGrid.replaceChildren();
+  fileInput.value = "";
+  filePanel.hidden = true;
+  dropzone.hidden = false;
+  $("customError").textContent = "";
+  setStep(1);
+  setBusy(false);
+  void destroyPdf(old);
+  selectFileBtn.focus({ preventScroll: true });
+}
+
+async function renderPreviewFromPdfJsDoc(doc, wrap, token, tokenType) {
+  const isCurrent = () => token === (tokenType === "compressed"
+    ? state.compressedPreviewGeneration : state.previewGeneration);
+  if (!isCurrent()) return;
+  const page = await doc.getPage(1);
+  if (!isCurrent()) return;
+  const base = page.getViewport({ scale: 1 });
+  if (!Number.isFinite(base.width) || !Number.isFinite(base.height) || base.width <= 0 || base.height <= 0) {
+    throw new Error("Preview unavailable");
+  }
+  const viewport = page.getViewport({
+    scale: Math.min(1.5, 420 / base.width, 600 / base.height,
+      Math.sqrt(250000 / (base.width * base.height)))
+  });
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.max(1, Math.ceil(viewport.width));
+  canvas.height = Math.max(1, Math.ceil(viewport.height));
+  let task;
+  let attached = false;
+  try {
+    const context = canvas.getContext("2d", { alpha: false });
+    if (!context) throw new Error("Preview unavailable");
+    task = page.render({ canvasContext: context, viewport: viewport, background: "#ffffff" });
+    state.previewTask = task;
+    await task.promise;
+    if (!isCurrent()) return;
+    canvas.setAttribute("aria-label", tokenType === "compressed"
+      ? "Compressed PDF का पहला page" : "Original PDF का पहला page");
+    wrap.replaceChildren(canvas);
+    attached = true;
+  } finally {
+    if (state.previewTask === task) state.previewTask = null;
+    if (!attached) { canvas.width = 1; canvas.height = 1; }
+    try { page.cleanup(); } catch (_) {}
+  }
+}
+
+async function showPreviews() {
+  if (!previewSection.open || !state.currentOutputBlob || !state.pdfJs || state.busy) return;
+  cancelPreviews();
+  const originalToken = state.previewGeneration;
+  const compressedToken = state.compressedPreviewGeneration;
+  const originalDoc = state.pdfJs;
+  const blob = state.currentOutputBlob;
+  originalPreviewWrap.textContent = "Preview बन रही है…";
+  compressedPreviewWrap.textContent = "Preview बन रही है…";
+  let doc = null;
+  let loadingTask = null;
+  try {
+    await renderPreviewFromPdfJsDoc(originalDoc, originalPreviewWrap, originalToken, "original");
+    if (compressedToken !== state.compressedPreviewGeneration) return;
+    loadingTask = pdfjsLib.getDocument({
+      data: await blob.arrayBuffer(), stopAtErrors: true, isEvalSupported: false
+    });
+    doc = await loadingTask.promise;
+    await renderPreviewFromPdfJsDoc(doc, compressedPreviewWrap, compressedToken, "compressed");
+  } catch (error) {
+    if (compressedToken === state.compressedPreviewGeneration) {
+      if (!originalPreviewWrap.querySelector("canvas")) {
+        originalPreviewWrap.textContent = "Preview नहीं खुल सकी। Original file खोलकर देखें।";
       }
-    };
-
-    const state = {
-      file: null,
-      buffer: null,
-      pdfJs: null,
-      pageCount: 0,
-
-      activePreset: "recommended",
-      activeTarget: "none",
-
-      currentDownloadUrl: null,
-      currentOutputBlob: null,
-
-      detectedPdfType: "Unknown",
-
-      busy: false,
-      loadGeneration: 0,
-      previewGeneration: 0,
-      compressedPreviewGeneration: 0,
-
-      statusTimer: null
-    };
-
-    const fileInput = $("fileInput");
-    const selectFileBtn = $("selectFileBtn");
-    const dropzone = $("dropzone");
-    const filePanel = $("filePanel");
-    const fileNameEl = $("fileName");
-    const fileSizeEl = $("fileSize");
-    const pageCountEl = $("pageCount");
-    const clearBtn = $("clearBtn");
-    const previewOriginalBtn = $("previewOriginalBtn");
-    const pdfTypeEl = $("pdfType");
-    const avgPageSizeEl = $("avgPageSize");
-    const recommendationEl = $("recommendation");
-    const engineStateEl = $("engineState");
-
-    const presetCards = document.querySelectorAll(".preset-card");
-    const targetButtons = document.querySelectorAll(".target-btn");
-
-    const customTargetWrap = $("customTargetWrap");
-    const customTargetKb = $("customTargetKb");
-
-    const qualityRange = $("qualityRange");
-    const qualityValue = $("qualityValue");
-    const scaleRange = $("scaleRange");
-    const scaleValue = $("scaleValue");
-    const modeNotice = $("modeNotice");
-
-    const previewSection = $("previewSection");
-    const originalPreviewWrap = $("originalPreviewWrap");
-    const compressedPreviewWrap = $("compressedPreviewWrap");
-
-    const outputName = $("outputName");
-    const compressBtn = $("compressBtn");
-
-    const progressWrap = $("progressWrap");
-    const progressBar = $("progressBar");
-    const progressLabel = $("progressLabel");
-
-    const statusBox = $("statusBox");
-    const resultCard = $("resultCard");
-
-    const originalStat = $("originalStat");
-    const newStat = $("newStat");
-    const savingStat = $("savingStat");
-    const savedBytesStat = $("savedBytesStat");
-
-    const downloadLink = $("downloadLink");
-    const compressMoreBtn = $("compressMoreBtn");
-    const newFileBtn = $("newFileBtn");
-    const resultNote = $("resultNote");
-
-    /* =========================================================
-       BASIC HELPERS
-    ========================================================= */
-
-    function formatBytes(bytes) {
-      if (!bytes) return "0 Bytes";
-
-      const k = 1024;
-      const sizes = ["Bytes", "KB", "MB", "GB"];
-
-      const i = Math.min(
-        sizes.length - 1,
-        Math.floor(Math.log(bytes) / Math.log(k))
-      );
-
-      return (
-        parseFloat(
-          (bytes / Math.pow(k, i)).toFixed(2)
-        ) +
-        " " +
-        sizes[i]
-      );
-    }
-
-    function sanitizeFileName(name) {
-      return (
-        (name || "compressed-pdf")
-          .replace(/\.pdf$/i, "")
-          .replace(/[^\u0900-\u097Fa-zA-Z0-9-_ ]/g, "")
-          .trim()
-          .replace(/\s+/g, "-") ||
-        "compressed-pdf"
-      );
-    }
-
-    function clearStatusTimer() {
-      if (state.statusTimer) {
-        clearTimeout(state.statusTimer);
-        state.statusTimer = null;
+      if (!compressedPreviewWrap.querySelector("canvas")) {
+        compressedPreviewWrap.textContent = "Preview नहीं खुल सकी। Download करके file देखें।";
       }
     }
-
-    function setStatus(message, type = "normal") {
-      clearStatusTimer();
-
-      statusBox.textContent = message;
-      statusBox.className = "status-box show";
-
-      if (type === "success") statusBox.classList.add("success");
-      if (type === "error") statusBox.classList.add("error");
-      if (type === "warning") statusBox.classList.add("warning");
+  } finally {
+    await destroyPdf(doc);
+    if (loadingTask && !doc) {
+      try { await loadingTask.destroy(); } catch (_) {}
     }
+  }
+}
 
-    function flashStatus(message, type = "normal", delay = 1200) {
-      setStatus(message, type);
-
-      state.statusTimer = setTimeout(() => {
-        if (!state.busy) clearStatus();
-      }, delay);
+async function compressPDF() {
+  if (state.busy || !state.pdfJs || !targetIsValid()) return;
+  invalidateResult();
+  const token = ++state.compressionGeneration;
+  const sourceFile = state.file;
+  const target = state.targetBytes;
+  const current = () => token === state.compressionGeneration;
+  setBusy(true, "compressing");
+  setStatus("आपकी PDF छोटी की जा रही है…");
+  setProgress(1, "PDF तैयार की जा रही है…");
+  try {
+    const result = await targetCompressPDF(target);
+    if (!current()) return;
+    let blob = result.blob;
+    let mode = result.mode;
+    if (!blob || blob.size >= sourceFile.size) {
+      blob = originalBlob();
+      mode = "original";
     }
-
-    function clearStatus() {
-      clearStatusTimer();
-      statusBox.className = "status-box";
-      statusBox.textContent = "";
+    setProgress(96, "PDF जाँची जा रही है…");
+    await verifyOutputBlob(blob);
+    if (!current()) return;
+    const metTarget = blob.size <= target;
+    const saved = Math.max(0, sourceFile.size - blob.size);
+    const originalUsed = mode === "original" || saved === 0;
+    state.currentOutputBlob = blob;
+    state.currentDownloadUrl = URL.createObjectURL(blob);
+    downloadLink.href = state.currentDownloadUrl;
+    downloadLink.download = originalUsed
+      ? sanitizeFileName(sourceFile.name) + ".pdf"
+      : sanitizeFileName(sourceFile.name) + "-compressed.pdf";
+    downloadLink.textContent = (originalUsed ? "Original PDF डाउनलोड करें" : "Download PDF")
+      + " · " + formatBytes(blob.size);
+    $("originalStat").textContent = formatBytes(sourceFile.size);
+    $("targetStat").textContent = formatTargetSize(target);
+    $("newStat").textContent = formatBytes(blob.size);
+    $("savedSummary").textContent = saved > 0
+      ? formatBytes(saved) + " बचा · " + state.pageCount + (state.pageCount === 1 ? " page" : " pages")
+      : "Original PDF रखी गई है।";
+    $("resultHeading").textContent = metTarget ? "आपकी PDF तैयार है"
+      : originalUsed ? "इस PDF का size और कम नहीं हुआ" : "छोटी PDF तैयार है";
+    $("resultBadge").textContent = metTarget ? "चुने हुए size के अंदर"
+      : "चुना हुआ size नहीं मिल सका";
+    $("resultBadge").className = "result-badge" + (metTarget ? "" : " partial");
+    let note = metTarget
+      ? "आपकी PDF download के लिए तैयार है।"
+      : originalUsed
+        ? "इस PDF का size और कम नहीं हो सका।"
+        : "उपलब्ध size: " + formatBytes(blob.size) + "।";
+    if (mode === "raster" && !originalUsed) {
+      note += " इस copy में text copy/search उपलब्ध नहीं है।";
+    } else if (mode === "preserve") {
+      note += "";
     }
-
-    function setProgress(percent, label = "Processing…") {
-      progressWrap.classList.add("show");
-      progressLabel.classList.add("show");
-
-      progressBar.style.width =
-        `${Math.max(0, Math.min(100, percent))}%`;
-
-      progressLabel.textContent = label;
+    $("resultNote").textContent = note;
+    resultCard.className = "result-card show" + (metTarget ? "" : " partial");
+    sizeChooser.hidden = true;
+    setProgress(100, "PDF तैयार है");
+    clearStatus();
+    setStep(3);
+    $("resultHeading").focus({ preventScroll: true });
+  } catch (error) {
+    if (current()) {
+      console.error("Compression failed", error);
+      setStatus("PDF compress नहीं हो सकी। File दोबारा चुनें या थोड़ा बड़ा size चुनकर कोशिश करें।", "error");
     }
+  } finally {
+    if (!current()) setStatus("Compression रोक दी गई। नया size चुनकर फिर कोशिश कर सकते हैं।");
+    resetProgress();
+    setBusy(false);
+  }
+}
 
-    function resetProgress() {
-      progressWrap.classList.remove("show");
-      progressLabel.classList.remove("show");
-      progressBar.style.width = "0%";
-      progressLabel.textContent = "Processing…";
-    }
+function openFilePicker() {
+  if (state.busy || !librariesReady) return;
+  fileInput.value = "";
+  fileInput.click();
+}
 
-    function setBusy(value) {
-      state.busy = value;
+selectFileBtn.addEventListener("click", event => {
+  event.preventDefault();
+  event.stopPropagation();
+  openFilePicker();
+});
+$("changeFileBtn").addEventListener("click", openFilePicker);
+dropzone.addEventListener("click", event => {
+  if (!event.target.closest("button")) openFilePicker();
+});
+fileInput.addEventListener("change", event => {
+  const file = event.target.files && event.target.files[0];
+  if (file) void loadFile(file);
+  fileInput.value = "";
+});
+["dragenter", "dragover"].forEach(name => dropzone.addEventListener(name, event => {
+  event.preventDefault();
+  event.stopPropagation();
+  if (!state.busy) dropzone.classList.add("dragover");
+}));
+["dragleave", "drop"].forEach(name => dropzone.addEventListener(name, event => {
+  event.preventDefault();
+  event.stopPropagation();
+  dropzone.classList.remove("dragover");
+}));
+dropzone.addEventListener("drop", event => {
+  if (state.busy) return;
+  const files = event.dataTransfer && event.dataTransfer.files;
+  if (files && files.length > 1) {
+    setStatus("एक बार में एक PDF चुनें।", "error");
+    return;
+  }
+  if (files && files[0]) void loadFile(files[0]);
+});
+targetGrid.addEventListener("change", event => {
+  if (state.busy || event.target.type !== "radio") return;
+  customRadio.checked = false;
+  chooseTarget(Number(event.target.value), "preset");
+});
+customTargetInput.addEventListener("input", readCustomTarget);
+customUnit.addEventListener("change", readCustomTarget);
+customRadio.addEventListener("change", () => {
+  readCustomTarget();
+  customTargetInput.focus();
+});
+$("clearBtn").addEventListener("click", clearFile);
+compressBtn.addEventListener("click", () => { void compressPDF(); });
+cancelBtn.addEventListener("click", () => {
+  if (!state.busy || state.phase !== "compressing") return;
+  state.compressionGeneration++;
+  state.phase = "cancelling";
+  if (state.compressionRenderTask) {
+    try { state.compressionRenderTask.cancel(); } catch (_) {}
+  }
+  cancelBtn.disabled = true;
+  cancelBtn.textContent = "रोक रहे हैं…";
+  setStatus("Compression रोकी जा रही है…");
+});
+$("compressMoreBtn").addEventListener("click", () => {
+  if (state.busy) return;
+  invalidateResult();
+  updateAction();
+  $("sizeHeading").focus();
+});
+$("newFileBtn").addEventListener("click", clearFile);
+previewSection.addEventListener("toggle", () => {
+  if (previewSection.open) void showPreviews();
+  else cancelPreviews();
+});
 
-      compressBtn.disabled =
-        value ||
-        !state.file ||
-        !state.buffer ||
-        !state.pdfJs;
+$("themeBtn").addEventListener("click", () => {
+  const theme = document.documentElement.dataset.theme === "dark" ? "light" : "dark";
+  document.documentElement.dataset.theme = theme;
+  try { localStorage.setItem("ht-hud-theme", theme); } catch (_) {}
+});
+const menuBtn = $("menuBtn");
+const nav = $("nav");
+menuBtn.addEventListener("click", () => {
+  menuBtn.setAttribute("aria-expanded", String(nav.classList.toggle("open")));
+});
+document.querySelectorAll(".nav-links a").forEach(link => link.addEventListener("click", () => {
+  nav.classList.remove("open");
+  menuBtn.setAttribute("aria-expanded", "false");
+}));
+window.addEventListener("pagehide", event => {
+  if (event.persisted) return;
+  state.loadGeneration++;
+  state.compressionGeneration++;
+  cancelPreviews();
+  if (state.currentDownloadUrl) URL.revokeObjectURL(state.currentDownloadUrl);
+});
 
-      selectFileBtn.disabled = value;
-      clearBtn.disabled = value;
-      previewOriginalBtn.disabled = value;
+setStep(1);
+setBusy(false);
+if (!librariesReady) {
+  setStatus("PDF tool load नहीं हुआ। Internet connection check करके page refresh करें।", "error");
+}
 
-      dropzone.classList.toggle("busy", value);
-      engineStateEl.textContent = value ? "Working…" : "Ready";
-    }
 
-    function resetDownload() {
-      state.compressedPreviewGeneration++;
+/*
+ * Automatic size-target compression for the existing HindiTools page.
+ * The caller owns the upload/result UI and verifies the final chosen Blob.
+ * Increment state.compressionGeneration to invalidate an in-flight operation.
+ */
 
-      if (state.currentDownloadUrl) {
-        URL.revokeObjectURL(state.currentDownloadUrl);
-        state.currentDownloadUrl = null;
-      }
+function compressionAbortError() {
+  const error = new Error("Compression रोक दी गई है.");
+  error.name = "AbortError";
+  return error;
+}
 
-      state.currentOutputBlob = null;
+function captureCompressionJob() {
+  if (!state.file || !state.buffer || !state.pdfJs) {
+    throw new Error("पहले PDF file चुनें.");
+  }
+  return {
+    file: state.file,
+    buffer: state.buffer,
+    pdfJs: state.pdfJs,
+    pageCount: state.pdfJs.numPages,
+    loadGeneration: state.loadGeneration,
+    compressionGeneration: state.compressionGeneration
+  };
+}
 
-      resultCard.classList.remove("show");
-      downloadLink.href = "#";
-      downloadLink.removeAttribute("download");
+function assertCompressionJob(job) {
+  if (
+    state.file !== job.file ||
+    state.buffer !== job.buffer ||
+    state.pdfJs !== job.pdfJs ||
+    state.loadGeneration !== job.loadGeneration ||
+    state.compressionGeneration !== job.compressionGeneration
+  ) {
+    throw compressionAbortError();
+  }
+}
 
-      compressedPreviewWrap.innerHTML =
-        '<div class="preview-placeholder">Compression के बाद preview यहाँ आएगा</div>';
-    }
+async function yieldCompressionJob(job) {
+  assertCompressionJob(job);
+  await new Promise(resolve => setTimeout(resolve, 0));
+  assertCompressionJob(job);
+}
 
-    function getTargetBytes() {
-      if (state.activeTarget === "none") return null;
+function calculateRenderViewport(page, scalePercent) {
+  const requestedScale = Number(scalePercent) / 100;
+  if (!Number.isFinite(requestedScale)) {
+    throw new Error("PDF की quality setting सही नहीं है.");
+  }
+  const base = page.getViewport({ scale: 1 });
+  if (
+    !Number.isFinite(base.width) || !Number.isFinite(base.height) ||
+    base.width <= 0 || base.height <= 0
+  ) {
+    throw new Error("PDF page का size सही नहीं है.");
+  }
 
-      if (state.activeTarget === "custom") {
-        const kb = Number(customTargetKb.value);
+  // 2x = 144 dpi for a normal PDF page. Never allocate an unbounded canvas.
+  const maxPixels = Math.min(
+    5000000,
+    typeof getMaxCanvasPixels === "function" ? getMaxCanvasPixels() : 3500000
+  );
+  const maxSide = 4096;
+  // The 2px margin also bounds the final integer canvas dimensions.
+  const boundedScale = Math.min(
+    Math.max(0.60, Math.min(2, requestedScale)),
+    Math.sqrt(maxPixels / (base.width * base.height)) * 0.998,
+    (maxSide - 2) / base.width,
+    (maxSide - 2) / base.height
+  );
+  return { base, viewport: page.getViewport({ scale: boundedScale }) };
+}
 
-        if (!Number.isFinite(kb) || kb < 50) {
-          return null;
-        }
-
-        return Math.round(kb * 1024);
-      }
-
-      return Number(state.activeTarget) * 1024;
-    }
-
-    function originalBlob() {
-      return new Blob([state.buffer], {
-        type: "application/pdf"
-      });
-    }
-
-    function getMaxCanvasPixels() {
-      const memory = Number(navigator.deviceMemory || 4);
-
-      if (memory <= 2) return 3500000;
-      if (memory <= 4) return 5000000;
-      if (memory <= 8) return 7000000;
-
-      return 9000000;
-    }
-
-    /* =========================================================
-       UI
-    ========================================================= */
-
-    function updatePresetUI() {
-      presetCards.forEach(card => {
-        card.classList.toggle(
-          "active",
-          card.dataset.preset === state.activePreset
-        );
-      });
-
-      const preset = PRESETS[state.activePreset];
-
-      qualityRange.value = preset.quality;
-      scaleRange.value = preset.scale;
-
-      qualityValue.textContent = `${preset.quality}%`;
-      scaleValue.textContent = `${preset.scale}%`;
-
-      if (preset.mode === "safe") {
-        modeNotice.textContent =
-          "Keep Text mode PDF को re-save करता है. Selectable/searchable text preserve रहने की संभावना ज्यादा होती है, लेकिन size reduction limited हो सकती है.";
-
-        modeNotice.className = "notice green";
-      } else {
-        modeNotice.textContent =
-          "यह mode PDF pages को compressed JPEG images में बदलता है. Size काफी कम हो सकती है, लेकिन text selectable/searchable नहीं रह सकता.";
-
-        modeNotice.className = "notice blue";
-      }
-    }
-
-    function updateTargetUI() {
-      targetButtons.forEach(btn => {
-        btn.classList.toggle(
-          "active",
-          btn.dataset.target === state.activeTarget
-        );
-      });
-
-      customTargetWrap.classList.toggle(
-        "show",
-        state.activeTarget === "custom"
-      );
-
-      if (
-        state.activeTarget !== "none" &&
-        state.activePreset === "keep-text"
-      ) {
-        state.activePreset = "recommended";
-        updatePresetUI();
-      }
-    }
-
-    /* =========================================================
-       PDF ANALYSIS
-    ========================================================= */
-
-    async function analysePdf(loadToken) {
-      if (!state.pdfJs || !state.file) return;
-
-      try {
-        const pagesToCheck = Math.min(3, state.pdfJs.numPages);
-        let totalTextChars = 0;
-
-        for (let i = 1; i <= pagesToCheck; i++) {
-          const page = await state.pdfJs.getPage(i);
-          const text = await page.getTextContent();
-
-          totalTextChars += text.items.reduce(
-            (sum, item) =>
-              sum +
-              String(item.str || "")
-                .trim()
-                .length,
-            0
-          );
-
-          if (loadToken !== state.loadGeneration) return;
-        }
-
-        const avgTextChars =
-          totalTextChars /
-          Math.max(1, pagesToCheck);
-
-        if (avgTextChars > 500) {
-          state.detectedPdfType = "Text-heavy PDF";
-          recommendationEl.textContent = "Keep Text / Recommended";
-        } else if (avgTextChars > 100) {
-          state.detectedPdfType = "Mixed PDF";
-          recommendationEl.textContent = "Recommended";
-        } else {
-          state.detectedPdfType = "Scan / Photo PDF";
-          recommendationEl.textContent = "Recommended / Small File";
-        }
-
-        pdfTypeEl.textContent = state.detectedPdfType;
-
-        avgPageSizeEl.textContent =
-          formatBytes(
-            state.file.size /
-            Math.max(1, state.pageCount)
-          );
-      } catch (error) {
-        console.warn("PDF analysis failed", error);
-
-        if (loadToken !== state.loadGeneration) return;
-
-        state.detectedPdfType = "PDF Document";
-        pdfTypeEl.textContent = state.detectedPdfType;
-
-        avgPageSizeEl.textContent =
-          formatBytes(
-            state.file.size /
-            Math.max(1, state.pageCount)
-          );
-
-        recommendationEl.textContent = "Recommended";
-      }
-    }
-
-    /* =========================================================
-       LOAD / REMOVE PDF
-    ========================================================= */
-
-    async function loadFile(file) {
-      if (state.busy) return;
-
-      clearStatus();
-      resetProgress();
-      resetDownload();
-
-      previewSection.classList.remove("show");
-      originalPreviewWrap.innerHTML =
-        '<div class="preview-placeholder">Preview button दबाएं</div>';
-
-      if (
-        !file ||
-        !(
-          file.type === "application/pdf" ||
-          file.name.toLowerCase().endsWith(".pdf")
-        )
-      ) {
-        setStatus("कृपया केवल PDF file चुनें।", "error");
-        return;
-      }
-
-      const token = ++state.loadGeneration;
-      state.previewGeneration++;
-      state.compressedPreviewGeneration++;
-
-      setBusy(true);
-
-      let candidatePdf = null;
-
-      try {
-        setStatus("PDF read और analyse की जा रही है...");
-
-        const buffer = await file.arrayBuffer();
-
-        const loadingTask =
-          pdfjsLib.getDocument({
-            data: buffer.slice(0),
-            stopAtErrors: false
-          });
-
-        candidatePdf = await loadingTask.promise;
-
-        if (token !== state.loadGeneration) {
-          try { candidatePdf.destroy(); } catch (error) {}
+function canvasToJpegBlob(canvas, quality) {
+  return new Promise((resolve, reject) => {
+    try {
+      canvas.toBlob(blob => {
+        if (!blob || !blob.size || blob.type !== "image/jpeg") {
+          reject(new Error("Page की JPEG image create नहीं हो सकी."));
           return;
         }
-
-        const oldPdf = state.pdfJs;
-
-        state.file = file;
-        state.buffer = buffer;
-        state.pdfJs = candidatePdf;
-        state.pageCount = candidatePdf.numPages;
-
-        candidatePdf = null;
-
-        if (oldPdf && oldPdf !== state.pdfJs) {
-          try { oldPdf.destroy(); } catch (error) {}
-        }
-
-        fileNameEl.textContent = file.name;
-        fileNameEl.title = file.name;
-        fileSizeEl.textContent = formatBytes(file.size);
-        pageCountEl.textContent =
-          `${state.pageCount} page${state.pageCount > 1 ? "s" : ""}`;
-
-        pdfTypeEl.textContent = "Checking…";
-
-        avgPageSizeEl.textContent =
-          formatBytes(
-            file.size /
-            Math.max(1, state.pageCount)
-          );
-
-        recommendationEl.textContent = "Checking…";
-        engineStateEl.textContent = "Analysing…";
-
-        filePanel.style.display = "block";
-
-        await analysePdf(token);
-
-        if (token !== state.loadGeneration) return;
-
-        engineStateEl.textContent = "Ready";
-
-        if (file.size > 80 * 1024 * 1024) {
-          setStatus(
-            "PDF काफी बड़ी है. Browser compression में ज्यादा memory/time लग सकता है, खासकर mobile पर.",
-            "warning"
-          );
-        } else {
-          setStatus(
-            "PDF ready है. Recommended preset से शुरू कर सकते हैं.",
-            "success"
-          );
-        }
-      } catch (error) {
-        console.error(error);
-
-        if (candidatePdf) {
-          try { candidatePdf.destroy(); } catch (destroyError) {}
-        }
-
-        if (token === state.loadGeneration) {
-          state.file = null;
-          state.buffer = null;
-          state.pdfJs = null;
-          state.pageCount = 0;
-
-          filePanel.style.display = "none";
-
-          setStatus(
-            "यह PDF read नहीं हो सकी. File encrypted, damaged या unsupported हो सकती है.",
-            "error"
-          );
-        }
-      } finally {
-        if (token === state.loadGeneration) {
-          setBusy(false);
-        }
-      }
+        resolve(blob);
+      }, "image/jpeg", quality);
+    } catch (error) {
+      reject(error);
     }
+  });
+}
 
-    function clearFile() {
-      if (state.busy) return;
+async function renderCompressionPage(page, canvas, viewport, job) {
+  assertCompressionJob(job);
+  const context = canvas.getContext("2d", { alpha: false });
+  if (!context) throw new Error("इस browser में PDF page render नहीं हो सकी.");
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, canvas.width, canvas.height);
 
-      state.loadGeneration++;
-      state.previewGeneration++;
-      state.compressedPreviewGeneration++;
-
-      if (state.pdfJs) {
-        try { state.pdfJs.destroy(); } catch (error) {}
-      }
-
-      state.file = null;
-      state.buffer = null;
-      state.pdfJs = null;
-      state.pageCount = 0;
-
-      fileInput.value = "";
-      filePanel.style.display = "none";
-
-      resetDownload();
-      resetProgress();
-      clearStatus();
-
-      previewSection.classList.remove("show");
-
-      pdfTypeEl.textContent = "Checking…";
-      avgPageSizeEl.textContent = "-";
-      recommendationEl.textContent = "Recommended";
-      engineStateEl.textContent = "Ready";
-
-      compressBtn.disabled = true;
+  const task = page.render({
+    canvasContext: context,
+    viewport,
+    background: "rgb(255,255,255)"
+  });
+  state.compressionRenderTask = task;
+  task.onContinue = continueRendering => {
+    try {
+      assertCompressionJob(job);
+      continueRendering();
+    } catch (error) {
+      task.cancel();
     }
+  };
+  try {
+    await task.promise;
+    assertCompressionJob(job);
+  } catch (error) {
+    // Translate a cancellation during rendering to the caller's AbortError.
+    assertCompressionJob(job);
+    throw error;
+  } finally {
+    if (state.compressionRenderTask === task) state.compressionRenderTask = null;
+  }
+}
 
-    /* =========================================================
-       PREVIEWS
-    ========================================================= */
+async function safeOptimizePDF(
+  progressFrom = 4,
+  progressTo = 13,
+  job = captureCompressionJob()
+) {
+  assertCompressionJob(job);
+  setProgress(progressFrom, "PDF तैयार की जा रही है…");
+  let pdfDoc = await PDFDocument.load(job.buffer.slice(0), {
+    ignoreEncryption: false,
+    updateMetadata: false
+  });
+  assertCompressionJob(job);
+  if (pdfDoc.getPageCount() !== job.pageCount) {
+    throw new Error("PDF के सभी pages read नहीं हो सके.");
+  }
+  setProgress((progressFrom + progressTo) / 2, "PDF छोटी की जा रही है…");
+  const bytes = await pdfDoc.save({
+    useObjectStreams: true,
+    addDefaultPage: false,
+    objectsPerTick: 25
+  });
+  pdfDoc = null;
+  assertCompressionJob(job);
+  const blob = new Blob([bytes], { type: "application/pdf" });
+  setProgress(progressTo, "Size जाँचा जा रहा है…");
+  return blob;
+}
 
-    async function renderPreviewFromPdfJsDoc(
-      doc,
-      wrap,
-      token,
-      tokenType
-    ) {
-      const page = await doc.getPage(1);
+async function rasterCompressPDF(
+  qualityPercent,
+  scalePercent,
+  progressFrom = 13,
+  progressTo = 92,
+  labelPrefix = "PDF तैयार की जा रही है",
+  options = {}
+) {
+  const job = options.job || captureCompressionJob();
+  assertCompressionJob(job);
+  const requestedQuality = Number(qualityPercent) / 100;
+  if (!Number.isFinite(requestedQuality)) {
+    throw new Error("PDF की quality setting सही नहीं है.");
+  }
+  const quality = Math.max(0.30, Math.min(0.92, requestedQuality));
+  let outputPdf = await PDFDocument.create();
+  assertCompressionJob(job);
+  let embeddedBytes = 0;
 
-      const baseViewport =
-        page.getViewport({
-          scale: 1
-        });
+  for (let pageNumber = 1; pageNumber <= job.pageCount; pageNumber++) {
+    let page = null;
+    let canvas = null;
+    try {
+      assertCompressionJob(job);
+      page = await job.pdfJs.getPage(pageNumber);
+      assertCompressionJob(job);
+      const { base, viewport } = calculateRenderViewport(page, scalePercent);
+      canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.ceil(viewport.width));
+      canvas.height = Math.max(1, Math.ceil(viewport.height));
+      await renderCompressionPage(page, canvas, viewport, job);
 
-      const desiredWidth = 280;
-
-      const scale =
-        Math.min(
-          1.15,
-          desiredWidth /
-          Math.max(1, baseViewport.width)
-        );
-
-      const viewport =
-        page.getViewport({
-          scale
-        });
-
-      const canvas =
-        document.createElement("canvas");
-
-      canvas.width =
-        Math.max(
-          1,
-          Math.ceil(viewport.width)
-        );
-
-      canvas.height =
-        Math.max(
-          1,
-          Math.ceil(viewport.height)
-        );
-
-      const context =
-        canvas.getContext(
-          "2d",
-          { alpha: false }
-        );
-
-      context.fillStyle = "#fff";
-      context.fillRect(
-        0,
-        0,
-        canvas.width,
-        canvas.height
-      );
-
-      await page.render({
-        canvasContext: context,
-        viewport,
-        background: "rgb(255,255,255)"
-      }).promise;
-
-      const currentToken =
-        tokenType === "compressed"
-          ? state.compressedPreviewGeneration
-          : state.previewGeneration;
-
-      if (token !== currentToken) return;
-
-      wrap.innerHTML = "";
-      wrap.appendChild(canvas);
-    }
-
-    async function previewOriginal() {
-      if (!state.pdfJs || state.busy) {
-        setStatus("पहले PDF चुनें.", "error");
-        return;
+      const jpegBlob = await canvasToJpegBlob(canvas, quality);
+      assertCompressionJob(job);
+      embeddedBytes += jpegBlob.size;
+      // Embedded JPEG streams are retained as-is by pdf-lib. Once their
+      // bytes alone reach the original size this pass cannot be useful.
+      if (options.maxOutputBytes && embeddedBytes >= options.maxOutputBytes) {
+        const error = new Error("इस setting से छोटी PDF नहीं बन रही.");
+        error.name = "CompressionAttemptTooLarge";
+        error.lowerBoundBytes = embeddedBytes;
+        throw error;
       }
-
-      const token = ++state.previewGeneration;
-
-      try {
-        previewSection.classList.add("show");
-
-        originalPreviewWrap.innerHTML =
-          '<div class="preview-placeholder">Preview बन रही है…</div>';
-
-        await renderPreviewFromPdfJsDoc(
-          state.pdfJs,
-          originalPreviewWrap,
-          token,
-          "original"
-        );
-      } catch (error) {
-        console.error(error);
-
-        if (token === state.previewGeneration) {
-          originalPreviewWrap.innerHTML =
-            '<div class="preview-placeholder">Preview नहीं बन सकी.</div>';
-        }
-      }
-    }
-
-    async function previewCompressed(blob) {
-      const token = ++state.compressedPreviewGeneration;
-
-      let doc = null;
-
-      try {
-        previewSection.classList.add("show");
-
-        compressedPreviewWrap.innerHTML =
-          '<div class="preview-placeholder">Compressed preview बन रही है…</div>';
-
-        const buffer = await blob.arrayBuffer();
-
-        const task =
-          pdfjsLib.getDocument({
-            data: buffer.slice(0),
-            stopAtErrors: false
-          });
-
-        doc = await task.promise;
-
-        await renderPreviewFromPdfJsDoc(
-          doc,
-          compressedPreviewWrap,
-          token,
-          "compressed"
-        );
-      } catch (error) {
-        console.error(error);
-
-        if (token === state.compressedPreviewGeneration) {
-          compressedPreviewWrap.innerHTML =
-            '<div class="preview-placeholder">Compressed preview नहीं बन सकी.</div>';
-        }
-      } finally {
-        if (doc) {
-          try { await doc.destroy(); } catch (error) {}
-        }
-      }
-    }
-
-    /* =========================================================
-       CANVAS / JPEG HELPERS
-    ========================================================= */
-
-    function calculateRenderViewport(page, scalePercent) {
-      /*
-        100% is now the actual baseline used by this compressor.
-        We intentionally avoid the old extra hidden multiplier.
-      */
-
-      const normalizedScale =
-        Math.max(
-          0.50,
-          Math.min(
-            1.20,
-            Number(scalePercent) / 100
-          )
-        );
-
-      const base =
-        page.getViewport({
-          scale: 1
-        });
-
-      let viewport =
-        page.getViewport({
-          scale: normalizedScale
-        });
-
-      const maxPixels =
-        getMaxCanvasPixels();
-
-      const pixels =
-        viewport.width *
-        viewport.height;
-
-      if (pixels > maxPixels) {
-        const shrink =
-          Math.sqrt(
-            maxPixels /
-            pixels
-          );
-
-        viewport =
-          page.getViewport({
-            scale:
-              normalizedScale *
-              shrink
-          });
-      }
-
-      return {
-        base,
-        viewport
-      };
-    }
-
-    function canvasToJpegBlob(canvas, quality) {
-      return new Promise(
-        (resolve, reject) => {
-          canvas.toBlob(
-            blob => {
-              if (blob) {
-                resolve(blob);
-              } else {
-                reject(
-                  new Error(
-                    "Page image create नहीं हो सकी."
-                  )
-                );
-              }
-            },
-            "image/jpeg",
-            quality
-          );
-        }
-      );
-    }
-
-    /* =========================================================
-       KEEP TEXT
-    ========================================================= */
-
-    async function safeOptimizePDF(
-      progressFrom = 10,
-      progressTo = 95
-    ) {
-      setProgress(
-        progressFrom,
-        "Keep Text mode: PDF optimise की जा रही है…"
-      );
-
-      const pdfDoc =
-        await PDFDocument.load(
-          state.buffer.slice(0),
-          {
-            ignoreEncryption: false
-          }
-        );
-
-      setProgress(
-        (progressFrom + progressTo) / 2,
-        "PDF structure re-save की जा रही है…"
-      );
-
-      const savedBytes =
-        await pdfDoc.save({
-          useObjectStreams: true,
-          addDefaultPage: false,
-          objectsPerTick: 40
-        });
-
-      setProgress(
-        progressTo,
-        "PDF verify की जा रही है…"
-      );
-
-      return new Blob(
-        [savedBytes],
-        {
-          type: "application/pdf"
-        }
-      );
-    }
-
-    /* =========================================================
-       RASTER COMPRESSION
-    ========================================================= */
-
-    async function rasterCompressPDF(
-      qualityPercent,
-      scalePercent,
-      progressFrom = 5,
-      progressTo = 95,
-      labelPrefix = "Compress"
-    ) {
-      if (!state.pdfJs) {
-        throw new Error("PDF load नहीं हुई.");
-      }
-
-      const quality =
-        Math.max(
-          0.30,
-          Math.min(
-            0.92,
-            Number(qualityPercent) / 100
-          )
-        );
-
-      const outputPdf =
-        await PDFDocument.create();
-
-      for (
-        let pageNumber = 1;
-        pageNumber <= state.pdfJs.numPages;
-        pageNumber++
-      ) {
-        const page =
-          await state.pdfJs.getPage(
-            pageNumber
-          );
-
-        const {
-          base,
-          viewport
-        } =
-          calculateRenderViewport(
-            page,
-            scalePercent
-          );
-
-        const canvas =
-          document.createElement("canvas");
-
-        canvas.width =
-          Math.max(
-            1,
-            Math.ceil(viewport.width)
-          );
-
-        canvas.height =
-          Math.max(
-            1,
-            Math.ceil(viewport.height)
-          );
-
-        const context =
-          canvas.getContext(
-            "2d",
-            { alpha: false }
-          );
-
-        context.fillStyle = "#ffffff";
-        context.fillRect(
-          0,
-          0,
-          canvas.width,
-          canvas.height
-        );
-
-        await page.render({
-          canvasContext: context,
-          viewport,
-          background: "rgb(255,255,255)"
-        }).promise;
-
-        const jpegBlob =
-          await canvasToJpegBlob(
-            canvas,
-            quality
-          );
-
-        const jpegBytes =
-          await jpegBlob.arrayBuffer();
-
-        const jpgImage =
-          await outputPdf.embedJpg(
-            jpegBytes
-          );
-
-        const outPage =
-          outputPdf.addPage([
-            base.width,
-            base.height
-          ]);
-
-        outPage.drawImage(
-          jpgImage,
-          {
-            x: 0,
-            y: 0,
-            width: base.width,
-            height: base.height
-          }
-        );
-
-        canvas.width = 1;
-        canvas.height = 1;
-
-        const pageProgress =
-          progressFrom +
-          (
-            (progressTo - progressFrom) *
-            pageNumber /
-            state.pdfJs.numPages
-          );
-
-        setProgress(
-          pageProgress,
-          `${labelPrefix}: page ${pageNumber} of ${state.pdfJs.numPages}`
-        );
-      }
-
-      const outputBytes =
-        await outputPdf.save({
-          useObjectStreams: true,
-          objectsPerTick: 40
-        });
-
-      return new Blob(
-        [outputBytes],
-        {
-          type: "application/pdf"
-        }
-      );
-    }
-
-    /* =========================================================
-       TARGET MODE
-    ========================================================= */
-
-    function chooseTargetStartSettings(
-      targetBytes
-    ) {
-      const ratio =
-        targetBytes /
-        Math.max(
-          1,
-          state.file.size
-        );
-
-      if (ratio >= 0.80) {
-        return {
-          quality: 80,
-          scale: 110
-        };
-      }
-
-      if (ratio >= 0.55) {
-        return {
-          quality: 70,
-          scale: 100
-        };
-      }
-
-      if (ratio >= 0.35) {
-        return {
-          quality: 58,
-          scale: 86
-        };
-      }
-
-      if (ratio >= 0.20) {
-        return {
-          quality: 46,
-          scale: 72
-        };
-      }
-
-      return {
-        quality: 36,
-        scale: 58
-      };
-    }
-
-    function nextTargetSettings(
-      current,
-      targetBytes,
-      actualBytes
-    ) {
-      const neededRatio =
-        targetBytes /
-        Math.max(
-          1,
-          actualBytes
-        );
-
-      const qualityFactor =
-        Math.max(
-          0.70,
-          Math.min(
-            0.94,
-            Math.sqrt(neededRatio)
-          )
-        );
-
-      const scaleFactor =
-        Math.max(
-          0.78,
-          Math.min(
-            0.96,
-            Math.pow(
-              neededRatio,
-              0.22
-            )
-          )
-        );
-
-      return {
-        quality:
-          Math.max(
-            30,
-            Math.round(
-              current.quality *
-              qualityFactor
-            )
-          ),
-
-        scale:
-          Math.max(
-            50,
-            Math.round(
-              current.scale *
-              scaleFactor
-            )
-          )
-      };
-    }
-
-    async function targetCompressPDF(
-      targetBytes
-    ) {
-      if (
-        state.file.size <=
-        targetBytes
-      ) {
-        setProgress(
-          90,
-          "File already target से छोटी है…"
-        );
-
-        return {
-          blob: originalBlob(),
-          metTarget: true,
-          attempts: 0,
-          quality: null,
-          scale: null,
-          originalUsed: true
-        };
-      }
-
-      let settings =
-        chooseTargetStartSettings(
-          targetBytes
-        );
-
-      let bestUnder = null;
-      let smallest = null;
-
-      /*
-        2 full passes are enough in most cases.
-        A third is only used if the result is still meaningfully above target.
-      */
-      const maxAttempts = 3;
-
-      for (
-        let attempt = 1;
-        attempt <= maxAttempts;
-        attempt++
-      ) {
-        const progressFrom =
-          5 +
-          (attempt - 1) * 29;
-
-        const progressTo =
-          Math.min(
-            93,
-            progressFrom + 26
-          );
-
-        const blob =
-          await rasterCompressPDF(
-            settings.quality,
-            settings.scale,
-            progressFrom,
-            progressTo,
-            `Target attempt ${attempt}/${maxAttempts}`
-          );
-
-        const result = {
-          blob,
-          quality: settings.quality,
-          scale: settings.scale,
-          attempts: attempt
-        };
-
-        if (
-          !smallest ||
-          blob.size <
-          smallest.blob.size
-        ) {
-          smallest = result;
-        }
-
-        if (
-          blob.size <=
-          targetBytes
-        ) {
-          if (
-            !bestUnder ||
-            blob.size >
-            bestUnder.blob.size
-          ) {
-            bestUnder = result;
-          }
-
-          /*
-            Once target is met, stop.
-            We prefer speed and reliability on mobile over trying
-            to chase an exact byte number.
-          */
-          break;
-        }
-
-        const overshoot =
-          blob.size /
-          targetBytes;
-
-        if (
-          attempt === maxAttempts ||
-          (
-            overshoot < 1.05 &&
-            blob.size <
-            state.file.size
-          )
-        ) {
-          break;
-        }
-
-        settings =
-          nextTargetSettings(
-            settings,
-            targetBytes,
-            blob.size
-          );
-      }
-
-      const chosen =
-        bestUnder ||
-        smallest;
-
-      return {
-        ...chosen,
-        metTarget: Boolean(bestUnder),
-        originalUsed: false
-      };
-    }
-
-    /* =========================================================
-       VERIFY OUTPUT
-    ========================================================= */
-
-    async function verifyOutputBlob(
-      blob
-    ) {
-      const bytes =
-        await blob.arrayBuffer();
-
-      const verify =
-        await PDFDocument.load(
-          bytes,
-          {
-            ignoreEncryption: true
-          }
-        );
-
-      const pageCount =
-        verify.getPageCount();
-
-      if (
-        pageCount !==
-        state.pageCount
-      ) {
-        throw new Error(
-          `Output verification failed. Expected ${state.pageCount} pages, got ${pageCount}.`
-        );
-      }
-
-      return true;
-    }
-
-    /* =========================================================
-       MAIN COMPRESS
-    ========================================================= */
-
-    async function compressPDF() {
-      if (
-        state.busy ||
-        !state.file ||
-        !state.buffer ||
-        !state.pdfJs
-      ) {
-        setStatus(
-          "पहले PDF file चुनें.",
-          "error"
-        );
-        return;
-      }
-
-      resetDownload();
-      resetProgress();
-      clearStatus();
-
-      setBusy(true);
-
-      try {
-        const preset =
-          PRESETS[
-            state.activePreset
-          ];
-
-        const targetBytes =
-          getTargetBytes();
-
-        let outputBlob;
-        let targetResult = null;
-        let usedDescription = "";
-
-        if (
-          state.activeTarget !==
-          "none"
-        ) {
-          if (!targetBytes) {
-            throw new Error(
-              "Valid target size चुनें."
-            );
-          }
-
-          setStatus(
-            `Target ${formatBytes(targetBytes)} के लिए compression शुरू हो रही है…`
-          );
-
-          targetResult =
-            await targetCompressPDF(
-              targetBytes
-            );
-
-          outputBlob =
-            targetResult.blob;
-
-          usedDescription =
-            targetResult.originalUsed
-              ? "Original file already target से छोटी थी"
-              : `Target mode • quality ${targetResult.quality}% • resolution ${targetResult.scale}%`;
-        } else if (
-          preset.mode ===
-          "safe"
-        ) {
-          outputBlob =
-            await safeOptimizePDF();
-
-          usedDescription =
-            "Keep Text mode";
-        } else {
-          outputBlob =
-            await rasterCompressPDF(
-              Number(
-                qualityRange.value
-              ),
-              Number(
-                scaleRange.value
-              ),
-              5,
-              92,
-              "Compress"
-            );
-
-          usedDescription =
-            `${state.activePreset} • quality ${qualityRange.value}% • resolution ${scaleRange.value}%`;
-        }
-
-        /*
-          Never replace a smaller original with a larger "compressed" file
-          unless the user is in an explicit target process and the generated
-          result is actually the best available attempt.
-        */
-        let keptOriginal =
-          false;
-
-        if (
-          state.activeTarget === "none" &&
-          outputBlob.size >= state.file.size
-        ) {
-          outputBlob =
-            originalBlob();
-
-          keptOriginal =
-            true;
-
-          usedDescription +=
-            " • no useful reduction at this setting";
-        }
-
-        setProgress(
-          96,
-          "Output PDF verify की जा रही है…"
-        );
-
-        await verifyOutputBlob(
-          outputBlob
-        );
-
-        setProgress(
-          100,
-          "Result तैयार है"
-        );
-
-        const originalSize =
-          state.file.size;
-
-        const newSize =
-          outputBlob.size;
-
-        const saved =
-          Math.max(
-            0,
-            originalSize -
-            newSize
-          );
-
-        const reduction =
-          originalSize > 0
-            ? Math.max(
-                0,
-                Math.round(
-                  (
-                    saved /
-                    originalSize
-                  ) *
-                  100
-                )
-              )
-            : 0;
-
-        state.currentOutputBlob =
-          outputBlob;
-
-        state.currentDownloadUrl =
-          URL.createObjectURL(
-            outputBlob
-          );
-
-        const finalName =
-          sanitizeFileName(
-            outputName.value
-          ) +
-          ".pdf";
-
-        downloadLink.href =
-          state.currentDownloadUrl;
-
-        downloadLink.download =
-          finalName;
-
-        originalStat.textContent =
-          formatBytes(
-            originalSize
-          );
-
-        newStat.textContent =
-          formatBytes(
-            newSize
-          );
-
-        savingStat.textContent =
-          `${reduction}%`;
-
-        savedBytesStat.textContent =
-          saved > 0
-            ? formatBytes(saved)
-            : "0 KB";
-
-        if (targetResult) {
-          if (
-            targetResult.metTarget
-          ) {
-            resultNote.textContent =
-              `🎯 Target achieved. ${usedDescription}.`;
-
-            setStatus(
-              "Target के अंदर PDF तैयार है. Download करें.",
-              "success"
-            );
-          } else {
-            resultNote.textContent =
-              `Target exact नहीं मिला. यह ${targetResult.attempts} attempt(s) में सबसे छोटी verified file है. ${usedDescription}.`;
-
-            setStatus(
-              "Target exact नहीं मिला, लेकिन सबसे छोटा verified result ready है.",
-              "warning"
-            );
-          }
-        } else if (
-          keptOriginal
-        ) {
-          resultNote.textContent =
-            `${usedDescription}. Original PDF को larger generated file से replace नहीं किया गया.`;
-
-          setStatus(
-            "इस setting पर useful reduction नहीं मिली. Small File या Maximum try करें.",
-            "warning"
-          );
-        } else if (
-          newSize <
-          originalSize
-        ) {
-          resultNote.textContent =
-            `${usedDescription}. ${formatBytes(saved)} बचा.`;
-
-          setStatus(
-            "PDF successfully compress हो गई है. Result compare करके download करें.",
-            "success"
-          );
-        } else {
-          resultNote.textContent =
-            `${usedDescription}.`;
-
-          setStatus(
-            "Verified result तैयार है.",
-            "success"
-          );
-        }
-
-        resultCard.classList.add(
-          "show"
-        );
-
-        await previewCompressed(
-          outputBlob
-        );
-      } catch (error) {
-        console.error(error);
-
-        setStatus(
-          error.message ||
-          "PDF compress नहीं हो सकी. File बहुत बड़ी, encrypted या unsupported हो सकती है.",
-          "error"
-        );
-      } finally {
-        setBusy(false);
-
-        state.statusTimer =
-          setTimeout(
-            resetProgress,
-            1400
-          );
-      }
-    }
-
-    /* =========================================================
-       EVENTS
-    ========================================================= */
-
-    function openFilePicker() {
-      if (state.busy) return;
-
-      fileInput.value = "";
-      fileInput.click();
-    }
-
-    selectFileBtn.addEventListener(
-      "click",
-      event => {
-        event.preventDefault();
-        event.stopPropagation();
-        openFilePicker();
-      }
-    );
-
-    dropzone.addEventListener(
-      "click",
-      event => {
-        if (
-          state.busy ||
-          event.target.closest(
-            "button"
-          )
-        ) {
-          return;
-        }
-
-        openFilePicker();
-      }
-    );
-
-    fileInput.addEventListener(
-      "change",
-      event => {
-        const file =
-          event.target.files?.[0];
-
-        if (file) {
-          loadFile(file);
-        }
-
-        fileInput.value = "";
-      }
-    );
-
-    [
-      "dragenter",
-      "dragover"
-    ].forEach(eventName => {
-      dropzone.addEventListener(
-        eventName,
-        event => {
-          event.preventDefault();
-          event.stopPropagation();
-
-          if (!state.busy) {
-            dropzone.classList.add(
-              "dragover"
-            );
-          }
-        }
-      );
-    });
-
-    [
-      "dragleave",
-      "drop"
-    ].forEach(eventName => {
-      dropzone.addEventListener(
-        eventName,
-        event => {
-          event.preventDefault();
-          event.stopPropagation();
-
-          dropzone.classList.remove(
-            "dragover"
-          );
-        }
-      );
-    });
-
-    dropzone.addEventListener(
-      "drop",
-      event => {
-        if (state.busy) return;
-
-        const file =
-          event.dataTransfer.files?.[0];
-
-        if (file) {
-          loadFile(file);
-        }
-      }
-    );
-
-    presetCards.forEach(card => {
-      card.addEventListener(
-        "click",
-        () => {
-          if (state.busy) return;
-
-          state.activePreset =
-            card.dataset.preset;
-
-          if (
-            state.activePreset ===
-            "keep-text"
-          ) {
-            state.activeTarget =
-              "none";
-          }
-
-          updatePresetUI();
-          updateTargetUI();
-          resetDownload();
-        }
-      );
-    });
-
-    targetButtons.forEach(btn => {
-      btn.addEventListener(
-        "click",
-        () => {
-          if (state.busy) return;
-
-          state.activeTarget =
-            btn.dataset.target;
-
-          updateTargetUI();
-          resetDownload();
-        }
-      );
-    });
-
-    customTargetKb.addEventListener(
-      "input",
-      () => {
-        if (!state.busy) {
-          resetDownload();
-        }
-      }
-    );
-
-    qualityRange.addEventListener(
-      "input",
-      () => {
-        qualityValue.textContent =
-          `${qualityRange.value}%`;
-
-        if (
-          state.activePreset !==
-          "keep-text"
-        ) {
-          state.activePreset =
-            "recommended";
-        }
-
-        presetCards.forEach(
-          card =>
-            card.classList.remove(
-              "active"
-            )
-        );
-
-        resetDownload();
-      }
-    );
-
-    scaleRange.addEventListener(
-      "input",
-      () => {
-        scaleValue.textContent =
-          `${scaleRange.value}%`;
-
-        if (
-          state.activePreset !==
-          "keep-text"
-        ) {
-          state.activePreset =
-            "recommended";
-        }
-
-        presetCards.forEach(
-          card =>
-            card.classList.remove(
-              "active"
-            )
-        );
-
-        resetDownload();
-      }
-    );
-
-    clearBtn.addEventListener(
-      "click",
-      clearFile
-    );
-
-    previewOriginalBtn.addEventListener(
-      "click",
-      previewOriginal
-    );
-
-    compressBtn.addEventListener(
-      "click",
-      compressPDF
-    );
-
-    compressMoreBtn.addEventListener(
-      "click",
-      () => {
-        if (state.busy) return;
-
-        state.activeTarget = "none";
-        state.activePreset = "maximum";
-
-        updateTargetUI();
-        updatePresetUI();
-        resetDownload();
-
-        $("advancedSettings").open =
-          true;
-
-        setStatus(
-          "Maximum preset select कर दिया है. Compress PDF दोबारा दबाएं.",
-          "warning"
-        );
-
-        compressBtn.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
-        });
-      }
-    );
-
-    newFileBtn.addEventListener(
-      "click",
-      () => {
-        clearFile();
-
-        dropzone.scrollIntoView({
-          behavior: "smooth",
-          block: "center"
-        });
-      }
-    );
-
-
-    const themeBtn = $("themeBtn");
-
-    themeBtn.addEventListener(
-      "click",
-      () => {
-        const current = document.documentElement.dataset.theme || "dark";
-        const next = current === "dark" ? "light" : "dark";
-        document.documentElement.dataset.theme = next;
-        try { localStorage.setItem("ht-hud-theme", next); } catch (error) {}
-      }
-    );
-
-    const menuBtn = $("menuBtn");
-    const nav = $("nav");
-
-    menuBtn.addEventListener(
-      "click",
-      () => {
-        const open =
-          nav.classList.toggle(
-            "open"
-          );
-
-        menuBtn.setAttribute(
-          "aria-expanded",
-          String(open)
-        );
-      }
-    );
-
-    document
-      .querySelectorAll(
-        ".nav-links a"
-      )
-      .forEach(link => {
-        link.addEventListener(
-          "click",
-          () => {
-            nav.classList.remove(
-              "open"
-            );
-
-            menuBtn.setAttribute(
-              "aria-expanded",
-              "false"
-            );
-          }
-        );
+      const jpegBytes = await jpegBlob.arrayBuffer();
+      assertCompressionJob(job);
+      const jpgImage = await outputPdf.embedJpg(jpegBytes);
+      assertCompressionJob(job);
+      const outPage = outputPdf.addPage([base.width, base.height]);
+      outPage.drawImage(jpgImage, {
+        x: 0, y: 0, width: base.width, height: base.height
       });
+      setProgress(
+        progressFrom + (progressTo - progressFrom) * pageNumber / job.pageCount,
+        `${labelPrefix} · page ${pageNumber} / ${job.pageCount}`
+      );
+    } finally {
+      // Also release a failed/cancelled page, before attempting another pass.
+      if (canvas) { canvas.width = 1; canvas.height = 1; }
+      if (page) { try { page.cleanup(); } catch (error) {} }
+    }
+    await yieldCompressionJob(job);
+  }
 
-    document
-      .querySelectorAll(
-        ".faq-q"
-      )
-      .forEach(btn => {
-        btn.addEventListener(
-          "click",
-          () => {
-            btn.parentElement
-              .classList.toggle(
-                "active"
-              );
-          }
+  assertCompressionJob(job);
+  if (outputPdf.getPageCount() !== job.pageCount) {
+    throw new Error("PDF के सभी pages तैयार नहीं हो सके.");
+  }
+  const bytes = await outputPdf.save({
+    useObjectStreams: true,
+    addDefaultPage: false,
+    objectsPerTick: 25
+  });
+  outputPdf = null;
+  assertCompressionJob(job);
+  return new Blob([bytes], { type: "application/pdf" });
+}
+
+async function targetCompressPDF(targetBytes) {
+  const job = captureCompressionJob();
+  const target = Math.floor(Number(targetBytes));
+  if (!Number.isSafeInteger(target) || target <= 0) {
+    throw new Error("कृपया सही target size चुनें.");
+  }
+  const originalSize = job.buffer.byteLength;
+  const originalResult = () => ({
+    blob: new Blob([job.buffer], { type: "application/pdf" }),
+    mode: "original", originalUsed: true,
+    quality: null, scale: null, fidelityIndex: null
+  });
+  if (originalSize <= target) {
+    assertCompressionJob(job);
+    return { ...originalResult(), metTarget: true, attempts: 0, targetBytes: target };
+  }
+
+  let smallest = null;
+  let bestUnder = null;
+  let attempts = 0;
+  let preservationAvailable = false;
+
+  // Always try a structure-preserving save before converting pages to images.
+  try {
+    const blob = await safeOptimizePDF(4, 13, job);
+    assertCompressionJob(job);
+    if (blob.size < originalSize) {
+      preservationAvailable = true;
+      smallest = {
+        blob, mode: "preserve", originalUsed: false,
+        quality: null, scale: null, fidelityIndex: null
+      };
+      if (blob.size <= target) {
+        return { ...smallest, metTarget: true, attempts, targetBytes: target };
+      }
+    }
+  } catch (error) {
+    assertCompressionJob(job);
+    if (error.name === "AbortError") throw error;
+    // Some PDFs render in PDF.js but cannot be re-saved by pdf-lib.
+    // Continue with page rendering; final verification still checks all pages.
+  }
+
+  // Ordered from the strongest compression to the best visual settings.
+  // Both resolution and JPEG quality rise along this bounded search ladder.
+  // Candidate file sizes are measured; no claimed size is inferred from JPEG q.
+  const settings = [
+    { quality: 40, scale: 60 },
+    { quality: 50, scale: 70 },
+    { quality: 60, scale: 80 },
+    { quality: 68, scale: 90 },
+    { quality: 74, scale: 100 },
+    { quality: 78, scale: 115 },
+    { quality: 82, scale: 130 },
+    { quality: 85, scale: 145 },
+    { quality: 88, scale: 160 },
+    { quality: 90, scale: 180 },
+    { quality: 92, scale: 200 }
+  ];
+  const memory = typeof navigator !== "undefined" ? Number(navigator.deviceMemory || 4) : 4;
+  const maxAttempts = job.pageCount > 80 ? 4 : (memory <= 4 ? 5 : 6);
+
+  async function trySetting(index) {
+    assertCompressionJob(job);
+    attempts++;
+    const choice = settings[index];
+    const from = 13 + (attempts - 1) * 79 / maxAttempts;
+    let blob;
+    try {
+      blob = await rasterCompressPDF(
+        choice.quality, choice.scale,
+        from, 13 + attempts * 79 / maxAttempts,
+        "PDF छोटी की जा रही है",
+        { job, maxOutputBytes: originalSize }
+      );
+    } catch (error) {
+      assertCompressionJob(job);
+      if (error.name === "CompressionAttemptTooLarge") return false;
+      throw error;
+    }
+    assertCompressionJob(job);
+    // Never retain a generated file as a download if it is larger or equal.
+    if (blob.size >= originalSize) return false;
+    const candidate = {
+      blob, mode: "raster", originalUsed: false,
+      ...choice, fidelityIndex: index
+    };
+    if (!smallest || blob.size < smallest.blob.size) smallest = candidate;
+    const fits = blob.size <= target;
+    // Prefer visual quality among fitting attempts, not the smallest output.
+    if (fits && (!bestUnder || index > bestUnder.fidelityIndex)) {
+      bestUnder = candidate;
+    }
+    await yieldCompressionJob(job);
+    return fits;
+  }
+
+  const highestIndex = settings.length - 1;
+  const highestFits = await trySetting(highestIndex);
+  if (!highestFits) {
+    const lowestFits = await trySetting(0);
+    if (lowestFits) {
+      let fittingIndex = 0;
+      let oversizedIndex = highestIndex;
+      while (attempts < maxAttempts && oversizedIndex - fittingIndex > 1) {
+        const mid = Math.floor((fittingIndex + oversizedIndex) / 2);
+        if (await trySetting(mid)) fittingIndex = mid;
+        else oversizedIndex = mid;
+      }
+    }
+  }
+
+  assertCompressionJob(job);
+  const chosen = bestUnder || smallest || originalResult();
+  setProgress(94, "PDF जाँची जा रही है…");
+  return {
+    ...chosen,
+    metTarget: chosen.blob.size <= target,
+    attempts,
+    targetBytes: target,
+    preservationAvailable
+  };
+}
+
+async function verifyOutputBlob(blob, job = captureCompressionJob()) {
+  assertCompressionJob(job);
+  if (!(blob instanceof Blob) || blob.size <= 0) {
+    throw new Error("Output PDF तैयार नहीं हो सकी.");
+  }
+  if (blob.size > job.buffer.byteLength) {
+    throw new Error("Output PDF original file से बड़ी है.");
+  }
+  const bytes = new Uint8Array(await blob.arrayBuffer());
+  assertCompressionJob(job);
+  let structure = await PDFDocument.load(bytes, {
+    ignoreEncryption: false,
+    updateMetadata: false
+  });
+  assertCompressionJob(job);
+  if (structure.getPageCount() !== job.pageCount) {
+    throw new Error(`Output verification failed: ${job.pageCount} pages expected.`);
+  }
+  for (const page of structure.getPages()) {
+    const { width, height } = page.getSize();
+    if (!Number.isFinite(width) || !Number.isFinite(height) || width <= 0 || height <= 0) {
+      throw new Error("Output PDF में page size सही नहीं है.");
+    }
+  }
+  structure = null;
+
+  // Parsing the page count alone cannot detect a broken later page. Render
+  // every output page at a small bounded size, and release it immediately.
+  let task = null;
+  let doc = null;
+  try {
+    task = pdfjsLib.getDocument({
+      data: bytes,
+      stopAtErrors: true,
+      isEvalSupported: false
+    });
+    doc = await task.promise;
+    assertCompressionJob(job);
+    if (doc.numPages !== job.pageCount) {
+      throw new Error("Output PDF में सभी pages नहीं मिले.");
+    }
+    for (let pageNumber = 1; pageNumber <= job.pageCount; pageNumber++) {
+      let page = null;
+      let canvas = null;
+      try {
+        assertCompressionJob(job);
+        page = await doc.getPage(pageNumber);
+        assertCompressionJob(job);
+        const base = page.getViewport({ scale: 1 });
+        if (
+          !Number.isFinite(base.width) || !Number.isFinite(base.height) ||
+          base.width <= 0 || base.height <= 0
+        ) throw new Error("Output PDF का page render नहीं हो सका.");
+        const scale = Math.min(
+          0.35,
+          Math.sqrt(120000 / (base.width * base.height)),
+          768 / base.width,
+          768 / base.height
         );
-      });
+        const viewport = page.getViewport({ scale });
+        canvas = document.createElement("canvas");
+        canvas.width = Math.max(1, Math.ceil(viewport.width));
+        canvas.height = Math.max(1, Math.ceil(viewport.height));
+        await renderCompressionPage(page, canvas, viewport, job);
+        setProgress(96 + 3 * pageNumber / job.pageCount,
+          `PDF की जाँच · page ${pageNumber} / ${job.pageCount}`);
+      } finally {
+        if (canvas) { canvas.width = 1; canvas.height = 1; }
+        if (page) { try { page.cleanup(); } catch (error) {} }
+      }
+      await yieldCompressionJob(job);
+    }
+    return true;
+  } finally {
+    if (doc) { try { await doc.destroy(); } catch (error) {} }
+    else if (task) { try { await task.destroy(); } catch (error) {} }
+  }
+}
 
-    /* =========================================================
-       START
-    ========================================================= */
-
-    updatePresetUI();
-    updateTargetUI();
-    compressBtn.disabled = true;
-    engineStateEl.textContent = "Ready";
   </script>
 </body>
 </html>
